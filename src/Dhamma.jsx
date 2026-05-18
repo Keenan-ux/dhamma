@@ -6,20 +6,28 @@ import SearchView from './SearchView.jsx';
 import CompareView from './CompareView.jsx';
 import BrowseView from './BrowseView.jsx';
 import useIsNarrow from './useIsNarrow.js';
-import { SAMPLE_PASSAGES } from './data/samplePassages.js';
-
-const ALL_TRADITIONS = new Set(SAMPLE_PASSAGES.map((p) => p.tradition));
+import useCorpus from './useCorpus.js';
 
 export default function Dhamma() {
   const [tab, setTab] = useState('search');
   const [query, setQuery] = useState('sampajāna');
-  const [activeTraditions, setActiveTraditions] = useState(() => new Set(ALL_TRADITIONS));
+  const [activeTraditions, setActiveTraditions] = useState(() => new Set());
   const [searchMode, setSearchMode] = useState('exact');
   const [browsePath, setBrowsePath] = useState([]);
   const [browseLeafId, setBrowseLeafId] = useState(null);
   const [pinnedLeafId, setPinnedLeafId] = useState(null);
   const [readingMode, setReadingMode] = useState(false);
   const isNarrow = useIsNarrow();
+
+  const { shape, error: corpusError } = useCorpus();
+
+  // Initialize activeTraditions once the corpus loads — start with all
+  // selected. Subsequent toggles narrow the visible set.
+  useEffect(() => {
+    if (shape && activeTraditions.size === 0) {
+      setActiveTraditions(new Set(shape.traditions));
+    }
+  }, [shape, activeTraditions.size]);
 
   function toggleTradition(t) {
     setActiveTraditions((cur) => {
@@ -30,7 +38,6 @@ export default function Dhamma() {
     });
   }
 
-  // Esc exits reading mode.
   useEffect(() => {
     if (!readingMode) return;
     function onKey(e) { if (e.key === 'Escape') setReadingMode(false); }
@@ -38,8 +45,6 @@ export default function Dhamma() {
     return () => document.removeEventListener('keydown', onKey);
   }, [readingMode]);
 
-  // When entering reading mode, force the active tab to Browse since that's
-  // where the passage reading view lives.
   useEffect(() => {
     if (readingMode && tab !== 'browse') setTab('browse');
   }, [readingMode, tab]);
@@ -58,18 +63,20 @@ export default function Dhamma() {
       {!readingMode && <TopNav />}
       <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
         {!readingMode && !isNarrow && (
-          <Sidebar activeTraditions={activeTraditions} toggleTradition={toggleTradition} />
+          <Sidebar
+            activeTraditions={activeTraditions}
+            toggleTradition={toggleTradition}
+            traditions={shape?.traditions || []}
+          />
         )}
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
           {!readingMode && <TabBar active={tab} onChange={setTab} />}
-          <main
-            style={{
-              flex: 1,
-              minHeight: 0,
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
+          <main style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden' }}>
+            {corpusError && (
+              <div style={errorBanner}>
+                Couldn’t load the corpus index. Search and browse may be unavailable.
+              </div>
+            )}
             {tab === 'browse' && (
               <BrowseView
                 path={browsePath}
@@ -104,3 +111,18 @@ export default function Dhamma() {
     </div>
   );
 }
+
+const errorBanner = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  padding: '8px 16px',
+  fontSize: 12,
+  background: 'rgba(255, 80, 80, 0.08)',
+  color: 'var(--bc-text-secondary)',
+  borderBottom: '1px solid rgba(255, 80, 80, 0.20)',
+  zIndex: 10,
+  textAlign: 'center',
+  fontStyle: 'italic',
+};

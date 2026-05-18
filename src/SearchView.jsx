@@ -1,17 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { SAMPLE_PASSAGES } from './data/samplePassages.js';
-import { stemMatch } from './paliStem.js';
 import { parseQuery } from './parseQuery.js';
 import useSearchHistory from './searchHistory.js';
+import useSearch from './useSearch.js';
+import useCorpus from './useCorpus.js';
 import PassageCard from './PassageCard.jsx';
 
-const TRADITIONS = Array.from(new Set(SAMPLE_PASSAGES.map((p) => p.tradition)));
 const DIACRITICS = ['ā', 'ī', 'ū', 'ē', 'ō', 'ṃ', 'ṅ', 'ñ', 'ṇ', 'ṭ', 'ḍ', 'ṛ', 'ḷ', 'ṣ', 'ś'];
 
 const MODES = [
-  { key: 'exact',   label: 'Exact',   hint: 'Substring match' },
-  { key: 'stem',    label: 'Stem',    hint: 'Pali morphology — matches inflections' },
-  { key: 'meaning', label: 'Meaning', hint: 'Semantic — ships with corpus ingest (v2)' },
+  { key: 'exact',   label: 'Exact',   hint: 'Postgres FTS, no alias expansion' },
+  { key: 'stem',    label: 'Stem',    hint: 'FTS + cross-canon alias bridges (sati ↔ smṛti ↔ 念)' },
+  { key: 'meaning', label: 'Meaning', hint: 'Vector ANN + FTS, reciprocal rank fused' },
 ];
 
 const SCOPES = [
@@ -20,29 +19,6 @@ const SCOPES = [
   { key: 'translation', label: 'Translation' },
   { key: 'citation',    label: 'Citation' },
 ];
-
-function fieldText(p, scope) {
-  if (scope === 'original')    return p.original || '';
-  if (scope === 'translation') return p.translation || '';
-  if (scope === 'citation')    return [p.citation, p.title, p.work].filter(Boolean).join(' ');
-  return `${p.original || ''} ${p.translation || ''} ${p.title || ''} ${p.citation || ''}`;
-}
-
-function termHits(hay, term, mode) {
-  const lc = hay.toLowerCase();
-  if (lc.includes(term.toLowerCase())) return true;
-  if (mode === 'exact') return false;
-  return stemMatch(hay, term);
-}
-
-function passageMatches(passage, parsed, mode, scope) {
-  const hay = fieldText(passage, scope);
-  for (const t of parsed.excluded) {
-    if (termHits(hay, t, mode)) return false;
-  }
-  if (parsed.must.length === 0) return false;
-  return parsed.must.every((t) => termHits(hay, t, mode));
-}
 
 export default function SearchView({
   query, setQuery,
@@ -59,17 +35,28 @@ export default function SearchView({
   const inputRef = useRef(null);
   const wrapRef = useRef(null);
 
+  const { shape } = useCorpus();
   const { history, push } = useSearchHistory();
 
   const parsed = useMemo(() => parseQuery(q.trim()), [q]);
+  const { data: result, loading, error } = useSearch({
+    q: q.trim(), mode, field: scope, limit: 50,
+  });
 
-  const found = useMemo(() => {
-    if (!parsed.raw) return [];
-    return SAMPLE_PASSAGES.filter((p) => {
-      if (!activeTraditions.has(p.tradition)) return false;
-      return passageMatches(p, parsed, mode, scope);
+  // Visible-tradition filter is a display concern only — the server returns
+  // the cross-corpus result, and we hide rows whose tradition the user has
+  // toggled off in the sidebar.
+  const visibleResults = useMemo(() => {
+    if (!result?.results) return [];
+    return result.results.map((r) => ({
+      ...r,
+      tradition: shape?.workBySlug.get(r.work_slug)?.tradition || null,
+      work: shape?.workBySlug.get(r.work_slug)?.name || null,
+    })).filter((r) => {
+      if (!r.tradition) return true; // unknown tradition → show
+      return activeTraditions.has(r.tradition);
     });
-  }, [parsed, mode, scope, activeTraditions]);
+  }, [result, shape, activeTraditions]);
 
   useEffect(() => {
     const t = setTimeout(() => {
@@ -104,6 +91,8 @@ export default function SearchView({
       el.setSelectionRange(pos, pos);
     });
   }
+
+  const traditions = shape?.traditions || [];
 
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
@@ -149,17 +138,10 @@ export default function SearchView({
           <FilterRow label="Search in" options={SCOPES} active={scope} onChange={setScope} />
         </div>
 
-        {mode === 'meaning' && (
-          <div style={modeBanner}>
-            <strong style={{ color: 'var(--bc-accent)', fontStyle: 'normal' }}>Meaning</strong>
-            &nbsp;runs vector search via pgvector — ships with corpus ingest. For now this falls back to <em>Stem</em>, so the surface still works.
-          </div>
-        )}
-
-        {showInlineFilters && (
+        {showInlineFilters && traditions.length > 0 && (
           <div style={filterRow}>
             <span style={filterLabel}>Traditions</span>
-            {TRADITIONS.map((t) => {
+            {traditions.map((t) => {
               const on = activeTraditions.has(t);
               return (
                 <button
@@ -185,14 +167,22 @@ export default function SearchView({
           </p>
         )}
 
-        {parsed.raw && found.length === 0 && (
-          <p style={meta}>No matches for <strong>{parsed.raw}</strong> in the visible traditions.</p>
+        {parsed.raw && loading && (
+          <p style={meta}>Searching…</p>
         )}
 
-        {parsed.raw && found.length > 0 && (
+        {parsed.raw && error && (
+          <p style={errMeta}>Search failed: {error.message}</p>
+        )}
+
+        {parsed.raw && !loading && result?.warning && (
+          <p style={warnMeta}>Embedding service unavailable; results from FTS only.</p>
+        )}
+
+        {parsed.raw && !loading && result && !error && (
           <p style={meta}>
-            <strong style={{ color: 'var(--bc-text-secondary)' }}>{found.length}</strong>{' '}
-            {found.length === 1 ? 'passage' : 'passages'} {modeVerb(mode)}{' '}
+            <strong style={{ color: 'var(--bc-text-secondary)' }}>{visibleResults.length}</strong>{' '}
+            {visibleResults.length === 1 ? 'passage' : 'passages'} {modeVerb(mode)}{' '}
             {parsed.must.map((t, i) => (
               <span key={t}>
                 <strong style={{ color: 'var(--bc-accent)' }}>{t}</strong>
@@ -210,13 +200,34 @@ export default function SearchView({
                 ))}
               </>
             )}
-            , across {new Set(found.map((m) => m.tradition)).size}{' '}
-            {new Set(found.map((m) => m.tradition)).size === 1 ? 'tradition' : 'traditions'}.
+            {result.results.length > visibleResults.length && (
+              <em style={{ color: 'var(--bc-text-tertiary)' }}>
+                {' '}— {result.results.length - visibleResults.length} hidden by tradition filter
+              </em>
+            )}
+            .
+            {result.expanded?.length > 0 && (
+              <span style={{ display: 'block', marginTop: 4, fontStyle: 'italic', color: 'var(--bc-text-tertiary)' }}>
+                Also matched via{' '}
+                {result.expanded.map((e, i) => (
+                  <span key={e.term}>
+                    {e.aliases.map((a, j) => (
+                      <span key={a}>
+                        <strong style={{ color: 'var(--bc-accent)' }}>{a}</strong>
+                        {j < e.aliases.length - 1 ? ', ' : ''}
+                      </span>
+                    ))}
+                    {i < result.expanded.length - 1 ? '; ' : ''}
+                  </span>
+                ))}
+                .
+              </span>
+            )}
           </p>
         )}
 
         <div>
-          {found.map((p, i) => (
+          {visibleResults.map((p, i) => (
             <PassageCard key={p.id} passage={p} highlight={parsed.must} first={i === 0} />
           ))}
         </div>
@@ -251,7 +262,7 @@ function FilterRow({ label, options, active, onChange }) {
 }
 
 function modeVerb(mode) {
-  if (mode === 'stem') return 'matching the stem of';
+  if (mode === 'stem') return 'matching';
   if (mode === 'meaning') return 'near the meaning of';
   return 'containing';
 }
@@ -369,17 +380,6 @@ const filterBtn = {
   transition: 'color 120ms ease, border-color 120ms ease',
 };
 
-const modeBanner = {
-  fontSize: 12,
-  fontFamily: '"Noto Serif", Georgia, serif',
-  fontStyle: 'italic',
-  color: 'var(--bc-text-tertiary)',
-  lineHeight: 1.55,
-  margin: '0 0 18px',
-  paddingBottom: 14,
-  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.14)',
-};
-
 const meta = {
   fontSize: 13,
   color: 'var(--bc-text-tertiary)',
@@ -388,6 +388,9 @@ const meta = {
   fontFamily: '"Noto Serif", Georgia, serif',
   fontStyle: 'italic',
 };
+
+const errMeta = { ...meta, color: 'var(--bc-loss-text)' };
+const warnMeta = { ...meta, color: 'var(--bc-accent)' };
 
 const code = {
   fontFamily: 'JetBrains Mono, monospace',

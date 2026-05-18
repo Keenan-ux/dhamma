@@ -102,6 +102,7 @@ function shapeResult(p) {
     citation: p.citation,
     title: p.title,
     canon: p.canon,
+    work_slug: p.work_slug,
     snippet: makeSnippet(p),
     score: Number(p.score) || 0,
   };
@@ -138,7 +139,7 @@ export async function runSearch(rawParams) {
 
   if (mode === 'exact' || mode === 'stem') {
     rows = await sql`
-      SELECT id, citation, title, canon, original, translation,
+      SELECT id, citation, title, canon, work_slug, original, translation,
              ts_rank(${fts}, q) AS score
       FROM passages, to_tsquery('simple', ${tsquery}) q
       WHERE ${fts} @@ q
@@ -175,7 +176,7 @@ export async function runSearch(rawParams) {
     if (!tsquery) {
       // Vector-only: no parseable FTS terms.
       rows = await sql`
-        SELECT id, citation, title, canon, original, translation,
+        SELECT id, citation, title, canon, work_slug, original, translation,
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector)) AS score
         FROM passages
         WHERE embedding IS NOT NULL
@@ -198,7 +199,7 @@ export async function runSearch(rawParams) {
           ORDER BY embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )
-        SELECT p.id, p.citation, p.title, p.canon, p.original, p.translation,
+        SELECT p.id, p.citation, p.title, p.canon, p.work_slug, p.original, p.translation,
                COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
              + COALESCE(1.0 / (${RRF_K} + vec.rnk), 0) AS score
         FROM passages p
