@@ -183,9 +183,9 @@ export async function runSearch(rawParams) {
       SELECT id, citation, title, canon, work_slug, original, translation,
              ts_rank(${fts}, q) AS score,
              ts_headline('simple',
-               COALESCE(translation, original, ''),
+               COALESCE(original, '') || ' || ' || COALESCE(translation, ''),
                q,
-               'MaxFragments=1,MinWords=10,MaxWords=28,StartSel=,StopSel=,FragmentDelimiter=… '
+               'MaxFragments=1,MinWords=10,MaxWords=28,StartSel="",StopSel="",FragmentDelimiter="… "'
              ) AS headline
       FROM passages, to_tsquery('simple', ${tsquery}) q
       WHERE ${fts} @@ q
@@ -252,9 +252,9 @@ export async function runSearch(rawParams) {
              + COALESCE(1.0 / (${RRF_K} + vec.rnk), 0) AS score,
                CASE WHEN fts.id IS NOT NULL
                  THEN ts_headline('simple',
-                        COALESCE(p.translation, p.original, ''),
+                        COALESCE(p.original, '') || ' || ' || COALESCE(p.translation, ''),
                         to_tsquery('simple', ${tsquery}),
-                        'MaxFragments=1,MinWords=10,MaxWords=28,StartSel=,StopSel=,FragmentDelimiter=… ')
+                        'MaxFragments=1,MinWords=10,MaxWords=28,StartSel="",StopSel="",FragmentDelimiter="… "')
                  ELSE NULL
                END AS headline
         FROM passages p
