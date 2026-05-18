@@ -14,7 +14,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { applySchema, health as dbHealth } from './db.js';
-import { embedReady, embedQuery } from './embed.js';
+import { embedReady } from './embed.js';
+import { aliasesReady } from './aliases.js';
+import { runSearch } from './search.js';
+import { runCorpus, getPassage, getPassages } from './corpus.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -30,22 +33,47 @@ app.get('/api/dbcheck', async (c) => {
   return c.json(h, h.connected ? 200 : 503);
 });
 
-// Temporary smoke endpoint — verifies the embedding pipeline end-to-end.
-// Remove once /api/search lands and uses embedQuery() for real.
-app.get('/api/embed-test', async (c) => {
-  const q = c.req.query('q');
-  if (!q) return c.json({ error: 'missing q' }, 400);
-  const t0 = Date.now();
+app.get('/api/corpus', async (c) => {
   try {
-    const vec = await embedQuery(q);
-    return c.json({
-      query: q,
-      dim: vec.length,
-      sample: vec.slice(0, 5),
-      ms: Date.now() - t0,
-    });
+    return c.json(await runCorpus());
   } catch (err) {
-    return c.json({ error: err.message }, 503);
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/passage/:id', async (c) => {
+  try {
+    const row = await getPassage(c.req.param('id'));
+    if (!row) return c.json({ error: 'not_found' }, 404);
+    return c.json(row);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/compare', async (c) => {
+  try {
+    const idsParam = c.req.query('ids') || '';
+    const ids = idsParam.split(',').map((s) => s.trim()).filter(Boolean);
+    if (ids.length === 0) return c.json({ error: 'missing ids' }, 400);
+    if (ids.length > 20) return c.json({ error: 'too many ids (max 20)' }, 400);
+    return c.json({ passages: await getPassages(ids) });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/search', async (c) => {
+  try {
+    const out = await runSearch({
+      q: c.req.query('q'),
+      mode: c.req.query('mode'),
+      field: c.req.query('field'),
+      limit: c.req.query('limit'),
+    });
+    return c.json(out);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
   }
 });
 
@@ -65,9 +93,15 @@ async function start() {
   } catch (err) {
     console.error('[boot] schema apply failed:', err.message);
   }
-  // Kick off model load in the background. The server starts listening
-  // immediately; the first /api/embed-test (or future /api/search) call
-  // awaits the same ready promise.
+  // Aliases must be loaded before /api/search can expand terms. Cheap (~15
+  // rows); await it so the first search doesn't race the cache fill.
+  try {
+    await aliasesReady();
+  } catch (err) {
+    console.error('[boot] aliases load failed:', err.message);
+  }
+  // Model load is heavier (~3-5s). Kick off in background; first /api/search
+  // in Meaning mode awaits the same ready promise.
   embedReady().catch((err) => console.error('[boot] embed init failed:', err.message));
   serve({ fetch: app.fetch, port: PORT }, (info) => {
     console.log(`dhamma server listening on :${info.port}`);

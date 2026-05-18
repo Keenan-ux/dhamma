@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SCHEMA_PATH = path.resolve(__dirname, '..', 'sql', 'schema.sql');
+const SEED_ALIASES_PATH = path.resolve(__dirname, '..', 'sql', 'seed-aliases.sql');
 
 if (!process.env.DATABASE_URL) {
   console.warn('[db] DATABASE_URL not set — db features will fail');
@@ -18,12 +19,17 @@ export const sql = process.env.DATABASE_URL
     })
   : null;
 
-// Idempotent schema apply. Safe on every boot.
+// Idempotent schema apply + seed. Safe on every boot.
 export async function applySchema() {
   if (!sql) return;
   const ddl = fs.readFileSync(SCHEMA_PATH, 'utf8');
   await sql.unsafe(ddl);
   console.log('[db] schema applied');
+  if (fs.existsSync(SEED_ALIASES_PATH)) {
+    const seed = fs.readFileSync(SEED_ALIASES_PATH, 'utf8');
+    await sql.unsafe(seed);
+    console.log('[db] aliases seeded');
+  }
 }
 
 export async function health() {
