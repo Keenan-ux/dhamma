@@ -41,3 +41,11 @@ export function compareStatsApi({ q, limit, signal }) {
   if (limit != null) params.set('limit', String(limit));
   return get(`/api/compare-stats?${params.toString()}`, { signal });
 }
+
+export function lookupApi({ term, source, language, signal }) {
+  const params = new URLSearchParams();
+  if (term) params.set('term', term);
+  if (source) params.set('source', source);
+  if (language) params.set('language', language);
+  return get(`/api/lookup?${params.toString()}`, { signal });
+}
