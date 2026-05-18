@@ -137,6 +137,43 @@ function deriveCanon(id) {
   return m ? m[1] : 'unknown';
 }
 
+// Scholarly short citation for a given sutta/work id. Default: split first
+// letter run from first digit run (mn10 → "MN 10"). Vinaya IDs get a more
+// readable form because the raw ID `pli-tv-bi-vb-pj1-4` is unreadable.
+//
+// Vinaya patterns (Theravāda):
+//   pli-tv-{bu,bi}-vb-{rule}<num>   → "Bu/Bi {Rule} <num>"
+//   pli-tv-{bu,bi}-pm               → "Bu/Bi Pātimokkha"
+//   pli-tv-kd<num>                  → "Vin Kd <num>"   (Khandhaka)
+//   pli-tv-pvr-*                    → "Vin Pvr"        (Parivāra)
+//
+// Rule abbreviations used by SuttaCentral CST:
+//   pj=Pārājika, pc=Pācittiya, np=Nissaggiya Pācittiya, sa/sd=Saṅghādisesa,
+//   ay=Aniyata, sr=Sekhiya, as=Adhikaraṇasamatha, nd=Nidāna
+export function formatCitation(id) {
+  if (!id) return '';
+  // Vinaya: pli-tv-{role}-vb-{rule}{num}
+  const m = id.match(/^pli-tv-(bu|bi)-vb-([a-z]+?)(\d.*)$/);
+  if (m) {
+    const role = m[1] === 'bu' ? 'Bu' : 'Bi';
+    const rule = ({
+      pj: 'Pj',  pc: 'Pc',  np: 'NP',  sa: 'Sg',  sd: 'Sg',
+      ay: 'Ay',  sr: 'Sk',  as: 'As',  nd: 'Nd',
+    })[m[2]] || m[2].toUpperCase();
+    return `${role} ${rule} ${m[3]}`;
+  }
+  // Vinaya: pli-tv-{role}-pm (Pātimokkha)
+  const pm = id.match(/^pli-tv-(bu|bi)-pm/);
+  if (pm) return `${pm[1] === 'bu' ? 'Bu' : 'Bi'} Pm`;
+  // Vinaya: pli-tv-kd{num} (Khandhaka)
+  const kd = id.match(/^pli-tv-kd(\d.*)$/);
+  if (kd) return `Vin Kd ${kd[1]}`;
+  // Vinaya: pli-tv-pvr*
+  if (id.startsWith('pli-tv-pvr')) return id.toUpperCase().replace(/^PLI-TV-PVR-?/, 'Vin Pvr ');
+  // Default: split first letter run from first digit run.
+  return id.toUpperCase().replace(/^([A-Z]+)(\d)/, '$1 $2');
+}
+
 function pgVectorLiteral(vec) {
   return `[${Array.from(vec).join(',')}]`;
 }
@@ -274,11 +311,13 @@ async function main() {
     const out = await embedder(text, { pooling: 'mean', normalize: true });
     const vec = pgVectorLiteral(out.data);
 
-    const citation = id.toUpperCase().replace(/^([A-Z]+)(\d)/, '$1 $2');
+    const citation = formatCitation(id);
     await sql`
       INSERT INTO passages (id, work_slug, position, citation, title, canon, original_lang, original, translation, embedding)
       VALUES (${id}, ${workSlug}, NULL, ${citation}, NULL, 'Pali', 'pli', ${original}, ${translation || null}, ${vec})
       ON CONFLICT (id) DO UPDATE SET
+        citation = EXCLUDED.citation,
+        work_slug = EXCLUDED.work_slug,
         original = EXCLUDED.original,
         translation = EXCLUDED.translation,
         embedding = EXCLUDED.embedding
