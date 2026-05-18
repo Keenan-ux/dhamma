@@ -6,70 +6,55 @@ Match an academic tone: quiet, typeset, no marketing copy, no AI summary unless 
 
 ---
 
-## ⚡ In flight as of last session — READ THIS FIRST
+## ⚡ State as of last handoff — READ THIS FIRST
 
-A full Pali Tipiṭaka ingest is running on the user's local machine. **Do not assume it's still alive — verify first.**
+### Pali Tipiṭaka ingest: ✅ DONE
 
-### What's running
-
-Two long-lived OS processes were started in the previous Claude session via `run_in_background`:
-
-1. **`flyctl proxy 15432 → dhamma-pg.internal:5432`** — local TCP proxy to the Postgres app. Required for the ingest to reach the DB.
-2. **`node ingest.mjs`** in `scripts/ingest/` — embeds suttas with BGE-M3 (Xenova/bge-m3 ONNX) and UPSERTs into `passages`. Idempotent via `ON CONFLICT (id) DO UPDATE`.
-
-Task IDs from the previous session (`b8lg0yqoe`, `b0j5qmq8e`) are **dead to your TaskOutput** — they only existed in that session's registry. Use the alternatives below.
-
-### How to check progress
-
-```bash
-# 1. How many passages are in the DB right now (live)
-curl -s https://dhamma.fly.dev/api/dbcheck
-# expect: {"connected":true, ..., "passages": N}    where N is climbing toward 5764
-
-# 2. Latest log lines from the ingest worker
-tail -n 5 scripts/ingest/ingest-full.log
-# expect lines like "  1240/5764  (0.33/s, ETA 13700s)"
-
-# 3. Is the node ingest process still alive (Windows)
-powershell -c "Get-Process node -ErrorAction SilentlyContinue | Select-Object Id,StartTime"
-
-# 4. Is the fly proxy still alive (Windows)
-powershell -c "Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue"
+```
+ingested 5161, skipped 603, 15847s wall (4h 24m)
+db: passages: 5161, postgres 16.14, pgvector loaded
 ```
 
-### State at session handoff
+- Source: `scripts/ingest/.cache/bilara-data/root/pli/ms/sutta/`
+- Embeddings: BGE-M3 dense (1024-dim) via `@xenova/transformers` (quantized ONNX, runs on CPU)
+- 603 skipped suttas are bilara files whose IDs the `parseId` regex in `scripts/ingest/ingest.mjs` didn't match — likely Khuddaka edge-case names (`iti1`, `ud1.1`, composite identifiers). Patching that regex and re-running is idempotent — `ON CONFLICT (id) DO UPDATE` handles re-runs without dupes.
+- Background `flyctl proxy 15432 --app dhamma-pg` from prior session may still be alive on the user's machine. Kill it if not needed:
+  - Windows: `powershell -c "Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue"`
 
-- Total target: **5,764 suttas** from `bilara-data/root/pli/ms/sutta/` (Pali Tipiṭaka)
-- Rate observed: **~0.33 suttas/sec** on user's CPU
-- ETA from start: **~4.5 hours**
-- DATABASE_URL password (lives only in Fly secrets — pull fresh if needed):
-  ```
-  flyctl ssh console --app dhamma -C "printenv DATABASE_URL"
-  ```
-  Then swap `dhamma-pg.internal` → `localhost:15432` for the local proxy.
+### How to verify current state
 
-### What to do depending on what you find
+```bash
+curl -s https://dhamma.fly.dev/api/dbcheck
+# expect: passages: 5161 (or higher if more ingest happened)
+```
 
-| Situation | Action |
-|---|---|
-| `passages` == 5764 (or very close), node process gone | Ingest done. Kill the proxy, move to step 4 below. |
-| `passages` climbing, node process alive | Wait. Move on to step 4 design / code while it runs. |
-| `passages` stuck for >5 min, node process gone | Crashed. Restart the ingest — idempotent: `node ingest.mjs` resumes safely. |
-| Proxy dead but node still trying | Restart the proxy: `flyctl proxy 15432 --app dhamma-pg` |
+### Phase 2 progress
 
-### Immediate next action
+| # | Step | Status |
+|---|---|---|
+| 1 | dhamma-pg Fly app with pgvector | ✅ live |
+| 2 | Ingest pipeline scaffolded (SuttaCentral + BGE-M3) | ✅ shipped |
+| 3 | Full Pali Tipiṭaka ingest | ✅ 5161/5764 done |
+| 4 | BGE-M3 query-time embeddings in server | 🟡 **partly landed** — `@xenova/transformers` in `server/package.json`; verify model loads on boot and produces 1024-dim vectors comparable to ingested ones |
+| 5 | Server endpoints (`/api/search`, `/api/passage/:id`, `/api/corpus`, `/api/compare`) | 🟡 **partly landed** — `BrowseView.jsx` is fetching `useCorpus()` and `usePassage(id)`, implying `/api/corpus` and `/api/passage/:id` exist; verify all four are present and inspect what's still TODO |
+| 6 | Frontend swap from `data/*.js` to `fetch('/api/...')` | 🟡 **partly landed** — `BrowseView` swapped; SearchView and CompareView still need swapping |
+| 7 | Delete `C:\Dev\Cabinet\apps\dhamma\` | ⛔ blocked until step 6 finishes |
 
-**Phase 2, step 4: server-side query embeddings.** When a user searches in *Meaning* mode the server needs to embed their query and run a pgvector ANN search. Two viable paths — pick after asking the user:
+### Choices already made
 
-- **(A) BGE-M3 in-process via `@xenova/transformers`** — bump dhamma machine to 1.5–2GB memory (~$5–8/mo extra). No external dependency, same model as ingest so vectors are comparable. Slight risk: ONNX in Node could be slow on shared CPU.
-- **(B) Voyage AI free tier** for query embeddings only (`voyage-multilingual-2` or `voyage-3`). External service, but free tier covers low-traffic research-tool volume forever. **Vector dimensions will differ from BGE-M3 (1024 vs 1024 — check exact match for the model)** — if dims don't match exactly the schema needs adjustment, OR we re-embed the corpus with the API model.
+- Step 4 went with **option A** (BGE-M3 in-process via `@xenova/transformers`), per user preference for "no extra services to log into." This means the dhamma Fly machine will need memory bumped if it hasn't been — check `fly status --app dhamma` and `fly scale memory 2048 --app dhamma` if currently below 2GB.
+- `PassageCard` now supports a `snippet` field for search results — search backend returns short excerpts, not full text, on result hits.
 
-User has previously stated preference for "no extra services to log into" → favors (A). But (B) avoids the memory bump on Fly.
+### First moves for the next session
 
-After step 4 ships:
-- **Step 5:** Add `/api/search`, `/api/passage/:id`, `/api/corpus`, `/api/compare` endpoints. Hybrid scoring: FTS + vector via reciprocal rank fusion.
-- **Step 6:** Frontend swap — four data-access points in `src/` move from `data/*.js` imports to `fetch('/api/...')`.
-- **Step 7:** Delete `C:\Dev\Cabinet\apps\dhamma\` + remove from Cabinet's `vite.config.js` and `src/registry.js`.
+1. **Verify state honestly.** Run `curl https://dhamma.fly.dev/api/dbcheck` and check `git log --oneline -10` in `C:\Dev\Dhamma`. The state above reflects a snapshot; the user has been working in parallel sessions.
+2. **Inventory step 4–6 progress** — read `server/src/`, `src/useCorpus.js`, `src/usePassage.js`, and `SearchView`/`CompareView` to see exactly what's wired vs what still needs work.
+3. **Find the gaps** between current code and what these four endpoints need to support:
+   - `/api/search?q=...&mode=exact|stem|meaning&scope=all|original|translation|citation&traditions=...` — boolean ops parsed server-side
+   - `/api/passage/:id` — full passage with neighbors
+   - `/api/corpus` — tree shape for Browse columns
+   - `/api/compare?term=...` — frequency by tradition + KWIC + companion words
+4. **Then deliver step 7** — delete the Cabinet copy and remove from `vite.config.js` + `src/registry.js`.
 
 ---
 
