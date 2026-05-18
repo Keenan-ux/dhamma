@@ -15,6 +15,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 COPY server/package.json ./
 RUN npm install --omit=dev
 
+# Pre-cache BGE-M3 quantized weights into the image (~265 MB). Running
+# container can then boot without a Hugging Face round-trip.
+ENV MODEL_CACHE_DIR=/app/.model-cache
+COPY server/scripts ./scripts
+RUN node scripts/cache-model.mjs
+
 COPY server/src ./src
 COPY server/sql ./sql
 COPY --from=web /web/dist ./dist

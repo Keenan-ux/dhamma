@@ -11,3 +11,6 @@ Thumbs.db
 
 # Postgres data lives on a separate Fly volume — never committed
 server/data/
+
+# BGE-M3 weights downloaded by @xenova/transformers at runtime/build time
+.model-cache/
