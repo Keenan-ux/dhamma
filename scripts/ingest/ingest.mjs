@@ -79,7 +79,10 @@ function findPaliSuttas(filter) {
   }
   walk(root);
   if (filter?.canon) {
-    return out.filter((p) => p.includes(`/sutta/${filter.canon}/`) || p.includes(`\\sutta\\${filter.canon}\\`));
+    // Accept nested paths like "kn/tha-ap" — normalize separators so the same
+    // arg works on Windows and Unix.
+    const wanted = filter.canon.replace(/\\/g, '/');
+    return out.filter((p) => p.replace(/\\/g, '/').includes(`/sutta/${wanted}/`));
   }
   if (filter?.only) {
     return out.filter((p) => p.endsWith(`${filter.only}_root-pli-ms.json`));
