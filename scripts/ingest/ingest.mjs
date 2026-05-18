@@ -100,9 +100,11 @@ function loadSegments(p) {
   return Object.values(obj).join(' ').replace(/\s+/g, ' ').trim();
 }
 
-// Derive a stable id like "mn10" / "dn22" / "an1.1" from the bilara filename.
+// Derive a stable id like "mn10" / "dn22" / "an1.1" / "tha-ap100" from the
+// bilara filename. The `[a-z-]+` before the digit allows hyphenated canon
+// prefixes (e.g. tha-ap, thi-ap for the Apadāna texts in Khuddaka Nikāya).
 function parseId(filename) {
-  const m = filename.match(/^([a-z]+\d[\w\d.-]*)_root-pli-ms\.json$/);
+  const m = filename.match(/^([a-z][a-z-]*\d[\w\d.-]*)_root-pli-ms\.json$/);
   return m ? m[1] : null;
 }
 
