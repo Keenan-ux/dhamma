@@ -12,7 +12,11 @@ export default function Dhamma() {
   const [tab, setTab] = useState('search');
   const [query, setQuery] = useState('sampajāna');
   const [activeTraditions, setActiveTraditions] = useState(() => new Set());
-  const [searchMode, setSearchMode] = useState('exact');
+  // Default to Stem mode. Exact-token FTS over Pali rarely matches
+  // because the canonical inflections (sampajāno, sampajānakārī, …) are
+  // distinct tokens from the dictionary form (sampajāna). Stem mode adds
+  // cross-canon alias expansion that's almost always what scholars want.
+  const [searchMode, setSearchMode] = useState('stem');
   const [browsePath, setBrowsePath] = useState([]);
   const [browseLeafId, setBrowseLeafId] = useState(null);
   const [pinnedLeafId, setPinnedLeafId] = useState(null);
