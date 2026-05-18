@@ -75,8 +75,11 @@ async function ensureBilara() {
 // to restrict. The function name is kept for backwards-compat with the
 // existing callers.
 function findPaliSuttas(filter) {
+  // --basket accepts a single basket or a comma-separated list. Running one
+  // node process that walks multiple baskets sequentially is much faster
+  // than two parallel processes (one model load, no CPU oversubscription).
   const baskets = filter?.basket
-    ? [filter.basket]
+    ? String(filter.basket).split(',').map((s) => s.trim()).filter(Boolean)
     : ['sutta', 'vinaya', 'abhidhamma'];
   const out = [];
   function walk(dir) {
