@@ -127,6 +127,11 @@ function ftsFragment(field) {
 }
 
 function makeSnippet(p) {
+  // Prefer the FTS-aware fragment when the SQL returned one — that's a
+  // window around the matched token rather than the always-the-opening
+  // text. Fall back to first ~200 chars when there was no FTS match
+  // (vector-only Meaning hits or empty queries).
+  if (p.headline && p.headline.trim()) return p.headline.trim();
   const text = p.translation || p.original || '';
   if (text.length <= SNIPPET_LEN) return text;
   return text.slice(0, SNIPPET_LEN).trimEnd() + '…';
@@ -176,7 +181,12 @@ export async function runSearch(rawParams) {
   if (mode === 'exact' || mode === 'stem') {
     rows = await sql`
       SELECT id, citation, title, canon, work_slug, original, translation,
-             ts_rank(${fts}, q) AS score
+             ts_rank(${fts}, q) AS score,
+             ts_headline('simple',
+               COALESCE(translation, original, ''),
+               q,
+               'MaxFragments=1,MinWords=10,MaxWords=28,StartSel=,StopSel=,FragmentDelimiter=… '
+             ) AS headline
       FROM passages, to_tsquery('simple', ${tsquery}) q
       WHERE ${fts} @@ q
       ORDER BY score DESC
@@ -211,6 +221,8 @@ export async function runSearch(rawParams) {
 
     if (!tsquery) {
       // Vector-only: no parseable FTS terms.
+      // Vector-only branch — no FTS match to headline against, so no
+      // headline column. shapeResult falls back to first-N-chars snippet.
       rows = await sql`
         SELECT id, citation, title, canon, work_slug, original, translation,
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector)) AS score
@@ -237,7 +249,14 @@ export async function runSearch(rawParams) {
         )
         SELECT p.id, p.citation, p.title, p.canon, p.work_slug, p.original, p.translation,
                COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
-             + COALESCE(1.0 / (${RRF_K} + vec.rnk), 0) AS score
+             + COALESCE(1.0 / (${RRF_K} + vec.rnk), 0) AS score,
+               CASE WHEN fts.id IS NOT NULL
+                 THEN ts_headline('simple',
+                        COALESCE(p.translation, p.original, ''),
+                        to_tsquery('simple', ${tsquery}),
+                        'MaxFragments=1,MinWords=10,MaxWords=28,StartSel=,StopSel=,FragmentDelimiter=… ')
+                 ELSE NULL
+               END AS headline
         FROM passages p
         LEFT JOIN fts ON fts.id = p.id
         LEFT JOIN vec ON vec.id = p.id
