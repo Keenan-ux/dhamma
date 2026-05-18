@@ -1,9 +1,12 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { SAMPLE_PASSAGES } from './data/samplePassages.js';
 import { stemMatch } from './paliStem.js';
+import { parseQuery } from './parseQuery.js';
+import useSearchHistory from './searchHistory.js';
 import PassageCard from './PassageCard.jsx';
 
 const TRADITIONS = Array.from(new Set(SAMPLE_PASSAGES.map((p) => p.tradition)));
+const DIACRITICS = ['ā', 'ī', 'ū', 'ē', 'ō', 'ṃ', 'ṅ', 'ñ', 'ṇ', 'ṭ', 'ḍ', 'ṛ', 'ḷ', 'ṣ', 'ś'];
 
 const MODES = [
   { key: 'exact',   label: 'Exact',   hint: 'Substring match' },
@@ -11,19 +14,34 @@ const MODES = [
   { key: 'meaning', label: 'Meaning', hint: 'Semantic — ships with corpus ingest (v2)' },
 ];
 
-function matches(passage, term, mode) {
-  const hay = `${passage.original || ''} ${passage.translation || ''} ${passage.title || ''}`;
-  if (mode === 'exact') {
-    return hay.toLowerCase().includes(term.toLowerCase());
+const SCOPES = [
+  { key: 'all',         label: 'All' },
+  { key: 'original',    label: 'Original' },
+  { key: 'translation', label: 'Translation' },
+  { key: 'citation',    label: 'Citation' },
+];
+
+function fieldText(p, scope) {
+  if (scope === 'original')    return p.original || '';
+  if (scope === 'translation') return p.translation || '';
+  if (scope === 'citation')    return [p.citation, p.title, p.work].filter(Boolean).join(' ');
+  return `${p.original || ''} ${p.translation || ''} ${p.title || ''} ${p.citation || ''}`;
+}
+
+function termHits(hay, term, mode) {
+  const lc = hay.toLowerCase();
+  if (lc.includes(term.toLowerCase())) return true;
+  if (mode === 'exact') return false;
+  return stemMatch(hay, term);
+}
+
+function passageMatches(passage, parsed, mode, scope) {
+  const hay = fieldText(passage, scope);
+  for (const t of parsed.excluded) {
+    if (termHits(hay, t, mode)) return false;
   }
-  if (mode === 'stem') {
-    // Try stem-match against the full haystack; fall back to substring so
-    // longer phrases still resolve when the stem split misses.
-    return stemMatch(hay, term) || hay.toLowerCase().includes(term.toLowerCase());
-  }
-  // Meaning mode: real semantic search needs pgvector. Until v2, mimic with
-  // stem-match so the user can preview the UX. Banner above explains.
-  return stemMatch(hay, term) || hay.toLowerCase().includes(term.toLowerCase());
+  if (parsed.must.length === 0) return false;
+  return parsed.must.every((t) => termHits(hay, t, mode));
 }
 
 export default function SearchView({
@@ -36,48 +54,99 @@ export default function SearchView({
   const setQ = setQuery ?? (() => {});
   const mode = searchMode || 'exact';
 
-  const term = q.trim();
+  const [scope, setScope] = useState('all');
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const inputRef = useRef(null);
+  const wrapRef = useRef(null);
+
+  const { history, push } = useSearchHistory();
+
+  const parsed = useMemo(() => parseQuery(q.trim()), [q]);
 
   const found = useMemo(() => {
-    if (!term) return [];
+    if (!parsed.raw) return [];
     return SAMPLE_PASSAGES.filter((p) => {
       if (!activeTraditions.has(p.tradition)) return false;
-      return matches(p, term, mode);
+      return passageMatches(p, parsed, mode, scope);
     });
-  }, [term, mode, activeTraditions]);
+  }, [parsed, mode, scope, activeTraditions]);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (parsed.must.length > 0) push(parsed.raw);
+    }, 1200);
+    return () => clearTimeout(t);
+  }, [parsed, push]);
+
+  useEffect(() => {
+    if (!historyOpen) return;
+    function onDoc(e) {
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) setHistoryOpen(false);
+    }
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('touchstart', onDoc);
+    return () => {
+      document.removeEventListener('mousedown', onDoc);
+      document.removeEventListener('touchstart', onDoc);
+    };
+  }, [historyOpen]);
+
+  function insertChar(ch) {
+    const el = inputRef.current;
+    if (!el) { setQ(q + ch); return; }
+    const start = el.selectionStart ?? q.length;
+    const end = el.selectionEnd ?? q.length;
+    const next = q.slice(0, start) + ch + q.slice(end);
+    setQ(next);
+    requestAnimationFrame(() => {
+      el.focus();
+      const pos = start + ch.length;
+      el.setSelectionRange(pos, pos);
+    });
+  }
 
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
       <div style={wrap}>
-        <input
-          type="search"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search a term across the canon — e.g. sampajāna, satipaṭṭhāna, 正知"
-          style={input}
-          spellCheck={false}
-          autoFocus
-        />
+        <div style={{ position: 'relative' }} ref={wrapRef}>
+          <input
+            ref={inputRef}
+            type="search"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            onFocus={() => history.length && setHistoryOpen(true)}
+            placeholder='Search — e.g. sampajāna, -bhikkhu, "clear comprehension"'
+            style={input}
+            spellCheck={false}
+            autoFocus
+          />
+          {historyOpen && history.length > 0 && (
+            <div style={historyMenu}>
+              <div style={historyLabel}>Recent</div>
+              {history.map((h) => (
+                <button
+                  key={h}
+                  onClick={() => { setQ(h); setHistoryOpen(false); inputRef.current?.focus(); }}
+                  style={historyItem}
+                >
+                  {h}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
-        <div style={modeRow}>
-          <span style={modeLabel}>Match</span>
-          {MODES.map((m) => {
-            const on = mode === m.key;
-            return (
-              <button
-                key={m.key}
-                onClick={() => setSearchMode?.(m.key)}
-                title={m.hint}
-                style={{
-                  ...modeBtn,
-                  color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
-                  borderBottomColor: on ? 'var(--bc-accent)' : 'transparent',
-                }}
-              >
-                {m.label}
-              </button>
-            );
-          })}
+        <div style={diacriticsRow} aria-label="Insert Pali diacritic">
+          {DIACRITICS.map((ch) => (
+            <button key={ch} onClick={() => insertChar(ch)} style={diacriticBtn} title={`Insert ${ch}`}>
+              {ch}
+            </button>
+          ))}
+        </div>
+
+        <div style={filterStack}>
+          <FilterRow label="Match"     options={MODES}  active={mode}  onChange={setSearchMode} />
+          <FilterRow label="Search in" options={SCOPES} active={scope} onChange={setScope} />
         </div>
 
         {mode === 'meaning' && (
@@ -109,26 +178,74 @@ export default function SearchView({
           </div>
         )}
 
-        {!term && (
-          <p style={meta}>Start typing to search. The current corpus is a scaffold of six passages featuring <em>sampajāna</em>; real ingestion lands once the standalone repo is up.</p>
-        )}
-
-        {term && found.length === 0 && (
-          <p style={meta}>No matches for <strong>{term}</strong> in the visible traditions.</p>
-        )}
-
-        {term && found.length > 0 && (
+        {!parsed.raw && (
           <p style={meta}>
-            <strong style={{ color: 'var(--bc-text-secondary)' }}>{found.length}</strong> {found.length === 1 ? 'passage' : 'passages'} {modeVerb(mode)} <strong style={{ color: 'var(--bc-accent)' }}>{term}</strong>, across {new Set(found.map((m) => m.tradition)).size} {new Set(found.map((m) => m.tradition)).size === 1 ? 'tradition' : 'traditions'}.
+            Search across the canon. Prefix a term with <code style={code}>-</code> to exclude
+            (e.g. <code style={code}>sampajāna -bhikkhu</code>). Wrap a phrase in quotes for an exact phrase.
+          </p>
+        )}
+
+        {parsed.raw && found.length === 0 && (
+          <p style={meta}>No matches for <strong>{parsed.raw}</strong> in the visible traditions.</p>
+        )}
+
+        {parsed.raw && found.length > 0 && (
+          <p style={meta}>
+            <strong style={{ color: 'var(--bc-text-secondary)' }}>{found.length}</strong>{' '}
+            {found.length === 1 ? 'passage' : 'passages'} {modeVerb(mode)}{' '}
+            {parsed.must.map((t, i) => (
+              <span key={t}>
+                <strong style={{ color: 'var(--bc-accent)' }}>{t}</strong>
+                {i < parsed.must.length - 1 ? ' + ' : ''}
+              </span>
+            ))}
+            {parsed.excluded.length > 0 && (
+              <>
+                {' '}without{' '}
+                {parsed.excluded.map((t, i) => (
+                  <span key={t}>
+                    <strong style={{ color: 'var(--bc-loss-text)' }}>{t}</strong>
+                    {i < parsed.excluded.length - 1 ? ', ' : ''}
+                  </span>
+                ))}
+              </>
+            )}
+            , across {new Set(found.map((m) => m.tradition)).size}{' '}
+            {new Set(found.map((m) => m.tradition)).size === 1 ? 'tradition' : 'traditions'}.
           </p>
         )}
 
         <div>
           {found.map((p, i) => (
-            <PassageCard key={p.id} passage={p} highlight={term} first={i === 0} />
+            <PassageCard key={p.id} passage={p} highlight={parsed.must} first={i === 0} />
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function FilterRow({ label, options, active, onChange }) {
+  return (
+    <div style={filterRow}>
+      <span style={filterLabel}>{label}</span>
+      {options.map((opt) => {
+        const on = active === opt.key;
+        return (
+          <button
+            key={opt.key}
+            onClick={() => onChange?.(opt.key)}
+            title={opt.hint}
+            style={{
+              ...filterBtn,
+              color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+              borderBottomColor: on ? 'var(--bc-accent)' : 'transparent',
+            }}
+          >
+            {opt.label}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -153,27 +270,93 @@ const input = {
   fontSize: 17,
   outline: 'none',
   boxSizing: 'border-box',
+};
+
+const diacriticsRow = {
+  display: 'flex',
+  gap: 2,
+  flexWrap: 'wrap',
+  marginTop: 8,
   marginBottom: 18,
 };
 
-const modeRow = {
+const diacriticBtn = {
+  width: 30,
+  height: 30,
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'transparent',
+  border: '1px solid transparent',
+  color: 'var(--bc-text-secondary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 15,
+  cursor: 'pointer',
+  borderRadius: 4,
+  transition: 'border-color 100ms ease, color 100ms ease',
+};
+
+const historyMenu = {
+  position: 'absolute',
+  top: 'calc(100% + 4px)',
+  left: 0,
+  right: 0,
+  zIndex: 50,
+  background: 'var(--bc-bg-elevated)',
+  border: '1px solid rgba(255,255,255,0.08)',
+  borderRadius: 8,
+  padding: 6,
+  boxShadow: '0 6px 20px rgba(0,0,0,0.4)',
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const historyLabel = {
+  padding: '6px 10px 4px',
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+};
+
+const historyItem = {
+  textAlign: 'left',
+  padding: '8px 10px',
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--bc-text-primary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 14,
+  borderRadius: 4,
+  cursor: 'pointer',
+};
+
+const filterStack = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 6,
+  marginBottom: 18,
+};
+
+const filterRow = {
   display: 'flex',
   gap: 4,
+  flexWrap: 'wrap',
   alignItems: 'baseline',
-  marginBottom: 18,
-  paddingBottom: 6,
 };
 
-const modeLabel = {
+const filterLabel = {
   fontSize: 10,
   fontWeight: 700,
   letterSpacing: '0.14em',
   textTransform: 'uppercase',
   color: 'var(--bc-text-tertiary)',
   marginRight: 12,
+  flexShrink: 0,
 };
 
-const modeBtn = {
+const filterBtn = {
   padding: '6px 10px',
   background: 'transparent',
   border: 'none',
@@ -197,36 +380,6 @@ const modeBanner = {
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.14)',
 };
 
-const filterRow = {
-  display: 'flex',
-  gap: 4,
-  flexWrap: 'wrap',
-  alignItems: 'baseline',
-  marginBottom: 24,
-};
-
-const filterLabel = {
-  fontSize: 10,
-  fontWeight: 700,
-  letterSpacing: '0.14em',
-  textTransform: 'uppercase',
-  color: 'var(--bc-text-tertiary)',
-  marginRight: 12,
-};
-
-const filterBtn = {
-  padding: '6px 10px',
-  background: 'transparent',
-  border: 'none',
-  borderBottom: '1px solid transparent',
-  fontFamily: 'Outfit, system-ui, sans-serif',
-  fontSize: 12,
-  fontWeight: 500,
-  letterSpacing: '0.02em',
-  cursor: 'pointer',
-  transition: 'color 120ms ease, border-color 120ms ease',
-};
-
 const meta = {
   fontSize: 13,
   color: 'var(--bc-text-tertiary)',
@@ -234,4 +387,13 @@ const meta = {
   margin: '0 0 8px',
   fontFamily: '"Noto Serif", Georgia, serif',
   fontStyle: 'italic',
+};
+
+const code = {
+  fontFamily: 'JetBrains Mono, monospace',
+  fontSize: 12,
+  background: 'rgba(255,255,255,0.05)',
+  padding: '1px 5px',
+  borderRadius: 3,
+  color: 'var(--bc-text-secondary)',
 };
