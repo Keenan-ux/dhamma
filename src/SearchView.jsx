@@ -179,7 +179,23 @@ export default function SearchView({
           <p style={warnMeta}>Embedding service unavailable; results from FTS only.</p>
         )}
 
-        {parsed.raw && !loading && result && !error && (
+        {parsed.raw && !loading && result && !error && mode === 'exact' && visibleResults.length === 0 && (
+          <p style={meta}>
+            No exact-token match for <strong style={{ color: 'var(--bc-accent)' }}>{parsed.raw}</strong>.
+            Pali inflections (e.g. <em>sampajāno</em>, <em>sampajānakārī</em>) are
+            distinct FTS tokens from their dictionary form — try{' '}
+            <button
+              onClick={() => setSearchMode('stem')}
+              style={inlineLink}
+            >Stem</button>{' '}or{' '}
+            <button
+              onClick={() => setSearchMode('meaning')}
+              style={inlineLink}
+            >Meaning</button>{' '}mode.
+          </p>
+        )}
+
+        {parsed.raw && !loading && result && !error && !(mode === 'exact' && visibleResults.length === 0) && (
           <p style={meta}>
             <strong style={{ color: 'var(--bc-text-secondary)' }}>{visibleResults.length}</strong>{' '}
             {visibleResults.length === 1 ? 'passage' : 'passages'} {modeVerb(mode)}{' '}
@@ -393,6 +409,18 @@ const meta = {
 
 const errMeta = { ...meta, color: 'var(--bc-loss-text)' };
 const warnMeta = { ...meta, color: 'var(--bc-accent)' };
+
+const inlineLink = {
+  background: 'transparent',
+  border: 'none',
+  padding: 0,
+  color: 'var(--bc-accent)',
+  fontFamily: 'inherit',
+  fontStyle: 'inherit',
+  fontSize: 'inherit',
+  cursor: 'pointer',
+  textDecoration: 'underline',
+};
 
 const code = {
   fontFamily: 'JetBrains Mono, monospace',
