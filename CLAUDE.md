@@ -66,16 +66,76 @@ both finish, `/api/dbcheck` should report `passages: 5764`. Log files:
   needed for any further local-to-prod-DB work.
   - Check: `powershell -c "Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue"`
 
-### Open backlog (no commitment yet)
+### Corpus expansion landscape
 
-- **Pali commentaries (Aṭṭhakathā)** — Visuddhimagga, Papañcasūdanī, etc.
-  Stubs are already seeded in the DB (see `server/sql/seed-stubs.sql`).
-  Need to find a source corpus (DPR? SuttaCentral has some?) and write an
-  adapter parallel to `scripts/ingest/ingest.mjs`.
-- **Milindapañha** + adjacent classical Theravāda works
-- **Sanskrit/Chinese corpora** for the Mahāyāna branch
-- Sentence-level snippet upgrade (see snippet-sentence-upgrade memory note)
-- v3 migration from `@xenova/transformers` v2 (see xenova-v2-pinned memory note)
+Three tiers of source acquisition, ordered by friction:
+
+**Tier A — already on disk, just enable** (in flight at last handoff):
+
+bilara-data has the full Pali Tipiṭaka under `root/pli/ms/{sutta,vinaya,abhidhamma}/`. The original `findPaliSuttas` walked only `sutta/`. Patched in commit `1cb07f5` to walk all three. Running two background ingests now:
+- `node ingest.mjs --basket=vinaya`     (422 files, ~1.4 hrs at observed rate)
+- `node ingest.mjs --basket=abhidhamma` (1,102 files, ~3-4 hrs)
+After both: DB lands at ~7,288 passages (5,764 + 1,524). Browse view's
+`pli-vinaya` and `pli-abhidhamma` works flip from "no children rendered"
+to "1,102 / 422 leaves below them."
+
+**Tier B — bilara has non-Pali source samples, modest scope:**
+
+| Lang | Files | Notes |
+|---|---|---|
+| `lzh` (Literary Chinese) | 133 | SuttaCentral's curated Āgama samples (ma=Madhyama, sa=Saṃyukta, ea=Ekottarika, sg). Sparse — not full Taishō. |
+| `san` (Sanskrit) | 2 | Negligible. |
+| `pra` (Prakrit) | 22 | Gandhāran fragments etc. |
+| `en` (English originals) | 53 | Native English compositions, not translations. |
+| `misc` | 158 | Catchall. |
+
+Tier B would flip the Mahāyāna stub branch's `taisho-ma` and `taisho-sa` works to live with sample data. Useful proof-of-concept for cross-canon vector search; not a comprehensive Mahāyāna corpus.
+
+**Surprise during the corpus inventory:** most "adjacent" Theravāda works are
+already in the live DB under `pli-kn` because SuttaCentral classifies them
+under Khuddaka Nikāya. From `scripts/ingest/survey-corpus.mjs`:
+
+| Already in `pli-kn` | n |
+|---|---|
+| Jātaka (`ja`) | 547 |
+| Theragāthā (`thag`) | 264 |
+| **Milindapañha (`mil`)** | 248 |
+| Itivuttaka (`iti`) | 112 |
+| Vimānavatthu (`vv`) | 85 |
+| Udāna (`ud`) | 80 |
+| Therīgāthā (`thig`) | 73 |
+| Sutta Nipāta (`snp`) | 73 |
+| Petavatthu (`pv`) | 51 |
+| **Nettippakaraṇa (`ne`)** | 37 |
+| Cariyāpiṭaka (`cp`) | 35 |
+| Paṭisambhidāmagga (`ps`) | 31 |
+| Buddhavaṃsa (`bv`) | 29 |
+| Dhammapada (`dhp`) | 26 |
+| Cūḷaniddesa / Mahāniddesa (`cnd`/`mnd`) | 23 + 16 |
+| Khuddakapātha (`kp`) | 9 |
+| Apadāna (`tha-ap` + `thi-ap`) | 603 |
+| **Peṭakopadesa (`pe`)** | 9 |
+
+**Real Tier C — external sources still required:**
+
+| Target | Best source | Format | Effort |
+|---|---|---|---|
+| **Aṭṭhakathā commentaries** | VRI/CST (tipitaka.org) | XML | adapter + parser. Largest scholarly value still missing. |
+| **Visuddhimagga** | VRI/CST or Ñāṇamoli digital tx | varies | medium adapter |
+| **Vimuttimagga** | scattered scholarly editions | varies | small adapter once a source is identified |
+| **Sub-commentaries (Ṭīkā)** | VRI/CST | XML | parallel to commentary adapter |
+| **Mahāvaṃsa, Dīpavaṃsa** (historical chronicles) | VRI/CST or PTS | varies | small adapter |
+| Full Taishō (real Mahāyāna) | CBETA | TEI XML | substantial — large corpus, different schema |
+| Tibetan canon (Kangyur/Tengyur) | 84000.co | TEI XML | future |
+| Sanskrit Mahāyāna sūtras | GRETIL | varies | future |
+
+Each tier-C source needs its own ingest adapter (parallel to `scripts/ingest/ingest.mjs`) plus an entry in `seed-stubs.sql` flipping the relevant stub work to live. **Cross-source vector comparability** holds as long as BGE-M3 stays pinned with the same params — see [xenova-v2-pinned memory](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md).
+
+### Other open items
+
+- Sentence-level snippet upgrade ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md))
+- v3 migration from `@xenova/transformers` v2 ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md)) — best done with a corpus re-embed
+- Citation formatting for Vinaya IDs — current display is `PLI-TV-BI-VB-PJ1-4` (raw uppercased ID). Cleaner would be `Bhi. Pj. 1-4` but requires a per-source mapping table
 
 ---
 
