@@ -1,0 +1,14 @@
+{
+  "name": "Dhamma Data",
+  "short_name": "Dhamma",
+  "description": "Query the Buddhist canon. Compare terms across Pali, Sanskrit, Chinese, and Zen sources.",
+  "scope": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#1A1A1B",
+  "background_color": "#1A1A1B",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,54 @@
+/* Dhamma theme — only the --bc-* vars actually used. Light + dark, no
+   dark-classic (dropped per SPLIT.md). */
+
+:root,
+[data-theme="dark"] {
+  --bc-bg-base:          #1A1A1B;
+  --bc-bg-surface:       #202124;
+  --bc-bg-elevated:      #242629;
+
+  --bc-text-primary:     #E8EAED;
+  --bc-text-secondary:   #BDC1C6;
+  --bc-text-tertiary:    #9AA0A6;
+  --bc-text-heading:     #E8EAED;
+
+  --bc-accent:           #FDC24E;
+  --bc-accent-text:      #202124;
+  --bc-accent-rgb:       253, 194, 78;
+
+  --bc-loss-text:        #FF5000;
+}
+
+[data-theme="light"] {
+  --bc-bg-base:          #F6F2E8;
+  --bc-bg-surface:       #F1ECE1;
+  --bc-bg-elevated:      #FFFFFF;
+
+  --bc-text-primary:     #202124;
+  --bc-text-secondary:   #5F6368;
+  --bc-text-tertiary:    #80868B;
+  --bc-text-heading:     #202124;
+
+  --bc-accent:           #8B6914;
+  --bc-accent-text:      #FFFFFF;
+  --bc-accent-rgb:       139, 105, 20;
+
+  --bc-loss-text:        #D32F2F;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bc-bg-base);
+  color: var(--bc-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Outfit', system-ui, sans-serif;
+}
+
+#root { min-height: 100dvh; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bc-bg-base); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); }
