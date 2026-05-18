@@ -1,11 +1,10 @@
-// Dhamma server — Phase 1 stub.
+// Dhamma server.
 //
-// Today: serves the built SPA at / and provides /api/healthz.
-// Phase 2 adds /api/search, /api/passage/:id, /api/corpus, and /api/compare
-// backed by a sibling Postgres + pgvector Fly app (dhamma-pg.flycast).
-// The frontend already uses /api/ paths via Vite proxy in dev, so when those
-// endpoints land here the UI swaps from in-memory mock data to real backend
-// without UI code changes.
+// Phase 1 (v2-pre): serves the SPA + /api/healthz.
+// Phase 2 (now landing): connects to Postgres+pgvector at dhamma-pg.flycast,
+// runs schema migrations on boot, exposes /api/dbcheck for connectivity test.
+// Real /api/search, /api/passage/:id, /api/corpus arrive once ingest writes
+// rows to the passages table.
 
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
@@ -13,6 +12,8 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { applySchema, health as dbHealth } from './db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -23,7 +24,12 @@ const app = new Hono();
 
 app.get('/api/healthz', (c) => c.json({ ok: true, ts: Date.now() }));
 
-// Static SPA. Only mount if dist exists (skipped in pure-server dev).
+app.get('/api/dbcheck', async (c) => {
+  const h = await dbHealth();
+  return c.json(h, h.connected ? 200 : 503);
+});
+
+// Static SPA
 if (fs.existsSync(STATIC_DIR)) {
   app.use('/*', serveStatic({ root: path.relative(process.cwd(), STATIC_DIR) || '.' }));
   app.notFound((c) => {
@@ -33,6 +39,15 @@ if (fs.existsSync(STATIC_DIR)) {
   });
 }
 
-serve({ fetch: app.fetch, port: PORT }, (info) => {
-  console.log(`dhamma server listening on :${info.port}`);
-});
+async function start() {
+  try {
+    await applySchema();
+  } catch (err) {
+    console.error('[boot] schema apply failed:', err.message);
+  }
+  serve({ fetch: app.fetch, port: PORT }, (info) => {
+    console.log(`dhamma server listening on :${info.port}`);
+  });
+}
+
+start();

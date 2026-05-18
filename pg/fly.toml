@@ -1,0 +1,20 @@
+# Postgres + pgvector for the Dhamma corpus. Internal-only (no [http_service]
+# and no [[services]] block = no public IP). Reachable from the main `dhamma`
+# app at dhamma-pg.flycast:5432 over Fly's WireGuard internal network.
+
+app            = 'dhamma-pg'
+primary_region = 'iad'
+
+[env]
+  POSTGRES_DB   = 'dhamma'
+  POSTGRES_USER = 'dhamma'
+  PGDATA        = '/var/lib/postgresql/data/pgdata'
+
+[[mounts]]
+  source      = 'pg_data'
+  destination = '/var/lib/postgresql/data'
+
+[[vm]]
+  memory_mb = 1024
+  cpu_kind  = 'shared'
+  cpus      = 1
