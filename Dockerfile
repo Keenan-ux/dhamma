@@ -16,6 +16,7 @@ COPY server/package.json ./
 RUN npm install --omit=dev
 
 COPY server/src ./src
+COPY server/sql ./sql
 COPY --from=web /web/dist ./dist
 
 ENV NODE_ENV=production
