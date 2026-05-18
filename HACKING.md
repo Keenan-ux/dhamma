@@ -64,13 +64,32 @@ fly launch --name dhamma --region iad --copy-config --yes --no-deploy
 fly deploy
 ```
 
-Phase 2 additions (next pass):
+## Ingest
+
+One-time corpus load runs on your local machine — your CPU embeds ~50× faster than a shared Fly VM. Lives in `scripts/ingest/`.
+
 ```
-fly apps create dhamma-pg
-fly volumes create pg_data --app dhamma-pg --size 5 --region iad
-# Custom pgvector-enabled image deployed to dhamma-pg
-fly secrets set DATABASE_URL=postgres://...@dhamma-pg.flycast:5432/dhamma --app dhamma
+# Terminal 1: open the Postgres proxy
+flyctl proxy 5432 --app dhamma-pg
+
+# Terminal 2: pull DATABASE_URL value out of the live app, replace host
+flyctl ssh console --app dhamma -C "printenv DATABASE_URL"
+# Copy the password (between "dhamma:" and "@") and set DATABASE_URL locally:
+export DATABASE_URL="postgres://dhamma:PASSWORD@localhost:5432/dhamma"
+
+# Terminal 2: smoke test on a single sutta first
+cd scripts/ingest
+npm install              # first time only
+node ingest.mjs --only=mn10
+
+# If that worked, ingest a single canon
+node ingest.mjs --canon=mn
+
+# Finally, the whole Pali Tipiṭaka — 17.5k suttas, ~1-2 hours
+node ingest.mjs
 ```
+
+Model files (~1GB for BGE-M3) and bilara-data clone (~300MB) cache to `scripts/ingest/.cache/` — gitignored. Re-running the ingest is idempotent (UPSERT on passage id).
 
 ## Endpoints
 
