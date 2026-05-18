@@ -142,28 +142,53 @@ function pgVectorLiteral(vec) {
 }
 
 async function ensureWorks() {
-  // Minimal hierarchy for now. The Browse view's CORPUS tree gives a richer
-  // structure; this writes just enough to satisfy the FK on passages.
+  // Theravāda Pali canon hierarchy. The Browse view drills through this
+  // tree; everything not listed here either bucket-falls into pli-kn or
+  // belongs in a tier-C corpus (commentaries, Visuddhimagga, etc.).
   await sql`
     INSERT INTO traditions (slug, name, subtitle, display_order)
     VALUES
       ('theravada', 'Theravāda', 'Pali transmission', 1)
     ON CONFLICT (slug) DO NOTHING
   `;
-  for (const [slug, name, parent] of [
-    ['pli-tipitaka',   'Tipiṭaka',       null],
-    ['pli-vinaya',     'Vinaya Piṭaka',  'pli-tipitaka'],
-    ['pli-sutta',      'Sutta Piṭaka',   'pli-tipitaka'],
-    ['pli-abhidhamma', 'Abhidhamma Piṭaka', 'pli-tipitaka'],
-    ['pli-dn',         'Dīgha Nikāya',   'pli-sutta'],
-    ['pli-mn',         'Majjhima Nikāya','pli-sutta'],
-    ['pli-sn',         'Saṃyutta Nikāya','pli-sutta'],
-    ['pli-an',         'Aṅguttara Nikāya','pli-sutta'],
-    ['pli-kn',         'Khuddaka Nikāya','pli-sutta'],
-  ]) {
+  const works = [
+    // Top
+    ['pli-tipitaka',   'Tipiṭaka',           null,             0],
+    // The three baskets
+    ['pli-vinaya',     'Vinaya Piṭaka',      'pli-tipitaka',   0],
+    ['pli-sutta',      'Sutta Piṭaka',       'pli-tipitaka',   1],
+    ['pli-abhidhamma', 'Abhidhamma Piṭaka',  'pli-tipitaka',   2],
+    // Sutta's nikāyas
+    ['pli-dn',         'Dīgha Nikāya',       'pli-sutta',      0],
+    ['pli-mn',         'Majjhima Nikāya',    'pli-sutta',      1],
+    ['pli-sn',         'Saṃyutta Nikāya',    'pli-sutta',      2],
+    ['pli-an',         'Aṅguttara Nikāya',   'pli-sutta',      3],
+    ['pli-kn',         'Khuddaka Nikāya',    'pli-sutta',      4],
+    // Khuddaka sub-works (in canonical order; the last three are
+    // extra-canonical but Theravāda tradition counts them with KN).
+    ['pli-kp',   'Khuddakapātha',       'pli-kn',  0],
+    ['pli-dhp',  'Dhammapada',          'pli-kn',  1],
+    ['pli-ud',   'Udāna',               'pli-kn',  2],
+    ['pli-iti',  'Itivuttaka',          'pli-kn',  3],
+    ['pli-snp',  'Sutta Nipāta',        'pli-kn',  4],
+    ['pli-vv',   'Vimānavatthu',        'pli-kn',  5],
+    ['pli-pv',   'Petavatthu',          'pli-kn',  6],
+    ['pli-thag', 'Theragāthā',          'pli-kn',  7],
+    ['pli-thig', 'Therīgāthā',          'pli-kn',  8],
+    ['pli-ap',   'Apadāna',             'pli-kn',  9],
+    ['pli-ja',   'Jātaka',              'pli-kn', 10],
+    ['pli-nd',   'Niddesa',             'pli-kn', 11],
+    ['pli-ps',   'Paṭisambhidāmagga',   'pli-kn', 12],
+    ['pli-bv',   'Buddhavaṃsa',         'pli-kn', 13],
+    ['pli-cp',   'Cariyāpiṭaka',        'pli-kn', 14],
+    ['pli-mil',  'Milindapañha',        'pli-kn', 15],
+    ['pli-ne',   'Nettippakaraṇa',      'pli-kn', 16],
+    ['pli-pe',   'Peṭakopadesa',        'pli-kn', 17],
+  ];
+  for (const [slug, name, parent, order] of works) {
     await sql`
-      INSERT INTO works (slug, tradition_slug, parent_slug, name)
-      VALUES (${slug}, 'theravada', ${parent}, ${name})
+      INSERT INTO works (slug, tradition_slug, parent_slug, name, display_order)
+      VALUES (${slug}, 'theravada', ${parent}, ${name}, ${order})
       ON CONFLICT (slug) DO NOTHING
     `;
   }
@@ -185,10 +210,29 @@ function deriveWorkSlug(filePath) {
   if (p.includes('/sutta/mn/')) return 'pli-mn';
   if (p.includes('/sutta/sn/')) return 'pli-sn';
   if (p.includes('/sutta/an/')) return 'pli-an';
-  if (p.includes('/sutta/'))    return 'pli-kn';      // Khuddaka catchall
-  if (p.includes('/vinaya/'))   return 'pli-vinaya';
-  if (p.includes('/abhidhamma/')) return 'pli-abhidhamma';
-  return 'pli-kn';  // safest fallback
+  // Khuddaka sub-works — route by directory under sutta/kn/
+  if (p.includes('/sutta/kn/kp/'))     return 'pli-kp';
+  if (p.includes('/sutta/kn/dhp/'))    return 'pli-dhp';
+  if (p.includes('/sutta/kn/ud/'))     return 'pli-ud';
+  if (p.includes('/sutta/kn/iti/'))    return 'pli-iti';
+  if (p.includes('/sutta/kn/snp/'))    return 'pli-snp';
+  if (p.includes('/sutta/kn/vv/'))     return 'pli-vv';
+  if (p.includes('/sutta/kn/pv/'))     return 'pli-pv';
+  if (p.includes('/sutta/kn/thag/'))   return 'pli-thag';
+  if (p.includes('/sutta/kn/thig/'))   return 'pli-thig';
+  if (p.includes('/sutta/kn/tha-ap/') || p.includes('/sutta/kn/thi-ap/')) return 'pli-ap';
+  if (p.includes('/sutta/kn/ja/'))     return 'pli-ja';
+  if (p.includes('/sutta/kn/cnd/') || p.includes('/sutta/kn/mnd/'))      return 'pli-nd';
+  if (p.includes('/sutta/kn/ps/'))     return 'pli-ps';
+  if (p.includes('/sutta/kn/bv/'))     return 'pli-bv';
+  if (p.includes('/sutta/kn/cp/'))     return 'pli-cp';
+  if (p.includes('/sutta/kn/mil/'))    return 'pli-mil';
+  if (p.includes('/sutta/kn/ne/'))     return 'pli-ne';
+  if (p.includes('/sutta/kn/pe/'))     return 'pli-pe';
+  if (p.includes('/sutta/'))           return 'pli-kn';  // Khuddaka catchall
+  if (p.includes('/vinaya/'))          return 'pli-vinaya';
+  if (p.includes('/abhidhamma/'))      return 'pli-abhidhamma';
+  return 'pli-kn';
 }
 
 async function main() {
