@@ -10,6 +10,7 @@
 // term across traditions (catches "samatha-sati" when searching "sati").
 
 import { sql } from './db.js';
+import { stemForPrefix } from './paliStem.js';
 
 const MAX_LIMIT = 100;
 const DEFAULT_LIMIT = 50;
@@ -34,23 +35,30 @@ export async function runCompareStats(rawParams) {
     };
   }
 
+  // Stem the query for substring matching so Compare counts also catch
+  // Pali inflections. Without this, "sampajāna" misses every "sampajāno"
+  // in the corpus (final 'a' vs 'o' breaks the literal substring match)
+  // and the aggregate is dramatically undercounted vs what Search returns.
+  // Mirrors the prefix-stem logic in search.js / termToTsquery.
+  const probe = stemForPrefix(q.toLowerCase());
+
   // Length-diff trick: count substring occurrences case-insensitively.
-  // Works on any text including CJK. GREATEST guards against zero-length q.
+  // Works on any text including CJK. GREATEST guards against zero-length.
   const occurrenceExpr = sql`
     (
       (LENGTH(LOWER(COALESCE(p.original,'')))
-       - LENGTH(REPLACE(LOWER(COALESCE(p.original,'')), LOWER(${q}), '')))
-      / GREATEST(LENGTH(${q}), 1)
+       - LENGTH(REPLACE(LOWER(COALESCE(p.original,'')), ${probe}, '')))
+      / GREATEST(LENGTH(${probe}), 1)
     +
       (LENGTH(LOWER(COALESCE(p.translation,'')))
-       - LENGTH(REPLACE(LOWER(COALESCE(p.translation,'')), LOWER(${q}), '')))
-      / GREATEST(LENGTH(${q}), 1)
+       - LENGTH(REPLACE(LOWER(COALESCE(p.translation,'')), ${probe}, '')))
+      / GREATEST(LENGTH(${probe}), 1)
     )::int
   `;
 
   const whereExpr = sql`
-    (LOWER(COALESCE(p.original,''))    LIKE '%' || LOWER(${q}) || '%'
-     OR LOWER(COALESCE(p.translation,'')) LIKE '%' || LOWER(${q}) || '%')
+    (LOWER(COALESCE(p.original,''))    LIKE '%' || ${probe} || '%'
+     OR LOWER(COALESCE(p.translation,'')) LIKE '%' || ${probe} || '%')
   `;
 
   const [freqRows, passageRows, countRows] = await Promise.all([
