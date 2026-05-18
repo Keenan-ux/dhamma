@@ -8,130 +8,61 @@ Match an academic tone: quiet, typeset, no marketing copy, no AI summary unless 
 
 ## ⚡ State as of last handoff — READ THIS FIRST
 
-**Phase 2 deployed at https://dhamma.fly.dev/.** Full stack live: Pali corpus
-ingested, server-side BGE-M3 embeddings, hybrid FTS+vector search, all four
-React views fetching `/api/*` instead of mock data. Cabinet `apps/dhamma/`
-deleted. The app is functional end-to-end.
+**Live at https://dhamma.fly.dev/ with corpus + search + dictionary.** Next
+work is **Tier C — CST commentary ingest** with a full plan in
+**[TIER_C.md](TIER_C.md)** at the repo root. Read that before anything else
+if the user mentions commentaries, Aṭṭhakathā, Visuddhimagga, Ṭīkā, or
+"adjacent Theravāda works". It has the implementation plan, open decisions,
+and links to all relevant memory notes.
+
+**What's live as of this handoff:**
+- Pali corpus: 7,286 passages (Sutta 5,764 + Vinaya 420 + Abhidhamma 1,102)
+- Hybrid FTS+vector search with HNSW, alias-OR expansion, prefix-stem
+  matching, ts_headline snippets, stem-aware highlighting
+- DPD dictionary: 88,933 headwords + 727,678 inflection mappings, wired to
+  PassageCard's selection popover. Look up `sampajāno` → returns `sampajāna`
+  with full DPD entry.
+- Browse tree with full Khuddaka split (Milindapañha, Jātaka, Apadāna, etc.
+  each addressable as separate sub-works)
+- Vinaya citations formatted as scholarly abbreviations ("Bu Pj 1", "Vin Kd 2")
+- Cabinet `apps/dhamma/` deleted (split-off complete)
 
 ### Verify current state
 
 ```bash
 curl -s https://dhamma.fly.dev/api/dbcheck
-# expect: passages: 5161 (will tick to 5764 once the in-flight tha-ap +
-# thi-ap re-ingest completes — see "in flight" below)
+# expect: passages: 7286 (full Pali Tipiṭaka — Sutta 5,764 + Vinaya 420 + Abhidhamma 1,102)
 ```
 
-### Phase 2 progress — all shipped
-
-| # | Step | Commit |
-|---|---|---|
-| 1 | dhamma-pg Fly app with pgvector | b9a7120 |
-| 2 | Ingest pipeline (SuttaCentral + BGE-M3) | 79ac976 |
-| 3 | Full Pali Tipiṭaka ingest (5,161 / 5,764) | (data) |
-| 4 | BGE-M3 server-side query embeddings + protobufjs CVE override | be3e89b |
-| 5 | `/api/search` + `/api/corpus` + `/api/passage/:id` + `/api/compare` + `/api/compare-stats` | e5e419d, 0c3d01c |
-| 6 | Frontend swap to `fetch('/api/...')` + hooks (useCorpus, usePassage, useSearch, useCompareStats) | 0c3d01c |
-| 7 | Cabinet `apps/dhamma/` deleted (Cabinet@d7ae5c9) | (Cabinet repo) |
+DPD dictionary is also live — try `curl -s "https://dhamma.fly.dev/api/lookup?term=sampaj%C4%81no"`. Should return 10 entries for `sampajāna`.
 
 ### Fly infrastructure
 
-- `dhamma` app: **shared-cpu-2x, 4 GB RAM**, auto-stop. The 2 GB I initially
-  picked was OOM-killed at 1.9 GB RSS on the first /api/search?mode=meaning —
-  see [fly-memory-requirement memory note](../../Users/isaac/.claude/projects/C--Dev-Dhamma/memory/fly-memory-requirement.md). DO NOT lower memory_mb under 4096.
+- `dhamma` app: **shared-cpu-2x, 4 GB RAM**, auto-stop. DO NOT lower
+  memory_mb under 4096 — see [fly-memory-requirement memory note](../../Users/isaac/.claude/projects/C--Dev-Dhamma/memory/fly-memory-requirement.md).
 - `dhamma-pg` app: shared-cpu-1x, 256 MB, always-on, 1 GB volume.
-- HNSW index built on `passages.embedding` (2.7s on 5,161 vectors).
-- Cold-start cost: ~**101 s** for the first /api/search?mode=meaning per
-  machine wake (BGE-M3 ONNX load on shared CPU). Subsequent meaning queries
-  are 500–2000 ms. Set `min_machines_running=1` if cold-start annoys.
-
-### In flight at handoff
-
-Two background ingest processes re-running for the 603 files originally
-skipped by the parseId regex (all Apadāna texts with `tha-ap` / `thi-ap`
-hyphenated canon prefixes that the regex didn't match):
-
-```
-# tha-ap (Therā-apadāna, 563 files) — should be done in ~5 min from start
-# thi-ap (Therī-apadāna, 40 files)  — ~25 s after model loads
-```
-
-The fixed regex is committed as 11c9dd9; the targeted re-ingest commands
-were `node ingest.mjs --canon=kn/tha-ap` and `--canon=kn/thi-ap`. After
-both finish, `/api/dbcheck` should report `passages: 5764`. Log files:
-`scripts/ingest/ingest-tha-ap.log` and `ingest-thi-ap.log`.
+- HNSW index on `passages.embedding`. Grows incrementally.
+- Cold-start: ~**101 s** for the first `/api/search?mode=meaning` per
+  wake (BGE-M3 ONNX load). Subsequent queries 500–2000 ms.
 
 ### Useful background processes still potentially alive
 
-- `flyctl proxy 15432 --app dhamma-pg` (the local Postgres proxy) —
-  needed for any further local-to-prod-DB work.
-  - Check: `powershell -c "Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue"`
+- `flyctl proxy 15432 --app dhamma-pg` (local Postgres proxy) — needed for
+  any further local-to-prod-DB work.
+  - Check: `Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue`
 
-### Corpus expansion landscape
+### Next work: Tier C — see [TIER_C.md](TIER_C.md)
 
-Three tiers of source acquisition, ordered by friction:
+Full implementation plan for the Aṭṭhakathā / Ṭīkā / mūla CST corpus ingest
+lives in [TIER_C.md](TIER_C.md) at the repo root. Read that before starting
+any commentary work. CST data is already cloned at
+`scripts/ingest/.cache/cst-test/` from the previous session.
 
-**Tier A — already on disk, just enable** (in flight at last handoff):
+Open decisions surfaced in TIER_C.md:
+1. Mūla overlap — ingest CST mūla as a parallel edition or skip it?
+2. Citation format for CST IDs — `Sv-a 1`, `Ps-a 1`, etc.?
 
-bilara-data has the full Pali Tipiṭaka under `root/pli/ms/{sutta,vinaya,abhidhamma}/`. The original `findPaliSuttas` walked only `sutta/`. Patched in commit `1cb07f5` to walk all three. Running two background ingests now:
-- `node ingest.mjs --basket=vinaya`     (422 files, ~1.4 hrs at observed rate)
-- `node ingest.mjs --basket=abhidhamma` (1,102 files, ~3-4 hrs)
-After both: DB lands at ~7,288 passages (5,764 + 1,524). Browse view's
-`pli-vinaya` and `pli-abhidhamma` works flip from "no children rendered"
-to "1,102 / 422 leaves below them."
-
-**Tier B — bilara has non-Pali source samples, modest scope:**
-
-| Lang | Files | Notes |
-|---|---|---|
-| `lzh` (Literary Chinese) | 133 | SuttaCentral's curated Āgama samples (ma=Madhyama, sa=Saṃyukta, ea=Ekottarika, sg). Sparse — not full Taishō. |
-| `san` (Sanskrit) | 2 | Negligible. |
-| `pra` (Prakrit) | 22 | Gandhāran fragments etc. |
-| `en` (English originals) | 53 | Native English compositions, not translations. |
-| `misc` | 158 | Catchall. |
-
-Tier B would flip the Mahāyāna stub branch's `taisho-ma` and `taisho-sa` works to live with sample data. Useful proof-of-concept for cross-canon vector search; not a comprehensive Mahāyāna corpus.
-
-**Surprise during the corpus inventory:** most "adjacent" Theravāda works are
-already in the live DB under `pli-kn` because SuttaCentral classifies them
-under Khuddaka Nikāya. From `scripts/ingest/survey-corpus.mjs`:
-
-| Already in `pli-kn` | n |
-|---|---|
-| Jātaka (`ja`) | 547 |
-| Theragāthā (`thag`) | 264 |
-| **Milindapañha (`mil`)** | 248 |
-| Itivuttaka (`iti`) | 112 |
-| Vimānavatthu (`vv`) | 85 |
-| Udāna (`ud`) | 80 |
-| Therīgāthā (`thig`) | 73 |
-| Sutta Nipāta (`snp`) | 73 |
-| Petavatthu (`pv`) | 51 |
-| **Nettippakaraṇa (`ne`)** | 37 |
-| Cariyāpiṭaka (`cp`) | 35 |
-| Paṭisambhidāmagga (`ps`) | 31 |
-| Buddhavaṃsa (`bv`) | 29 |
-| Dhammapada (`dhp`) | 26 |
-| Cūḷaniddesa / Mahāniddesa (`cnd`/`mnd`) | 23 + 16 |
-| Khuddakapātha (`kp`) | 9 |
-| Apadāna (`tha-ap` + `thi-ap`) | 603 |
-| **Peṭakopadesa (`pe`)** | 9 |
-
-**Real Tier C — external sources still required:**
-
-| Target | Best source | Format | Effort |
-|---|---|---|---|
-| **Aṭṭhakathā commentaries** | VRI/CST (tipitaka.org) | XML | adapter + parser. Largest scholarly value still missing. |
-| **Visuddhimagga** | VRI/CST or Ñāṇamoli digital tx | varies | medium adapter |
-| **Vimuttimagga** | scattered scholarly editions | varies | small adapter once a source is identified |
-| **Sub-commentaries (Ṭīkā)** | VRI/CST | XML | parallel to commentary adapter |
-| **Mahāvaṃsa, Dīpavaṃsa** (historical chronicles) | VRI/CST or PTS | varies | small adapter |
-| Full Taishō (real Mahāyāna) | CBETA | TEI XML | substantial — large corpus, different schema |
-| Tibetan canon (Kangyur/Tengyur) | 84000.co | TEI XML | future |
-| Sanskrit Mahāyāna sūtras | GRETIL | varies | future |
-
-Each tier-C source needs its own ingest adapter (parallel to `scripts/ingest/ingest.mjs`) plus an entry in `seed-stubs.sql` flipping the relevant stub work to live. **Cross-source vector comparability** holds as long as BGE-M3 stays pinned with the same params — see [xenova-v2-pinned memory](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md).
-
-### Other open items
+### Other open backlog
 
 - Sentence-level snippet upgrade ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md))
 - v3 migration from `@xenova/transformers` v2 ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md)) — best done with a corpus re-embed
@@ -157,9 +88,18 @@ src/                  frontend
 
 public/               manifest, sw, icon — root-scoped
 server/
-  src/                index.js · db.js · embed.js · aliases.js · search.js · corpus.js · compareStats.js
+  src/                index.js · db.js · embed.js · aliases.js · search.js · corpus.js · compareStats.js · dictionary.js · paliStem.js
   sql/                schema.sql · seed-aliases.sql · seed-stubs.sql
   scripts/            cache-model.mjs · embed-smoke.mjs · api-smoke.mjs · create-hnsw-index.mjs
+
+scripts/ingest/       ingest pipelines (run locally, write to dhamma-pg via proxy)
+  ingest.mjs          Pali Tipiṭaka (SuttaCentral bilara-data)
+  ingest-dpd.mjs      DPD dictionary headwords (TSV backups)
+  ingest-dpd-inflections.mjs  DPD inflection lookup table (from released SQLite)
+  ingest-dpd-missing.mjs      DPD headwords w/o meaning_1 (cross-refs)
+  format-citation.mjs · diagnose-skipped.mjs · migrate-citations.mjs · etc.
+
+TIER_C.md             plan for the next major build (CST commentary ingest)
 Dockerfile · fly.toml
 ```
 
