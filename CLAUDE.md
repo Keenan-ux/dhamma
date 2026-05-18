@@ -4,6 +4,75 @@ Standalone scholarly tool for querying Buddhist canonical texts across tradition
 
 Match an academic tone: quiet, typeset, no marketing copy, no AI summary unless the scholar opts in.
 
+---
+
+## ⚡ In flight as of last session — READ THIS FIRST
+
+A full Pali Tipiṭaka ingest is running on the user's local machine. **Do not assume it's still alive — verify first.**
+
+### What's running
+
+Two long-lived OS processes were started in the previous Claude session via `run_in_background`:
+
+1. **`flyctl proxy 15432 → dhamma-pg.internal:5432`** — local TCP proxy to the Postgres app. Required for the ingest to reach the DB.
+2. **`node ingest.mjs`** in `scripts/ingest/` — embeds suttas with BGE-M3 (Xenova/bge-m3 ONNX) and UPSERTs into `passages`. Idempotent via `ON CONFLICT (id) DO UPDATE`.
+
+Task IDs from the previous session (`b8lg0yqoe`, `b0j5qmq8e`) are **dead to your TaskOutput** — they only existed in that session's registry. Use the alternatives below.
+
+### How to check progress
+
+```bash
+# 1. How many passages are in the DB right now (live)
+curl -s https://dhamma.fly.dev/api/dbcheck
+# expect: {"connected":true, ..., "passages": N}    where N is climbing toward 5764
+
+# 2. Latest log lines from the ingest worker
+tail -n 5 scripts/ingest/ingest-full.log
+# expect lines like "  1240/5764  (0.33/s, ETA 13700s)"
+
+# 3. Is the node ingest process still alive (Windows)
+powershell -c "Get-Process node -ErrorAction SilentlyContinue | Select-Object Id,StartTime"
+
+# 4. Is the fly proxy still alive (Windows)
+powershell -c "Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue"
+```
+
+### State at session handoff
+
+- Total target: **5,764 suttas** from `bilara-data/root/pli/ms/sutta/` (Pali Tipiṭaka)
+- Rate observed: **~0.33 suttas/sec** on user's CPU
+- ETA from start: **~4.5 hours**
+- DATABASE_URL password (lives only in Fly secrets — pull fresh if needed):
+  ```
+  flyctl ssh console --app dhamma -C "printenv DATABASE_URL"
+  ```
+  Then swap `dhamma-pg.internal` → `localhost:15432` for the local proxy.
+
+### What to do depending on what you find
+
+| Situation | Action |
+|---|---|
+| `passages` == 5764 (or very close), node process gone | Ingest done. Kill the proxy, move to step 4 below. |
+| `passages` climbing, node process alive | Wait. Move on to step 4 design / code while it runs. |
+| `passages` stuck for >5 min, node process gone | Crashed. Restart the ingest — idempotent: `node ingest.mjs` resumes safely. |
+| Proxy dead but node still trying | Restart the proxy: `flyctl proxy 15432 --app dhamma-pg` |
+
+### Immediate next action
+
+**Phase 2, step 4: server-side query embeddings.** When a user searches in *Meaning* mode the server needs to embed their query and run a pgvector ANN search. Two viable paths — pick after asking the user:
+
+- **(A) BGE-M3 in-process via `@xenova/transformers`** — bump dhamma machine to 1.5–2GB memory (~$5–8/mo extra). No external dependency, same model as ingest so vectors are comparable. Slight risk: ONNX in Node could be slow on shared CPU.
+- **(B) Voyage AI free tier** for query embeddings only (`voyage-multilingual-2` or `voyage-3`). External service, but free tier covers low-traffic research-tool volume forever. **Vector dimensions will differ from BGE-M3 (1024 vs 1024 — check exact match for the model)** — if dims don't match exactly the schema needs adjustment, OR we re-embed the corpus with the API model.
+
+User has previously stated preference for "no extra services to log into" → favors (A). But (B) avoids the memory bump on Fly.
+
+After step 4 ships:
+- **Step 5:** Add `/api/search`, `/api/passage/:id`, `/api/corpus`, `/api/compare` endpoints. Hybrid scoring: FTS + vector via reciprocal rank fusion.
+- **Step 6:** Frontend swap — four data-access points in `src/` move from `data/*.js` imports to `fetch('/api/...')`.
+- **Step 7:** Delete `C:\Dev\Cabinet\apps\dhamma\` + remove from Cabinet's `vite.config.js` and `src/registry.js`.
+
+---
+
 ## Stack
 
 - **Frontend** — Vite + React 18, inline styles with `--bc-*` theme tokens (light + dark only)
