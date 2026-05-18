@@ -1,0 +1,20 @@
+{
+  "name": "dhamma-ingest",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "One-time corpus ingest: SuttaCentral bilara-data → BGE-M3 → Postgres. Runs on your local machine.",
+  "scripts": {
+    "ingest:mn-10": "node ingest.mjs --only=mn10",
+    "ingest:mn": "node ingest.mjs --canon=mn",
+    "ingest:dn": "node ingest.mjs --canon=dn",
+    "ingest:sn": "node ingest.mjs --canon=sn",
+    "ingest:an": "node ingest.mjs --canon=an",
+    "ingest:kn": "node ingest.mjs --canon=kn",
+    "ingest:all-pali": "node ingest.mjs"
+  },
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "postgres": "^3.4.5"
+  }
+}
