@@ -53,8 +53,16 @@ const sql = postgres(process.env.DATABASE_URL, { max: 4, idle_timeout: 20 });
 
 async function ensureBilara() {
   if (fs.existsSync(BILARA_DIR)) {
-    console.log('[bilara] pulling latest…');
-    execSync('git pull --ff-only', { cwd: BILARA_DIR, stdio: 'inherit' });
+    // Pull is best-effort — if the local clone is in a weird state (multiple
+    // branches, conflicting refs from prior parallel runs, no network), we
+    // proceed with the existing on-disk data rather than aborting the whole
+    // ingest run. The data changes rarely; staleness here is acceptable.
+    try {
+      console.log('[bilara] pulling latest…');
+      execSync('git pull --ff-only', { cwd: BILARA_DIR, stdio: 'inherit' });
+    } catch (err) {
+      console.log(`[bilara] pull failed (${err.message.split('\n')[0]}); continuing with on-disk data`);
+    }
     return;
   }
   fs.mkdirSync(CACHE_DIR, { recursive: true });
@@ -62,12 +70,14 @@ async function ensureBilara() {
   execSync(`git clone --depth 1 ${BILARA_REPO} "${BILARA_DIR}"`, { stdio: 'inherit' });
 }
 
-// Walks pli/ms/sutta/ and returns a flat list of source file paths.
+// Walks pli/ms/{sutta,vinaya,abhidhamma}/ and returns a flat list of source
+// file paths. Default behaviour walks all three baskets; pass --basket=NAME
+// to restrict. The function name is kept for backwards-compat with the
+// existing callers.
 function findPaliSuttas(filter) {
-  const root = path.join(BILARA_DIR, 'root', 'pli', 'ms', 'sutta');
-  if (!fs.existsSync(root)) {
-    throw new Error(`Expected ${root} — does the clone look right?`);
-  }
+  const baskets = filter?.basket
+    ? [filter.basket]
+    : ['sutta', 'vinaya', 'abhidhamma'];
   const out = [];
   function walk(dir) {
     for (const name of fs.readdirSync(dir)) {
@@ -77,12 +87,20 @@ function findPaliSuttas(filter) {
       else if (name.endsWith('_root-pli-ms.json')) out.push(full);
     }
   }
-  walk(root);
+  for (const basket of baskets) {
+    const root = path.join(BILARA_DIR, 'root', 'pli', 'ms', basket);
+    if (!fs.existsSync(root)) continue;
+    walk(root);
+  }
+  if (out.length === 0) {
+    throw new Error(`No Pali source files found in baskets [${baskets.join(', ')}] under ${BILARA_DIR} — does the clone look right?`);
+  }
   if (filter?.canon) {
-    // Accept nested paths like "kn/tha-ap" — normalize separators so the same
-    // arg works on Windows and Unix.
+    // Accept nested paths like "sutta/kn/tha-ap" or just "kn/tha-ap" or "ds"
+    // (Abhidhamma Dhammasaṅgaṇī). Normalize separators so the same arg works
+    // on Windows and Unix.
     const wanted = filter.canon.replace(/\\/g, '/');
-    return out.filter((p) => p.replace(/\\/g, '/').includes(`/sutta/${wanted}/`));
+    return out.filter((p) => p.replace(/\\/g, '/').includes(`/${wanted}/`));
   }
   if (filter?.only) {
     return out.filter((p) => p.endsWith(`${filter.only}_root-pli-ms.json`));
@@ -155,6 +173,21 @@ function workSlugForCanon(canon) {
   return 'pli-kn';
 }
 
+// Path-based work-slug derivation. Robust across sutta sub-nikāyas, Vinaya,
+// and Abhidhamma — doesn't rely on the canon prefix in the filename (which
+// for Vinaya is just "pli" and tells us nothing about the sub-work).
+function deriveWorkSlug(filePath) {
+  const p = filePath.replace(/\\/g, '/');
+  if (p.includes('/sutta/dn/')) return 'pli-dn';
+  if (p.includes('/sutta/mn/')) return 'pli-mn';
+  if (p.includes('/sutta/sn/')) return 'pli-sn';
+  if (p.includes('/sutta/an/')) return 'pli-an';
+  if (p.includes('/sutta/'))    return 'pli-kn';      // Khuddaka catchall
+  if (p.includes('/vinaya/'))   return 'pli-vinaya';
+  if (p.includes('/abhidhamma/')) return 'pli-abhidhamma';
+  return 'pli-kn';  // safest fallback
+}
+
 async function main() {
   await ensureBilara();
   await ensureWorks();
@@ -164,8 +197,9 @@ async function main() {
   console.log('[model] ready.');
 
   const filter = {};
-  if (args.canon) filter.canon = args.canon;
-  if (args.only) filter.only = args.only;
+  if (args.canon)  filter.canon  = args.canon;
+  if (args.only)   filter.only   = args.only;
+  if (args.basket) filter.basket = args.basket;
 
   const paliPaths = findPaliSuttas(filter);
   if (paliPaths.length === 0) {
@@ -183,7 +217,7 @@ async function main() {
     const id = parseId(base);
     if (!id) { skipped++; continue; }
     const canon = deriveCanon(id);
-    const workSlug = workSlugForCanon(canon);
+    const workSlug = deriveWorkSlug(paliPath);
     const enPath = translationPath(paliPath);
     const original = loadSegments(paliPath);
     const translation = loadSegments(enPath);
