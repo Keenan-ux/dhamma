@@ -61,27 +61,43 @@ function sanitizeTerm(term) {
   return String(term).replace(/['"\\&|!()<>:*]/g, ' ').trim();
 }
 
-function termToTsquery(term) {
+// Threshold for tsquery prefix matching (token:* operator). Tokens shorter
+// than this stay as exact-match — e.g. 'ti' or 'ca' as prefix would match
+// way too broadly. 4 chars covers all common Pali content words (sati,
+// dhamma, kamma, sampajāna…) without runaway recall.
+const PREFIX_MIN_LENGTH = 4;
+
+function termToTsquery(term, { prefix = false } = {}) {
   const cleaned = sanitizeTerm(term);
   if (!cleaned) return null;
   const tokens = cleaned.split(/\s+/).filter(Boolean);
   if (tokens.length === 0) return null;
-  if (tokens.length === 1) return tokens[0];
+  if (tokens.length === 1) {
+    const t = tokens[0];
+    if (prefix && t.length >= PREFIX_MIN_LENGTH) return `${t}:*`;
+    return t;
+  }
+  // Multi-token = phrase — keep adjacent-token semantics (no prefix on
+  // intermediate tokens; the whole phrase must appear in sequence).
   return tokens.join(' <-> ');
 }
 
 export function buildTsquery(parsed, { expandAliases = false } = {}) {
+  // In stem/meaning modes (expandAliases=true), use tsquery prefix matching
+  // on each token so 'sampajāna' also catches 'sampajāno', 'sampajānaṃ',
+  // 'sampajānakārī', etc. Exact mode preserves literal-token semantics.
+  const prefix = expandAliases;
   const parts = [];
   const expanded = [];
 
   for (const term of parsed.include) {
-    const base = termToTsquery(term);
+    const base = termToTsquery(term, { prefix });
     if (!base) continue;
     const variants = [base];
     if (expandAliases) {
       const aliases = aliasesFor(term);
       for (const a of aliases) {
-        const v = termToTsquery(a);
+        const v = termToTsquery(a, { prefix });
         if (v) variants.push(v);
       }
       if (aliases.length > 0) expanded.push({ term, aliases });
@@ -89,6 +105,8 @@ export function buildTsquery(parsed, { expandAliases = false } = {}) {
     parts.push(variants.length > 1 ? `(${variants.join(' | ')})` : variants[0]);
   }
   for (const ph of parsed.phrases) {
+    // Phrases stay as literal token sequences — prefix on the last token
+    // would break the "exact phrase" contract scholars expect.
     const tsq = termToTsquery(ph);
     if (tsq) parts.push(`(${tsq})`);
   }
