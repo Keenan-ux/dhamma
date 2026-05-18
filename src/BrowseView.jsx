@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
 import useCorpus from './useCorpus.js';
 import usePassage from './usePassage.js';
+import { lookupApi } from './api.js';
 
 export default function BrowseView({
   path, setPath,
@@ -248,6 +249,7 @@ function ReadingPanel({
   const ref = useRef(null);
   const [sel, setSel] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [lookup, setLookup] = useState(null); // { term, entries, loading, error }
   const isPinned = pinnedLeafId === leafId;
 
   // Flat depth-first order across the whole canon — adjacent nav crosses
@@ -298,6 +300,35 @@ function ReadingPanel({
       clearSelection();
     }
   }
+  async function doLookup() {
+    const term = sel?.text;
+    const pos = sel ? { x: sel.x, y: sel.y } : null;
+    if (!term || !pos) return;
+    setLookup({ term, pos, entries: null, loading: true, error: null });
+    clearSelection();
+    try {
+      const r = await lookupApi({ term });
+      setLookup({ term, pos, entries: r.entries || [], loading: false, error: null, matchedVia: r.matched_via });
+    } catch (err) {
+      setLookup({ term, pos, entries: [], loading: false, error: err.message });
+    }
+  }
+
+  // Close lookup on outside click / Escape.
+  useEffect(() => {
+    if (!lookup) return;
+    function onKey(e) { if (e.key === 'Escape') setLookup(null); }
+    function onDown(e) {
+      if (e.target.closest('[data-lookup-panel]') || e.target.closest('[data-sel-popover]')) return;
+      setLookup(null);
+    }
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onDown);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onDown);
+    };
+  }, [lookup]);
 
   return (
     <article ref={ref} style={compact ? { ...reading, padding: '12px 0 8px' } : reading}>
@@ -362,6 +393,7 @@ function ReadingPanel({
 
       {sel && (
         <div
+          data-sel-popover
           style={{
             ...selPopover,
             top: Math.max(8, sel.y - 50),
@@ -375,20 +407,210 @@ function ReadingPanel({
           <span style={selDot}>·</span>
           <button onClick={doCopy} style={selBtn}>{copied ? 'Copied' : 'Copy'}</button>
           <span style={selDot}>·</span>
-          <button
-            disabled
-            title="Dictionary lookup ships with corpus ingest (PED, BHS, DDB)"
-            style={{ ...selBtn, opacity: 0.35, cursor: 'default' }}
-          >
+          <button onClick={doLookup} style={selBtn} title="Look up in dictionary (DPD)">
             Dictionary
           </button>
         </div>
       )}
+
+      {lookup && <LookupPanel lookup={lookup} onClose={() => setLookup(null)} />}
     </article>
   );
 }
 
+function LookupPanel({ lookup, onClose }) {
+  const { term, pos, entries, loading, error, matchedVia } = lookup;
+  // Center horizontally on the original selection x; clamp to viewport.
+  const left = Math.max(160, Math.min((pos?.x || 200), (typeof window !== 'undefined' ? window.innerWidth - 160 : 1000)));
+  const top  = Math.max(60, (pos?.y || 60) + 14);
+
+  return (
+    <div data-lookup-panel style={{ ...lookupPanel, top, left, transform: 'translateX(-50%)' }}>
+      <header style={lookupHeader}>
+        <span style={lookupTerm}>{term}</span>
+        {matchedVia === 'inflection' && entries?.length > 0 && (
+          <span style={lookupMatchHint}> &nbsp;→ {entries[0].lemma}</span>
+        )}
+        <button onClick={onClose} style={lookupClose} aria-label="Close">×</button>
+      </header>
+      <div style={lookupBody}>
+        {loading && <p style={lookupMeta}>Looking up…</p>}
+        {error && <p style={lookupError}>Lookup failed: {error}</p>}
+        {!loading && !error && entries && entries.length === 0 && (
+          <p style={lookupMeta}>No entry found for <strong>{term}</strong> in DPD.</p>
+        )}
+        {!loading && !error && entries && entries.map((e) => (
+          <article key={e.id} style={lookupEntry}>
+            <header style={lookupEntryHeader}>
+              <span style={lookupEntryLemma}>{e.lemma}</span>
+              {e.pos && <span style={lookupEntryPos}>{e.pos}</span>}
+            </header>
+            {e.grammar && <p style={lookupGrammar}>{e.grammar}</p>}
+            <p style={lookupDefinition}>{e.definition}</p>
+            {e.definition_lit && (
+              <p style={lookupLiteral}>lit. {e.definition_lit}</p>
+            )}
+            {e.definition_alt && e.definition_alt !== e.definition && (
+              <p style={lookupAlt}>also: {e.definition_alt}</p>
+            )}
+            <footer style={lookupFooter}>
+              {e.sanskrit && <span><em>Skt.</em> {e.sanskrit}</span>}
+              {e.root && <span> · <em>root</em> {e.root}</span>}
+              {e.construction && <span> · <em>cons.</em> {e.construction}</span>}
+            </footer>
+            {e.example && (
+              <blockquote style={lookupExample}>{e.example}</blockquote>
+            )}
+          </article>
+        ))}
+      </div>
+      <div style={lookupSource}>DPD · Bodhirasa · CC-BY-NC-SA</div>
+    </div>
+  );
+}
+
 const wrap = { maxWidth: 1200, margin: '0 auto', padding: '24px 28px 48px' };
+
+const lookupPanel = {
+  position: 'fixed',
+  zIndex: 1200,
+  width: 'min(540px, 92vw)',
+  maxHeight: '70vh',
+  overflowY: 'auto',
+  background: 'var(--bc-bg-elevated)',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.30)',
+  borderRadius: 10,
+  boxShadow: '0 12px 32px rgba(0,0,0,0.55)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+const lookupHeader = {
+  display: 'flex',
+  alignItems: 'baseline',
+  justifyContent: 'space-between',
+  padding: '12px 16px 8px',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.20)',
+};
+
+const lookupTerm = {
+  fontSize: 18,
+  fontStyle: 'italic',
+  color: 'var(--bc-accent)',
+};
+
+const lookupMatchHint = {
+  fontSize: 12,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-tertiary)',
+};
+
+const lookupClose = {
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--bc-text-tertiary)',
+  fontSize: 22,
+  cursor: 'pointer',
+  padding: '0 4px',
+  marginLeft: 'auto',
+  lineHeight: 1,
+};
+
+const lookupBody = { padding: '8px 16px 12px' };
+
+const lookupEntry = {
+  padding: '10px 0',
+  borderBottom: '1px solid rgba(255,255,255,0.05)',
+};
+
+const lookupEntryHeader = {
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: 10,
+  marginBottom: 4,
+};
+
+const lookupEntryLemma = {
+  fontSize: 16,
+  fontWeight: 600,
+  color: 'var(--bc-text-primary)',
+};
+
+const lookupEntryPos = {
+  fontSize: 11,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-tertiary)',
+  textTransform: 'lowercase',
+};
+
+const lookupGrammar = {
+  margin: '0 0 6px',
+  fontSize: 12,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-tertiary)',
+};
+
+const lookupDefinition = {
+  margin: '6px 0',
+  fontSize: 14,
+  lineHeight: 1.6,
+  color: 'var(--bc-text-primary)',
+};
+
+const lookupLiteral = {
+  margin: '4px 0',
+  fontSize: 12,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-secondary)',
+};
+
+const lookupAlt = {
+  margin: '4px 0',
+  fontSize: 13,
+  color: 'var(--bc-text-secondary)',
+};
+
+const lookupFooter = {
+  margin: '6px 0 4px',
+  fontSize: 11,
+  color: 'var(--bc-text-tertiary)',
+  display: 'flex',
+  gap: 0,
+  flexWrap: 'wrap',
+};
+
+const lookupExample = {
+  margin: '8px 0 4px',
+  padding: '6px 10px',
+  borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.40)',
+  background: 'rgba(255,255,255,0.03)',
+  fontSize: 12,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-secondary)',
+  lineHeight: 1.55,
+};
+
+const lookupSource = {
+  padding: '6px 16px 10px',
+  fontSize: 10,
+  letterSpacing: '0.10em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  textAlign: 'right',
+};
+
+const lookupMeta = {
+  margin: 0,
+  fontSize: 13,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-tertiary)',
+};
+
+const lookupError = {
+  margin: 0,
+  fontSize: 13,
+  fontStyle: 'italic',
+  color: 'var(--bc-loss-text)',
+};
 
 const readingModeWrap = { maxWidth: 720, margin: '0 auto', padding: '40px 28px 64px' };
 

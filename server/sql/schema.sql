@@ -59,3 +59,53 @@ CREATE TABLE IF NOT EXISTS aliases (
 );
 
 CREATE INDEX IF NOT EXISTS idx_aliases_term ON aliases(term);
+
+-- Dictionary headword entries. One row per dictionary sense.
+-- Source identifies the dictionary (currently only 'dpd', later 'ped', 'bhs', 'ddb').
+-- Lemma is the canonical lookup key; source_id preserves the dictionary's own
+-- entry id (e.g. DPD's "sampajāna 1" vs "sampajāna 2" for distinct senses).
+CREATE TABLE IF NOT EXISTS dictionary_entries (
+  id             BIGSERIAL PRIMARY KEY,
+  source         TEXT NOT NULL,
+  source_id      TEXT,
+  -- The canonical bare headword (DPD's lemma_1 minus the trailing version
+  -- suffix). For neuter nouns DPD's lemma_2 is the inflected citation
+  -- form (nibbānaṃ); headword_lower preserves the bare form (nibbāna).
+  headword_lower TEXT,
+  lemma          TEXT NOT NULL,
+  lemma_lower    TEXT NOT NULL,
+  language       TEXT NOT NULL DEFAULT 'pli',
+  pos            TEXT,
+  grammar        TEXT,
+  definition     TEXT NOT NULL,
+  definition_lit TEXT,
+  definition_alt TEXT,
+  sanskrit       TEXT,
+  construction   TEXT,
+  root           TEXT,
+  example        TEXT,
+  notes          TEXT,
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (source, source_id)
+);
+
+-- ALTER for existing installs that pre-date the headword_lower column
+-- (the CREATE TABLE IF NOT EXISTS above is a no-op when the table is
+-- already present; the migration of bare-headword data needs ADD COLUMN
+-- IF NOT EXISTS, available in Postgres 9.6+).
+ALTER TABLE dictionary_entries ADD COLUMN IF NOT EXISTS headword_lower TEXT;
+
+CREATE INDEX IF NOT EXISTS idx_dict_lemma_lower    ON dictionary_entries(lemma_lower);
+CREATE INDEX IF NOT EXISTS idx_dict_headword_lower ON dictionary_entries(headword_lower);
+CREATE INDEX IF NOT EXISTS idx_dict_source         ON dictionary_entries(source);
+
+-- Inflected surface forms → headword. Built from DPD's per-headword
+-- inflection data so "sampajāno", "sampajānakārī", "sampajānassa" all
+-- resolve to the "sampajāna" entry. The lookup happens on surface_lower.
+CREATE TABLE IF NOT EXISTS dictionary_inflections (
+  surface_lower TEXT NOT NULL,
+  entry_id      BIGINT NOT NULL REFERENCES dictionary_entries(id) ON DELETE CASCADE,
+  PRIMARY KEY (surface_lower, entry_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_dict_infl_surface ON dictionary_inflections(surface_lower);

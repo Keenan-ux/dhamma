@@ -19,6 +19,7 @@ import { aliasesReady } from './aliases.js';
 import { runSearch } from './search.js';
 import { runCorpus, getPassage, getPassages } from './corpus.js';
 import { runCompareStats } from './compareStats.js';
+import { runLookup } from './dictionary.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -86,6 +87,19 @@ app.get('/api/compare-stats', async (c) => {
     const out = await runCompareStats({
       q: c.req.query('q'),
       limit: c.req.query('limit'),
+    });
+    return c.json(out);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/lookup', async (c) => {
+  try {
+    const out = await runLookup({
+      term:     c.req.query('term'),
+      source:   c.req.query('source') || 'dpd',
+      language: c.req.query('language') || 'pli',
     });
     return c.json(out);
   } catch (err) {
