@@ -8,53 +8,74 @@ Match an academic tone: quiet, typeset, no marketing copy, no AI summary unless 
 
 ## ⚡ State as of last handoff — READ THIS FIRST
 
-### Pali Tipiṭaka ingest: ✅ DONE
+**Phase 2 deployed at https://dhamma.fly.dev/.** Full stack live: Pali corpus
+ingested, server-side BGE-M3 embeddings, hybrid FTS+vector search, all four
+React views fetching `/api/*` instead of mock data. Cabinet `apps/dhamma/`
+deleted. The app is functional end-to-end.
 
-```
-ingested 5161, skipped 603, 15847s wall (4h 24m)
-db: passages: 5161, postgres 16.14, pgvector loaded
-```
-
-- Source: `scripts/ingest/.cache/bilara-data/root/pli/ms/sutta/`
-- Embeddings: BGE-M3 dense (1024-dim) via `@xenova/transformers` (quantized ONNX, runs on CPU)
-- 603 skipped suttas are bilara files whose IDs the `parseId` regex in `scripts/ingest/ingest.mjs` didn't match — likely Khuddaka edge-case names (`iti1`, `ud1.1`, composite identifiers). Patching that regex and re-running is idempotent — `ON CONFLICT (id) DO UPDATE` handles re-runs without dupes.
-- Background `flyctl proxy 15432 --app dhamma-pg` from prior session may still be alive on the user's machine. Kill it if not needed:
-  - Windows: `powershell -c "Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue"`
-
-### How to verify current state
+### Verify current state
 
 ```bash
 curl -s https://dhamma.fly.dev/api/dbcheck
-# expect: passages: 5161 (or higher if more ingest happened)
+# expect: passages: 5161 (will tick to 5764 once the in-flight tha-ap +
+# thi-ap re-ingest completes — see "in flight" below)
 ```
 
-### Phase 2 progress
+### Phase 2 progress — all shipped
 
-| # | Step | Status |
+| # | Step | Commit |
 |---|---|---|
-| 1 | dhamma-pg Fly app with pgvector | ✅ live |
-| 2 | Ingest pipeline scaffolded (SuttaCentral + BGE-M3) | ✅ shipped |
-| 3 | Full Pali Tipiṭaka ingest | ✅ 5161/5764 done |
-| 4 | BGE-M3 query-time embeddings in server | 🟡 **partly landed** — `@xenova/transformers` in `server/package.json`; verify model loads on boot and produces 1024-dim vectors comparable to ingested ones |
-| 5 | Server endpoints (`/api/search`, `/api/passage/:id`, `/api/corpus`, `/api/compare`) | 🟡 **partly landed** — `BrowseView.jsx` is fetching `useCorpus()` and `usePassage(id)`, implying `/api/corpus` and `/api/passage/:id` exist; verify all four are present and inspect what's still TODO |
-| 6 | Frontend swap from `data/*.js` to `fetch('/api/...')` | 🟡 **partly landed** — `BrowseView` swapped; SearchView and CompareView still need swapping |
-| 7 | Delete `C:\Dev\Cabinet\apps\dhamma\` | ⛔ blocked until step 6 finishes |
+| 1 | dhamma-pg Fly app with pgvector | b9a7120 |
+| 2 | Ingest pipeline (SuttaCentral + BGE-M3) | 79ac976 |
+| 3 | Full Pali Tipiṭaka ingest (5,161 / 5,764) | (data) |
+| 4 | BGE-M3 server-side query embeddings + protobufjs CVE override | be3e89b |
+| 5 | `/api/search` + `/api/corpus` + `/api/passage/:id` + `/api/compare` + `/api/compare-stats` | e5e419d, 0c3d01c |
+| 6 | Frontend swap to `fetch('/api/...')` + hooks (useCorpus, usePassage, useSearch, useCompareStats) | 0c3d01c |
+| 7 | Cabinet `apps/dhamma/` deleted (Cabinet@d7ae5c9) | (Cabinet repo) |
 
-### Choices already made
+### Fly infrastructure
 
-- Step 4 went with **option A** (BGE-M3 in-process via `@xenova/transformers`), per user preference for "no extra services to log into." This means the dhamma Fly machine will need memory bumped if it hasn't been — check `fly status --app dhamma` and `fly scale memory 2048 --app dhamma` if currently below 2GB.
-- `PassageCard` now supports a `snippet` field for search results — search backend returns short excerpts, not full text, on result hits.
+- `dhamma` app: **shared-cpu-2x, 4 GB RAM**, auto-stop. The 2 GB I initially
+  picked was OOM-killed at 1.9 GB RSS on the first /api/search?mode=meaning —
+  see [fly-memory-requirement memory note](../../Users/isaac/.claude/projects/C--Dev-Dhamma/memory/fly-memory-requirement.md). DO NOT lower memory_mb under 4096.
+- `dhamma-pg` app: shared-cpu-1x, 256 MB, always-on, 1 GB volume.
+- HNSW index built on `passages.embedding` (2.7s on 5,161 vectors).
+- Cold-start cost: ~**101 s** for the first /api/search?mode=meaning per
+  machine wake (BGE-M3 ONNX load on shared CPU). Subsequent meaning queries
+  are 500–2000 ms. Set `min_machines_running=1` if cold-start annoys.
 
-### First moves for the next session
+### In flight at handoff
 
-1. **Verify state honestly.** Run `curl https://dhamma.fly.dev/api/dbcheck` and check `git log --oneline -10` in `C:\Dev\Dhamma`. The state above reflects a snapshot; the user has been working in parallel sessions.
-2. **Inventory step 4–6 progress** — read `server/src/`, `src/useCorpus.js`, `src/usePassage.js`, and `SearchView`/`CompareView` to see exactly what's wired vs what still needs work.
-3. **Find the gaps** between current code and what these four endpoints need to support:
-   - `/api/search?q=...&mode=exact|stem|meaning&scope=all|original|translation|citation&traditions=...` — boolean ops parsed server-side
-   - `/api/passage/:id` — full passage with neighbors
-   - `/api/corpus` — tree shape for Browse columns
-   - `/api/compare?term=...` — frequency by tradition + KWIC + companion words
-4. **Then deliver step 7** — delete the Cabinet copy and remove from `vite.config.js` + `src/registry.js`.
+Two background ingest processes re-running for the 603 files originally
+skipped by the parseId regex (all Apadāna texts with `tha-ap` / `thi-ap`
+hyphenated canon prefixes that the regex didn't match):
+
+```
+# tha-ap (Therā-apadāna, 563 files) — should be done in ~5 min from start
+# thi-ap (Therī-apadāna, 40 files)  — ~25 s after model loads
+```
+
+The fixed regex is committed as 11c9dd9; the targeted re-ingest commands
+were `node ingest.mjs --canon=kn/tha-ap` and `--canon=kn/thi-ap`. After
+both finish, `/api/dbcheck` should report `passages: 5764`. Log files:
+`scripts/ingest/ingest-tha-ap.log` and `ingest-thi-ap.log`.
+
+### Useful background processes still potentially alive
+
+- `flyctl proxy 15432 --app dhamma-pg` (the local Postgres proxy) —
+  needed for any further local-to-prod-DB work.
+  - Check: `powershell -c "Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue"`
+
+### Open backlog (no commitment yet)
+
+- **Pali commentaries (Aṭṭhakathā)** — Visuddhimagga, Papañcasūdanī, etc.
+  Stubs are already seeded in the DB (see `server/sql/seed-stubs.sql`).
+  Need to find a source corpus (DPR? SuttaCentral has some?) and write an
+  adapter parallel to `scripts/ingest/ingest.mjs`.
+- **Milindapañha** + adjacent classical Theravāda works
+- **Sanskrit/Chinese corpora** for the Mahāyāna branch
+- Sentence-level snippet upgrade (see snippet-sentence-upgrade memory note)
+- v3 migration from `@xenova/transformers` v2 (see xenova-v2-pinned memory note)
 
 ---
 
@@ -70,29 +91,27 @@ curl -s https://dhamma.fly.dev/api/dbcheck
 src/                  frontend
   main.jsx · Dhamma.jsx · TopNav.jsx · ThemeToggle.jsx · TabBar.jsx · Sidebar.jsx
   BrowseView.jsx · SearchView.jsx · CompareView.jsx · PassageCard.jsx · Leaf.jsx
-  analyze.js · paliStem.js · useIsNarrow.js · theme.css
-  data/corpus.js · data/samplePassages.js
+  analyze.js · paliStem.js · parseQuery.js · searchHistory.js · useIsNarrow.js · theme.css
+  api.js · useCorpus.js · usePassage.js · useSearch.js · useCompareStats.js
+  data/corpus.js                     (helpers only; tree fetched from /api/corpus)
 
 public/               manifest, sw, icon — root-scoped
-server/               Hono. Phase 1: static + healthz; Phase 2: search + corpus endpoints
+server/
+  src/                index.js · db.js · embed.js · aliases.js · search.js · corpus.js · compareStats.js
+  sql/                schema.sql · seed-aliases.sql · seed-stubs.sql
+  scripts/            cache-model.mjs · embed-smoke.mjs · api-smoke.mjs · create-hnsw-index.mjs
 Dockerfile · fly.toml
 ```
 
-## Phase 1 (today) vs Phase 2 (next)
+## Search modes (production)
 
-**Phase 1 is live with mock data.** The UI works end-to-end against six passages featuring *sampajāna* hardcoded in `data/samplePassages.js`. Three traditions (Theravāda Pali, Sarvāstivāda parallel Chinese, Sōtō Zen Japanese). The corpus tree in `data/corpus.js` shows the full canon *shape* with stub nodes for un-ingested sections.
+| Mode | Backend |
+|---|---|
+| **Exact** | `to_tsquery` + FTS on `fts_doc` (or per-field tsvector when scope ≠ All). No alias expansion. |
+| **Stem** | FTS with OR-expanded aliases (`sati \| smṛti \| 念`). Aliases live in the `aliases` table, seeded from `seed-aliases.sql`. |
+| **Meaning** | FTS (alias-expanded) + vector ANN over `embedding vector(1024)` via HNSW index, reciprocal-rank-fused at k=60. Vector embeddings produced server-side by `server/src/embed.js` using the same BGE-M3 model/params as ingest. |
 
-**Phase 2 ingests real corpora into Postgres + pgvector.** The frontend's data-access points (a handful of imports from `data/`) become `fetch('/api/...')` calls. Everything else stays.
-
-## Search modes
-
-| Mode | Today | Phase 2 |
-|---|---|---|
-| **Exact** | `String.includes` | Postgres FTS |
-| **Stem** | Pali suffix stripper + ALIASES map (`paliStem.js`) | + Digital Pali Dictionary lemmas |
-| **Meaning** | Falls back to Stem with banner | Real pgvector ANN + BGE-M3 local embeddings |
-
-The ALIASES table in `paliStem.js` (sati ↔ smṛti ↔ 念, dhamma ↔ dharma ↔ 法, etc.) **stays even after vectors land** — it's the scholar-asserted authority overlay that vector distance approximates.
+The `aliases` table (sati ↔ smṛti ↔ 念, dhamma ↔ dharma ↔ 法, etc.) is the scholar-asserted authority overlay that vector distance approximates — **it stays even though vectors work**, because cross-canon term equivalence is a curated fact, not an inferred similarity.
 
 ## Hard rules
 
@@ -115,7 +134,7 @@ See HACKING.md for the full endpoint list and conventions.
 
 ## Notes for the next session
 
-- Cabinet (`C:\Dev\Cabinet`) still has `apps/dhamma/` — kept as fallback until Phase 2 deploys cleanly. Delete then.
-- GitHub: `Keenan-ux/dhamma` (private). Will flip public after Phase 2 ships.
+- Cabinet (`C:\Dev\Cabinet`) — `apps/dhamma/` and `public/apps/dhamma/` deleted at Cabinet@d7ae5c9. The launcher no longer ships this app.
+- GitHub: `Keenan-ux/dhamma` (private). Phase 2 has shipped — flipping public is a one-line call (`gh repo edit ... --visibility public`).
 - Sibling project: `C:\Dev\DhammaWorld` — different app (Vipassana group sittings map), unrelated codebase.
 - A second collaborator joins eventually — HACKING.md is the briefing doc for them.
