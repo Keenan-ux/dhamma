@@ -11,6 +11,7 @@ import { aliasesReady, aliasesFor } from '../src/aliases.js';
 import { embedReady } from '../src/embed.js';
 import { parseQuery, buildTsquery, runSearch } from '../src/search.js';
 import { runCorpus, getPassage, getPassages } from '../src/corpus.js';
+import { runCompareStats } from '../src/compareStats.js';
 
 function header(s) { console.log('\n--- ' + s + ' ---'); }
 function show(label, value) {
@@ -41,11 +42,42 @@ show('exclude + phrase',
 header('runCorpus');
 const corpus = await runCorpus();
 console.log('traditions:', corpus.traditions.length);
+function summarizeWork(w, depth = 0) {
+  const pad = '  '.repeat(depth + 2);
+  const tag = w.is_stub ? ' [stub]' : '';
+  const passageInfo = w.children.length === 0
+    ? ` — ${w.passages?.length || 0} passages (live)`
+    : ` — total ${w.total_passage_count} passages, ${w.children.length} children`;
+  console.log(`${pad}${w.name}${tag}${passageInfo}`);
+  for (const c of w.children) summarizeWork(c, depth + 1);
+}
 for (const t of corpus.traditions) {
   console.log(`  ${t.name} — ${t.works.length} top-level works`);
-  for (const w of t.works) {
-    console.log(`    ${w.name}: ${w.total_passage_count} passages (children: ${w.children.length})`);
+  for (const w of t.works) summarizeWork(w);
+}
+// Spot-check: a leaf work should have a passages array
+const sample = findLeafWithPassages(corpus.traditions);
+if (sample) show('sample leaf work', {
+  slug: sample.slug, name: sample.name,
+  passageCount: sample.passages.length,
+  firstThree: sample.passages.slice(0, 3),
+});
+function findLeafWithPassages(traditions) {
+  for (const t of traditions) {
+    for (const w of t.works) {
+      const found = findLeaf(w);
+      if (found) return found;
+    }
   }
+  return null;
+}
+function findLeaf(w) {
+  if (w.children.length === 0 && (w.passages?.length || 0) > 0) return w;
+  for (const c of w.children) {
+    const f = findLeaf(c);
+    if (f) return f;
+  }
+  return null;
 }
 
 header('getPassage("mn10")');
@@ -79,6 +111,29 @@ show('result', await runSearch({ q: 'mindfulness of breathing', mode: 'meaning',
 
 header('runSearch meaning "正念" (no FTS hits expected — vector-only)');
 show('result', await runSearch({ q: '正念', mode: 'meaning', field: 'all', limit: 5 }));
+
+header('runCompareStats "sati"');
+const cs = await runCompareStats({ q: 'sati', limit: 5 });
+show('result', {
+  query: cs.query,
+  took_ms: cs.took_ms,
+  totalOccurrences: cs.totalOccurrences,
+  frequencyByTradition: cs.frequencyByTradition,
+  passageCount: cs.passages.length,
+  topPassages: cs.passages.map((p) => ({
+    id: p.id, citation: p.citation, tradition: p.tradition,
+    occurrences: p.occurrence_count,
+    originalSnippet: (p.original || '').slice(0, 80),
+  })),
+});
+
+header('runCompareStats "mindfulness" (English-only, should hit translation field)');
+const cs2 = await runCompareStats({ q: 'mindfulness', limit: 3 });
+show('result', {
+  totalOccurrences: cs2.totalOccurrences,
+  frequencyByTradition: cs2.frequencyByTradition,
+  topPassages: cs2.passages.map((p) => ({ id: p.id, citation: p.citation, occurrences: p.occurrence_count })),
+});
 
 console.log(`\n[smoke done in ${Date.now() - t0}ms]`);
 process.exit(0);

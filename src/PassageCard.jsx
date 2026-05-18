@@ -33,6 +33,11 @@ export default function PassageCard({ passage, highlight, first }) {
       {passage.translation && (
         <p style={translationText}>{highlightTerm(passage.translation, highlight)}</p>
       )}
+      {/* Snippet path: search-result cards carry only a short excerpt, not
+          full text. Show it in the translation slot if no full text exists. */}
+      {!passage.original && !passage.translation && passage.snippet && (
+        <p style={translationText}>{highlightTerm(passage.snippet, highlight)}</p>
+      )}
 
       <footer style={footerLine}>
         <span style={canonLabel}>{passage.canon}</span>

@@ -1,14 +1,18 @@
-import { SAMPLE_PASSAGES } from './data/samplePassages.js';
+import useCorpus from './useCorpus.js';
 
-const TRADITIONS = Array.from(new Set(SAMPLE_PASSAGES.map((p) => p.tradition)));
+export default function Sidebar({ activeTraditions, toggleTradition, traditions = [] }) {
+  const { shape } = useCorpus();
+  const countByTradition = shape?.passageCountByTradition || new Map();
 
-export default function Sidebar({ activeTraditions, toggleTradition }) {
   return (
     <aside className="dhamma-sidebar" style={wrap}>
       <Section title="Corpus">
-        {TRADITIONS.map((t) => {
+        {traditions.length === 0 && (
+          <div style={placeholderText}>Loading…</div>
+        )}
+        {traditions.map((t) => {
           const on = activeTraditions.has(t);
-          const count = SAMPLE_PASSAGES.filter((p) => p.tradition === t).length;
+          const count = countByTradition.get(t) || 0;
           return (
             <button
               key={t}
@@ -20,7 +24,7 @@ export default function Sidebar({ activeTraditions, toggleTradition }) {
               }}
             >
               <span style={{ ...rowLabel, fontFamily: '"Noto Serif", Georgia, serif' }}>{t}</span>
-              <span style={rowCount}>{count}</span>
+              <span style={rowCount}>{count.toLocaleString()}</span>
             </button>
           );
         })}
@@ -28,14 +32,15 @@ export default function Sidebar({ activeTraditions, toggleTradition }) {
 
       <Section title="Dictionaries">
         <div style={placeholderText}>
-          PED, BHS, DDB — pending ingestion in the standalone repo.
+          PED, BHS, DDB — pending ingestion.
         </div>
       </Section>
 
       <Section title="About">
         <p style={aboutText}>
-          A scaffold corpus of six passages featuring <em>sampajāna</em> across Pali Theravāda, a Chinese Sarvāstivāda parallel, and Zen Sōtō.
-          Full corpora load once the standalone build is up.
+          Query Buddhist canonical texts across traditions. Pali Tipiṭaka via
+          SuttaCentral; Mahāyāna and Zen branches pending ingest. Search modes:
+          Exact (FTS), Stem (alias-bridged), Meaning (BGE-M3 vectors).
         </p>
       </Section>
     </aside>

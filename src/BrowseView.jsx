@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { CORPUS, pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
-import { SAMPLE_PASSAGES } from './data/samplePassages.js';
+import { pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
+import useCorpus from './useCorpus.js';
+import usePassage from './usePassage.js';
 
 export default function BrowseView({
   path, setPath,
@@ -10,25 +11,18 @@ export default function BrowseView({
   onSearchTerm, onCompareTerm,
 }) {
   const columnsScrollRef = useRef(null);
+  const { shape, loading: corpusLoading } = useCorpus();
+  const tree = shape?.tree || [];
 
-  const pinnedPassage = useMemo(() => {
-    if (!pinnedLeafId) return null;
-    let found = null;
-    function walk(nodes) {
-      for (const n of nodes) {
-        if (n.id === pinnedLeafId) { found = n; return; }
-        if (n.children) walk(n.children);
-        if (found) return;
-      }
-    }
-    walk(CORPUS);
-    if (!found?.passageId) return null;
-    return SAMPLE_PASSAGES.find((p) => p.id === found.passageId) || null;
-  }, [pinnedLeafId]);
+  // Always fetch both potentially-displayed passages; usePassage is a no-op
+  // when id is null. Hooks must be unconditional.
+  const { data: selectedPassage, loading: selectedLoading } = usePassage(leafId);
+  const { data: pinnedPassage } = usePassage(pinnedLeafId);
 
   const columns = useMemo(() => {
-    const out = [CORPUS];
-    let level = CORPUS;
+    if (tree.length === 0) return [];
+    const out = [tree];
+    let level = tree;
     for (const id of path) {
       const node = level.find((n) => n.id === id);
       if (!node) break;
@@ -40,24 +34,7 @@ export default function BrowseView({
       }
     }
     return out;
-  }, [path]);
-
-  const selectedPassage = useMemo(() => {
-    if (!leafId) return null;
-    // walk the path to find the leaf
-    let level = CORPUS;
-    let found = null;
-    function walk(nodes) {
-      for (const n of nodes) {
-        if (n.id === leafId) { found = n; return; }
-        if (n.children) walk(n.children);
-        if (found) return;
-      }
-    }
-    walk(level);
-    if (!found?.passageId) return null;
-    return SAMPLE_PASSAGES.find((p) => p.id === found.passageId) || null;
-  }, [leafId]);
+  }, [path, tree]);
 
   function selectAt(columnIndex, node) {
     if (node.stub) return; // can't drill into stubs
@@ -66,13 +43,11 @@ export default function BrowseView({
       return;
     }
     if (node.children?.length) {
-      // truncate path to this depth and append
       setPath([...path.slice(0, columnIndex), node.id]);
       setLeafId(null);
     }
   }
 
-  // Auto-scroll the columns container to keep the newest column in view.
   useEffect(() => {
     const el = columnsScrollRef.current;
     if (!el) return;
@@ -81,27 +56,30 @@ export default function BrowseView({
     });
   }, [columns.length]);
 
-  const crumb = pathNames(path);
+  const crumb = pathNames(tree, path);
 
-  // Reading mode: hide breadcrumb / columns / pinned, just the active passage centered.
+  // Reading mode: hide breadcrumb / columns / pinned, just the selected
+  // passage centered. Same usePassage data used in either layout.
   if (readingMode) {
-    const passageForReading = useMemoSelectedPassage(leafId);
     return (
       <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
         <div style={readingModeWrap}>
           <button onClick={() => setReadingMode(false)} style={exitReadingBtn} aria-label="Exit reading mode (Esc)">
             Exit reading mode  ·  Esc
           </button>
-          {passageForReading && (
+          {selectedLoading && <p style={hint}>Loading passage…</p>}
+          {!selectedLoading && selectedPassage && (
             <ReadingPanel
-              passage={passageForReading}
+              passage={selectedPassage}
+              tree={tree}
+              workBySlug={shape?.workBySlug}
               leafId={leafId}
               pinnedLeafId={pinnedLeafId}
               setPinnedLeafId={setPinnedLeafId}
               readingMode={readingMode}
               setReadingMode={setReadingMode}
               onNavigate={(id) => {
-                const newPath = pathToLeaf(id);
+                const newPath = pathToLeaf(tree, id);
                 if (newPath) setPath(newPath);
                 setLeafId(id);
               }}
@@ -125,6 +103,8 @@ export default function BrowseView({
             </div>
             <ReadingPanel
               passage={pinnedPassage}
+              tree={tree}
+              workBySlug={shape?.workBySlug}
               leafId={pinnedLeafId}
               pinnedLeafId={pinnedLeafId}
               setPinnedLeafId={setPinnedLeafId}
@@ -132,7 +112,7 @@ export default function BrowseView({
               setReadingMode={setReadingMode}
               compact
               onNavigate={(id) => {
-                const newPath = pathToLeaf(id);
+                const newPath = pathToLeaf(tree, id);
                 if (newPath) setPath(newPath);
                 setLeafId(id);
               }}
@@ -206,16 +186,24 @@ export default function BrowseView({
           </div>
         </div>
 
-        {selectedPassage && (
+        {selectedLoading && (
+          <div style={hintRow}>
+            <p style={hint}>Loading passage…</p>
+          </div>
+        )}
+
+        {!selectedLoading && selectedPassage && (
           <ReadingPanel
             passage={selectedPassage}
+            tree={tree}
+            workBySlug={shape?.workBySlug}
             leafId={leafId}
             pinnedLeafId={pinnedLeafId}
             setPinnedLeafId={setPinnedLeafId}
             readingMode={readingMode}
             setReadingMode={setReadingMode}
             onNavigate={(id) => {
-              const newPath = pathToLeaf(id);
+              const newPath = pathToLeaf(tree, id);
               if (newPath) setPath(newPath);
               setLeafId(id);
             }}
@@ -224,9 +212,18 @@ export default function BrowseView({
           />
         )}
 
-        {!selectedPassage && (
+        {!selectedLoading && !selectedPassage && !leafId && !corpusLoading && (
           <div style={hintRow}>
-            <p style={hint}>Click through the columns to drill into the canon. Select a leaf <span style={{ color: 'var(--bc-accent)' }}>•</span> to open its passage below.</p>
+            <p style={hint}>
+              Click through the columns to drill into the canon. Select a leaf{' '}
+              <span style={{ color: 'var(--bc-accent)' }}>•</span> to open its passage below.
+            </p>
+          </div>
+        )}
+
+        {corpusLoading && tree.length === 0 && (
+          <div style={hintRow}>
+            <p style={hint}>Loading corpus…</p>
           </div>
         )}
       </div>
@@ -240,25 +237,9 @@ function BreadcrumbLink({ children, onClick }) {
   );
 }
 
-function useMemoSelectedPassage(leafId) {
-  return useMemo(() => {
-    if (!leafId) return null;
-    let found = null;
-    function walk(nodes) {
-      for (const n of nodes) {
-        if (n.id === leafId) { found = n; return; }
-        if (n.children) walk(n.children);
-        if (found) return;
-      }
-    }
-    walk(CORPUS);
-    if (!found?.passageId) return null;
-    return SAMPLE_PASSAGES.find((p) => p.id === found.passageId) || null;
-  }, [leafId]);
-}
-
 function ReadingPanel({
-  passage, leafId,
+  passage, tree, workBySlug,
+  leafId,
   pinnedLeafId, setPinnedLeafId,
   readingMode, setReadingMode,
   onNavigate, onSearchTerm, onCompareTerm,
@@ -271,10 +252,15 @@ function ReadingPanel({
 
   // Flat depth-first order across the whole canon — adjacent nav crosses
   // work / canon boundaries so a reader can trace a concept end-to-end.
-  const allLeaves = useMemo(() => collectLeaves(), []);
+  const allLeaves = useMemo(() => collectLeaves(tree), [tree]);
   const idx = leafId ? allLeaves.findIndex((n) => n.id === leafId) : -1;
   const prev = idx > 0 ? allLeaves[idx - 1] : null;
   const next = idx >= 0 && idx < allLeaves.length - 1 ? allLeaves[idx + 1] : null;
+
+  // Derive display labels from the corpus tree (server gives us work_slug)
+  const workInfo = workBySlug?.get(passage.work_slug);
+  const traditionLabel = workInfo?.tradition || '';
+  const workLabel = workInfo?.name || '';
 
   useEffect(() => {
     function onSelChange() {
@@ -342,7 +328,7 @@ function ReadingPanel({
         <div style={readingCitationLine}>
           <span style={readingCitation}>{passage.citation}</span>
           <span style={readingWork}>
-            {passage.title}{passage.work ? ` · ${passage.work}` : ''}
+            {passage.title || workLabel}{passage.title && workLabel ? ` · ${workLabel}` : ''}
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
@@ -362,7 +348,7 @@ function ReadingPanel({
               </svg>
             </button>
           )}
-          <div style={readingTradition}>{passage.tradition}</div>
+          <div style={readingTradition}>{traditionLabel}</div>
         </div>
       </header>
 
@@ -404,11 +390,7 @@ function ReadingPanel({
 
 const wrap = { maxWidth: 1200, margin: '0 auto', padding: '24px 28px 48px' };
 
-const readingModeWrap = {
-  maxWidth: 720,
-  margin: '0 auto',
-  padding: '40px 28px 64px',
-};
+const readingModeWrap = { maxWidth: 720, margin: '0 auto', padding: '40px 28px 64px' };
 
 const exitReadingBtn = {
   background: 'transparent',
@@ -491,17 +473,13 @@ const crumbLink = {
   letterSpacing: '0.01em',
 };
 
-const crumbSep = {
-  color: 'var(--bc-text-tertiary)',
-  opacity: 0.5,
-};
+const crumbSep = { color: 'var(--bc-text-tertiary)', opacity: 0.5 };
 
 const columnsScroll = {
   overflowX: 'auto',
   scrollBehavior: 'smooth',
   borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
-  // Right-edge fade hints there's more content when scrollable.
   maskImage: 'linear-gradient(to right, black, black calc(100% - 24px), transparent)',
   WebkitMaskImage: 'linear-gradient(to right, black, black calc(100% - 24px), transparent)',
 };
@@ -516,11 +494,7 @@ const columnAnimCss = `
   }
 `;
 
-const columnsRow = {
-  display: 'flex',
-  minHeight: 280,
-  maxHeight: 420,
-};
+const columnsRow = { display: 'flex', minHeight: 280, maxHeight: 420 };
 
 const column = {
   minWidth: 240,
@@ -558,24 +532,10 @@ const rowSubtitle = {
   lineHeight: 1.3,
 };
 
-const chev = {
-  color: 'var(--bc-text-tertiary)',
-  fontSize: 16,
-  marginTop: 1,
-  flexShrink: 0,
-};
+const chev = { color: 'var(--bc-text-tertiary)', fontSize: 16, marginTop: 1, flexShrink: 0 };
+const leafDot = { color: 'var(--bc-accent)', fontSize: 18, lineHeight: 1, marginTop: 4, flexShrink: 0 };
 
-const leafDot = {
-  color: 'var(--bc-accent)',
-  fontSize: 18,
-  lineHeight: 1,
-  marginTop: 4,
-  flexShrink: 0,
-};
-
-const hintRow = {
-  padding: '24px 0',
-};
+const hintRow = { padding: '24px 0' };
 
 const hint = {
   margin: 0,
@@ -585,11 +545,7 @@ const hint = {
   color: 'var(--bc-text-tertiary)',
 };
 
-const reading = {
-  position: 'relative',
-  padding: '32px 0 16px',
-  maxWidth: 760,
-};
+const reading = { position: 'relative', padding: '32px 0 16px', maxWidth: 760 };
 
 const readingHeader = {
   display: 'flex',
@@ -602,12 +558,7 @@ const readingHeader = {
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
 };
 
-const readingCitationLine = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 4,
-  minWidth: 0,
-};
+const readingCitationLine = { display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 };
 
 const readingCitation = {
   fontFamily: '"Noto Serif", Georgia, serif',
@@ -637,6 +588,7 @@ const readingOriginal = {
   lineHeight: 1.85,
   color: 'var(--bc-text-primary)',
   userSelect: 'text',
+  whiteSpace: 'pre-wrap',
 };
 
 const readingTranslation = {
@@ -646,6 +598,7 @@ const readingTranslation = {
   lineHeight: 1.8,
   color: 'var(--bc-text-secondary)',
   userSelect: 'text',
+  whiteSpace: 'pre-wrap',
 };
 
 const readingFooter = {
@@ -701,12 +654,7 @@ const selBtn = {
   borderRadius: 4,
 };
 
-const selDot = {
-  color: 'var(--bc-text-tertiary)',
-  opacity: 0.4,
-  padding: '0 1px',
-  userSelect: 'none',
-};
+const selDot = { color: 'var(--bc-text-tertiary)', opacity: 0.4, padding: '0 1px', userSelect: 'none' };
 
 const navRow = {
   display: 'flex',
@@ -733,18 +681,8 @@ const navBtn = {
   minWidth: 0,
 };
 
-const navArrow = {
-  color: 'var(--bc-text-tertiary)',
-  fontSize: 11,
-  flexShrink: 0,
-};
-
-const navLabel = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 1,
-  minWidth: 0,
-};
+const navArrow = { color: 'var(--bc-text-tertiary)', fontSize: 11, flexShrink: 0 };
+const navLabel = { display: 'flex', flexDirection: 'column', gap: 1, minWidth: 0 };
 
 const navName = {
   fontFamily: '"Noto Serif", Georgia, serif',

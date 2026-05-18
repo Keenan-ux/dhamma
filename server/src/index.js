@@ -18,11 +18,15 @@ import { embedReady } from './embed.js';
 import { aliasesReady } from './aliases.js';
 import { runSearch } from './search.js';
 import { runCorpus, getPassage, getPassages } from './corpus.js';
+import { runCompareStats } from './compareStats.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const PORT = Number(process.env.PORT) || 8080;
-const STATIC_DIR = path.resolve(ROOT, 'dist');
+// In production the Dockerfile copies the SPA build into /app/dist next to
+// the server. For local dev (running from C:/Dev/Dhamma/server/src) point
+// STATIC_DIR at the repo-root dist/ produced by `npm run build`.
+const STATIC_DIR = process.env.STATIC_DIR || path.resolve(ROOT, 'dist');
 
 const app = new Hono();
 
@@ -69,6 +73,18 @@ app.get('/api/search', async (c) => {
       q: c.req.query('q'),
       mode: c.req.query('mode'),
       field: c.req.query('field'),
+      limit: c.req.query('limit'),
+    });
+    return c.json(out);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/compare-stats', async (c) => {
+  try {
+    const out = await runCompareStats({
+      q: c.req.query('q'),
       limit: c.req.query('limit'),
     });
     return c.json(out);

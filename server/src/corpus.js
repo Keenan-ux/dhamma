@@ -6,26 +6,40 @@ import { sql } from './db.js';
 export async function runCorpus() {
   if (!sql) return { traditions: [] };
 
-  const rows = await sql`
-    SELECT
-      t.slug          AS tradition_slug,
-      t.name          AS tradition_name,
-      t.subtitle      AS tradition_subtitle,
-      t.display_order AS tradition_order,
-      w.slug,
-      w.parent_slug,
-      w.name,
-      w.subtitle,
-      w.is_stub,
-      w.display_order,
-      COALESCE(pc.cnt, 0) AS passage_count
-    FROM traditions t
-    LEFT JOIN works w ON w.tradition_slug = t.slug
-    LEFT JOIN (
-      SELECT work_slug, COUNT(*)::int AS cnt FROM passages GROUP BY work_slug
-    ) pc ON pc.work_slug = w.slug
-    ORDER BY t.display_order, w.display_order NULLS LAST, w.slug NULLS LAST
-  `;
+  // Run the tree query and the per-work passage list in parallel.
+  const [rows, passageRows] = await Promise.all([
+    sql`
+      SELECT
+        t.slug          AS tradition_slug,
+        t.name          AS tradition_name,
+        t.subtitle      AS tradition_subtitle,
+        t.display_order AS tradition_order,
+        w.slug,
+        w.parent_slug,
+        w.name,
+        w.subtitle,
+        w.is_stub,
+        w.display_order,
+        COALESCE(pc.cnt, 0) AS passage_count
+      FROM traditions t
+      LEFT JOIN works w ON w.tradition_slug = t.slug
+      LEFT JOIN (
+        SELECT work_slug, COUNT(*)::int AS cnt FROM passages GROUP BY work_slug
+      ) pc ON pc.work_slug = w.slug
+      ORDER BY t.display_order, w.display_order NULLS LAST, w.slug NULLS LAST
+    `,
+    sql`
+      SELECT id, citation, title, work_slug
+      FROM passages
+      ORDER BY work_slug, position NULLS LAST, id
+    `,
+  ]);
+
+  const passagesByWork = new Map();
+  for (const r of passageRows) {
+    if (!passagesByWork.has(r.work_slug)) passagesByWork.set(r.work_slug, []);
+    passagesByWork.get(r.work_slug).push({ id: r.id, citation: r.citation, title: r.title });
+  }
 
   const traditions = new Map();
   const works = new Map();
@@ -61,30 +75,41 @@ export async function runCorpus() {
     }
   }
 
-  function rollup(work) {
+  // Attach passages to leaf works (no children). Rollup passage_count too.
+  function attach(work) {
     let total = work.passage_count;
-    for (const child of work.children) total += rollup(child);
+    if (work.children.length === 0) {
+      work.passages = passagesByWork.get(work.slug) || [];
+    } else {
+      for (const child of work.children) total += attach(child);
+    }
     work.total_passage_count = total;
     return total;
   }
   for (const t of traditions.values()) {
-    for (const w of t.works) rollup(w);
+    for (const w of t.works) attach(w);
   }
 
   return { traditions: Array.from(traditions.values()) };
 }
 
-const PASSAGE_COLS = sql`id, work_slug, position, citation, title, canon, original_lang, original, translation, notes`;
-
 export async function getPassage(id) {
   if (!sql || !id) return null;
-  const [row] = await sql`SELECT ${PASSAGE_COLS} FROM passages WHERE id = ${id} LIMIT 1`;
+  const [row] = await sql`
+    SELECT id, work_slug, position, citation, title, canon,
+           original_lang, original, translation, notes
+    FROM passages WHERE id = ${id} LIMIT 1
+  `;
   return row || null;
 }
 
 export async function getPassages(ids) {
   if (!sql || !ids || ids.length === 0) return [];
-  const rows = await sql`SELECT ${PASSAGE_COLS} FROM passages WHERE id = ANY(${ids})`;
+  const rows = await sql`
+    SELECT id, work_slug, position, citation, title, canon,
+           original_lang, original, translation, notes
+    FROM passages WHERE id = ANY(${ids})
+  `;
   const byId = new Map(rows.map((r) => [r.id, r]));
   return ids.map((i) => byId.get(i)).filter(Boolean);
 }
