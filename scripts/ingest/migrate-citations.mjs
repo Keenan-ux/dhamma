@@ -11,7 +11,7 @@
 //   node migrate-citations.mjs
 
 import postgres from 'postgres';
-import { formatCitation } from './ingest.mjs';
+import { formatCitation } from './format-citation.mjs';
 
 if (!process.env.DATABASE_URL) {
   console.error('DATABASE_URL not set');
