@@ -3,7 +3,20 @@
 // The container is borderless; only the rule above (and the page margin)
 // frames it.
 
+import { useState } from 'react';
+import { formatCitation } from './citationFormat.js';
+
 export default function PassageCard({ passage, highlight, first }) {
+  const [copied, setCopied] = useState(false);
+
+  async function copyCite() {
+    try {
+      await navigator.clipboard.writeText(formatCitation(passage));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1400);
+    } catch {/* ignore */}
+  }
+
   return (
     <article style={{ ...entryStyle, ...(first ? firstEntryStyle : {}) }}>
       <header style={headerRow}>
@@ -23,19 +36,27 @@ export default function PassageCard({ passage, highlight, first }) {
 
       <footer style={footerLine}>
         <span style={canonLabel}>{passage.canon}</span>
-        <span style={citeLink} role="button" aria-label="Copy citation link">cite&nbsp;↗</span>
+        <button onClick={copyCite} style={citeBtn} aria-label="Copy citation">
+          {copied ? 'copied' : 'cite'} ↗
+        </button>
       </footer>
     </article>
   );
 }
 
-function highlightTerm(text, term) {
-  if (!term) return text;
-  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function highlightTerm(text, terms) {
+  // Accepts a string or an array of strings. Highlights the first match for
+  // each term, in passage order. Pure text otherwise.
+  if (!terms || (Array.isArray(terms) && terms.length === 0)) return text;
+  const list = Array.isArray(terms) ? terms : [terms];
+  const escaped = list.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  if (!escaped) return text;
   const re = new RegExp(`(${escaped})`, 'gi');
   const parts = text.split(re);
   return parts.map((p, i) =>
-    re.test(p) ? <mark key={i} style={mark}>{p}</mark> : <span key={i}>{p}</span>
+    new RegExp(`^(?:${escaped})$`, 'i').test(p)
+      ? <mark key={i} style={mark}>{p}</mark>
+      : <span key={i}>{p}</span>
   );
 }
 
@@ -128,12 +149,15 @@ const canonLabel = {
   fontFamily: 'Outfit, system-ui, sans-serif',
 };
 
-const citeLink = {
+const citeBtn = {
   fontSize: 12,
   fontStyle: 'italic',
   color: 'var(--bc-text-tertiary)',
   cursor: 'pointer',
-  textDecoration: 'none',
+  background: 'transparent',
+  border: 'none',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  padding: 0,
 };
 
 const mark = {

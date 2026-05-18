@@ -2,8 +2,29 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { CORPUS, pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
 import { SAMPLE_PASSAGES } from './data/samplePassages.js';
 
-export default function BrowseView({ path, setPath, leafId, setLeafId, onSearchTerm, onCompareTerm }) {
+export default function BrowseView({
+  path, setPath,
+  leafId, setLeafId,
+  pinnedLeafId, setPinnedLeafId,
+  readingMode, setReadingMode,
+  onSearchTerm, onCompareTerm,
+}) {
   const columnsScrollRef = useRef(null);
+
+  const pinnedPassage = useMemo(() => {
+    if (!pinnedLeafId) return null;
+    let found = null;
+    function walk(nodes) {
+      for (const n of nodes) {
+        if (n.id === pinnedLeafId) { found = n; return; }
+        if (n.children) walk(n.children);
+        if (found) return;
+      }
+    }
+    walk(CORPUS);
+    if (!found?.passageId) return null;
+    return SAMPLE_PASSAGES.find((p) => p.id === found.passageId) || null;
+  }, [pinnedLeafId]);
 
   const columns = useMemo(() => {
     const out = [CORPUS];
@@ -62,9 +83,65 @@ export default function BrowseView({ path, setPath, leafId, setLeafId, onSearchT
 
   const crumb = pathNames(path);
 
+  // Reading mode: hide breadcrumb / columns / pinned, just the active passage centered.
+  if (readingMode) {
+    const passageForReading = useMemoSelectedPassage(leafId);
+    return (
+      <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
+        <div style={readingModeWrap}>
+          <button onClick={() => setReadingMode(false)} style={exitReadingBtn} aria-label="Exit reading mode (Esc)">
+            Exit reading mode  ·  Esc
+          </button>
+          {passageForReading && (
+            <ReadingPanel
+              passage={passageForReading}
+              leafId={leafId}
+              pinnedLeafId={pinnedLeafId}
+              setPinnedLeafId={setPinnedLeafId}
+              readingMode={readingMode}
+              setReadingMode={setReadingMode}
+              onNavigate={(id) => {
+                const newPath = pathToLeaf(id);
+                if (newPath) setPath(newPath);
+                setLeafId(id);
+              }}
+              onSearchTerm={onSearchTerm}
+              onCompareTerm={onCompareTerm}
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
       <div style={wrap}>
+        {pinnedPassage && pinnedLeafId !== leafId && (
+          <section style={pinnedSection}>
+            <div style={pinnedLabel}>
+              <span>Pinned</span>
+              <button onClick={() => setPinnedLeafId(null)} style={pinnedClearBtn}>unpin ×</button>
+            </div>
+            <ReadingPanel
+              passage={pinnedPassage}
+              leafId={pinnedLeafId}
+              pinnedLeafId={pinnedLeafId}
+              setPinnedLeafId={setPinnedLeafId}
+              readingMode={readingMode}
+              setReadingMode={setReadingMode}
+              compact
+              onNavigate={(id) => {
+                const newPath = pathToLeaf(id);
+                if (newPath) setPath(newPath);
+                setLeafId(id);
+              }}
+              onSearchTerm={onSearchTerm}
+              onCompareTerm={onCompareTerm}
+            />
+          </section>
+        )}
+
         {crumb.length > 0 && (
           <nav style={breadcrumb}>
             <BreadcrumbLink onClick={() => { setPath([]); setLeafId(null); }}>Canon</BreadcrumbLink>
@@ -133,6 +210,10 @@ export default function BrowseView({ path, setPath, leafId, setLeafId, onSearchT
           <ReadingPanel
             passage={selectedPassage}
             leafId={leafId}
+            pinnedLeafId={pinnedLeafId}
+            setPinnedLeafId={setPinnedLeafId}
+            readingMode={readingMode}
+            setReadingMode={setReadingMode}
             onNavigate={(id) => {
               const newPath = pathToLeaf(id);
               if (newPath) setPath(newPath);
@@ -159,10 +240,34 @@ function BreadcrumbLink({ children, onClick }) {
   );
 }
 
-function ReadingPanel({ passage, leafId, onNavigate, onSearchTerm, onCompareTerm }) {
+function useMemoSelectedPassage(leafId) {
+  return useMemo(() => {
+    if (!leafId) return null;
+    let found = null;
+    function walk(nodes) {
+      for (const n of nodes) {
+        if (n.id === leafId) { found = n; return; }
+        if (n.children) walk(n.children);
+        if (found) return;
+      }
+    }
+    walk(CORPUS);
+    if (!found?.passageId) return null;
+    return SAMPLE_PASSAGES.find((p) => p.id === found.passageId) || null;
+  }, [leafId]);
+}
+
+function ReadingPanel({
+  passage, leafId,
+  pinnedLeafId, setPinnedLeafId,
+  readingMode, setReadingMode,
+  onNavigate, onSearchTerm, onCompareTerm,
+  compact,
+}) {
   const ref = useRef(null);
   const [sel, setSel] = useState(null);
   const [copied, setCopied] = useState(false);
+  const isPinned = pinnedLeafId === leafId;
 
   // Flat depth-first order across the whole canon — adjacent nav crosses
   // work / canon boundaries so a reader can trace a concept end-to-end.
@@ -209,27 +314,29 @@ function ReadingPanel({ passage, leafId, onNavigate, onSearchTerm, onCompareTerm
   }
 
   return (
-    <article ref={ref} style={reading}>
-      <nav style={navRow}>
-        {prev ? (
-          <button onClick={() => onNavigate?.(prev.id)} style={navBtn}>
-            <span style={navArrow}>◀</span>
-            <span style={navLabel}>
-              <span style={navName}>{prev.name}</span>
-              {prev.subtitle && <span style={navSubtitle}>{prev.subtitle}</span>}
-            </span>
-          </button>
-        ) : <span />}
-        {next ? (
-          <button onClick={() => onNavigate?.(next.id)} style={{ ...navBtn, textAlign: 'right' }}>
-            <span style={navLabel}>
-              <span style={navName}>{next.name}</span>
-              {next.subtitle && <span style={navSubtitle}>{next.subtitle}</span>}
-            </span>
-            <span style={navArrow}>▶</span>
-          </button>
-        ) : <span />}
-      </nav>
+    <article ref={ref} style={compact ? { ...reading, padding: '12px 0 8px' } : reading}>
+      {!compact && (
+        <nav style={navRow}>
+          {prev ? (
+            <button onClick={() => onNavigate?.(prev.id)} style={navBtn}>
+              <span style={navArrow}>◀</span>
+              <span style={navLabel}>
+                <span style={navName}>{prev.name}</span>
+                {prev.subtitle && <span style={navSubtitle}>{prev.subtitle}</span>}
+              </span>
+            </button>
+          ) : <span />}
+          {next ? (
+            <button onClick={() => onNavigate?.(next.id)} style={{ ...navBtn, textAlign: 'right' }}>
+              <span style={navLabel}>
+                <span style={navName}>{next.name}</span>
+                {next.subtitle && <span style={navSubtitle}>{next.subtitle}</span>}
+              </span>
+              <span style={navArrow}>▶</span>
+            </button>
+          ) : <span />}
+        </nav>
+      )}
 
       <header style={readingHeader}>
         <div style={readingCitationLine}>
@@ -238,7 +345,25 @@ function ReadingPanel({ passage, leafId, onNavigate, onSearchTerm, onCompareTerm
             {passage.title}{passage.work ? ` · ${passage.work}` : ''}
           </span>
         </div>
-        <div style={readingTradition}>{passage.tradition}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+          {!compact && (
+            <button onClick={() => setPinnedLeafId?.(isPinned ? null : leafId)} style={iconAction} title={isPinned ? 'Unpin' : 'Pin to top'}>
+              {isPinned ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 4l4 4-6 6v6l-2 2-4-4v-4l-6-6 4-4z"/></svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4l4 4-6 6v6l-2 2-4-4v-4l-6-6 4-4z"/></svg>
+              )}
+            </button>
+          )}
+          {!compact && !readingMode && (
+            <button onClick={() => setReadingMode?.(true)} style={iconAction} title="Reading mode (focus)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4" />
+              </svg>
+            </button>
+          )}
+          <div style={readingTradition}>{passage.tradition}</div>
+        </div>
       </header>
 
       {passage.original && <p style={readingOriginal}>{passage.original}</p>}
@@ -278,6 +403,72 @@ function ReadingPanel({ passage, leafId, onNavigate, onSearchTerm, onCompareTerm
 }
 
 const wrap = { maxWidth: 1200, margin: '0 auto', padding: '24px 28px 48px' };
+
+const readingModeWrap = {
+  maxWidth: 720,
+  margin: '0 auto',
+  padding: '40px 28px 64px',
+};
+
+const exitReadingBtn = {
+  background: 'transparent',
+  border: '1px solid rgba(255,255,255,0.10)',
+  color: 'var(--bc-text-tertiary)',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  padding: '6px 12px',
+  borderRadius: 999,
+  cursor: 'pointer',
+  marginBottom: 28,
+};
+
+const pinnedSection = {
+  marginBottom: 28,
+  paddingBottom: 24,
+  borderBottom: '1px dashed rgba(var(--bc-accent-rgb), 0.30)',
+};
+
+const pinnedLabel = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'baseline',
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+  marginBottom: 6,
+};
+
+const pinnedClearBtn = {
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--bc-text-tertiary)',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.10em',
+  textTransform: 'uppercase',
+  cursor: 'pointer',
+  padding: 0,
+};
+
+const iconAction = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 30,
+  height: 30,
+  background: 'transparent',
+  border: '1px solid rgba(255,255,255,0.08)',
+  color: 'var(--bc-text-tertiary)',
+  borderRadius: 6,
+  cursor: 'pointer',
+  transition: 'color 100ms ease, border-color 100ms ease',
+};
 
 const breadcrumb = {
   display: 'flex',

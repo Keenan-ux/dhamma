@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TopNav from './TopNav.jsx';
 import TabBar from './TabBar.jsx';
 import Sidebar from './Sidebar.jsx';
@@ -14,9 +14,11 @@ export default function Dhamma() {
   const [tab, setTab] = useState('search');
   const [query, setQuery] = useState('sampajāna');
   const [activeTraditions, setActiveTraditions] = useState(() => new Set(ALL_TRADITIONS));
-  const [searchMode, setSearchMode] = useState('exact'); // 'exact' | 'stem' | 'meaning'
+  const [searchMode, setSearchMode] = useState('exact');
   const [browsePath, setBrowsePath] = useState([]);
   const [browseLeafId, setBrowseLeafId] = useState(null);
+  const [pinnedLeafId, setPinnedLeafId] = useState(null);
+  const [readingMode, setReadingMode] = useState(false);
   const isNarrow = useIsNarrow();
 
   function toggleTradition(t) {
@@ -27,6 +29,20 @@ export default function Dhamma() {
       return next;
     });
   }
+
+  // Esc exits reading mode.
+  useEffect(() => {
+    if (!readingMode) return;
+    function onKey(e) { if (e.key === 'Escape') setReadingMode(false); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [readingMode]);
+
+  // When entering reading mode, force the active tab to Browse since that's
+  // where the passage reading view lives.
+  useEffect(() => {
+    if (readingMode && tab !== 'browse') setTab('browse');
+  }, [readingMode, tab]);
 
   return (
     <div
@@ -39,13 +55,13 @@ export default function Dhamma() {
         fontFamily: 'Outfit, system-ui, sans-serif',
       }}
     >
-      <TopNav />
+      {!readingMode && <TopNav />}
       <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
-        {!isNarrow && (
+        {!readingMode && !isNarrow && (
           <Sidebar activeTraditions={activeTraditions} toggleTradition={toggleTradition} />
         )}
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
-          <TabBar active={tab} onChange={setTab} />
+          {!readingMode && <TabBar active={tab} onChange={setTab} />}
           <main
             style={{
               flex: 1,
@@ -60,6 +76,10 @@ export default function Dhamma() {
                 setPath={setBrowsePath}
                 leafId={browseLeafId}
                 setLeafId={setBrowseLeafId}
+                pinnedLeafId={pinnedLeafId}
+                setPinnedLeafId={setPinnedLeafId}
+                readingMode={readingMode}
+                setReadingMode={setReadingMode}
                 onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
                 onCompareTerm={(term) => { setQuery(term); setTab('compare'); }}
               />
