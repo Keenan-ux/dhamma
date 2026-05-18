@@ -20,6 +20,21 @@ const SNIPPET_LEN = 200;
 const MODES = new Set(['exact', 'stem', 'meaning']);
 const FIELDS = new Set(['all', 'original', 'translation', 'citation']);
 
+// English stopwords + single chars are dropped from positive bare terms.
+// Quoted phrases pass through untouched so users can still search literal
+// stopword-bearing phrases. Matches the client-side parseQuery filter.
+const STOPWORDS = new Set([
+  'a', 'an', 'and', 'or', 'but', 'is', 'are', 'was', 'were', 'be',
+  'in', 'on', 'at', 'of', 'to', 'for', 'with', 'by', 'as', 'that', 'this',
+  'these', 'those', 'it', 'its', 'the', 'i', 's',
+]);
+
+function isStopword(t) {
+  if (!t) return true;
+  if (t.length < 2) return true;
+  return STOPWORDS.has(t.toLowerCase());
+}
+
 export function parseQuery(q) {
   const include = [];
   const phrases = [];
@@ -33,8 +48,11 @@ export function parseQuery(q) {
 
   for (const tok of stripped.split(/\s+/)) {
     if (!tok) continue;
-    if (tok.startsWith('-') && tok.length > 1) exclude.push(tok.slice(1));
-    else include.push(tok);
+    if (tok.startsWith('-') && tok.length > 1) {
+      exclude.push(tok.slice(1));
+    } else if (!isStopword(tok)) {
+      include.push(tok);
+    }
   }
   return { include, phrases, exclude };
 }

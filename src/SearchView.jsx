@@ -226,8 +226,10 @@ export default function SearchView({
           </p>
         )}
 
+        {/* Hide stale results during a new search to avoid showing previous-
+            mode results while the new fetch is in flight. */}
         <div>
-          {visibleResults.map((p, i) => (
+          {!loading && visibleResults.map((p, i) => (
             <PassageCard key={p.id} passage={p} highlight={parsed.must} first={i === 0} />
           ))}
         </div>
