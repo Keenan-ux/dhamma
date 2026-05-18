@@ -10,6 +10,7 @@
 import { sql } from './db.js';
 import { aliasesFor } from './aliases.js';
 import { embedQuery } from './embed.js';
+import { stemForPrefix } from './paliStem.js';
 
 const RRF_K = 60;
 const FUSION_POOL = 200;
@@ -74,7 +75,14 @@ function termToTsquery(term, { prefix = false } = {}) {
   if (tokens.length === 0) return null;
   if (tokens.length === 1) {
     const t = tokens[0];
-    if (prefix && t.length >= PREFIX_MIN_LENGTH) return `${t}:*`;
+    if (prefix && t.length >= PREFIX_MIN_LENGTH) {
+      // Heuristic-stem the token first (e.g. sampajāno → sampajān) so the
+      // prefix match catches every Pali inflection (sampajāna, sampajāno,
+      // sampajānaṃ, sampajānassa, sampajānakārī…) regardless of which
+      // surface form the user typed.
+      const stem = stemForPrefix(t);
+      return `${stem}:*`;
+    }
     return t;
   }
   // Multi-token = phrase — keep adjacent-token semantics (no prefix on

@@ -58,6 +58,18 @@ export default function SearchView({
     });
   }, [result, shape, activeTraditions]);
 
+  // Highlight terms = user's positive query terms PLUS any aliases the
+  // server expanded the query into. Lets the visual highlight catch the
+  // cross-canon variants (sampajāna → sampajañña, samprajāna, 正知, etc.)
+  // that actually drove the FTS match.
+  const highlightTerms = useMemo(() => {
+    const set = new Set(parsed.must);
+    for (const e of result?.expanded || []) {
+      for (const a of e.aliases || []) set.add(a);
+    }
+    return Array.from(set);
+  }, [parsed.must, result]);
+
   useEffect(() => {
     const t = setTimeout(() => {
       if (parsed.must.length > 0) push(parsed.raw);
@@ -246,7 +258,7 @@ export default function SearchView({
             mode results while the new fetch is in flight. */}
         <div>
           {!loading && visibleResults.map((p, i) => (
-            <PassageCard key={p.id} passage={p} highlight={parsed.must} first={i === 0} />
+            <PassageCard key={p.id} passage={p} highlight={highlightTerms} first={i === 0} />
           ))}
         </div>
       </div>

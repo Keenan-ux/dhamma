@@ -50,16 +50,28 @@ export default function PassageCard({ passage, highlight, first }) {
 }
 
 function highlightTerm(text, terms) {
-  // Accepts a string or an array of strings. Highlights the first match for
-  // each term, in passage order. Pure text otherwise.
+  // Accepts a string or an array of strings. Highlights any token whose
+  // start matches one of the given terms — so highlighting "sampajāna"
+  // also marks "sampajāno", "sampajānassa", "sampajānakārī" etc. This
+  // mirrors the server's tsquery prefix-match logic (stem:*) so the
+  // visual highlight matches what actually scored the result.
+  //
+  // For multi-word phrases ("clear comprehension") we keep literal-only
+  // matching since the server treats them as positional phrases too.
   if (!terms || (Array.isArray(terms) && terms.length === 0)) return text;
   const list = Array.isArray(terms) ? terms : [terms];
-  const escaped = list.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-  if (!escaped) return text;
-  const re = new RegExp(`(${escaped})`, 'gi');
+  const patterns = list.map((t) => {
+    const esc = String(t).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (/\s/.test(t)) return esc;        // phrase — literal match only
+    if (esc.length < 3) return esc;       // very short — avoid noise
+    return `${esc}\\p{L}*`;                // prefix-match any Unicode-letter suffix
+  }).filter(Boolean);
+  if (patterns.length === 0) return text;
+  const re      = new RegExp(`(${patterns.join('|')})`, 'giu');
+  const isMatch = new RegExp(`^(?:${patterns.join('|')})$`, 'iu');
   const parts = text.split(re);
   return parts.map((p, i) =>
-    new RegExp(`^(?:${escaped})$`, 'i').test(p)
+    isMatch.test(p)
       ? <mark key={i} style={mark}>{p}</mark>
       : <span key={i}>{p}</span>
   );
