@@ -38,7 +38,8 @@ export default function DictionaryView({ initialTerm = '' }) {
   const matchedVia = result?.matched_via;
 
   return (
-    <div style={page}>
+    <div style={scroller}>
+      <div style={page}>
       <header style={pageHeader}>
         <h1 style={pageTitle}>Dictionary</h1>
         <p style={pageSubtitle}>
@@ -108,18 +109,19 @@ export default function DictionaryView({ initialTerm = '' }) {
           </>
         )}
       </div>
+      </div>
     </div>
   );
 }
 
 // ─────────────────────────── styles ───────────────────────────
 
+const scroller = { position: 'absolute', inset: 0, overflow: 'auto' };
+
 const page = {
   maxWidth: 880,
   margin: 0,
-  padding: '32px 32px 80px',
-  height: '100%',
-  overflowY: 'auto',
+  padding: '28px 28px 48px',
 };
 
 const pageHeader = {
