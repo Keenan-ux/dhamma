@@ -56,6 +56,17 @@ export default function BrowseView({
     return () => document.removeEventListener('keydown', onKey);
   }, [leafId, readingMode, setLeafId]);
 
+  // Entering via a shared #/read/<id> URL: derive the tree path from the
+  // leaf so clicking Back returns to the correct drill state instead of
+  // dropping the user at the top level.
+  useEffect(() => {
+    if (!leafId) return;
+    if (top.length === 0) return;
+    if (path.length > 0) return;
+    const derived = pathToLeaf(top, leafId);
+    if (derived) setPath(derived);
+  }, [leafId, top, path.length, setPath]);
+
   const crumb = pathNames(top, path);
 
   // Reading mode: hide breadcrumb / columns / pinned, just the selected

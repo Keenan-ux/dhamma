@@ -9,19 +9,58 @@ import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
 
-// Read tab + query + path + leaf + pin from the URL hash on first load
-// so refresh and "open this URL" both put the user back where they were.
+// Path-style hash routing. Keeps URLs short and human-readable.
+//
+// Shapes:
+//   (empty)                          → Browse home
+//   #/browse                         → Browse home
+//   #/browse/sutta/dn                → Browse expanded to pli-sutta › pli-dn
+//   #/read/dn1                       → Read passage dn1 (tree path derived)
+//   #/read/cst-s0101a.att-dn1_1      → Read CST commentary passage
+//   #/search/<term>                  → Search tab
+//   #/dict/<term>                    → Dictionary tab
+//   #/compare/<term>                 → Compare tab
+//
+// Work slugs drop the `pli-` prefix in URLs (subcommentary, an-tika, …)
+// since every live work is Pali. Stripped back in on parse.
+const WORK_PREFIX = 'pli-';
+
+function shortSlug(slug) {
+  return slug?.startsWith(WORK_PREFIX) ? slug.slice(WORK_PREFIX.length) : slug;
+}
+function longSlug(seg) {
+  return seg?.startsWith(WORK_PREFIX) ? seg : WORK_PREFIX + seg;
+}
+
 function parseInitialHash() {
   if (typeof window === 'undefined') return {};
-  const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-  return {
-    tab:        params.get('tab') || 'browse',
-    query:      params.get('q') ?? 'sampajāna',
-    searchMode: params.get('mode') || 'stem',
-    path:       params.get('path')?.split(',').filter(Boolean) || [],
-    leaf:       params.get('leaf') || null,
-    pin:        params.get('pin') || null,
-  };
+  const raw = window.location.hash.replace(/^#\/?/, '');
+  const segs = raw.split('/').map((s) => {
+    try { return decodeURIComponent(s); } catch { return s; }
+  }).filter(Boolean);
+  const out = { tab: 'browse', query: 'sampajāna', searchMode: 'stem', path: [], leaf: null, pin: null };
+  if (segs.length === 0) return out;
+  const head = segs[0];
+  const rest = segs.slice(1);
+  if (head === 'browse') {
+    out.path = rest.map(longSlug);
+  } else if (head === 'read') {
+    // /read/<passage-id>. Tree path is filled in by BrowseView once
+    // the corpus tree loads (pathToLeaf walks ancestors).
+    out.leaf = rest.join('/') || null;
+  } else if (head === 'search') {
+    out.tab = 'search';
+    out.query = rest.join('/') || '';
+  } else if (head === 'dict') {
+    out.tab = 'dictionary';
+    out.query = rest.join('/') || '';
+  } else if (head === 'compare') {
+    out.tab = 'compare';
+    out.query = rest.join('/') || '';
+  } else {
+    // Unknown — fall back to Browse home.
+  }
+  return out;
 }
 const INITIAL = parseInitialHash();
 
@@ -44,23 +83,25 @@ export default function Dhamma() {
   // restores the same view. replaceState rather than pushState so
   // typing in the search input doesn't fill the back-button history.
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (tab !== 'browse') params.set('tab', tab);
+    let hash = '';
+    const enc = (s) => encodeURIComponent(s).replace(/%20/g, '+');
     if (tab === 'browse') {
-      if (browsePath.length) params.set('path', browsePath.join(','));
-      if (browseLeafId) params.set('leaf', browseLeafId);
+      if (browseLeafId) {
+        hash = `/read/${enc(browseLeafId)}`;
+      } else if (browsePath.length > 0) {
+        hash = `/browse/${browsePath.map(shortSlug).map(enc).join('/')}`;
+      }
+      // else: empty hash for Browse home
     } else if (tab === 'search') {
-      if (query) params.set('q', query);
-      if (searchMode && searchMode !== 'stem') params.set('mode', searchMode);
-    } else if (tab === 'compare' || tab === 'dictionary') {
-      if (query) params.set('q', query);
+      hash = query ? `/search/${enc(query)}` : '/search';
+    } else if (tab === 'dictionary') {
+      hash = query ? `/dict/${enc(query)}` : '/dict';
+    } else if (tab === 'compare') {
+      hash = query ? `/compare/${enc(query)}` : '/compare';
     }
-    if (pinnedLeafId) params.set('pin', pinnedLeafId);
-
-    const hashStr = params.toString();
-    const target = hashStr ? `#${hashStr}` : window.location.pathname;
+    const target = hash ? `#${hash}` : window.location.pathname;
+    const next = hash ? `${window.location.pathname}#${hash}` : window.location.pathname;
     const current = `${window.location.pathname}${window.location.hash}`;
-    const next = hashStr ? `${window.location.pathname}#${hashStr}` : window.location.pathname;
     if (next !== current) {
       window.history.replaceState(null, '', target);
     }
