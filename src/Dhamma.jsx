@@ -9,20 +9,62 @@ import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
 
+// Read tab + query + path + leaf + pin from the URL hash on first load
+// so refresh and "open this URL" both put the user back where they were.
+function parseInitialHash() {
+  if (typeof window === 'undefined') return {};
+  const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  return {
+    tab:        params.get('tab') || 'browse',
+    query:      params.get('q') ?? 'sampajāna',
+    searchMode: params.get('mode') || 'stem',
+    path:       params.get('path')?.split(',').filter(Boolean) || [],
+    leaf:       params.get('leaf') || null,
+    pin:        params.get('pin') || null,
+  };
+}
+const INITIAL = parseInitialHash();
+
 export default function Dhamma() {
-  const [tab, setTab] = useState('browse');
-  const [query, setQuery] = useState('sampajāna');
+  const [tab, setTab] = useState(INITIAL.tab);
+  const [query, setQuery] = useState(INITIAL.query);
   const [activeTraditions, setActiveTraditions] = useState(() => new Set());
   // Default to Stem mode. Exact-token FTS over Pali rarely matches
   // because the canonical inflections (sampajāno, sampajānakārī, …) are
   // distinct tokens from the dictionary form (sampajāna). Stem mode adds
   // cross-canon alias expansion that's almost always what scholars want.
-  const [searchMode, setSearchMode] = useState('stem');
-  const [browsePath, setBrowsePath] = useState([]);
-  const [browseLeafId, setBrowseLeafId] = useState(null);
-  const [pinnedLeafId, setPinnedLeafId] = useState(null);
+  const [searchMode, setSearchMode] = useState(INITIAL.searchMode);
+  const [browsePath, setBrowsePath] = useState(INITIAL.path);
+  const [browseLeafId, setBrowseLeafId] = useState(INITIAL.leaf);
+  const [pinnedLeafId, setPinnedLeafId] = useState(INITIAL.pin);
   const [readingMode, setReadingMode] = useState(false);
   const isNarrow = useIsNarrow();
+
+  // Mirror enough state into the URL hash that refresh / shared link
+  // restores the same view. replaceState rather than pushState so
+  // typing in the search input doesn't fill the back-button history.
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (tab !== 'browse') params.set('tab', tab);
+    if (tab === 'browse') {
+      if (browsePath.length) params.set('path', browsePath.join(','));
+      if (browseLeafId) params.set('leaf', browseLeafId);
+    } else if (tab === 'search') {
+      if (query) params.set('q', query);
+      if (searchMode && searchMode !== 'stem') params.set('mode', searchMode);
+    } else if (tab === 'compare' || tab === 'dictionary') {
+      if (query) params.set('q', query);
+    }
+    if (pinnedLeafId) params.set('pin', pinnedLeafId);
+
+    const hashStr = params.toString();
+    const target = hashStr ? `#${hashStr}` : window.location.pathname;
+    const current = `${window.location.pathname}${window.location.hash}`;
+    const next = hashStr ? `${window.location.pathname}#${hashStr}` : window.location.pathname;
+    if (next !== current) {
+      window.history.replaceState(null, '', target);
+    }
+  }, [tab, query, searchMode, browsePath, browseLeafId, pinnedLeafId]);
 
   const { shape, error: corpusError } = useCorpus();
 
