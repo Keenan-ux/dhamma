@@ -3,6 +3,9 @@ import { pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
 import useCorpus from './useCorpus.js';
 import usePassage from './usePassage.js';
 import { lookupApi } from './api.js';
+import { prepareDppnHtml, groupEntriesBySource, SOURCE_LABEL } from './dictHtml.js';
+
+const DPPN_POPOVER_COLLAPSE_THRESHOLD = 400;
 
 export default function BrowseView({
   path, setPath,
@@ -518,7 +521,7 @@ function ReadingPanel({
           <span style={selDot}>·</span>
           <button onClick={doCopy} style={selBtn}>{copied ? 'Copied' : 'Copy'}</button>
           <span style={selDot}>·</span>
-          <button onClick={doLookup} style={selBtn} title="Look up in dictionary (DPD)">
+          <button onClick={doLookup} style={selBtn} title="Look up in dictionary (DPD + DPPN)">
             Dictionary
           </button>
         </div>
@@ -568,35 +571,66 @@ function LookupPanel({ lookup, onClose }) {
         {loading && <p style={lookupMeta}>Looking up…</p>}
         {error && <p style={lookupError}>Lookup failed: {error}</p>}
         {!loading && !error && entries && entries.length === 0 && (
-          <p style={lookupMeta}>No entry found for <strong>{term}</strong> in DPD.</p>
+          <p style={lookupMeta}>No entry found for <strong>{term}</strong>.</p>
         )}
-        {!loading && !error && entries && entries.map((e) => (
-          <article key={e.id} style={lookupEntry}>
-            <header style={lookupEntryHeader}>
-              <span style={lookupEntryLemma}>{e.lemma}</span>
-              {e.pos && <span style={lookupEntryPos}>{e.pos}</span>}
-            </header>
-            {e.grammar && <p style={lookupGrammar}>{e.grammar}</p>}
-            <p style={lookupDefinition}>{e.definition}</p>
-            {e.definition_lit && (
-              <p style={lookupLiteral}>lit. {e.definition_lit}</p>
-            )}
-            {e.definition_alt && e.definition_alt !== e.definition && (
-              <p style={lookupAlt}>also: {e.definition_alt}</p>
-            )}
-            <footer style={lookupFooter}>
-              {e.sanskrit && <span><em>Skt.</em> {e.sanskrit}</span>}
-              {e.root && <span> · <em>root</em> {e.root}</span>}
-              {e.construction && <span> · <em>cons.</em> {e.construction}</span>}
-            </footer>
-            {e.example && (
-              <blockquote style={lookupExample}>{e.example}</blockquote>
-            )}
-          </article>
+        {!loading && !error && entries && groupEntriesBySource(entries).map((g) => (
+          <section key={g.source} style={lookupGroup}>
+            <h3 style={lookupGroupHeader}>
+              {SOURCE_LABEL[g.source]?.name || g.source}
+            </h3>
+            {g.entries.map((e) => <LookupEntry key={e.id} entry={e} />)}
+          </section>
         ))}
       </div>
-      <div style={lookupSource}>DPD · Bodhirasa · CC-BY-NC-SA</div>
+      <div style={lookupSource}>DPD · Bodhirasa · CC-BY-NC-SA · DPPN · Malalasekera (rev. Ānandajoti 2025)</div>
     </div>
+  );
+}
+
+function LookupEntry({ entry: e }) {
+  const [expanded, setExpanded] = useState(false);
+  if (e.source === 'dppn') {
+    const long = (e.definition || '').length > DPPN_POPOVER_COLLAPSE_THRESHOLD;
+    return (
+      <article style={lookupEntry}>
+        <header style={lookupEntryHeader}>
+          <span style={lookupEntryLemma}>{e.source_id || e.lemma}</span>
+        </header>
+        <div
+          style={{ ...lookupDefinition, ...(long && !expanded ? lookupClampedDppn : null) }}
+          dangerouslySetInnerHTML={{ __html: prepareDppnHtml(e.definition) }}
+        />
+        {long && (
+          <button onClick={() => setExpanded((x) => !x)} style={lookupExpandBtn}>
+            {expanded ? 'Show less' : 'Show more'}
+          </button>
+        )}
+      </article>
+    );
+  }
+  return (
+    <article style={lookupEntry}>
+      <header style={lookupEntryHeader}>
+        <span style={lookupEntryLemma}>{e.lemma}</span>
+        {e.pos && <span style={lookupEntryPos}>{e.pos}</span>}
+      </header>
+      {e.grammar && <p style={lookupGrammar}>{e.grammar}</p>}
+      <p style={lookupDefinition}>{e.definition}</p>
+      {e.definition_lit && (
+        <p style={lookupLiteral}>lit. {e.definition_lit}</p>
+      )}
+      {e.definition_alt && e.definition_alt !== e.definition && (
+        <p style={lookupAlt}>also: {e.definition_alt}</p>
+      )}
+      <footer style={lookupFooter}>
+        {e.sanskrit && <span><em>Skt.</em> {e.sanskrit}</span>}
+        {e.root && <span> · <em>root</em> {e.root}</span>}
+        {e.construction && <span> · <em>cons.</em> {e.construction}</span>}
+      </footer>
+      {e.example && (
+        <blockquote style={lookupExample}>{e.example}</blockquote>
+      )}
+    </article>
   );
 }
 
@@ -727,6 +761,41 @@ const lookupSource = {
   textTransform: 'uppercase',
   color: 'var(--bc-text-tertiary)',
   textAlign: 'right',
+};
+
+const lookupGroup = {
+  marginBottom: 8,
+};
+
+const lookupGroupHeader = {
+  margin: '10px 0 4px',
+  padding: '0 0 3px',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+  fontSize: 10,
+  fontWeight: 400,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+const lookupClampedDppn = {
+  maxHeight: '8em',
+  overflow: 'hidden',
+  WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+  maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+};
+
+const lookupExpandBtn = {
+  marginTop: 4,
+  padding: '2px 0',
+  background: 'transparent',
+  border: 'none',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 11,
+  color: 'var(--bc-accent)',
+  cursor: 'pointer',
 };
 
 const lookupMeta = {

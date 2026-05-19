@@ -98,7 +98,7 @@ app.get('/api/lookup', async (c) => {
   try {
     const out = await runLookup({
       term:     c.req.query('term'),
-      source:   c.req.query('source') || 'dpd',
+      source:   c.req.query('source') || undefined,
       language: c.req.query('language') || 'pli',
     });
     return c.json(out);

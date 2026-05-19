@@ -5,8 +5,8 @@ have been agreed on, ordered by expected user-facing value:
 
 | # | Dictionary | Status | Why |
 |---|---|---|---|
-| 1 | **DPPN** — Pali Proper Names (Malalasekera, 1937) | **NEXT** | Fills DPD's biggest gap: people, places, suttas as proper names. |
-| 2 | PED — Pali-English Dictionary (Rhys Davids & Stede, 1921–25) | pending | Cross-reference against DPD on contested word meanings. |
+| 1 | **DPPN** — Pali Proper Names (Malalasekera, 1937; rev. Ānandajoti 2025) | **done** | Fills DPD's biggest gap: people, places, suttas as proper names. 13,603 entries live in prod. |
+| 2 | **PED** — Pali-English Dictionary (Rhys Davids & Stede, 1921–25) | **NEXT** | Cross-reference against DPD on contested word meanings. |
 | 3 | Monier-Williams Sanskrit-English | pending | Pali↔Sanskrit cognate cross-ref; preparation for Mahāyāna corpus. |
 | 4 | BHS — Buddhist Hybrid Sanskrit (Edgerton) | pending | Edge case; matters once Mahāyāna lands. |
 | 5 | CPD — Critical Pali Dictionary | pending | Scholarly gold standard but incomplete (alphabetical) and harder to extract. |
@@ -19,9 +19,12 @@ After each one ships, return to this file and flip its row.
 ## Starting state (as of this handoff)
 
 - Live at https://dhamma.fly.dev/ — 25,986 passages, 5,113 with English translations.
-- One dictionary integrated: **DPD** (Digital Pali Dictionary, Bodhirasa).
-  88,933 headwords + 727,678 inflection mappings, source='dpd'.
-- Verify the DB count:
+- Two dictionaries integrated:
+  - **DPD** (Digital Pali Dictionary, Bodhirasa) — 88,933 headwords +
+    727,678 inflection mappings. source='dpd'.
+  - **DPPN** (Dictionary of Pali Proper Names, Malalasekera 1937,
+    rev. Ānandajoti 2025) — 13,603 entries. source='dppn'.
+- Verify the DB counts:
   ```bash
   PYTHONIOENCODING=utf-8 DATABASE_URL="postgres://dhamma:PASS@localhost:15432/dhamma" \
     /c/Dev/Dhamma/scripts/ingest/.venv/Scripts/python.exe -c "
@@ -32,7 +35,13 @@ After each one ships, return to this file and flip its row.
     for r in cur.fetchall(): print(r)
     "
   ```
-  Expect: `('dpd', 88933)`.
+  Expect: `('dpd', 88933)` and `('dppn', 13603)`.
+
+  Or from prod via curl:
+  ```bash
+  curl -s "https://dhamma.fly.dev/api/lookup?term=S%C4%81riputta" | jq '.entries | group_by(.source) | map({source: .[0].source, n: length})'
+  ```
+  Expect `[{ "source": "dpd", "n": 1 }, { "source": "dppn", "n": 5 }]`.
 
 ---
 
@@ -94,106 +103,68 @@ No schema migration needed — `source='dppn'` is just a new value.
 
 ---
 
-## Task 1: DPPN ingest
+## Task 1: DPPN ingest — DONE
 
-### What DPPN is
+Shipped: 13,603 DPPN entries live in prod at https://dhamma.fly.dev/
+under `source='dppn'`. Lookup defaults to both DPD and DPPN; results
+group by source in DictionaryView and the in-passage LookupPanel.
 
-Malalasekera's **Dictionary of Pali Proper Names** (1937–38). Two
-volumes, ~7,000 entries covering every person, place, monastery,
-mountain, sutta, work, mythical being, and term-of-art referenced in
-the Pali Tipiṭaka and its commentaries. Each entry is a short
-biographical/contextual paragraph with references to source texts.
+What landed:
 
-Example entry shape (Sāriputta):
+- [scripts/ingest/ingest-dppn.mjs](scripts/ingest/ingest-dppn.mjs) —
+  pulls `DPPN.json` from ancient-buddhist-texts.net (the 2025
+  Ānandajoti revision), strips 38 alphabet-section dividers, extracts
+  the bare lemma from the first `<b>` in each entry's `name`, uses the
+  HTML-stripped `<span class="Head">` text as `source_id` (auto-numbered
+  on the 29 unnumbered duplicates), and stores `name + entry` as the
+  full HTML `definition`.
+- [server/src/dictionary.js](server/src/dictionary.js) — refactored
+  into a per-source `paliCascade(q, source, language)` that runs the
+  forward steps (headword → inflection (DPD only) → stem-prefix →
+  literal prefix → compound (DPD only)) independently for each source
+  and merges. This is what lets "Vesāli" hit DPD via inflection AND
+  DPPN's `Vesālī` via literal-prefix in the same response. The
+  english-reverse step queries each source with its own LIMIT so
+  DPPN's long biographies aren't crowded out by DPD's short defs.
+- [src/dictHtml.js](src/dictHtml.js) — sanitizer for DPPN's HTML
+  (allowlist of `<b>`, `<i>`, `<em>`, `<strong>`, `<abbr title=…>`,
+  `<p>`, `<span>` — strips all classes and other attrs via DOMParser
+  walk, not regex), plus a `prepareDppnHtml` that drops the
+  duplicate `<span class="Head">` prefix before sanitizing, and a
+  `groupEntriesBySource` helper.
+- [src/DictionaryView.jsx](src/DictionaryView.jsx) and
+  [src/BrowseView.jsx](src/BrowseView.jsx) (LookupPanel) — render
+  entries grouped by source with a small uppercase header per group.
+  DPPN entries longer than 600 chars (400 in the popover) collapse
+  with a gradient fade + "Show more" toggle.
 
-> A monk in the Buddha's time, the chief of the Buddha's disciples,
-> together with Mahā-Moggallāna. He was born in the brahmin village
-> of Upatissa (Nāḷaka), near Rājagaha, on the same day as Moggallāna…
-> [continues for ~2,000 words, with refs like (Vin.i.39, DA.i.13, …)]
+Smoke check (live):
 
-### Source options (pick one — try in order)
-
-1. **palikanon.com** — has DPPN as static HTML pages, one per entry.
-   Easy to scrape. Look at `https://www.palikanon.com/english/pali_names/`.
-2. **GitHub** — search for "dictionary-of-pali-proper-names" or "DPPN
-   data". As of recent years a few people have made structured (JSON,
-   markdown) versions. Check:
-   - https://github.com/digitalpalitools (the DPD org's other repos)
-   - https://github.com/suttacentral (their data sets sometimes include
-     auxiliary dictionaries)
-3. **ancient-buddhist-texts.net** — has DPPN entries, less structured.
-4. **archive.org** — has scans of the original PTS edition; OCR
-   quality varies.
-
-GitHub > palikanon.com > scrape. Structured beats unstructured.
-
-### Acceptance criteria for the ingest
-
-- All DPPN entries land in `dictionary_entries` with `source='dppn'`.
-- `lemma` = the entry's headword as DPPN gives it (proper case,
-  preserve diacritics: "Sāriputta", "Anāthapiṇḍika", "Vesāli").
-- `lemma_lower` = `lemma.toLowerCase()` (Postgres lower preserves
-  diacritics; matching uses lowercased form).
-- `headword_lower` = same as `lemma_lower` for DPPN (no inflection
-  variants to canonicalize).
-- `pos` = `'name'` for everyone.
-- `definition` = the entry's full body text. Can be long (sometimes a
-  few thousand chars). That's fine — TEXT column.
-- `source_id` = the entry's headword again (used as the UNIQUE key).
-- No inflection rows needed — DPPN entries don't decline (or rather,
-  the genitive "Sāriputtassa" is rare enough that we can skip).
-
-### Lookup-side wiring
-
-`runLookup` already iterates by `source` query param (defaults to
-'dpd'). We'll want the default to be **multi-source** so a user
-selecting "Sāriputta" gets DPPN entries even though source defaults
-to 'dpd'.
-
-Two options:
-
-(a) Change the default to look across all sources, ordered by source
-priority (`dppn` first for proper-name-shaped queries, `dpd` first
-otherwise — heuristic on Title Case + diacritic count).
-
-(b) Always query both, return both, let the UI display them grouped
-by source.
-
-**Pick (b)** — simpler, gives the reader both lexical and biographical
-context when relevant. Group in the UI by `source`.
-
-### UI changes (minimal)
-
-[src/DictionaryView.jsx](src/DictionaryView.jsx) and the in-passage
-`LookupPanel` in [src/BrowseView.jsx](src/BrowseView.jsx):
-
-- Group entries by `source`. Show DPPN entries in their own section
-  with a "PROPER NAMES · MALALASEKERA" header so users know what
-  they're reading.
-- DPPN definitions are long — collapse to ~200 chars by default with
-  a "show more" toggle. Or just render in full but with `max-height`
-  + scroll. Either is fine.
-
-### What "done" looks like
-
-Open a sutta passage that mentions a known person ("Anāthapiṇḍika" is
-in the standard opening). Select that word. The popover should show:
-1. (If DPD has anything) — DPD's grammatical entry, near the top.
-2. **A new section** — DPPN entry with the biographical text
-   ("Anāthapiṇḍika was a wealthy merchant of Sāvatthī …").
-
-Smoke check:
 ```bash
-curl -s "https://dhamma.fly.dev/api/lookup?term=An%C4%81thapi%E1%B9%87%E1%B8%8Dika" \
+curl -s "https://dhamma.fly.dev/api/lookup?term=S%C4%81riputta" \
   | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{
       const d = JSON.parse(s);
       const bySrc = {};
-      for (const e of d.entries) (bySrc[e.source] ||= []).push(e.lemma);
+      for (const e of d.entries) (bySrc[e.source] ||= []).push(e.source_id || e.lemma);
       console.log(bySrc);
     })"
 ```
 
-Expect entries from both `dpd` and `dppn`.
+Expect `{ dpd: [ 'sāriputta' ], dppn: [ 'Sāriputta 01. ...', ..., 'Sāriputta 05' ] }`.
+
+Known follow-ups (small, optional):
+
+- `looksEnglish` returns true for diacritic-free Pali words like
+  `buddha`, `dhamma`, `sutta`. They get sent to english-reverse first
+  even though the user usually wants the Pali headword. DPPN saves us
+  here (Buddha/Dhamma surface as proper-name entries in the DPPN
+  half), but we could prefer headword over english-reverse when the
+  headword exists exactly. Not blocking — log this for a future pass.
+- DPPN proper names that share a bare lemma with a Pali word but
+  differ in final vowel length (Tipiṭaka's `Vesāli` vs DPPN's `Vesālī`)
+  match only via the literal-prefix step today. A small "final-vowel
+  flex" pass at the headword step would catch these before falling
+  through. Again — optional.
 
 ---
 
@@ -208,21 +179,101 @@ Expect entries from both `dpd` and `dppn`.
 - **Bias toward forward motion.** After ingesting, write the smoke
   check, deploy, and tee up Task 2 (PED) in DICTIONARIES.md.
 
-## Working notes for the new session
+## Working notes (carry-over)
 
 - The flyctl proxy on :15432 may have died — restart with
   `flyctl proxy 15432:5432 --app dhamma-pg` if needed.
+- DB password lives in Fly secrets on the `dhamma` app
+  (`flyctl ssh console --app dhamma --command "printenv DATABASE_URL"`
+  after a wake-up curl).
 - `scripts/ingest/.venv/` has the Python environment with psycopg2 etc.
-- Ingest pattern reference: [scripts/ingest/ingest-dpd.mjs](scripts/ingest/ingest-dpd.mjs)
-  is the model — it ingests the existing DPD dataset. Pattern your
-  DPPN ingest after it (read source data → INSERT batches → progress
-  log). Should fit in a single new file like
-  `scripts/ingest/ingest-dppn.mjs`.
+- Ingest pattern reference now includes
+  [scripts/ingest/ingest-dpd.mjs](scripts/ingest/ingest-dpd.mjs) (TSV
+  source, has inflections) and
+  [scripts/ingest/ingest-dppn.mjs](scripts/ingest/ingest-dppn.mjs)
+  (JSON source, no inflections, HTML definitions). Pick whichever is
+  closer to the next source's shape.
 
-## After DPPN: queue for next sessions
+---
 
-- **Task 2 (PED)**: see [pali-english-dictionary](https://github.com/jakubkr/pali-english-dictionary)
-  or the Pali Text Society's original. Same schema, source='ped'.
+## Task 2: PED ingest
+
+PTS's **Pali-English Dictionary** (Rhys Davids & Stede, 1921–25). The
+canonical Western Pali lexicon for ~80 years until DPD. Useful as a
+cross-reference on contested word meanings — DPD's meanings sometimes
+modernize PTS's nineteenth-century glosses and a scholar will want to
+see both.
+
+### Source options
+
+1. **GitHub** — try in order:
+   - https://github.com/jakubkr/pali-english-dictionary (mentioned in
+     the previous handoff)
+   - search "PED pali english dictionary json" / "Rhys Davids Stede
+     pali dictionary"
+   - bitbucket / GitLab mirrors
+2. **archive.org** — original PTS scans, OCR available but quality
+   varies for diacritics. Last resort.
+3. **suttacentral** — they sometimes bundle PED alongside other
+   dictionaries; check their data repos.
+
+Same preference: structured > scrape.
+
+### Acceptance criteria
+
+- Rows land in `dictionary_entries` with `source='ped'`.
+- `lemma` preserves diacritics in lowercase Pali form (matches DPD
+  convention — DPD lemmas are lowercase: `sati`, `dhamma`,
+  `anāthapiṇḍika`).
+- `lemma_lower` = `lemma.toLowerCase()`.
+- `headword_lower` = same (PED doesn't decline either; same as DPPN
+  in that respect).
+- `pos`, `grammar`, `definition_lit`, `sanskrit`, etc. — populate
+  whatever the source data exposes; null is fine for the rest.
+- `definition` = the entry body. PED entries cite Sanskrit cognates
+  and PTS canonical references; keep those inline.
+- `source_id` = lemma + numeric disambiguator when PED itself
+  numbers senses (PED uses superscripts like `dhamma¹`, `dhamma²`).
+  Decompose to plain `dhamma 1`, `dhamma 2` for storage.
+
+### Lookup wiring
+
+The per-source cascade in [server/src/dictionary.js](server/src/dictionary.js)
+already takes `source = ANY(${sources})`. Add `'ped'` to the
+default-sources array. PED should follow the DPD cascade shape
+(headword → inflection if PED ships one → stem-prefix → literal prefix
+→ compound), not DPPN's shorter cascade.
+
+### UI wiring
+
+Add `ped` to `SOURCE_LABEL` in [src/dictHtml.js](src/dictHtml.js) with
+the academic citation form: `{ name: 'Pali-English Dictionary',
+short: 'PED', attribution: 'Rhys Davids & Stede, 1921–25' }`. The
+group rendering in DictionaryView/LookupPanel already loops over
+sources — adding the label is the only UI touch.
+
+If PED ships HTML markup (italic for Sanskrit cognates, bold for
+cross-references), reuse `sanitizeDictHtml` and add a render branch in
+the two entry components mirroring the DPPN path.
+
+### Smoke check (after deploy)
+
+```bash
+curl -s "https://dhamma.fly.dev/api/lookup?term=dhamma" \
+  | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{
+      const d = JSON.parse(s);
+      const bySrc = {};
+      for (const e of d.entries) (bySrc[e.source] ||= []).push(e.source_id || e.lemma);
+      console.log(bySrc);
+    })"
+```
+
+Expect entries from `dpd`, `dppn`, AND `ped`.
+
+---
+
+## After PED: queue for next sessions
+
 - **Task 3 (Monier-Williams)**: there are clean JSON dumps on GitHub
   (search "monier-williams sanskrit-english json"). source='mw'.
   Will need `language='san'` in some rows since MW is Sanskrit not Pali.
