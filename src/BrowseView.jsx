@@ -53,7 +53,8 @@ export default function BrowseView({
     const el = columnsScrollRef.current;
     if (!el) return;
     requestAnimationFrame(() => {
-      el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' });
+      // Bring the newest column into view as it slides in from above.
+      el.scrollIntoView?.({ block: 'end', behavior: 'smooth' });
     });
   }, [columns.length]);
 
@@ -173,7 +174,7 @@ export default function BrowseView({
                           )}
                         </span>
                         {!isStub && !isLeaf && (
-                          <span style={chev} aria-hidden="true">›</span>
+                          <span style={chev} aria-hidden="true">⌄</span>
                         )}
                         {isLeaf && (
                           <span style={leafDot} aria-hidden="true">•</span>
@@ -712,34 +713,31 @@ const crumbLink = {
 const crumbSep = { color: 'var(--bc-text-tertiary)', opacity: 0.5 };
 
 const columnsScroll = {
-  overflowX: 'auto',
   scrollBehavior: 'smooth',
   borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
-  maskImage: 'linear-gradient(to right, black, black calc(100% - 24px), transparent)',
-  WebkitMaskImage: 'linear-gradient(to right, black, black calc(100% - 24px), transparent)',
 };
 
+// Each drill-down level slides in from above as a new section beneath
+// the previous one — keeps the prior choices visible above for context.
 const columnAnimCss = `
   @keyframes dhammaColSlide {
-    from { opacity: 0; transform: translateX(-8px); }
-    to   { opacity: 1; transform: translateX(0); }
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
   .dhamma-col-new {
     animation: dhammaColSlide 220ms ease-out;
   }
 `;
 
-const columnsRow = { display: 'flex', minHeight: 280, maxHeight: 420 };
+const columnsRow = { display: 'flex', flexDirection: 'column' };
 
 const column = {
-  minWidth: 240,
-  maxWidth: 280,
+  width: '100%',
   display: 'flex',
   flexDirection: 'column',
-  borderRight: '1px solid rgba(var(--bc-accent-rgb), 0.10)',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.10)',
   padding: '8px 0',
-  overflowY: 'auto',
 };
 
 const row = {
@@ -768,7 +766,7 @@ const rowSubtitle = {
   lineHeight: 1.3,
 };
 
-const chev = { color: 'var(--bc-text-tertiary)', fontSize: 16, marginTop: 1, flexShrink: 0 };
+const chev = { color: 'var(--bc-text-tertiary)', fontSize: 14, marginTop: 1, flexShrink: 0 };
 const leafDot = { color: 'var(--bc-accent)', fontSize: 18, lineHeight: 1, marginTop: 4, flexShrink: 0 };
 
 const hintRow = { padding: '24px 0' };
