@@ -47,6 +47,15 @@ export default function BrowseView({
     }
   }
 
+  // Esc anywhere in Browse with a leaf selected → return to the tree.
+  // Tree state (path) is preserved so the drill-down is intact.
+  useEffect(() => {
+    if (!leafId || readingMode) return;
+    function onKey(e) { if (e.key === 'Escape') setLeafId(null); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [leafId, readingMode, setLeafId]);
+
   const crumb = pathNames(top, path);
 
   // Reading mode: hide breadcrumb / columns / pinned, just the selected
@@ -113,70 +122,86 @@ export default function BrowseView({
           </section>
         )}
 
-        {crumb.length > 0 && (
-          <nav style={breadcrumb}>
-            <BreadcrumbLink onClick={() => { setPath([]); setLeafId(null); }}>Canon</BreadcrumbLink>
-            {crumb.map((name, i) => (
-              <span key={i} style={{ display: 'contents' }}>
-                <span style={crumbSep}>›</span>
-                <BreadcrumbLink onClick={() => { setPath(path.slice(0, i + 1)); setLeafId(null); }}>
-                  {name}
-                </BreadcrumbLink>
-              </span>
-            ))}
-          </nav>
-        )}
+        {leafId ? (
+          /* Leaf selected — replace the tree viewport with the passage.
+             Path state is preserved so "Back" returns to the exact drill
+             position. Pinned panel still shows above (unless it's the
+             same passage we're reading). */
+          <>
+            <button
+              onClick={() => setLeafId(null)}
+              style={backBtn}
+              aria-label="Back to canon (Esc)"
+            >
+              <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+              <span>Back to canon</span>
+              <span style={backBtnHint}>Esc</span>
+            </button>
 
-        <div style={columnsScroll} ref={columnsScrollRef}>
-          <style>{columnAnimCss}</style>
-          <TreeLevel
-            items={top}
-            depth={0}
-            path={path}
-            leafId={leafId}
-            onSelect={selectAt}
-          />
-        </div>
+            {selectedLoading && <p style={hint}>Loading passage…</p>}
+            {!selectedLoading && selectedPassage && (
+              <ReadingPanel
+                passage={selectedPassage}
+                tree={tree}
+                workBySlug={shape?.workBySlug}
+                leafId={leafId}
+                pinnedLeafId={pinnedLeafId}
+                setPinnedLeafId={setPinnedLeafId}
+                readingMode={readingMode}
+                setReadingMode={setReadingMode}
+                onNavigate={(id) => {
+                  const newPath = pathToLeaf(top, id);
+                  if (newPath) setPath(newPath);
+                  setLeafId(id);
+                }}
+                onSearchTerm={onSearchTerm}
+                onCompareTerm={onCompareTerm}
+              />
+            )}
+          </>
+        ) : (
+          /* No leaf — show the tree drill-down. */
+          <>
+            {crumb.length > 0 && (
+              <nav style={breadcrumb}>
+                <BreadcrumbLink onClick={() => { setPath([]); setLeafId(null); }}>Canon</BreadcrumbLink>
+                {crumb.map((name, i) => (
+                  <span key={i} style={{ display: 'contents' }}>
+                    <span style={crumbSep}>›</span>
+                    <BreadcrumbLink onClick={() => { setPath(path.slice(0, i + 1)); setLeafId(null); }}>
+                      {name}
+                    </BreadcrumbLink>
+                  </span>
+                ))}
+              </nav>
+            )}
 
-        {selectedLoading && (
-          <div style={hintRow}>
-            <p style={hint}>Loading passage…</p>
-          </div>
-        )}
+            <div style={columnsScroll} ref={columnsScrollRef}>
+              <style>{columnAnimCss}</style>
+              <TreeLevel
+                items={top}
+                depth={0}
+                path={path}
+                leafId={leafId}
+                onSelect={selectAt}
+              />
+            </div>
 
-        {!selectedLoading && selectedPassage && (
-          <ReadingPanel
-            passage={selectedPassage}
-            tree={tree}
-            workBySlug={shape?.workBySlug}
-            leafId={leafId}
-            pinnedLeafId={pinnedLeafId}
-            setPinnedLeafId={setPinnedLeafId}
-            readingMode={readingMode}
-            setReadingMode={setReadingMode}
-            onNavigate={(id) => {
-              const newPath = pathToLeaf(top, id);
-              if (newPath) setPath(newPath);
-              setLeafId(id);
-            }}
-            onSearchTerm={onSearchTerm}
-            onCompareTerm={onCompareTerm}
-          />
-        )}
+            {!corpusLoading && top.length > 0 && (
+              <div style={hintRow}>
+                <p style={hint}>
+                  Click a heading to expand, click a leaf{' '}
+                  <span style={{ color: 'var(--bc-accent)' }}>•</span> to open the passage.
+                </p>
+              </div>
+            )}
 
-        {!selectedLoading && !selectedPassage && !leafId && !corpusLoading && (
-          <div style={hintRow}>
-            <p style={hint}>
-              Click through the columns to drill into the canon. Select a leaf{' '}
-              <span style={{ color: 'var(--bc-accent)' }}>•</span> to open its passage below.
-            </p>
-          </div>
-        )}
-
-        {corpusLoading && tree.length === 0 && (
-          <div style={hintRow}>
-            <p style={hint}>Loading corpus…</p>
-          </div>
+            {corpusLoading && top.length === 0 && (
+              <div style={hintRow}>
+                <p style={hint}>Loading corpus…</p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
@@ -723,6 +748,31 @@ const columnsScroll = {
   scrollBehavior: 'smooth',
   borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+};
+
+const backBtn = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--bc-text-tertiary)',
+  fontSize: 13,
+  letterSpacing: '0.02em',
+  cursor: 'pointer',
+  padding: '6px 0',
+  marginBottom: 10,
+  fontFamily: 'inherit',
+};
+
+const backBtnHint = {
+  fontSize: 10,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+  borderRadius: 4,
+  padding: '2px 6px',
 };
 
 // Each nested level indents and gets a faint vertical guide on its
