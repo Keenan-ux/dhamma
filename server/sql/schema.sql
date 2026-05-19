@@ -50,6 +50,19 @@ CREATE INDEX IF NOT EXISTS idx_passages_fts        ON passages USING GIN(fts_doc
 -- Vector index uses ivfflat; built lazily after first ingest pass.
 -- ivfflat requires data to build a good index, so we don't create it here.
 
+-- Tier C (CST/VRI commentary ingest) support. SuttaCentral mūla and CST
+-- mūla coexist as parallel editions; passages on the same canonical text
+-- can come from either source. work_role distinguishes canonical text
+-- (mula) from commentary (attha), sub-commentary (tika), or supplementary
+-- (anya) within a single work hierarchy. xml_div_id preserves the CST
+-- TEI <div id="..."> for round-trip reference.
+ALTER TABLE passages ADD COLUMN IF NOT EXISTS source_edition TEXT;  -- 'sc' | 'cst'
+ALTER TABLE passages ADD COLUMN IF NOT EXISTS xml_div_id    TEXT;
+ALTER TABLE passages ADD COLUMN IF NOT EXISTS work_role     TEXT;   -- 'mula' | 'attha' | 'tika' | 'anya'
+UPDATE passages SET source_edition = 'sc' WHERE source_edition IS NULL;
+CREATE INDEX IF NOT EXISTS idx_passages_edition ON passages(source_edition);
+CREATE INDEX IF NOT EXISTS idx_passages_role    ON passages(work_role);
+
 CREATE TABLE IF NOT EXISTS aliases (
   id          SERIAL PRIMARY KEY,
   term        TEXT NOT NULL UNIQUE,

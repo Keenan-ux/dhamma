@@ -1,2 +1,7 @@
 .cache/
 node_modules/
+
+# Generated extract artifacts and ingest stderr logs (large, regenerable)
+*.jsonl
+*.err
+*.log
