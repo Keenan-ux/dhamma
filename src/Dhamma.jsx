@@ -5,6 +5,7 @@ import Sidebar from './Sidebar.jsx';
 import SearchView from './SearchView.jsx';
 import CompareView from './CompareView.jsx';
 import BrowseView from './BrowseView.jsx';
+import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
 
@@ -71,10 +72,14 @@ export default function Dhamma() {
             activeTraditions={activeTraditions}
             toggleTradition={toggleTradition}
             traditions={shape?.traditions || []}
+            tab={tab}
+            setTab={setTab}
           />
         )}
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
-          {!readingMode && <TabBar active={tab} onChange={setTab} />}
+          {/* Primary navigation lives in the sidebar on wide; TabBar is the
+              narrow-viewport fallback when the sidebar collapses. */}
+          {!readingMode && isNarrow && <TabBar active={tab} onChange={setTab} />}
           <main style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden' }}>
             {corpusError && (
               <div style={errorBanner}>
@@ -108,6 +113,9 @@ export default function Dhamma() {
             )}
             {tab === 'compare' && (
               <CompareView term={query} activeTraditions={activeTraditions} />
+            )}
+            {tab === 'dictionary' && (
+              <DictionaryView initialTerm={query} />
             )}
           </main>
         </div>
