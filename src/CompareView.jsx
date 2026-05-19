@@ -195,7 +195,7 @@ function Section({ title, subtitle, children }) {
   );
 }
 
-const wrap = { maxWidth: 1100, margin: '0 auto', padding: '28px 28px 48px' };
+const wrap = { maxWidth: 1100, margin: 0, padding: '28px 28px 48px' };
 
 const h1 = {
   margin: 0,

@@ -116,7 +116,7 @@ export default function DictionaryView({ initialTerm = '' }) {
 
 const page = {
   maxWidth: 880,
-  margin: '0 auto',
+  margin: 0,
   padding: '32px 32px 80px',
   height: '100%',
   overflowY: 'auto',
