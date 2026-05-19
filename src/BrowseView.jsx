@@ -3,9 +3,11 @@ import { pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
 import useCorpus from './useCorpus.js';
 import usePassage from './usePassage.js';
 import { lookupApi } from './api.js';
-import { prepareDppnHtml, groupEntriesBySource, SOURCE_LABEL } from './dictHtml.js';
+import { prepareDppnHtml, preparePedHtml, groupEntriesBySource, SOURCE_LABEL } from './dictHtml.js';
 
-const DPPN_POPOVER_COLLAPSE_THRESHOLD = 400;
+const HTML_POPOVER_COLLAPSE_THRESHOLD = 400;
+
+const HTML_PREPARERS = { dppn: prepareDppnHtml, ped: preparePedHtml };
 
 export default function BrowseView({
   path, setPath,
@@ -521,7 +523,7 @@ function ReadingPanel({
           <span style={selDot}>·</span>
           <button onClick={doCopy} style={selBtn}>{copied ? 'Copied' : 'Copy'}</button>
           <span style={selDot}>·</span>
-          <button onClick={doLookup} style={selBtn} title="Look up in dictionary (DPD + DPPN)">
+          <button onClick={doLookup} style={selBtn} title="Look up in dictionary (DPD + DPPN + PED)">
             Dictionary
           </button>
         </div>
@@ -582,15 +584,16 @@ function LookupPanel({ lookup, onClose }) {
           </section>
         ))}
       </div>
-      <div style={lookupSource}>DPD · Bodhirasa · CC-BY-NC-SA · DPPN · Malalasekera (rev. Ānandajoti 2025)</div>
+      <div style={lookupSource}>DPD · DPPN · PED — see Dictionary page for full attribution</div>
     </div>
   );
 }
 
 function LookupEntry({ entry: e }) {
   const [expanded, setExpanded] = useState(false);
-  if (e.source === 'dppn') {
-    const long = (e.definition || '').length > DPPN_POPOVER_COLLAPSE_THRESHOLD;
+  const prepare = HTML_PREPARERS[e.source];
+  if (prepare) {
+    const long = (e.definition || '').length > HTML_POPOVER_COLLAPSE_THRESHOLD;
     return (
       <article style={lookupEntry}>
         <header style={lookupEntryHeader}>
@@ -598,7 +601,7 @@ function LookupEntry({ entry: e }) {
         </header>
         <div
           style={{ ...lookupDefinition, ...(long && !expanded ? lookupClampedDppn : null) }}
-          dangerouslySetInnerHTML={{ __html: prepareDppnHtml(e.definition) }}
+          dangerouslySetInnerHTML={{ __html: prepare(e.definition) }}
         />
         {long && (
           <button onClick={() => setExpanded((x) => !x)} style={lookupExpandBtn}>

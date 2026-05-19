@@ -1,11 +1,16 @@
 // /api/lookup execution. Resolves a surface-form term (the user's
 // selection in PassageCard) to dictionary entries.
 //
-// By default cascades across both 'dpd' (Digital Pali Dictionary —
-// lexical) and 'dppn' (Dictionary of Pali Proper Names by
-// Malalasekera, rev. Ānandajoti 2025 — biographical) so a single click
-// on "Anāthapiṇḍika" returns DPD's lemma entry alongside DPPN's
-// biography. Pass source='dpd' (or 'dppn') explicitly to restrict.
+// By default cascades across three sources:
+//   - 'dpd'  — Digital Pali Dictionary (lexical, with inflections)
+//   - 'dppn' — Dictionary of Pali Proper Names, Malalasekera 1937
+//     rev. Ānandajoti 2025 (biographical)
+//   - 'ped'  — PTS Pali-English Dictionary, Rhys Davids & Stede 1921-25
+//     (the canonical Western lexicon — cross-reference against DPD on
+//     contested word meanings)
+// so a single click on "Anāthapiṇḍika" returns DPD's lemma, DPPN's
+// biography, and PED's lexical entry side-by-side. Pass source='X'
+// (string or comma-list) to restrict.
 //
 // The cascade runs per source in parallel; each source independently
 // looks for: headword exact → inflection (DPD only) → stem-prefix →
@@ -62,26 +67,17 @@ function projectEntry(e) {
   };
 }
 
-// Per-source forward (Pali → English) cascade. Returns the first
-// non-empty hit set plus the step that produced it; empty if nothing
-// matched. Each source runs this independently so a query that hits
-// DPD via inflection still gets a chance to hit DPPN via prefix.
-async function paliCascade(q, source, language) {
-  // 1) Direct headword/lemma match. headword_lower is the bare canonical
-  //    form (sampajāna, nibbāna, sāriputta); lemma_lower is DPD's
-  //    citation form which for neuter nouns is inflected (nibbānaṃ).
-  //    Match either to be lenient on whichever form the user typed.
-  let entries = await sql`
-    SELECT ${ENTRY_FIELDS}
-    FROM dictionary_entries
-    WHERE (headword_lower = ${q} OR lemma_lower = ${q})
-      AND source = ${source} AND language = ${language}
-    ORDER BY source_id
-    LIMIT ${MAX_PER_SOURCE}
-  `;
-  if (entries.length) return { entries, matched_via: 'headword' };
+// Per-source fallback cascade. Headword/lemma exact match runs at the
+// runLookup level across all sources (step 0) so it can short-circuit
+// the english-reverse path when a Pali word was typed without
+// diacritics. This per-source cascade picks up where step 0 left off:
+// inflection → stem-prefix → literal prefix → compound. Each source
+// runs independently so a query that hits DPD via inflection still
+// gets a chance to hit DPPN via prefix.
+async function paliCascadeFallback(q, source, language) {
+  let entries;
 
-  // 2) Inflection lookup — DPD-specific (DPPN proper names don't decline).
+  // 1) Inflection lookup — DPD-specific (DPPN/PED don't decline).
   if (source === 'dpd') {
     entries = await sql`
       SELECT DISTINCT ON (de.id)
@@ -98,7 +94,7 @@ async function paliCascade(q, source, language) {
     if (entries.length) return { entries, matched_via: 'inflection' };
   }
 
-  // 3) Pali-stem-then-prefix fallback. DPD's TSV inflection table only
+  // 2) Pali-stem-then-prefix fallback. DPD's TSV inflection table only
   //    includes forms with enclitic particles (sampajānoti, sampajānova).
   //    A user-typed bare inflection (sampajāno) won't match exactly, but
   //    its heuristic stem (sampajān) is a prefix of the headword sampajāna.
@@ -117,7 +113,7 @@ async function paliCascade(q, source, language) {
     }
   }
 
-  // 4) Literal prefix on user input — catches partial typing and final-vowel
+  // 3) Literal prefix on user input — catches partial typing and final-vowel
   //    differences. Crucial for DPPN where the user typing "Vesāli" should
   //    find the entry "Vesālī" (long ī).
   if (q.length >= 3) {
@@ -132,12 +128,12 @@ async function paliCascade(q, source, language) {
     if (entries.length) return { entries, matched_via: 'prefix' };
   }
 
-  // 5) Compound-decomposition — DPD-only. Many Pali words are productive
+  // 4) Compound-decomposition — DPD-only. Many Pali words are productive
   //    compounds (maggādhipati = magga + adhipati, with vowel sandhi) that
   //    DPD doesn't catalog directly. Scan for DPD headwords that appear as
   //    substrings of the user's input, expanded for common sandhi (long
-  //    vowels ↔ short pairs). Skipped for DPPN to avoid surfacing every
-  //    short proper name that happens to be a substring of a compound.
+  //    vowels ↔ short pairs). Skipped for DPPN/PED to avoid surfacing
+  //    every short proper name that happens to be a substring of a compound.
   if (source === 'dpd' && q.length >= 5) {
     const variants = new Set([q]);
     if (q.includes('ā')) variants.add(q.replace(/ā/g, 'aa'));
@@ -176,18 +172,43 @@ export async function runLookup({ term, source, language = 'pli' }) {
   const q = normalize(raw);
   if (!q) return { term: raw, entries: [], took_ms: 0 };
 
-  // Default to both lexical (dpd) and proper-name (dppn) sources.
+  // Default to lexical (dpd) + proper-name (dppn) + PTS lexicon (ped).
   const sources = !source
-    ? ['dpd', 'dppn']
+    ? ['dpd', 'dppn', 'ped']
     : Array.isArray(source) ? source
     : String(source).includes(',') ? String(source).split(',').map((s) => s.trim()).filter(Boolean)
     : [String(source)];
 
-  // English → Pali reverse lookup. Short-circuits ahead of the Pali
-  // forward path because the compound-substring fallback would match
-  // chance Pali fragments inside English words. Queries each source
-  // separately so DPPN's long biographies aren't crowded out by DPD's
-  // shorter lemma defs under a single ORDER BY LENGTH.
+  // Step 0 — exact headword/lemma match across ALL sources. Pulled out
+  // of the per-source cascade so it can short-circuit english-reverse
+  // when a Pali word was typed without diacritics (sati, dhamma,
+  // buddha). Without this, looksEnglish() would treat those as English
+  // and miss the canonical DPD lemma whose definition body doesn't
+  // happen to contain the Pali word as English prose.
+  const headwordPerSource = await Promise.all(sources.map((s) => sql`
+    SELECT ${ENTRY_FIELDS}
+    FROM dictionary_entries
+    WHERE (headword_lower = ${q} OR lemma_lower = ${q})
+      AND source = ${s} AND language = ${language}
+    ORDER BY source_id
+    LIMIT ${MAX_PER_SOURCE}
+  `));
+  const headwordEntries = headwordPerSource.flat();
+  if (headwordEntries.length > 0) {
+    return {
+      term: raw,
+      normalized: q,
+      matched_via: 'headword',
+      entries: headwordEntries.map(projectEntry),
+      took_ms: Date.now() - t0,
+    };
+  }
+
+  // Step 1 — English → Pali reverse lookup. Only reached when step 0
+  // found nothing exact, so we know the term isn't a known headword in
+  // any source. Per-source LIMITs keep DPPN biographies from being
+  // crowded out by DPD's shorter lemma defs under a single ORDER BY
+  // LENGTH.
   if (looksEnglish(q) && q.length >= 3) {
     const perSource = await Promise.all(sources.map((s) => sql`
       SELECT ${ENTRY_FIELDS}
@@ -209,11 +230,12 @@ export async function runLookup({ term, source, language = 'pli' }) {
         took_ms: Date.now() - t0,
       };
     }
-    // Fall through to Pali path: term might be an un-diacritic'd Pali word.
+    // Fall through to Pali fallback cascade.
   }
 
-  // Pali forward cascade — run per source in parallel and merge results.
-  const results = await Promise.all(sources.map((s) => paliCascade(q, s, language)));
+  // Step 2 — per-source fallback cascade (inflection, stem-prefix,
+  // literal prefix, compound). Headword already tried in step 0.
+  const results = await Promise.all(sources.map((s) => paliCascadeFallback(q, s, language)));
   const entries = results.flatMap((r) => r.entries);
 
   // Top-level matched_via: pick the strongest of the per-source results.

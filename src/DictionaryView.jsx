@@ -1,17 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { lookupApi } from './api.js';
-import { prepareDppnHtml, groupEntriesBySource, SOURCE_LABEL } from './dictHtml.js';
+import { prepareDppnHtml, preparePedHtml, groupEntriesBySource, SOURCE_LABEL } from './dictHtml.js';
 
-// Threshold above which a DPPN biography is collapsed to a preview with
-// a "Show more" toggle. ~600 chars renders as roughly 4-5 lines of body
-// text — long enough to need collapsing, short enough that the user can
-// read a one-paragraph entry without clicking through.
-const DPPN_COLLAPSE_THRESHOLD = 600;
+// Threshold above which an HTML-source entry (DPPN biography, PED
+// long lexicon entry) is collapsed to a preview with a "Show more"
+// toggle. ~600 chars renders as roughly 4-5 lines of body text — long
+// enough to need collapsing, short enough that the user can read a
+// one-paragraph entry without clicking through.
+const HTML_COLLAPSE_THRESHOLD = 600;
+
+const HTML_PREPARERS = { dppn: prepareDppnHtml, ped: preparePedHtml };
 
 function DictEntry({ entry: e }) {
   const [expanded, setExpanded] = useState(false);
-  if (e.source === 'dppn') {
-    const long = (e.definition || '').length > DPPN_COLLAPSE_THRESHOLD;
+  const prepare = HTML_PREPARERS[e.source];
+  if (prepare) {
+    const long = (e.definition || '').length > HTML_COLLAPSE_THRESHOLD;
     return (
       <article style={entry}>
         <header style={entryHeader}>
@@ -19,7 +23,7 @@ function DictEntry({ entry: e }) {
         </header>
         <div
           style={{ ...entryDefinition, ...(long && !expanded ? entryClampedDppn : entryHtmlDppn) }}
-          dangerouslySetInnerHTML={{ __html: prepareDppnHtml(e.definition) }}
+          dangerouslySetInnerHTML={{ __html: prepare(e.definition) }}
         />
         {long && (
           <button onClick={() => setExpanded((x) => !x)} style={expandBtn}>
@@ -97,9 +101,11 @@ export default function DictionaryView({ initialTerm = '' }) {
       <header style={pageHeader}>
         <h1 style={pageTitle}>Dictionary</h1>
         <p style={pageSubtitle}>
-          Pali → English. <em>Digital Pali Dictionary</em> (Bodhirasa, CC-BY-NC-SA) —
-          88,933 headwords, 727,678 inflection mappings · <em>Dictionary of Pali
-          Proper Names</em> (Malalasekera, rev. Ānandajoti 2025) — 13,603 entries.
+          Pali → English. <em>Digital Pali Dictionary</em> (Bodhirasa, CC-BY-NC-SA)
+          — 88,933 headwords, 727,678 inflection mappings · <em>Dictionary of Pali
+          Proper Names</em> (Malalasekera, rev. Ānandajoti 2025) — 13,603 entries ·
+          <em> Pali-English Dictionary</em> (Rhys Davids &amp; Stede, 1921–25,
+          CC BY-NC 3.0) — 15,702 entries.
         </p>
       </header>
 

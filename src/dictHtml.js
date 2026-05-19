@@ -5,7 +5,7 @@
 // (the source paragraph from Malalasekera with <b>, <i>, <abbr title=>
 // markup preserved) — those go through `sanitizeDictHtml` first.
 
-const ALLOWED_TAGS = new Set(['b', 'i', 'em', 'strong', 'abbr', 'p', 'br', 'hr', 'span']);
+const ALLOWED_TAGS = new Set(['b', 'i', 'em', 'strong', 'abbr', 'p', 'br', 'hr', 'span', 'sup', 'sub']);
 
 // Strip everything except a small set of inline-typography tags. For
 // <abbr> keep the `title` attribute (DPPN uses it for citation tooltips
@@ -60,8 +60,18 @@ export function prepareDppnHtml(html) {
   return sanitizeDictHtml(withoutHead);
 }
 
+// PED entries are HTML from the Buddhadust digitization — uses <b> for
+// the lemma + sense superscripts, <i> for foreign words and emphasis,
+// <sup> for sense numbers, <hr> between major sections in long entries.
+// The lemma appears bolded at the start of the body; we don't strip it
+// because PED definitions read naturally beginning with the bold word.
+export function preparePedHtml(html) {
+  return sanitizeDictHtml(html);
+}
+
 // Pretty section labels for UI headers.
 export const SOURCE_LABEL = {
-  dpd:  { name: 'Digital Pali Dictionary', short: 'DPD',  attribution: 'Bodhirasa · CC-BY-NC-SA' },
+  dpd:  { name: 'Digital Pali Dictionary',     short: 'DPD',  attribution: 'Bodhirasa · CC-BY-NC-SA' },
   dppn: { name: 'Proper Names · Malalasekera', short: 'DPPN', attribution: 'rev. Ānandajoti 2025' },
+  ped:  { name: 'Pali-English Dictionary',     short: 'PED',  attribution: 'Rhys Davids & Stede · 1921-25 · CC BY-NC 3.0' },
 };
