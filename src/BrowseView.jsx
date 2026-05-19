@@ -20,10 +20,19 @@ export default function BrowseView({
   const { data: selectedPassage, loading: selectedLoading } = usePassage(leafId);
   const { data: pinnedPassage } = usePassage(pinnedLeafId);
 
+  // Skip the tradition level entirely — only Theravāda is live, and
+  // Mahāyāna/Zen are hidden from the UI until they have passages. All
+  // tree traversal in this view (columns, breadcrumb, pathToLeaf for
+  // adjacent nav) walks from Theravāda's children as the effective root.
+  const top = useMemo(() => {
+    const trad = tree.find((t) => t.id === 'theravada');
+    return trad?.children || [];
+  }, [tree]);
+
   const columns = useMemo(() => {
-    if (tree.length === 0) return [];
-    const out = [tree];
-    let level = tree;
+    if (top.length === 0) return [];
+    const out = [top];
+    let level = top;
     for (const id of path) {
       const node = level.find((n) => n.id === id);
       if (!node) break;
@@ -35,7 +44,7 @@ export default function BrowseView({
       }
     }
     return out;
-  }, [path, tree]);
+  }, [path, top]);
 
   function selectAt(columnIndex, node) {
     if (node.stub) return; // can't drill into stubs
@@ -50,15 +59,20 @@ export default function BrowseView({
   }
 
   useEffect(() => {
-    const el = columnsScrollRef.current;
-    if (!el) return;
+    if (columns.length <= 1) return;
+    const root = columnsScrollRef.current;
+    if (!root) return;
     requestAnimationFrame(() => {
-      // Bring the newest column into view as it slides in from above.
-      el.scrollIntoView?.({ block: 'end', behavior: 'smooth' });
+      // Find the newest column (just added below) and bring it minimally
+      // into view. `block: 'nearest'` is a no-op if it's already visible
+      // and only scrolls the amount needed when it isn't — avoids the
+      // jarring page-jump that block:'end' caused on every click.
+      const newest = root.querySelector('.dhamma-col-new');
+      newest?.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' });
     });
   }, [columns.length]);
 
-  const crumb = pathNames(tree, path);
+  const crumb = pathNames(top, path);
 
   // Reading mode: hide breadcrumb / columns / pinned, just the selected
   // passage centered. Same usePassage data used in either layout.
@@ -81,7 +95,7 @@ export default function BrowseView({
               readingMode={readingMode}
               setReadingMode={setReadingMode}
               onNavigate={(id) => {
-                const newPath = pathToLeaf(tree, id);
+                const newPath = pathToLeaf(top, id);
                 if (newPath) setPath(newPath);
                 setLeafId(id);
               }}
@@ -114,7 +128,7 @@ export default function BrowseView({
               setReadingMode={setReadingMode}
               compact
               onNavigate={(id) => {
-                const newPath = pathToLeaf(tree, id);
+                const newPath = pathToLeaf(top, id);
                 if (newPath) setPath(newPath);
                 setLeafId(id);
               }}
@@ -205,7 +219,7 @@ export default function BrowseView({
             readingMode={readingMode}
             setReadingMode={setReadingMode}
             onNavigate={(id) => {
-              const newPath = pathToLeaf(tree, id);
+              const newPath = pathToLeaf(top, id);
               if (newPath) setPath(newPath);
               setLeafId(id);
             }}
