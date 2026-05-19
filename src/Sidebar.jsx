@@ -45,7 +45,10 @@ export default function Sidebar({
           {traditions.length === 0 && (
             <div style={placeholderText}>Loading…</div>
           )}
-          {traditions.map((t) => {
+          {/* Hide traditions with zero passages — they're stubs we haven't
+              ingested yet (Mahāyāna, Zen) and the count is the only thing
+              they could show. Reappear automatically when content lands. */}
+          {traditions.filter((t) => (countByTradition.get(t) || 0) > 0).map((t) => {
             const on = activeTraditions.has(t);
             const count = countByTradition.get(t) || 0;
             return (
