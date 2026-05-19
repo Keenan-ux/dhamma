@@ -1,10 +1,63 @@
 import { useEffect, useRef, useState } from 'react';
 import { lookupApi } from './api.js';
+import { prepareDppnHtml, groupEntriesBySource, SOURCE_LABEL } from './dictHtml.js';
 
-// Dedicated page for DPD (Digital Pali Dictionary) lookups. Live-search
-// with a small debounce; the same lookup endpoint the in-passage popover
-// uses, here surfaced as a full page so a scholar can browse definitions
-// without first finding the word in a passage.
+// Threshold above which a DPPN biography is collapsed to a preview with
+// a "Show more" toggle. ~600 chars renders as roughly 4-5 lines of body
+// text — long enough to need collapsing, short enough that the user can
+// read a one-paragraph entry without clicking through.
+const DPPN_COLLAPSE_THRESHOLD = 600;
+
+function DictEntry({ entry: e }) {
+  const [expanded, setExpanded] = useState(false);
+  if (e.source === 'dppn') {
+    const long = (e.definition || '').length > DPPN_COLLAPSE_THRESHOLD;
+    return (
+      <article style={entry}>
+        <header style={entryHeader}>
+          <span style={entryLemma}>{e.source_id || e.lemma}</span>
+        </header>
+        <div
+          style={{ ...entryDefinition, ...(long && !expanded ? entryClampedDppn : entryHtmlDppn) }}
+          dangerouslySetInnerHTML={{ __html: prepareDppnHtml(e.definition) }}
+        />
+        {long && (
+          <button onClick={() => setExpanded((x) => !x)} style={expandBtn}>
+            {expanded ? 'Show less' : 'Show more'}
+          </button>
+        )}
+      </article>
+    );
+  }
+  return (
+    <article style={entry}>
+      <header style={entryHeader}>
+        <span style={entryLemma}>{e.lemma}</span>
+        {e.pos && <span style={entryPos}>{e.pos}</span>}
+      </header>
+      {e.grammar && <p style={entryGrammar}>{e.grammar}</p>}
+      <p style={entryDefinition}>{e.definition}</p>
+      {e.definition_lit && <p style={entryLiteral}>lit. {e.definition_lit}</p>}
+      {e.definition_alt && e.definition_alt !== e.definition && (
+        <p style={entryAlt}>also: {e.definition_alt}</p>
+      )}
+      {(e.sanskrit || e.root || e.construction) && (
+        <footer style={entryFooter}>
+          {e.sanskrit && <span><em>Skt.</em> {e.sanskrit}</span>}
+          {e.root && <span> · <em>root</em> {e.root}</span>}
+          {e.construction && <span> · <em>cons.</em> {e.construction}</span>}
+        </footer>
+      )}
+      {e.example && <blockquote style={entryExample}>{e.example}</blockquote>}
+    </article>
+  );
+}
+
+// Dedicated page for dictionary lookups. Live-search with a small
+// debounce; the same lookup endpoint the in-passage popover uses, here
+// surfaced as a full page so a scholar can browse definitions without
+// first finding the word in a passage. Results are grouped by source:
+// DPD (lexical) and DPPN (proper-names biographies).
 export default function DictionaryView({ initialTerm = '' }) {
   const [term, setTerm] = useState(initialTerm);
   const [debounced, setDebounced] = useState(initialTerm.trim());
@@ -36,6 +89,7 @@ export default function DictionaryView({ initialTerm = '' }) {
 
   const entries = result?.entries || [];
   const matchedVia = result?.matched_via;
+  const groups = groupEntriesBySource(entries);
 
   return (
     <div style={scroller}>
@@ -44,7 +98,8 @@ export default function DictionaryView({ initialTerm = '' }) {
         <h1 style={pageTitle}>Dictionary</h1>
         <p style={pageSubtitle}>
           Pali → English. <em>Digital Pali Dictionary</em> (Bodhirasa, CC-BY-NC-SA) —
-          88,933 headwords, 727,678 inflection mappings.
+          88,933 headwords, 727,678 inflection mappings · <em>Dictionary of Pali
+          Proper Names</em> (Malalasekera, rev. Ānandajoti 2025) — 13,603 entries.
         </p>
       </header>
 
@@ -72,7 +127,7 @@ export default function DictionaryView({ initialTerm = '' }) {
         {error && <p style={errMsg}>Lookup failed: {error}</p>}
 
         {!loading && !error && debounced && entries.length === 0 && (
-          <p style={meta}>No entry found for <strong>{debounced}</strong> in DPD.</p>
+          <p style={meta}>No entry found for <strong>{debounced}</strong>.</p>
         )}
 
         {!loading && !error && entries.length > 0 && (
@@ -90,27 +145,16 @@ export default function DictionaryView({ initialTerm = '' }) {
               )}
               <span style={resultHeaderCount}>{entries.length} entr{entries.length === 1 ? 'y' : 'ies'}</span>
             </div>
-            {entries.map((e) => (
-              <article key={e.id} style={entry}>
-                <header style={entryHeader}>
-                  <span style={entryLemma}>{e.lemma}</span>
-                  {e.pos && <span style={entryPos}>{e.pos}</span>}
-                </header>
-                {e.grammar && <p style={entryGrammar}>{e.grammar}</p>}
-                <p style={entryDefinition}>{e.definition}</p>
-                {e.definition_lit && <p style={entryLiteral}>lit. {e.definition_lit}</p>}
-                {e.definition_alt && e.definition_alt !== e.definition && (
-                  <p style={entryAlt}>also: {e.definition_alt}</p>
-                )}
-                {(e.sanskrit || e.root || e.construction) && (
-                  <footer style={entryFooter}>
-                    {e.sanskrit && <span><em>Skt.</em> {e.sanskrit}</span>}
-                    {e.root && <span> · <em>root</em> {e.root}</span>}
-                    {e.construction && <span> · <em>cons.</em> {e.construction}</span>}
-                  </footer>
-                )}
-                {e.example && <blockquote style={entryExample}>{e.example}</blockquote>}
-              </article>
+            {groups.map((g) => (
+              <section key={g.source} style={groupSection}>
+                <h2 style={groupHeader}>
+                  <span style={groupHeaderName}>{SOURCE_LABEL[g.source]?.name || g.source}</span>
+                  <span style={groupHeaderCount}>{g.entries.length}</span>
+                </h2>
+                {g.entries.map((e) => (
+                  <DictEntry key={e.id} entry={e} />
+                ))}
+              </section>
             ))}
           </>
         )}
@@ -318,4 +362,58 @@ const entryExample = {
   color: 'var(--bc-text-secondary)',
   fontFamily: '"Noto Serif", Georgia, serif',
   lineHeight: 1.55,
+};
+
+const groupSection = {
+  marginBottom: 18,
+};
+
+const groupHeader = {
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: 8,
+  margin: '14px 0 6px',
+  padding: '0 0 4px',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontWeight: 400,
+};
+
+const groupHeaderName = {
+  fontSize: 11,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+};
+
+const groupHeaderCount = {
+  fontSize: 11,
+  color: 'var(--bc-text-tertiary)',
+  letterSpacing: '0.05em',
+};
+
+const entryClampedDppn = {
+  maxHeight: '12em',
+  overflow: 'hidden',
+  position: 'relative',
+  WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+  maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+};
+
+const entryHtmlDppn = {
+  // DPPN entries render as flowing paragraphs — multiple <p> blocks
+  // inside the definition need their own top margin reset since the
+  // outer container already gives spacing.
+};
+
+const expandBtn = {
+  marginTop: 6,
+  padding: '2px 0',
+  background: 'transparent',
+  border: 'none',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 12,
+  color: 'var(--bc-accent)',
+  cursor: 'pointer',
 };

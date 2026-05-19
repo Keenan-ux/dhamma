@@ -74,7 +74,8 @@ export default function Sidebar({
           <p style={aboutText}>
             Query Buddhist canonical texts across traditions. Pali Tipiṭaka
             via SuttaCentral; Aṭṭhakathā, Ṭīkā and supplementary works via
-            VRI/CST. DPD dictionary integrated (88K headwords). Mahāyāna and
+            VRI/CST. DPD lexicon (88K headwords) + DPPN proper names
+            (13K biographies) integrated. Mahāyāna and
             Zen branches pending ingest. Search modes: Exact (FTS), Stem
             (alias-bridged), Meaning (BGE-M3 vectors).
           </p>
