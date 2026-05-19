@@ -28,6 +28,15 @@ function clean(term) {
     .trim();
 }
 
+// English text vs Pali text — Pali has diacritics (ā, ī, ū, ṃ, ṅ, ñ,
+// ṇ, ṭ, ḍ, ḷ) almost always when written in scholarly transliteration;
+// English doesn't. We use this to decide whether to do a forward
+// Pali→English lookup or a reverse English→Pali search.
+function looksEnglish(s) {
+  if (!s || !/^[a-z][a-z\s'\-]*$/i.test(s)) return false;
+  return !/[āīūēōṃṁṅñṇṭḍḷḥṛśṣ]/i.test(s);
+}
+
 export async function runLookup({ term, source = 'dpd', language = 'pli' }) {
   const t0 = Date.now();
   if (!sql) return { term, entries: [], took_ms: 0 };
@@ -35,6 +44,46 @@ export async function runLookup({ term, source = 'dpd', language = 'pli' }) {
   const raw = clean(String(term || ''));
   const q = normalize(raw);
   if (!q) return { term: raw, entries: [], took_ms: 0 };
+
+  // English → Pali reverse lookup. Short-circuits ahead of the Pali
+  // forward path because the compound-substring fallback would match
+  // chance Pali fragments inside English words ("mona" in "monastery"
+  // returns several Pali "monaṃ" entries that aren't what the reader
+  // is looking for).
+  if (looksEnglish(q) && q.length >= 3) {
+    // Prefer entries where the English term appears as a whole word
+    // (\m foo \M boundary in PG regex) and whose definition is short
+    // (= likely a primary sense rather than a noisy secondary).
+    const englishEntries = await sql`
+      SELECT id, source, source_id, lemma, language, pos, grammar,
+             definition, definition_lit, definition_alt,
+             sanskrit, construction, root, example, notes
+      FROM dictionary_entries
+      WHERE source = ${source} AND language = ${language}
+        AND (definition     ~* ${'\\m' + q + '\\M'}
+          OR definition_alt ~* ${'\\m' + q + '\\M'}
+          OR definition_lit ~* ${'\\m' + q + '\\M'})
+      ORDER BY LENGTH(definition) ASC, lemma_lower ASC
+      LIMIT ${MAX_ENTRIES}
+    `;
+    if (englishEntries.length > 0) {
+      return {
+        term: raw,
+        normalized: q,
+        matched_via: 'english-reverse',
+        entries: englishEntries.map((e) => ({
+          id: e.id, source: e.source, source_id: e.source_id,
+          lemma: e.lemma, language: e.language, pos: e.pos, grammar: e.grammar,
+          definition: e.definition, definition_lit: e.definition_lit,
+          definition_alt: e.definition_alt, sanskrit: e.sanskrit,
+          construction: e.construction, root: e.root, example: e.example, notes: e.notes,
+        })),
+        took_ms: Date.now() - t0,
+      };
+    }
+    // No English-definition hits: fall through to the Pali path on the
+    // off chance the term happens to be a real (un-diacritic'd) Pali word.
+  }
 
   // 1) Direct headword/lemma match. headword_lower is the bare canonical
   //    form (sampajāna, nibbāna); lemma_lower is DPD's citation form which

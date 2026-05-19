@@ -85,6 +85,9 @@ export default function DictionaryView({ initialTerm = '' }) {
               {matchedVia === 'compound' && (
                 <span style={resultHeaderArrow}>· likely a compound, showing components</span>
               )}
+              {matchedVia === 'english-reverse' && (
+                <span style={resultHeaderArrow}>· Pali words meaning this</span>
+              )}
               <span style={resultHeaderCount}>{entries.length} entr{entries.length === 1 ? 'y' : 'ies'}</span>
             </div>
             {entries.map((e) => (

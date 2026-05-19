@@ -428,8 +428,15 @@ function ReadingPanel({
     };
   }, [lookup]);
 
+  // When both Pali + English exist, drop the single-column reading-width
+  // cap so the parallel reader can span the full available content area.
+  const hasParallel = !!(passage.original && passage.translation);
+  const articleStyle = compact
+    ? { ...reading, padding: '12px 0 8px', maxWidth: hasParallel ? '100%' : reading.maxWidth }
+    : { ...reading, maxWidth: hasParallel ? '100%' : reading.maxWidth };
+
   return (
-    <article ref={ref} style={compact ? { ...reading, padding: '12px 0 8px' } : reading}>
+    <article ref={ref} style={articleStyle}>
       {!compact && (
         <nav style={navRow}>
           {prev ? (
@@ -551,6 +558,9 @@ function LookupPanel({ lookup, onClose }) {
         )}
         {matchedVia === 'compound' && entries?.length > 0 && (
           <span style={lookupMatchHint}> &nbsp;· components in compound</span>
+        )}
+        {matchedVia === 'english-reverse' && entries?.length > 0 && (
+          <span style={lookupMatchHint}> &nbsp;· Pali words meaning this</span>
         )}
         <button onClick={onClose} style={lookupClose} aria-label="Close">×</button>
       </header>
