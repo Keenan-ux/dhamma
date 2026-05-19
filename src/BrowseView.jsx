@@ -1,8 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
+import { collectLeaves, pathToLeaf } from './data/corpus.js';
 import useCorpus from './useCorpus.js';
 import usePassage from './usePassage.js';
 import { lookupApi } from './api.js';
+
+// Theravāda-only for now. The Mahāyāna and Zen trees stay in the DB so
+// we don't lose stub structure, but the Browse UI filters to Theravāda
+// since that's where the live corpus is. (Drop this filter once other
+// traditions actually have passages.)
+const ACTIVE_TRADITION_SLUG = 'theravada';
+const WORK_LIST_PAGE_SIZE = 100;
 
 export default function BrowseView({
   path, setPath,
@@ -11,53 +18,54 @@ export default function BrowseView({
   readingMode, setReadingMode,
   onSearchTerm, onCompareTerm,
 }) {
-  const columnsScrollRef = useRef(null);
   const { shape, loading: corpusLoading } = useCorpus();
   const tree = shape?.tree || [];
+
+  // Active section/work for the right pane. Distinct from leafId — leafId
+  // is a specific passage; selectedWorkSlug is "show this work's passage
+  // list". Setting one clears the other.
+  const [selectedWorkSlug, setSelectedWorkSlug] = useState(null);
+  const [workListPage, setWorkListPage] = useState(0);
 
   // Always fetch both potentially-displayed passages; usePassage is a no-op
   // when id is null. Hooks must be unconditional.
   const { data: selectedPassage, loading: selectedLoading } = usePassage(leafId);
   const { data: pinnedPassage } = usePassage(pinnedLeafId);
 
-  const columns = useMemo(() => {
-    if (tree.length === 0) return [];
-    const out = [tree];
-    let level = tree;
-    for (const id of path) {
-      const node = level.find((n) => n.id === id);
-      if (!node) break;
-      if (node.children?.length) {
-        level = node.children;
-        out.push(level);
-      } else {
-        break;
+  // Resolve the Theravāda tree slice (skip the tradition layer entirely
+  // — there's only one live tradition, no point making the user click it).
+  const branches = useMemo(() => {
+    const trad = tree.find((t) => t.id === ACTIVE_TRADITION_SLUG);
+    return trad?.children || [];
+  }, [tree]);
+
+  // Find a tree node by slug (recursive). Used to resolve the
+  // selectedWorkSlug back to a node for the right-pane passage list.
+  const selectedWorkNode = useMemo(() => {
+    if (!selectedWorkSlug) return null;
+    function find(nodes) {
+      for (const n of nodes || []) {
+        if (n.id === selectedWorkSlug) return n;
+        if (n.children) {
+          const sub = find(n.children);
+          if (sub) return sub;
+        }
       }
+      return null;
     }
-    return out;
-  }, [path, tree]);
+    return find(branches);
+  }, [branches, selectedWorkSlug]);
 
-  function selectAt(columnIndex, node) {
-    if (node.stub) return; // can't drill into stubs
-    if (node.passageId) {
-      setLeafId(node.id);
-      return;
-    }
-    if (node.children?.length) {
-      setPath([...path.slice(0, columnIndex), node.id]);
-      setLeafId(null);
-    }
+  // Reset paging when the selected work changes.
+  useEffect(() => { setWorkListPage(0); }, [selectedWorkSlug]);
+
+  function selectWork(slug) {
+    setSelectedWorkSlug(slug);
+    setLeafId(null);
   }
-
-  useEffect(() => {
-    const el = columnsScrollRef.current;
-    if (!el) return;
-    requestAnimationFrame(() => {
-      el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' });
-    });
-  }, [columns.length]);
-
-  const crumb = pathNames(tree, path);
+  function selectPassage(id) {
+    setLeafId(id);
+  }
 
   // Reading mode: hide breadcrumb / columns / pinned, just the selected
   // passage centered. Same usePassage data used in either layout.
@@ -94,8 +102,27 @@ export default function BrowseView({
   }
 
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
-      <div style={wrap}>
+    <div style={twoColumn}>
+      {/* Tree column — Theravāda branches, expand-all by default. */}
+      <aside style={treeColumn}>
+        {corpusLoading && branches.length === 0 && (
+          <p style={hint}>Loading corpus…</p>
+        )}
+        {branches.map((branch) => (
+          <TreeBranch
+            key={branch.id}
+            node={branch}
+            depth={0}
+            selectedWorkSlug={selectedWorkSlug}
+            selectedLeafId={leafId}
+            onSelectWork={selectWork}
+            onSelectPassage={selectPassage}
+          />
+        ))}
+      </aside>
+
+      {/* Content column — pinned (compact), then selected work or passage. */}
+      <main style={contentColumn}>
         {pinnedPassage && pinnedLeafId !== leafId && (
           <section style={pinnedSection}>
             <div style={pinnedLabel}>
@@ -113,9 +140,8 @@ export default function BrowseView({
               setReadingMode={setReadingMode}
               compact
               onNavigate={(id) => {
-                const newPath = pathToLeaf(tree, id);
-                if (newPath) setPath(newPath);
                 setLeafId(id);
+                setSelectedWorkSlug(null);
               }}
               onSearchTerm={onSearchTerm}
               onCompareTerm={onCompareTerm}
@@ -123,75 +149,7 @@ export default function BrowseView({
           </section>
         )}
 
-        {crumb.length > 0 && (
-          <nav style={breadcrumb}>
-            <BreadcrumbLink onClick={() => { setPath([]); setLeafId(null); }}>Canon</BreadcrumbLink>
-            {crumb.map((name, i) => (
-              <span key={i} style={{ display: 'contents' }}>
-                <span style={crumbSep}>›</span>
-                <BreadcrumbLink onClick={() => { setPath(path.slice(0, i + 1)); setLeafId(null); }}>
-                  {name}
-                </BreadcrumbLink>
-              </span>
-            ))}
-          </nav>
-        )}
-
-        <div style={columnsScroll} ref={columnsScrollRef}>
-          <style>{columnAnimCss}</style>
-          <div style={columnsRow}>
-            {columns.map((col, ci) => {
-              const selectedId = path[ci] ?? null;
-              const isNewest = ci === columns.length - 1 && ci > 0;
-              return (
-                <div key={ci} style={column} className={isNewest ? 'dhamma-col-new' : undefined}>
-                  {col.map((node) => {
-                    const isSelected = node.id === selectedId || node.id === leafId;
-                    const isStub = !!node.stub;
-                    const isLeaf = !!node.passageId;
-                    return (
-                      <button
-                        key={node.id}
-                        onClick={() => selectAt(ci, node)}
-                        disabled={isStub}
-                        style={{
-                          ...row,
-                          color: isSelected
-                            ? 'var(--bc-accent)'
-                            : isStub
-                              ? 'var(--bc-text-tertiary)'
-                              : 'var(--bc-text-primary)',
-                          opacity: isStub ? 0.5 : 1,
-                          background: isSelected ? 'rgba(var(--bc-accent-rgb), 0.06)' : 'transparent',
-                          cursor: isStub ? 'default' : 'pointer',
-                        }}
-                      >
-                        <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: 1 }}>
-                          <span style={rowName}>{node.name}</span>
-                          {node.subtitle && (
-                            <span style={rowSubtitle}>{node.subtitle}</span>
-                          )}
-                        </span>
-                        {!isStub && !isLeaf && (
-                          <span style={chev} aria-hidden="true">›</span>
-                        )}
-                        {isLeaf && (
-                          <span style={leafDot} aria-hidden="true">•</span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {selectedLoading && (
-          <div style={hintRow}>
-            <p style={hint}>Loading passage…</p>
-          </div>
-        )}
+        {selectedLoading && <p style={hint}>Loading passage…</p>}
 
         {!selectedLoading && selectedPassage && (
           <ReadingPanel
@@ -204,31 +162,160 @@ export default function BrowseView({
             readingMode={readingMode}
             setReadingMode={setReadingMode}
             onNavigate={(id) => {
-              const newPath = pathToLeaf(tree, id);
-              if (newPath) setPath(newPath);
               setLeafId(id);
+              setSelectedWorkSlug(null);
             }}
             onSearchTerm={onSearchTerm}
             onCompareTerm={onCompareTerm}
           />
         )}
 
-        {!selectedLoading && !selectedPassage && !leafId && !corpusLoading && (
-          <div style={hintRow}>
-            <p style={hint}>
-              Click through the columns to drill into the canon. Select a leaf{' '}
-              <span style={{ color: 'var(--bc-accent)' }}>•</span> to open its passage below.
-            </p>
-          </div>
+        {!selectedLoading && !selectedPassage && selectedWorkNode && (
+          <PassagesPanel
+            workNode={selectedWorkNode}
+            workBySlug={shape?.workBySlug}
+            page={workListPage}
+            setPage={setWorkListPage}
+            onPick={selectPassage}
+          />
         )}
 
-        {corpusLoading && tree.length === 0 && (
-          <div style={hintRow}>
-            <p style={hint}>Loading corpus…</p>
-          </div>
+        {!selectedLoading && !selectedPassage && !selectedWorkNode && !corpusLoading && (
+          <p style={hint}>
+            Pick a text on the left to see its passages, then a passage to read.
+          </p>
         )}
-      </div>
+      </main>
     </div>
+  );
+}
+
+// ─────────────────────────── Tree branch ───────────────────────────
+//
+// Recursive renderer for tree nodes. A node is one of:
+//   - Header (children are work nodes, no direct passages): rendered as a
+//     non-clickable label, bold for depth 0 and lighter for deeper.
+//   - Leaf work (children are passage leaves): clickable; clicking opens
+//     the work's passages list in the right pane.
+//   - Stub: greyed, non-interactive.
+function TreeBranch({ node, depth, selectedWorkSlug, selectedLeafId, onSelectWork, onSelectPassage }) {
+  const isStub = !!node.stub;
+  const children = node.children || [];
+  const childrenArePassages = children.length > 0 && children.every((c) => c.passageId);
+  const isHeader = children.length > 0 && !childrenArePassages;
+  const isWork = childrenArePassages || (children.length === 0 && !isStub);
+  const isSelected = selectedWorkSlug === node.id;
+  const passageCount = childrenArePassages ? children.length : null;
+
+  const indent = depth * 16 + 12;
+
+  return (
+    <>
+      {isHeader ? (
+        <div
+          style={{
+            ...treeHeader,
+            paddingLeft: indent,
+            fontSize: depth === 0 ? 11 : 12,
+            letterSpacing: depth === 0 ? '0.14em' : '0.04em',
+            textTransform: depth === 0 ? 'uppercase' : 'none',
+            fontWeight: depth === 0 ? 700 : 600,
+            color: depth === 0 ? 'var(--bc-text-secondary)' : 'var(--bc-text-primary)',
+            marginTop: depth === 0 ? 18 : 4,
+          }}
+        >
+          <span>{node.name}</span>
+          {node.subtitle && <span style={treeSubtitle}> · {node.subtitle}</span>}
+        </div>
+      ) : (
+        <button
+          onClick={() => !isStub && onSelectWork(node.id)}
+          disabled={isStub}
+          style={{
+            ...treeRow,
+            paddingLeft: indent,
+            color: isStub
+              ? 'var(--bc-text-tertiary)'
+              : isSelected
+                ? 'var(--bc-accent)'
+                : 'var(--bc-text-primary)',
+            background: isSelected ? 'rgba(var(--bc-accent-rgb), 0.08)' : 'transparent',
+            borderLeftColor: isSelected ? 'var(--bc-accent)' : 'transparent',
+            opacity: isStub ? 0.5 : 1,
+            cursor: isStub ? 'default' : 'pointer',
+            fontWeight: isSelected ? 600 : 500,
+          }}
+        >
+          <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: 1 }}>
+            <span style={treeName}>{node.name}</span>
+            {node.subtitle && <span style={treeSubtitleInline}>{node.subtitle}</span>}
+          </span>
+          {passageCount != null && (
+            <span style={treeCount}>{passageCount.toLocaleString()}</span>
+          )}
+        </button>
+      )}
+      {isHeader && children.map((c) => (
+        <TreeBranch
+          key={c.id}
+          node={c}
+          depth={depth + 1}
+          selectedWorkSlug={selectedWorkSlug}
+          selectedLeafId={selectedLeafId}
+          onSelectWork={onSelectWork}
+          onSelectPassage={onSelectPassage}
+        />
+      ))}
+    </>
+  );
+}
+
+// ─────────────────────────── Passages panel ───────────────────────────
+//
+// Shown in the right pane when a work is selected (but no specific
+// passage is yet picked). Lists the work's passages with pagination
+// — some works (notably pli-abhidhamma right now) carry thousands.
+function PassagesPanel({ workNode, workBySlug, page, setPage, onPick }) {
+  const all = workNode.children || [];
+  const total = all.length;
+  const start = page * WORK_LIST_PAGE_SIZE;
+  const end = Math.min(start + WORK_LIST_PAGE_SIZE, total);
+  const slice = all.slice(start, end);
+  const totalPages = Math.max(1, Math.ceil(total / WORK_LIST_PAGE_SIZE));
+  const info = workBySlug?.get(workNode.id);
+
+  return (
+    <section style={passagesPanel}>
+      <header style={passagesPanelHeader}>
+        <h2 style={passagesPanelTitle}>{workNode.name}</h2>
+        {workNode.subtitle && <p style={passagesPanelSubtitle}>{workNode.subtitle}</p>}
+        <p style={passagesPanelMeta}>
+          {total.toLocaleString()} passage{total === 1 ? '' : 's'}
+          {info?.tradition && <> · {info.tradition}</>}
+        </p>
+      </header>
+
+      <ul style={passagesList}>
+        {slice.map((p) => (
+          <li key={p.id}>
+            <button onClick={() => onPick(p.id)} style={passageRow}>
+              <span style={passageCitation}>{p.name}</span>
+              {p.subtitle && <span style={passageTitle}>{p.subtitle}</span>}
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {totalPages > 1 && (
+        <nav style={pager}>
+          <button onClick={() => setPage(Math.max(0, page - 1))} disabled={page === 0} style={pagerBtn}>← prev</button>
+          <span style={pagerInfo}>
+            {(start + 1).toLocaleString()}–{end.toLocaleString()} of {total.toLocaleString()}
+          </span>
+          <button onClick={() => setPage(Math.min(totalPages - 1, page + 1))} disabled={page >= totalPages - 1} style={pagerBtn}>next →</button>
+        </nav>
+      )}
+    </section>
   );
 }
 
@@ -484,6 +571,180 @@ function LookupPanel({ lookup, onClose }) {
 }
 
 const wrap = { maxWidth: 1200, margin: '0 auto', padding: '24px 28px 48px' };
+
+// ─────────────────────────── new tree layout ───────────────────────────
+
+const twoColumn = {
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  overflow: 'hidden',
+};
+
+const treeColumn = {
+  width: 360,
+  flexShrink: 0,
+  borderRight: '1px solid rgba(var(--bc-accent-rgb), 0.14)',
+  background: 'var(--bc-bg-base)',
+  overflowY: 'auto',
+  padding: '16px 0 32px',
+};
+
+const contentColumn = {
+  flex: 1,
+  minWidth: 0,
+  overflowY: 'auto',
+  padding: '28px 28px 48px',
+};
+
+const treeHeader = {
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: 8,
+  padding: '4px 16px 4px 0',
+  marginBottom: 4,
+  fontFamily: 'inherit',
+};
+
+const treeSubtitle = {
+  fontSize: 11,
+  color: 'var(--bc-text-tertiary)',
+  fontStyle: 'italic',
+};
+
+const treeSubtitleInline = {
+  fontSize: 11,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-tertiary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+const treeRow = {
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: 10,
+  padding: '6px 16px 6px 0',
+  background: 'transparent',
+  border: 'none',
+  borderLeft: '3px solid transparent',
+  cursor: 'pointer',
+  textAlign: 'left',
+  fontFamily: 'inherit',
+  fontSize: 13.5,
+  transition: 'color 120ms ease, background 120ms ease, border-color 120ms ease',
+};
+
+const treeName = {
+  fontFamily: '"Noto Serif", Georgia, serif',
+  lineHeight: 1.35,
+};
+
+const treeCount = {
+  fontSize: 11,
+  color: 'var(--bc-text-tertiary)',
+  fontVariantNumeric: 'tabular-nums',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+};
+
+const passagesPanel = { maxWidth: 880 };
+
+const passagesPanelHeader = {
+  marginBottom: 18,
+  paddingBottom: 14,
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+};
+
+const passagesPanelTitle = {
+  margin: '0 0 4px',
+  fontSize: 24,
+  fontWeight: 500,
+  fontFamily: '"Noto Serif", Georgia, serif',
+  letterSpacing: '-0.01em',
+};
+
+const passagesPanelSubtitle = {
+  margin: '0 0 6px',
+  fontSize: 14,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-secondary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+const passagesPanelMeta = {
+  margin: 0,
+  fontSize: 11,
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+};
+
+const passagesList = {
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const passageRow = {
+  width: '100%',
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: 14,
+  padding: '8px 4px',
+  borderRadius: 4,
+  background: 'transparent',
+  border: 'none',
+  cursor: 'pointer',
+  textAlign: 'left',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  color: 'var(--bc-text-primary)',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.06)',
+};
+
+const passageCitation = {
+  flexShrink: 0,
+  minWidth: 80,
+  fontSize: 13,
+  fontStyle: 'italic',
+  color: 'var(--bc-accent)',
+};
+
+const passageTitle = {
+  fontSize: 13.5,
+  color: 'var(--bc-text-primary)',
+  lineHeight: 1.45,
+};
+
+const pager = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: 12,
+  marginTop: 18,
+  paddingTop: 14,
+  borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.12)',
+};
+
+const pagerBtn = {
+  background: 'transparent',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.24)',
+  borderRadius: 6,
+  color: 'var(--bc-text-primary)',
+  padding: '6px 12px',
+  fontSize: 12,
+  fontFamily: 'inherit',
+  cursor: 'pointer',
+};
+
+const pagerInfo = {
+  fontSize: 11,
+  letterSpacing: '0.06em',
+  color: 'var(--bc-text-tertiary)',
+  fontVariantNumeric: 'tabular-nums',
+};
 
 const lookupPanel = {
   position: 'fixed',
