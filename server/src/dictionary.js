@@ -105,6 +105,40 @@ export async function runLookup({ term, source = 'dpd', language = 'pli' }) {
     if (entries.length > 0) matchedVia = 'prefix';
   }
 
+  // 5) Compound-decomposition fallback. Many Pali words are productive
+  //    compounds (maggādhipati = magga + adhipati, with vowel sandhi)
+  //    that DPD doesn't catalog directly. As a last resort, scan for
+  //    DPD headwords that appear as substrings of the user's input —
+  //    expanded for common sandhi (long vowels ↔ short pairs) so that
+  //    e.g. maggādhipatino finds both `magga` and `adhipati`. Limit to
+  //    headwords ≥ 4 chars to avoid surfacing every Pali noise word.
+  if (entries.length === 0 && q.length >= 5) {
+    const variants = new Set([q]);
+    if (q.includes('ā')) variants.add(q.replace(/ā/g, 'aa'));
+    if (q.includes('ī')) variants.add(q.replace(/ī/g, 'ii'));
+    if (q.includes('ū')) variants.add(q.replace(/ū/g, 'uu'));
+    const matches = new Map();
+    for (const v of variants) {
+      const rows = await sql`
+        SELECT id, source, source_id, lemma, headword_lower, language, pos, grammar,
+               definition, definition_lit, definition_alt,
+               sanskrit, construction, root, example, notes
+        FROM dictionary_entries
+        WHERE LENGTH(COALESCE(headword_lower, lemma_lower)) >= 4
+          AND POSITION(COALESCE(headword_lower, lemma_lower) IN ${v}) > 0
+          AND source = ${source} AND language = ${language}
+        LIMIT 100
+      `;
+      for (const r of rows) {
+        if (!matches.has(r.id)) matches.set(r.id, r);
+      }
+    }
+    entries = [...matches.values()]
+      .sort((a, b) => (b.headword_lower?.length || b.lemma.length) - (a.headword_lower?.length || a.lemma.length))
+      .slice(0, MAX_ENTRIES);
+    if (entries.length > 0) matchedVia = 'compound';
+  }
+
   return {
     term: raw,
     normalized: q,

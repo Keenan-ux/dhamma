@@ -478,6 +478,9 @@ function LookupPanel({ lookup, onClose }) {
         {matchedVia === 'inflection' && entries?.length > 0 && (
           <span style={lookupMatchHint}> &nbsp;→ {entries[0].lemma}</span>
         )}
+        {matchedVia === 'compound' && entries?.length > 0 && (
+          <span style={lookupMatchHint}> &nbsp;· components in compound</span>
+        )}
         <button onClick={onClose} style={lookupClose} aria-label="Close">×</button>
       </header>
       <div style={lookupBody}>

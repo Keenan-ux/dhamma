@@ -10,7 +10,7 @@ import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
 
 export default function Dhamma() {
-  const [tab, setTab] = useState('search');
+  const [tab, setTab] = useState('browse');
   const [query, setQuery] = useState('sampajāna');
   const [activeTraditions, setActiveTraditions] = useState(() => new Set());
   // Default to Stem mode. Exact-token FTS over Pali rarely matches
