@@ -7,3 +7,7 @@ dist
 .fly
 .env
 .env.local
+
+# Local ingest workspace — model cache, Python venv, extract artifacts,
+# logs. The server image never uses anything in here.
+scripts
