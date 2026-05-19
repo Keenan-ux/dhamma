@@ -192,8 +192,49 @@ ingest — no manual rebuild step.
 - Vinaya citation formatter ✓
 - Auto-stop Fly machines configured ✓ (4 GB memory required; do not lower)
 
-**Remaining:**
-- Steps 1-7 above
+**Tier C progress as of 2026-05-18:**
+
+Decisions settled:
+- Mūla overlap: option (i), parallel editions with `source_edition` column.
+- Citation scheme: PTS/CPD abbreviations (`Sv-a`, `Ps-a`, `Spk-a`, `Mp-a`, `Sp`, `As`, `Vism`, …) with sutta-id pattern recognition (`dn1_5` → "Sv-a 5").
+
+Surveyed and verified:
+- romn/ files are **already in standard IAST** — no CST encoding pass needed (memory note corrected). Step 3 collapsed to "strip BOM, normalize whitespace, NFC".
+- Two structural modes coexist in romn/: nested `<div>` (Sutta nikāya files only, ~15 divs each) and flat `<p rend="...">` (Vinaya, Abhidhamma, Khuddaka extra-canonical files — zero divs, thousands of `<p>` per file). Parser handles both.
+- Total corpus: **18,702 passages** across 217 files. Breakdown: mūla 7,279; aṭṭhakathā 3,284; ṭīkā 5,109; anya 3,030.
+
+Code shipped (uncommitted in working tree):
+- `scripts/ingest/cst-works.mjs` — filename → (work_slug, citation_prefix, work_name, role) map, with explicit entries for major works and a fallback for the long tail.
+- `scripts/ingest/cst-parse.mjs` — TEI XML parser. Reads UTF-16 BOM, handles both structural modes, strips `<pb>`, keeps `<hi>` text, converts `<note>` to inline parens.
+- `scripts/ingest/cst-parse-smoke.mjs` — parses 5 representative files and reports passage shape.
+- `scripts/ingest/cst-count-all.mjs` — parses all 217 files (no DB, no embedding) and reports totals; used to estimate ingest time.
+- `scripts/ingest/ingest-cst.mjs` — full pipeline (workForFile → parse → embed BGE-M3 → INSERT). Resumes by SELECTing existing CST ids and skipping. Recursively promotes umbrella stubs (`pli-commentary`, `pli-subcommentary`, `pli-anya`) once a descendant goes live.
+- `scripts/ingest/cst-fix-citations.mjs` — re-formats `citation` column for source_edition='cst' rows using current `formatCstCitation`. Idempotent; run after the bulk ingest to migrate citations to the polished format.
+- `scripts/ingest/apply-schema.mjs` — extended to also apply seed-stubs and verify tier-C columns.
+
+Schema applied to prod (via flyctl proxy 15432 + apply-schema.mjs):
+- `passages.source_edition` (TEXT) — 'sc' for existing 7,286 rows; 'cst' for new ingest.
+- `passages.xml_div_id` (TEXT) — CST `<div id="…">` round-trip.
+- `passages.work_role` (TEXT) — 'mula' | 'attha' | 'tika' | 'anya'.
+- Indexes on source_edition and work_role.
+- seed-stubs has two new umbrellas: `pli-subcommentary`, `pli-anya`.
+
+End-to-end smoke verified:
+- 109 CST passages from s0101a.att.xml + abh01a.att.xml ingested.
+- Search "brahmajāla" ranks `cst-s0101a.att-dn1_1` (Sumaṅgalavilāsinī's commentary on Brahmajālasutta) as top hit — well above the canonical SC DN 1.
+- Browse shows `pli-dn-attha: Sumaṅgalavilāsinī (15)` and `pli-abh-attha: Atthasālinī (94)` as live (no longer stubs).
+
+**Currently in-flight (background process):**
+- `node ingest-cst.mjs` running in background. Log at `scripts/ingest/ingest-cst.log`.
+- Local proxy: `flyctl proxy 15432 --app dhamma-pg` (PID listed in `Get-NetTCPConnection -LocalPort 15432`).
+- Rate ~0.25 passages/sec (~4 sec/passage post-load). Full run ETA ~20-28 hours.
+- Resumable via the same command — `done` set is loaded from `SELECT id FROM passages WHERE source_edition='cst'`.
+
+**Remaining after ingest completes:**
+- Run `node cst-fix-citations.mjs --apply` once to migrate the rest of the citations to the polished format. (Citations inserted during the running ingest used a stale formatter import; the script is idempotent and will only update rows that need it.)
+- Step 6 verify: `/api/corpus` shows full commentary tree live; spot-check 5-10 search queries hitting both editions.
+- Step 7 deploy: `fly deploy`. Server code is unchanged so this just packages the new schema+seed-stubs SQL files; the prod DB already has both applied manually.
+- UX decision (out of scope for tier C but worth flagging): once CST mūla is in, Browse `pli-dn` will show 64 suttas (34 SC + 30 CST overlapping the same canonical 34). Consider an edition filter / collapse-by-canonical-id UX. Not blocking — just confusing for casual browsers.
 
 ## Reference memories
 

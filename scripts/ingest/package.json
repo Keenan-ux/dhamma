@@ -11,10 +11,14 @@
     "ingest:sn": "node ingest.mjs --canon=sn",
     "ingest:an": "node ingest.mjs --canon=an",
     "ingest:kn": "node ingest.mjs --canon=kn",
-    "ingest:all-pali": "node ingest.mjs"
+    "ingest:all-pali": "node ingest.mjs",
+    "ingest:cst-smoke": "node ingest-cst.mjs --only=s0101a.att.xml",
+    "ingest:cst-all": "node ingest-cst.mjs"
   },
   "dependencies": {
     "@xenova/transformers": "^2.17.2",
+    "domhandler": "^5.0.3",
+    "htmlparser2": "^9.1.0",
     "postgres": "^3.4.5"
   }
 }

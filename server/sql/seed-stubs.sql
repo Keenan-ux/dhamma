@@ -15,11 +15,15 @@ INSERT INTO traditions (slug, name, subtitle, display_order) VALUES
 ON CONFLICT (slug) DO NOTHING;
 
 -- Theravāda commentary branch (tipitaka itself is seeded live by ingest.mjs)
+-- Per-work commentary slugs (pli-{work}-attha) are inserted by the CST ingest
+-- itself — these umbrellas just shape the Browse tree before ingest fills them.
 INSERT INTO works (slug, tradition_slug, parent_slug, name, subtitle, is_stub, display_order) VALUES
-  ('pli-commentary', 'theravada', NULL,             'Commentaries',      'Aṭṭhakathā',                 true, 2),
-  ('pli-vism',       'theravada', 'pli-commentary', 'Visuddhimagga',     'Buddhaghosa, 5th c. CE',     true, 0),
-  ('pli-mn-attha',   'theravada', 'pli-commentary', 'Papañcasūdanī',     'MN commentary',              true, 1),
-  ('pli-dn-attha',   'theravada', 'pli-commentary', 'Sumaṅgalavilāsinī', 'DN commentary',              true, 2)
+  ('pli-commentary',    'theravada', NULL,             'Commentaries',      'Aṭṭhakathā',                 true, 2),
+  ('pli-vism',          'theravada', 'pli-commentary', 'Visuddhimagga',     'Buddhaghosa, 5th c. CE',     true, 0),
+  ('pli-mn-attha',      'theravada', 'pli-commentary', 'Papañcasūdanī',     'MN commentary',              true, 1),
+  ('pli-dn-attha',      'theravada', 'pli-commentary', 'Sumaṅgalavilāsinī', 'DN commentary',              true, 2),
+  ('pli-subcommentary', 'theravada', NULL,             'Sub-commentaries',  'Ṭīkā',                       true, 3),
+  ('pli-anya',          'theravada', NULL,             'Extra-canonical',   'Anya · Mahāvaṃsa, etc.',     true, 4)
 ON CONFLICT (slug) DO NOTHING;
 
 -- Mahāyāna tree
