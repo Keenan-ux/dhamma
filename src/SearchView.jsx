@@ -297,7 +297,7 @@ function modeVerb(mode) {
   return 'containing';
 }
 
-const wrap = { maxWidth: 820, margin: '0 auto', padding: '28px 28px 48px' };
+const wrap = { maxWidth: 820, margin: 0, padding: '28px 28px 48px' };
 
 const input = {
   width: '100%',
