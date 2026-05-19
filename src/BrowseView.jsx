@@ -29,48 +29,23 @@ export default function BrowseView({
     return trad?.children || [];
   }, [tree]);
 
-  const columns = useMemo(() => {
-    if (top.length === 0) return [];
-    const out = [top];
-    let level = top;
-    for (const id of path) {
-      const node = level.find((n) => n.id === id);
-      if (!node) break;
-      if (node.children?.length) {
-        level = node.children;
-        out.push(level);
-      } else {
-        break;
-      }
-    }
-    return out;
-  }, [path, top]);
-
-  function selectAt(columnIndex, node) {
-    if (node.stub) return; // can't drill into stubs
+  function selectAt(depth, node) {
+    if (node.stub) return;
     if (node.passageId) {
       setLeafId(node.id);
       return;
     }
     if (node.children?.length) {
-      setPath([...path.slice(0, columnIndex), node.id]);
+      // Click the currently-expanded node at this depth → collapse it
+      // and everything below. Otherwise replace from this depth on.
+      if (path[depth] === node.id) {
+        setPath(path.slice(0, depth));
+      } else {
+        setPath([...path.slice(0, depth), node.id]);
+      }
       setLeafId(null);
     }
   }
-
-  useEffect(() => {
-    if (columns.length <= 1) return;
-    const root = columnsScrollRef.current;
-    if (!root) return;
-    requestAnimationFrame(() => {
-      // Find the newest column (just added below) and bring it minimally
-      // into view. `block: 'nearest'` is a no-op if it's already visible
-      // and only scrolls the amount needed when it isn't — avoids the
-      // jarring page-jump that block:'end' caused on every click.
-      const newest = root.querySelector('.dhamma-col-new');
-      newest?.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' });
-    });
-  }, [columns.length]);
 
   const crumb = pathNames(top, path);
 
@@ -154,52 +129,13 @@ export default function BrowseView({
 
         <div style={columnsScroll} ref={columnsScrollRef}>
           <style>{columnAnimCss}</style>
-          <div style={columnsRow}>
-            {columns.map((col, ci) => {
-              const selectedId = path[ci] ?? null;
-              const isNewest = ci === columns.length - 1 && ci > 0;
-              return (
-                <div key={ci} style={column} className={isNewest ? 'dhamma-col-new' : undefined}>
-                  {col.map((node) => {
-                    const isSelected = node.id === selectedId || node.id === leafId;
-                    const isStub = !!node.stub;
-                    const isLeaf = !!node.passageId;
-                    return (
-                      <button
-                        key={node.id}
-                        onClick={() => selectAt(ci, node)}
-                        disabled={isStub}
-                        style={{
-                          ...row,
-                          color: isSelected
-                            ? 'var(--bc-accent)'
-                            : isStub
-                              ? 'var(--bc-text-tertiary)'
-                              : 'var(--bc-text-primary)',
-                          opacity: isStub ? 0.5 : 1,
-                          background: isSelected ? 'rgba(var(--bc-accent-rgb), 0.06)' : 'transparent',
-                          cursor: isStub ? 'default' : 'pointer',
-                        }}
-                      >
-                        <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: 1 }}>
-                          <span style={rowName}>{node.name}</span>
-                          {node.subtitle && (
-                            <span style={rowSubtitle}>{node.subtitle}</span>
-                          )}
-                        </span>
-                        {!isStub && !isLeaf && (
-                          <span style={chev} aria-hidden="true">⌄</span>
-                        )}
-                        {isLeaf && (
-                          <span style={leafDot} aria-hidden="true">•</span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
+          <TreeLevel
+            items={top}
+            depth={0}
+            path={path}
+            leafId={leafId}
+            onSelect={selectAt}
+          />
         </div>
 
         {selectedLoading && (
@@ -250,6 +186,63 @@ export default function BrowseView({
 function BreadcrumbLink({ children, onClick }) {
   return (
     <button onClick={onClick} style={crumbLink}>{children}</button>
+  );
+}
+
+// Recursive tree level. Renders rows at this depth; for the row whose id
+// matches path[depth], renders its children indented immediately below.
+// Clicking a row re-uses `onSelect(depth, node)` from the parent: open
+// to drill, click-again on the open row to collapse, click a leaf to
+// load the passage.
+function TreeLevel({ items, depth, path, leafId, onSelect }) {
+  if (!items?.length) return null;
+  return (
+    <div style={depth === 0 ? undefined : { ...levelInset, animation: 'dhammaColSlide 200ms ease-out' }}>
+      {items.map((node) => {
+        const isExpanded = path[depth] === node.id;
+        const isSelectedLeaf = node.passageId && node.id === leafId;
+        const isStub = !!node.stub;
+        const isLeaf = !!node.passageId;
+        const tone = isStub
+          ? 'var(--bc-text-tertiary)'
+          : (isExpanded || isSelectedLeaf)
+            ? 'var(--bc-accent)'
+            : 'var(--bc-text-primary)';
+        return (
+          <div key={node.id}>
+            <button
+              onClick={() => onSelect(depth, node)}
+              disabled={isStub}
+              style={{
+                ...row,
+                color: tone,
+                opacity: isStub ? 0.5 : 1,
+                background: (isExpanded || isSelectedLeaf) ? 'rgba(var(--bc-accent-rgb), 0.06)' : 'transparent',
+                cursor: isStub ? 'default' : 'pointer',
+              }}
+            >
+              <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: 1 }}>
+                <span style={rowName}>{node.name}</span>
+                {node.subtitle && <span style={rowSubtitle}>{node.subtitle}</span>}
+              </span>
+              {!isStub && !isLeaf && (
+                <span style={chev} aria-hidden="true">{isExpanded ? '⌃' : '⌄'}</span>
+              )}
+              {isLeaf && <span style={leafDot} aria-hidden="true">•</span>}
+            </button>
+            {isExpanded && node.children?.length > 0 && (
+              <TreeLevel
+                items={node.children}
+                depth={depth + 1}
+                path={path}
+                leafId={leafId}
+                onSelect={onSelect}
+              />
+            )}
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -730,6 +723,16 @@ const columnsScroll = {
   scrollBehavior: 'smooth',
   borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+};
+
+// Each nested level indents and gets a faint vertical guide on its
+// left edge — standard tree-view feel, makes the hierarchy obvious at
+// a glance without bombarding the user with sibling lists at every
+// depth like the old stacked-columns layout did.
+const levelInset = {
+  paddingLeft: 18,
+  marginLeft: 16,
+  borderLeft: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
 };
 
 // Each drill-down level slides in from above as a new section beneath
