@@ -19,14 +19,19 @@ and links to all relevant memory notes.
 - Pali corpus: 7,286 passages (Sutta 5,764 + Vinaya 420 + Abhidhamma 1,102)
 - Hybrid FTS+vector search with HNSW, alias-OR expansion, prefix-stem
   matching, ts_headline snippets, stem-aware highlighting
-- Two dictionaries integrated, wired to PassageCard's selection popover:
+- Three dictionaries integrated, wired to PassageCard's selection popover:
   - **DPD** (Digital Pali Dictionary) — 88,933 headwords + 727,678
     inflection mappings. Look up `sampajāno` → returns `sampajāna`.
   - **DPPN** (Dictionary of Pali Proper Names, Malalasekera 1937 rev.
     Ānandajoti 2025) — 13,603 entries. Look up `Sāriputta` → returns
-    1 DPD lemma + 5 DPPN biographies (Sāriputta 01..05). Per-source
-    Pali cascade so `Vesāli` hits DPD via inflection AND DPPN via
-    literal-prefix in the same response. UI groups by source.
+    1 DPD lemma + 5 DPPN biographies (Sāriputta 01..05).
+  - **PED** (PTS Pali-English Dictionary, Rhys Davids & Stede 1921-25,
+    digitized by Buddhadust 2021, CC BY-NC 3.0) — 15,702 entries.
+  - Lookup runs headword-exact across all sources first (so
+    diacritic-free Pali like `sati`/`dhamma`/`buddha` finds its lemma
+    instead of english-reverse). Per-source Pali cascade after that
+    so `Vesāli` hits DPD via inflection AND DPPN via literal-prefix
+    in the same response. UI groups results by source.
 - Browse tree with full Khuddaka split (Milindapañha, Jātaka, Apadāna, etc.
   each addressable as separate sub-works)
 - Vinaya citations formatted as scholarly abbreviations ("Bu Pj 1", "Vin Kd 2")
@@ -40,9 +45,9 @@ curl -s https://dhamma.fly.dev/api/dbcheck
 ```
 
 Dictionaries — try
-`curl -s "https://dhamma.fly.dev/api/lookup?term=S%C4%81riputta"`;
-expect a mix of `source='dpd'` (1 entry) and `source='dppn'`
-(5 numbered biographies).
+`curl -s "https://dhamma.fly.dev/api/lookup?term=dhamma"`;
+expect entries from all three sources (`dpd`, `dppn`, `ped`)
+with `matched_via: 'headword'`.
 
 ### Fly infrastructure
 
@@ -72,10 +77,9 @@ Open decisions surfaced in TIER_C.md:
 
 ### Other open backlog
 
-- **Dictionary expansion** — DPPN done. PED (Pali-English Dictionary,
-  Rhys Davids & Stede) is next, with full plan in
-  [DICTIONARIES.md](DICTIONARIES.md). After PED: Monier-Williams,
-  BHS, CPD, Buddhadatta.
+- **Dictionary expansion** — DPPN + PED done. Monier-Williams Sanskrit-
+  English is next (first non-Pali source), with full plan in
+  [DICTIONARIES.md](DICTIONARIES.md). After MW: BHS, CPD, Buddhadatta.
 - Sentence-level snippet upgrade ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md))
 - v3 migration from `@xenova/transformers` v2 ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md)) — best done with a corpus re-embed
 - Citation formatting for Vinaya IDs — current display is `PLI-TV-BI-VB-PJ1-4` (raw uppercased ID). Cleaner would be `Bhi. Pj. 1-4` but requires a per-source mapping table

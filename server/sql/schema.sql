@@ -112,6 +112,15 @@ CREATE INDEX IF NOT EXISTS idx_dict_lemma_lower    ON dictionary_entries(lemma_l
 CREATE INDEX IF NOT EXISTS idx_dict_headword_lower ON dictionary_entries(headword_lower);
 CREATE INDEX IF NOT EXISTS idx_dict_source         ON dictionary_entries(source);
 
+-- Trigram GIN on the definition body — accelerates english-reverse
+-- lookup (`definition ~* '\\mfoo\\M'`) from a sequential scan to an
+-- indexed trigram match. Applied to prod ~2026-05-19; without it,
+-- english-reverse for a common English term like "monastery" was
+-- ~440ms across all three dictionary sources; with it, under 100ms.
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE INDEX IF NOT EXISTS idx_dict_def_trgm
+  ON dictionary_entries USING GIN (definition gin_trgm_ops);
+
 -- Inflected surface forms → headword. Built from DPD's per-headword
 -- inflection data so "sampajāno", "sampajānakārī", "sampajānassa" all
 -- resolve to the "sampajāna" entry. The lookup happens on surface_lower.
