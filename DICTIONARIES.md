@@ -256,25 +256,77 @@ If PED ships HTML markup (italic for Sanskrit cognates, bold for
 cross-references), reuse `sanitizeDictHtml` and add a render branch in
 the two entry components mirroring the DPPN path.
 
-### Smoke check (after deploy)
+### Smoke checks (after deploy)
+
+Use a word with diacritics for the headword path — `dhamma` without
+the macron trips `looksEnglish()` and routes through english-reverse
+first (known follow-up from the DPPN handoff). `nibbāna` or `paññā`
+exercise the per-source paliCascade cleanly:
 
 ```bash
-curl -s "https://dhamma.fly.dev/api/lookup?term=dhamma" \
+curl -s "https://dhamma.fly.dev/api/lookup?term=nibb%C4%81na" \
   | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{
       const d = JSON.parse(s);
       const bySrc = {};
       for (const e of d.entries) (bySrc[e.source] ||= []).push(e.source_id || e.lemma);
+      console.log('matched_via:', d.matched_via);
       console.log(bySrc);
     })"
 ```
 
-Expect entries from `dpd`, `dppn`, AND `ped`.
+Expect `matched_via: headword` with entries from `dpd`, `dppn`,
+AND `ped`.
+
+Belt-and-suspenders DB check:
+
+```bash
+DATABASE_URL="postgres://dhamma:PASS@localhost:15432/dhamma" \
+  /c/Dev/Dhamma/scripts/ingest/.venv/Scripts/python.exe -c "
+  import os, psycopg2
+  conn = psycopg2.connect(os.environ['DATABASE_URL'])
+  cur = conn.cursor()
+  cur.execute(\"SELECT source, count(*) FROM dictionary_entries GROUP BY source ORDER BY source\")
+  for r in cur.fetchall(): print(r)
+  "
+```
+
+Expect `('dpd', 88933)`, `('dppn', 13603)`, and a new `('ped', N)`
+row where N is whatever the chosen source data contained (PTS PED has
+roughly ~14,000 entries; structured GitHub dumps may have fewer if
+they only cover the alphabetically-completed portion).
+
+---
+
+## Optional side-quest while you're in dictionary.js
+
+The english-reverse step does a sequential regex scan over
+`definition` / `definition_alt` / `definition_lit` across every
+source. After PED lands the table will be ~115K rows; current
+`monastery` query is ~316ms (auditor measured on the DPPN audit) and
+will get slower with PED. A `pg_trgm` GIN index on `definition`
+brings the same query under 50ms:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE INDEX IF NOT EXISTS idx_dict_def_trgm
+  ON dictionary_entries USING GIN (definition gin_trgm_ops);
+```
+
+Add to server/sql/schema.sql so it applies on next boot. The regex
+word-boundary in the existing query (`~* '\mfoo\M'`) already plays
+well with the trigram index — no rewrite needed.
+
+Not blocking the PED task — but if you have 15 minutes after the
+ingest while waiting on deploy, this is a clean perf win.
 
 ---
 
 ## After PED: queue for next sessions
 
-- **Task 3 (Monier-Williams)**: there are clean JSON dumps on GitHub
-  (search "monier-williams sanskrit-english json"). source='mw'.
+- **Task 3 (Monier-Williams)**: clean JSON dumps on GitHub (search
+  "monier-williams sanskrit-english json"). source='mw'.
   Will need `language='san'` in some rows since MW is Sanskrit not Pali.
+  Will surface naturally when the user clicks a Pali word whose DPD
+  entry includes a Skt. cognate — the Skt. field becomes a clickable
+  link into MW.
 - **Tasks 4–6**: TBD when those become relevant.
