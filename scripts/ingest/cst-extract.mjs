@@ -49,6 +49,13 @@ for (const filename of files) {
     continue;
   }
   const baseName = filename.replace(/\.xml$/i, '');
+  // workForFile returns work_name = file basename for unmapped (fallback)
+  // files — replace those with the parser-extracted title (<p rend="book">
+  // or the first <p rend="chapter"> when book is absent). Scholarly names
+  // from the explicit map (Sumaṅgalavilāsinī etc.) are left alone.
+  const effectiveWorkName = (work.work_name === baseName && parsed.work_name)
+    ? parsed.work_name
+    : work.work_name;
   let counter = 0;
   for (const p of parsed.passages) {
     counter++;
@@ -57,7 +64,7 @@ for (const filename of files) {
       id:             passageId(baseName, locator),
       work_slug:      work.work_slug,
       parent_slug:    work.parent_slug,
-      work_name:      work.work_name,
+      work_name:      effectiveWorkName,
       citation:       formatCstCitation(work.citation_prefix, locator),
       title:          p.title || null,
       work_role:      work.role,

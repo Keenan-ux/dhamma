@@ -206,6 +206,13 @@ function passagesFromFlat(body) {
     }
 
     if (SECTION_START_RENDS.has(rend)) {
+      // First chapter/subhead with no prior <p rend="book"|"title">
+      // doubles as the work title — happens in a handful of files
+      // (e.g., e0601n.nrf opens straight with <p rend="chapter">
+      // Namakkārapāḷi). Capture it before treating it as a section.
+      if (!work_name && rend === 'chapter') {
+        work_name = text;
+      }
       // New section boundary. Close previous, open a new one with this
       // text as the title.
       pushCurrent();
