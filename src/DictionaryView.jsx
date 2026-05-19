@@ -82,6 +82,9 @@ export default function DictionaryView({ initialTerm = '' }) {
               {matchedVia === 'inflection' && entries[0].lemma && entries[0].lemma !== debounced && (
                 <span style={resultHeaderArrow}>→ {entries[0].lemma}</span>
               )}
+              {matchedVia === 'compound' && (
+                <span style={resultHeaderArrow}>· likely a compound, showing components</span>
+              )}
               <span style={resultHeaderCount}>{entries.length} entr{entries.length === 1 ? 'y' : 'ies'}</span>
             </div>
             {entries.map((e) => (
