@@ -1,8 +1,9 @@
 export default function TabBar({ active, onChange }) {
   const tabs = [
-    { key: 'browse', label: 'Browse' },
-    { key: 'search', label: 'Search' },
-    { key: 'compare', label: 'Compare' },
+    { key: 'browse',     label: 'Browse' },
+    { key: 'search',     label: 'Search' },
+    { key: 'compare',    label: 'Compare' },
+    { key: 'dictionary', label: 'Dictionary' },
   ];
   return (
     <nav style={wrap}>

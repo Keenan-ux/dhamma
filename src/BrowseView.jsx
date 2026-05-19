@@ -422,10 +422,24 @@ function LookupPanel({ lookup, onClose }) {
   const { term, pos, entries, loading, error, matchedVia } = lookup;
   // Center horizontally on the original selection x; clamp to viewport.
   const left = Math.max(160, Math.min((pos?.x || 200), (typeof window !== 'undefined' ? window.innerWidth - 160 : 1000)));
-  const top  = Math.max(60, (pos?.y || 60) + 14);
+
+  // Flip the panel above the selection when there isn't enough room below.
+  // Without this, selections near the bottom of the viewport push the
+  // panel off-screen — the maxHeight=70vh setting only adds an internal
+  // scrollbar; the panel itself still extends past the fold.
+  const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
+  const selY = pos?.y || 60;
+  const spaceBelow = vh - selY;
+  const spaceAbove = selY;
+  const GAP = 14;
+  const MARGIN = 12;
+  const flipUp = spaceBelow < 320 && spaceAbove > spaceBelow;
+  const positionStyle = flipUp
+    ? { bottom: vh - selY + GAP, maxHeight: `min(70vh, ${Math.max(120, spaceAbove - GAP - MARGIN)}px)` }
+    : { top: Math.max(60, selY + GAP), maxHeight: `min(70vh, ${Math.max(120, spaceBelow - GAP - MARGIN)}px)` };
 
   return (
-    <div data-lookup-panel style={{ ...lookupPanel, top, left, transform: 'translateX(-50%)' }}>
+    <div data-lookup-panel style={{ ...lookupPanel, ...positionStyle, left, transform: 'translateX(-50%)' }}>
       <header style={lookupHeader}>
         <span style={lookupTerm}>{term}</span>
         {matchedVia === 'inflection' && entries?.length > 0 && (
