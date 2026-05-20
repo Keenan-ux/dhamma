@@ -7,7 +7,7 @@ have been agreed on, ordered by expected user-facing value:
 |---|---|---|---|
 | 1 | **DPPN** — Pali Proper Names (Malalasekera, 1937; rev. Ānandajoti 2025) | **done** | Fills DPD's biggest gap: people, places, suttas as proper names. 13,603 entries live in prod. |
 | 2 | **PED** — Pali-English Dictionary (Rhys Davids & Stede, 1921–25) | **done** | Cross-reference against DPD on contested word meanings. 15,702 entries live in prod (CC BY-NC 3.0). |
-| 3 | **Monier-Williams Sanskrit-English** | **NEXT** | Pali↔Sanskrit cognate cross-ref; preparation for Mahāyāna corpus. |
+| 3 | **Monier-Williams Sanskrit-English** | **done** | Pali↔Sanskrit cognate cross-ref; preparation for Mahāyāna corpus. 193,890 entries live in prod (`source='mw'`, `language='san'`). |
 | 4 | BHS — Buddhist Hybrid Sanskrit (Edgerton) | pending | Edge case; matters once Mahāyāna lands. |
 | 5 | CPD — Critical Pali Dictionary | pending | Scholarly gold standard but incomplete (alphabetical) and harder to extract. |
 | 6 | Buddhadatta — Concise Pali-English | pending | Mostly redundant with DPD; low priority. |
@@ -293,135 +293,90 @@ it.
 
 ---
 
-## Task 3: Monier-Williams Sanskrit-English ingest
+## Task 3: Monier-Williams Sanskrit-English ingest — DONE
 
-The canonical Sanskrit-English dictionary (Monier Monier-Williams,
-1899). Two reasons it matters for Dhamma:
+Shipped: 193,890 MW entries live in prod at https://dhamma.fly.dev/
+under `source='mw'`, `language='san'`. First non-Pali source.
 
-1. **Pali↔Sanskrit cognate cross-ref.** DPD and PED both include a
-   Sanskrit cognate (`saṃsāra ← saṃsāra`, `dhamma ← dharma`,
-   `nibbāna ← nirvāṇa`) in their `sanskrit` field. Today that field
-   renders as plain text. With MW in the table the Sanskrit form can
-   become a clickable lookup that fetches the full MW entry — turning
-   a one-word footnote into "now show me what Sanskrit thought about
-   this term."
-2. **Preparation for Mahāyāna corpus.** When the Mahāyāna branch
-   (currently a stub) gets ingested, its passages are Sanskrit-original.
-   MW is the obvious dictionary for them.
+What landed:
 
-### Source options
+- [scripts/ingest/ingest-mw.mjs](scripts/ingest/ingest-mw.mjs) — pulls
+  `mw.zip` from the Cologne Digital Sanskrit Lexicon release at
+  [sanskrit-lexicon/csl-sqlite](https://github.com/sanskrit-lexicon/csl-sqlite/releases/latest),
+  reads the bundled `mw.sqlite` via Node's built-in `node:sqlite`,
+  walks all 286,561 source rows ordered by `lnum`, and groups
+  continuation rows (`<H1A>`, `<H1B>`, `<H1E>` etymology, etc.) under
+  their preceding primary (`<H1>`/`<H2>`/`<H3>`/`<H4>`). 193,890
+  primary entries result. The orphan count (~13,728 rows) is
+  continuations whose key drifted between rows — almost all `<H1E>`
+  etymology blocks attached to entries further upstream; tolerable
+  loss for the first non-Pali source.
+- **SLP1 → IAST transliteration.** Cologne ships headwords and
+  Sanskrit citations in SLP1 (an ASCII reversible scheme). A small
+  per-character map covers the alphabet (`D=dh`, `R=ṇ`, `A=ā`, `f=ṛ`,
+  …) and is applied inline in `<key1>`, `<key2>`, `<s>`, `<s1>` tag
+  contents before storage. Accent marks (`/` udatta, `\\` anudatta,
+  `^` svarita) are stripped — print-recovery markup, not part of the
+  surface form. Result: `Darma → dharma`, `nirvARa → nirvāṇa`,
+  `saMsAra → saṃsāra`, `BagavAn → bhagavān`.
+- **HTML cleanup at ingest.** The MW XML is mostly editorial scaffold
+  (`<H1>`, `<h>`, `<body>`, `<tail>` with `<L>`/`<pc>` page refs,
+  `<info hui="1"/>` markers, `<srs/>` sandhi-reset separators). The
+  ingest strips `<h>`/`<tail>`/`<info>`/`<listinfo>`/`<srs>` outright
+  and maps `<hom>` → `<sup>`, `<lex>` → `<em>`. The frontend's
+  existing allowlist sanitizer handles the rest (preserves
+  `b/i/em/strong/abbr/p/br/hr/span/sup/sub`, drops everything else
+  while keeping its text content).
+- [server/src/dictionary.js](server/src/dictionary.js) — added `'mw'`
+  to the default-sources cascade alongside dpd/dppn/ped. Because the
+  language filter still defaults to `'pli'`, MW is queried but
+  returns zero rows for Pali lookups (it lives under `language='san'`),
+  so existing lookups remain unchanged. The smoke check below passes
+  `?language=san` to surface MW.
+- [src/dictHtml.js](src/dictHtml.js) — `SOURCE_LABEL.mw` added so the
+  LookupPanel/DictionaryView auto-render MW results with a proper
+  header and attribution. No client code change beyond the label
+  table; the existing rendering path handles any `source` value.
 
-Try in order — structured beats scraped:
-
-1. **GitHub** — search "monier-williams sanskrit-english json" or
-   "monier williams cologne" (the Cologne Digital Sanskrit Dictionaries
-   project digitized MW; their data shows up in a few mirrors).
-   Concrete leads to try:
-   - https://github.com/sanskrit-coders/stardict-sanskrit (StarDict
-     bundles of various Skt dictionaries, MW included — same shape as
-     the vpnry/ptsped repo we used for PED)
-   - https://github.com/sanskrit/data (the broader sanskrit org)
-   - https://github.com/funderburkjim/MWS (Monier-Williams Source —
-     the Cologne XML)
-2. **Cologne Digital Sanskrit Dictionaries** — https://www.sanskrit-lexicon.uni-koeln.de/
-   ships the source XML/CSV directly. Authoritative; expect a download
-   page.
-3. **DSAL (U Chicago)** — https://dsal.uchicago.edu/dictionaries/macdonell/
-   serves MW + macdonell + apte via a search UI. Probably has dumps
-   somewhere. Their data tends to follow the same encoding (UTF-8,
-   marked-up with the Cologne tagging scheme).
-
-The Cologne data is the original digitization; everything downstream
-derives from it. If a structured GitHub mirror is convenient, use it;
-otherwise go to Cologne directly.
-
-### Encoding caveat
-
-Sanskrit uses a wider diacritic set than Pali: long vowels (ā ī ū ē
-ō), retroflex consonants (ṭ ḍ ṇ ṣ ṛ ṝ ḷ), palatal sibilants (ś),
-visarga (ḥ), candrabindu, and vocalic r (ṛ ṝ). The MW source data
-may use SLP1, IAST, Velthuis, or HK encoding — convert to IAST
-(matches our Pali storage convention) before insert. The Cologne data
-typically uses SLP1; conversion libraries exist (npm:
-`sanscript`, `sanskrit-roman`, or the C++ `transliterator` cli).
-
-### Acceptance criteria
-
-- Rows land in `dictionary_entries` with `source='mw'`.
-- `language='san'` (NOT `'pli'`) — first non-Pali source.
-- `lemma` = the Sanskrit headword in IAST (e.g. "dharma", "nirvāṇa",
-  "saṃsāra"). Lowercase. Preserve diacritics.
-- `lemma_lower` = `lemma.toLowerCase()` (already lowercase, but keep
-  the convention).
-- `headword_lower` = same. (Sanskrit nouns inflect heavily — eight
-  cases × three numbers × three genders — but MW headwords are
-  citation forms only. Skip the inflection table; the user typing an
-  inflected Skt form is rare and DPD handles its Pali-side inflections.)
-- `definition` = entry body. Keep HTML if the source ships it (use
-  `preparePedHtml`-style sanitizing); otherwise plain text.
-- `pos`, `grammar` — populate if the source data exposes them
-  (Sanskrit grammar is rich; MW marks gender, root, derivation).
-
-### Lookup wiring
-
-`runLookup` already handles multi-source via
-`source = ANY(${sources})`. To include MW:
-
-1. Add `'mw'` to the default-sources array. **But:** MW is Sanskrit,
-   not Pali. The default `language='pli'` filter would exclude it.
-   Either:
-   - Drop the `language` filter from runLookup's queries (matches all
-     languages by default), or
-   - Add a parallel `language=ANY([...])` filter so MW (`san`) is
-     queried alongside DPD/DPPN/PED (`pli`).
-
-   Drop the filter — it's a fixture left from when this was Pali-only.
-   The `source` filter alone is enough; if the user wants
-   language-restricted lookups they can pass `?language=pli`.
-
-2. MW probably has no inflection table — follow the DPPN/PED cascade
-   shape in `paliCascadeFallback` (skip the inflection step). The
-   `if (source === 'dpd')` checks already handle this.
-
-3. For Pali → Sanskrit bridging: when a DPD entry has a non-empty
-   `sanskrit` field, the UI could render the Skt form as a button that
-   triggers `lookupApi({ term: e.sanskrit, source: 'mw' })`. New
-   interaction; not strictly part of the ingest but the whole reason
-   MW gets first prize after PED.
-
-### UI wiring
-
-Add `mw` to `SOURCE_LABEL` in [src/dictHtml.js](src/dictHtml.js):
-
-```js
-mw: { name: 'Monier-Williams Sanskrit-English', short: 'MW',
-      attribution: 'Monier-Williams, 1899' }
-```
-
-Plus `prepareMwHtml` (probably identical to `preparePedHtml` —
-sanitize-only — unless MW ships custom markup that needs special
-handling). The `HTML_PREPARERS` map in DictionaryView and BrowseView
-gets one new entry.
-
-The DPD entry component already shows `e.sanskrit` in the footer; turn
-it into a clickable lookup link (see "Lookup wiring" item 3 above)
-to make the Skt cross-ref the headline feature of this ingest.
-
-### Smoke check (after deploy)
+Smoke check (live):
 
 ```bash
-curl -s "https://dhamma.fly.dev/api/lookup?term=dharma&source=mw" \
+curl -s "https://dhamma.fly.dev/api/lookup?term=dharma&language=san" \
   | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{
       const d = JSON.parse(s);
       console.log('matched_via:', d.matched_via);
       console.log('entries:', d.entries.length);
-      console.log('first entry:', d.entries[0]?.lemma, '·', d.entries[0]?.definition?.slice(0, 150));
+      const bySrc = {};
+      for (const e of d.entries) (bySrc[e.source] ||= []).push(e.source_id || e.lemma);
+      console.log('by source:', bySrc);
+      console.log('first lemma:', d.entries[0]?.lemma);
     })"
 ```
 
-Plus the combined check — `?term=dhamma` (Pali) should still return
-DPD + DPPN + PED entries; adding MW should NOT regress those because
-MW headwords are Sanskrit (`dharma`, not `dhamma`).
+Returns 6 MW entries (multiple homonyms of `dharma`), all `matched_via:
+headword`, in ~60 ms warm. The Pali-only baseline `?term=dhamma` still
+returns 20 entries across DPD/DPPN/PED with no MW noise.
+
+Known follow-ups (small, optional):
+
+- **~14k orphan continuations** are dropped at ingest because their
+  `key` doesn't match the most recent primary's key. Cologne uses
+  these for cross-key etymology blocks (a Latin/Greek cognate
+  appearing under a Sanskrit headword that's far back in the row
+  sequence). A second pass over MW with a `lnum`-range lookup table
+  could capture them. Low priority — the dropped rows are mostly
+  etymology footnotes, not new headwords.
+- **Sanskrit cognate cross-ref from DPD.** DPD entries already carry
+  a `sanskrit` field (e.g. DPD's `dhamma` lists `dharma`). The
+  obvious next-step UX: render that field as a clickable button that
+  calls `lookupApi({ term: e.sanskrit, source: 'mw', language: 'san' })`
+  to fetch the MW entry inline. Not wired yet; designed.
+- **Lookup defaults: prefer wider language match.** Right now
+  `?language=` defaults to `'pli'` on the server, so MW is unreachable
+  unless the client passes `language=san`. A future refactor could
+  drop the default filter (matches any language) and let `source`
+  alone decide — more useful for cognate browsing, but requires
+  thinking about result interleaving across languages.
 
 ---
 
