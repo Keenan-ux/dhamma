@@ -56,6 +56,23 @@ app.get('/api/passage/:id', async (c) => {
   }
 });
 
+app.get('/api/passage/:id/translations', async (c) => {
+  try {
+    const id = c.req.param('id');
+    const { sql } = await import('./db.js');
+    if (!sql) return c.json({ translations: [] });
+    const rows = await sql`
+      SELECT translator, source, text, notes, copyright, license, source_url, position
+      FROM translations
+      WHERE passage_id = ${id}
+      ORDER BY position, translator
+    `;
+    return c.json({ passage_id: id, translations: rows });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.get('/api/compare', async (c) => {
   try {
     const idsParam = c.req.query('ids') || '';

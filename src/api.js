@@ -22,6 +22,10 @@ export function passageApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}`, opts);
 }
 
+export function passageTranslationsApi(id, opts) {
+  return get(`/api/passage/${encodeURIComponent(id)}/translations`, opts);
+}
+
 export function compareApi(ids, opts) {
   return get(`/api/compare?ids=${ids.map(encodeURIComponent).join(',')}`, opts);
 }
