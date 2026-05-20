@@ -24,6 +24,9 @@
 //     first non-Pali source; language='san'. Surfaces only when the
 //     request specifies language=san — the language filter on each
 //     query keeps MW out of pli-only lookups by default.
+//   - 'bhs'  — Buddhist Hybrid Sanskrit Dictionary (Edgerton 1953).
+//     Companion to MW for the transitional Skt of Mahāyāna sūtras and
+//     early Buddhist Sanskrit literature. language='san', same gating.
 // so a single click on "Anāthapiṇḍika" returns DPD's lemma, DPPN's
 // biography, and PED's lexical entry side-by-side. Pass source='X'
 // (string or comma-list) to restrict.
@@ -203,7 +206,7 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
   // queried but the language filter returns zero rows, so it adds no
   // noise to Pali lookups.
   const sources = !source
-    ? ['dpd', 'dppn', 'ped', 'mw']
+    ? ['dpd', 'dppn', 'ped', 'mw', 'bhs']
     : Array.isArray(source) ? source
     : String(source).includes(',') ? String(source).split(',').map((s) => s.trim()).filter(Boolean)
     : [String(source)];
