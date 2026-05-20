@@ -22,6 +22,7 @@ const CATEGORY_LABELS = {
   'thai':         'Thai tradition',
   'ptf':          'Path to Freedom',
   'noncanon':     'Non-canonical',
+  'index':        'Curated indexes',
   'glossary':     'Glossary',
 };
 
@@ -31,10 +32,11 @@ const CATEGORY_BLURBS = {
   'thai':         'The Thai forest tradition in translation — Ajahn Chah, Ajahn Mun, Ajahn Lee, and successors.',
   'ptf':          'A modern study program guiding the reader through the Pali canon.',
   'noncanon':     'Extra-canonical material — Visuddhimagga, Vinaya excerpts.',
+  'index':        'Curated indexes assembled by ATI — similes, names, subjects, titles, numbers, authors, and the suttas.',
   'glossary':     'A supplementary Pali → English term glossary by various contributors.',
 };
 
-const CATEGORY_ORDER = ['study-guide', 'author-essay', 'thai', 'ptf', 'noncanon', 'glossary'];
+const CATEGORY_ORDER = ['study-guide', 'author-essay', 'thai', 'ptf', 'noncanon', 'index', 'glossary'];
 
 export default function LibraryView({ onSearchTerm, onCompareTerm }) {
   const isNarrow = useIsNarrow();

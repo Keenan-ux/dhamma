@@ -689,6 +689,9 @@ function ReadingPanel({
       {parallels && parallels.length > 0 && !compact && (
         <section style={parallelsSection}>
           <h3 style={parallelsHeader}>Parallels</h3>
+          <p style={parallelsHint}>
+            Click to open · pin ⤒ to compare side-by-side
+          </p>
           {Array.from(parallelsByType.entries()).map(([type, list]) => (
             <div key={type} style={parallelsTypeRow}>
               <span style={parallelsTypeLabel}>
@@ -698,13 +701,23 @@ function ReadingPanel({
                 {list.map((p, i) => (
                   <span key={p.parallel_id + i}>
                     {p.parallel_have && p.parallel_citation ? (
-                      <button
-                        onClick={() => onNavigate?.(p.parallel_id)}
-                        style={parallelsLinkBtn}
-                        title={p.parallel_title || p.parallel_citation}
-                      >
-                        {p.parallel_citation}
-                      </button>
+                      <span style={parallelsItem}>
+                        <button
+                          onClick={() => onNavigate?.(p.parallel_id)}
+                          style={parallelsLinkBtn}
+                          title={p.parallel_title || p.parallel_citation}
+                        >
+                          {p.parallel_citation}
+                        </button>
+                        <button
+                          onClick={() => setPinnedLeafId?.(p.parallel_id)}
+                          style={parallelsPinBtn}
+                          title={`Pin ${p.parallel_citation} above to compare`}
+                          aria-label={`Pin ${p.parallel_citation} for side-by-side`}
+                        >
+                          ⤒
+                        </button>
+                      </span>
                     ) : (
                       <span style={parallelsExternal} title={p.parallel_lang ? `external · ${p.parallel_lang}` : 'external'}>
                         {p.parallel_id}
@@ -1212,6 +1225,30 @@ const parallelsSep = {
   color: 'var(--bc-text-tertiary)',
   opacity: 0.5,
   margin: '0 2px',
+};
+
+const parallelsHint = {
+  margin: '0 0 14px',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 11,
+  color: 'var(--bc-text-tertiary)',
+};
+
+const parallelsItem = {
+  display: 'inline-flex',
+  alignItems: 'baseline',
+  gap: 2,
+};
+
+const parallelsPinBtn = {
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--bc-text-tertiary)',
+  fontSize: 11,
+  cursor: 'pointer',
+  padding: '0 4px',
+  transition: 'color 100ms ease',
 };
 
 const navRow = {
