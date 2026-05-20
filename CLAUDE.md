@@ -77,6 +77,12 @@ Open decisions surfaced in TIER_C.md:
 
 ### Other open backlog
 
+- **Access to Insight ingest** — ATI is winding down; the offline edition
+  is at `C:\Users\isaac\OneDrive\Desktop\pokemon\accesstoinsight\` (153 MB,
+  1,273 sutta files across ~15 translators). Adds alt-translations
+  (Thanissaro, Walshe, Nyanaponika, ...) and unlocks a **dedicated
+  English-translation search corpus** — full plan in [TIER_ATI.md](TIER_ATI.md).
+  This is the highest-leverage next data ingest.
 - **Dictionary expansion** — DPPN + PED done. Monier-Williams Sanskrit-
   English is next (first non-Pali source), with full plan in
   [DICTIONARIES.md](DICTIONARIES.md). After MW: BHS, CPD, Buddhadatta.
