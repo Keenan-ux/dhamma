@@ -9,9 +9,10 @@ Match an academic tone: quiet, typeset, no marketing copy, no AI summary unless 
 ## ⚡ State as of last handoff — READ THIS FIRST
 
 **Live at https://dhamma.fly.dev/** with the full canonical + commentary
-corpus, three Pali dictionaries, multi-translator English coverage,
-SuttaCentral parallels, and an ATI Library tab. Most "core scope" work
-is now landed — see the backlog further down for what's open.
+corpus, three Pali dictionaries plus Monier-Williams Sanskrit-English,
+multi-translator English coverage, SuttaCentral parallels, and an ATI
+Library tab. Most "core scope" work is now landed — see the backlog
+further down for what's open.
 
 **What's live as of this handoff:**
 - **Pali corpus: 14,377 passages** across the live Theravāda canon
@@ -23,10 +24,13 @@ is now landed — see the backlog further down for what's open.
   - Extra-canonical (Anya): 3,030 passages across 64 CST works
 - Hybrid FTS+vector search with HNSW, alias-OR expansion, prefix-stem
   matching, ts_headline snippets, stem-aware highlighting
-- Three Pali dictionaries, plus selection-popover wired into every reader:
+- Four dictionaries, plus selection-popover wired into every reader:
   - **DPD** — 88,933 headwords + 727,678 inflections (`sampajāno` → `sampajāna`)
   - **DPPN** — 13,603 proper-name entries (Malalasekera 1937 rev. 2025)
   - **PED** — 15,702 entries (Rhys Davids & Stede 1921-25, CC BY-NC 3.0)
+  - **MW** — 193,890 Sanskrit-English entries (Monier-Williams 1899,
+    Cologne digitization; `language='san'`, source='mw'). First
+    non-Pali source — surfaces only when `?language=san` is passed.
 - **Multi-translator English coverage**:
   - 5,113 Sujato translations (SuttaCentral)
   - 1,139 ATI translations across ~15 translators (Thanissaro, Walshe,
@@ -58,8 +62,9 @@ curl -s https://dhamma.fly.dev/api/dbcheck
 
 Dictionaries — try
 `curl -s "https://dhamma.fly.dev/api/lookup?term=dhamma"`;
-expect entries from all three sources (`dpd`, `dppn`, `ped`)
-with `matched_via: 'headword'`.
+expect entries from `dpd` + `dppn` + `ped` with `matched_via: 'headword'`.
+For the Sanskrit (MW) side: `curl -s "https://dhamma.fly.dev/api/lookup?term=dharma&language=san"`
+should return MW entries (`source: 'mw'`).
 
 Library — try
 `curl -s "https://dhamma.fly.dev/api/library"`;
@@ -102,9 +107,11 @@ Most of the previously-listed open items shipped. What remains:
   gloss above/below using DPD inflections. Possible without AI.
 - **Citation export** — one-click "copy PTS-format citation" on each
   passage card. `citationFormat.js` exists; needs UI hook.
-- **Dictionary expansion** — DPPN + PED done. Monier-Williams Sanskrit-
-  English is next, plan in [DICTIONARIES.md](DICTIONARIES.md). Then BHS,
-  CPD, Buddhadatta.
+- **Dictionary expansion** — DPPN + PED + MW done (MW is first non-Pali
+  source: 193,890 Sanskrit-English entries from the Cologne MW1899
+  digitization, queryable via `?language=san`). Next per the roadmap in
+  [DICTIONARIES.md](DICTIONARIES.md): BHS (Buddhist Hybrid Sanskrit,
+  Edgerton), then CPD and Buddhadatta.
 - **Sentence-level snippet upgrade** ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md))
 - **v3 migration from `@xenova/transformers` v2** ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md))
   — best done with a corpus re-embed

@@ -13,13 +13,17 @@
 //     reader find Pali words from an English phrase like "the chief
 //     disciple known for mindfulness".
 //
-// By default cascades across three sources:
+// By default cascades across four sources:
 //   - 'dpd'  — Digital Pali Dictionary (lexical, with inflections)
 //   - 'dppn' — Dictionary of Pali Proper Names, Malalasekera 1937
 //     rev. Ānandajoti 2025 (biographical)
 //   - 'ped'  — PTS Pali-English Dictionary, Rhys Davids & Stede 1921-25
 //     (the canonical Western lexicon — cross-reference against DPD on
 //     contested word meanings)
+//   - 'mw'   — Monier-Williams Sanskrit-English Dictionary (1899). The
+//     first non-Pali source; language='san'. Surfaces only when the
+//     request specifies language=san — the language filter on each
+//     query keeps MW out of pli-only lookups by default.
 // so a single click on "Anāthapiṇḍika" returns DPD's lemma, DPPN's
 // biography, and PED's lexical entry side-by-side. Pass source='X'
 // (string or comma-list) to restrict.
@@ -193,9 +197,13 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
   const q = normalize(raw);
   if (!q) return { term: raw, entries: [], took_ms: 0 };
 
-  // Default to lexical (dpd) + proper-name (dppn) + PTS lexicon (ped).
+  // Default to lexical (dpd) + proper-name (dppn) + PTS lexicon (ped)
+  // + Monier-Williams Sanskrit (mw). MW only matches when language='san'
+  // is requested explicitly; under the default language='pli' it's
+  // queried but the language filter returns zero rows, so it adds no
+  // noise to Pali lookups.
   const sources = !source
-    ? ['dpd', 'dppn', 'ped']
+    ? ['dpd', 'dppn', 'ped', 'mw']
     : Array.isArray(source) ? source
     : String(source).includes(',') ? String(source).split(',').map((s) => s.trim()).filter(Boolean)
     : [String(source)];

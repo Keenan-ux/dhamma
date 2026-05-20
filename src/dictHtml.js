@@ -74,4 +74,5 @@ export const SOURCE_LABEL = {
   dpd:  { name: 'Digital Pali Dictionary',     short: 'DPD',  attribution: 'Bodhirasa · CC-BY-NC-SA' },
   dppn: { name: 'Proper Names · Malalasekera', short: 'DPPN', attribution: 'rev. Ānandajoti 2025' },
   ped:  { name: 'Pali-English Dictionary',     short: 'PED',  attribution: 'Rhys Davids & Stede · 1921-25 · CC BY-NC 3.0' },
+  mw:   { name: 'Sanskrit-English · Monier-Williams', short: 'MW', attribution: 'Monier-Williams · 1899 · Cologne digitization' },
 };
