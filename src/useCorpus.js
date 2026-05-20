@@ -19,6 +19,8 @@ function transformWork(w) {
     name: w.name,
     subtitle: w.subtitle || undefined,
     stub: !!w.is_stub,
+    total: Number(w.total_passage_count) || 0,
+    translated: Number(w.total_translated_count) || 0,
   };
   if (w.children && w.children.length > 0) {
     node.children = w.children.map(transformWork);

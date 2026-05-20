@@ -1,9 +1,11 @@
 export default function TabBar({ active, onChange }) {
   const tabs = [
-    { key: 'browse',     label: 'Browse' },
-    { key: 'search',     label: 'Search' },
-    { key: 'compare',    label: 'Compare' },
-    { key: 'dictionary', label: 'Dictionary' },
+    { key: 'tipitaka',    label: 'Tipiṭaka' },
+    { key: 'commentary',  label: 'Commentaries' },
+    { key: 'anya',        label: 'Extra-canonical' },
+    { key: 'search',      label: 'Search' },
+    { key: 'concordance', label: 'Concordance' },
+    { key: 'dictionary',  label: 'Dictionary' },
   ];
   return (
     <nav style={wrap}>

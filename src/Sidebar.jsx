@@ -1,72 +1,61 @@
-import useCorpus from './useCorpus.js';
-
 const NAV_ITEMS = [
-  { key: 'browse',     label: 'Browse' },
-  { key: 'search',     label: 'Search' },
-  { key: 'compare',    label: 'Compare' },
-  { key: 'dictionary', label: 'Dictionary' },
+  { key: 'tipitaka',    label: 'Tipiṭaka' },
+  { key: 'commentary',  label: 'Commentaries' },
+  { key: 'anya',        label: 'Extra-canonical' },
+  { key: 'search',      label: 'Search' },
+  { key: 'concordance', label: 'Concordance' },
+  { key: 'dictionary',  label: 'Dictionary' },
 ];
 
-export default function Sidebar({
-  activeTraditions,
-  toggleTradition,
-  traditions = [],
-  tab,
-  setTab,
-}) {
-  const { shape } = useCorpus();
-  const countByTradition = shape?.passageCountByTradition || new Map();
+// Which nav items belong to the "Corpus" section (browseable canonical
+// material) vs the query tools below.
+const CORPUS_KEYS = new Set(['tipitaka', 'commentary', 'anya']);
 
+function NavButton({ item, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        ...navBtn,
+        color: active ? 'var(--bc-accent)' : 'var(--bc-text-primary)',
+        background: active ? 'rgba(var(--bc-accent-rgb), 0.08)' : 'transparent',
+        borderLeftColor: active ? 'var(--bc-accent)' : 'transparent',
+        fontWeight: active ? 600 : 500,
+      }}
+    >
+      {item.label}
+    </button>
+  );
+}
+
+export default function Sidebar({ tab, setTab }) {
   return (
     <aside className="dhamma-sidebar" style={wrap}>
       <div style={topGroup}>
-        <nav style={navWrap}>
-          {NAV_ITEMS.map((item) => {
-            const on = tab === item.key;
-            return (
-              <button
-                key={item.key}
-                onClick={() => setTab?.(item.key)}
-                style={{
-                  ...navBtn,
-                  color: on ? 'var(--bc-accent)' : 'var(--bc-text-primary)',
-                  background: on ? 'rgba(var(--bc-accent-rgb), 0.08)' : 'transparent',
-                  borderLeftColor: on ? 'var(--bc-accent)' : 'transparent',
-                  fontWeight: on ? 600 : 500,
-                }}
-              >
-                {item.label}
-              </button>
-            );
-          })}
+        {/* Corpus: the three browseable canonical corpora — Tipiṭaka,
+            Commentaries, Extra-canonical. Grouped under a Section header
+            so they read as a coherent first-class navigation tier rather
+            than a flat list of links. */}
+        <Section title="Corpus">
+          <nav style={navWrap}>
+            {NAV_ITEMS.filter((i) => CORPUS_KEYS.has(i.key)).map((item) => (
+              <NavButton key={item.key} item={item} active={tab === item.key} onClick={() => setTab?.(item.key)} />
+            ))}
+          </nav>
+        </Section>
+
+        {/* Tools: query-style operations on the corpus. No header — the
+            visual gap between sections is enough separation. */}
+        <nav style={{ ...navWrap, marginTop: 8 }}>
+          {NAV_ITEMS.filter((i) => !CORPUS_KEYS.has(i.key)).map((item) => (
+            <NavButton key={item.key} item={item} active={tab === item.key} onClick={() => setTab?.(item.key)} />
+          ))}
         </nav>
 
-        <Section title="Corpus">
-          {traditions.length === 0 && (
-            <div style={placeholderText}>Loading…</div>
-          )}
-          {/* Hide traditions with zero passages — they're stubs we haven't
-              ingested yet (Mahāyāna, Zen) and the count is the only thing
-              they could show. Reappear automatically when content lands. */}
-          {traditions.filter((t) => (countByTradition.get(t) || 0) > 0).map((t) => {
-            const on = activeTraditions.has(t);
-            const count = countByTradition.get(t) || 0;
-            return (
-              <button
-                key={t}
-                onClick={() => toggleTradition(t)}
-                style={{
-                  ...row,
-                  color: on ? 'var(--bc-text-primary)' : 'var(--bc-text-tertiary)',
-                  opacity: on ? 1 : 0.6,
-                }}
-              >
-                <span style={{ ...rowLabel, fontFamily: '"Noto Serif", Georgia, serif' }}>{t}</span>
-                <span style={rowCount}>{count.toLocaleString()}</span>
-              </button>
-            );
-          })}
-        </Section>
+        {/* Tradition filter retired until Mahāyāna or Zen come online.
+            With only Theravāda live, the single-row "Theravāda 25,986"
+            section read as clutter. When real cross-tradition data
+            lands, the filter restores here. */}
       </div>
 
       <div style={bottomGroup}>

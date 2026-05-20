@@ -61,17 +61,46 @@ export async function runCompareStats(rawParams) {
      OR LOWER(COALESCE(p.translation,'')) LIKE '%' || ${probe} || '%')
   `;
 
+  // Frequency by piṭaka: a recursive CTE walks each passage's work up to
+  // its child-of-pli-tipitaka ancestor (Vinaya / Sutta / Abhidhamma).
+  // Passages whose work has no Tipiṭaka ancestor (commentaries, extra-
+  // canonical) bucket under work_root for clarity rather than being
+  // dropped.
   const [freqRows, passageRows, countRows] = await Promise.all([
     sql`
+      WITH RECURSIVE pitaka_map AS (
+        SELECT slug, name, slug AS root_slug, name AS root_name
+        FROM works
+        WHERE parent_slug = 'pli-tipitaka'
+        UNION ALL
+        SELECT w.slug, w.name, pm.root_slug, pm.root_name
+        FROM works w
+        JOIN pitaka_map pm ON w.parent_slug = pm.slug
+      ),
+      other_roots AS (
+        SELECT slug, name, slug AS root_slug, name AS root_name
+        FROM works
+        WHERE parent_slug IS NULL
+          AND tradition_slug = 'theravada'
+          AND slug != 'pli-tipitaka'
+        UNION ALL
+        SELECT w.slug, w.name, ot.root_slug, ot.root_name
+        FROM works w
+        JOIN other_roots ot ON w.parent_slug = ot.slug
+      ),
+      all_roots AS (
+        SELECT * FROM pitaka_map
+        UNION ALL
+        SELECT * FROM other_roots
+      )
       SELECT
-        t.slug AS tradition_slug,
-        t.name AS tradition,
+        ar.root_slug AS root_slug,
+        ar.root_name AS root_name,
         SUM(${occurrenceExpr})::int AS count
       FROM passages p
-      JOIN works w ON w.slug = p.work_slug
-      JOIN traditions t ON t.slug = w.tradition_slug
+      LEFT JOIN all_roots ar ON ar.slug = p.work_slug
       WHERE ${whereExpr}
-      GROUP BY t.slug, t.name
+      GROUP BY ar.root_slug, ar.root_name
       ORDER BY count DESC
     `,
     sql`
@@ -99,9 +128,9 @@ export async function runCompareStats(rawParams) {
     took_ms: Date.now() - t0,
     totalOccurrences,
     matchingPassageCount,
-    frequencyByTradition: freqRows.map((r) => ({
-      tradition_slug: r.tradition_slug,
-      tradition: r.tradition,
+    frequencyByPitaka: freqRows.map((r) => ({
+      slug: r.root_slug || 'other',
+      name: r.root_name || 'Other',
       count: Number(r.count),
     })),
     passages: passageRows.map((r) => ({

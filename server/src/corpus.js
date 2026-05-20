@@ -20,12 +20,22 @@ export async function runCorpus() {
         w.subtitle,
         w.is_stub,
         w.display_order,
-        COALESCE(pc.cnt, 0) AS passage_count
+        COALESCE(pc.cnt, 0)  AS passage_count,
+        COALESCE(tc.cnt, 0)  AS translated_count
       FROM traditions t
       LEFT JOIN works w ON w.tradition_slug = t.slug
       LEFT JOIN (
         SELECT work_slug, COUNT(*)::int AS cnt FROM passages GROUP BY work_slug
       ) pc ON pc.work_slug = w.slug
+      LEFT JOIN (
+        -- Per-work count of passages that have at least one row in the
+        -- translations table. Powers the Canon Map "Translated only"
+        -- filter; rolled up through the tree on the server side.
+        SELECT p.work_slug, COUNT(DISTINCT p.id)::int AS cnt
+        FROM passages p
+        JOIN translations tr ON tr.passage_id = p.id
+        GROUP BY p.work_slug
+      ) tc ON tc.work_slug = w.slug
       ORDER BY t.display_order, w.display_order NULLS LAST, w.slug NULLS LAST
     `,
     sql`
@@ -60,6 +70,7 @@ export async function runCorpus() {
         subtitle: r.subtitle,
         is_stub: r.is_stub,
         passage_count: Number(r.passage_count) || 0,
+        translated_count: Number(r.translated_count) || 0,
         children: [],
         parent_slug: r.parent_slug,
         tradition_slug: r.tradition_slug,
@@ -75,16 +86,23 @@ export async function runCorpus() {
     }
   }
 
-  // Attach passages to leaf works (no children). Rollup passage_count too.
+  // Attach passages to leaf works (no children). Rollup both passage and
+  // translated counts so each interior node carries its subtree totals.
   function attach(work) {
     let total = work.passage_count;
+    let translated = work.translated_count;
     if (work.children.length === 0) {
       work.passages = passagesByWork.get(work.slug) || [];
     } else {
-      for (const child of work.children) total += attach(child);
+      for (const child of work.children) {
+        const sub = attach(child);
+        total += sub.total;
+        translated += sub.translated;
+      }
     }
     work.total_passage_count = total;
-    return total;
+    work.total_translated_count = translated;
+    return { total, translated };
   }
   for (const t of traditions.values()) {
     for (const w of t.works) attach(w);
