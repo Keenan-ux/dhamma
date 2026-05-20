@@ -9,10 +9,11 @@ Match an academic tone: quiet, typeset, no marketing copy, no AI summary unless 
 ## ⚡ State as of last handoff — READ THIS FIRST
 
 **Live at https://dhamma.fly.dev/** with the full canonical + commentary
-corpus, three Pali dictionaries plus Monier-Williams Sanskrit-English,
-multi-translator English coverage, SuttaCentral parallels, and an ATI
-Library tab. Most "core scope" work is now landed — see the backlog
-further down for what's open.
+corpus, three Pali dictionaries plus Monier-Williams Sanskrit-English
+and Edgerton Buddhist Hybrid Sanskrit, multi-translator English
+coverage, SuttaCentral parallels, and an ATI Library tab. Most
+"core scope" work is now landed — see the backlog further down for
+what's open.
 
 **What's live as of this handoff:**
 - **Pali corpus: 14,377 passages** across the live Theravāda canon
@@ -24,13 +25,17 @@ further down for what's open.
   - Extra-canonical (Anya): 3,030 passages across 64 CST works
 - Hybrid FTS+vector search with HNSW, alias-OR expansion, prefix-stem
   matching, ts_headline snippets, stem-aware highlighting
-- Four dictionaries, plus selection-popover wired into every reader:
+- Five dictionaries, plus selection-popover wired into every reader:
   - **DPD** — 88,933 headwords + 727,678 inflections (`sampajāno` → `sampajāna`)
   - **DPPN** — 13,603 proper-name entries (Malalasekera 1937 rev. 2025)
   - **PED** — 15,702 entries (Rhys Davids & Stede 1921-25, CC BY-NC 3.0)
   - **MW** — 193,890 Sanskrit-English entries (Monier-Williams 1899,
     Cologne digitization; `language='san'`, source='mw'). First
     non-Pali source — surfaces only when `?language=san` is passed.
+  - **BHS** — 17,839 Buddhist Hybrid Sanskrit entries (Edgerton 1953,
+    Cologne digitization; `language='san'`, source='bhs'). Companion
+    to MW for transitional Mahāyāna-sūtra Skt; same `?language=san`
+    gating.
 - **Multi-translator English coverage**:
   - 5,113 Sujato translations (SuttaCentral)
   - 1,139 ATI translations across ~15 translators (Thanissaro, Walshe,
@@ -86,6 +91,29 @@ study-guide: 16, noncanon: 2, glossary: 1`.
   any further local-to-prod-DB work.
   - Check: `Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue`
 
+### CST mūla volume-header passages (uddāna mnemonics)
+
+25 CST rows match `^cst-[a-z0-9]+m\.mul-(dn|mn|sn|an|kn)\d+$` (no
+underscore suffix) — one per nikāya volume, `position=1`, titled with
+the volume name (e.g. "Sīlakkhandhavaggapāḷi", citation "DN vol.1").
+Their `original` text is the closing colophon + uddāna mnemonic verse
+that ends the volume in the printed CST. The actual canonical material
+lives in the underscore-suffix sibling rows (`…-dn1_1`, `…-dn1_2`, …).
+
+**Decision: hide from `/api/corpus`, keep the rows.** `runCorpus` in
+[server/src/corpus.js](server/src/corpus.js) excludes IDs matching that
+regex from both the per-work passage list and the passage_count
+subquery, so they no longer clutter the browse tree. They remain
+reachable via `/api/passage/:id` and via search (the uddāna verses are
+real Pali content). The frontend's `collectLeaves` filter in
+[src/BrowseView.jsx](src/BrowseView.jsx) already skipped them for
+prev/next nav, so the user-visible result is consistent.
+
+We did not delete the rows — re-running `ingest-cst.mjs` would just
+re-insert them, and the content is genuine canonical paratext. If a
+future side-by-side viewer wants to surface them, just remove the
+filter clauses.
+
 ### Open backlog
 
 Most of the previously-listed open items shipped. What remains:
@@ -107,11 +135,11 @@ Most of the previously-listed open items shipped. What remains:
   gloss above/below using DPD inflections. Possible without AI.
 - **Citation export** — one-click "copy PTS-format citation" on each
   passage card. `citationFormat.js` exists; needs UI hook.
-- **Dictionary expansion** — DPPN + PED + MW done (MW is first non-Pali
-  source: 193,890 Sanskrit-English entries from the Cologne MW1899
-  digitization, queryable via `?language=san`). Next per the roadmap in
-  [DICTIONARIES.md](DICTIONARIES.md): BHS (Buddhist Hybrid Sanskrit,
-  Edgerton), then CPD and Buddhadatta.
+- **Dictionary expansion** — DPPN + PED + MW + BHS done (MW + BHS are
+  the Sanskrit pair: 193,890 classical + 17,839 Buddhist Hybrid
+  entries from the Cologne digitization, queryable via `?language=san`).
+  Next per the roadmap in [DICTIONARIES.md](DICTIONARIES.md): CPD,
+  then Buddhadatta.
 - **Sentence-level snippet upgrade** ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md))
 - **v3 migration from `@xenova/transformers` v2** ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md))
   — best done with a corpus re-embed
