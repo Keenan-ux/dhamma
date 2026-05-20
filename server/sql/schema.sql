@@ -215,3 +215,38 @@ CREATE TABLE IF NOT EXISTS passage_parallels (
 );
 CREATE INDEX IF NOT EXISTS idx_pp_passage ON passage_parallels(passage_id);
 CREATE INDEX IF NOT EXISTS idx_pp_have    ON passage_parallels(parallel_have) WHERE parallel_have = TRUE;
+
+-- Library articles — non-sutta content from Access to Insight: study
+-- guides, author essays, Thai forest tradition writings, Path to
+-- Freedom, glossary, etc. These don't fit the (citation, original,
+-- translation) shape of passages so they live in their own table.
+-- category tags the source bucket (study-guide | author-essay |
+-- thai | ptf | noncanon | glossary | index). body is sanitized HTML
+-- preserving paragraph structure + inline emphasis from the source.
+CREATE TABLE IF NOT EXISTS articles (
+  id          BIGSERIAL PRIMARY KEY,
+  slug        TEXT UNIQUE NOT NULL,
+  title       TEXT NOT NULL,
+  author      TEXT,
+  category    TEXT NOT NULL,
+  source      TEXT NOT NULL,                  -- 'ati'
+  source_url  TEXT,
+  body        TEXT NOT NULL,
+  summary     TEXT,
+  tags        TEXT[],
+  copyright   TEXT,
+  license     TEXT,
+  year        INT,
+  fts_doc     tsvector GENERATED ALWAYS AS (
+    setweight(to_tsvector('simple', coalesce(title, '')),  'A') ||
+    setweight(to_tsvector('simple', coalesce(author, '')), 'B') ||
+    setweight(to_tsvector('simple', coalesce(body, '')),   'C')
+  ) STORED,
+  embedding   vector(1024),
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_articles_slug     ON articles(slug);
+CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
+CREATE INDEX IF NOT EXISTS idx_articles_author   ON articles(author);
+CREATE INDEX IF NOT EXISTS idx_articles_fts      ON articles USING GIN(fts_doc);
