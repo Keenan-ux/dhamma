@@ -27,6 +27,10 @@
 //   - 'bhs'  — Buddhist Hybrid Sanskrit Dictionary (Edgerton 1953).
 //     Companion to MW for the transitional Skt of Mahāyāna sūtras and
 //     early Buddhist Sanskrit literature. language='san', same gating.
+//   - 'cped' — Concise Pali-English Dictionary (Buddhadatta 1949,
+//     ed. Ānandajoti, via Ancient Buddhist Texts). Compact classroom
+//     glosses; complements DPD and PED. language='pli', surfaces
+//     under default Pali lookups.
 // so a single click on "Anāthapiṇḍika" returns DPD's lemma, DPPN's
 // biography, and PED's lexical entry side-by-side. Pass source='X'
 // (string or comma-list) to restrict.
@@ -206,7 +210,7 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
   // queried but the language filter returns zero rows, so it adds no
   // noise to Pali lookups.
   const sources = !source
-    ? ['dpd', 'dppn', 'ped', 'mw', 'bhs']
+    ? ['dpd', 'dppn', 'ped', 'cped', 'mw', 'bhs']
     : Array.isArray(source) ? source
     : String(source).includes(',') ? String(source).split(',').map((s) => s.trim()).filter(Boolean)
     : [String(source)];
