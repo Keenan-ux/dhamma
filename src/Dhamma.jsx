@@ -256,6 +256,11 @@ export default function Dhamma() {
                 searchMode={searchMode}
                 setSearchMode={setSearchMode}
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
+                onOpenPassage={(id) => {
+                  setBrowseLeafId(id);
+                  setBrowsePath([]);
+                  setTab('browse');
+                }}
               />
             )}
             {tab === 'concordance' && (

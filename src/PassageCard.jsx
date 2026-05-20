@@ -34,8 +34,9 @@ const TRANSLATOR_LABEL = {
   kandy: 'Kandy News-Wheel',
 };
 
-export default function PassageCard({ passage, highlight, first }) {
+export default function PassageCard({ passage, highlight, first, onOpen }) {
   const [copied, setCopied] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   async function copyCite() {
     try {
@@ -45,10 +46,42 @@ export default function PassageCard({ passage, highlight, first }) {
     } catch {/* ignore */}
   }
 
+  // Click-to-open. Swallows clicks on nested controls (cite button) and
+  // ignores clicks that are part of a text selection (so highlighting a
+  // word for dictionary lookup doesn't also navigate away).
+  function handleCardClick(e) {
+    if (!onOpen) return;
+    if (e.target.closest('button')) return;
+    const sel = window.getSelection();
+    if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) return;
+    onOpen(passage.id);
+  }
+  function handleCardKey(e) {
+    if (!onOpen) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onOpen(passage.id);
+    }
+  }
+
   const trName = passage.translator ? (TRANSLATOR_LABEL[passage.translator] || passage.translator) : null;
 
   return (
-    <article style={{ ...entryStyle, ...(first ? firstEntryStyle : {}) }}>
+    <article
+      style={{
+        ...entryStyle,
+        ...(first ? firstEntryStyle : {}),
+        ...(onOpen ? clickableStyle : {}),
+        ...(onOpen && hovered ? hoverStyle : {}),
+      }}
+      onClick={handleCardClick}
+      onKeyDown={handleCardKey}
+      onMouseEnter={onOpen ? () => setHovered(true) : undefined}
+      onMouseLeave={onOpen ? () => setHovered(false) : undefined}
+      role={onOpen ? 'link' : undefined}
+      tabIndex={onOpen ? 0 : undefined}
+      aria-label={onOpen ? `Open passage ${passage.citation}` : undefined}
+    >
       <header style={headerRow}>
         <div style={citationLine}>
           <span style={citation}>{passage.citation}</span>
@@ -77,9 +110,23 @@ export default function PassageCard({ passage, highlight, first }) {
 
       <footer style={footerLine}>
         <span style={canonLabel}>{passage.canon}</span>
-        <button onClick={copyCite} style={citeBtn} aria-label="Copy citation">
-          {copied ? 'copied' : 'cite'} ↗
-        </button>
+        <span style={footerActions}>
+          {onOpen && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); onOpen(passage.id); }}
+                style={openBtn}
+                aria-label="Open passage in reader"
+              >
+                open ↗
+              </button>
+              <span style={footerSep}>·</span>
+            </>
+          )}
+          <button onClick={copyCite} style={citeBtn} aria-label="Copy citation">
+            {copied ? 'copied' : 'cite'} ↗
+          </button>
+        </span>
       </footer>
     </article>
   );
@@ -123,6 +170,22 @@ const firstEntryStyle = {
   marginTop: 0,
   paddingTop: 0,
   borderTop: 'none',
+};
+
+// onOpen-enabled cards become "open" affordances: pointer cursor and a
+// faint accent wash on hover. The wash is restrained — the card is a
+// scholarly entry, not a button. Negative margin pulls the wash a
+// little past the body padding so the hover surface feels intentional.
+const clickableStyle = {
+  cursor: 'pointer',
+  borderRadius: 4,
+  margin: '22px -12px 0',
+  padding: '22px 12px 0',
+  transition: 'background 100ms ease',
+};
+
+const hoverStyle = {
+  background: 'rgba(var(--bc-accent-rgb), 0.05)',
 };
 
 const headerRow = {
@@ -229,6 +292,28 @@ const citeBtn = {
   fontSize: 12,
   fontStyle: 'italic',
   color: 'var(--bc-text-tertiary)',
+  cursor: 'pointer',
+  background: 'transparent',
+  border: 'none',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  padding: 0,
+};
+
+const footerActions = {
+  display: 'inline-flex',
+  alignItems: 'baseline',
+  gap: 8,
+};
+
+const footerSep = {
+  color: 'var(--bc-text-tertiary)',
+  opacity: 0.4,
+};
+
+const openBtn = {
+  fontSize: 12,
+  fontStyle: 'italic',
+  color: 'var(--bc-accent)',
   cursor: 'pointer',
   background: 'transparent',
   border: 'none',
