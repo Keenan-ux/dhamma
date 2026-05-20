@@ -104,7 +104,10 @@ export default function LibraryView({ onSearchTerm, onCompareTerm }) {
 
       {listing && (
         <>
-          <nav style={categoryNav} aria-label="Article categories">
+          <nav
+            style={isNarrow ? categoryNavStack : categoryNav}
+            aria-label="Article categories"
+          >
             {CATEGORY_ORDER.filter((c) => (listing.byCategory[c] || 0) > 0).map((c) => {
               const on = activeCategory === c;
               const n = listing.byCategory[c] || 0;
@@ -112,15 +115,21 @@ export default function LibraryView({ onSearchTerm, onCompareTerm }) {
                 <button
                   key={c}
                   onClick={() => setActiveCategory(c)}
-                  style={{
+                  style={isNarrow ? {
+                    ...categoryRow,
+                    color: on ? 'var(--bc-accent)' : 'var(--bc-text-primary)',
+                    background: on ? 'rgba(var(--bc-accent-rgb), 0.06)' : 'transparent',
+                    borderLeftColor: on ? 'var(--bc-accent)' : 'transparent',
+                    fontWeight: on ? 600 : 400,
+                  } : {
                     ...categoryChip,
                     color: on ? 'var(--bc-accent)' : 'var(--bc-text-secondary)',
                     borderColor: on ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.20)',
                     fontWeight: on ? 600 : 400,
                   }}
                 >
-                  {CATEGORY_LABELS[c] || c}
-                  <span style={categoryCount}>{n.toLocaleString()}</span>
+                  <span>{CATEGORY_LABELS[c] || c}</span>
+                  <span style={isNarrow ? categoryRowCount : categoryCount}>{n.toLocaleString()}</span>
                 </button>
               );
             })}
@@ -316,6 +325,44 @@ const categoryChip = {
 };
 
 const categoryCount = {
+  fontFamily: SANS,
+  fontSize: 10,
+  fontVariantNumeric: 'tabular-nums',
+  color: 'var(--bc-text-tertiary)',
+  letterSpacing: '0.06em',
+};
+
+// Mobile: stacked vertical list, one row per category. Reads like the
+// sidebar nav (left-border indicator on active, faint wash on active
+// background) rather than the pill row that wraps awkwardly on narrow
+// viewports.
+const categoryNavStack = {
+  maxWidth: 480,
+  margin: '32px auto 16px',
+  padding: '0 8px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 1,
+};
+
+const categoryRow = {
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'baseline',
+  padding: '11px 14px',
+  background: 'transparent',
+  border: 'none',
+  borderLeft: '3px solid transparent',
+  cursor: 'pointer',
+  fontFamily: SERIF,
+  fontSize: 14,
+  letterSpacing: '0.01em',
+  textAlign: 'left',
+  transition: 'color 120ms ease, background 120ms ease, border-color 120ms ease',
+};
+
+const categoryRowCount = {
   fontFamily: SANS,
   fontSize: 10,
   fontVariantNumeric: 'tabular-nums',
