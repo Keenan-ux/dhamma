@@ -30,6 +30,19 @@ export function passageParallelsApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}/parallels`, opts);
 }
 
+export function libraryListApi({ category, author, limit, signal } = {}) {
+  const params = new URLSearchParams();
+  if (category) params.set('category', category);
+  if (author) params.set('author', author);
+  if (limit != null) params.set('limit', String(limit));
+  const qs = params.toString();
+  return get(`/api/library${qs ? '?' + qs : ''}`, { signal });
+}
+
+export function libraryArticleApi(slug, opts) {
+  return get(`/api/library/${encodeURIComponent(slug)}`, opts);
+}
+
 export function compareApi(ids, opts) {
   return get(`/api/compare?ids=${ids.map(encodeURIComponent).join(',')}`, opts);
 }

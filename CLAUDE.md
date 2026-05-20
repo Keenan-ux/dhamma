@@ -8,46 +8,63 @@ Match an academic tone: quiet, typeset, no marketing copy, no AI summary unless 
 
 ## ⚡ State as of last handoff — READ THIS FIRST
 
-**Live at https://dhamma.fly.dev/ with corpus + search + dictionary.** Next
-work is **Tier C — CST commentary ingest** with a full plan in
-**[TIER_C.md](TIER_C.md)** at the repo root. Read that before anything else
-if the user mentions commentaries, Aṭṭhakathā, Visuddhimagga, Ṭīkā, or
-"adjacent Theravāda works". It has the implementation plan, open decisions,
-and links to all relevant memory notes.
+**Live at https://dhamma.fly.dev/** with the full canonical + commentary
+corpus, three Pali dictionaries, multi-translator English coverage,
+SuttaCentral parallels, and an ATI Library tab. Most "core scope" work
+is now landed — see the backlog further down for what's open.
 
 **What's live as of this handoff:**
-- Pali corpus: 7,286 passages (Sutta 5,764 + Vinaya 420 + Abhidhamma 1,102)
+- **Pali corpus: 14,377 passages** across the live Theravāda canon
+  - Tipiṭaka (14,377 / 5,113 translated): Sutta 6,367, Vinaya 480, Abhidhamma 7,530
+  - Commentary (Aṭṭhakathā): 3,470 passages — Visuddhimagga, Samantapāsādikā,
+    Sumaṅgalavilāsinī (DN-A), Papañcasūdanī (MN-A), Sāratthappakāsinī (SN-A),
+    Manorathapūraṇī (AN-A), Atthasālinī (Abh-A), Khuddaka commentaries
+  - Sub-commentary (Ṭīkā): 5,109 passages — DN/MN/SN/AN/Vism/Abh/Vinaya ṭīkā
+  - Extra-canonical (Anya): 3,030 passages across 64 CST works
 - Hybrid FTS+vector search with HNSW, alias-OR expansion, prefix-stem
   matching, ts_headline snippets, stem-aware highlighting
-- Three dictionaries integrated, wired to PassageCard's selection popover:
-  - **DPD** (Digital Pali Dictionary) — 88,933 headwords + 727,678
-    inflection mappings. Look up `sampajāno` → returns `sampajāna`.
-  - **DPPN** (Dictionary of Pali Proper Names, Malalasekera 1937 rev.
-    Ānandajoti 2025) — 13,603 entries. Look up `Sāriputta` → returns
-    1 DPD lemma + 5 DPPN biographies (Sāriputta 01..05).
-  - **PED** (PTS Pali-English Dictionary, Rhys Davids & Stede 1921-25,
-    digitized by Buddhadust 2021, CC BY-NC 3.0) — 15,702 entries.
-  - Lookup runs headword-exact across all sources first (so
-    diacritic-free Pali like `sati`/`dhamma`/`buddha` finds its lemma
-    instead of english-reverse). Per-source Pali cascade after that
-    so `Vesāli` hits DPD via inflection AND DPPN via literal-prefix
-    in the same response. UI groups results by source.
-- Browse tree with full Khuddaka split (Milindapañha, Jātaka, Apadāna, etc.
-  each addressable as separate sub-works)
-- Vinaya citations formatted as scholarly abbreviations ("Bu Pj 1", "Vin Kd 2")
-- Cabinet `apps/dhamma/` deleted (split-off complete)
+- Three Pali dictionaries, plus selection-popover wired into every reader:
+  - **DPD** — 88,933 headwords + 727,678 inflections (`sampajāno` → `sampajāna`)
+  - **DPPN** — 13,603 proper-name entries (Malalasekera 1937 rev. 2025)
+  - **PED** — 15,702 entries (Rhys Davids & Stede 1921-25, CC BY-NC 3.0)
+- **Multi-translator English coverage**:
+  - 5,113 Sujato translations (SuttaCentral)
+  - 1,139 ATI translations across ~15 translators (Thanissaro, Walshe,
+    Nyanaponika, Bodhi extracts, Ireland, Olendzki, Piyadassi, Ñāṇamoli,
+    Soma, Buddharakkhita, …); translator chip switcher + CC BY-NC 4.0
+    attribution in the reader
+- **SuttaCentral parallels** (30,741 rows from sc-data/parallels.json):
+  in-corpus targets render as clickable links in the reader; external
+  Sanskrit / Chinese / Gāndhārī parallels render as plain text
+- **ATI Library** — 386 articles ingested across study guides, author
+  essays, Thai forest tradition, Path to Freedom, non-canon, glossary;
+  Library sidebar tab with category nav + article reader at /library/:slug
+- **Frontmatter UI**: Tipiṭaka / Commentaries / Extra-canonical / Library
+  each get their own typeset frontmatter page. Browse-tab leaf-drill
+  still works as the click-through target.
+- **Concordance** (was Compare): frequency-by-piṭaka bars + KWIC + companion
+  words. /concordance/<term>.
+- **Search** modes Exact / Stem / Meaning. Scopes All / Title / Original
+  / Translation / Citation / Library. Title-aware search finds suttas
+  by name (e.g. "Satipaṭṭhāna" → DN 22, MN 10).
+- **In-passage find** bar with live match-count + inline highlight.
 
 ### Verify current state
 
 ```bash
 curl -s https://dhamma.fly.dev/api/dbcheck
-# expect: passages: 7286 (full Pali Tipiṭaka — Sutta 5,764 + Vinaya 420 + Abhidhamma 1,102)
+# expect: passages: 14377, tables: ~12, pgvector: true
 ```
 
 Dictionaries — try
 `curl -s "https://dhamma.fly.dev/api/lookup?term=dhamma"`;
 expect entries from all three sources (`dpd`, `dppn`, `ped`)
 with `matched_via: 'headword'`.
+
+Library — try
+`curl -s "https://dhamma.fly.dev/api/library"`;
+expect `byCategory` with `author-essay: 277, thai: 73, ptf: 17,
+study-guide: 16, noncanon: 2, glossary: 1`.
 
 ### Fly infrastructure
 
@@ -64,37 +81,40 @@ with `matched_via: 'headword'`.
   any further local-to-prod-DB work.
   - Check: `Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue`
 
-### Next work: Tier C — see [TIER_C.md](TIER_C.md)
+### Open backlog
 
-Full implementation plan for the Aṭṭhakathā / Ṭīkā / mūla CST corpus ingest
-lives in [TIER_C.md](TIER_C.md) at the repo root. Read that before starting
-any commentary work. CST data is already cloned at
-`scripts/ingest/.cache/cst-test/` from the previous session.
+Most of the previously-listed open items shipped. What remains:
 
-Open decisions surfaced in TIER_C.md:
-1. Mūla overlap — ingest CST mūla as a parallel edition or skip it?
-2. Citation format for CST IDs — `Sv-a 1`, `Ps-a 1`, etc.?
-
-### Other open backlog
-
-- **Access to Insight ingest** — Phases 1-5 of [TIER_ATI.md](TIER_ATI.md)
-  shipped: 1,139 ATI translations across ~15 translators live alongside
-  Sujato (5,113), `translations` table populated, multi-translator
-  switcher + attribution UI in BrowseView, scope=translation FTS and
-  Meaning-mode (vector ANN over `translations.embedding`) both working.
-  Phase 6 (Library tab — ATI articles, study guides, curated indexes)
-  is the remaining piece.
-- **Canon-tree navigation redesign** — sketch in
-  [TIER_NAV.md](TIER_NAV.md). Replace the flat "Theravāda 25,986"
-  sidebar entry with a vertical top-down Pannyavaro-style visual tree
-  of the Tipiṭaka, plus a "Translated only" filter. Treat as
-  experimental — ship small + iterate.
+- **ATI Library curated indexes** — the 7 `index-*.html` files (similes,
+  names, subjects, titles, number, author, sutta) are tagging metadata,
+  not standalone articles. TIER_ATI §7 calls for `passage_tags(passage_id,
+  tag_type, tag_value)` keyed off these indexes + a tag-filter UI in
+  Browse. Designed, not built.
+- **Library Meaning-mode search** — `articles.embedding` column exists
+  but isn't populated; library search falls back to FTS until embed pass
+  runs. Same BGE-M3 pipeline as passages.
+- **Side-by-side parallel passage viewer** — open two passages in
+  adjacent panes for textual comparison (DN 22 ↔ MN 10). High-value for
+  scholarly comparative work, designed but not built.
+- **Per-passage bookmarks** — localStorage-only "mark this passage" with
+  a Bookmarks tab.
+- **Interlinear gloss** — render each Pali word with a small English
+  gloss above/below using DPD inflections. Possible without AI.
+- **Citation export** — one-click "copy PTS-format citation" on each
+  passage card. `citationFormat.js` exists; needs UI hook.
 - **Dictionary expansion** — DPPN + PED done. Monier-Williams Sanskrit-
-  English is next (first non-Pali source), with full plan in
-  [DICTIONARIES.md](DICTIONARIES.md). After MW: BHS, CPD, Buddhadatta.
-- Sentence-level snippet upgrade ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md))
-- v3 migration from `@xenova/transformers` v2 ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md)) — best done with a corpus re-embed
-- Citation formatting for Vinaya IDs — current display is `PLI-TV-BI-VB-PJ1-4` (raw uppercased ID). Cleaner would be `Bhi. Pj. 1-4` but requires a per-source mapping table
+  English is next, plan in [DICTIONARIES.md](DICTIONARIES.md). Then BHS,
+  CPD, Buddhadatta.
+- **Sentence-level snippet upgrade** ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md))
+- **v3 migration from `@xenova/transformers` v2** ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md))
+  — best done with a corpus re-embed
+- **Citation formatting for Vinaya IDs** — current display is
+  `PLI-TV-BI-VB-PJ1-4`. Cleaner would be `Bhi. Pj. 1-4`; needs a
+  per-source mapping table
+- **Email Access to Insight** announcing the mirror once everything's
+  ingested and displaying nicely. Send to BCBS; ATI is winding down due
+  to maintainer attrition and they may want to know we're preserving
+  their corpus per CC BY-NC 4.0.
 
 ---
 

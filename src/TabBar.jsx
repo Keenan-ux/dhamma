@@ -3,6 +3,7 @@ export default function TabBar({ active, onChange }) {
     { key: 'tipitaka',    label: 'Tipiṭaka' },
     { key: 'commentary',  label: 'Commentaries' },
     { key: 'anya',        label: 'Extra-canonical' },
+    { key: 'library',     label: 'Library' },
     { key: 'search',      label: 'Search' },
     { key: 'concordance', label: 'Concordance' },
     { key: 'dictionary',  label: 'Dictionary' },

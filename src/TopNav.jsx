@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { key: 'tipitaka',    label: 'Tipiṭaka',        group: 'corpus' },
   { key: 'commentary',  label: 'Commentaries',    group: 'corpus' },
   { key: 'anya',        label: 'Extra-canonical', group: 'corpus' },
+  { key: 'library',     label: 'Library',         group: 'corpus' },
   { key: 'search',      label: 'Search',          group: 'tools' },
   { key: 'concordance', label: 'Concordance',     group: 'tools' },
   { key: 'dictionary',  label: 'Dictionary',      group: 'tools' },

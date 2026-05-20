@@ -19,7 +19,7 @@ const DEFAULT_LIMIT = 50;
 const SNIPPET_LEN = 200;
 
 const MODES = new Set(['exact', 'stem', 'meaning']);
-const FIELDS = new Set(['all', 'original', 'translation', 'citation', 'title']);
+const FIELDS = new Set(['all', 'original', 'translation', 'citation', 'title', 'library']);
 
 // English stopwords + single chars are dropped from positive bare terms.
 // Quoted phrases pass through untouched so users can still search literal
@@ -196,6 +196,43 @@ export async function runSearch(rawParams) {
   const fts = ftsFragment(field);
   let rows;
   let warning;
+
+  // Library scope: search ATI articles instead of passages. Meaning
+  // mode falls back to FTS until articles.embedding is populated;
+  // surfaces the same warning as the embed-failure path elsewhere.
+  if (field === 'library') {
+    if (!tsquery) {
+      return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded };
+    }
+    rows = await sql`
+      SELECT slug AS id, title, author, category, year, source_url,
+             'Library' AS canon, slug AS work_slug,
+             ts_rank(fts_doc, q) AS score,
+             ts_headline('simple', body, q,
+               'MaxFragments=2,MinWords=10,MaxWords=32,StartSel="",StopSel="",FragmentDelimiter="… "'
+             ) AS headline
+      FROM articles, to_tsquery('simple', ${tsquery}) q
+      WHERE source = 'ati' AND fts_doc @@ q
+      ORDER BY score DESC
+      LIMIT ${limit}
+    `;
+    return {
+      query: q, mode, field, limit, took_ms: Date.now() - t0,
+      results: rows.map((r) => ({
+        id: r.id,
+        citation: r.title,
+        title: r.author || r.category,
+        canon: 'Library',
+        work_slug: r.work_slug,
+        snippet: r.headline || '',
+        score: Number(r.score) || 0,
+        library: true,
+        category: r.category,
+        source_url: r.source_url,
+      })),
+      expanded,
+    };
+  }
 
   if ((mode === 'exact' || mode === 'stem') && field === 'translation') {
     // Translation-only search: hit the `translations` table directly,

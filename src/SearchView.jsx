@@ -20,6 +20,7 @@ const SCOPES = [
   { key: 'original',    label: 'Original' },
   { key: 'translation', label: 'Translation' },
   { key: 'citation',    label: 'Citation' },
+  { key: 'library',     label: 'Library' },
 ];
 
 // Title-only scope doesn't compose with Meaning mode — vectors are on
