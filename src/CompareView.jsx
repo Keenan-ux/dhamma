@@ -1,47 +1,47 @@
 import { useMemo, useRef } from 'react';
 import { kwic, neighborsByTradition } from './analyze.js';
 import useCompareStats from './useCompareStats.js';
-import PassageCard from './PassageCard.jsx';
 import { SelectionActions } from './SelectionActions.jsx';
 
-export default function CompareView({ term, activeTraditions, onSearchTerm, onCompareTerm }) {
+// Concordance view — term-frequency by piṭaka, keyword-in-context (KWIC),
+// and companion-word analysis for a chosen term. Replaces the older
+// per-tradition "Compare" view; in a Pali-only corpus the by-tradition
+// breakdown was degenerate, so the analytics surface here speaks to the
+// canonical subdivisions the scholar actually cares about.
+export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
   const resultsRef = useRef(null);
   const t = (term || '').trim();
   const { data: stats, loading, error } = useCompareStats({ q: t, limit: 50 });
 
   // Client-side analyses run on the top-50 fetched passages. Aggregates
-  // (totalOccurrences, frequencyByTradition, matchingPassageCount) come
+  // (totalOccurrences, frequencyByPitaka, matchingPassageCount) come
   // from the server and reflect the full corpus.
   const analysis = useMemo(() => {
     if (!stats) return null;
-    const visiblePassages = stats.passages.filter((p) =>
-      !activeTraditions || activeTraditions.size === 0 || activeTraditions.has(p.tradition)
-    );
+    const passages = stats.passages || [];
 
-    const byTradition = new Map();
-    for (const p of visiblePassages) {
-      const arr = byTradition.get(p.tradition) || [];
-      arr.push(p);
-      byTradition.set(p.tradition, arr);
-    }
-
-    const kwicRows = visiblePassages.flatMap((p) =>
+    const kwicRows = passages.flatMap((p) =>
       [
         ...kwic(p.original || '', t, 7),
         ...kwic(p.translation || '', t, 7),
-      ].map((row) => ({ ...row, citation: p.citation, tradition: p.tradition }))
+      ].map((row) => ({ ...row, citation: p.citation }))
     );
 
-    const neighbors = neighborsByTradition(visiblePassages, t, 5, 10);
+    // Flatten neighborsByTradition into a single ranked list — single
+    // tradition in this corpus, no need to keep them split.
+    const nMap = neighborsByTradition(passages, t, 5, 10);
+    const flatNeighbors = [];
+    for (const arr of nMap.values()) flatNeighbors.push(...arr);
+    flatNeighbors.sort((a, b) => b.count - a.count);
 
-    return { visiblePassages, byTradition, kwicRows, neighbors };
-  }, [stats, t, activeTraditions]);
+    return { passages, kwicRows, neighbors: flatNeighbors };
+  }, [stats, t]);
 
   if (!t) {
     return (
       <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
         <div style={wrap}>
-          <p style={meta}>Search a term first. Compare will show frequencies by tradition, side-by-side cards, a concordance (KWIC) view, and what words tend to appear near the term in each tradition.</p>
+          <p style={meta}>Search a term first. Concordance will show its frequency by piṭaka, every occurrence in keyword-in-context (KWIC), and which words tend to appear near it.</p>
         </div>
       </div>
     );
@@ -51,7 +51,7 @@ export default function CompareView({ term, activeTraditions, onSearchTerm, onCo
     return (
       <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
         <div style={wrap}>
-          <h2 style={h1}>Comparing <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
+          <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
           <p style={meta}>Loading…</p>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default function CompareView({ term, activeTraditions, onSearchTerm, onCo
     return (
       <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
         <div style={wrap}>
-          <h2 style={h1}>Comparing <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
+          <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
           <p style={{ ...meta, color: 'var(--bc-loss-text)' }}>Failed: {error.message}</p>
         </div>
       </div>
@@ -73,18 +73,27 @@ export default function CompareView({ term, activeTraditions, onSearchTerm, onCo
     return (
       <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
         <div style={wrap}>
-          <h2 style={h1}>Comparing <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
+          <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
           <p style={meta}>No occurrences in the corpus. Try a different inflection or term.</p>
         </div>
       </div>
     );
   }
 
-  const visibleFreq = (stats.frequencyByTradition || [])
-    .filter((f) => !activeTraditions || activeTraditions.size === 0 || activeTraditions.has(f.tradition));
-  const maxFreq = Math.max(1, ...visibleFreq.map((f) => f.count));
+  // Per-piṭaka frequency from the server. Older /api/compare-stats
+  // returns frequencyByTradition — render whichever shape we got so
+  // dev preview (pulling prod API) still shows something readable
+  // until the new server lands.
+  const freqRows = stats.frequencyByPitaka
+    || (stats.frequencyByTradition || []).map((f) => ({
+         slug: f.tradition_slug || f.tradition,
+         name: f.tradition,
+         count: f.count,
+       }));
+  const maxFreq = Math.max(1, ...freqRows.map((f) => f.count));
   const sampleCount = stats.passages.length;
   const showingSampleNote = stats.matchingPassageCount > sampleCount;
+  const freqLabel = stats.frequencyByPitaka ? 'Frequency by piṭaka' : 'Frequency by tradition';
 
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
@@ -95,21 +104,19 @@ export default function CompareView({ term, activeTraditions, onSearchTerm, onCo
           onCompare={onCompareTerm}
         />
         <div style={{ marginBottom: 28 }}>
-          <h2 style={h1}>Comparing <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
+          <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
           <p style={meta}>
             {stats.totalOccurrences.toLocaleString()} occurrences across{' '}
             {stats.matchingPassageCount.toLocaleString()}{' '}
-            {stats.matchingPassageCount === 1 ? 'passage' : 'passages'} in{' '}
-            {stats.frequencyByTradition.length}{' '}
-            {stats.frequencyByTradition.length === 1 ? 'tradition' : 'traditions'}.
+            {stats.matchingPassageCount === 1 ? 'passage' : 'passages'}.
           </p>
         </div>
 
-        <Section title="Frequency by tradition">
+        <Section title={freqLabel}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {visibleFreq.map(({ tradition, count }) => (
-              <div key={tradition} style={freqRow}>
-                <div style={freqLabel}>{tradition}</div>
+            {freqRows.map(({ slug, name, count }) => (
+              <div key={slug} style={freqRowStyle}>
+                <div style={freqLabelStyle}>{name}</div>
                 <div style={freqBarTrack}>
                   <div style={{ ...freqBarFill, width: `${(count / maxFreq) * 100}%` }} />
                 </div>
@@ -120,28 +127,10 @@ export default function CompareView({ term, activeTraditions, onSearchTerm, onCo
         </Section>
 
         <Section
-          title="Side by side"
+          title="Keyword in context"
           subtitle={showingSampleNote
-            ? `Top ${sampleCount} of ${stats.matchingPassageCount.toLocaleString()} matching passages, ranked by occurrence density.`
-            : undefined}
-        >
-          <div style={columnsGrid}>
-            {Array.from(analysis?.byTradition?.entries() || []).map(([trad, passages]) => (
-              <div key={trad} style={column}>
-                <h3 style={columnHeading}>{trad}</h3>
-                <div>
-                  {passages.map((p, i) => (
-                    <PassageCard key={p.id} passage={p} highlight={t} first={i === 0} />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        <Section
-          title="Concordance"
-          subtitle={`Every occurrence in the top-${sampleCount} sample, centered on the term with ±7 words context.`}
+            ? `Every occurrence in the top-${sampleCount} of ${stats.matchingPassageCount.toLocaleString()} matching passages, centered on the term with ±7 words.`
+            : `Every occurrence centered on the term with ±7 words context.`}
         >
           <div style={{ overflowX: 'auto' }}>
             <table style={kwicTable}>
@@ -161,27 +150,20 @@ export default function CompareView({ term, activeTraditions, onSearchTerm, onCo
 
         <Section
           title="Companion words"
-          subtitle="Words within ±5 of the term in the sample, by tradition. Stopwords filtered."
+          subtitle="Words within ±5 of the term in the sample. Stopwords filtered, ranked by co-occurrence count."
         >
-          <div style={columnsGrid}>
-            {Array.from(analysis?.neighbors?.entries() || []).map(([trad, words]) => (
-              <div key={trad} style={column}>
-                <h3 style={columnHeading}>{trad}</h3>
-                {words.length === 0 ? (
-                  <p style={{ ...meta, margin: 0 }}>No neighboring words above threshold.</p>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    {words.map(({ word, count }) => (
-                      <div key={word} style={neighborRow}>
-                        <span style={{ fontFamily: '"Noto Serif", Georgia, serif' }}>{word}</span>
-                        <span style={{ color: 'var(--bc-text-tertiary)', fontSize: 12, fontVariantNumeric: 'tabular-nums' }}>×{count}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          {(!analysis?.neighbors || analysis.neighbors.length === 0) ? (
+            <p style={{ ...meta, margin: 0 }}>No neighboring words above threshold.</p>
+          ) : (
+            <div style={neighborGrid}>
+              {analysis.neighbors.map(({ word, count }) => (
+                <div key={word} style={neighborRow}>
+                  <span style={{ fontFamily: '"Noto Serif", Georgia, serif' }}>{word}</span>
+                  <span style={{ color: 'var(--bc-text-tertiary)', fontSize: 12, fontVariantNumeric: 'tabular-nums' }}>×{count}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </Section>
       </div>
     </div>
@@ -235,20 +217,26 @@ const sectionTitle = {
 
 const sectionRule = { flex: 1, height: 1, background: 'rgba(var(--bc-accent-rgb), 0.22)' };
 
-const freqRow = {
+const freqRowStyle = {
   display: 'grid',
   gridTemplateColumns: 'minmax(160px, 1fr) 3fr auto',
   gap: 14,
   alignItems: 'center',
 };
 
-const freqLabel = {
+const freqLabelStyle = {
   fontSize: 13,
   fontFamily: '"Noto Serif", Georgia, serif',
   color: 'var(--bc-text-secondary)',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
+};
+
+const neighborGrid = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+  columnGap: 28,
 };
 
 const freqBarTrack = { height: 4, background: 'rgba(255,255,255,0.04)', borderRadius: 0, overflow: 'hidden' };

@@ -5,6 +5,9 @@ import Sidebar from './Sidebar.jsx';
 import SearchView from './SearchView.jsx';
 import CompareView from './CompareView.jsx';
 import BrowseView from './BrowseView.jsx';
+import CanonMapView from './CanonMapView.jsx';
+import CommentaryView from './CommentaryView.jsx';
+import ExtraCanonicalView from './ExtraCanonicalView.jsx';
 import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
@@ -12,9 +15,14 @@ import useCorpus from './useCorpus.js';
 // Path-style hash routing. Keeps URLs short and human-readable.
 //
 // Shapes:
-//   (empty)                          → Browse home
-//   #/browse                         → Browse home
+//   (empty)                          → Tipiṭaka frontmatter (default)
+//   #/tipitaka                       → Tipiṭaka frontmatter
+//   #/commentary                     → Commentary frontmatter
+//   #/anya                           → Extra-canonical frontmatter
 //   #/browse/sutta/dn                → Browse expanded to pli-sutta › pli-dn
+//                                      (kept as the under-the-hood leaf
+//                                       drill target until slice 2 lands
+//                                       cascading typeset pages)
 //   #/read/dn1                       → Read passage dn1 (tree path derived)
 //   #/read/cst-s0101a.att-dn1_1      → Read CST commentary passage
 //   #/search/<term>                  → Search tab
@@ -38,15 +46,26 @@ function parseInitialHash() {
   const segs = raw.split('/').map((s) => {
     try { return decodeURIComponent(s); } catch { return s; }
   }).filter(Boolean);
-  const out = { tab: 'browse', query: 'sampajāna', searchMode: 'stem', path: [], leaf: null, pin: null };
+  const out = { tab: 'tipitaka', query: 'sampajāna', searchMode: 'stem', path: [], leaf: null, pin: null };
   if (segs.length === 0) return out;
   const head = segs[0];
   const rest = segs.slice(1);
-  if (head === 'browse') {
+  if (head === 'tipitaka') {
+    out.tab = 'tipitaka';
+  } else if (head === 'commentary') {
+    out.tab = 'commentary';
+  } else if (head === 'anya') {
+    out.tab = 'anya';
+  } else if (head === 'browse') {
+    // Browse is the leaf-drill fallback until slice 2's cascading typeset
+    // pages replace it. Sidebar/TabBar no longer link here, but URL
+    // bookmarks and click-to-drill from frontmatter pages still resolve.
+    out.tab = 'browse';
     out.path = rest.map(longSlug);
   } else if (head === 'read') {
     // /read/<passage-id>. Tree path is filled in by BrowseView once
     // the corpus tree loads (pathToLeaf walks ancestors).
+    out.tab = 'browse';
     out.leaf = rest.join('/') || null;
   } else if (head === 'search') {
     out.tab = 'search';
@@ -54,11 +73,13 @@ function parseInitialHash() {
   } else if (head === 'dict') {
     out.tab = 'dictionary';
     out.query = rest.join('/') || '';
-  } else if (head === 'compare') {
-    out.tab = 'compare';
+  } else if (head === 'concordance' || head === 'compare') {
+    // /compare/<term> kept as an alias only for hash-history navigation
+    // mid-session; canonical URL is /concordance/<term>.
+    out.tab = 'concordance';
     out.query = rest.join('/') || '';
   } else {
-    // Unknown — fall back to Browse home.
+    // Unknown — fall back to Tipiṭaka home.
   }
   return out;
 }
@@ -85,19 +106,26 @@ export default function Dhamma() {
   useEffect(() => {
     let hash = '';
     const enc = (s) => encodeURIComponent(s).replace(/%20/g, '+');
-    if (tab === 'browse') {
+    if (tab === 'tipitaka') {
+      hash = '/tipitaka';
+    } else if (tab === 'commentary') {
+      hash = '/commentary';
+    } else if (tab === 'anya') {
+      hash = '/anya';
+    } else if (tab === 'browse') {
       if (browseLeafId) {
         hash = `/read/${enc(browseLeafId)}`;
       } else if (browsePath.length > 0) {
         hash = `/browse/${browsePath.map(shortSlug).map(enc).join('/')}`;
       }
-      // else: empty hash for Browse home
+      // else: empty hash (BrowseView shouldn't really land here without
+      // a path; the corpus frontmatter views are the new entry point)
     } else if (tab === 'search') {
       hash = query ? `/search/${enc(query)}` : '/search';
     } else if (tab === 'dictionary') {
       hash = query ? `/dict/${enc(query)}` : '/dict';
-    } else if (tab === 'compare') {
-      hash = query ? `/compare/${enc(query)}` : '/compare';
+    } else if (tab === 'concordance') {
+      hash = query ? `/concordance/${enc(query)}` : '/concordance';
     }
     const target = hash ? `#${hash}` : window.location.pathname;
     const next = hash ? `${window.location.pathname}#${hash}` : window.location.pathname;
@@ -137,6 +165,18 @@ export default function Dhamma() {
     if (readingMode && tab !== 'browse') setTab('browse');
   }, [readingMode, tab]);
 
+  // Sidebar/TabBar highlight: when actually browsing (drilled into a leaf
+  // via Tipiṭaka frontmatter), reflect *which corpus* the user is inside
+  // rather than the literal 'browse' tab, which is not in the nav.
+  let effectiveTab = tab;
+  if (tab === 'browse') {
+    const root = browsePath[0];
+    if (root === 'pli-tipitaka')   effectiveTab = 'tipitaka';
+    else if (root === 'pli-commentary') effectiveTab = 'commentary';
+    else if (root === 'pli-anya')  effectiveTab = 'anya';
+    else effectiveTab = 'tipitaka';
+  }
+
   return (
     <div
       style={{
@@ -152,22 +192,46 @@ export default function Dhamma() {
       <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
         {!readingMode && !isNarrow && (
           <Sidebar
-            activeTraditions={activeTraditions}
-            toggleTradition={toggleTradition}
-            traditions={shape?.traditions || []}
-            tab={tab}
+            tab={effectiveTab}
             setTab={setTab}
           />
         )}
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
           {/* Primary navigation lives in the sidebar on wide; TabBar is the
               narrow-viewport fallback when the sidebar collapses. */}
-          {!readingMode && isNarrow && <TabBar active={tab} onChange={setTab} />}
+          {!readingMode && isNarrow && <TabBar active={effectiveTab} onChange={setTab} />}
           <main style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden' }}>
             {corpusError && (
               <div style={errorBanner}>
                 Couldn’t load the corpus index. Search and browse may be unavailable.
               </div>
+            )}
+            {tab === 'tipitaka' && (
+              <CanonMapView
+                onDrill={(path, leafId) => {
+                  setBrowsePath(path);
+                  setBrowseLeafId(leafId || null);
+                  setTab('browse');
+                }}
+              />
+            )}
+            {tab === 'commentary' && (
+              <CommentaryView
+                onDrill={(path, leafId) => {
+                  setBrowsePath(path);
+                  setBrowseLeafId(leafId || null);
+                  setTab('browse');
+                }}
+              />
+            )}
+            {tab === 'anya' && (
+              <ExtraCanonicalView
+                onDrill={(path, leafId) => {
+                  setBrowsePath(path);
+                  setBrowseLeafId(leafId || null);
+                  setTab('browse');
+                }}
+              />
             )}
             {tab === 'browse' && (
               <BrowseView
@@ -180,7 +244,7 @@ export default function Dhamma() {
                 readingMode={readingMode}
                 setReadingMode={setReadingMode}
                 onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
-                onCompareTerm={(term) => { setQuery(term); setTab('compare'); }}
+                onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
               />
             )}
             {tab === 'search' && (
@@ -192,10 +256,10 @@ export default function Dhamma() {
                 showInlineFilters={isNarrow}
                 searchMode={searchMode}
                 setSearchMode={setSearchMode}
-                onCompareTerm={(term) => { setQuery(term); setTab('compare'); }}
+                onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
               />
             )}
-            {tab === 'compare' && (
+            {tab === 'concordance' && (
               <CompareView
                 term={query}
                 activeTraditions={activeTraditions}
@@ -207,7 +271,7 @@ export default function Dhamma() {
               <DictionaryView
                 initialTerm={query}
                 onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
-                onCompareTerm={(term) => { setQuery(term); setTab('compare'); }}
+                onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
               />
             )}
           </main>

@@ -80,17 +80,15 @@ export default function SearchView({
     return () => clearTimeout(t);
   }, [parsed, push]);
 
+  // No need for a document-level mousedown listener anymore — the
+  // backdrop overlay (rendered below) catches off-clicks and dismisses
+  // the dropdown without letting the click fall through to the
+  // underlying diacritic / filter row. Esc still closes via keyboard.
   useEffect(() => {
     if (!historyOpen) return;
-    function onDoc(e) {
-      if (wrapRef.current && !wrapRef.current.contains(e.target)) setHistoryOpen(false);
-    }
-    document.addEventListener('mousedown', onDoc);
-    document.addEventListener('touchstart', onDoc);
-    return () => {
-      document.removeEventListener('mousedown', onDoc);
-      document.removeEventListener('touchstart', onDoc);
-    };
+    function onKey(e) { if (e.key === 'Escape') setHistoryOpen(false); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [historyOpen]);
 
   function insertChar(ch) {
@@ -117,26 +115,48 @@ export default function SearchView({
             ref={inputRef}
             type="search"
             value={q}
-            onChange={(e) => setQ(e.target.value)}
-            onFocus={() => history.length && setHistoryOpen(true)}
+            onChange={(e) => {
+              setQ(e.target.value);
+              // Typing is a "I want to search" signal; the recent
+              // dropdown is for "I want to recall an earlier query" —
+              // close it as soon as the user starts a new one.
+              if (historyOpen) setHistoryOpen(false);
+            }}
+            onClick={() => history.length && setHistoryOpen(true)}
             placeholder='Search — e.g. sampajāna, -bhikkhu, "clear comprehension"'
             style={input}
             spellCheck={false}
             autoFocus
           />
+          {/* Auto-focus alone shouldn't pop the dropdown — only an
+              explicit input click does. autoFocus exists so the user can
+              type immediately, not to surface history they didn't ask for. */}
           {historyOpen && history.length > 0 && (
-            <div style={historyMenu}>
-              <div style={historyLabel}>Recent</div>
-              {history.map((h) => (
-                <button
-                  key={h}
-                  onClick={() => { setQ(h); setHistoryOpen(false); inputRef.current?.focus(); }}
-                  style={historyItem}
-                >
-                  {h}
-                </button>
-              ))}
-            </div>
+            <>
+              {/* Backdrop catches off-clicks. The dropdown closes
+                  without firing whatever button the user might have
+                  been aiming at (diacritic, filter, etc.) — they get
+                  one click to dismiss, one to interact. */}
+              <div
+                style={historyBackdrop}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  setHistoryOpen(false);
+                }}
+              />
+              <div style={historyMenu}>
+                <div style={historyLabel}>Recent</div>
+                {history.map((h) => (
+                  <button
+                    key={h}
+                    onClick={() => { setQ(h); setHistoryOpen(false); inputRef.current?.focus(); }}
+                    style={historyItem}
+                  >
+                    {h}
+                  </button>
+                ))}
+              </div>
+            </>
           )}
         </div>
 
@@ -150,6 +170,12 @@ export default function SearchView({
 
         <div style={filterStack}>
           <FilterRow label="Match"     options={MODES}  active={mode}  onChange={setSearchMode} />
+          {/* Surface the active mode's behavior so the choice isn't a
+              cryptic 3-button toggle. Most queries land on Stem; users
+              should know what that means without hovering. */}
+          <p style={modeHint}>
+            {MODES.find((m) => m.key === mode)?.hint}
+          </p>
           <FilterRow label="Search in" options={SCOPES} active={scope} onChange={setScope} />
         </div>
 
@@ -345,6 +371,18 @@ const diacriticBtn = {
   transition: 'border-color 100ms ease, color 100ms ease',
 };
 
+// Fullscreen click-catch that sits behind the menu but above page
+// content. Lets the user dismiss the menu by clicking anywhere outside
+// it; preventDefault on mousedown stops the click from also firing on
+// whatever button (diacritic / filter) lives underneath.
+const historyBackdrop = {
+  position: 'fixed',
+  inset: 0,
+  zIndex: 49,
+  background: 'transparent',
+  cursor: 'default',
+};
+
 const historyMenu = {
   position: 'absolute',
   top: 'calc(100% + 4px)',
@@ -386,6 +424,15 @@ const filterStack = {
   flexDirection: 'column',
   gap: 6,
   marginBottom: 18,
+};
+
+const modeHint = {
+  margin: '2px 0 4px 64px',
+  fontSize: 11,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-tertiary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  lineHeight: 1.4,
 };
 
 const filterRow = {
