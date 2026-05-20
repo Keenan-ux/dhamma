@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import TopNav from './TopNav.jsx';
-import TabBar from './TabBar.jsx';
 import Sidebar from './Sidebar.jsx';
 import SearchView from './SearchView.jsx';
 import CompareView from './CompareView.jsx';
@@ -188,7 +187,7 @@ export default function Dhamma() {
         fontFamily: 'Outfit, system-ui, sans-serif',
       }}
     >
-      {!readingMode && <TopNav />}
+      {!readingMode && <TopNav tab={effectiveTab} setTab={setTab} />}
       <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
         {!readingMode && !isNarrow && (
           <Sidebar
@@ -197,9 +196,9 @@ export default function Dhamma() {
           />
         )}
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
-          {/* Primary navigation lives in the sidebar on wide; TabBar is the
-              narrow-viewport fallback when the sidebar collapses. */}
-          {!readingMode && isNarrow && <TabBar active={effectiveTab} onChange={setTab} />}
+          {/* Narrow viewports get navigation from the TopNav slide-in
+              panel instead of a TabBar — saves horizontal/vertical
+              real estate and matches the in-app Settings affordance. */}
           <main style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden' }}>
             {corpusError && (
               <div style={errorBanner}>

@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import useCorpus from './useCorpus.js';
+import useIsNarrow from './useIsNarrow.js';
 
 // Canonical Theravāda extra-canonical works. Two visual groupings —
 // chronicles (vaṃsa literature) and compendia / treatises — match how
@@ -28,6 +29,7 @@ const COMPENDIA = [
 export default function ExtraCanonicalView({ onDrill }) {
   const { shape, loading } = useCorpus();
   const [translatedOnly, setTranslatedOnly] = useState(false);
+  const isNarrow = useIsNarrow();
 
   const trad = shape?.tree?.find((t) => t.id === 'theravada');
   const anya = trad?.children?.find((w) => w.id === 'pli-anya');
@@ -66,7 +68,7 @@ export default function ExtraCanonicalView({ onDrill }) {
         </label>
       </div>
 
-      <div style={twoCol}>
+      <div style={isNarrow ? singleCol : twoCol}>
         <section style={column}>
           <h2 style={colHeader}>Chronicles</h2>
           <p style={colKind}>vaṃsa literature</p>
@@ -164,11 +166,22 @@ const topControls = {
 const twoCol = {
   maxWidth: 900,
   margin: '48px auto 0',
-  padding: '0 32px',
+  padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
   gap: 64,
   alignItems: 'start',
+  opacity: 0.65,
+};
+
+const singleCol = {
+  maxWidth: 480,
+  margin: '32px auto 0',
+  padding: '0 24px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 40,
+  alignItems: 'stretch',
   opacity: 0.65,
 };
 

@@ -9,9 +9,9 @@ import { SelectionActions } from './SelectionActions.jsx';
 const DIACRITICS = ['ā', 'ī', 'ū', 'ē', 'ō', 'ṃ', 'ṅ', 'ñ', 'ṇ', 'ṭ', 'ḍ', 'ṛ', 'ḷ', 'ṣ', 'ś'];
 
 const MODES = [
-  { key: 'exact',   label: 'Exact',   hint: 'Postgres FTS, no alias expansion' },
-  { key: 'stem',    label: 'Stem',    hint: 'FTS + cross-canon alias bridges (sati ↔ smṛti ↔ 念)' },
-  { key: 'meaning', label: 'Meaning', hint: 'Vector ANN + FTS, reciprocal rank fused' },
+  { key: 'exact',   label: 'Exact',   hint: 'Postgres FTS, literal tokens only — sampajāna does not catch sampajāno' },
+  { key: 'stem',    label: 'Stem',    hint: 'FTS with Pali inflection bridging — sampajāno, sampajānakārī, sampajānassa all resolve to sampajāna' },
+  { key: 'meaning', label: 'Meaning', hint: 'BGE-M3 vector semantic search blended with FTS — finds passages near in meaning, not just by token' },
 ];
 
 const SCOPES = [
