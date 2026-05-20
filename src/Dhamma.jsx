@@ -66,7 +66,7 @@ function parseInitialHash() {
     out.tab = 'tags';
   } else if (head === 'browse') {
     // Browse is the leaf-drill fallback until slice 2's cascading typeset
-    // pages replace it. Sidebar/TabBar no longer link here, but URL
+    // pages replace it. Sidebar no longer links here, but URL
     // bookmarks and click-to-drill from frontmatter pages still resolve.
     out.tab = 'browse';
     out.path = rest.map(longSlug);
@@ -182,8 +182,8 @@ export default function Dhamma() {
     if (readingMode && tab !== 'browse') setTab('browse');
   }, [readingMode, tab]);
 
-  // Sidebar/TabBar highlight: when actually browsing (drilled into a leaf
-  // via Tipiṭaka frontmatter), reflect *which corpus* the user is inside
+  // Sidebar highlight: when actually browsing (drilled into a leaf via
+  // Tipiṭaka frontmatter), reflect *which corpus* the user is inside
   // rather than the literal 'browse' tab, which is not in the nav.
   let effectiveTab = tab;
   if (tab === 'browse') {
@@ -216,8 +216,8 @@ export default function Dhamma() {
         )}
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
           {/* Narrow viewports get navigation from the TopNav slide-in
-              panel instead of a TabBar — saves horizontal/vertical
-              real estate and matches the in-app Settings affordance. */}
+              panel — saves horizontal/vertical real estate and matches
+              the in-app Settings affordance. */}
           <main style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden' }}>
             {corpusError && (
               <div style={errorBanner}>
