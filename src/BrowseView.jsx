@@ -260,6 +260,17 @@ function escapeRegExp(s) {
   return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+// Replace CST raw IDs ("E0806N-NRF §354") with the readable work name
+// when one is available. Same logic as PassageCard's displayCitation —
+// duplicated here to keep the components decoupled until a third
+// consumer justifies a shared util.
+const CST_PREFIX_RE = /^[A-Z]\d+[A-Z]?-[A-Z]+\s+/;
+function displayCitation(citation, workName) {
+  if (!citation || !workName || !CST_PREFIX_RE.test(citation)) return citation;
+  const rest = citation.replace(CST_PREFIX_RE, '').trim();
+  return rest ? `${workName} ${rest}` : workName;
+}
+
 // Wrap matches of `find` in <mark> tags. Case-insensitive, Unicode-safe.
 // Returns the original text when find is empty so non-find render paths
 // stay zero-cost in the common case.
@@ -489,7 +500,7 @@ function ReadingPanel({
 
       <header style={readingHeader}>
         <div style={readingCitationLine}>
-          <span style={readingCitation}>{passage.citation}</span>
+          <span style={readingCitation}>{displayCitation(passage.citation, workLabel)}</span>
           <span style={readingWork}>
             {passage.title || workLabel}{passage.title && workLabel ? ` · ${workLabel}` : ''}
           </span>
