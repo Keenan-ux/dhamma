@@ -8,7 +8,7 @@ have been agreed on, ordered by expected user-facing value:
 | 1 | **DPPN** — Pali Proper Names (Malalasekera, 1937; rev. Ānandajoti 2025) | **done** | Fills DPD's biggest gap: people, places, suttas as proper names. 13,603 entries live in prod. |
 | 2 | **PED** — Pali-English Dictionary (Rhys Davids & Stede, 1921–25) | **done** | Cross-reference against DPD on contested word meanings. 15,702 entries live in prod (CC BY-NC 3.0). |
 | 3 | **Monier-Williams Sanskrit-English** | **done** | Pali↔Sanskrit cognate cross-ref; preparation for Mahāyāna corpus. 193,890 entries live in prod (`source='mw'`, `language='san'`). |
-| 4 | BHS — Buddhist Hybrid Sanskrit (Edgerton) | pending | Edge case; matters once Mahāyāna lands. |
+| 4 | **BHS** — Buddhist Hybrid Sanskrit (Edgerton 1953) | **done** | 17,839 entries live in prod (`source='bhs'`, `language='san'`). Covers transitional Skt of Mahāyāna sūtras. |
 | 5 | CPD — Critical Pali Dictionary | pending | Scholarly gold standard but incomplete (alphabetical) and harder to extract. |
 | 6 | Buddhadatta — Concise Pali-English | pending | Mostly redundant with DPD; low priority. |
 
@@ -382,12 +382,56 @@ Known follow-ups (small, optional):
 
 ## After Monier-Williams: queue for next sessions
 
-- **Task 4 (BHS — Buddhist Hybrid Sanskrit, Edgerton 1953)**: matters
-  once Mahāyāna passages land; covers transitional Skt forms the pure
-  MW doesn't.
 - **Task 5 (CPD — Critical Pali Dictionary)**: scholarly gold standard
   but incomplete (alphabetical, never finished past T). High effort to
   extract; deliberately deferred until the Pali side is otherwise
   saturated.
 - **Task 6 (Buddhadatta — Concise Pali-English)**: mostly redundant
   with DPD; lowest priority.
+
+---
+
+## Task 4: BHS — Buddhist Hybrid Sanskrit ingest — DONE
+
+Shipped: 17,839 BHS entries live in prod at https://dhamma.fly.dev/
+under `source='bhs'`, `language='san'`. Second non-Pali source,
+companion to MW for the transitional Sanskrit of Mahāyāna sūtras.
+
+What landed:
+
+- [scripts/ingest/ingest-bhs.mjs](scripts/ingest/ingest-bhs.mjs) —
+  pulls `bhs.zip` from the same Cologne Digital Sanskrit Lexicon
+  release as MW
+  ([sanskrit-lexicon/csl-sqlite](https://github.com/sanskrit-lexicon/csl-sqlite/releases/latest)),
+  reads the bundled `bhs.sqlite` via Node's `node:sqlite`. All 17,839
+  rows are `<H1>` primaries with no continuations (simpler than MW's
+  H1A/H1B grouping), so one row = one entry. Reuses the SLP1 → IAST
+  table and the `preparedDefinition` XML rewriter from
+  [ingest-mw.mjs](scripts/ingest/ingest-mw.mjs), with `<lang>` (BHS
+  uses it prolifically to mark Pali/Skt./Pkt. cross-references) added
+  to the `→ <em>` mapping.
+- [server/src/dictionary.js](server/src/dictionary.js) — added `'bhs'`
+  to the default-sources cascade alongside dpd/dppn/ped/mw. Same
+  `language='san'` gating as MW: queried under the default
+  `language='pli'` it returns zero rows; surfaces only when the
+  request passes `?language=san`.
+- [src/dictHtml.js](src/dictHtml.js) — `SOURCE_LABEL.bhs` added so
+  the LookupPanel/DictionaryView render BHS results with a "BHS · …"
+  header and the Edgerton 1953 attribution. No client logic change;
+  the existing prepared-HTML pipeline handles BHS bodies identically
+  to MW's (same Cologne markup conventions).
+
+Smoke check (live):
+
+```bash
+curl -s "https://dhamma.fly.dev/api/lookup?term=bodhisattva&language=san" \
+  | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{
+      const d = JSON.parse(s);
+      console.log('matched_via:', d.matched_via);
+      const bySrc = {};
+      for (const e of d.entries) (bySrc[e.source] ||= []).push(e.lemma);
+      console.log('by source:', bySrc);
+    })"
+```
+
+Expect entries from both `mw` and `bhs`.
