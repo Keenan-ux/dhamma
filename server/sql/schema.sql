@@ -197,3 +197,21 @@ CREATE INDEX IF NOT EXISTS idx_translations_fts        ON translations USING GIN
 -- HNSW index for vector ANN is built once embeddings are populated;
 -- skipped here for the same reason as the dictionary HNSW (avoid
 -- ACCESS EXCLUSIVE on every boot).
+
+-- Passage parallels — cross-references between sutta passages, sourced
+-- from SuttaCentral's sc-data/relationship/parallels.json. Each record
+-- in that file is an array of passage IDs that are mutually related;
+-- the ingest expands it to a row per (source, target, relation_type).
+-- parallel_have flags whether the target is in our passages table
+-- (i.e. clickable). Sanskrit / Chinese / Tibetan parallels land here
+-- too — informational, not clickable, until those traditions ingest.
+CREATE TABLE IF NOT EXISTS passage_parallels (
+  passage_id     TEXT NOT NULL REFERENCES passages(id) ON DELETE CASCADE,
+  parallel_id    TEXT NOT NULL,
+  relation_type  TEXT NOT NULL,   -- 'parallels' | 'mentions' | 'retells'
+  parallel_lang  TEXT,             -- 'pli' | 'lzh' | 'san' | 'pra' | 'gandhari' | …
+  parallel_have  BOOLEAN NOT NULL DEFAULT FALSE,
+  PRIMARY KEY (passage_id, parallel_id, relation_type)
+);
+CREATE INDEX IF NOT EXISTS idx_pp_passage ON passage_parallels(passage_id);
+CREATE INDEX IF NOT EXISTS idx_pp_have    ON passage_parallels(parallel_have) WHERE parallel_have = TRUE;

@@ -3,7 +3,7 @@ import { pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
 import useCorpus from './useCorpus.js';
 import usePassage from './usePassage.js';
 import { SelectionActions } from './SelectionActions.jsx';
-import { passageTranslationsApi } from './api.js';
+import { passageTranslationsApi, passageParallelsApi } from './api.js';
 import { sanitizeDictHtml } from './dictHtml.js';
 
 const TRANSLATOR_LABEL = {
@@ -450,6 +450,31 @@ function ReadingPanel({
   const translationText = activeTranslation?.text || passage.translation;
   const translationIsHtml = activeTranslation && activeTranslation.source === 'ati';
 
+  // Parallels from SuttaCentral's parallels.json — fetched per passage.
+  // Targets carry parallel_have=true when in our corpus (clickable);
+  // others are external (e.g. Sanskrit/Chinese parallels) and render
+  // as plain text. Grouped by relation type so the scholar can scan
+  // direct parallels vs. mentions vs. retells separately.
+  const [parallels, setParallels] = useState(null);
+  useEffect(() => {
+    if (!passage?.id) return;
+    setParallels(null);
+    const ac = new AbortController();
+    passageParallelsApi(passage.id, { signal: ac.signal })
+      .then((r) => setParallels(r.parallels || []))
+      .catch(() => setParallels([]));
+    return () => ac.abort();
+  }, [passage?.id]);
+
+  const parallelsByType = useMemo(() => {
+    const m = new Map();
+    for (const p of parallels || []) {
+      if (!m.has(p.relation_type)) m.set(p.relation_type, []);
+      m.get(p.relation_type).push(p);
+    }
+    return m;
+  }, [parallels]);
+
   // In-passage find. Highlights matches in Pali (always) and translation
   // (only when plain-text — HTML translations from ATI bypass this for
   // v1 since regex-on-HTML risks breaking structure). Counts matches
@@ -621,6 +646,39 @@ function ReadingPanel({
           </a>
           {activeTranslation.notes && <span style={attribNotes}> · {activeTranslation.notes}</span>}
         </div>
+      )}
+
+      {parallels && parallels.length > 0 && !compact && (
+        <section style={parallelsSection}>
+          <h3 style={parallelsHeader}>Parallels</h3>
+          {Array.from(parallelsByType.entries()).map(([type, list]) => (
+            <div key={type} style={parallelsTypeRow}>
+              <span style={parallelsTypeLabel}>
+                {type === 'parallels' ? 'direct' : type}
+              </span>
+              <span style={parallelsList}>
+                {list.map((p, i) => (
+                  <span key={p.parallel_id + i}>
+                    {p.parallel_have && p.parallel_citation ? (
+                      <button
+                        onClick={() => onNavigate?.(p.parallel_id)}
+                        style={parallelsLinkBtn}
+                        title={p.parallel_title || p.parallel_citation}
+                      >
+                        {p.parallel_citation}
+                      </button>
+                    ) : (
+                      <span style={parallelsExternal} title={p.parallel_lang ? `external · ${p.parallel_lang}` : 'external'}>
+                        {p.parallel_id}
+                      </span>
+                    )}
+                    {i < list.length - 1 && <span style={parallelsSep}>·</span>}
+                  </span>
+                ))}
+              </span>
+            </div>
+          ))}
+        </section>
       )}
 
       <footer style={readingFooter}>
@@ -1047,6 +1105,75 @@ const attribLink = {
 
 const attribNotes = {
   color: 'var(--bc-text-tertiary)',
+};
+
+const parallelsSection = {
+  marginTop: 24,
+  paddingTop: 16,
+  borderTop: '1px dashed rgba(var(--bc-accent-rgb), 0.18)',
+};
+
+const parallelsHeader = {
+  margin: '0 0 10px',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-secondary)',
+};
+
+const parallelsTypeRow = {
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: 12,
+  marginBottom: 8,
+  flexWrap: 'wrap',
+};
+
+const parallelsTypeLabel = {
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 9,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  flexShrink: 0,
+  minWidth: 56,
+};
+
+const parallelsList = {
+  display: 'inline',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  lineHeight: 1.8,
+  color: 'var(--bc-text-secondary)',
+};
+
+const parallelsLinkBtn = {
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--bc-accent)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 13,
+  cursor: 'pointer',
+  padding: '0 4px',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.30)',
+};
+
+const parallelsExternal = {
+  color: 'var(--bc-text-tertiary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 13,
+  padding: '0 4px',
+};
+
+const parallelsSep = {
+  color: 'var(--bc-text-tertiary)',
+  opacity: 0.5,
+  margin: '0 2px',
 };
 
 const navRow = {
