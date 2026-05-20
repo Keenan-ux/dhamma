@@ -5,6 +5,8 @@ import usePassage from './usePassage.js';
 import { SelectionActions } from './SelectionActions.jsx';
 import { passageTranslationsApi, passageParallelsApi } from './api.js';
 import { sanitizeDictHtml } from './dictHtml.js';
+import { formatCitation } from './citationFormat.js';
+import useBookmarks from './useBookmarks.js';
 
 const TRANSLATOR_LABEL = {
   sujato: 'Bhante Sujato',
@@ -456,6 +458,8 @@ function ReadingPanel({
   // as plain text. Grouped by relation type so the scholar can scan
   // direct parallels vs. mentions vs. retells separately.
   const [parallels, setParallels] = useState(null);
+  const [citeCopied, setCiteCopied] = useState(false);
+  const { has: isBookmarked, toggle: toggleBookmark } = useBookmarks();
   useEffect(() => {
     if (!passage?.id) return;
     setParallels(null);
@@ -531,6 +535,40 @@ function ReadingPanel({
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+          {!compact && (
+            <button
+              onClick={() => toggleBookmark({ id: leafId, citation: passage.citation, title: passage.title, work: workLabel })}
+              style={iconAction}
+              title={isBookmarked(leafId) ? 'Remove bookmark' : 'Bookmark this passage'}
+              aria-label={isBookmarked(leafId) ? 'Remove bookmark' : 'Bookmark this passage'}
+            >
+              {isBookmarked(leafId) ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6 2h12a1 1 0 0 1 1 1v19l-7-4-7 4V3a1 1 0 0 1 1-1z"/></svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-4-7 4V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1z"/></svg>
+              )}
+            </button>
+          )}
+          {!compact && (
+            <button
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(formatCitation({ ...passage, work: workLabel, tradition: traditionLabel }));
+                  setCiteCopied(true);
+                  setTimeout(() => setCiteCopied(false), 1400);
+                } catch {/* ignore */}
+              }}
+              style={iconAction}
+              title={citeCopied ? 'Citation copied' : 'Copy citation'}
+              aria-label="Copy citation"
+            >
+              {citeCopied ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              )}
+            </button>
+          )}
           {!compact && (
             <button onClick={() => setPinnedLeafId?.(isPinned ? null : leafId)} style={iconAction} title={isPinned ? 'Unpin' : 'Pin to top'}>
               {isPinned ? (
