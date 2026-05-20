@@ -231,6 +231,87 @@ export async function runSearch(rawParams) {
       ORDER BY score DESC
       LIMIT ${limit}
     `;
+  } else if (field === 'translation') {
+    // Meaning mode against the multi-translator corpus. Vector ANN on
+    // translations.embedding, RRF-fused with FTS on translations.fts_doc
+    // when there's a tsquery. Results carry per-translator metadata so
+    // the UI shows "tr. Thanissaro Bhikkhu" etc.
+    let qVec;
+    try { qVec = await embedQuery(q); }
+    catch (err) {
+      warning = `embed_failed:${err.message}`;
+      if (!tsquery) {
+        return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded, warning };
+      }
+      rows = await sql`
+        SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
+               p.original, t.text AS translation,
+               t.translator, t.source AS translator_source, t.copyright AS translator_copyright,
+               t.license AS translator_license, t.source_url AS translator_source_url,
+               ts_rank(t.fts_doc, q) AS score
+        FROM translations t
+        JOIN passages p ON p.id = t.passage_id,
+             to_tsquery('simple', ${tsquery}) q
+        WHERE t.fts_doc @@ q
+        ORDER BY score DESC
+        LIMIT ${limit}
+      `;
+      return { query: q, mode, field, limit, took_ms: Date.now() - t0,
+               results: rows.map(shapeResult), expanded, warning };
+    }
+    const qVecLit = `[${qVec.join(',')}]`;
+    if (!tsquery) {
+      rows = await sql`
+        SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
+               p.original, t.text AS translation,
+               t.translator, t.source AS translator_source, t.copyright AS translator_copyright,
+               t.license AS translator_license, t.source_url AS translator_source_url,
+               1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector)) AS score
+        FROM translations t
+        JOIN passages p ON p.id = t.passage_id
+        WHERE t.embedding IS NOT NULL
+        ORDER BY t.embedding <=> ${qVecLit}::vector
+        LIMIT ${limit}
+      `;
+    } else {
+      rows = await sql`
+        WITH
+        fts AS (
+          SELECT t.id, ROW_NUMBER() OVER (ORDER BY ts_rank(t.fts_doc, q) DESC) AS rnk
+          FROM translations t, to_tsquery('simple', ${tsquery}) q
+          WHERE t.fts_doc @@ q
+          LIMIT ${FUSION_POOL}
+        ),
+        vec AS (
+          SELECT t.id, ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector) AS rnk
+          FROM translations t
+          WHERE t.embedding IS NOT NULL
+          ORDER BY t.embedding <=> ${qVecLit}::vector
+          LIMIT ${FUSION_POOL}
+        )
+        SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
+               p.original, t.text AS translation,
+               t.translator, t.source AS translator_source, t.copyright AS translator_copyright,
+               t.license AS translator_license, t.source_url AS translator_source_url,
+               COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
+             + COALESCE(1.0 / (${RRF_K} + vec.rnk), 0) AS score,
+               CASE WHEN fts.id IS NOT NULL
+                 THEN ts_headline('simple', t.text,
+                        to_tsquery('simple', ${tsquery}),
+                        'MaxFragments=1,MinWords=10,MaxWords=28,StartSel="",StopSel="",FragmentDelimiter="… "')
+                 ELSE NULL
+               END AS headline
+        FROM translations t
+        JOIN passages p ON p.id = t.passage_id
+        LEFT JOIN fts ON fts.id = t.id
+        LEFT JOIN vec ON vec.id = t.id
+        WHERE fts.id IS NOT NULL OR vec.id IS NOT NULL
+        ORDER BY score DESC
+        LIMIT ${limit}
+      `;
+    }
+    return { query: q, mode, field, limit, took_ms: Date.now() - t0,
+             results: rows.map(shapeResult), expanded };
   } else {
     // Meaning mode: FTS (if any) + vector ANN, RRF-fused. If embedding fails,
     // fall back to FTS-only with a warning. If tsquery is empty (e.g. all
