@@ -207,6 +207,10 @@ export default function BrowseView({
                   if (newPath) setPath(newPath);
                   setLeafId(id);
                 }}
+                onBrowseToPath={(newPath) => {
+                  setPath(newPath);
+                  setLeafId(null);
+                }}
                 onSearchTerm={onSearchTerm}
                 onCompareTerm={onCompareTerm}
               />
