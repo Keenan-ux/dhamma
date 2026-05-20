@@ -3,7 +3,7 @@ import { pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
 import useCorpus from './useCorpus.js';
 import usePassage from './usePassage.js';
 import { SelectionActions } from './SelectionActions.jsx';
-import { passageTranslationsApi, passageParallelsApi, passageTagsApi } from './api.js';
+import { passageTranslationsApi, passageParallelsApi, passageTagsApi, glossApi } from './api.js';
 import { sanitizeDictHtml } from './dictHtml.js';
 import { formatCitation } from './citationFormat.js';
 import useBookmarks from './useBookmarks.js';
@@ -287,12 +287,31 @@ function highlightFind(text, find) {
   );
 }
 
+// Wrap Pali word tokens with their DPD gloss (native browser tooltip
+// via title=). Words without a gloss render as plain text so the
+// passage layout is unchanged.
+function withGlosses(text, glossMap) {
+  if (!glossMap || Object.keys(glossMap).length === 0) return text;
+  // Split keeping the separators: every odd index is a word token.
+  const parts = String(text).split(/(\p{L}+)/u);
+  return parts.map((p, i) => {
+    if (i % 2 === 0) return <span key={i}>{p}</span>;
+    const g = glossMap[p.toLowerCase()];
+    if (!g) return <span key={i}>{p}</span>;
+    return (
+      <span key={i} style={glossWord} title={`${g.headword} — ${g.def} (${g.source.toUpperCase()})`}>
+        {p}
+      </span>
+    );
+  });
+}
+
 // Side-by-side parallel reader for passages that have both Pali and an
 // English translation. A draggable divider between the two panes lets
 // the reader give more real estate to whichever side they're focusing
 // on. Each pane keeps the standard Pali / translation typography so the
 // stacked-fallback view above stays consistent.
-function SideBySideReader({ pali, english, englishIsHtml, findText }) {
+function SideBySideReader({ pali, english, englishIsHtml, findText, glossMap }) {
   const [pct, setPct] = useState(50);
   const containerRef = useRef(null);
   const draggingRef = useRef(false);
@@ -322,7 +341,9 @@ function SideBySideReader({ pali, english, englishIsHtml, findText }) {
   return (
     <div ref={containerRef} style={sideBySideWrap}>
       <div style={{ ...sideBySidePane, flexBasis: `${pct}%` }}>
-        <p style={readingOriginal}>{highlightFind(pali, findText)}</p>
+        <p style={readingOriginal}>
+          {glossMap ? withGlosses(pali, glossMap) : highlightFind(pali, findText)}
+        </p>
       </div>
       <div
         style={sideBySideDivider}
@@ -470,6 +491,25 @@ function ReadingPanel({
     return () => ac.abort();
   }, [passage?.id]);
 
+  // Interlinear glosses — Pali words become hoverable, tooltip shows
+  // the DPD/PED headword + short definition. Off by default to avoid
+  // visual noise; toggled in the reader header.
+  const [glossesOn, setGlossesOn] = useState(false);
+  const [glossMap, setGlossMap] = useState(null);
+  useEffect(() => {
+    if (!glossesOn || !passage.original) { setGlossMap(null); return; }
+    // Tokenize: any Unicode letter run (covers Pali diacritics)
+    const words = Array.from(new Set(
+      passage.original.toLowerCase().match(/\p{L}+/giu) || []
+    )).slice(0, 200);
+    if (words.length === 0) return;
+    const ac = new AbortController();
+    glossApi(words, { signal: ac.signal })
+      .then((r) => setGlossMap(r.glosses || {}))
+      .catch(() => setGlossMap({}));
+    return () => ac.abort();
+  }, [glossesOn, passage.original]);
+
   // Curated tags from ATI's index-*.html (similes / names / subjects /
   // numbers). Shown as small chips below the body — instant orientation
   // for "what is this sutta known for in scholarly literature."
@@ -601,6 +641,25 @@ function ReadingPanel({
               )}
             </button>
           )}
+          {!compact && passage.original && (
+            <button
+              onClick={() => setGlossesOn((v) => !v)}
+              style={{
+                ...iconAction,
+                color: glossesOn ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                borderColor: glossesOn ? 'var(--bc-accent)' : 'rgba(255,255,255,0.08)',
+              }}
+              title={glossesOn ? 'Hide word glosses' : 'Show word glosses (DPD)'}
+              aria-label="Toggle interlinear word glosses"
+              aria-pressed={glossesOn}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/>
+                <path d="M12 4v16"/>
+                <path d="M8 20h8"/>
+              </svg>
+            </button>
+          )}
           {!compact && !readingMode && (
             <button onClick={() => setReadingMode?.(true)} style={iconAction} title="Reading mode (focus)">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -710,12 +769,15 @@ function ReadingPanel({
           english={translationText}
           englishIsHtml={translationIsHtml}
           findText={findStripped}
+          glossMap={glossesOn ? glossMap : null}
         />
       ) : (
         <>
           {passage.original && (
             <p style={readingOriginal}>
-              {highlightFind(passage.original, findStripped)}
+              {glossesOn && glossMap
+                ? withGlosses(passage.original, glossMap)
+                : highlightFind(passage.original, findStripped)}
             </p>
           )}
           {translationText && (
@@ -1142,6 +1204,14 @@ const findMark = {
   color: 'inherit',
   padding: '0 2px',
   borderRadius: 2,
+};
+
+// Glossed Pali words get a thin dotted underline so the reader knows
+// hovering will show the headword + DPD definition. Restrained — most
+// Pali words will have a gloss, and a heavy underline becomes a wall.
+const glossWord = {
+  borderBottom: '1px dotted rgba(var(--bc-accent-rgb), 0.35)',
+  cursor: 'help',
 };
 
 const sideBySideWrap = {

@@ -34,6 +34,17 @@ export function passageTagsApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}/tags`, opts);
 }
 
+export async function glossApi(words, { signal } = {}) {
+  const res = await fetch('/api/gloss', {
+    method: 'POST',
+    headers: { accept: 'application/json', 'content-type': 'application/json' },
+    body: JSON.stringify({ words }),
+    signal,
+  });
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+  return res.json();
+}
+
 export function tagsApi({ type, value, signal } = {}) {
   const params = new URLSearchParams();
   if (type) params.set('type', type);
