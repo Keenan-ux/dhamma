@@ -166,3 +166,34 @@ CREATE TABLE IF NOT EXISTS dictionary_inflections (
 
 CREATE INDEX IF NOT EXISTS idx_dict_infl_surface        ON dictionary_inflections(surface_lower);
 CREATE INDEX IF NOT EXISTS idx_dict_infl_surface_folded ON dictionary_inflections(surface_folded);
+
+-- Multi-translator translations. One row per (passage, translator, source).
+-- Sujato (SC) and ATI translators (Thanissaro, Walshe, Nyanaponika, ...)
+-- coexist here, each carrying its own attribution and CC license text.
+-- The fts_doc column indexes the translation text for the
+-- field=translation search scope; embedding feeds the Meaning mode.
+CREATE TABLE IF NOT EXISTS translations (
+  id          BIGSERIAL PRIMARY KEY,
+  passage_id  TEXT NOT NULL REFERENCES passages(id) ON DELETE CASCADE,
+  language    TEXT NOT NULL DEFAULT 'en',
+  translator  TEXT NOT NULL,
+  source      TEXT NOT NULL,
+  text        TEXT NOT NULL,
+  notes       TEXT,
+  copyright   TEXT,
+  license     TEXT,
+  source_url  TEXT,
+  fts_doc     tsvector GENERATED ALWAYS AS (to_tsvector('simple', text)) STORED,
+  embedding   vector(1024),
+  position    INT,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (passage_id, translator, source)
+);
+
+CREATE INDEX IF NOT EXISTS idx_translations_passage    ON translations(passage_id);
+CREATE INDEX IF NOT EXISTS idx_translations_translator ON translations(translator);
+CREATE INDEX IF NOT EXISTS idx_translations_source     ON translations(source);
+CREATE INDEX IF NOT EXISTS idx_translations_fts        ON translations USING GIN(fts_doc);
+-- HNSW index for vector ANN is built once embeddings are populated;
+-- skipped here for the same reason as the dictionary HNSW (avoid
+-- ACCESS EXCLUSIVE on every boot).
