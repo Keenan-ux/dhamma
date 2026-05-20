@@ -3,6 +3,16 @@
 
 import { sql } from './db.js';
 
+// CST mūla volume-header passages (e.g. cst-s0101m.mul-dn1, no
+// underscore) are pos-1 placeholders carrying the uddāna mnemonic
+// verse + closing colophon for an entire nikāya volume. Their content
+// is redundant with the underscore-suffix sutta rows (cst-…-dn1_1,
+// _2, …) where the actual canonical material lives. Hide them from
+// /api/corpus so the browse tree shows real suttas only; the rows
+// stay on disk and remain reachable via /api/passage/:id for any
+// future use. See CLAUDE.md for the rationale.
+const UDDANA_HEADER_REGEX = '^cst-[a-z0-9]+m\\.mul-(dn|mn|sn|an|kn)[0-9]+$';
+
 export async function runCorpus() {
   if (!sql) return { traditions: [] };
 
@@ -25,7 +35,10 @@ export async function runCorpus() {
       FROM traditions t
       LEFT JOIN works w ON w.tradition_slug = t.slug
       LEFT JOIN (
-        SELECT work_slug, COUNT(*)::int AS cnt FROM passages GROUP BY work_slug
+        SELECT work_slug, COUNT(*)::int AS cnt
+        FROM passages
+        WHERE id !~ ${UDDANA_HEADER_REGEX}
+        GROUP BY work_slug
       ) pc ON pc.work_slug = w.slug
       LEFT JOIN (
         -- Per-work count of passages that have at least one row in the
@@ -41,6 +54,7 @@ export async function runCorpus() {
     sql`
       SELECT id, citation, title, work_slug
       FROM passages
+      WHERE id !~ ${UDDANA_HEADER_REGEX}
       ORDER BY work_slug, position NULLS LAST, id
     `,
   ]);
