@@ -9,6 +9,7 @@ import CommentaryView from './CommentaryView.jsx';
 import ExtraCanonicalView from './ExtraCanonicalView.jsx';
 import LibraryView from './LibraryView.jsx';
 import BookmarksView from './BookmarksView.jsx';
+import TagsView from './TagsView.jsx';
 import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
@@ -61,6 +62,8 @@ function parseInitialHash() {
     out.tab = 'library';
   } else if (head === 'bookmarks') {
     out.tab = 'bookmarks';
+  } else if (head === 'tags') {
+    out.tab = 'tags';
   } else if (head === 'browse') {
     // Browse is the leaf-drill fallback until slice 2's cascading typeset
     // pages replace it. Sidebar/TabBar no longer link here, but URL
@@ -123,6 +126,9 @@ export default function Dhamma() {
       if (!window.location.hash.startsWith('#/library/')) hash = '/library';
     } else if (tab === 'bookmarks') {
       hash = '/bookmarks';
+    } else if (tab === 'tags') {
+      // TagsView manages its own /tags/<type>/<value> deep links.
+      if (!window.location.hash.startsWith('#/tags')) hash = '/tags';
     } else if (tab === 'browse') {
       if (browseLeafId) {
         hash = `/read/${enc(browseLeafId)}`;
@@ -253,6 +259,15 @@ export default function Dhamma() {
             )}
             {tab === 'bookmarks' && (
               <BookmarksView
+                onOpenPassage={(id) => {
+                  setBrowseLeafId(id);
+                  setBrowsePath([]);
+                  setTab('browse');
+                }}
+              />
+            )}
+            {tab === 'tags' && (
+              <TagsView
                 onOpenPassage={(id) => {
                   setBrowseLeafId(id);
                   setBrowsePath([]);

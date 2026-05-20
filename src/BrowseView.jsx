@@ -469,7 +469,14 @@ function ReadingPanel({
 
   // Flat depth-first order across the whole canon — adjacent nav crosses
   // work / canon boundaries so a reader can trace a concept end-to-end.
-  const allLeaves = useMemo(() => collectLeaves(tree), [tree]);
+  // Filter out CST mūla volume-header uddāna passages — they're
+  // mnemonic verses, not content readers want to step through. The
+  // individual suttas (..._1, _2, …) stay in the chain.
+  const isUddanaId = (id) => /^cst-[a-z0-9]+m\.mul-(dn|mn|sn|an|kn)\d+$/i.test(id);
+  const allLeaves = useMemo(
+    () => collectLeaves(tree).filter((n) => !isUddanaId(n.id)),
+    [tree]
+  );
   const idx = leafId ? allLeaves.findIndex((n) => n.id === leafId) : -1;
   const prev = idx > 0 ? allLeaves[idx - 1] : null;
   const next = idx >= 0 && idx < allLeaves.length - 1 ? allLeaves[idx + 1] : null;

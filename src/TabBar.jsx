@@ -7,6 +7,7 @@ export default function TabBar({ active, onChange }) {
     { key: 'search',      label: 'Search' },
     { key: 'concordance', label: 'Concordance' },
     { key: 'dictionary',  label: 'Dictionary' },
+    { key: 'tags',        label: 'Tags' },
     { key: 'bookmarks',   label: 'Bookmarks' },
   ];
   return (
