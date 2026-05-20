@@ -50,6 +50,31 @@ export default function SearchView({
   useEffect(() => {
     if (mode === 'meaning' && scope === 'title') setScope('all');
   }, [mode, scope]);
+
+  // The diacritics row only matters when the user is typing. Reveal on
+  // focus, hide on blur — except: clicking a diacritic button briefly
+  // blurs the input, so we delay the hide and the diacritic onMouseDown
+  // re-focuses before our setTimeout fires. Net effect: row stays
+  // visible while the user is composing, vanishes the moment they
+  // tab away.
+  const [inputFocused, setInputFocused] = useState(false);
+  const blurTimerRef = useRef(null);
+  function handleInputFocus() {
+    if (blurTimerRef.current) clearTimeout(blurTimerRef.current);
+    setInputFocused(true);
+    // Deliberately do NOT open the recent-search dropdown on focus —
+    // autoFocus fires on mount and the dropdown popping up there is
+    // the auto-load behavior we fixed earlier. History opens only on
+    // explicit onClick (below).
+  }
+  function handleInputBlur() {
+    blurTimerRef.current = setTimeout(() => setInputFocused(false), 120);
+  }
+  function preserveFocus() {
+    // Mouse-down on a diacritic button: prevent the default focus loss
+    // so the input keeps focus and our row stays visible.
+    if (blurTimerRef.current) clearTimeout(blurTimerRef.current);
+  }
   const [historyOpen, setHistoryOpen] = useState(false);
   const inputRef = useRef(null);
   const wrapRef = useRef(null);
@@ -139,6 +164,8 @@ export default function SearchView({
               // close it as soon as the user starts a new one.
               if (historyOpen) setHistoryOpen(false);
             }}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
             onClick={() => history.length && setHistoryOpen(true)}
             placeholder='Search — e.g. sampajāna, -bhikkhu, "clear comprehension"'
             style={input}
@@ -177,13 +204,24 @@ export default function SearchView({
           )}
         </div>
 
-        <div style={diacriticsRow} aria-label="Insert Pali diacritic">
-          {DIACRITICS.map((ch) => (
-            <button key={ch} onClick={() => insertChar(ch)} style={diacriticBtn} title={`Insert ${ch}`}>
-              {ch}
-            </button>
-          ))}
-        </div>
+        {/* Diacritics row reveals only while the input has focus.
+            onMouseDown on the buttons preventDefault so the focus
+            doesn't bounce to the button (which would hide the row). */}
+        {inputFocused && (
+          <div style={diacriticsRow} aria-label="Insert Pali diacritic">
+            {DIACRITICS.map((ch) => (
+              <button
+                key={ch}
+                onMouseDown={(e) => { e.preventDefault(); preserveFocus(); }}
+                onClick={() => insertChar(ch)}
+                style={diacriticBtn}
+                title={`Insert ${ch}`}
+              >
+                {ch}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div style={filterStack}>
           <FilterRow label="Match"     options={MODES}  active={mode}  onChange={setSearchMode} />
