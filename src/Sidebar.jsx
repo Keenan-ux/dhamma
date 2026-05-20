@@ -72,13 +72,13 @@ export default function Sidebar({
       <div style={bottomGroup}>
         <Section title="About">
           <p style={aboutText}>
-            Query Buddhist canonical texts across traditions. Pali Tipiṭaka
-            via SuttaCentral; Aṭṭhakathā, Ṭīkā and supplementary works via
-            VRI/CST. Three Pali dictionaries integrated: DPD (88K
-            headwords), DPPN proper names (13K biographies), and PTS
-            PED (15K headwords). Mahāyāna and
-            Zen branches pending ingest. Search modes: Exact (FTS), Stem
-            (alias-bridged), Meaning (BGE-M3 vectors).
+            Query the Pali canon. Tipiṭaka via SuttaCentral; Aṭṭhakathā,
+            Ṭīkā and supplementary works via VRI/CST. Three Pali
+            dictionaries integrated: DPD (88K headwords), DPPN proper
+            names (13K biographies), and PTS PED (15K headwords). Search
+            modes: Exact (FTS), Stem (alias-bridged), Meaning (BGE-M3
+            vectors). Cross-referencing with other Buddhist traditions
+            is an open direction as the corpus expands.
           </p>
         </Section>
       </div>

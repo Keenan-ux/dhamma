@@ -332,23 +332,80 @@ it readable (this matters scholarly) but not loud (it's per-passage).
 
 ---
 
-## 7. Articles / study guides / indexes (deferred)
+## 7. Articles / study guides / indexes — Library tab (Phase 6)
 
-After the alt-translations land, return here. The non-sutta content in
-ATI's dump has high editorial value:
+After Phases 1-5 land. The non-sutta content in ATI's dump has high
+editorial value:
 
 - **`lib/study/`** — themed study guides (Wings to Awakening, etc.) by
   Thanissaro. Hundreds of pages of secondary literature.
 - **`lib/authors/`** — author pages with bio, full talks/essays.
 - **`noncanon/`** — Visuddhimagga and related extra-canonical material.
 - **`ptf/`** — Path to Freedom (modern study program).
-- **`index-*.html`** — curated indexes: similes, proper names, subjects, etc.
+- **`index-*.html`** — curated indexes: similes, proper names, subjects, titles.
 - **`glossary.html`** — supplementary Pali-English glossary.
 
-These are a different content type from sutta passages and probably want
-their own table (`articles` or `library_entries`). Defer until the Tier C
-commentaries and PED-quality dictionary expansions are in place — the
-core canonical material should be solid first.
+Architecture:
+
+- **Don't** force these into `passages`. They have a different shape
+  (no canonical citation, free-form title, author, themes, often
+  long-form).
+- **New `articles` table** (or `library_entries` — bikeshed):
+  ```sql
+  CREATE TABLE articles (
+    id          BIGSERIAL PRIMARY KEY,
+    slug        TEXT UNIQUE NOT NULL,
+    title       TEXT NOT NULL,
+    author      TEXT,
+    source      TEXT NOT NULL,         -- 'ati'
+    source_url  TEXT,                  -- canonical URL back to ATI
+    body        TEXT NOT NULL,         -- sanitized HTML
+    summary     TEXT,                  -- optional excerpt
+    tags        TEXT[],                -- 'satipatthana', 'study-guide', ...
+    license     TEXT,
+    copyright   TEXT,
+    fts_doc     tsvector GENERATED ALWAYS AS (
+      setweight(to_tsvector('simple', coalesce(title, '')), 'A') ||
+      setweight(to_tsvector('simple', coalesce(body, '')), 'B')
+    ) STORED,
+    embedding   vector(1024),
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  );
+  ```
+- **Sidebar:** new top-level "Library" tab next to Browse / Search /
+  Compare / Dictionary. Articles, study guides, and the curated indexes
+  live here.
+- **Search scope** extended: `{all, original, translation, citation,
+  library}`. A scholar searching "anatta" in Library scope gets
+  Thanissaro's essays + Bodhi's introductions, not canonical passages.
+- **Indexes** (similes, names, subjects, titles) are *navigational* not
+  full-text — render as Browse-side filter chips. E.g. "Show all
+  passages tagged with simile: the lute" jumps the Browse tree to those.
+  Stored as `passage_tags(passage_id, tag_type, tag_value)` keyed off
+  ATI's index pages.
+
+### URL structure recommendation
+
+Per-passage and per-translation deep links: yes, do this. Each passage
+gets a stable URL like `/sutta/mn10` and each translation gets
+`/sutta/mn10/thanissaro`. Articles get `/library/wings-to-awakening`.
+
+Do **not** include "accesstoinsight" in URLs. It looks spammy, doesn't
+help SEO (Google rewards content quality + backlinks, not domain-name
+keyword matching), and ATI as the source belongs in the on-page
+attribution footer (already required by CC BY-NC 4.0) and in
+`<meta name="cite-source">` / schema.org markup, not in the URL.
+
+What *does* help SEO and would maximise the value of being a "live"
+mirror of ATI content:
+- Stable canonical URLs (per-passage + per-translation routes)
+- `<link rel="canonical">` on every page
+- Open Graph + Twitter Card meta tags
+- `sitemap.xml` enumerating all passage and library URLs
+- Schema.org `Article`/`CreativeWork` markup
+- Honest backlinks from BCBS / SuttaCentral / scholar mailing lists
+- A redirect mapping from ATI's URL paths to ours (only doable if BCBS
+  hands us the domain, which is the long-shot ask)
 
 ---
 
