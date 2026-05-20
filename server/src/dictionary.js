@@ -82,9 +82,12 @@ function projectEntry(e) {
 // diacritics. This per-source cascade picks up where step 0 left off:
 // inflection → stem-prefix → literal prefix → compound. Each source
 // runs independently so a query that hits DPD via inflection still
-// gets a chance to hit DPPN via prefix.
+// gets a chance to hit DPPN via prefix. Every step also matches the
+// diacritic-folded query against the corresponding folded column, so
+// "sampajano" can still find DPD's "sampajāno" inflection of "sampajāna".
 async function paliCascadeFallback(q, source, language) {
   let entries;
+  const qFolded = foldDiacritics(q);
 
   // 1) Inflection lookup — DPD-specific (DPPN/PED don't decline).
   if (source === 'dpd') {
@@ -95,7 +98,7 @@ async function paliCascadeFallback(q, source, language) {
              de.sanskrit, de.construction, de.root, de.example, de.notes
       FROM dictionary_inflections di
       JOIN dictionary_entries de ON de.id = di.entry_id
-      WHERE di.surface_lower = ${q}
+      WHERE (di.surface_lower = ${q} OR di.surface_folded = ${qFolded})
         AND de.source = ${source} AND de.language = ${language}
       ORDER BY de.id
       LIMIT ${MAX_PER_SOURCE}
@@ -110,10 +113,13 @@ async function paliCascadeFallback(q, source, language) {
   if (q.length >= 4) {
     const stem = stemForPrefix(q);
     if (stem && stem.length >= 3) {
+      const stemFolded = foldDiacritics(stem);
       entries = await sql`
         SELECT ${ENTRY_FIELDS}
         FROM dictionary_entries
-        WHERE (headword_lower LIKE ${stem + '%'} OR lemma_lower LIKE ${stem + '%'})
+        WHERE (headword_lower LIKE ${stem + '%'}
+            OR lemma_lower LIKE ${stem + '%'}
+            OR headword_folded LIKE ${stemFolded + '%'})
           AND source = ${source} AND language = ${language}
         ORDER BY LENGTH(COALESCE(headword_lower, lemma_lower)), headword_lower
         LIMIT ${MAX_PER_SOURCE}
@@ -129,7 +135,9 @@ async function paliCascadeFallback(q, source, language) {
     entries = await sql`
       SELECT ${ENTRY_FIELDS}
       FROM dictionary_entries
-      WHERE (headword_lower LIKE ${q + '%'} OR lemma_lower LIKE ${q + '%'})
+      WHERE (headword_lower LIKE ${q + '%'}
+          OR lemma_lower LIKE ${q + '%'}
+          OR headword_folded LIKE ${qFolded + '%'})
         AND source = ${source} AND language = ${language}
       ORDER BY LENGTH(COALESCE(headword_lower, lemma_lower)), headword_lower
       LIMIT ${MAX_PER_SOURCE}
@@ -143,6 +151,8 @@ async function paliCascadeFallback(q, source, language) {
   //    substrings of the user's input, expanded for common sandhi (long
   //    vowels ↔ short pairs). Skipped for DPPN/PED to avoid surfacing
   //    every short proper name that happens to be a substring of a compound.
+  //    Also tries the folded query so a user typing "sampajano" decomposes
+  //    via "sampajana" against DPD's folded headwords.
   if (source === 'dpd' && q.length >= 5) {
     const variants = new Set([q]);
     if (q.includes('ā')) variants.add(q.replace(/ā/g, 'aa'));
@@ -150,11 +160,13 @@ async function paliCascadeFallback(q, source, language) {
     if (q.includes('ū')) variants.add(q.replace(/ū/g, 'uu'));
     const matches = new Map();
     for (const v of variants) {
+      const vFolded = foldDiacritics(v);
       const rows = await sql`
         SELECT ${ENTRY_FIELDS}, headword_lower
         FROM dictionary_entries
         WHERE LENGTH(COALESCE(headword_lower, lemma_lower)) >= 4
-          AND POSITION(COALESCE(headword_lower, lemma_lower) IN ${v}) > 0
+          AND (POSITION(COALESCE(headword_lower, lemma_lower) IN ${v}) > 0
+            OR POSITION(headword_folded IN ${vFolded}) > 0)
           AND source = ${source} AND language = ${language}
         LIMIT 100
       `;
