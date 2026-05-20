@@ -24,3 +24,11 @@ server/data/
 
 # Per-project Claude Code state (settings.local.json, agents, etc.)
 .claude/
+
+# Dictionary ingest source archives (regenerable via curl from the
+# linked GitHub release). Stored locally for re-runs but never
+# committed; the ingest script header documents the download URL.
+/scripts/ingest/abt.tar
+/scripts/ingest/abt.tar.zst
+/scripts/ingest/CPED.csv
+/scripts/ingest/.cache/
