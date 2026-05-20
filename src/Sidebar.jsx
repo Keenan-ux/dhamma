@@ -31,7 +31,7 @@ function NavButton({ item, active, onClick }) {
   );
 }
 
-export default function Sidebar({ tab, setTab }) {
+export default function Sidebar({ tab, setTab, onRandomSutta }) {
   return (
     <aside className="dhamma-sidebar" style={wrap}>
       <div style={topGroup}>
@@ -53,6 +53,21 @@ export default function Sidebar({ tab, setTab }) {
           {NAV_ITEMS.filter((i) => !CORPUS_KEYS.has(i.key)).map((item) => (
             <NavButton key={item.key} item={item} active={tab === item.key} onClick={() => setTab?.(item.key)} />
           ))}
+          {/* Random sutta: action, not a tab. Picks a passage with an
+              English translation from the Sutta piṭaka and opens it in
+              the reader. Slight italic + dice glyph distinguishes it
+              from the tab rows above. */}
+          {onRandomSutta && (
+            <button
+              onClick={onRandomSutta}
+              style={{ ...navBtn, fontStyle: 'italic', color: 'var(--bc-text-secondary)' }}
+              aria-label="Open a random sutta"
+              title="Open a random sutta"
+            >
+              <span aria-hidden="true" style={{ marginRight: 8 }}>⚄</span>
+              Random sutta
+            </button>
+          )}
         </nav>
 
         {/* Tradition filter retired until Mahāyāna or Zen come online.

@@ -19,7 +19,7 @@ const NAV_ITEMS = [
   { key: 'bookmarks',   label: 'Bookmarks',       group: 'tools' },
 ];
 
-export default function TopNav({ tab, setTab }) {
+export default function TopNav({ tab, setTab, onRandomSutta }) {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= MOBILE_BREAKPOINT);
   const [panelVisible, setPanelVisible] = useState(false);
@@ -152,6 +152,13 @@ export default function TopNav({ tab, setTab }) {
               {NAV_ITEMS.filter((i) => i.group === 'tools').map((item) => (
                 <NavItem key={item.key} item={item} active={tab === item.key} onClick={() => { setTab(item.key); setOpen(false); }} />
               ))}
+              {onRandomSutta && (
+                <NavItem
+                  item={{ key: '__random', label: 'Random sutta' }}
+                  active={false}
+                  onClick={() => { onRandomSutta(); setOpen(false); }}
+                />
+              )}
             </div>
             <div style={divider} />
           </>

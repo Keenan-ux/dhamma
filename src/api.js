@@ -22,6 +22,11 @@ export function passageApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}`, opts);
 }
 
+export function randomPassageApi({ scope, signal } = {}) {
+  const qs = scope ? `?scope=${encodeURIComponent(scope)}` : '';
+  return get(`/api/random-passage${qs}`, { signal });
+}
+
 export function passageTranslationsApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}/translations`, opts);
 }
