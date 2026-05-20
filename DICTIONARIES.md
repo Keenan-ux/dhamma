@@ -9,8 +9,9 @@ have been agreed on, ordered by expected user-facing value:
 | 2 | **PED** — Pali-English Dictionary (Rhys Davids & Stede, 1921–25) | **done** | Cross-reference against DPD on contested word meanings. 15,702 entries live in prod (CC BY-NC 3.0). |
 | 3 | **Monier-Williams Sanskrit-English** | **done** | Pali↔Sanskrit cognate cross-ref; preparation for Mahāyāna corpus. 193,890 entries live in prod (`source='mw'`, `language='san'`). |
 | 4 | **BHS** — Buddhist Hybrid Sanskrit (Edgerton 1953) | **done** | 17,839 entries live in prod (`source='bhs'`, `language='san'`). Covers transitional Skt of Mahāyāna sūtras. |
-| 5 | CPD — Critical Pali Dictionary | pending | Scholarly gold standard but incomplete (alphabetical) and harder to extract. |
+| 5 | CPD — Critical Pali Dictionary | **blocked on licensing** | Scholarly gold standard but incomplete (a–kāreti only). Cologne site provides no bulk download; only available extraction is DPD's scraped 29,734-entry SQLite, with no licence claim. Volumes still actively sold by PTS. See "CPD source audit" below. |
 | 6 | Buddhadatta — Concise Pali-English | pending | Mostly redundant with DPD; low priority. |
+| 7 | Cone — *A Dictionary of Pāli* (PTS, 2001–) | proposed | Still in progress, three volumes (a-bh, h-c, ch-n) published. PTS-copyrighted, but worth investigating as a CPD alternative for the a-n range. |
 
 After each one ships, return to this file and flip its row.
 
@@ -435,3 +436,71 @@ curl -s "https://dhamma.fly.dev/api/lookup?term=bodhisattva&language=san" \
 ```
 
 Expect entries from both `mw` and `bhs`.
+
+---
+
+## CPD source audit — blocked on licensing
+
+Done in this session; recording the finding so the next time CPD comes
+up we don't redo the search.
+
+**What CPD is.** The *Critical Pāli Dictionary* (Trenckner / Andersen /
+Smith / von Hinüber / et al., Royal Danish Academy + PTS, 1925–2011).
+Three published volumes cover ≈ a–kāreti, about one third of the
+lexicon. The project was discontinued in 2011. Scholarly gold standard
+for the part it covers.
+
+**What you can get.**
+
+1. **cpd.uni-koeln.de** — Cologne Data Center for the Humanities hosts
+   a web-search interface. **No bulk download, no API, no GitHub repo,
+   no machine-readable licence.** Contact email: `cpd-contact@uni-koeln.de`.
+2. **`digitalpalidictionary/other-dictionaries`** repo on GitHub —
+   ships `dictionaries/cpd/cpd.tar.zst` (6.8 MB, decompresses to
+   `cpd_clean.db`, SQLite, 29,734 entries) **scraped from the Cologne
+   site**. The repo has no LICENSE file. README does not claim a
+   licence on the scraped data. They use it to build GoldenDict and
+   MDict bundles for personal dictionary apps.
+3. **palitextsociety.org** still sells the printed volumes (≈ €40–80
+   each). The print volumes carry explicit © Royal Danish Academy /
+   PTS notices.
+
+**Why we did not ingest.** The Cologne web edition is licensed for
+on-site search use; it is not published as a redistributable dataset.
+The DPD-other-dictionaries copy is a scrape of that site with no
+upstream licence to point to. Volumes are still actively sold and
+under active PTS copyright. Even with our CC BY-NC-only commitment,
+including CPD in `dhamma-pg` and shipping it under `/api/lookup`
+would constitute redistribution of someone else's copyrighted data
+without permission. That's a different posture than MW / BHS (the
+Cologne CSL project actively publishes those as redistributable
+SQLite + XML under the umbrella of Cologne Digital Sanskrit Lexicon).
+
+**Two paths if we want CPD eventually:**
+
+- **A. Ask first.** Email `cpd-contact@uni-koeln.de` and/or PTS
+  describing dhamma.fly.dev's non-commercial scholarly use and
+  request explicit permission to mirror the data with full
+  attribution. They may say yes — Cologne hosts CSL openly, so the
+  posture is consistent. The "Why this exists" framing from
+  README.md is the right tone for this letter.
+- **B. Use DPD's copy under the same risk DPD takes.** Drop
+  `cpd.tar.zst` into our ingest, attribute "Cologne Critical Pāli
+  Dictionary, accessed via DPD's redistribution, © Royal Danish
+  Academy / PTS." If PTS ever asks us to take it down we comply.
+  Faster, less correct.
+
+**Implementation if path A or B clears.** The scraped SQLite has
+the columns we need (headword, definition HTML). Same ingest
+pattern as MW/BHS: read SQLite, IAST-normalise, store under
+`source='cpd'`, `language='pli'`. Cone-style multi-headword entries
+might need flattening. Estimated half-day of work once the licence
+question is answered.
+
+**Alternative worth investigating: Margaret Cone's *Dictionary of
+Pāli***. PTS publication, three volumes shipping 2001–2010 covering
+a–n. Modern (so picks up where CPD plateaued) and more complete.
+Same licensing situation though — PTS-owned, no open data.
+
+---
+
