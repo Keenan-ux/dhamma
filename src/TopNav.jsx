@@ -15,6 +15,7 @@ const NAV_ITEMS = [
   { key: 'search',      label: 'Search',          group: 'tools' },
   { key: 'concordance', label: 'Concordance',     group: 'tools' },
   { key: 'dictionary',  label: 'Dictionary',      group: 'tools' },
+  { key: 'tags',        label: 'Tags',            group: 'tools' },
   { key: 'bookmarks',   label: 'Bookmarks',       group: 'tools' },
 ];
 
