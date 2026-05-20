@@ -56,6 +56,69 @@ app.get('/api/passage/:id', async (c) => {
   }
 });
 
+app.get('/api/library', async (c) => {
+  try {
+    const { sql } = await import('./db.js');
+    if (!sql) return c.json({ articles: [], byCategory: {} });
+    const category = c.req.query('category') || null;
+    const author   = c.req.query('author')   || null;
+    const limit    = Math.max(1, Math.min(500, Number(c.req.query('limit')) || 200));
+
+    // List endpoint returns the metadata, not the body — keeps the
+    // payload small enough for a sidebar/grid render.
+    const rows = category || author
+      ? await sql`
+          SELECT slug, title, author, category, year, source_url,
+                 LENGTH(body) AS body_len
+          FROM articles
+          WHERE source = 'ati'
+            AND (${category}::TEXT IS NULL OR category = ${category})
+            AND (${author}::TEXT   IS NULL OR author   = ${author})
+          ORDER BY category, author NULLS LAST, title
+          LIMIT ${limit}
+        `
+      : await sql`
+          SELECT slug, title, author, category, year, source_url,
+                 LENGTH(body) AS body_len
+          FROM articles
+          WHERE source = 'ati'
+          ORDER BY category, author NULLS LAST, title
+          LIMIT ${limit}
+        `;
+
+    // Always include category counts so the LibraryView can render
+    // its category nav without a second request.
+    const counts = await sql`
+      SELECT category, COUNT(*)::int AS n
+      FROM articles WHERE source = 'ati'
+      GROUP BY category ORDER BY n DESC
+    `;
+    const byCategory = Object.fromEntries(counts.map((r) => [r.category, r.n]));
+    return c.json({ articles: rows, byCategory });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/library/:slug', async (c) => {
+  try {
+    const { sql } = await import('./db.js');
+    if (!sql) return c.json({ error: 'no_db' }, 503);
+    const slug = c.req.param('slug');
+    const [row] = await sql`
+      SELECT slug, title, author, category, year, source, source_url,
+             body, summary, tags, copyright, license
+      FROM articles
+      WHERE slug = ${slug}
+      LIMIT 1
+    `;
+    if (!row) return c.json({ error: 'not_found' }, 404);
+    return c.json(row);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.get('/api/passage/:id/parallels', async (c) => {
   try {
     const id = c.req.param('id');

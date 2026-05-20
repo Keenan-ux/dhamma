@@ -2,6 +2,7 @@ const NAV_ITEMS = [
   { key: 'tipitaka',    label: 'Tipiṭaka' },
   { key: 'commentary',  label: 'Commentaries' },
   { key: 'anya',        label: 'Extra-canonical' },
+  { key: 'library',     label: 'Library' },
   { key: 'search',      label: 'Search' },
   { key: 'concordance', label: 'Concordance' },
   { key: 'dictionary',  label: 'Dictionary' },
@@ -9,7 +10,7 @@ const NAV_ITEMS = [
 
 // Which nav items belong to the "Corpus" section (browseable canonical
 // material) vs the query tools below.
-const CORPUS_KEYS = new Set(['tipitaka', 'commentary', 'anya']);
+const CORPUS_KEYS = new Set(['tipitaka', 'commentary', 'anya', 'library']);
 
 function NavButton({ item, active, onClick }) {
   return (

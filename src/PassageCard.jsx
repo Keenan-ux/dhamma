@@ -63,19 +63,21 @@ export default function PassageCard({ passage, highlight, first, onOpen }) {
 
   // Click-to-open. Swallows clicks on nested controls (cite button) and
   // ignores clicks that are part of a text selection (so highlighting a
-  // word for dictionary lookup doesn't also navigate away).
+  // word for dictionary lookup doesn't also navigate away). Passes the
+  // full passage so the parent can route library hits (slug → article
+  // reader) vs passage hits (id → passage reader).
   function handleCardClick(e) {
     if (!onOpen) return;
     if (e.target.closest('button')) return;
     const sel = window.getSelection();
     if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) return;
-    onOpen(passage.id);
+    onOpen(passage);
   }
   function handleCardKey(e) {
     if (!onOpen) return;
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      onOpen(passage.id);
+      onOpen(passage);
     }
   }
 
@@ -129,9 +131,9 @@ export default function PassageCard({ passage, highlight, first, onOpen }) {
           {onOpen && (
             <>
               <button
-                onClick={(e) => { e.stopPropagation(); onOpen(passage.id); }}
+                onClick={(e) => { e.stopPropagation(); onOpen(passage); }}
                 style={openBtn}
-                aria-label="Open passage in reader"
+                aria-label="Open in reader"
               >
                 open ↗
               </button>

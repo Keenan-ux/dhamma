@@ -7,6 +7,7 @@ import BrowseView from './BrowseView.jsx';
 import CanonMapView from './CanonMapView.jsx';
 import CommentaryView from './CommentaryView.jsx';
 import ExtraCanonicalView from './ExtraCanonicalView.jsx';
+import LibraryView from './LibraryView.jsx';
 import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
@@ -55,6 +56,8 @@ function parseInitialHash() {
     out.tab = 'commentary';
   } else if (head === 'anya') {
     out.tab = 'anya';
+  } else if (head === 'library') {
+    out.tab = 'library';
   } else if (head === 'browse') {
     // Browse is the leaf-drill fallback until slice 2's cascading typeset
     // pages replace it. Sidebar/TabBar no longer link here, but URL
@@ -111,6 +114,10 @@ export default function Dhamma() {
       hash = '/commentary';
     } else if (tab === 'anya') {
       hash = '/anya';
+    } else if (tab === 'library') {
+      // LibraryView manages its own /library/<slug> deep-link in-place
+      // (when an article is open). Don't overwrite that here.
+      if (!window.location.hash.startsWith('#/library/')) hash = '/library';
     } else if (tab === 'browse') {
       if (browseLeafId) {
         hash = `/read/${enc(browseLeafId)}`;
@@ -172,6 +179,7 @@ export default function Dhamma() {
     const root = browsePath[0];
     if (root === 'pli-tipitaka')   effectiveTab = 'tipitaka';
     else if (root === 'pli-commentary') effectiveTab = 'commentary';
+    else if (root === 'pli-subcommentary') effectiveTab = 'commentary';
     else if (root === 'pli-anya')  effectiveTab = 'anya';
     else effectiveTab = 'tipitaka';
   }
@@ -232,6 +240,12 @@ export default function Dhamma() {
                 }}
               />
             )}
+            {tab === 'library' && (
+              <LibraryView
+                onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
+                onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
+              />
+            )}
             {tab === 'browse' && (
               <BrowseView
                 path={browsePath}
@@ -256,8 +270,15 @@ export default function Dhamma() {
                 searchMode={searchMode}
                 setSearchMode={setSearchMode}
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
-                onOpenPassage={(id) => {
-                  setBrowseLeafId(id);
+                onOpenPassage={(p) => {
+                  // Library hits carry slug as id; route to LibraryView's
+                  // article reader instead of the passage reader.
+                  if (p && p.library) {
+                    window.location.hash = `#/library/${encodeURIComponent(p.id)}`;
+                    setTab('library');
+                    return;
+                  }
+                  setBrowseLeafId(p?.id ?? p);
                   setBrowsePath([]);
                   setTab('browse');
                 }}

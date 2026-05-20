@@ -96,7 +96,9 @@ async function main() {
   const records = JSON.parse(fs.readFileSync(LOCAL_FILE, 'utf8'));
   console.log(`Loaded ${records.length} relationship records`);
 
-  const sql = postgres(process.env.DATABASE_URL, { ssl: 'allow' });
+  // flyctl proxy → local Postgres terminates and re-encrypts on its
+  // own; we shouldn't request TLS over the loopback connection.
+  const sql = postgres(process.env.DATABASE_URL, { ssl: false });
 
   // Pre-load known passage IDs so we can flag parallel_have in bulk.
   const ourIds = new Set();
