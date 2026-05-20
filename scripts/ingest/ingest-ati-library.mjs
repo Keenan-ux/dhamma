@@ -46,7 +46,14 @@ const SOURCES = [
 
 // Standalone files.
 const STANDALONE = [
-  { file: 'glossary.html', category: 'glossary' },
+  { file: 'glossary.html',         category: 'glossary' },
+  { file: 'index-similes.html',    category: 'index' },
+  { file: 'index-names.html',      category: 'index' },
+  { file: 'index-subject.html',    category: 'index' },
+  { file: 'index-title.html',      category: 'index' },
+  { file: 'index-number.html',     category: 'index' },
+  { file: 'index-author.html',     category: 'index' },
+  { file: 'index-sutta.html',      category: 'index' },
 ];
 
 // Files to skip — non-content boilerplate.
