@@ -56,6 +56,38 @@ app.get('/api/passage/:id', async (c) => {
   }
 });
 
+// Random sutta: returns one passage id, biased to readable ones —
+// must be in the sutta piṭaka (or its commentary/sub-commentary), must
+// have an English translation, and must not be a CST volume-header
+// uddāna row. The descendant-slug list is small and rarely changes;
+// computing it inline is cheap enough not to need caching here.
+app.get('/api/random-passage', async (c) => {
+  try {
+    const { sql } = await import('./db.js');
+    if (!sql) return c.json({ error: 'no_db' }, 500);
+    const scope = c.req.query('scope') || 'sutta';
+    const root = scope === 'all' ? null : 'pli-sutta';
+    const rows = await sql`
+      WITH RECURSIVE sutta_works(slug) AS (
+        SELECT slug FROM works WHERE slug = ${root}
+        UNION ALL
+        SELECT w.slug FROM works w JOIN sutta_works s ON w.parent_slug = s.slug
+      )
+      SELECT p.id
+      FROM passages p
+      WHERE (${root}::text IS NULL OR p.work_slug IN (SELECT slug FROM sutta_works))
+        AND p.translation IS NOT NULL AND length(p.translation) > 40
+        AND p.id !~ '^cst-[a-z0-9]+m\\.mul-(dn|mn|sn|an|kn)[0-9]+$'
+      ORDER BY random()
+      LIMIT 1
+    `;
+    if (!rows.length) return c.json({ error: 'no_passage' }, 404);
+    return c.json({ id: rows[0].id });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.get('/api/library', async (c) => {
   try {
     const { sql } = await import('./db.js');

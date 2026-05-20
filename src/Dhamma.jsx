@@ -13,6 +13,7 @@ import TagsView from './TagsView.jsx';
 import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
+import { randomPassageApi } from './api.js';
 
 // Path-style hash routing. Keeps URLs short and human-readable.
 //
@@ -106,6 +107,18 @@ export default function Dhamma() {
   const [browseLeafId, setBrowseLeafId] = useState(INITIAL.leaf);
   const [pinnedLeafId, setPinnedLeafId] = useState(INITIAL.pin);
   const [readingMode, setReadingMode] = useState(false);
+
+  // Random sutta: fetched from the server (filters: has translation,
+  // not uddāna, in sutta piṭaka). Single handler shared by Sidebar
+  // (desktop) and TopNav slide-in panel (mobile).
+  const handleRandomSutta = async () => {
+    try {
+      const { id } = await randomPassageApi({ scope: 'sutta' });
+      if (id) window.location.hash = `#/read/${id}`;
+    } catch (err) {
+      console.warn('Random sutta failed:', err.message);
+    }
+  };
   const isNarrow = useIsNarrow();
 
   // Mirror enough state into the URL hash that refresh / shared link
@@ -206,13 +219,12 @@ export default function Dhamma() {
         fontFamily: 'Outfit, system-ui, sans-serif',
       }}
     >
-      {!readingMode && <TopNav tab={effectiveTab} setTab={setTab} />}
+      {!readingMode && (
+        <TopNav tab={effectiveTab} setTab={setTab} onRandomSutta={handleRandomSutta} />
+      )}
       <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
         {!readingMode && !isNarrow && (
-          <Sidebar
-            tab={effectiveTab}
-            setTab={setTab}
-          />
+          <Sidebar tab={effectiveTab} setTab={setTab} onRandomSutta={handleRandomSutta} />
         )}
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
           {/* Narrow viewports get navigation from the TopNav slide-in
