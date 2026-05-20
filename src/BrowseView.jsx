@@ -52,11 +52,21 @@ export default function BrowseView({
   const columnsScrollRef = useRef(null);
   const { shape, loading: corpusLoading } = useCorpus();
   const tree = shape?.tree || [];
+  const browseIsNarrow = useIsNarrow();
 
   // Always fetch both potentially-displayed passages; usePassage is a no-op
   // when id is null. Hooks must be unconditional.
   const { data: selectedPassage, loading: selectedLoading } = usePassage(leafId);
   const { data: pinnedPassage } = usePassage(pinnedLeafId);
+
+  // Split-pane: when a pinned passage exists AND a leaf is open AND
+  // they're different AND we have room (≥ 880px) — render the two
+  // passages side-by-side at full reading chrome instead of stacking
+  // the pinned one compact above. Narrow viewports fall back to the
+  // stacked layout (no room for two columns of body text).
+  const splitPane = !!(
+    pinnedPassage && leafId && pinnedLeafId !== leafId && !browseIsNarrow && !readingMode
+  );
 
   // Skip the tradition level entirely — only Theravāda is live, and
   // Mahāyāna/Zen are hidden from the UI until they have passages. All
@@ -140,6 +150,106 @@ export default function BrowseView({
               onCompareTerm={onCompareTerm}
             />
           )}
+        </div>
+      </div>
+    );
+  }
+
+  // Split-pane layout: two ReadingPanels in independent scroll columns,
+  // each at full reader chrome. Rendered above the standard browse
+  // viewport so it replaces the wrap padding with full-bleed columns.
+  if (splitPane) {
+    return (
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={splitToolbar}>
+          <button
+            onClick={() => setLeafId(null)}
+            style={backBtn}
+            aria-label="Back to canon (Esc)"
+          >
+            <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+            <span>Back to canon</span>
+            <span style={backBtnHint}>Esc</span>
+          </button>
+          <div style={splitToolbarLabel}>
+            <span style={splitToolbarKicker}>Side-by-side</span>
+            <button
+              onClick={() => {
+                // Swap which passage is primary vs pinned. Both ids are
+                // already loaded so this is just a state flip.
+                const swap = pinnedLeafId;
+                setPinnedLeafId(leafId);
+                setLeafId(swap);
+              }}
+              style={splitSwapBtn}
+              title="Swap left ↔ right"
+              aria-label="Swap which passage is primary"
+            >
+              ⇄ swap
+            </button>
+            <button
+              onClick={() => setPinnedLeafId(null)}
+              style={splitSwapBtn}
+              title="Close right pane"
+              aria-label="Close right pane"
+            >
+              unpin ×
+            </button>
+          </div>
+        </div>
+        <div style={splitColumns}>
+          <div style={splitColumn}>
+            {!selectedLoading && selectedPassage && (
+              <ReadingPanel
+                passage={selectedPassage}
+                tree={tree}
+                workBySlug={shape?.workBySlug}
+                leafId={leafId}
+                pinnedLeafId={pinnedLeafId}
+                setPinnedLeafId={setPinnedLeafId}
+                readingMode={readingMode}
+                setReadingMode={setReadingMode}
+                inSplitPane
+                onNavigate={(id) => {
+                  const newPath = pathToLeaf(top, id);
+                  if (newPath) setPath(newPath);
+                  setLeafId(id);
+                }}
+                onBrowseToPath={(newPath) => {
+                  setPath(newPath);
+                  setLeafId(null);
+                }}
+                onSearchTerm={onSearchTerm}
+                onCompareTerm={onCompareTerm}
+              />
+            )}
+          </div>
+          <div style={splitColumn}>
+            <ReadingPanel
+              passage={pinnedPassage}
+              tree={tree}
+              workBySlug={shape?.workBySlug}
+              leafId={pinnedLeafId}
+              pinnedLeafId={pinnedLeafId}
+              setPinnedLeafId={setPinnedLeafId}
+              readingMode={readingMode}
+              setReadingMode={setReadingMode}
+              inSplitPane
+              onNavigate={(id) => {
+                // Navigating from the pinned side rebinds the pinned
+                // passage rather than the primary — keeps the swap
+                // intuition consistent (right column = pinned slot).
+                setPinnedLeafId(id);
+              }}
+              onBrowseToPath={(newPath) => {
+                setPath(newPath);
+                setLeafId(null);
+                setPinnedLeafId(null);
+              }}
+              onSearchTerm={onSearchTerm}
+              onCompareTerm={onCompareTerm}
+            />
+          </div>
         </div>
       </div>
     );
@@ -463,6 +573,10 @@ function ReadingPanel({
   readingMode, setReadingMode,
   onNavigate, onBrowseToPath, onSearchTerm, onCompareTerm,
   compact,
+  inSplitPane,   // true when this panel is rendered as one of two
+                 // columns in the split-pane viewer. The pin-to-top
+                 // icon makes no sense there (both passages are
+                 // already shown) — hide it.
 }) {
   const ref = useRef(null);
   const isPinned = pinnedLeafId === leafId;
@@ -737,15 +851,17 @@ function ReadingPanel({
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
               ),
             });
-            actions.push({
-              key: 'pin',
-              label: isPinned ? 'Unpin from top' : 'Pin to top',
-              active: isPinned,
-              onClick: () => setPinnedLeafId?.(isPinned ? null : leafId),
-              icon: (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill={isPinned ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4l4 4-6 6v6l-2 2-4-4v-4l-6-6 4-4z"/></svg>
-              ),
-            });
+            if (!inSplitPane) {
+              actions.push({
+                key: 'pin',
+                label: isPinned ? 'Unpin from top' : 'Pin to top',
+                active: isPinned,
+                onClick: () => setPinnedLeafId?.(isPinned ? null : leafId),
+                icon: (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill={isPinned ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4l4 4-6 6v6l-2 2-4-4v-4l-6-6 4-4z"/></svg>
+                ),
+              });
+            }
             if (passage.original) {
               actions.push({
                 key: 'gloss',
@@ -1165,6 +1281,65 @@ const pinnedSection = {
   marginBottom: 28,
   paddingBottom: 24,
   borderBottom: '1px dashed rgba(var(--bc-accent-rgb), 0.30)',
+};
+
+// Split-pane: two ReadingPanels side-by-side, each with its own
+// vertical scroll. Used only when viewport ≥ 880px AND both a leaf
+// and a pinned passage are open. The toolbar carries the back +
+// swap + unpin controls for the whole split.
+const splitToolbar = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: 16,
+  padding: '14px 28px',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+  background: 'var(--bc-bg-base)',
+  flexShrink: 0,
+};
+
+const splitToolbarLabel = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 14,
+};
+
+const splitToolbarKicker = {
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+};
+
+const splitSwapBtn = {
+  background: 'transparent',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.25)',
+  color: 'var(--bc-text-tertiary)',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.10em',
+  textTransform: 'uppercase',
+  padding: '5px 10px',
+  borderRadius: 999,
+  cursor: 'pointer',
+};
+
+const splitColumns = {
+  display: 'flex',
+  flex: 1,
+  minHeight: 0,
+  // Subtle divider between the two columns — a vertical thin gold
+  // rule that matches the rest of the academic typesetting.
+  background: 'linear-gradient(to right, transparent calc(50% - 0.5px), rgba(var(--bc-accent-rgb), 0.18) calc(50% - 0.5px), rgba(var(--bc-accent-rgb), 0.18) calc(50% + 0.5px), transparent calc(50% + 0.5px))',
+};
+
+const splitColumn = {
+  flex: 1,
+  minWidth: 0,
+  overflow: 'auto',
+  padding: '24px 28px 48px',
 };
 
 const pinnedLabel = {
