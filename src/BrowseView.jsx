@@ -255,12 +255,31 @@ function BreadcrumbLink({ children, onClick }) {
   );
 }
 
+// Escape user input before injecting into a RegExp source.
+function escapeRegExp(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Wrap matches of `find` in <mark> tags. Case-insensitive, Unicode-safe.
+// Returns the original text when find is empty so non-find render paths
+// stay zero-cost in the common case.
+function highlightFind(text, find) {
+  if (!find) return text;
+  const re = new RegExp(`(${escapeRegExp(find)})`, 'giu');
+  const parts = String(text).split(re);
+  return parts.map((p, i) =>
+    i % 2 === 1
+      ? <mark key={i} style={findMark}>{p}</mark>
+      : <span key={i}>{p}</span>
+  );
+}
+
 // Side-by-side parallel reader for passages that have both Pali and an
 // English translation. A draggable divider between the two panes lets
 // the reader give more real estate to whichever side they're focusing
 // on. Each pane keeps the standard Pali / translation typography so the
 // stacked-fallback view above stays consistent.
-function SideBySideReader({ pali, english, englishIsHtml }) {
+function SideBySideReader({ pali, english, englishIsHtml, findText }) {
   const [pct, setPct] = useState(50);
   const containerRef = useRef(null);
   const draggingRef = useRef(false);
@@ -290,7 +309,7 @@ function SideBySideReader({ pali, english, englishIsHtml }) {
   return (
     <div ref={containerRef} style={sideBySideWrap}>
       <div style={{ ...sideBySidePane, flexBasis: `${pct}%` }}>
-        <p style={readingOriginal}>{pali}</p>
+        <p style={readingOriginal}>{highlightFind(pali, findText)}</p>
       </div>
       <div
         style={sideBySideDivider}
@@ -309,7 +328,7 @@ function SideBySideReader({ pali, english, englishIsHtml }) {
             dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(english) }}
           />
         ) : (
-          <p style={{ ...readingTranslation, marginBottom: 18 }}>{english}</p>
+          <p style={{ ...readingTranslation, marginBottom: 18 }}>{highlightFind(english, findText)}</p>
         )}
       </div>
     </div>
@@ -420,6 +439,22 @@ function ReadingPanel({
   const translationText = activeTranslation?.text || passage.translation;
   const translationIsHtml = activeTranslation && activeTranslation.source === 'ati';
 
+  // In-passage find. Highlights matches in Pali (always) and translation
+  // (only when plain-text — HTML translations from ATI bypass this for
+  // v1 since regex-on-HTML risks breaking structure). Counts matches
+  // across both panes so the reader knows the search scope.
+  const [findText, setFindText] = useState('');
+  useEffect(() => { setFindText(''); }, [passage?.id]);
+  const findStripped = findText.trim();
+  const matchCount = useMemo(() => {
+    if (!findStripped) return 0;
+    const re = new RegExp(escapeRegExp(findStripped), 'giu');
+    let count = 0;
+    if (passage.original) count += (passage.original.match(re) || []).length;
+    if (translationText && !translationIsHtml) count += (translationText.match(re) || []).length;
+    return count;
+  }, [findStripped, passage.original, translationText, translationIsHtml]);
+
   // When both Pali + English exist, drop the single-column reading-width
   // cap so the parallel reader can span the full available content area.
   const hasParallel = !!(passage.original && passage.translation);
@@ -476,6 +511,24 @@ function ReadingPanel({
               </svg>
             </button>
           )}
+          {/* Outbound to SuttaCentral for passages whose ID is in the
+              SC format. SuttaCentral curates parallels (DN 22 ↔ MN 10,
+              Sanskrit / Chinese / Tibetan parallels, etc.) — until we
+              ingest that data ourselves, the link is the most direct
+              route to it for the scholar. CST-prefixed IDs (commentary
+              corpus) don't map to SC URLs so the link is hidden for
+              those. */}
+          {!compact && !passage.id?.startsWith('cst-') && (
+            <a
+              href={`https://suttacentral.net/${passage.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={scLink}
+              title="View this passage on SuttaCentral (parallels, alternate translations)"
+            >
+              SC ↗
+            </a>
+          )}
           <div style={readingTradition}>{traditionLabel}</div>
         </div>
       </header>
@@ -508,19 +561,43 @@ function ReadingPanel({
         </div>
       )}
 
+      {!compact && (
+        <div style={findRow}>
+          <input
+            type="search"
+            value={findText}
+            onChange={(e) => setFindText(e.target.value)}
+            placeholder="Find in passage…"
+            style={findInput}
+            spellCheck={false}
+            aria-label="Find in passage"
+          />
+          {findStripped && (
+            <span style={findCount}>
+              {matchCount.toLocaleString()} {matchCount === 1 ? 'match' : 'matches'}
+            </span>
+          )}
+        </div>
+      )}
+
       {passage.original && translationText ? (
         <SideBySideReader
           pali={passage.original}
           english={translationText}
           englishIsHtml={translationIsHtml}
+          findText={findStripped}
         />
       ) : (
         <>
-          {passage.original && <p style={readingOriginal}>{passage.original}</p>}
+          {passage.original && (
+            <p style={readingOriginal}>
+              {highlightFind(passage.original, findStripped)}
+            </p>
+          )}
           {translationText && (
             translationIsHtml
               ? <div style={readingTranslation} dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(translationText) }} />
-              : <p style={readingTranslation}>{translationText}</p>
+              : <p style={readingTranslation}>{highlightFind(translationText, findStripped)}</p>
           )}
         </>
       )}
@@ -611,6 +688,24 @@ const iconAction = {
   borderRadius: 6,
   cursor: 'pointer',
   transition: 'color 100ms ease, border-color 100ms ease',
+};
+
+const scLink = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  height: 30,
+  padding: '0 10px',
+  background: 'transparent',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.25)',
+  borderRadius: 6,
+  color: 'var(--bc-text-tertiary)',
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  textDecoration: 'none',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  transition: 'color 120ms ease, border-color 120ms ease',
 };
 
 const breadcrumb = {
@@ -782,6 +877,44 @@ const readingOriginal = {
   color: 'var(--bc-text-primary)',
   userSelect: 'text',
   whiteSpace: 'pre-wrap',
+};
+
+const findRow = {
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: 12,
+  marginBottom: 18,
+  paddingBottom: 10,
+  borderBottom: '1px dashed rgba(var(--bc-accent-rgb), 0.18)',
+};
+
+const findInput = {
+  flex: '0 1 280px',
+  padding: '6px 0',
+  border: 'none',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.25)',
+  background: 'transparent',
+  color: 'var(--bc-text-primary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  outline: 'none',
+};
+
+const findCount = {
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  fontVariantNumeric: 'tabular-nums',
+};
+
+const findMark = {
+  background: 'rgba(var(--bc-accent-rgb), 0.22)',
+  color: 'inherit',
+  padding: '0 2px',
+  borderRadius: 2,
 };
 
 const sideBySideWrap = {

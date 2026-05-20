@@ -16,6 +16,7 @@ const MODES = [
 
 const SCOPES = [
   { key: 'all',         label: 'All' },
+  { key: 'title',       label: 'Title' },
   { key: 'original',    label: 'Original' },
   { key: 'translation', label: 'Translation' },
   { key: 'citation',    label: 'Citation' },

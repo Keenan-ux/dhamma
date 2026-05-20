@@ -19,7 +19,7 @@ const DEFAULT_LIMIT = 50;
 const SNIPPET_LEN = 200;
 
 const MODES = new Set(['exact', 'stem', 'meaning']);
-const FIELDS = new Set(['all', 'original', 'translation', 'citation']);
+const FIELDS = new Set(['all', 'original', 'translation', 'citation', 'title']);
 
 // English stopwords + single chars are dropped from positive bare terms.
 // Quoted phrases pass through untouched so users can still search literal
@@ -128,6 +128,7 @@ export function buildTsquery(parsed, { expandAliases = false } = {}) {
 function ftsFragment(field) {
   switch (field) {
     case 'citation':    return sql`to_tsvector('simple', coalesce(citation, ''))`;
+    case 'title':       return sql`to_tsvector('simple', coalesce(title, ''))`;
     case 'original':    return sql`to_tsvector('simple', coalesce(original, ''))`;
     case 'translation': return sql`to_tsvector('simple', coalesce(translation, ''))`;
     default:            return sql`fts_doc`;

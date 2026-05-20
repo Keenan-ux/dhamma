@@ -1,45 +1,51 @@
-// Typeset frontmatter for Theravāda extra-canonical works (Anya). These
-// fall outside the Tipiṭaka and its commentary apparatus — historical
-// chronicles, medieval compendia, and Sinhala/Burmese tradition. All
-// stubs until specific ingest plans land; pending marks throughout.
+// Typeset frontmatter for Theravāda extra-canonical works (Anya). Pulls
+// live data from useCorpus — pli-anya subtree — and renders the works
+// as a sortable grid. The corpus is broad (chronicles, grammatical
+// treatises, paritta, hymns) and the CST naming doesn't lend itself to
+// clean piṭaka-style grouping, so we go with a compact alphabetical
+// grid by default.
 
 import { useState } from 'react';
 import useCorpus from './useCorpus.js';
 import useIsNarrow from './useIsNarrow.js';
 
-// Canonical Theravāda extra-canonical works. Two visual groupings —
-// chronicles (vaṃsa literature) and compendia / treatises — match how
-// the scholarly tradition organizes them.
-const CHRONICLES = [
-  { name: 'Mahāvaṃsa',          subtitle: 'the Great Chronicle · 5th–6th c. CE' },
-  { name: 'Cūḷavaṃsa',          subtitle: 'continuation of the Mahāvaṃsa' },
-  { name: 'Dīpavaṃsa',          subtitle: 'earliest Sinhala chronicle · 4th c. CE' },
-  { name: 'Sāsanavaṃsa',        subtitle: 'history of the Sāsana · 19th c. Burmese' },
-  { name: 'Nikāya-saṅgaha',     subtitle: 'history of the Theravāda nikāyas' },
-];
-
-const COMPENDIA = [
-  { name: 'Saddhammasaṅgaha',   subtitle: '14th c. compendium of the Dhamma' },
-  { name: 'Buddhaghosuppatti',  subtitle: 'Life of Buddhaghosa' },
-  { name: 'Abhidhammāvatāra',   subtitle: 'introduction to the Abhidhamma · Buddhadatta' },
-  { name: 'Vinayavinicchaya',   subtitle: 'Vinaya digest · Buddhadatta' },
-  { name: 'Mohavicchedanī',     subtitle: 'mātikā commentary' },
+const SORT_OPTIONS = [
+  { key: 'name',  label: 'Alphabetical' },
+  { key: 'count', label: 'By passage count' },
 ];
 
 export default function ExtraCanonicalView({ onDrill }) {
   const { shape, loading } = useCorpus();
   const [translatedOnly, setTranslatedOnly] = useState(false);
+  const [sortKey, setSortKey] = useState('name');
   const isNarrow = useIsNarrow();
 
   const trad = shape?.tree?.find((t) => t.id === 'theravada');
   const anya = trad?.children?.find((w) => w.id === 'pli-anya');
 
   if (loading) {
-    return (
-      <div style={loadingWrap}>
-        <p style={loadingHint}>Loading…</p>
-      </div>
-    );
+    return <div style={loadingWrap}><p style={loadingHint}>Loading…</p></div>;
+  }
+
+  const works = (anya?.children || []).filter((c) => !c.passageId);
+  const sorted = [...works].sort((a, b) => {
+    if (sortKey === 'count') return (b.total || 0) - (a.total || 0);
+    return a.name.localeCompare(b.name);
+  });
+
+  function drill(workId) {
+    onDrill?.(['pli-anya', workId]);
+  }
+  function fmtCount(node) {
+    const total = node.total || 0;
+    const tr = node.translated || 0;
+    if (translatedOnly && tr < total) {
+      return `${tr.toLocaleString()} / ${total.toLocaleString()}`;
+    }
+    return total.toLocaleString();
+  }
+  function isDim(node) {
+    return translatedOnly && (node?.translated || 0) === 0;
   }
 
   return (
@@ -48,10 +54,11 @@ export default function ExtraCanonicalView({ onDrill }) {
         <div style={rule} />
         <h1 style={pageTitle}>Extra-canonical</h1>
         <p style={pageSubtitle}>
-          Anya &nbsp;·&nbsp; <span style={pendingMark}>pending ingest</span>
-          {anya && (anya.total || 0) > 0 && (
-            <> &nbsp;·&nbsp; {anya.total.toLocaleString()} passages</>
+          Anya &nbsp;·&nbsp; {(anya?.total || 0).toLocaleString()} passages
+          {(anya?.translated || 0) > 0 && (
+            <> &nbsp;·&nbsp; {anya.translated.toLocaleString()} translated</>
           )}
+          &nbsp;·&nbsp; {works.length} works
         </p>
         <div style={rule} />
       </header>
@@ -66,44 +73,50 @@ export default function ExtraCanonicalView({ onDrill }) {
           />
           <span>Translated only</span>
         </label>
+        <div style={sortRow}>
+          <span style={sortLabel}>Sort</span>
+          {SORT_OPTIONS.map((opt) => {
+            const on = sortKey === opt.key;
+            return (
+              <button
+                key={opt.key}
+                onClick={() => setSortKey(opt.key)}
+                style={{
+                  ...sortBtn,
+                  color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                  borderBottomColor: on ? 'var(--bc-accent)' : 'transparent',
+                }}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      <div style={isNarrow ? singleCol : twoCol}>
-        <section style={column}>
-          <h2 style={colHeader}>Chronicles</h2>
-          <p style={colKind}>vaṃsa literature</p>
-          <ul style={textList}>
-            {CHRONICLES.map((w) => (
-              <li key={w.name} style={textListItem}>
-                <span style={workName}>{w.name}</span>
-                <span style={workSubtitle}>{w.subtitle}</span>
-                <span style={pendingMark}>pending</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section style={column}>
-          <h2 style={colHeader}>Compendia &amp; Treatises</h2>
-          <p style={colKind}>medieval Theravāda</p>
-          <ul style={textList}>
-            {COMPENDIA.map((w) => (
-              <li key={w.name} style={textListItem}>
-                <span style={workName}>{w.name}</span>
-                <span style={workSubtitle}>{w.subtitle}</span>
-                <span style={pendingMark}>pending</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
+      <ul style={isNarrow ? singleList : grid}>
+        {sorted.map((w) => (
+          <li
+            key={w.id}
+            style={{ ...workItem, opacity: isDim(w) ? 0.35 : 1 }}
+            onClick={() => drill(w.id)}
+            role="button"
+            tabIndex={0}
+          >
+            <span style={workName}>{w.name}</span>
+            {w.subtitle && <span style={workSubtitle}>{w.subtitle}</span>}
+            <span style={workCount}>{fmtCount(w)}</span>
+          </li>
+        ))}
+      </ul>
 
       <footer style={footerWrap}>
         <div style={rule} />
         <p style={attribution}>
-          Extra-canonical works fall outside the Tipiṭaka and its
-          aṭṭhakathā / ṭīkā apparatus. Sources and dating follow the
-          standard scholarly chronologies (Norman, von Hinüber).
+          Extra-canonical works ingested from VRI / CST. Fall outside the
+          Tipiṭaka and its aṭṭhakathā / ṭīkā apparatus — chronicles,
+          grammatical treatises, paritta, devotional verse, and other
+          paracanonical literature.
         </p>
       </footer>
     </div>
@@ -156,103 +169,14 @@ const pageSubtitle = {
 };
 
 const topControls = {
-  maxWidth: 820,
+  maxWidth: 1100,
   margin: '24px auto 0',
-  padding: '0 28px',
-  display: 'flex',
-  justifyContent: 'center',
-};
-
-const twoCol = {
-  maxWidth: 900,
-  margin: '48px auto 0',
   padding: '0 20px',
-  display: 'grid',
-  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-  gap: 64,
-  alignItems: 'start',
-  opacity: 0.65,
-};
-
-const singleCol = {
-  maxWidth: 480,
-  margin: '32px auto 0',
-  padding: '0 24px',
   display: 'flex',
-  flexDirection: 'column',
-  gap: 40,
-  alignItems: 'stretch',
-  opacity: 0.65,
-};
-
-const column = {
-  textAlign: 'center',
-  fontFamily: SERIF,
-};
-
-const colHeader = {
-  margin: 0,
-  fontFamily: SERIF,
-  fontSize: 16,
-  fontWeight: 500,
-  letterSpacing: '0.16em',
-  textTransform: 'uppercase',
-  color: 'var(--bc-text-primary)',
-};
-
-const colKind = {
-  margin: '8px 0 20px',
-  fontFamily: SANS,
-  fontSize: 9,
-  fontWeight: 600,
-  letterSpacing: '0.20em',
-  textTransform: 'uppercase',
-  color: 'var(--bc-text-tertiary)',
-};
-
-const textList = {
-  margin: 0,
-  padding: 0,
-  listStyle: 'none',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 18,
-};
-
-const textListItem = {
-  fontFamily: SERIF,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 2,
-  alignItems: 'center',
-};
-
-const workName = {
-  fontFamily: SERIF,
-  fontSize: 15,
-  letterSpacing: '0.01em',
-  color: 'var(--bc-text-secondary)',
-  lineHeight: 1.4,
-};
-
-const workSubtitle = {
-  fontFamily: SERIF,
-  fontStyle: 'italic',
-  fontSize: 11,
-  color: 'var(--bc-text-tertiary)',
-  lineHeight: 1.4,
-};
-
-const pendingMark = {
-  fontFamily: SANS,
-  fontSize: 8,
-  fontWeight: 600,
-  letterSpacing: '0.20em',
-  textTransform: 'uppercase',
-  color: 'var(--bc-text-tertiary)',
-  border: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
-  padding: '2px 6px',
-  marginTop: 4,
+  justifyContent: 'space-between',
+  alignItems: 'baseline',
+  gap: 24,
+  flexWrap: 'wrap',
 };
 
 const toggleLabel = {
@@ -266,6 +190,90 @@ const toggleLabel = {
   textTransform: 'uppercase',
   color: 'var(--bc-text-secondary)',
   cursor: 'pointer',
+};
+
+const sortRow = {
+  display: 'inline-flex',
+  alignItems: 'baseline',
+  gap: 12,
+};
+
+const sortLabel = {
+  fontFamily: SANS,
+  fontSize: 9,
+  fontWeight: 600,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+};
+
+const sortBtn = {
+  background: 'transparent',
+  border: 'none',
+  borderBottom: '1px solid transparent',
+  padding: '2px 0',
+  fontFamily: 'inherit',
+  fontSize: 12,
+  cursor: 'pointer',
+  fontStyle: 'italic',
+  transition: 'color 120ms ease, border-bottom-color 120ms ease',
+};
+
+const grid = {
+  maxWidth: 1100,
+  margin: '40px auto 0',
+  padding: '0 20px',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+  gap: '28px 32px',
+  listStyle: 'none',
+  alignItems: 'start',
+};
+
+const singleList = {
+  maxWidth: 480,
+  margin: '32px auto 0',
+  padding: '0 24px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 22,
+  listStyle: 'none',
+};
+
+const workItem = {
+  fontFamily: SERIF,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  alignItems: 'center',
+  textAlign: 'center',
+  cursor: 'pointer',
+  transition: 'color 120ms ease',
+};
+
+const workName = {
+  fontFamily: SERIF,
+  fontSize: 14,
+  letterSpacing: '0.01em',
+  color: 'var(--bc-text-secondary)',
+  lineHeight: 1.4,
+};
+
+const workSubtitle = {
+  fontFamily: SERIF,
+  fontStyle: 'italic',
+  fontSize: 11,
+  color: 'var(--bc-text-tertiary)',
+  lineHeight: 1.4,
+};
+
+const workCount = {
+  fontFamily: SANS,
+  fontSize: 10,
+  color: 'var(--bc-text-tertiary)',
+  fontVariantNumeric: 'tabular-nums',
+  letterSpacing: '0.04em',
+  marginTop: 2,
 };
 
 const footerWrap = {
