@@ -66,26 +66,35 @@ you hit context limit, then write a new HANDOFF.md.
    scholarly register per the no-marketing memory note. User
    sends; we don't.
 4. **Send the SuttaCentral email** (`SUTTACENTRAL_EMAIL_DRAFT.md`).
-5. **Announce on Reddit / DhammaWheel / Buddhist-Studies lists** —
-   user posts; we draft if asked.
-6. **Split-pane parallel reader.** True side-by-side compare of two
+5. **Split-pane parallel reader.** True side-by-side compare of two
    passages (DN 22 ↔ MN 10). Today's pin-based workaround is
    acceptable but cramped. Substantial UI rebuild — BrowseView's
    ReadingPanel becomes two-up with synchronised scrolling.
-7. **Critical Pali Dictionary (CPD)** — next dictionary in
-   `DICTIONARIES.md` after BHS. The CPD is scholarly gold but
-   incomplete (alphabetical, never finished past T) and harder to
-   extract than the Cologne lexica. Source-acquisition step first.
-8. **Bhikkhu Bodhi commentary translations** — would lift the 2.3%
-   CST translation coverage substantially. Source is mostly
-   Wisdom Publications (BPS, *In the Buddha's Words*, *Numerical
-   Discourses* etc.) — **not open-licensed**, so this is blocked
-   on either a licensing arrangement or finding a CC-licensed
-   subset. Audit licensing situation first; don't ingest blind.
-9. **`@xenova/transformers` v2 → v3 migration** — see
-   `xenova-v2-pinned` memory note. Triggers a corpus re-embed
-   (BGE-M3 vectors aren't portable across model versions), so save
-   it for when everything else is settled.
+6. **CPD — blocked on licensing.** Audited; see
+   `DICTIONARIES.md` § "CPD source audit". Cologne web edition is
+   not redistributable. DPD's scraped 29 k-entry SQLite has no
+   licence claim. PTS still sells the volumes. Path forward:
+   write `cpd-contact@uni-koeln.de` and PTS asking for explicit
+   CC BY-NC permission for our non-commercial mirror.
+   Alternative to investigate: Margaret Cone's *Dictionary of
+   Pāli* (PTS 2001–) for the a–n range.
+7. **Bhikkhu Bodhi commentary translations — blocked on
+   licensing.** Audited; see `TRANSLATIONS.md`. We already have
+   13 sutta translations + 56 Bodhi essays via ATI (CC BY-NC 4.0).
+   The remaining material splits between bps.lk free PDFs (under
+   "no alteration" terms — can't extract into structured rows)
+   and Wisdom Publications books (commercial, no path). Path
+   forward: write BPS (`cnt@bps.lk`) asking to extend the
+   CC BY-NC 4.0 precedent ATI already enjoys to Bodhi's commentary
+   translation books (BP209S, BP210S, BP211S, BP212S).
+8. **`@xenova/transformers` v2 → v3 migration plan documented.**
+   See updated `xenova-v2-pinned` memory note for the full
+   playbook: smoke-test vector equivalence first; if cosine
+   similarity v2-vs-v3 holds > 0.9999, it's a pure code swap
+   (drop the protobufjs override too). If not, full corpus
+   re-embed (~30 min local CPU, no schema change). Not worth
+   doing as standalone work — bundle with the next re-ingest
+   (Chinese/Sanskrit corpus, or a model swap).
 
 ### Smaller follow-ups (nice-to-have)
 
@@ -221,9 +230,9 @@ chat is at context limit. Deployed state is good — verify with
 `curl -s https://dhamma.fly.dev/api/dbcheck`. Working tree should
 be clean.
 
-Start at item 1 in HANDOFF.md's to-do list. Items 1-5 need user
+Start at item 1 in HANDOFF.md's to-do list. Items 1-4 need user
 sign-off or are user actions; surface them and wait for direction
-before proceeding. Items 6-9 are dev work — start whichever the
+before proceeding. Items 5-8 are dev work — start whichever the
 user picks. Don't stop between items — keep going until you hit
 context limit, then write a new HANDOFF.md.
 ```
