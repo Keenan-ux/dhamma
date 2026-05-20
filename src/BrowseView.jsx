@@ -10,6 +10,10 @@ import useBookmarks from './useBookmarks.js';
 import useIsNarrow from './useIsNarrow.js';
 import { paliStem } from './paliStem.js';
 
+// Pali diacritic shortcuts for the in-passage find input. Same set
+// the main SearchView offers.
+const FIND_DIACRITICS = ['ā', 'ī', 'ū', 'ē', 'ō', 'ṃ', 'ṅ', 'ñ', 'ṇ', 'ṭ', 'ḍ', 'ḷ', 'ḥ', 'ṛ'];
+
 const TRANSLATOR_LABEL = {
   sujato: 'Bhante Sujato',
   thanissaro: 'Thanissaro Bhikkhu',
@@ -584,7 +588,31 @@ function ReadingPanel({
   // ATI HTML translations bypass to avoid regex-on-HTML breakage.
   const [findText, setFindText] = useState('');
   const [findStem, setFindStem] = useState(false);
+  const [findFocused, setFindFocused] = useState(false);
+  const findInputRef = useRef(null);
+  const findBlurTimerRef = useRef(null);
   useEffect(() => { setFindText(''); setFindStem(false); }, [passage?.id]);
+  function handleFindFocus() {
+    if (findBlurTimerRef.current) clearTimeout(findBlurTimerRef.current);
+    setFindFocused(true);
+  }
+  function handleFindBlur() {
+    findBlurTimerRef.current = setTimeout(() => setFindFocused(false), 120);
+  }
+  function insertFindChar(ch) {
+    if (findBlurTimerRef.current) clearTimeout(findBlurTimerRef.current);
+    const el = findInputRef.current;
+    if (!el) { setFindText((t) => t + ch); return; }
+    const start = el.selectionStart ?? findText.length;
+    const end = el.selectionEnd ?? findText.length;
+    const next = findText.slice(0, start) + ch + findText.slice(end);
+    setFindText(next);
+    requestAnimationFrame(() => {
+      el.focus();
+      const pos = start + ch.length;
+      el.setSelectionRange(pos, pos);
+    });
+  }
   const findStripped = findText.trim();
   const matchCount = useMemo(() => {
     if (!findStripped) return 0;
@@ -741,36 +769,54 @@ function ReadingPanel({
         </div>
       </header>
 
-      {/* CST mūla volume passages (cst-...m.mul-*) cover whole vagga
-          chunks. When the passage has no English translation, point
-          the reader to the individual SC suttas (dn1, mn10, …) where
-          Sujato/Thanissaro/etc. renderings live. Suppressed when the
-          passage already has English so we don't shout "no translation"
-          at a passage that does have one. */}
-      {!compact && /^cst-[a-z0-9]+m\.mul-/.test(passage.id || '') && !translationText && (
-        <div style={cstMulaBanner}>
-          <span style={cstMulaBannerIcon} aria-hidden="true">ⓘ</span>
-          <span style={cstMulaBannerText}>
-            This is the CST mūla edition — the entire vagga as one passage.
-            For the canonical individual suttas with English translations,{' '}
-            <button
-              onClick={() => {
-                // Hop to the nikāya browse via the parent so React state
-                // updates properly (mutating window.location.hash alone
-                // doesn't re-parse the route in Dhamma.jsx).
-                const m = (passage.id || '').match(/-(dn|mn|sn|an|kn)\d/i);
-                const nikaya = m ? m[1].toLowerCase() : null;
-                if (nikaya && onBrowseToPath) {
-                  onBrowseToPath(['pli-tipitaka', 'pli-sutta', `pli-${nikaya}`]);
-                }
-              }}
-              style={cstMulaBannerLink}
-            >
-              browse the nikāya →
-            </button>
-          </span>
-        </div>
-      )}
+      {/* CST mūla volume headers are uddāna (closing mnemonic) entries —
+          tiny passages (~140 chars) that list the suttas in the vagga
+          but aren't the suttas themselves. Pattern: cst-...m.mul-<nik>N
+          with no underscore (the individual suttas use ..._1, _2, …).
+          Banner explains what they are + points at the readable suttas.
+
+          Non-uddāna CST mūla passages without English get a simpler
+          banner noting the missing translation. */}
+      {(() => {
+        if (compact) return null;
+        const id = passage.id || '';
+        const cstMulaMatch = id.match(/^cst-[a-z0-9]+m\.mul-(dn|mn|sn|an|kn)\d+(_\d+)?$/i);
+        if (!cstMulaMatch) return null;
+        // Uddāna: matches the volume-header pattern (no _N suffix) AND
+        // body is short — both signals together so a pathological short
+        // SC sutta doesn't trigger.
+        const isUddana = !cstMulaMatch[2] && (passage.original || '').length < 500;
+        if (!isUddana && translationText) return null;  // ordinary CST mūla with translation: no banner
+        const nikaya = cstMulaMatch[1].toLowerCase();
+        return (
+          <div style={cstMulaBanner}>
+            <span style={cstMulaBannerIcon} aria-hidden="true">ⓘ</span>
+            <span style={cstMulaBannerText}>
+              {isUddana ? (
+                <>
+                  This is the closing <em>uddāna</em> — a mnemonic verse
+                  listing the suttas in this vagga, not the suttas
+                  themselves. To read the individual suttas with English
+                  translations,{' '}
+                </>
+              ) : (
+                <>
+                  This is the CST mūla edition with no English
+                  translation in the corpus. For the canonical
+                  individual suttas (which carry Sujato / Thanissaro /
+                  others),{' '}
+                </>
+              )}
+              <button
+                onClick={() => onBrowseToPath?.(['pli-tipitaka', 'pli-sutta', `pli-${nikaya}`])}
+                style={cstMulaBannerLink}
+              >
+                browse the nikāya →
+              </button>
+            </span>
+          </div>
+        );
+      })()}
 
       {translations && translations.length > 1 && (
         <div style={translatorChipRow} aria-label="Choose translator">
@@ -801,34 +847,57 @@ function ReadingPanel({
       )}
 
       {!compact && (
-        <div style={findRow}>
-          <input
-            type="search"
-            value={findText}
-            onChange={(e) => setFindText(e.target.value)}
-            placeholder="Find in passage…"
-            style={findInput}
-            spellCheck={false}
-            aria-label="Find in passage"
-          />
-          <button
-            onClick={() => setFindStem((v) => !v)}
-            style={{
-              ...findStemBtn,
-              color: findStem ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
-              borderColor: findStem ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.18)',
-            }}
-            title={findStem ? 'Stem mode (sati → satiyā, satimā…). Click for literal.' : 'Switch to stem mode — Pali inflection bridging.'}
-            aria-pressed={findStem}
-          >
-            Stem
-          </button>
-          {findStripped && (
-            <span style={findCount}>
-              {matchCount.toLocaleString()} {matchCount === 1 ? 'match' : 'matches'}
-            </span>
+        <>
+          <div style={findRow}>
+            <input
+              ref={findInputRef}
+              type="search"
+              value={findText}
+              onChange={(e) => setFindText(e.target.value)}
+              onFocus={handleFindFocus}
+              onBlur={handleFindBlur}
+              placeholder="Find in passage…"
+              style={findInput}
+              spellCheck={false}
+              aria-label="Find in passage"
+            />
+            <button
+              onClick={() => setFindStem((v) => !v)}
+              style={{
+                ...findStemBtn,
+                color: findStem ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                borderColor: findStem ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.18)',
+              }}
+              title={findStem ? 'Stem mode (sati → satiyā, satimā…). Click for literal.' : 'Switch to stem mode — Pali inflection bridging.'}
+              aria-pressed={findStem}
+            >
+              Stem
+            </button>
+            {findStripped && (
+              <span style={findCount}>
+                {matchCount.toLocaleString()} {matchCount === 1 ? 'match' : 'matches'}
+              </span>
+            )}
+          </div>
+          {findFocused && (
+            <div style={findDiacriticsRow} aria-label="Insert Pali diacritic">
+              {FIND_DIACRITICS.map((ch) => (
+                <button
+                  key={ch}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    if (findBlurTimerRef.current) clearTimeout(findBlurTimerRef.current);
+                  }}
+                  onClick={() => insertFindChar(ch)}
+                  style={findDiacriticBtn}
+                  title={`Insert ${ch}`}
+                >
+                  {ch}
+                </button>
+              ))}
+            </div>
           )}
-        </div>
+        </>
       )}
 
       {/* Mobile column selector — picks Pali or English instead of the
@@ -1315,6 +1384,30 @@ const findStemBtn = {
   borderRadius: 999,
   cursor: 'pointer',
   transition: 'color 120ms ease, border-color 120ms ease',
+};
+
+const findDiacriticsRow = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: 2,
+  marginTop: -4,
+  marginBottom: 14,
+};
+
+const findDiacriticBtn = {
+  width: 26,
+  height: 26,
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'transparent',
+  border: '1px solid transparent',
+  color: 'var(--bc-text-secondary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  cursor: 'pointer',
+  borderRadius: 4,
+  transition: 'border-color 100ms ease, color 100ms ease',
 };
 
 const findMark = {
