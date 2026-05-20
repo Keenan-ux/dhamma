@@ -6,6 +6,34 @@
 import { useState } from 'react';
 import { formatCitation } from './citationFormat.js';
 
+const TRANSLATOR_LABEL = {
+  sujato: 'Bhante Sujato',
+  thanissaro: 'Thanissaro Bhikkhu',
+  walshe: 'Maurice Walshe',
+  ireland: 'John D. Ireland',
+  olendzki: 'Andrew Olendzki',
+  buddharakkhita: 'Acharya Buddharakkhita',
+  nyanaponika: 'Nyanaponika Thera',
+  nanamoli: 'Ñāṇamoli Thera',
+  piyadassi: 'Piyadassi Thera',
+  bodhi: 'Bhikkhu Bodhi',
+  narada: 'Nārada Thera',
+  soma: 'Soma Thera',
+  nyanasatta: 'Nyanasatta Thera',
+  'sister-uppalavanna': 'Sister Uppalavanna',
+  'nanamoli-bodhi': 'Ñāṇamoli & Bodhi',
+  horner: 'I. B. Horner',
+  hare: 'E. M. Hare',
+  'amaravati-sangha': 'Amaravati Sangha',
+  nizamis: 'Nizamis',
+  hecker: 'Hellmuth Hecker',
+  vajira: 'Sister Vajira',
+  kelly: 'John Kelly',
+  harvey: 'Peter Harvey',
+  sonadhammo: 'Sonadhammo',
+  kandy: 'Kandy News-Wheel',
+};
+
 export default function PassageCard({ passage, highlight, first }) {
   const [copied, setCopied] = useState(false);
 
@@ -17,12 +45,20 @@ export default function PassageCard({ passage, highlight, first }) {
     } catch {/* ignore */}
   }
 
+  const trName = passage.translator ? (TRANSLATOR_LABEL[passage.translator] || passage.translator) : null;
+
   return (
     <article style={{ ...entryStyle, ...(first ? firstEntryStyle : {}) }}>
       <header style={headerRow}>
         <div style={citationLine}>
           <span style={citation}>{passage.citation}</span>
           <span style={workLine}>{passage.title}{passage.work ? ` · ${passage.work}` : ''}</span>
+          {trName && (
+            <span style={translatorBadge} title={passage.translator_source === 'ati' ? 'Access to Insight' : 'SuttaCentral'}>
+              tr. {trName}
+              {passage.translator_source === 'ati' && <span style={atiBadge}>ATI</span>}
+            </span>
+          )}
         </div>
         <div style={traditionLine}>{passage.tradition}</div>
       </header>
@@ -118,6 +154,29 @@ const workLine = {
   fontSize: 12,
   color: 'var(--bc-text-tertiary)',
   fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+const translatorBadge = {
+  fontSize: 11,
+  fontStyle: 'italic',
+  color: 'var(--bc-accent)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  display: 'inline-flex',
+  alignItems: 'baseline',
+  gap: 6,
+  marginTop: 2,
+};
+
+const atiBadge = {
+  fontSize: 9,
+  fontWeight: 600,
+  letterSpacing: '0.10em',
+  padding: '1px 5px',
+  borderRadius: 3,
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.40)',
+  color: 'var(--bc-accent)',
+  textTransform: 'uppercase',
+  fontFamily: 'Outfit, system-ui, sans-serif',
 };
 
 const traditionLine = {

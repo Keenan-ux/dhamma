@@ -3,6 +3,36 @@ import { pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
 import useCorpus from './useCorpus.js';
 import usePassage from './usePassage.js';
 import { SelectionActions } from './SelectionActions.jsx';
+import { passageTranslationsApi } from './api.js';
+import { sanitizeDictHtml } from './dictHtml.js';
+
+const TRANSLATOR_LABEL = {
+  sujato: 'Bhante Sujato',
+  thanissaro: 'Thanissaro Bhikkhu',
+  walshe: 'Maurice Walshe',
+  ireland: 'John D. Ireland',
+  olendzki: 'Andrew Olendzki',
+  buddharakkhita: 'Acharya Buddharakkhita',
+  nyanaponika: 'Nyanaponika Thera',
+  nanamoli: 'Ñāṇamoli Thera',
+  piyadassi: 'Piyadassi Thera',
+  bodhi: 'Bhikkhu Bodhi',
+  narada: 'Nārada Thera',
+  soma: 'Soma Thera',
+  nyanasatta: 'Nyanasatta Thera',
+  'sister-uppalavanna': 'Sister Uppalavanna',
+  'nanamoli-bodhi': 'Ñāṇamoli & Bodhi',
+  horner: 'I. B. Horner',
+  hare: 'E. M. Hare',
+  'amaravati-sangha': 'Amaravati Sangha',
+  nizamis: 'Nizamis',
+  hecker: 'Hellmuth Hecker',
+  vajira: 'Sister Vajira',
+  kelly: 'John Kelly',
+  harvey: 'Peter Harvey',
+  sonadhammo: 'Sonadhammo',
+  kandy: 'Kandy News-Wheel',
+};
 
 export default function BrowseView({
   path, setPath,
@@ -230,7 +260,7 @@ function BreadcrumbLink({ children, onClick }) {
 // the reader give more real estate to whichever side they're focusing
 // on. Each pane keeps the standard Pali / translation typography so the
 // stacked-fallback view above stays consistent.
-function SideBySideReader({ pali, english }) {
+function SideBySideReader({ pali, english, englishIsHtml }) {
   const [pct, setPct] = useState(50);
   const containerRef = useRef(null);
   const draggingRef = useRef(false);
@@ -273,7 +303,14 @@ function SideBySideReader({ pali, english }) {
         <div style={sideBySideGrip} />
       </div>
       <div style={{ ...sideBySidePane, flexBasis: `calc(${100 - pct}% - 18px)` }}>
-        <p style={{ ...readingTranslation, marginBottom: 18 }}>{english}</p>
+        {englishIsHtml ? (
+          <div
+            style={{ ...readingTranslation, marginBottom: 18 }}
+            dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(english) }}
+          />
+        ) : (
+          <p style={{ ...readingTranslation, marginBottom: 18 }}>{english}</p>
+        )}
       </div>
     </div>
   );
@@ -359,6 +396,30 @@ function ReadingPanel({
   const traditionLabel = workInfo?.tradition || '';
   const workLabel = workInfo?.name || '';
 
+  // Multi-translator support: fetch all translations for this passage,
+  // let the reader switch between Sujato (default), Thanissaro, etc.
+  // The fetched list is ordered by curated position (sujato=0,
+  // thanissaro=10, …); first item is the default selection.
+  const [translations, setTranslations] = useState(null); // null = loading
+  const [selectedTranslator, setSelectedTranslator] = useState(null);
+  useEffect(() => {
+    if (!passage?.id) return;
+    setTranslations(null);
+    setSelectedTranslator(null);
+    const ac = new AbortController();
+    passageTranslationsApi(passage.id, { signal: ac.signal })
+      .then((r) => {
+        setTranslations(r.translations || []);
+        if (r.translations?.length) setSelectedTranslator(r.translations[0].translator);
+      })
+      .catch(() => { /* if endpoint fails, just fall back to passage.translation */ });
+    return () => ac.abort();
+  }, [passage?.id]);
+
+  const activeTranslation = translations?.find((t) => t.translator === selectedTranslator);
+  const translationText = activeTranslation?.text || passage.translation;
+  const translationIsHtml = activeTranslation && activeTranslation.source === 'ati';
+
   // When both Pali + English exist, drop the single-column reading-width
   // cap so the parallel reader can span the full available content area.
   const hasParallel = !!(passage.original && passage.translation);
@@ -419,13 +480,59 @@ function ReadingPanel({
         </div>
       </header>
 
-      {passage.original && passage.translation ? (
-        <SideBySideReader pali={passage.original} english={passage.translation} />
+      {translations && translations.length > 1 && (
+        <div style={translatorChipRow} aria-label="Choose translator">
+          {translations.map((t) => {
+            const on = t.translator === selectedTranslator;
+            return (
+              <button
+                key={t.translator + ':' + t.source}
+                onClick={() => setSelectedTranslator(t.translator)}
+                style={{
+                  ...translatorChip,
+                  color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                  borderColor: on ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.18)',
+                  fontWeight: on ? 600 : 400,
+                }}
+                title={[
+                  TRANSLATOR_LABEL[t.translator] || t.translator,
+                  t.source === 'ati' ? '(Access to Insight)' : '(SuttaCentral)',
+                  t.copyright,
+                ].filter(Boolean).join(' ')}
+              >
+                {TRANSLATOR_LABEL[t.translator] || t.translator}
+                {t.source === 'ati' && <span style={readingAtiBadge}>ATI</span>}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {passage.original && translationText ? (
+        <SideBySideReader
+          pali={passage.original}
+          english={translationText}
+          englishIsHtml={translationIsHtml}
+        />
       ) : (
         <>
           {passage.original && <p style={readingOriginal}>{passage.original}</p>}
-          {passage.translation && <p style={readingTranslation}>{passage.translation}</p>}
+          {translationText && (
+            translationIsHtml
+              ? <div style={readingTranslation} dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(translationText) }} />
+              : <p style={readingTranslation}>{translationText}</p>
+          )}
         </>
+      )}
+
+      {activeTranslation && activeTranslation.source === 'ati' && (
+        <div style={attribFooter}>
+          {activeTranslation.copyright || 'Access to Insight'}{' '}
+          · <a href={activeTranslation.source_url} target="_blank" rel="noopener noreferrer" style={attribLink}>
+            CC BY-NC 4.0 · accesstoinsight.org
+          </a>
+          {activeTranslation.notes && <span style={attribNotes}> · {activeTranslation.notes}</span>}
+        </div>
       )}
 
       <footer style={readingFooter}>
@@ -739,6 +846,62 @@ const readingHint = {
   fontFamily: '"Noto Serif", Georgia, serif',
   fontStyle: 'italic',
   fontSize: 11,
+  color: 'var(--bc-text-tertiary)',
+};
+
+const translatorChipRow = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: 6,
+  marginBottom: 18,
+  paddingBottom: 12,
+  borderBottom: '1px dashed rgba(var(--bc-accent-rgb), 0.12)',
+};
+
+const translatorChip = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 6,
+  padding: '4px 10px',
+  background: 'transparent',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+  borderRadius: 999,
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 12,
+  cursor: 'pointer',
+  transition: 'color 100ms ease, border-color 100ms ease',
+};
+
+const readingAtiBadge = {
+  fontSize: 9,
+  fontWeight: 600,
+  letterSpacing: '0.10em',
+  padding: '1px 5px',
+  borderRadius: 3,
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.40)',
+  color: 'var(--bc-accent)',
+  textTransform: 'uppercase',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+};
+
+const attribFooter = {
+  marginTop: 12,
+  padding: '6px 10px',
+  borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.18)',
+  fontSize: 11,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-tertiary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  lineHeight: 1.5,
+};
+
+const attribLink = {
+  color: 'var(--bc-text-tertiary)',
+  textDecoration: 'underline',
+  textUnderlineOffset: 2,
+};
+
+const attribNotes = {
   color: 'var(--bc-text-tertiary)',
 };
 

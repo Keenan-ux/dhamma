@@ -146,7 +146,7 @@ function makeSnippet(p) {
 }
 
 function shapeResult(p) {
-  return {
+  const out = {
     id: p.id,
     citation: p.citation,
     title: p.title,
@@ -155,6 +155,16 @@ function shapeResult(p) {
     snippet: makeSnippet(p),
     score: Number(p.score) || 0,
   };
+  // Translation-scope rows carry per-translator metadata. Surface it so
+  // the UI can render the matched translator + attribution chip.
+  if (p.translator) {
+    out.translator = p.translator;
+    out.translator_source = p.translator_source;
+    out.translator_copyright = p.translator_copyright;
+    out.translator_license = p.translator_license;
+    out.translator_source_url = p.translator_source_url;
+  }
+  return out;
 }
 
 function normalizeParams({ q, mode, field, limit }) {
@@ -186,7 +196,28 @@ export async function runSearch(rawParams) {
   let rows;
   let warning;
 
-  if (mode === 'exact' || mode === 'stem') {
+  if ((mode === 'exact' || mode === 'stem') && field === 'translation') {
+    // Translation-only search: hit the `translations` table directly,
+    // joining each match back to its passage. One row per
+    // (passage, translator) tuple — the UI groups them by passage and
+    // shows a list of matched translators.
+    rows = await sql`
+      SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
+             p.original, t.text AS translation,
+             t.translator, t.source AS translator_source, t.copyright AS translator_copyright,
+             t.license AS translator_license, t.source_url AS translator_source_url,
+             ts_rank(t.fts_doc, q) AS score,
+             ts_headline('simple', t.text, q,
+               'MaxFragments=1,MinWords=10,MaxWords=28,StartSel="",StopSel="",FragmentDelimiter="… "'
+             ) AS headline
+      FROM translations t
+      JOIN passages p ON p.id = t.passage_id,
+           to_tsquery('simple', ${tsquery}) q
+      WHERE t.fts_doc @@ q
+      ORDER BY score DESC
+      LIMIT ${limit}
+    `;
+  } else if (mode === 'exact' || mode === 'stem') {
     rows = await sql`
       SELECT id, citation, title, canon, work_slug, original, translation,
              ts_rank(${fts}, q) AS score,
