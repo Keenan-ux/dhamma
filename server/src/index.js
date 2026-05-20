@@ -119,6 +119,47 @@ app.get('/api/library/:slug', async (c) => {
   }
 });
 
+app.post('/api/gloss', async (c) => {
+  // Batch word-gloss lookup for interlinear / hover glosses. Body:
+  // { words: ["sampajāno", "bhikkhave", ...] }.
+  // Returns: { glosses: { word: { headword, def } } } — only entries
+  // for words we actually found a lemma for. Definitions trimmed to
+  // first sentence / ~120 chars so tooltips stay readable.
+  try {
+    const { sql } = await import('./db.js');
+    if (!sql) return c.json({ glosses: {} });
+    const body = await c.req.json().catch(() => ({}));
+    const words = Array.isArray(body.words) ? body.words.slice(0, 200) : [];
+    if (words.length === 0) return c.json({ glosses: {} });
+
+    const lowered = Array.from(new Set(words.map((w) => String(w).toLowerCase())));
+    // Walk inflections → dictionary_entries. Prefer DPD (richest), then
+    // PED, then DPPN. SELECT DISTINCT ON squashes to one row per surface
+    // form picking the best source.
+    const rows = await sql`
+      SELECT DISTINCT ON (di.surface_lower)
+             di.surface_lower AS surface,
+             de.lemma         AS headword,
+             de.definition    AS def,
+             de.source        AS source
+      FROM dictionary_inflections di
+      JOIN dictionary_entries de ON de.id = di.entry_id
+      WHERE di.surface_lower = ANY(${lowered})
+      ORDER BY di.surface_lower,
+        CASE de.source WHEN 'dpd' THEN 1 WHEN 'ped' THEN 2 WHEN 'dppn' THEN 3 ELSE 9 END
+    `;
+    const glosses = {};
+    for (const r of rows) {
+      const def = (r.def || '').replace(/\s+/g, ' ').trim();
+      const short = def.length > 120 ? def.slice(0, 117).trim() + '…' : def;
+      glosses[r.surface] = { headword: r.headword, def: short, source: r.source };
+    }
+    return c.json({ glosses });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.get('/api/passage/:id/tags', async (c) => {
   try {
     const id = c.req.param('id');
