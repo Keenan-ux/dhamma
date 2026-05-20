@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { key: 'search',      label: 'Search' },
   { key: 'concordance', label: 'Concordance' },
   { key: 'dictionary',  label: 'Dictionary' },
+  { key: 'bookmarks',   label: 'Bookmarks' },
 ];
 
 // Which nav items belong to the "Corpus" section (browseable canonical

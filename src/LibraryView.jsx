@@ -57,13 +57,16 @@ export default function LibraryView({ onSearchTerm, onCompareTerm }) {
     }
   }, [openSlug]);
 
+  // Fetch the active category's articles directly — keeps each
+  // request small and side-steps the "first sort bucket fills the
+  // limit" trap (author-essay alone has 277 entries).
   useEffect(() => {
     const ac = new AbortController();
-    libraryListApi({ signal: ac.signal })
+    libraryListApi({ category: activeCategory, limit: 500, signal: ac.signal })
       .then(setListing)
       .catch(() => setListing({ articles: [], byCategory: {} }));
     return () => ac.abort();
-  }, []);
+  }, [activeCategory]);
 
   const articlesByCategory = useMemo(() => {
     const map = new Map();
