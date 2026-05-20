@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#1A1A1B"/>
-  <g fill="none" stroke="#FDC24E" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="512" height="512" rx="96" fill="#F6F2E8"/>
+  <g fill="none" stroke="#8B6914" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
     <!-- Bodhi leaf: heart base, pointed tip, central vein, two lateral veins -->
     <path d="M 256 96 C 156 156 116 256 156 336 C 196 416 296 426 256 416 C 216 426 316 416 356 336 C 396 256 356 156 256 96 Z"/>
     <path d="M 256 96 L 256 416"/>

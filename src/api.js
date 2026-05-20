@@ -42,10 +42,11 @@ export function compareStatsApi({ q, limit, signal }) {
   return get(`/api/compare-stats?${params.toString()}`, { signal });
 }
 
-export function lookupApi({ term, source, language, signal }) {
+export function lookupApi({ term, source, language, mode, signal }) {
   const params = new URLSearchParams();
   if (term) params.set('term', term);
   if (source) params.set('source', source);
   if (language) params.set('language', language);
+  if (mode) params.set('mode', mode);
   return get(`/api/lookup?${params.toString()}`, { signal });
 }

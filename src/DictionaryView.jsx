@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { lookupApi } from './api.js';
-import { prepareDppnHtml, preparePedHtml, groupEntriesBySource, SOURCE_LABEL } from './dictHtml.js';
+import { prepareDppnHtml, preparePedHtml, sanitizeDictHtml, groupEntriesBySource, SOURCE_LABEL } from './dictHtml.js';
+import { SelectionActions } from './SelectionActions.jsx';
 
 // Threshold above which an HTML-source entry (DPPN biography, PED
 // long lexicon entry) is collapsed to a preview with a "Show more"
@@ -52,23 +53,47 @@ function DictEntry({ entry: e }) {
           {e.construction && <span> · <em>cons.</em> {e.construction}</span>}
         </footer>
       )}
-      {e.example && <blockquote style={entryExample}>{e.example}</blockquote>}
+      {e.example && (
+        <blockquote
+          style={entryExample}
+          dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(e.example) }}
+        />
+      )}
     </article>
   );
+}
+
+const MODES = [
+  { key: 'exact',   label: 'Exact',   hint: 'Headword/lemma exact match only — strict, no fallback' },
+  { key: 'stem',    label: 'Stem',    hint: 'Lenient Pali: inflections, prefixes, compounds, plus English-reverse for English queries' },
+  { key: 'meaning', label: 'Meaning', hint: 'Vector ANN over definitions — type an English phrase, find related Pali words' },
+];
+
+function DotPulse() {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setN((x) => (x + 1) % 4), 400);
+    return () => clearInterval(id);
+  }, []);
+  return <span aria-hidden style={dotPulse}>{'.'.repeat(n)}</span>;
 }
 
 // Dedicated page for dictionary lookups. Live-search with a small
 // debounce; the same lookup endpoint the in-passage popover uses, here
 // surfaced as a full page so a scholar can browse definitions without
-// first finding the word in a passage. Results are grouped by source:
-// DPD (lexical) and DPPN (proper-names biographies).
-export default function DictionaryView({ initialTerm = '' }) {
+// first finding the word in a passage. Three match modes (Exact / Stem
+// / Meaning) mirror SearchView. Results are grouped by source: DPD
+// (lexical), DPPN (proper names), PED (PTS lexicon).
+export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompareTerm }) {
   const [term, setTerm] = useState(initialTerm);
   const [debounced, setDebounced] = useState(initialTerm.trim());
+  const [mode, setMode] = useState('stem');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingMs, setLoadingMs] = useState(0);
   const [error, setError] = useState(null);
   const inputRef = useRef(null);
+  const resultsRef = useRef(null);
 
   useEffect(() => { inputRef.current?.focus(); }, []);
 
@@ -80,16 +105,19 @@ export default function DictionaryView({ initialTerm = '' }) {
   useEffect(() => {
     if (!debounced) { setResult(null); setError(null); setLoading(false); return; }
     const ac = new AbortController();
-    setLoading(true); setError(null);
-    lookupApi({ term: debounced, signal: ac.signal })
+    setLoading(true); setError(null); setLoadingMs(0);
+    const startedAt = Date.now();
+    const tick = setInterval(() => setLoadingMs(Date.now() - startedAt), 250);
+    lookupApi({ term: debounced, mode, signal: ac.signal })
       .then((r) => { setResult(r); setLoading(false); })
       .catch((err) => {
         if (err.name === 'AbortError') return;
         setError(err.message);
         setLoading(false);
-      });
-    return () => ac.abort();
-  }, [debounced]);
+      })
+      .finally(() => clearInterval(tick));
+    return () => { ac.abort(); clearInterval(tick); };
+  }, [debounced, mode]);
 
   const entries = result?.entries || [];
   const matchedVia = result?.matched_via;
@@ -115,7 +143,11 @@ export default function DictionaryView({ initialTerm = '' }) {
           type="text"
           value={term}
           onChange={(e) => setTerm(e.target.value)}
-          placeholder="Type a Pali word (e.g. sati, sampajāno, dukkha)"
+          placeholder={
+            mode === 'meaning'
+              ? 'Describe a meaning (e.g. impermanence, the chief disciple)'
+              : 'Type a Pali word (e.g. sati, sampajāno, dukkha)'
+          }
           style={input}
           spellCheck={false}
           autoComplete="off"
@@ -125,15 +157,88 @@ export default function DictionaryView({ initialTerm = '' }) {
         )}
       </div>
 
-      <div style={resultsWrap}>
+      <div style={modeRow} aria-label="Match mode">
+        <span style={modeLabel}>Match</span>
+        {MODES.map((opt) => {
+          const on = mode === opt.key;
+          return (
+            <button
+              key={opt.key}
+              onClick={() => setMode(opt.key)}
+              title={opt.hint}
+              style={{
+                ...modeBtn,
+                color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                borderBottomColor: on ? 'var(--bc-accent)' : 'transparent',
+              }}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div style={resultsWrap} ref={resultsRef}>
+        <SelectionActions
+          containerRef={resultsRef}
+          hide={['lookup']}
+          onSearch={onSearchTerm}
+          onCompare={onCompareTerm}
+        />
         {!debounced && (
-          <p style={hint}>Start typing to look up a word. The lookup is alias-bridged — inflected forms (e.g. <em>sampajāno</em>) resolve to their headword (<em>sampajāna</em>).</p>
+          <>
+            <p style={hint}>
+              Start typing to look up a word. <strong>Stem</strong> mode (default)
+              is lenient — inflected forms like <em>sampajāno</em> resolve to
+              <em> sampajāna</em>, and typing without diacritics still works.{' '}
+              <strong>Meaning</strong> mode treats your input as a description and
+              returns semantically related entries via vector search.
+            </p>
+            {mode === 'meaning' && (
+              <p style={hintNote}>
+                Heads up: the first Meaning query after the server has been idle
+                for a while takes ~2 minutes — the BGE-M3 embedding model has to
+                load into memory. Subsequent queries are sub-second until the
+                machine idles back to sleep.
+              </p>
+            )}
+          </>
         )}
-        {loading && <p style={meta}>Looking up <em>{debounced}</em>…</p>}
+        {loading && (
+          <div style={loadingWrap}>
+            <p style={meta}>
+              Looking up <em>{debounced}</em>
+              <DotPulse />
+            </p>
+            {mode === 'meaning' && loadingMs > 2500 && (
+              <div style={loadingHint}>
+                <p style={loadingHintPrimary}>
+                  First Meaning query on a cold container loads the BGE-M3
+                  embedding model — about two minutes. After that, queries
+                  are sub-second until the machine idles back to sleep.
+                </p>
+                <p style={loadingHintSecondary}>
+                  {Math.floor(loadingMs / 1000)}s elapsed
+                  {loadingMs > 30000 && ' · still loading the model'}
+                  {loadingMs > 90000 && ' · almost there, the cold-start is ~120s'}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
         {error && <p style={errMsg}>Lookup failed: {error}</p>}
 
         {!loading && !error && debounced && entries.length === 0 && (
-          <p style={meta}>No entry found for <strong>{debounced}</strong>.</p>
+          <p style={meta}>
+            No entry found for <strong>{debounced}</strong>
+            {mode === 'exact' && (
+              <> in exact mode. Try <button onClick={() => setMode('stem')} style={inlineModeLink}>Stem</button> or <button onClick={() => setMode('meaning')} style={inlineModeLink}>Meaning</button>.</>
+            )}
+            {mode === 'stem' && (
+              <>. Try <button onClick={() => setMode('meaning')} style={inlineModeLink}>Meaning</button> mode for a semantic search.</>
+            )}
+            {mode !== 'exact' && mode !== 'stem' && '.'}
+          </p>
         )}
 
         {!loading && !error && entries.length > 0 && (
@@ -148,6 +253,9 @@ export default function DictionaryView({ initialTerm = '' }) {
               )}
               {matchedVia === 'english-reverse' && (
                 <span style={resultHeaderArrow}>· Pali words meaning this</span>
+              )}
+              {matchedVia === 'meaning' && (
+                <span style={resultHeaderArrow}>· semantically near</span>
               )}
               <span style={resultHeaderCount}>{entries.length} entr{entries.length === 1 ? 'y' : 'ies'}</span>
             </div>
@@ -422,4 +530,95 @@ const expandBtn = {
   fontSize: 12,
   color: 'var(--bc-accent)',
   cursor: 'pointer',
+};
+
+const modeRow = {
+  display: 'flex',
+  gap: 4,
+  flexWrap: 'wrap',
+  alignItems: 'baseline',
+  marginBottom: 18,
+};
+
+const modeLabel = {
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  marginRight: 12,
+  flexShrink: 0,
+};
+
+const modeBtn = {
+  padding: '6px 10px',
+  background: 'transparent',
+  border: 'none',
+  borderBottom: '1px solid transparent',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 12,
+  fontWeight: 500,
+  letterSpacing: '0.02em',
+  cursor: 'pointer',
+  transition: 'color 120ms ease, border-color 120ms ease',
+};
+
+const hintNote = {
+  margin: '10px 0 0',
+  padding: '8px 12px',
+  borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.30)',
+  background: 'rgba(var(--bc-accent-rgb), 0.04)',
+  fontSize: 12,
+  fontStyle: 'italic',
+  lineHeight: 1.55,
+  color: 'var(--bc-text-secondary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+const inlineModeLink = {
+  background: 'transparent',
+  border: 'none',
+  padding: 0,
+  fontFamily: 'inherit',
+  fontSize: 'inherit',
+  color: 'var(--bc-accent)',
+  cursor: 'pointer',
+  textDecoration: 'underline',
+  textUnderlineOffset: 2,
+};
+
+const loadingWrap = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 14,
+};
+
+const dotPulse = {
+  display: 'inline-block',
+  marginLeft: 1,
+  minWidth: '1.2em',
+  color: 'var(--bc-accent)',
+  fontFamily: 'monospace',
+};
+
+const loadingHint = {
+  padding: '10px 14px',
+  borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.30)',
+  background: 'rgba(var(--bc-accent-rgb), 0.04)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+const loadingHintPrimary = {
+  margin: 0,
+  fontSize: 13,
+  lineHeight: 1.5,
+  color: 'var(--bc-text-secondary)',
+};
+
+const loadingHintSecondary = {
+  margin: '6px 0 0',
+  fontSize: 11,
+  fontStyle: 'italic',
+  letterSpacing: '0.02em',
+  color: 'var(--bc-text-tertiary)',
 };

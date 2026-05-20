@@ -1,9 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { kwic, neighborsByTradition } from './analyze.js';
 import useCompareStats from './useCompareStats.js';
 import PassageCard from './PassageCard.jsx';
+import { SelectionActions } from './SelectionActions.jsx';
 
-export default function CompareView({ term, activeTraditions }) {
+export default function CompareView({ term, activeTraditions, onSearchTerm, onCompareTerm }) {
+  const resultsRef = useRef(null);
   const t = (term || '').trim();
   const { data: stats, loading, error } = useCompareStats({ q: t, limit: 50 });
 
@@ -86,7 +88,12 @@ export default function CompareView({ term, activeTraditions }) {
 
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
-      <div style={wrap}>
+      <div style={wrap} ref={resultsRef}>
+        <SelectionActions
+          containerRef={resultsRef}
+          onSearch={onSearchTerm}
+          onCompare={onCompareTerm}
+        />
         <div style={{ marginBottom: 28 }}>
           <h2 style={h1}>Comparing <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
           <p style={meta}>

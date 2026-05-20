@@ -44,3 +44,21 @@ export function stemForPrefix(term) {
   if (stem.length >= PREFIX_MIN_STEM && stem !== t) return stem;
   return t;
 }
+
+// Diacritic folding for headword matching. `sampajāna` → `sampajana`,
+// `anāthapiṇḍika` → `anathapindika`. Mirrors the SQL `translate()`
+// expression on the `headword_folded` column so query and column fold
+// the same way. Letting users type without diacritics still find the
+// canonical entry.
+const FOLD_FROM = 'āīūēōṃṁṅñṇṭḍḷḥṛśṣ';
+const FOLD_TO   = 'aiueommnnntdlhrss';
+
+export function foldDiacritics(s) {
+  if (!s) return '';
+  let out = '';
+  for (const ch of String(s)) {
+    const idx = FOLD_FROM.indexOf(ch);
+    out += idx >= 0 ? FOLD_TO[idx] : ch;
+  }
+  return out;
+}

@@ -85,6 +85,12 @@ CREATE TABLE IF NOT EXISTS dictionary_entries (
   -- suffix). For neuter nouns DPD's lemma_2 is the inflected citation
   -- form (nibbānaṃ); headword_lower preserves the bare form (nibbāna).
   headword_lower TEXT,
+  -- Diacritic-folded headword: `sampajāna` → `sampajana`, `anāthapiṇḍika`
+  -- → `anathapindika`. Lets a user typing without diacritics match the
+  -- canonical entry. Auto-computed; ingest scripts don't need to set it.
+  headword_folded TEXT GENERATED ALWAYS AS (
+    translate(headword_lower, 'āīūēōṃṁṅñṇṭḍḷḥṛśṣ', 'aiueommnnntdlhrss')
+  ) STORED,
   lemma          TEXT NOT NULL,
   lemma_lower    TEXT NOT NULL,
   language       TEXT NOT NULL DEFAULT 'pli',
@@ -98,28 +104,49 @@ CREATE TABLE IF NOT EXISTS dictionary_entries (
   root           TEXT,
   example        TEXT,
   notes          TEXT,
+  -- Semantic-search embedding (BGE-M3 1024-dim, same vector space as
+  -- passages.embedding). Filled by scripts/ingest/embed_dict.py. If
+  -- BGE-M3 is ever swapped for a different model, every row must be
+  -- re-embedded.
+  embedding      vector(1024),
   created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   UNIQUE (source, source_id)
 );
 
--- ALTER for existing installs that pre-date the headword_lower column
--- (the CREATE TABLE IF NOT EXISTS above is a no-op when the table is
--- already present; the migration of bare-headword data needs ADD COLUMN
--- IF NOT EXISTS, available in Postgres 9.6+).
-ALTER TABLE dictionary_entries ADD COLUMN IF NOT EXISTS headword_lower TEXT;
-
-CREATE INDEX IF NOT EXISTS idx_dict_lemma_lower    ON dictionary_entries(lemma_lower);
-CREATE INDEX IF NOT EXISTS idx_dict_headword_lower ON dictionary_entries(headword_lower);
-CREATE INDEX IF NOT EXISTS idx_dict_source         ON dictionary_entries(source);
-
--- Trigram GIN on the definition body — accelerates english-reverse
--- lookup (`definition ~* '\\mfoo\\M'`) from a sequential scan to an
--- indexed trigram match. Applied to prod ~2026-05-19; without it,
--- english-reverse for a common English term like "monastery" was
--- ~440ms across all three dictionary sources; with it, under 100ms.
+-- pg_trgm is loaded by the cluster so trigram GIN on definition can
+-- accelerate the english-reverse regex lookups.
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+CREATE INDEX IF NOT EXISTS idx_dict_lemma_lower     ON dictionary_entries(lemma_lower);
+CREATE INDEX IF NOT EXISTS idx_dict_headword_lower  ON dictionary_entries(headword_lower);
+CREATE INDEX IF NOT EXISTS idx_dict_headword_folded ON dictionary_entries(headword_folded);
+CREATE INDEX IF NOT EXISTS idx_dict_source          ON dictionary_entries(source);
 CREATE INDEX IF NOT EXISTS idx_dict_def_trgm
   ON dictionary_entries USING GIN (definition gin_trgm_ops);
+-- Per-source partial HNSW indexes for vector ANN — one per dictionary
+-- source so a `WHERE source = X ORDER BY embedding <=> q LIMIT 10`
+-- query uses that source's index directly. The monolithic HNSW we
+-- tried first returned 0 results for less-populated sources because
+-- pgvector applies WHERE *after* the index returns its top-N, and
+-- DPD's 88K entries swamped the candidate set. With partials, default
+-- ef_search=40 already returns enough rows after the per-source
+-- filter. NOT in schema.sql because CREATE INDEX (non-CONCURRENTLY)
+-- would take ACCESS EXCLUSIVE on every boot and block production
+-- cold-starts; instead the indexes are built once via embed_dict.py
+-- (or by hand when a new source is added) — when adding a new source
+-- remember to:
+--   CREATE INDEX idx_dict_embedding_<src> ON dictionary_entries
+--     USING hnsw (embedding vector_cosine_ops) WHERE source = '<src>';
+
+-- Historical migrations that have already been applied to prod
+-- (2026-05). Re-running them would take ACCESS EXCLUSIVE on
+-- dictionary_entries and can deadlock with concurrent ANALYZE / index
+-- builds, so they live OUTSIDE schema.sql now. If a fresh DB is ever
+-- spun up, the CREATE TABLE above already includes the post-migration
+-- shape.
+--   ALTER TABLE dictionary_entries ADD COLUMN headword_lower TEXT;
+--   ALTER TABLE dictionary_entries ADD COLUMN headword_folded ...;
+--   ALTER TABLE dictionary_entries ADD COLUMN embedding vector(1024);
 
 -- Inflected surface forms → headword. Built from DPD's per-headword
 -- inflection data so "sampajāno", "sampajānakārī", "sampajānassa" all
