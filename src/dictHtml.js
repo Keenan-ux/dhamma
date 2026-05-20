@@ -76,4 +76,5 @@ export const SOURCE_LABEL = {
   ped:  { name: 'Pali-English Dictionary',     short: 'PED',  attribution: 'Rhys Davids & Stede · 1921-25 · CC BY-NC 3.0' },
   mw:   { name: 'Sanskrit-English · Monier-Williams', short: 'MW', attribution: 'Monier-Williams · 1899 · Cologne digitization' },
   bhs:  { name: 'Buddhist Hybrid Sanskrit · Edgerton', short: 'BHS', attribution: 'Edgerton 1953' },
+  cped: { name: 'Concise Pali-English · Buddhadatta',  short: 'CPED', attribution: 'Buddhadatta 1949 · ed. Ānandajoti · Ancient Buddhist Texts' },
 };
