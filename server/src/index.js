@@ -119,6 +119,63 @@ app.get('/api/library/:slug', async (c) => {
   }
 });
 
+app.get('/api/passage/:id/tags', async (c) => {
+  try {
+    const id = c.req.param('id');
+    const { sql } = await import('./db.js');
+    if (!sql) return c.json({ tags: [] });
+    const rows = await sql`
+      SELECT tag_type, tag_value, source
+      FROM passage_tags
+      WHERE passage_id = ${id}
+      ORDER BY tag_type, tag_value
+    `;
+    return c.json({ passage_id: id, tags: rows });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.get('/api/tags', async (c) => {
+  // List of tags + the passages that carry them. Filterable by
+  // tag_type (simile/name/subject/number) so a Browse-side filter can
+  // load just one slice. Returns the catalogue of distinct values plus
+  // their hit counts; the per-passage join happens on demand.
+  try {
+    const { sql } = await import('./db.js');
+    if (!sql) return c.json({ tags: [] });
+    const type = c.req.query('type') || null;
+    const value = c.req.query('value') || null;
+    if (value && type) {
+      const rows = await sql`
+        SELECT pt.passage_id, p.citation, p.title, p.work_slug
+        FROM passage_tags pt
+        JOIN passages p ON p.id = pt.passage_id
+        WHERE pt.tag_type = ${type} AND pt.tag_value = ${value}
+        ORDER BY p.citation
+      `;
+      return c.json({ tag_type: type, tag_value: value, passages: rows });
+    }
+    if (type) {
+      const rows = await sql`
+        SELECT tag_value, COUNT(*)::int AS n
+        FROM passage_tags
+        WHERE tag_type = ${type}
+        GROUP BY tag_value ORDER BY n DESC, tag_value
+      `;
+      return c.json({ tag_type: type, values: rows });
+    }
+    const rows = await sql`
+      SELECT tag_type, COUNT(DISTINCT tag_value)::int AS distinct_values, COUNT(*)::int AS total_tags
+      FROM passage_tags
+      GROUP BY tag_type ORDER BY total_tags DESC
+    `;
+    return c.json({ summary: rows });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.get('/api/passage/:id/parallels', async (c) => {
   try {
     const id = c.req.param('id');

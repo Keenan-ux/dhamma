@@ -250,3 +250,18 @@ CREATE INDEX IF NOT EXISTS idx_articles_slug     ON articles(slug);
 CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
 CREATE INDEX IF NOT EXISTS idx_articles_author   ON articles(author);
 CREATE INDEX IF NOT EXISTS idx_articles_fts      ON articles USING GIN(fts_doc);
+
+-- Curated tags assembled from ATI's index-*.html files. Each row says
+-- "passage P is tagged with tag_value of tag_type from this source."
+-- tag_type is one of: simile, name, subject, title, number — matching
+-- the ATI index files. Lets a scholar filter Browse by simile, or see
+-- all suttas mentioning Sāriputta, etc.
+CREATE TABLE IF NOT EXISTS passage_tags (
+  passage_id  TEXT NOT NULL REFERENCES passages(id) ON DELETE CASCADE,
+  tag_type    TEXT NOT NULL,
+  tag_value   TEXT NOT NULL,
+  source      TEXT NOT NULL DEFAULT 'ati',
+  PRIMARY KEY (passage_id, tag_type, tag_value, source)
+);
+CREATE INDEX IF NOT EXISTS idx_pt_passage    ON passage_tags(passage_id);
+CREATE INDEX IF NOT EXISTS idx_pt_type_value ON passage_tags(tag_type, tag_value);

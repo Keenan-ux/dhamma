@@ -3,7 +3,7 @@ import { pathNames, collectLeaves, pathToLeaf } from './data/corpus.js';
 import useCorpus from './useCorpus.js';
 import usePassage from './usePassage.js';
 import { SelectionActions } from './SelectionActions.jsx';
-import { passageTranslationsApi, passageParallelsApi } from './api.js';
+import { passageTranslationsApi, passageParallelsApi, passageTagsApi } from './api.js';
 import { sanitizeDictHtml } from './dictHtml.js';
 import { formatCitation } from './citationFormat.js';
 import useBookmarks from './useBookmarks.js';
@@ -470,6 +470,29 @@ function ReadingPanel({
     return () => ac.abort();
   }, [passage?.id]);
 
+  // Curated tags from ATI's index-*.html (similes / names / subjects /
+  // numbers). Shown as small chips below the body — instant orientation
+  // for "what is this sutta known for in scholarly literature."
+  const [tags, setTags] = useState(null);
+  useEffect(() => {
+    if (!passage?.id) return;
+    setTags(null);
+    const ac = new AbortController();
+    passageTagsApi(passage.id, { signal: ac.signal })
+      .then((r) => setTags(r.tags || []))
+      .catch(() => setTags([]));
+    return () => ac.abort();
+  }, [passage?.id]);
+
+  const tagsByType = useMemo(() => {
+    const m = new Map();
+    for (const t of tags || []) {
+      if (!m.has(t.tag_type)) m.set(t.tag_type, []);
+      m.get(t.tag_type).push(t);
+    }
+    return m;
+  }, [tags]);
+
   const parallelsByType = useMemo(() => {
     const m = new Map();
     for (const p of parallels || []) {
@@ -607,6 +630,33 @@ function ReadingPanel({
         </div>
       </header>
 
+      {/* CST mūla volume passages (cst-...m.mul-*) cover whole vagga
+          chunks; the canonical individual suttas with translations
+          live separately at dn1, mn10, etc. Surface that so a reader
+          who lands here doesn't think we're missing English. */}
+      {!compact && /^cst-[a-z0-9]+m\.mul-/.test(passage.id || '') && (
+        <div style={cstMulaBanner}>
+          <span style={cstMulaBannerIcon} aria-hidden="true">ⓘ</span>
+          <span style={cstMulaBannerText}>
+            This is the CST mūla edition — the entire vagga as one passage.
+            For the canonical individual suttas with English translations,{' '}
+            <button
+              onClick={() => {
+                // Hop to the nikāya browse — e.g. "dn1" → /browse/tipitaka/sutta/dn
+                const m = (passage.id || '').match(/-(dn|mn|sn|an|kn)\d/i);
+                const nikaya = m ? m[1].toLowerCase() : null;
+                if (nikaya) {
+                  window.location.hash = `#/browse/tipitaka/sutta/${nikaya}`;
+                }
+              }}
+              style={cstMulaBannerLink}
+            >
+              browse the nikāya →
+            </button>
+          </span>
+        </div>
+      )}
+
       {translations && translations.length > 1 && (
         <div style={translatorChipRow} aria-label="Choose translator">
           {translations.map((t) => {
@@ -684,6 +734,25 @@ function ReadingPanel({
           </a>
           {activeTranslation.notes && <span style={attribNotes}> · {activeTranslation.notes}</span>}
         </div>
+      )}
+
+      {tags && tags.length > 0 && !compact && (
+        <section style={tagsSection}>
+          <h3 style={tagsHeader}>Tagged in ATI indexes</h3>
+          {Array.from(tagsByType.entries()).map(([type, list]) => (
+            <div key={type} style={tagsTypeRow}>
+              <span style={tagsTypeLabel}>{type}</span>
+              <span style={tagsList}>
+                {list.map((t, i) => (
+                  <span key={t.tag_value + i}>
+                    <span style={tagChip} title={`${type}: ${t.tag_value}`}>{t.tag_value}</span>
+                    {i < list.length - 1 && <span style={tagsSep}>·</span>}
+                  </span>
+                ))}
+              </span>
+            </div>
+          ))}
+        </section>
       )}
 
       {parallels && parallels.length > 0 && !compact && (
@@ -955,6 +1024,44 @@ const hint = {
 
 const reading = { position: 'relative', padding: '32px 0 16px', maxWidth: 760 };
 
+const cstMulaBanner = {
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: 10,
+  padding: '10px 14px',
+  marginBottom: 18,
+  border: '1px dashed rgba(var(--bc-accent-rgb), 0.30)',
+  borderRadius: 0,
+  background: 'rgba(var(--bc-accent-rgb), 0.05)',
+};
+
+const cstMulaBannerIcon = {
+  color: 'var(--bc-accent)',
+  fontSize: 14,
+  lineHeight: 1.4,
+  flexShrink: 0,
+};
+
+const cstMulaBannerText = {
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 12,
+  lineHeight: 1.55,
+  color: 'var(--bc-text-secondary)',
+};
+
+const cstMulaBannerLink = {
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--bc-accent)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 12,
+  cursor: 'pointer',
+  padding: 0,
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.45)',
+};
+
 const readingHeader = {
   display: 'flex',
   justifyContent: 'space-between',
@@ -1156,6 +1263,62 @@ const attribLink = {
 
 const attribNotes = {
   color: 'var(--bc-text-tertiary)',
+};
+
+const tagsSection = {
+  marginTop: 24,
+  paddingTop: 16,
+  borderTop: '1px dashed rgba(var(--bc-accent-rgb), 0.18)',
+};
+
+const tagsHeader = {
+  margin: '0 0 10px',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-secondary)',
+};
+
+const tagsTypeRow = {
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: 12,
+  marginBottom: 8,
+  flexWrap: 'wrap',
+};
+
+const tagsTypeLabel = {
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 9,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  flexShrink: 0,
+  minWidth: 56,
+};
+
+const tagsList = {
+  display: 'inline',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  lineHeight: 1.7,
+  color: 'var(--bc-text-secondary)',
+};
+
+const tagChip = {
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 13,
+  color: 'var(--bc-text-secondary)',
+};
+
+const tagsSep = {
+  color: 'var(--bc-text-tertiary)',
+  opacity: 0.5,
+  margin: '0 4px',
 };
 
 const parallelsSection = {
