@@ -197,41 +197,120 @@ export async function runSearch(rawParams) {
   let rows;
   let warning;
 
-  // Library scope: search ATI articles instead of passages. Meaning
-  // mode falls back to FTS until articles.embedding is populated;
-  // surfaces the same warning as the embed-failure path elsewhere.
+  // Library scope: search ATI articles instead of passages. Exact/Stem
+  // use FTS only. Meaning runs vector ANN over articles.embedding and
+  // RRF-fuses it with FTS (or vector-only when no parseable terms).
   if (field === 'library') {
-    if (!tsquery) {
-      return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded };
+    const shapeLibrary = (r) => ({
+      id: r.id,
+      citation: r.title,
+      title: r.author || r.category,
+      canon: 'Library',
+      work_slug: r.work_slug,
+      snippet: r.headline || '',
+      score: Number(r.score) || 0,
+      library: true,
+      category: r.category,
+      source_url: r.source_url,
+    });
+
+    if (mode !== 'meaning') {
+      if (!tsquery) {
+        return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded };
+      }
+      rows = await sql`
+        SELECT slug AS id, title, author, category, year, source_url,
+               'Library' AS canon, slug AS work_slug,
+               ts_rank(fts_doc, q) AS score,
+               ts_headline('simple', body, q,
+                 'MaxFragments=2,MinWords=10,MaxWords=32,StartSel="",StopSel="",FragmentDelimiter="… "'
+               ) AS headline
+        FROM articles, to_tsquery('simple', ${tsquery}) q
+        WHERE source = 'ati' AND fts_doc @@ q
+        ORDER BY score DESC
+        LIMIT ${limit}
+      `;
+      return {
+        query: q, mode, field, limit, took_ms: Date.now() - t0,
+        results: rows.map(shapeLibrary),
+        expanded,
+      };
     }
-    rows = await sql`
-      SELECT slug AS id, title, author, category, year, source_url,
-             'Library' AS canon, slug AS work_slug,
-             ts_rank(fts_doc, q) AS score,
-             ts_headline('simple', body, q,
-               'MaxFragments=2,MinWords=10,MaxWords=32,StartSel="",StopSel="",FragmentDelimiter="… "'
-             ) AS headline
-      FROM articles, to_tsquery('simple', ${tsquery}) q
-      WHERE source = 'ati' AND fts_doc @@ q
-      ORDER BY score DESC
-      LIMIT ${limit}
-    `;
-    return {
-      query: q, mode, field, limit, took_ms: Date.now() - t0,
-      results: rows.map((r) => ({
-        id: r.id,
-        citation: r.title,
-        title: r.author || r.category,
-        canon: 'Library',
-        work_slug: r.work_slug,
-        snippet: r.headline || '',
-        score: Number(r.score) || 0,
-        library: true,
-        category: r.category,
-        source_url: r.source_url,
-      })),
-      expanded,
-    };
+
+    // Meaning mode against articles.embedding (HNSW). Mirrors the
+    // passages Meaning branch: embed query, RRF-fuse FTS + vector. If
+    // embedding fails, fall back to FTS-only with a warning.
+    let qVec;
+    try { qVec = await embedQuery(q); }
+    catch (err) {
+      warning = `embed_failed:${err.message}`;
+      if (!tsquery) {
+        return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded, warning };
+      }
+      rows = await sql`
+        SELECT slug AS id, title, author, category, year, source_url,
+               'Library' AS canon, slug AS work_slug,
+               ts_rank(fts_doc, q) AS score,
+               ts_headline('simple', body, q,
+                 'MaxFragments=2,MinWords=10,MaxWords=32,StartSel="",StopSel="",FragmentDelimiter="… "'
+               ) AS headline
+        FROM articles, to_tsquery('simple', ${tsquery}) q
+        WHERE source = 'ati' AND fts_doc @@ q
+        ORDER BY score DESC
+        LIMIT ${limit}
+      `;
+      return { query: q, mode, field, limit, took_ms: Date.now() - t0,
+               results: rows.map(shapeLibrary), expanded, warning };
+    }
+    const qVecLit = `[${qVec.join(',')}]`;
+
+    if (!tsquery) {
+      rows = await sql`
+        SELECT slug AS id, title, author, category, year, source_url,
+               'Library' AS canon, slug AS work_slug,
+               1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector)) AS score,
+               NULL AS headline
+        FROM articles
+        WHERE source = 'ati' AND embedding IS NOT NULL
+        ORDER BY embedding <=> ${qVecLit}::vector
+        LIMIT ${limit}
+      `;
+    } else {
+      rows = await sql`
+        WITH
+        fts AS (
+          SELECT id, ROW_NUMBER() OVER (ORDER BY ts_rank(fts_doc, q) DESC) AS rnk
+          FROM articles, to_tsquery('simple', ${tsquery}) q
+          WHERE source = 'ati' AND fts_doc @@ q
+          LIMIT ${FUSION_POOL}
+        ),
+        vec AS (
+          SELECT id, ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector) AS rnk
+          FROM articles
+          WHERE source = 'ati' AND embedding IS NOT NULL
+          ORDER BY embedding <=> ${qVecLit}::vector
+          LIMIT ${FUSION_POOL}
+        )
+        SELECT a.slug AS id, a.title, a.author, a.category, a.year, a.source_url,
+               'Library' AS canon, a.slug AS work_slug,
+               COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
+             + COALESCE(1.0 / (${RRF_K} + vec.rnk), 0) AS score,
+               CASE WHEN fts.id IS NOT NULL
+                 THEN ts_headline('simple', a.body,
+                        to_tsquery('simple', ${tsquery}),
+                        'MaxFragments=2,MinWords=10,MaxWords=32,StartSel="",StopSel="",FragmentDelimiter="… "')
+                 ELSE NULL
+               END AS headline
+        FROM articles a
+        LEFT JOIN fts ON fts.id = a.id
+        LEFT JOIN vec ON vec.id = a.id
+        WHERE (fts.id IS NOT NULL OR vec.id IS NOT NULL)
+        ORDER BY score DESC
+        LIMIT ${limit}
+      `;
+    }
+    return { query: q, mode, field, limit, took_ms: Date.now() - t0,
+             results: rows.map(shapeLibrary), expanded };
   }
 
   if ((mode === 'exact' || mode === 'stem') && field === 'translation') {

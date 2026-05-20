@@ -274,7 +274,10 @@ app.get('/api/search', async (c) => {
     const out = await runSearch({
       q: c.req.query('q'),
       mode: c.req.query('mode'),
-      field: c.req.query('field'),
+      // ?scope=… is accepted as an alias for ?field=…. Docs/smoke
+      // commands name the search target "scope" while the internal
+      // param has historically been "field".
+      field: c.req.query('field') || c.req.query('scope'),
       limit: c.req.query('limit'),
     });
     return c.json(out);
