@@ -11,100 +11,108 @@ Last verified: `dbcheck → passages: 25,986, tables: 10, pgvector: true`
 
 ## What this session shipped
 
-Working tree is clean. Ten commits on top of `92d3e86`, all pushed
-and deployed:
+Working tree is clean. Sixteen commits on top of `92d3e86`, all
+pushed and deployed:
 
-- `01f2d3d` — Stream 2 BHS dictionary commit (17,839 entries; already
-  in prod, code now in repo).
+### Code
+
+- `01f2d3d` — Stream 2 BHS dictionary commit (17,839 entries).
 - `020ec76` — Stream 3 search refinements: `?pitaka=` filter +
   sentence-aware snippets via `refineSnippet`.
 - `bf11c84` — Stream 5: hide CST mūla volume-header uddāna rows from
   `/api/corpus`; `index-title.html` parser + named-entity decoder
   for ATI tag ingest; short-passage audit report.
-- `5daf102` — Stream 4 outreach drafts (revised ATI letter + new
-  SuttaCentral draft).
-- `e07dde6` — CLAUDE.md state-of-handoff updates (BHS + CST uddāna).
 - `8facb6c` — Removed dead `src/TabBar.jsx`; gitignored four debug
   dump artifacts + `.claude/`.
-- `33c0c2a` — `backfill-display-order.mjs` one-shot script (DN MN
-  SN AN KN canonical order is now explicit in prod; turned out the
-  nikāyas were already correct but three top-level rows had drifted).
+- `33c0c2a` — `backfill-display-order.mjs` one-shot script
+  (canonical Theravāda ordering normalised in prod).
 - `760e4a1` — Reader-header icons collapse into a "…" dropdown on
   narrow viewports.
 - `b562183` — `/api/random-passage` endpoint + "Random sutta" entry
   in Sidebar + mobile menu.
-- `cc5606a` — Scholarly-register `README.md` rewrite +
-  new `CONTRIBUTING.md`. **Awaiting user review before
-  `gh repo edit --visibility public`.**
+- `177c7f5` — **CPED ingest** — Buddhadatta 1949 / ed. Ānandajoti,
+  20,959 entries live under `source='cped'`, `language='pli'`.
+  Sixth dictionary; third independent Pali reading on every term.
+- `2712c69` — **Split-pane parallel reader.** When a passage is
+  pinned + a leaf is open + viewport ≥ 880 px, BrowseView renders
+  two passages as independent-scroll columns at full reading chrome,
+  with a toolbar (Back / Side-by-side / Swap / Unpin). Narrow
+  viewports keep the stacked compact fallback.
+
+### Docs + outreach
+
+- `5daf102` — Stream 4 outreach drafts (revised ATI letter +
+  SuttaCentral letter).
+- `e07dde6` — CLAUDE.md state-of-handoff updates (BHS + CST uddāna).
+- `cc5606a` — Scholarly-register `README.md` rewrite + new
+  `CONTRIBUTING.md`. **Awaiting user review.**
+- `da2b6bd` — CPD + Bhikkhu Bodhi licensing audits documented;
+  Xenova v3 migration plan in the `xenova-v2-pinned` memory note.
+- `889ac44` — Permission-request letter drafts to **BPS** (Bodhi
+  commentary books) and **Cologne + PTS** (CPD mirror).
+- `aa22344` — Gitignored CPED source archives + ingest `.cache/`.
 
 ### Notable additions to the runtime
 
-- **`/api/random-passage?scope=sutta|all`** picks a passage with an
-  English translation that isn't a CST uddāna. Backs the new
-  Random-sutta affordance.
-- **`/api/search?pitaka=sutta|vinaya|abhidhamma`** scopes Pali
-  results to descendants of `pli-sutta`/`pli-vinaya`/`pli-abhidhamma`
-  via a recursive CTE on `works.parent_slug`. Silently ignored when
-  `field=library`. Pitaka-descendants cache is process-lifetime.
-- **Sentence-aware snippets** — `ts_headline` uses ASCII SOH/STX
-  delimiters and the server expands each fragment to its surrounding
-  sentence(s) before stripping markers. Falls back to first ~200
-  chars when there's no FTS overlap.
+- **`/api/random-passage?scope=sutta|all`** — picks a passage with
+  an English translation that isn't a CST uddāna.
+- **`/api/search?pitaka=sutta|vinaya|abhidhamma`** — recursive CTE
+  on `works.parent_slug`, process-lifetime cached.
+- **Sentence-aware snippets** in `/api/search` for FTS hits.
+- **Six dictionaries cascading on every `/api/lookup`**: DPD, DPPN,
+  PED, CPED (Pali); MW, BHS (Sanskrit, under `?language=san`).
+- **Split-pane reader** in `BrowseView` for true side-by-side
+  passage compare; pin a passage, open another, and at ≥ 880 px
+  you get two full-chrome columns.
 
 ---
 
 ## To-do — work through top to bottom
 
-Linear list. None of these requires a fresh chat — keep going until
-you hit context limit, then write a new HANDOFF.md.
+Linear list. Items 1–6 need user sign-off or are user actions;
+surface them and wait for direction before proceeding. Items 7–9 are
+dev work — start whichever the user picks.
 
-1. **User review of `README.md` + `CONTRIBUTING.md`.** They're
-   committed but the user hasn't read them yet. Get sign-off on the
-   tone before any public-flip.
+1. **User review of `README.md` + `CONTRIBUTING.md`.** Committed but
+   not yet read. Get sign-off on the tone before any public-flip.
 2. **Make GitHub repo public**: `gh repo edit Keenan-ux/dhamma --visibility public`. Requires explicit user authorisation.
-3. **Send the ATI email** (`ATI_EMAIL_DRAFT.md`) — drafted in
-   scholarly register per the no-marketing memory note. User
-   sends; we don't.
+3. **Send the ATI email** (`ATI_EMAIL_DRAFT.md`).
 4. **Send the SuttaCentral email** (`SUTTACENTRAL_EMAIL_DRAFT.md`).
-5. **Split-pane parallel reader.** True side-by-side compare of two
-   passages (DN 22 ↔ MN 10). Today's pin-based workaround is
-   acceptable but cramped. Substantial UI rebuild — BrowseView's
-   ReadingPanel becomes two-up with synchronised scrolling.
-6. **CPD — blocked on licensing.** Audited; see
-   `DICTIONARIES.md` § "CPD source audit". Cologne web edition is
-   not redistributable. DPD's scraped 29 k-entry SQLite has no
-   licence claim. PTS still sells the volumes. Path forward:
-   write `cpd-contact@uni-koeln.de` and PTS asking for explicit
-   CC BY-NC permission for our non-commercial mirror.
-   Alternative to investigate: Margaret Cone's *Dictionary of
-   Pāli* (PTS 2001–) for the a–n range.
-7. **Bhikkhu Bodhi commentary translations — blocked on
-   licensing.** Audited; see `TRANSLATIONS.md`. We already have
-   13 sutta translations + 56 Bodhi essays via ATI (CC BY-NC 4.0).
-   The remaining material splits between bps.lk free PDFs (under
-   "no alteration" terms — can't extract into structured rows)
-   and Wisdom Publications books (commercial, no path). Path
-   forward: write BPS (`cnt@bps.lk`) asking to extend the
-   CC BY-NC 4.0 precedent ATI already enjoys to Bodhi's commentary
-   translation books (BP209S, BP210S, BP211S, BP212S).
-8. **`@xenova/transformers` v2 → v3 migration plan documented.**
-   See updated `xenova-v2-pinned` memory note for the full
-   playbook: smoke-test vector equivalence first; if cosine
-   similarity v2-vs-v3 holds > 0.9999, it's a pure code swap
-   (drop the protobufjs override too). If not, full corpus
-   re-embed (~30 min local CPU, no schema change). Not worth
-   doing as standalone work — bundle with the next re-ingest
+5. **Send the BPS email** (`BPS_EMAIL_DRAFT.md`) — asks for
+   CC BY-NC 4.0 on Bhikkhu Bodhi's commentary translation books
+   (BP209S, BP210S, BP211S, BP212S).
+6. **Send the Cologne+PTS email** (`CPD_EMAIL_DRAFT.md`) — asks
+   for permission to mirror the Critical Pali Dictionary.
+7. **`@xenova/transformers` v2 → v3 migration.** See updated
+   `xenova-v2-pinned` memory note for the full playbook:
+   smoke-test vector equivalence first; if cosine v2-vs-v3 holds
+   > 0.9999, pure code swap (drop the protobufjs override too);
+   otherwise full corpus re-embed (~30 min local CPU, no schema
+   change). Best bundled with the next re-ingest moment
    (Chinese/Sanskrit corpus, or a model swap).
+8. **If BPS replies yes** to item 5 — ingest the four Bodhi
+   commentary translation books from bps.lk PDFs into
+   `translations` and `passages` tables. Same attribution
+   pattern as ATI (translator + year + licence + source URL in
+   each row's footer).
+9. **If Cologne/PTS replies yes** to item 6 — ingest the CPD
+   from DPD's scraped SQLite (`digitalpalidictionary/other-dictionaries`,
+   `dictionaries/cpd/cpd.tar.zst`, 29,734 entries). Same ingest
+   pattern as `ingest-cped.mjs` landed this session; new source
+   value `'cpd'`. Also worth investigating in the same letter:
+   Margaret Cone's *A Dictionary of Pāli* (PTS, 2001–).
 
 ### Smaller follow-ups (nice-to-have)
 
 - Citation formatting for Vinaya IDs — current display is
   `PLI-TV-BI-VB-PJ1-4`. Cleaner: `Bhi. Pj. 1-4`. Needs a per-source
   mapping table; `citationFormat.js` exists.
-- Per-passage bookmarks already exist (localStorage); a
-  `/random-sutta-of-the-day` style daily affordance could be wired
-  on top of the new `/api/random-passage` endpoint if the user wants
-  one.
+- "Random sutta of the day" affordance on top of
+  `/api/random-passage` if the user wants it.
+- `simplify` review pass over `src/BrowseView.jsx` — that file
+  has grown to ~1500 lines and the actions[] array refactor
+  this session simplified the icon row but the rest of
+  ReadingPanel is still dense.
 
 ---
 
@@ -113,10 +121,10 @@ you hit context limit, then write a new HANDOFF.md.
 ### Frontend
 ```
 src/
-  Dhamma.jsx              — top-level router (hash-based); now holds
+  Dhamma.jsx              — top-level router (hash-based);
                             handleRandomSutta passed to Sidebar + TopNav
-  TopNav.jsx              — header + MENU slide-in panel (Random sutta in mobile tools)
-  Sidebar.jsx             — desktop sidebar (Corpus + Tools groups + Random sutta)
+  TopNav.jsx              — header + MENU slide-in panel
+  Sidebar.jsx             — desktop sidebar (Corpus + Tools + Random sutta)
   CanonMapView.jsx        — Tipiṭaka frontmatter
   CommentaryView.jsx      — Aṭṭhakathā + Ṭīkā frontmatter
   ExtraCanonicalView.jsx  — Anya frontmatter
@@ -126,35 +134,35 @@ src/
   SearchView.jsx          — Exact/Stem/Meaning + scopes
   CompareView.jsx         — Concordance (KWIC + companion words)
   DictionaryView.jsx      — selection-popover host + standalone lookup
-  BrowseView.jsx          — column drill-down + ReadingPanel (header
-                            now uses an actions[] array; isNarrow
-                            collapses to a "…" dropdown)
+  BrowseView.jsx          — column drill-down + ReadingPanel.
+                            Split-pane viewer when pinned + leaf set
+                            (≥ 880 px, !readingMode). Reader-header
+                            icons collapse into a "…" dropdown on narrow.
   PassageCard.jsx         — search/concordance result tile
   SelectionActions.jsx    — selection popover (Search/Compare/Copy/Dict)
-  api.js                  — fetch helpers (passageX, libraryX, tagsX,
-                            glossApi, randomPassageApi…)
+  api.js                  — fetch helpers incl. randomPassageApi
   useCorpus.js, usePassage.js, useSearch.js, useCompareStats.js
   useBookmarks.js         — localStorage hook
   useIsNarrow.js          — viewport-width hook (breakpoint 880)
-  paliStem.js             — heuristic stripper for stem matching
-  parseQuery.js, searchHistory.js
+  paliStem.js, parseQuery.js, searchHistory.js
   citationFormat.js       — PTS-ish citation builder
-  dictHtml.js             — HTML preparers + SOURCE_LABEL (now incl. bhs)
+  dictHtml.js             — HTML preparers + SOURCE_LABEL
+                            (six sources: dpd dppn ped cped mw bhs)
   theme.css               — only --bc-* tokens; light + dark
 ```
 
 ### Server
 ```
 server/src/
-  index.js     — Hono routes (now incl. /api/random-passage)
+  index.js     — Hono routes incl. /api/random-passage
   db.js        — postgres connection + applySchema on boot
   corpus.js    — /api/corpus tree + getPassage(s); hides uddāna rows
   search.js    — /api/search (FTS + vector + RRF; pitaka filter;
                  sentence-aware refineSnippet)
-  compareStats.js — /api/compare-stats (per-piṭaka frequency + KWIC source)
-  dictionary.js   — /api/lookup with cascade across dpd/dppn/ped/mw/bhs
+  compareStats.js — /api/compare-stats
+  dictionary.js   — /api/lookup cascade across dpd/dppn/ped/cped/mw/bhs
   aliases.js   — alias table cache
-  embed.js     — BGE-M3 ONNX local
+  embed.js     — BGE-M3 ONNX local (@xenova/transformers v2, pinned)
   paliStem.js  — server copy of the heuristic
 server/sql/
   schema.sql   — all CREATE TABLE IF NOT EXISTS (idempotent on boot)
@@ -163,8 +171,9 @@ server/sql/
 
 ### Data tables
 - `traditions`, `works` (display_order normalised), `passages`
-- `dictionary_entries` + `dictionary_inflections` — five sources:
-  DPD, DPPN, PED, MW, BHS
+- `dictionary_entries` + `dictionary_inflections` — **six sources**:
+  DPD (88,933), DPPN (13,603), PED (15,702), CPED (20,959),
+  MW (193,890), BHS (17,839)
 - `translations` (Sujato + ATI multi-translator)
 - `articles` (ATI Library, 386 rows, with embedding HNSW)
 - `passage_parallels` (30,741 SC parallels)
@@ -173,8 +182,8 @@ server/sql/
 
 ### Endpoints
 - `/api/corpus`, `/api/passage/:id`, `/api/passages?ids=`
-- `/api/random-passage?scope=sutta|all` *(new)*
-- `/api/search?q=&mode=&field=&limit=&pitaka=` *(pitaka new)*
+- `/api/random-passage?scope=sutta|all`
+- `/api/search?q=&mode=&field=&limit=&pitaka=`
 - `/api/compare-stats?q=`
 - `/api/lookup?term=&source=&language=&mode=`
 - `/api/library`, `/api/library/:slug`
@@ -188,7 +197,7 @@ server/sql/
 - **Deploy**: `flyctl deploy --app dhamma` (5–8 min, schema auto-applies on boot)
 - **Local DB access**: `flyctl proxy 15432 --app dhamma-pg` running in background
 - **DB password fetch**: `flyctl ssh console --app dhamma -C "printenv DATABASE_URL"`
-- **Ingest scripts run from**: `scripts/ingest/`, using `DATABASE_URL` env var pointing at the local proxy (`ssl: false` because traffic goes through flyctl's loopback)
+- **Ingest scripts run from**: `scripts/ingest/`, using `DATABASE_URL` env var pointing at the local proxy (`ssl: false` — flyctl loopback)
 
 ---
 
@@ -213,9 +222,9 @@ server/sql/
 
 Located at `~/.claude/projects/C--Dev-Dhamma/memory/`:
 - `fly-memory-requirement.md` — 4 GB or BGE-M3 OOMs
-- `xenova-v2-pinned.md` — v3 upgrade deferred until next re-embed
-- `snippet-sentence-upgrade.md` — **superseded; shipped this session**.
-  Update / remove next time you touch memory.
+- `xenova-v2-pinned.md` — full v3 migration playbook
+- `snippet-sentence-upgrade.md` — FTS-side shipped this session;
+  vector-only sentence embeddings still deferred (notes updated)
 - `cst-tipitaka-source.md` — VRI CST XML peculiarities
 - `never-suggest-stopping.md` — bias toward forward motion
 - `feedback-tone-no-marketing.md` — scholarly voice in outreach + docs
@@ -230,9 +239,9 @@ chat is at context limit. Deployed state is good — verify with
 `curl -s https://dhamma.fly.dev/api/dbcheck`. Working tree should
 be clean.
 
-Start at item 1 in HANDOFF.md's to-do list. Items 1-4 need user
+Start at item 1 in HANDOFF.md's to-do list. Items 1-6 need user
 sign-off or are user actions; surface them and wait for direction
-before proceeding. Items 5-8 are dev work — start whichever the
+before proceeding. Items 7-9 are dev work — start whichever the
 user picks. Don't stop between items — keep going until you hit
 context limit, then write a new HANDOFF.md.
 ```
