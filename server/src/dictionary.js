@@ -1,5 +1,17 @@
 // /api/lookup execution. Resolves a surface-form term (the user's
-// selection in PassageCard) to dictionary entries.
+// selection in PassageCard, or a query typed in the Dictionary page)
+// to dictionary entries.
+//
+// Three search modes, mirroring the corpus search:
+//   - 'exact'   — only headword/lemma exact match (with diacritic fold).
+//     Strict. No cascade, no fallback.
+//   - 'stem'    — exact + english-reverse + Pali fallback cascade
+//     (inflection / stem-prefix / literal prefix / compound). The
+//     default; matches everything the legacy lookup did.
+//   - 'meaning' — vector ANN over `embedding` (BGE-M3, 1024-dim,
+//     shared vector space with passages). Semantic search; lets the
+//     reader find Pali words from an English phrase like "the chief
+//     disciple known for mindfulness".
 //
 // By default cascades across three sources:
 //   - 'dpd'  — Digital Pali Dictionary (lexical, with inflections)
@@ -12,23 +24,20 @@
 // biography, and PED's lexical entry side-by-side. Pass source='X'
 // (string or comma-list) to restrict.
 //
-// The cascade runs per source in parallel; each source independently
-// looks for: headword exact → inflection (DPD only) → stem-prefix →
-// literal prefix → compound decomposition (DPD only). This is what
-// lets "Vesāli" find DPD's vesālī (via inflection) AND DPPN's Vesālī
-// (via literal prefix) at the same time. Each source returns up to
-// MAX_PER_SOURCE entries; the UI groups by source.
-//
-// English-reverse search runs as a separate first step when the term
-// looks like an English word — selecting "monastery" in a translation
-// pane surfaces both DPD's vihāra/ārāma and DPPN's individual
-// monasteries (Jetavana, Veluvana, etc.).
+// In stem mode the fallback cascade runs per source in parallel; each
+// source independently looks for: headword exact → inflection (DPD
+// only) → stem-prefix → literal prefix → compound decomposition (DPD
+// only). This is what lets "Vesāli" find DPD's vesālī (via inflection)
+// AND DPPN's Vesālī (via literal prefix) at the same time. Each
+// source returns up to MAX_PER_SOURCE entries; the UI groups by source.
 
 import { sql } from './db.js';
-import { stemForPrefix } from './paliStem.js';
+import { stemForPrefix, foldDiacritics } from './paliStem.js';
+import { embedQuery } from './embed.js';
 
 const MAX_PER_SOURCE = 10;
 const MAX_TERM_LEN = 60;
+const MODES = new Set(['exact', 'stem', 'meaning']);
 
 function normalize(term) {
   return String(term || '').trim().slice(0, MAX_TERM_LEN).toLowerCase();
@@ -164,7 +173,7 @@ async function paliCascadeFallback(q, source, language) {
 // label when multiple sources each found via different paths.
 const MATCH_PRIORITY = ['headword', 'inflection', 'stem-prefix', 'prefix', 'compound', 'english-reverse'];
 
-export async function runLookup({ term, source, language = 'pli' }) {
+export async function runLookup({ term, source, language = 'pli', mode }) {
   const t0 = Date.now();
   if (!sql) return { term, entries: [], took_ms: 0 };
 
@@ -179,18 +188,61 @@ export async function runLookup({ term, source, language = 'pli' }) {
     : String(source).includes(',') ? String(source).split(',').map((s) => s.trim()).filter(Boolean)
     : [String(source)];
 
+  // Mode: undefined / unknown values fall through to 'stem' (the
+  // legacy default behavior). Only 'exact' and 'meaning' branch off.
+  const m = MODES.has(mode) ? mode : 'stem';
+
+  // Meaning mode: vector ANN over the embedding column, ranked by
+  // cosine distance, per source. Skips the lexical cascade entirely.
+  //
+  // Each source has its own partial HNSW index
+  // (idx_dict_embedding_dpd, ..._dppn, ..._ped) so a per-source
+  // ORDER BY embedding <=> q LIMIT 10 query uses that source's index
+  // directly — no global-vs-filtered candidate-set-too-small problem
+  // that the monolithic HNSW had. Sub-second on the small DB box.
+  if (m === 'meaning') {
+    let qVec;
+    try { qVec = await embedQuery(q); }
+    catch (err) {
+      return { term: raw, normalized: q, matched_via: null, entries: [], took_ms: Date.now() - t0, error: 'embed-failed' };
+    }
+    const qVecLit = `[${qVec.join(',')}]`;
+    const perSource = await Promise.all(sources.map((s) => sql`
+      SELECT ${ENTRY_FIELDS},
+             (embedding <=> ${qVecLit}::vector) AS distance
+      FROM dictionary_entries
+      WHERE source = ${s} AND language = ${language}
+        AND embedding IS NOT NULL
+      ORDER BY embedding <=> ${qVecLit}::vector
+      LIMIT ${MAX_PER_SOURCE}
+    `));
+    const meaningEntries = perSource.flat();
+    return {
+      term: raw,
+      normalized: q,
+      matched_via: 'meaning',
+      entries: meaningEntries.map(projectEntry),
+      took_ms: Date.now() - t0,
+    };
+  }
+
   // Step 0 — exact headword/lemma match across ALL sources. Pulled out
   // of the per-source cascade so it can short-circuit english-reverse
   // when a Pali word was typed without diacritics (sati, dhamma,
   // buddha). Without this, looksEnglish() would treat those as English
   // and miss the canonical DPD lemma whose definition body doesn't
-  // happen to contain the Pali word as English prose.
+  // happen to contain the Pali word as English prose. Also matches
+  // against the diacritic-folded headword so typing `sampajana` finds
+  // the canonical `sampajāna` entry.
+  const qFolded = foldDiacritics(q);
   const headwordPerSource = await Promise.all(sources.map((s) => sql`
     SELECT ${ENTRY_FIELDS}
     FROM dictionary_entries
-    WHERE (headword_lower = ${q} OR lemma_lower = ${q})
+    WHERE (headword_lower = ${q}
+        OR lemma_lower = ${q}
+        OR headword_folded = ${qFolded})
       AND source = ${s} AND language = ${language}
-    ORDER BY source_id
+    ORDER BY (headword_lower = ${q} OR lemma_lower = ${q}) DESC, source_id
     LIMIT ${MAX_PER_SOURCE}
   `));
   const headwordEntries = headwordPerSource.flat();
@@ -200,6 +252,17 @@ export async function runLookup({ term, source, language = 'pli' }) {
       normalized: q,
       matched_via: 'headword',
       entries: headwordEntries.map(projectEntry),
+      took_ms: Date.now() - t0,
+    };
+  }
+
+  // Exact mode stops here — no reverse search, no fallback cascade.
+  if (m === 'exact') {
+    return {
+      term: raw,
+      normalized: q,
+      matched_via: null,
+      entries: [],
       took_ms: Date.now() - t0,
     };
   }

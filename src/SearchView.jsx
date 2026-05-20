@@ -4,6 +4,7 @@ import useSearchHistory from './searchHistory.js';
 import useSearch from './useSearch.js';
 import useCorpus from './useCorpus.js';
 import PassageCard from './PassageCard.jsx';
+import { SelectionActions } from './SelectionActions.jsx';
 
 const DIACRITICS = ['ā', 'ī', 'ū', 'ē', 'ō', 'ṃ', 'ṅ', 'ñ', 'ṇ', 'ṭ', 'ḍ', 'ṛ', 'ḷ', 'ṣ', 'ś'];
 
@@ -25,6 +26,7 @@ export default function SearchView({
   activeTraditions, toggleTradition,
   showInlineFilters,
   searchMode, setSearchMode,
+  onCompareTerm,
 }) {
   const q = query ?? '';
   const setQ = setQuery ?? (() => {});
@@ -34,6 +36,7 @@ export default function SearchView({
   const [historyOpen, setHistoryOpen] = useState(false);
   const inputRef = useRef(null);
   const wrapRef = useRef(null);
+  const resultsRef = useRef(null);
 
   const { shape } = useCorpus();
   const { history, push } = useSearchHistory();
@@ -256,11 +259,16 @@ export default function SearchView({
 
         {/* Hide stale results during a new search to avoid showing previous-
             mode results while the new fetch is in flight. */}
-        <div>
+        <div ref={resultsRef}>
           {!loading && visibleResults.map((p, i) => (
             <PassageCard key={p.id} passage={p} highlight={highlightTerms} first={i === 0} />
           ))}
         </div>
+        <SelectionActions
+          containerRef={resultsRef}
+          onSearch={setQ}
+          onCompare={onCompareTerm}
+        />
       </div>
     </div>
   );

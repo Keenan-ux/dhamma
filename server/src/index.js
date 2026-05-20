@@ -100,6 +100,7 @@ app.get('/api/lookup', async (c) => {
       term:     c.req.query('term'),
       source:   c.req.query('source') || undefined,
       language: c.req.query('language') || 'pli',
+      mode:     c.req.query('mode')     || undefined,
     });
     return c.json(out);
   } catch (err) {

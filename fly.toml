@@ -15,7 +15,12 @@ primary_region = 'iad'
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = 'stop'
+  # 'suspend' snapshots the live process state to disk on idle and
+  # resumes from RAM on wake — keeps the BGE-M3 model already loaded
+  # so Meaning-mode cold-start drops from ~120s (full ONNX init) to
+  # ~10s (state restore). Fallback to 'stop' if the ONNX runtime ever
+  # turns out not to suspend cleanly.
+  auto_stop_machines = 'suspend'
   auto_start_machines = true
   min_machines_running = 0
 

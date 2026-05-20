@@ -192,13 +192,23 @@ export default function Dhamma() {
                 showInlineFilters={isNarrow}
                 searchMode={searchMode}
                 setSearchMode={setSearchMode}
+                onCompareTerm={(term) => { setQuery(term); setTab('compare'); }}
               />
             )}
             {tab === 'compare' && (
-              <CompareView term={query} activeTraditions={activeTraditions} />
+              <CompareView
+                term={query}
+                activeTraditions={activeTraditions}
+                onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
+                onCompareTerm={(term) => setQuery(term)}
+              />
             )}
             {tab === 'dictionary' && (
-              <DictionaryView initialTerm={query} />
+              <DictionaryView
+                initialTerm={query}
+                onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
+                onCompareTerm={(term) => { setQuery(term); setTab('compare'); }}
+              />
             )}
           </main>
         </div>
