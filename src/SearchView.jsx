@@ -22,6 +22,15 @@ const SCOPES = [
   { key: 'citation',    label: 'Citation' },
 ];
 
+// Title-only scope doesn't compose with Meaning mode — vectors are on
+// the full passage, so semantic similarity doesn't restrict to titles.
+// Hide the Title chip when Meaning is active so users can't pick a
+// muddled combination.
+function scopesFor(mode) {
+  if (mode === 'meaning') return SCOPES.filter((s) => s.key !== 'title');
+  return SCOPES;
+}
+
 export default function SearchView({
   query, setQuery,
   activeTraditions, toggleTradition,
@@ -35,6 +44,11 @@ export default function SearchView({
   const mode = searchMode || 'exact';
 
   const [scope, setScope] = useState('all');
+  // If the user picked Title under another mode then switched to
+  // Meaning, snap the scope back to All — Title is hidden under Meaning.
+  useEffect(() => {
+    if (mode === 'meaning' && scope === 'title') setScope('all');
+  }, [mode, scope]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const inputRef = useRef(null);
   const wrapRef = useRef(null);
@@ -178,7 +192,7 @@ export default function SearchView({
           <p style={modeHint}>
             {MODES.find((m) => m.key === mode)?.hint}
           </p>
-          <FilterRow label="Search in" options={SCOPES} active={scope} onChange={setScope} />
+          <FilterRow label="Search in" options={scopesFor(mode)} active={scope} onChange={setScope} />
         </div>
 
         {showInlineFilters && traditions.length > 0 && (

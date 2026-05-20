@@ -6,6 +6,21 @@
 import { useState } from 'react';
 import { formatCitation } from './citationFormat.js';
 
+// CST extra-canonical passages carry raw VRI identifiers as their
+// citation field — strings like "E0806N-NRF §354" that scholars can't
+// read at a glance. Replace the cryptic prefix with the work's
+// readable name when available, keeping the § section number intact.
+// Pattern: leading alphanumeric block with a hyphen-separated suffix
+// like "-NRF" or "-N", followed by whitespace + the rest.
+const CST_PREFIX_RE = /^[A-Z]\d+[A-Z]?-[A-Z]+\s+/;
+function displayCitation(citation, workName) {
+  if (!citation) return citation;
+  if (!workName) return citation;
+  if (!CST_PREFIX_RE.test(citation)) return citation;
+  const rest = citation.replace(CST_PREFIX_RE, '').trim();
+  return rest ? `${workName} ${rest}` : workName;
+}
+
 const TRANSLATOR_LABEL = {
   sujato: 'Bhante Sujato',
   thanissaro: 'Thanissaro Bhikkhu',
@@ -84,7 +99,7 @@ export default function PassageCard({ passage, highlight, first, onOpen }) {
     >
       <header style={headerRow}>
         <div style={citationLine}>
-          <span style={citation}>{passage.citation}</span>
+          <span style={citation}>{displayCitation(passage.citation, passage.work)}</span>
           <span style={workLine}>{passage.title}{passage.work ? ` · ${passage.work}` : ''}</span>
           {trName && (
             <span style={translatorBadge} title={passage.translator_source === 'ati' ? 'Access to Insight' : 'SuttaCentral'}>
