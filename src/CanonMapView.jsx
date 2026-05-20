@@ -103,16 +103,18 @@ export default function CanonMapView({ onDrill }) {
   function drill(...ids) {
     onDrill?.(ids);
   }
+  // When the filter is on, counts show only the translated portion
+  // ("4,669 passages with translation") and entries with zero of those
+  // are hidden via isHidden — not just dimmed. That matches what a
+  // scholar expects from "Translated only".
   function fmtCount(node) {
     if (!node) return '';
     const total = node.total || 0;
     const tr = node.translated || 0;
-    if (translatedOnly && tr < total) {
-      return `${tr.toLocaleString()} / ${total.toLocaleString()}`;
-    }
+    if (translatedOnly) return tr.toLocaleString();
     return total.toLocaleString();
   }
-  function isDim(node) {
+  function isHidden(node) {
     return translatedOnly && (node?.translated || 0) === 0;
   }
 
@@ -169,10 +171,10 @@ export default function CanonMapView({ onDrill }) {
 
       <div style={isNarrow ? singleCol : threeCol}>
         {/* Vinaya */}
-        {vinaya && (!isNarrow || activePitaka === 'pli-vinaya') && (
+        {vinaya && !isHidden(vinaya) && (!isNarrow || activePitaka === 'pli-vinaya') && (
           <section style={column}>
             <h2
-              style={{ ...colHeader, opacity: isDim(vinaya) ? 0.35 : 1 }}
+              style={colHeader}
               onClick={() => drill(tipitaka.id, vinaya.id)}
               role="button"
               tabIndex={0}
@@ -190,10 +192,10 @@ export default function CanonMapView({ onDrill }) {
         )}
 
         {/* Sutta */}
-        {sutta && (!isNarrow || activePitaka === 'pli-sutta') && (
+        {sutta && !isHidden(sutta) && (!isNarrow || activePitaka === 'pli-sutta') && (
           <section style={column}>
             <h2
-              style={{ ...colHeader, opacity: isDim(sutta) ? 0.35 : 1 }}
+              style={colHeader}
               onClick={() => drill(tipitaka.id, sutta.id)}
               role="button"
               tabIndex={0}
@@ -203,10 +205,10 @@ export default function CanonMapView({ onDrill }) {
             <p style={colCount}>{fmtCount(sutta)} passages</p>
             <p style={colKind}>five collections</p>
             <ul style={textList}>
-              {nikayasOrdered.map((n) => (
+              {nikayasOrdered.filter((n) => !isHidden(n)).map((n) => (
                 <li
                   key={n.id}
-                  style={{ ...textListItem, ...nikayaRow, opacity: isDim(n) ? 0.35 : 1 }}
+                  style={{ ...textListItem, ...nikayaRow }}
                   onClick={() => drill(tipitaka.id, sutta.id, n.id)}
                   role="button"
                   tabIndex={0}
@@ -221,10 +223,10 @@ export default function CanonMapView({ onDrill }) {
         )}
 
         {/* Abhidhamma */}
-        {abhidhamma && (!isNarrow || activePitaka === 'pli-abhidhamma') && (
+        {abhidhamma && !isHidden(abhidhamma) && (!isNarrow || activePitaka === 'pli-abhidhamma') && (
           <section style={column}>
             <h2
-              style={{ ...colHeader, opacity: isDim(abhidhamma) ? 0.35 : 1 }}
+              style={colHeader}
               onClick={() => drill(tipitaka.id, abhidhamma.id)}
               role="button"
               tabIndex={0}
@@ -247,28 +249,33 @@ export default function CanonMapView({ onDrill }) {
           asymmetric when listed inline; a dedicated full-width row
           reads as the natural continuation of the diagram. On narrow
           viewports only show this when Sutta is the active piṭaka. */}
-      {khuddakaBooks.length > 0 && (!isNarrow || activePitaka === 'pli-sutta') && (
-        <section style={khuddakaSection}>
-          <div style={khuddakaRule} />
-          <p style={khuddakaHeader}>Khuddaka books</p>
-          <p style={khuddakaInline}>
-            {khuddakaBooks.map((b, i) => (
-              <span key={b.id}>
-                <span
-                  style={{ ...khuddakaTag, opacity: isDim(b) ? 0.35 : 1 }}
-                  onClick={() => drill(tipitaka.id, sutta.id, kn.id, b.id)}
-                  role="button"
-                  tabIndex={0}
-                  title={`${b.name} · ${(b.total || 0).toLocaleString()} passages`}
-                >
-                  {KHUDDAKA_ABBREV[b.id] || b.name}
+      {(() => {
+        const visible = khuddakaBooks.filter((b) => !isHidden(b));
+        if (visible.length === 0) return null;
+        if (isNarrow && activePitaka !== 'pli-sutta') return null;
+        return (
+          <section style={khuddakaSection}>
+            <div style={khuddakaRule} />
+            <p style={khuddakaHeader}>Khuddaka books</p>
+            <p style={khuddakaInline}>
+              {visible.map((b, i) => (
+                <span key={b.id}>
+                  <span
+                    style={khuddakaTag}
+                    onClick={() => drill(tipitaka.id, sutta.id, kn.id, b.id)}
+                    role="button"
+                    tabIndex={0}
+                    title={`${b.name} · ${(b.total || 0).toLocaleString()} passages${translatedOnly ? ` (${(b.translated || 0).toLocaleString()} translated)` : ''}`}
+                  >
+                    {KHUDDAKA_ABBREV[b.id] || b.name}
+                  </span>
+                  {i < visible.length - 1 && <span style={dotSep}>&nbsp;·&nbsp;</span>}
                 </span>
-                {i < khuddakaBooks.length - 1 && <span style={dotSep}>&nbsp;·&nbsp;</span>}
-              </span>
-            ))}
-          </p>
-        </section>
-      )}
+              ))}
+            </p>
+          </section>
+        );
+      })()}
 
       <footer style={footerWrap}>
         <div style={rule} />

@@ -7,6 +7,8 @@ import { passageTranslationsApi, passageParallelsApi, passageTagsApi, glossApi }
 import { sanitizeDictHtml } from './dictHtml.js';
 import { formatCitation } from './citationFormat.js';
 import useBookmarks from './useBookmarks.js';
+import useIsNarrow from './useIsNarrow.js';
+import { paliStem } from './paliStem.js';
 
 const TRANSLATOR_LABEL = {
   sujato: 'Bhante Sujato',
@@ -126,6 +128,10 @@ export default function BrowseView({
                 if (newPath) setPath(newPath);
                 setLeafId(id);
               }}
+              onBrowseToPath={(newPath) => {
+                setPath(newPath);
+                setLeafId(null);
+              }}
               onSearchTerm={onSearchTerm}
               onCompareTerm={onCompareTerm}
             />
@@ -158,6 +164,10 @@ export default function BrowseView({
                 const newPath = pathToLeaf(top, id);
                 if (newPath) setPath(newPath);
                 setLeafId(id);
+              }}
+              onBrowseToPath={(newPath) => {
+                setPath(newPath);
+                setLeafId(null);
               }}
               onSearchTerm={onSearchTerm}
               onCompareTerm={onCompareTerm}
@@ -274,10 +284,22 @@ function displayCitation(citation, workName) {
 }
 
 // Wrap matches of `find` in <mark> tags. Case-insensitive, Unicode-safe.
-// Returns the original text when find is empty so non-find render paths
-// stay zero-cost in the common case.
-function highlightFind(text, find) {
+// In stem mode, tokens whose paliStem() equals the find term's stem are
+// highlighted (so "sati" catches "satiyā", "satimā", etc.). Returns the
+// original text when find is empty so non-find paths stay zero-cost.
+function highlightFind(text, find, stemMode = false) {
   if (!find) return text;
+  if (stemMode) {
+    const targetStem = paliStem(String(find).toLowerCase());
+    if (!targetStem) return text;
+    const parts = String(text).split(/(\p{L}+)/u);
+    return parts.map((p, i) => {
+      if (i % 2 === 0) return <span key={i}>{p}</span>;
+      return paliStem(p.toLowerCase()) === targetStem
+        ? <mark key={i} style={findMark}>{p}</mark>
+        : <span key={i}>{p}</span>;
+    });
+  }
   const re = new RegExp(`(${escapeRegExp(find)})`, 'giu');
   const parts = String(text).split(re);
   return parts.map((p, i) =>
@@ -311,7 +333,7 @@ function withGlosses(text, glossMap) {
 // the reader give more real estate to whichever side they're focusing
 // on. Each pane keeps the standard Pali / translation typography so the
 // stacked-fallback view above stays consistent.
-function SideBySideReader({ pali, english, englishIsHtml, findText, glossMap }) {
+function SideBySideReader({ pali, english, englishIsHtml, findText, findStem, glossMap }) {
   const [pct, setPct] = useState(50);
   const containerRef = useRef(null);
   const draggingRef = useRef(false);
@@ -342,7 +364,7 @@ function SideBySideReader({ pali, english, englishIsHtml, findText, glossMap }) 
     <div ref={containerRef} style={sideBySideWrap}>
       <div style={{ ...sideBySidePane, flexBasis: `${pct}%` }}>
         <p style={readingOriginal}>
-          {glossMap ? withGlosses(pali, glossMap) : highlightFind(pali, findText)}
+          {glossMap ? withGlosses(pali, glossMap) : highlightFind(pali, findText, findStem)}
         </p>
       </div>
       <div
@@ -362,7 +384,7 @@ function SideBySideReader({ pali, english, englishIsHtml, findText, glossMap }) 
             dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(english) }}
           />
         ) : (
-          <p style={{ ...readingTranslation, marginBottom: 18 }}>{highlightFind(english, findText)}</p>
+          <p style={{ ...readingTranslation, marginBottom: 18 }}>{highlightFind(english, findText, findStem)}</p>
         )}
       </div>
     </div>
@@ -431,7 +453,7 @@ function ReadingPanel({
   leafId,
   pinnedLeafId, setPinnedLeafId,
   readingMode, setReadingMode,
-  onNavigate, onSearchTerm, onCompareTerm,
+  onNavigate, onBrowseToPath, onSearchTerm, onCompareTerm,
   compact,
 }) {
   const ref = useRef(null);
@@ -481,6 +503,14 @@ function ReadingPanel({
   const [parallels, setParallels] = useState(null);
   const [citeCopied, setCiteCopied] = useState(false);
   const { has: isBookmarked, toggle: toggleBookmark } = useBookmarks();
+  const isNarrow = useIsNarrow();
+  // Narrow viewports: user picks one column at a time. Default to
+  // English when a translation exists, Pali otherwise. Reset when the
+  // passage changes.
+  const [mobileColumn, setMobileColumn] = useState('pali');
+  useEffect(() => {
+    setMobileColumn(passage.translation || passage.original ? 'english' : 'pali');
+  }, [passage?.id]);
   useEffect(() => {
     if (!passage?.id) return;
     setParallels(null);
@@ -542,21 +572,39 @@ function ReadingPanel({
     return m;
   }, [parallels]);
 
-  // In-passage find. Highlights matches in Pali (always) and translation
-  // (only when plain-text — HTML translations from ATI bypass this for
-  // v1 since regex-on-HTML risks breaking structure). Counts matches
-  // across both panes so the reader knows the search scope.
+  // In-passage find. Two modes:
+  //   exact (default) — literal substring, case-insensitive
+  //   stem            — Pali inflection bridging via paliStem(),
+  //                     so "sati" catches "satiyā", "satimā", etc.
+  // Highlights apply to Pali (always) and plain-text translation;
+  // ATI HTML translations bypass to avoid regex-on-HTML breakage.
   const [findText, setFindText] = useState('');
-  useEffect(() => { setFindText(''); }, [passage?.id]);
+  const [findStem, setFindStem] = useState(false);
+  useEffect(() => { setFindText(''); setFindStem(false); }, [passage?.id]);
   const findStripped = findText.trim();
   const matchCount = useMemo(() => {
     if (!findStripped) return 0;
+    if (findStem) {
+      const stem = paliStem(findStripped.toLowerCase());
+      if (!stem) return 0;
+      let count = 0;
+      const re = /\p{L}+/giu;
+      if (passage.original) {
+        const ws = passage.original.match(re) || [];
+        for (const w of ws) if (paliStem(w.toLowerCase()) === stem) count++;
+      }
+      if (translationText && !translationIsHtml) {
+        const ws = translationText.match(re) || [];
+        for (const w of ws) if (paliStem(w.toLowerCase()) === stem) count++;
+      }
+      return count;
+    }
     const re = new RegExp(escapeRegExp(findStripped), 'giu');
     let count = 0;
     if (passage.original) count += (passage.original.match(re) || []).length;
     if (translationText && !translationIsHtml) count += (translationText.match(re) || []).length;
     return count;
-  }, [findStripped, passage.original, translationText, translationIsHtml]);
+  }, [findStripped, findStem, passage.original, translationText, translationIsHtml]);
 
   // When both Pali + English exist, drop the single-column reading-width
   // cap so the parallel reader can span the full available content area.
@@ -690,10 +738,12 @@ function ReadingPanel({
       </header>
 
       {/* CST mūla volume passages (cst-...m.mul-*) cover whole vagga
-          chunks; the canonical individual suttas with translations
-          live separately at dn1, mn10, etc. Surface that so a reader
-          who lands here doesn't think we're missing English. */}
-      {!compact && /^cst-[a-z0-9]+m\.mul-/.test(passage.id || '') && (
+          chunks. When the passage has no English translation, point
+          the reader to the individual SC suttas (dn1, mn10, …) where
+          Sujato/Thanissaro/etc. renderings live. Suppressed when the
+          passage already has English so we don't shout "no translation"
+          at a passage that does have one. */}
+      {!compact && /^cst-[a-z0-9]+m\.mul-/.test(passage.id || '') && !translationText && (
         <div style={cstMulaBanner}>
           <span style={cstMulaBannerIcon} aria-hidden="true">ⓘ</span>
           <span style={cstMulaBannerText}>
@@ -701,11 +751,13 @@ function ReadingPanel({
             For the canonical individual suttas with English translations,{' '}
             <button
               onClick={() => {
-                // Hop to the nikāya browse — e.g. "dn1" → /browse/tipitaka/sutta/dn
+                // Hop to the nikāya browse via the parent so React state
+                // updates properly (mutating window.location.hash alone
+                // doesn't re-parse the route in Dhamma.jsx).
                 const m = (passage.id || '').match(/-(dn|mn|sn|an|kn)\d/i);
                 const nikaya = m ? m[1].toLowerCase() : null;
-                if (nikaya) {
-                  window.location.hash = `#/browse/tipitaka/sutta/${nikaya}`;
+                if (nikaya && onBrowseToPath) {
+                  onBrowseToPath(['pli-tipitaka', 'pli-sutta', `pli-${nikaya}`]);
                 }
               }}
               style={cstMulaBannerLink}
@@ -755,6 +807,18 @@ function ReadingPanel({
             spellCheck={false}
             aria-label="Find in passage"
           />
+          <button
+            onClick={() => setFindStem((v) => !v)}
+            style={{
+              ...findStemBtn,
+              color: findStem ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+              borderColor: findStem ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.18)',
+            }}
+            title={findStem ? 'Stem mode (sati → satiyā, satimā…). Click for literal.' : 'Switch to stem mode — Pali inflection bridging.'}
+            aria-pressed={findStem}
+          >
+            Stem
+          </button>
           {findStripped && (
             <span style={findCount}>
               {matchCount.toLocaleString()} {matchCount === 1 ? 'match' : 'matches'}
@@ -763,27 +827,63 @@ function ReadingPanel({
         </div>
       )}
 
-      {passage.original && translationText ? (
+      {/* Mobile column selector — picks Pali or English instead of the
+          cramped side-by-side. Only renders when both columns exist. */}
+      {!compact && isNarrow && passage.original && translationText && (
+        <div style={columnSwitchRow} role="tablist">
+          <button
+            role="tab"
+            aria-selected={mobileColumn === 'pali'}
+            onClick={() => setMobileColumn('pali')}
+            style={{
+              ...columnSwitchBtn,
+              color: mobileColumn === 'pali' ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+              borderBottomColor: mobileColumn === 'pali' ? 'var(--bc-accent)' : 'transparent',
+              fontWeight: mobileColumn === 'pali' ? 600 : 400,
+            }}
+          >
+            Pali
+          </button>
+          <button
+            role="tab"
+            aria-selected={mobileColumn === 'english'}
+            onClick={() => setMobileColumn('english')}
+            style={{
+              ...columnSwitchBtn,
+              color: mobileColumn === 'english' ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+              borderBottomColor: mobileColumn === 'english' ? 'var(--bc-accent)' : 'transparent',
+              fontWeight: mobileColumn === 'english' ? 600 : 400,
+            }}
+          >
+            English
+          </button>
+        </div>
+      )}
+
+      {passage.original && translationText && !isNarrow ? (
         <SideBySideReader
           pali={passage.original}
           english={translationText}
           englishIsHtml={translationIsHtml}
           findText={findStripped}
+          findStem={findStem}
           glossMap={glossesOn ? glossMap : null}
         />
       ) : (
         <>
-          {passage.original && (
+          {/* Narrow-viewport: only one column at a time. Wide: stack
+              fallback when only one column actually exists. */}
+          {passage.original && (!isNarrow || !translationText || mobileColumn === 'pali') && (
             <p style={readingOriginal}>
               {glossesOn && glossMap
                 ? withGlosses(passage.original, glossMap)
-                : highlightFind(passage.original, findStripped)}
+                : highlightFind(passage.original, findStripped, findStem)}
             </p>
           )}
-          {translationText && (
+          {translationText && (!isNarrow || !passage.original || mobileColumn === 'english') && (
             translationIsHtml
               ? <div style={readingTranslation} dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(translationText) }} />
-              : <p style={readingTranslation}>{highlightFind(translationText, findStripped)}</p>
+              : <p style={readingTranslation}>{highlightFind(translationText, findStripped, findStem)}</p>
           )}
         </>
       )}
@@ -1199,6 +1299,20 @@ const findCount = {
   fontVariantNumeric: 'tabular-nums',
 };
 
+const findStemBtn = {
+  padding: '4px 10px',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  background: 'transparent',
+  border: '1px solid',
+  borderRadius: 999,
+  cursor: 'pointer',
+  transition: 'color 120ms ease, border-color 120ms ease',
+};
+
 const findMark = {
   background: 'rgba(var(--bc-accent-rgb), 0.22)',
   color: 'inherit',
@@ -1212,6 +1326,27 @@ const findMark = {
 const glossWord = {
   borderBottom: '1px dotted rgba(var(--bc-accent-rgb), 0.35)',
   cursor: 'help',
+};
+
+const columnSwitchRow = {
+  display: 'flex',
+  gap: 4,
+  marginBottom: 18,
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+};
+
+const columnSwitchBtn = {
+  flex: 1,
+  background: 'transparent',
+  border: 'none',
+  borderBottom: '2px solid transparent',
+  padding: '10px 12px',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 11,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  cursor: 'pointer',
+  transition: 'color 120ms ease, border-color 120ms ease',
 };
 
 const sideBySideWrap = {
