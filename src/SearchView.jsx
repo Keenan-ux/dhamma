@@ -27,6 +27,7 @@ export default function SearchView({
   showInlineFilters,
   searchMode, setSearchMode,
   onCompareTerm,
+  onOpenPassage,
 }) {
   const q = query ?? '';
   const setQ = setQuery ?? (() => {});
@@ -263,23 +264,38 @@ export default function SearchView({
               </em>
             )}
             .
-            {result.expanded?.length > 0 && (
-              <span style={{ display: 'block', marginTop: 4, fontStyle: 'italic', color: 'var(--bc-text-tertiary)' }}>
-                Also matched via{' '}
-                {result.expanded.map((e, i) => (
-                  <span key={e.term}>
-                    {e.aliases.map((a, j) => (
-                      <span key={a}>
-                        <strong style={{ color: 'var(--bc-accent)' }}>{a}</strong>
-                        {j < e.aliases.length - 1 ? ', ' : ''}
-                      </span>
-                    ))}
-                    {i < result.expanded.length - 1 ? '; ' : ''}
-                  </span>
-                ))}
-                .
-              </span>
-            )}
+            {(() => {
+              // Only show aliases that actually appear in at least one
+              // returned result. Hides cross-canon equivalents (Sanskrit
+              // samprajāna, Chinese 正知 etc.) that the query expanded
+              // into but produced no hits because those traditions
+              // aren't ingested. When Mahāyāna/Zen land, the same
+              // aliases will start showing up naturally.
+              const haystack = (result.results || []).map((r) =>
+                [r.original, r.translation, r.snippet, r.citation, r.title].filter(Boolean).join(' ')
+              ).join(' ').toLowerCase();
+              const filtered = (result.expanded || [])
+                .map((e) => ({ ...e, aliases: e.aliases.filter((a) => haystack.includes(a.toLowerCase())) }))
+                .filter((e) => e.aliases.length > 0);
+              if (filtered.length === 0) return null;
+              return (
+                <span style={{ display: 'block', marginTop: 4, fontStyle: 'italic', color: 'var(--bc-text-tertiary)' }}>
+                  Also matched via{' '}
+                  {filtered.map((e, i) => (
+                    <span key={e.term}>
+                      {e.aliases.map((a, j) => (
+                        <span key={a}>
+                          <strong style={{ color: 'var(--bc-accent)' }}>{a}</strong>
+                          {j < e.aliases.length - 1 ? ', ' : ''}
+                        </span>
+                      ))}
+                      {i < filtered.length - 1 ? '; ' : ''}
+                    </span>
+                  ))}
+                  .
+                </span>
+              );
+            })()}
           </p>
         )}
 
@@ -287,7 +303,13 @@ export default function SearchView({
             mode results while the new fetch is in flight. */}
         <div ref={resultsRef}>
           {!loading && visibleResults.map((p, i) => (
-            <PassageCard key={p.id} passage={p} highlight={highlightTerms} first={i === 0} />
+            <PassageCard
+              key={p.id}
+              passage={p}
+              highlight={highlightTerms}
+              first={i === 0}
+              onOpen={onOpenPassage}
+            />
           ))}
         </div>
         <SelectionActions
