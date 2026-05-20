@@ -519,6 +519,24 @@ function ReadingPanel({
   const [citeCopied, setCiteCopied] = useState(false);
   const { has: isBookmarked, toggle: toggleBookmark } = useBookmarks();
   const isNarrow = useIsNarrow();
+  // Narrow viewports: 7 header icons (bookmark, cite, pin, gloss,
+  // reading-mode, SC↗) wrapped awkwardly. Collapse into a "…" menu.
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef(null);
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onDown = (e) => {
+      if (moreRef.current && !moreRef.current.contains(e.target)) setMoreOpen(false);
+    };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('touchstart', onDown);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('touchstart', onDown);
+    };
+  }, [moreOpen]);
+  // Close the menu when the passage changes (navigating prev/next).
+  useEffect(() => { setMoreOpen(false); }, [passage?.id]);
   // Narrow viewports: user picks one column at a time. Default to
   // English when a translation exists, Pali otherwise. Reset when the
   // passage changes.
@@ -684,95 +702,162 @@ function ReadingPanel({
             {passage.title || workLabel}{passage.title && workLabel ? ` · ${workLabel}` : ''}
           </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
-          {!compact && (
-            <button
-              onClick={() => toggleBookmark({ id: leafId, citation: passage.citation, title: passage.title, work: workLabel })}
-              style={iconAction}
-              title={isBookmarked(leafId) ? 'Remove bookmark' : 'Bookmark this passage'}
-              aria-label={isBookmarked(leafId) ? 'Remove bookmark' : 'Bookmark this passage'}
-            >
-              {isBookmarked(leafId) ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, position: 'relative' }} ref={moreRef}>
+          {(() => {
+            if (compact) {
+              return <div style={readingTradition}>{traditionLabel}</div>;
+            }
+            // Build the action list once; render expanded on wide
+            // viewports, collapsed into a "…" menu on narrow.
+            const actions = [];
+            actions.push({
+              key: 'bookmark',
+              label: isBookmarked(leafId) ? 'Remove bookmark' : 'Bookmark passage',
+              active: isBookmarked(leafId),
+              onClick: () => toggleBookmark({ id: leafId, citation: passage.citation, title: passage.title, work: workLabel }),
+              icon: isBookmarked(leafId) ? (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6 2h12a1 1 0 0 1 1 1v19l-7-4-7 4V3a1 1 0 0 1 1-1z"/></svg>
               ) : (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-4-7 4V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1z"/></svg>
-              )}
-            </button>
-          )}
-          {!compact && (
-            <button
-              onClick={async () => {
+              ),
+            });
+            actions.push({
+              key: 'cite',
+              label: citeCopied ? 'Citation copied' : 'Copy citation',
+              onClick: async () => {
                 try {
                   await navigator.clipboard.writeText(formatCitation({ ...passage, work: workLabel, tradition: traditionLabel }));
                   setCiteCopied(true);
                   setTimeout(() => setCiteCopied(false), 1400);
                 } catch {/* ignore */}
-              }}
-              style={iconAction}
-              title={citeCopied ? 'Citation copied' : 'Copy citation'}
-              aria-label="Copy citation"
-            >
-              {citeCopied ? (
+              },
+              icon: citeCopied ? (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               ) : (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-              )}
-            </button>
-          )}
-          {!compact && (
-            <button onClick={() => setPinnedLeafId?.(isPinned ? null : leafId)} style={iconAction} title={isPinned ? 'Unpin' : 'Pin to top'}>
-              {isPinned ? (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 4l4 4-6 6v6l-2 2-4-4v-4l-6-6 4-4z"/></svg>
-              ) : (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4l4 4-6 6v6l-2 2-4-4v-4l-6-6 4-4z"/></svg>
-              )}
-            </button>
-          )}
-          {!compact && passage.original && (
-            <button
-              onClick={() => setGlossesOn((v) => !v)}
-              style={{
-                ...iconAction,
-                color: glossesOn ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
-                borderColor: glossesOn ? 'var(--bc-accent)' : 'rgba(255,255,255,0.08)',
-              }}
-              title={glossesOn ? 'Hide word glosses' : 'Show word glosses (DPD)'}
-              aria-label="Toggle interlinear word glosses"
-              aria-pressed={glossesOn}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/>
-                <path d="M12 4v16"/>
-                <path d="M8 20h8"/>
-              </svg>
-            </button>
-          )}
-          {!compact && !readingMode && (
-            <button onClick={() => setReadingMode?.(true)} style={iconAction} title="Reading mode (focus)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4" />
-              </svg>
-            </button>
-          )}
-          {/* Outbound to SuttaCentral for passages whose ID is in the
-              SC format. SuttaCentral curates parallels (DN 22 ↔ MN 10,
-              Sanskrit / Chinese / Tibetan parallels, etc.) — until we
-              ingest that data ourselves, the link is the most direct
-              route to it for the scholar. CST-prefixed IDs (commentary
-              corpus) don't map to SC URLs so the link is hidden for
-              those. */}
-          {!compact && !passage.id?.startsWith('cst-') && (
-            <a
-              href={`https://suttacentral.net/${passage.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={scLink}
-              title="View this passage on SuttaCentral (parallels, alternate translations)"
-            >
-              SC ↗
-            </a>
-          )}
-          <div style={readingTradition}>{traditionLabel}</div>
+              ),
+            });
+            actions.push({
+              key: 'pin',
+              label: isPinned ? 'Unpin from top' : 'Pin to top',
+              active: isPinned,
+              onClick: () => setPinnedLeafId?.(isPinned ? null : leafId),
+              icon: (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill={isPinned ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4l4 4-6 6v6l-2 2-4-4v-4l-6-6 4-4z"/></svg>
+              ),
+            });
+            if (passage.original) {
+              actions.push({
+                key: 'gloss',
+                label: glossesOn ? 'Hide word glosses' : 'Show word glosses (DPD)',
+                active: glossesOn,
+                onClick: () => setGlossesOn((v) => !v),
+                icon: (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/>
+                    <path d="M12 4v16"/>
+                    <path d="M8 20h8"/>
+                  </svg>
+                ),
+              });
+            }
+            if (!readingMode) {
+              actions.push({
+                key: 'reading',
+                label: 'Reading mode (focus)',
+                onClick: () => setReadingMode?.(true),
+                icon: (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4" />
+                  </svg>
+                ),
+              });
+            }
+            // SuttaCentral outbound: only available for non-CST IDs.
+            // Inline as a styled link on wide; rendered as a menu row
+            // (still an anchor) on narrow so target='_blank' is preserved.
+            if (!passage.id?.startsWith('cst-')) {
+              actions.push({
+                key: 'sc',
+                label: 'View on SuttaCentral',
+                href: `https://suttacentral.net/${passage.id}`,
+                icon: <span style={{ fontWeight: 600, letterSpacing: '0.14em', fontSize: 11 }}>SC ↗</span>,
+              });
+            }
+
+            if (!isNarrow) {
+              return (
+                <>
+                  {actions.map((a) => {
+                    if (a.href) {
+                      return (
+                        <a key={a.key} href={a.href} target="_blank" rel="noopener noreferrer" style={scLink} title={a.label}>
+                          SC ↗
+                        </a>
+                      );
+                    }
+                    const style = a.active ? {
+                      ...iconAction,
+                      color: 'var(--bc-accent)',
+                      borderColor: 'var(--bc-accent)',
+                    } : iconAction;
+                    return (
+                      <button key={a.key} onClick={a.onClick} style={style} title={a.label} aria-label={a.label} aria-pressed={a.active || undefined}>
+                        {a.icon}
+                      </button>
+                    );
+                  })}
+                  <div style={readingTradition}>{traditionLabel}</div>
+                </>
+              );
+            }
+
+            // Narrow viewport: single "…" trigger + dropdown.
+            return (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setMoreOpen((v) => !v)}
+                  style={iconAction}
+                  aria-label="Passage actions"
+                  aria-haspopup="menu"
+                  aria-expanded={moreOpen}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+                </button>
+                <div style={readingTradition}>{traditionLabel}</div>
+                {moreOpen && (
+                  <div role="menu" style={overflowMenu}>
+                    {actions.map((a) => {
+                      const common = {
+                        role: 'menuitem',
+                        style: { ...overflowItem, ...(a.active ? overflowItemActive : null) },
+                      };
+                      if (a.href) {
+                        return (
+                          <a key={a.key} {...common} href={a.href} target="_blank" rel="noopener noreferrer" onClick={() => setMoreOpen(false)}>
+                            <span style={overflowItemIcon}>{a.icon}</span>
+                            <span>{a.label}</span>
+                          </a>
+                        );
+                      }
+                      return (
+                        <button
+                          key={a.key}
+                          type="button"
+                          {...common}
+                          onClick={() => { a.onClick?.(); setMoreOpen(false); }}
+                        >
+                          <span style={overflowItemIcon}>{a.icon}</span>
+                          <span>{a.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
       </header>
 
@@ -1137,6 +1222,53 @@ const scLink = {
   textDecoration: 'none',
   fontFamily: 'Outfit, system-ui, sans-serif',
   transition: 'color 120ms ease, border-color 120ms ease',
+};
+
+// Narrow-viewport dropdown for passage actions. Positioned beneath the
+// "…" trigger; outside-click handler in the component closes it.
+const overflowMenu = {
+  position: 'absolute',
+  top: '100%',
+  right: 0,
+  marginTop: 6,
+  minWidth: 200,
+  background: 'var(--bc-bg-elevated, var(--bc-bg))',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
+  borderRadius: 8,
+  boxShadow: '0 6px 24px rgba(0,0,0,0.28)',
+  zIndex: 30,
+  padding: 4,
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const overflowItem = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 10,
+  width: '100%',
+  padding: '8px 10px',
+  background: 'transparent',
+  border: 'none',
+  borderRadius: 6,
+  color: 'var(--bc-text-secondary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  textAlign: 'left',
+  textDecoration: 'none',
+  cursor: 'pointer',
+};
+
+const overflowItemActive = {
+  color: 'var(--bc-accent)',
+};
+
+const overflowItemIcon = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 18,
+  flexShrink: 0,
 };
 
 const breadcrumb = {
