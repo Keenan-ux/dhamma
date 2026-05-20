@@ -90,58 +90,53 @@ the BHS code committed.
 
 ---
 
-## Open backlog (priority order)
+## To-do — work through top to bottom
 
-### Immediate (one-shot, low risk)
+Linear list. Do them in order; commit + deploy between items as
+natural breakpoints suggest. None of these requires a fresh chat —
+keep going until you hit context limit, then write a new HANDOFF.md.
 
-1. **Commit the pending work above.** Read each modified file, group by
-   stream, commit with clear messages per stream, push, deploy. Check
-   each diff is contained to one stream's intended scope.
+1. **Commit the pending work in the working tree.** Read each modified
+   file in `git status`, group by stream (see table above), commit each
+   stream's work as one logical commit with a clear message, push,
+   deploy. Verify diffs stay scoped.
 2. **Delete `src/TabBar.jsx`** — no longer mounted anywhere, dead code.
-3. **Move `corpus_dump.json`, `sc_parallels.json`, `DevDhamma.cache_corpus.json`, `sc_relationships.json` out of repo root** — they're debug artifacts that shouldn't be in `git status`. Add to `.gitignore`.
-
-### Polish + cleanup (small, contained)
-
+3. **Move `corpus_dump.json`, `sc_parallels.json`, `DevDhamma.cache_corpus.json`, `sc_relationships.json` out of repo root** — debug artifacts that shouldn't be in `git status`. Add to `.gitignore`.
 4. **Mobile reader icon overflow** — 7 icons (bookmark, cite, pin, eye,
    gloss, fullscreen, SC↗) wrap awkwardly on narrow viewports. Collapse
-   into a "…" menu when isNarrow.
+   into a "…" menu when `isNarrow`.
 5. **Backfill `display_order`** in the `works` table — currently all 0,
    causes alphabetical fallback ordering (AN, DN, KN, MN, SN instead of
-   canonical DN MN SN AN KN). One-shot SQL via flyctl proxy.
+   canonical DN MN SN AN KN). One-shot SQL via flyctl proxy 15432.
 6. **Improve uddāna handling** — Stream 5 hid them from `/api/corpus`
    already. Audit whether they should also be deleted entirely or just
    hidden. Decision needed in CLAUDE.md.
-
-### Bigger features (each is its own session)
-
-7. **Bhikkhu Bodhi commentary translations** — if a translation source
-   exists, ingest as additional translations under existing aṭṭhakathā
-   passage IDs. Would dramatically lift the 2.3% CST translation
-   coverage.
-8. **Critical Pali Dictionary (CPD)** — next dictionary in
-   DICTIONARIES.md roadmap after BHS.
+7. **Sentence-level snippet upgrade** — see `snippet-sentence-upgrade`
+   memory note. Server-side. Stream 3 may have started this already.
+8. **Random sutta** — sidebar entry under Tools that picks a random
+   passage and opens the reader.
 9. **Split-pane parallel reader** — true side-by-side compare of two
-   passages (DN 22 ↔ MN 10). Today's pin-based workaround is
-   acceptable but cramped.
-10. **Sentence-level snippet upgrade** — see `snippet-sentence-upgrade`
-    memory note. Server-side. Stream 3 may have started this.
-11. **Random sutta** — sidebar entry under Tools that picks a random
-    passage and opens the reader.
-12. **`@xenova/transformers` v2 → v3 migration** — see `xenova-v2-pinned`
-    memory note. Needs corpus re-embed; do it as one big session.
-
-### Outreach / launch
-
-13. **Send the ATI email** (`ATI_EMAIL_DRAFT.md`) — content is good,
-    just needs human-author sign-off.
-14. **Send the SuttaCentral email** (`SUTTACENTRAL_EMAIL_DRAFT.md`).
-15. **Make GitHub repo public** — one-line: `gh repo edit Keenan-ux/dhamma --visibility public`.
-16. **Write public-facing README.md** before flipping to public — the
+   passages (DN 22 ↔ MN 10). Today's pin-based workaround is acceptable
+   but cramped.
+10. **Critical Pali Dictionary (CPD)** — next dictionary in
+    DICTIONARIES.md roadmap after BHS. Follow the same MW/BHS pattern.
+11. **Bhikkhu Bodhi commentary translations** — if a translation source
+    exists, ingest as additional translations under existing aṭṭhakathā
+    passage IDs. Would dramatically lift the 2.3% CST translation
+    coverage.
+12. **Write public-facing README.md** before flipping to public — the
     existing CLAUDE.md is internal context, not a project pitch.
-17. **Add `CONTRIBUTING.md`** — what kinds of PRs are welcome, dev
-    setup, what to do/not do.
-18. **Announce on Reddit/DhammaWheel/Buddhist-Studies mailing lists**
-    after the above lands.
+13. **Add `CONTRIBUTING.md`** — what kinds of PRs are welcome, dev
+    setup, what to do / not do.
+14. **Make GitHub repo public**: `gh repo edit Keenan-ux/dhamma --visibility public`.
+15. **Send the ATI email** (`ATI_EMAIL_DRAFT.md`) — needs the user's
+    sign-off; tell them when it's ready.
+16. **Send the SuttaCentral email** (`SUTTACENTRAL_EMAIL_DRAFT.md`).
+17. **Announce on Reddit / DhammaWheel / Buddhist-Studies mailing lists.**
+18. **`@xenova/transformers` v2 → v3 migration** — see `xenova-v2-pinned`
+    memory note. Triggers a corpus re-embed (BGE-M3 vectors aren't
+    portable across model versions), so save it for when everything
+    else is settled.
 
 ---
 
@@ -253,14 +248,14 @@ Located at `~/.claude/projects/C--Dev-Dhamma/memory/`:
 ## How to start the next chat
 
 ```
-Read C:\Dev\Dhamma\HANDOFF.md and C:\Dev\Dhamma\CLAUDE.md. The previous
-session's chat is at context limit. The deployed state is good — verify
-with `curl -s https://dhamma.fly.dev/api/dbcheck` and check the four
-corpus views + Tags + Library + Concordance pages render.
+Read C:\Dev\Dhamma\HANDOFF.md and C:\Dev\Dhamma\CLAUDE.md. Previous
+chat is at context limit. Deployed state is good — verify with
+`curl -s https://dhamma.fly.dev/api/dbcheck` and confirm /tipitaka,
+/commentary, /anya, /library, /tags, /concordance render.
 
-There are uncommitted changes from parallel streams in the working tree;
-audit `git status` and decide per-file whether to commit, revert, or
-leave for the originating stream. After that, pick from HANDOFF.md's
-backlog — items 1–3 are immediate one-shots, 4–6 are small polish, 7–12
-are bigger features that each merit their own session.
+Start with item 1 in HANDOFF.md's to-do list (commit the pending work
+in the working tree) and work straight down. Commit + deploy as
+natural breakpoints arrive. Don't stop between items — keep going
+until you hit context limit, then write a new HANDOFF.md for the
+session after this one.
 ```
