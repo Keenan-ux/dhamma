@@ -77,12 +77,18 @@ Open decisions surfaced in TIER_C.md:
 
 ### Other open backlog
 
-- **Access to Insight ingest** — ATI is winding down; the offline edition
-  is at `C:\Users\isaac\OneDrive\Desktop\pokemon\accesstoinsight\` (153 MB,
-  1,273 sutta files across ~15 translators). Adds alt-translations
-  (Thanissaro, Walshe, Nyanaponika, ...) and unlocks a **dedicated
-  English-translation search corpus** — full plan in [TIER_ATI.md](TIER_ATI.md).
-  This is the highest-leverage next data ingest.
+- **Access to Insight ingest** — Phases 1-5 of [TIER_ATI.md](TIER_ATI.md)
+  shipped: 1,139 ATI translations across ~15 translators live alongside
+  Sujato (5,113), `translations` table populated, multi-translator
+  switcher + attribution UI in BrowseView, scope=translation FTS and
+  Meaning-mode (vector ANN over `translations.embedding`) both working.
+  Phase 6 (Library tab — ATI articles, study guides, curated indexes)
+  is the remaining piece.
+- **Canon-tree navigation redesign** — sketch in
+  [TIER_NAV.md](TIER_NAV.md). Replace the flat "Theravāda 25,986"
+  sidebar entry with a vertical top-down Pannyavaro-style visual tree
+  of the Tipiṭaka, plus a "Translated only" filter. Treat as
+  experimental — ship small + iterate.
 - **Dictionary expansion** — DPPN + PED done. Monier-Williams Sanskrit-
   English is next (first non-Pali source), with full plan in
   [DICTIONARIES.md](DICTIONARIES.md). After MW: BHS, CPD, Buddhadatta.
