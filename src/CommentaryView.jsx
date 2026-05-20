@@ -10,6 +10,7 @@
 
 import { useState } from 'react';
 import useCorpus from './useCorpus.js';
+import useIsNarrow from './useIsNarrow.js';
 
 // Canonical Theravāda commentary structure. Names follow the standard PTS /
 // SuttaCentral nomenclature; secondary names in subtitles when the
@@ -44,6 +45,7 @@ const TIKA_WORKS = [
 export default function CommentaryView({ onDrill }) {
   const { shape, loading } = useCorpus();
   const [translatedOnly, setTranslatedOnly] = useState(false);
+  const isNarrow = useIsNarrow();
 
   // Theravāda → pli-commentary umbrella. Subworks (Visuddhimagga, MN-A,
   // DN-A) are seeded as stubs; future CST ingest swaps them to live.
@@ -105,7 +107,7 @@ export default function CommentaryView({ onDrill }) {
         <p style={pendingLine}>pending</p>
       </div>
 
-      <div style={threeCol}>
+      <div style={isNarrow ? singleCol : threeCol}>
         <section style={column}>
           <h2 style={colHeader}>Vinaya</h2>
           <p style={colKind}>one commentary</p>
@@ -264,11 +266,27 @@ const featuredSubtitle = {
 const threeCol = {
   maxWidth: 1100,
   margin: '40px auto 0',
-  padding: '0 32px',
+  padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
   gap: 48,
   alignItems: 'start',
+  opacity: 0.65,
+};
+
+// Narrow viewport: stack the three commentary columns vertically.
+// No piṭaka chip selector here — all rows are 'pending' anyway, so the
+// visual cost of scrolling through them is the same as toggling between
+// chips, and a continuous read gives a better sense of the full corpus
+// scope.
+const singleCol = {
+  maxWidth: 480,
+  margin: '32px auto 0',
+  padding: '0 24px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 36,
+  alignItems: 'stretch',
   opacity: 0.65,
 };
 

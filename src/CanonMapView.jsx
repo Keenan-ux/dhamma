@@ -12,6 +12,7 @@
 
 import { useMemo, useState } from 'react';
 import useCorpus from './useCorpus.js';
+import useIsNarrow from './useIsNarrow.js';
 
 // PTS-style abbreviations for the 18 books of the Khuddaka Nikāya,
 // rendered as a compact inline list under Sutta. Keys are work slugs.
@@ -64,6 +65,12 @@ function shortNikaya(name) {
 export default function CanonMapView({ onDrill }) {
   const { shape, loading } = useCorpus();
   const [translatedOnly, setTranslatedOnly] = useState(false);
+  const isNarrow = useIsNarrow();
+  // On narrow viewports, the three-column grid would force horizontal
+  // scroll. Replace it with a piṭaka selector + single column showing
+  // just the active piṭaka. Sutta is the default since it's where
+  // virtually all reader interest concentrates.
+  const [activePitaka, setActivePitaka] = useState('pli-sutta');
 
   const tipitaka = useMemo(() => {
     const trad = shape?.tree?.find((t) => t.id === 'theravada');
@@ -135,9 +142,34 @@ export default function CanonMapView({ onDrill }) {
         </label>
       </div>
 
-      <div style={threeCol}>
+      {/* Narrow viewport: chip selector for piṭaka, then one column. */}
+      {isNarrow && (
+        <div style={pitakaSelector} role="tablist">
+          {[vinaya, sutta, abhidhamma].filter(Boolean).map((p) => {
+            const on = activePitaka === p.id;
+            return (
+              <button
+                key={p.id}
+                role="tab"
+                aria-selected={on}
+                onClick={() => setActivePitaka(p.id)}
+                style={{
+                  ...pitakaChip,
+                  color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                  borderColor: on ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.20)',
+                  fontWeight: on ? 600 : 400,
+                }}
+              >
+                {p.name.replace(/\s+Piṭaka$/u, '')}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      <div style={isNarrow ? singleCol : threeCol}>
         {/* Vinaya */}
-        {vinaya && (
+        {vinaya && (!isNarrow || activePitaka === 'pli-vinaya') && (
           <section style={column}>
             <h2
               style={{ ...colHeader, opacity: isDim(vinaya) ? 0.35 : 1 }}
@@ -158,7 +190,7 @@ export default function CanonMapView({ onDrill }) {
         )}
 
         {/* Sutta */}
-        {sutta && (
+        {sutta && (!isNarrow || activePitaka === 'pli-sutta') && (
           <section style={column}>
             <h2
               style={{ ...colHeader, opacity: isDim(sutta) ? 0.35 : 1 }}
@@ -185,32 +217,11 @@ export default function CanonMapView({ onDrill }) {
               ))}
             </ul>
 
-            {khuddakaBooks.length > 0 && (
-              <>
-                <p style={colSubKind}>khuddaka books</p>
-                <p style={khuddakaInline}>
-                  {khuddakaBooks.map((b, i) => (
-                    <span key={b.id}>
-                      <span
-                        style={{ ...khuddakaTag, opacity: isDim(b) ? 0.35 : 1 }}
-                        onClick={() => drill(tipitaka.id, sutta.id, kn.id, b.id)}
-                        role="button"
-                        tabIndex={0}
-                        title={`${b.name} · ${(b.total || 0).toLocaleString()} passages`}
-                      >
-                        {KHUDDAKA_ABBREV[b.id] || b.name}
-                      </span>
-                      {i < khuddakaBooks.length - 1 && <span style={dotSep}>&nbsp;·&nbsp;</span>}
-                    </span>
-                  ))}
-                </p>
-              </>
-            )}
           </section>
         )}
 
         {/* Abhidhamma */}
-        {abhidhamma && (
+        {abhidhamma && (!isNarrow || activePitaka === 'pli-abhidhamma') && (
           <section style={column}>
             <h2
               style={{ ...colHeader, opacity: isDim(abhidhamma) ? 0.35 : 1 }}
@@ -231,12 +242,36 @@ export default function CanonMapView({ onDrill }) {
         )}
       </div>
 
+      {/* Khuddaka books — pulled out of the Sutta column and shown
+          centered below all three piṭakas. The 18 sub-books make Sutta
+          asymmetric when listed inline; a dedicated full-width row
+          reads as the natural continuation of the diagram. On narrow
+          viewports only show this when Sutta is the active piṭaka. */}
+      {khuddakaBooks.length > 0 && (!isNarrow || activePitaka === 'pli-sutta') && (
+        <section style={khuddakaSection}>
+          <div style={khuddakaRule} />
+          <p style={khuddakaHeader}>Khuddaka books</p>
+          <p style={khuddakaInline}>
+            {khuddakaBooks.map((b, i) => (
+              <span key={b.id}>
+                <span
+                  style={{ ...khuddakaTag, opacity: isDim(b) ? 0.35 : 1 }}
+                  onClick={() => drill(tipitaka.id, sutta.id, kn.id, b.id)}
+                  role="button"
+                  tabIndex={0}
+                  title={`${b.name} · ${(b.total || 0).toLocaleString()} passages`}
+                >
+                  {KHUDDAKA_ABBREV[b.id] || b.name}
+                </span>
+                {i < khuddakaBooks.length - 1 && <span style={dotSep}>&nbsp;·&nbsp;</span>}
+              </span>
+            ))}
+          </p>
+        </section>
+      )}
+
       <footer style={footerWrap}>
         <div style={rule} />
-        <p style={attribution}>
-          After Ven. Pannyavaro’s Tipiṭaka diagram (Buddha Dharma Education
-          Association, 2000).
-        </p>
       </footer>
     </div>
   );
@@ -302,11 +337,43 @@ const topControls = {
 const threeCol = {
   maxWidth: 1100,
   margin: '32px auto 0',
-  padding: '0 32px',
+  padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
   gap: 48,
   alignItems: 'start',
+};
+
+const singleCol = {
+  maxWidth: 480,
+  margin: '32px auto 0',
+  padding: '0 24px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 24,
+  alignItems: 'stretch',
+};
+
+const pitakaSelector = {
+  maxWidth: 480,
+  margin: '24px auto 0',
+  padding: '0 24px',
+  display: 'flex',
+  justifyContent: 'center',
+  gap: 6,
+};
+
+const pitakaChip = {
+  flex: '0 1 auto',
+  padding: '8px 14px',
+  background: 'transparent',
+  border: '1px solid',
+  borderRadius: 999,
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  letterSpacing: '0.04em',
+  cursor: 'pointer',
+  transition: 'color 120ms ease, border-color 120ms ease',
 };
 
 const column = {
@@ -337,16 +404,6 @@ const colCount = {
 
 const colKind = {
   margin: '22px 0 12px',
-  fontFamily: SANS,
-  fontSize: 9,
-  fontWeight: 600,
-  letterSpacing: '0.20em',
-  textTransform: 'uppercase',
-  color: 'var(--bc-text-tertiary)',
-};
-
-const colSubKind = {
-  margin: '20px 0 10px',
   fontFamily: SANS,
   fontSize: 9,
   fontWeight: 600,
@@ -394,13 +451,39 @@ const nikayaCount = {
   letterSpacing: '0.04em',
 };
 
+// Khuddaka row sits below the three-column piṭaka grid as a centered
+// strip. Width is bounded so the pills don't sprawl across a wide
+// viewport; they wrap to a couple of lines instead.
+const khuddakaSection = {
+  maxWidth: 720,
+  margin: '48px auto 0',
+  padding: '0 32px',
+  textAlign: 'center',
+};
+
+const khuddakaRule = {
+  height: 1,
+  background: 'rgba(var(--bc-accent-rgb), 0.22)',
+  margin: '0 auto 20px',
+  maxWidth: 420,
+};
+
+const khuddakaHeader = {
+  margin: '0 0 14px',
+  fontFamily: SANS,
+  fontSize: 9,
+  fontWeight: 600,
+  letterSpacing: '0.20em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+};
+
 const khuddakaInline = {
   margin: 0,
-  padding: '0 8px',
   fontFamily: SERIF,
   fontStyle: 'italic',
-  fontSize: 12,
-  lineHeight: 1.8,
+  fontSize: 14,
+  lineHeight: 2.0,
   color: 'var(--bc-text-secondary)',
 };
 

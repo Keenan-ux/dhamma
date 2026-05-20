@@ -5,7 +5,18 @@ import ThemeToggle from './ThemeToggle.jsx';
 
 const MOBILE_BREAKPOINT = 1024;
 
-export default function TopNav() {
+// Mirror of Sidebar.NAV_ITEMS — renders inside the slide-in panel on
+// mobile so the sidebar nav doesn't have to occupy real estate full-time.
+const NAV_ITEMS = [
+  { key: 'tipitaka',    label: 'Tipiṭaka',        group: 'corpus' },
+  { key: 'commentary',  label: 'Commentaries',    group: 'corpus' },
+  { key: 'anya',        label: 'Extra-canonical', group: 'corpus' },
+  { key: 'search',      label: 'Search',          group: 'tools' },
+  { key: 'concordance', label: 'Concordance',     group: 'tools' },
+  { key: 'dictionary',  label: 'Dictionary',      group: 'tools' },
+];
+
+export default function TopNav({ tab, setTab }) {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= MOBILE_BREAKPOINT);
   const [panelVisible, setPanelVisible] = useState(false);
@@ -111,7 +122,7 @@ export default function TopNav() {
       {/* Mobile header with close */}
       {isMobile && (
         <div style={panelHeader}>
-          <span style={panelHeaderLabel}>Settings</span>
+          <span style={panelHeaderLabel}>Menu</span>
           <button onClick={() => setOpen(false)} aria-label="Close" style={closeBtn}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <line x1="18" y1="6" x2="6" y2="18" />
@@ -122,6 +133,27 @@ export default function TopNav() {
       )}
 
       <div style={isMobile ? panelBodyMobile : panelBodyDesktop}>
+        {/* Navigation lives inside the mobile panel so the sidebar
+            doesn't have to be visible on narrow screens. On desktop the
+            sidebar carries this so the panel keeps its lighter
+            (Install / About / etc.) role. */}
+        {isMobile && setTab && (
+          <>
+            <div style={navSectionLabel}>Corpus</div>
+            <div style={navList}>
+              {NAV_ITEMS.filter((i) => i.group === 'corpus').map((item) => (
+                <NavItem key={item.key} item={item} active={tab === item.key} onClick={() => { setTab(item.key); setOpen(false); }} />
+              ))}
+            </div>
+            <div style={navList}>
+              {NAV_ITEMS.filter((i) => i.group === 'tools').map((item) => (
+                <NavItem key={item.key} item={item} active={tab === item.key} onClick={() => { setTab(item.key); setOpen(false); }} />
+              ))}
+            </div>
+            <div style={divider} />
+          </>
+        )}
+
         {/* Install as App */}
         {!installed && installPrompt && (
           <button onClick={handleInstall} style={installCta}>
@@ -133,7 +165,7 @@ export default function TopNav() {
           </button>
         )}
 
-        <div style={divider} />
+        {!isMobile && <div style={divider} />}
 
         {/* About */}
         <button onClick={() => setOpen(false)} style={menuItem}>
@@ -166,7 +198,7 @@ export default function TopNav() {
             <line x1="4" y1="12" x2="20" y2="12" />
             <line x1="4" y1="17" x2="20" y2="17" />
           </svg>
-          <span style={settingsBtnLabel}>SETTINGS</span>
+          <span style={settingsBtnLabel}>{isMobile ? 'MENU' : 'SETTINGS'}</span>
         </button>
 
         {open && !isMobile && (
@@ -318,6 +350,23 @@ const installCta = {
   cursor: 'pointer',
 };
 
+function NavItem({ item, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        ...navItemBase,
+        color: active ? 'var(--bc-accent)' : 'var(--bc-text-primary)',
+        background: active ? 'rgba(var(--bc-accent-rgb), 0.08)' : 'transparent',
+        borderLeftColor: active ? 'var(--bc-accent)' : 'transparent',
+        fontWeight: active ? 600 : 500,
+      }}
+    >
+      {item.label}
+    </button>
+  );
+}
+
 const menuItem = {
   display: 'flex',
   flexDirection: 'column',
@@ -341,4 +390,35 @@ const menuItemLabel = {
 const menuItemSub = {
   fontSize: 11,
   color: 'var(--bc-text-tertiary)',
+};
+
+const navSectionLabel = {
+  padding: '8px 12px 6px',
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+};
+
+const navList = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 1,
+  marginBottom: 10,
+};
+
+const navItemBase = {
+  display: 'block',
+  width: '100%',
+  textAlign: 'left',
+  padding: '11px 14px',
+  background: 'transparent',
+  border: 'none',
+  borderLeft: '3px solid transparent',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  fontSize: 15,
+  letterSpacing: '0.01em',
+  transition: 'color 120ms ease, background 120ms ease, border-color 120ms ease',
 };
