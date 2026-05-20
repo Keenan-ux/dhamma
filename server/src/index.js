@@ -56,6 +56,29 @@ app.get('/api/passage/:id', async (c) => {
   }
 });
 
+app.get('/api/passage/:id/parallels', async (c) => {
+  try {
+    const id = c.req.param('id');
+    const { sql } = await import('./db.js');
+    if (!sql) return c.json({ parallels: [] });
+    // JOIN to passages for the targets that we have, so we can return
+    // citation + title alongside the raw parallel_id. Targets not in
+    // our passages table come back with null citation/title — the UI
+    // renders them as plain text (informational).
+    const rows = await sql`
+      SELECT pp.parallel_id, pp.relation_type, pp.parallel_lang, pp.parallel_have,
+             p.citation AS parallel_citation, p.title AS parallel_title
+      FROM passage_parallels pp
+      LEFT JOIN passages p ON p.id = pp.parallel_id
+      WHERE pp.passage_id = ${id}
+      ORDER BY pp.parallel_have DESC, pp.relation_type, pp.parallel_id
+    `;
+    return c.json({ passage_id: id, parallels: rows });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.get('/api/passage/:id/translations', async (c) => {
   try {
     const id = c.req.param('id');
