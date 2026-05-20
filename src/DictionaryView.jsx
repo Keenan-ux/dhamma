@@ -69,6 +69,8 @@ const MODES = [
   { key: 'meaning', label: 'Meaning', hint: 'Vector ANN over definitions — type an English phrase, find related Pali words' },
 ];
 
+const DIACRITICS = ['ā', 'ī', 'ū', 'ē', 'ō', 'ṃ', 'ṅ', 'ñ', 'ṇ', 'ṭ', 'ḍ', 'ṛ', 'ḷ', 'ṣ', 'ś'];
+
 function DotPulse() {
   const [n, setN] = useState(0);
   useEffect(() => {
@@ -91,6 +93,11 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadingMs, setLoadingMs] = useState(0);
+  // When Stem returns 0 entries, the view silently fires a Meaning
+  // lookup and labels its results so the user knows what happened.
+  // Tracked separately so we don't display the "no entry found"
+  // empty state for the brief moment between the two fetches.
+  const [bridgedFromStem, setBridgedFromStem] = useState(false);
   const [error, setError] = useState(null);
   const inputRef = useRef(null);
   const resultsRef = useRef(null);
@@ -103,21 +110,56 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
   }, [term]);
 
   useEffect(() => {
-    if (!debounced) { setResult(null); setError(null); setLoading(false); return; }
+    if (!debounced) {
+      setResult(null); setError(null); setLoading(false); setBridgedFromStem(false);
+      return;
+    }
     const ac = new AbortController();
-    setLoading(true); setError(null); setLoadingMs(0);
+    setLoading(true); setError(null); setLoadingMs(0); setBridgedFromStem(false);
     const startedAt = Date.now();
     const tick = setInterval(() => setLoadingMs(Date.now() - startedAt), 250);
-    lookupApi({ term: debounced, mode, signal: ac.signal })
-      .then((r) => { setResult(r); setLoading(false); })
-      .catch((err) => {
+
+    (async () => {
+      try {
+        const r = await lookupApi({ term: debounced, mode, signal: ac.signal });
+        // Auto-bridge: Stem mode with 0 results → silently fall back to
+        // Meaning so the user gets something useful instead of a dead end.
+        if (mode === 'stem' && (r.entries?.length ?? 0) === 0) {
+          const bridged = await lookupApi({ term: debounced, mode: 'meaning', signal: ac.signal });
+          if (!ac.signal.aborted) {
+            setResult(bridged);
+            setBridgedFromStem(true);
+            setLoading(false);
+          }
+        } else if (!ac.signal.aborted) {
+          setResult(r);
+          setLoading(false);
+        }
+      } catch (err) {
         if (err.name === 'AbortError') return;
         setError(err.message);
         setLoading(false);
-      })
-      .finally(() => clearInterval(tick));
+      } finally {
+        clearInterval(tick);
+      }
+    })();
+
     return () => { ac.abort(); clearInterval(tick); };
   }, [debounced, mode]);
+
+  function insertChar(ch) {
+    const el = inputRef.current;
+    if (!el) { setTerm((t) => t + ch); return; }
+    const start = el.selectionStart ?? term.length;
+    const end = el.selectionEnd ?? term.length;
+    const next = term.slice(0, start) + ch + term.slice(end);
+    setTerm(next);
+    requestAnimationFrame(() => {
+      el.focus();
+      const pos = start + ch.length;
+      el.setSelectionRange(pos, pos);
+    });
+  }
 
   const entries = result?.entries || [];
   const matchedVia = result?.matched_via;
@@ -155,6 +197,14 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
         {term && (
           <button onClick={() => setTerm('')} style={clearBtn} aria-label="Clear">×</button>
         )}
+      </div>
+
+      <div style={diacriticsRow} aria-label="Insert Pali diacritic">
+        {DIACRITICS.map((ch) => (
+          <button key={ch} onClick={() => insertChar(ch)} style={diacriticBtn} title={`Insert ${ch}`}>
+            {ch}
+          </button>
+        ))}
       </div>
 
       <div style={modeRow} aria-label="Match mode">
@@ -254,11 +304,19 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
               {matchedVia === 'english-reverse' && (
                 <span style={resultHeaderArrow}>· Pali words meaning this</span>
               )}
-              {matchedVia === 'meaning' && (
+              {matchedVia === 'meaning' && !bridgedFromStem && (
                 <span style={resultHeaderArrow}>· semantically near</span>
               )}
               <span style={resultHeaderCount}>{entries.length} entr{entries.length === 1 ? 'y' : 'ies'}</span>
             </div>
+            {bridgedFromStem && (
+              <div style={bridgeBanner} role="status">
+                No exact lexical match for <strong>{debounced}</strong>. Showing
+                the closest entries by meaning instead — that&apos;s what{' '}
+                <button onClick={() => setMode('meaning')} style={inlineModeLink}>Meaning</button>{' '}
+                mode does on demand.
+              </div>
+            )}
             {groups.map((g) => (
               <section key={g.source} style={groupSection}>
                 <h2 style={groupHeader}>
@@ -573,6 +631,42 @@ const hintNote = {
   lineHeight: 1.55,
   color: 'var(--bc-text-secondary)',
   fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+const bridgeBanner = {
+  margin: '0 0 14px',
+  padding: '8px 12px',
+  borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.30)',
+  background: 'rgba(var(--bc-accent-rgb), 0.04)',
+  fontSize: 12,
+  fontStyle: 'italic',
+  lineHeight: 1.55,
+  color: 'var(--bc-text-secondary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+const diacriticsRow = {
+  display: 'flex',
+  gap: 2,
+  flexWrap: 'wrap',
+  marginTop: -8,
+  marginBottom: 14,
+};
+
+const diacriticBtn = {
+  width: 30,
+  height: 30,
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'transparent',
+  border: '1px solid transparent',
+  color: 'var(--bc-text-secondary)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 15,
+  cursor: 'pointer',
+  borderRadius: 4,
+  transition: 'border-color 100ms ease, color 100ms ease',
 };
 
 const inlineModeLink = {

@@ -153,8 +153,16 @@ CREATE INDEX IF NOT EXISTS idx_dict_def_trgm
 -- resolve to the "sampajāna" entry. The lookup happens on surface_lower.
 CREATE TABLE IF NOT EXISTS dictionary_inflections (
   surface_lower TEXT NOT NULL,
+  -- Diacritic-folded surface form so the cascade's inflection step can
+  -- match user input typed without diacritics ("sampajano" → finds
+  -- DPD's "sampajāno" inflection of "sampajāna"). Same translate()
+  -- map as dictionary_entries.headword_folded.
+  surface_folded TEXT GENERATED ALWAYS AS (
+    translate(surface_lower, 'āīūēōṃṁṅñṇṭḍḷḥṛśṣ', 'aiueommnnntdlhrss')
+  ) STORED,
   entry_id      BIGINT NOT NULL REFERENCES dictionary_entries(id) ON DELETE CASCADE,
   PRIMARY KEY (surface_lower, entry_id)
 );
 
-CREATE INDEX IF NOT EXISTS idx_dict_infl_surface ON dictionary_inflections(surface_lower);
+CREATE INDEX IF NOT EXISTS idx_dict_infl_surface        ON dictionary_inflections(surface_lower);
+CREATE INDEX IF NOT EXISTS idx_dict_infl_surface_folded ON dictionary_inflections(surface_folded);
