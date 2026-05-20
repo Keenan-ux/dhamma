@@ -17,9 +17,60 @@ const FUSION_POOL = 200;
 const MAX_LIMIT = 100;
 const DEFAULT_LIMIT = 50;
 const SNIPPET_LEN = 200;
+const SNIPPET_MAX = 320;
+
+// Highlight markers — ts_headline wraps each matched term in StartSel/StopSel.
+// Picking ASCII C0 control chars ( SOH,  STX) so the post-process
+// pass can locate matches without colliding with anything that legitimately
+// appears in canonical text.
+const HL_START = '';
+const HL_END   = '';
+const HL_OPTS  = 'MaxFragments=1,MinWords=20,MaxWords=60,StartSel=,StopSel=';
+// Library bodies are longer prose; one slightly wider fragment reads better.
+const HL_OPTS_LIB = 'MaxFragments=1,MinWords=30,MaxWords=80,StartSel=,StopSel=';
 
 const MODES = new Set(['exact', 'stem', 'meaning']);
 const FIELDS = new Set(['all', 'original', 'translation', 'citation', 'title', 'library']);
+const PITAKAS = new Set(['sutta', 'vinaya', 'abhidhamma']);
+const PITAKA_ROOTS = {
+  sutta:      'pli-sutta',
+  vinaya:     'pli-vinaya',
+  abhidhamma: 'pli-abhidhamma',
+};
+
+// Cached descendant-slug list per pitaka. Resolved lazily on first /api/search
+// that filters by pitaka. The works tree is static at runtime (changes only
+// during ingest, and a deploy follows), so caching for the process lifetime is
+// safe — saves one recursive CTE per request.
+let pitakaSlugsCache = null;
+async function pitakaWorkSlugs(pitaka) {
+  if (!pitaka) return null;
+  if (!PITAKAS.has(pitaka)) return null;
+  if (!pitakaSlugsCache) {
+    const rows = await sql`
+      WITH RECURSIVE descendants(root, slug) AS (
+        SELECT slug AS root, slug FROM works
+        WHERE slug = ANY(${Object.values(PITAKA_ROOTS)})
+        UNION ALL
+        SELECT d.root, w.slug
+        FROM works w
+        JOIN descendants d ON w.parent_slug = d.slug
+      )
+      SELECT root, slug FROM descendants
+    `;
+    const cache = { sutta: [], vinaya: [], abhidhamma: [] };
+    const rootToKey = Object.fromEntries(
+      Object.entries(PITAKA_ROOTS).map(([k, v]) => [v, k])
+    );
+    for (const r of rows) {
+      const key = rootToKey[r.root];
+      if (key) cache[key].push(r.slug);
+    }
+    pitakaSlugsCache = cache;
+  }
+  const slugs = pitakaSlugsCache[pitaka];
+  return slugs && slugs.length > 0 ? slugs : null;
+}
 
 // English stopwords + single chars are dropped from positive bare terms.
 // Quoted phrases pass through untouched so users can still search literal
@@ -135,12 +186,50 @@ function ftsFragment(field) {
   }
 }
 
+// Sentence boundaries: ASCII terminators plus CJK full stop. ts_headline gives
+// us a word-boundary-aligned window around the match; this trims that window
+// to the surrounding sentence(s) so the snippet reads as a complete thought.
+const SENT_END_RE = /[.!?。！？]/;
+
+function refineSnippet(rawHeadline) {
+  if (!rawHeadline) return null;
+  const text = rawHeadline.trim();
+  if (!text) return null;
+  const startIdx = text.indexOf(HL_START);
+  const endIdx   = text.lastIndexOf(HL_END);
+  // No highlight marker means ts_headline returned an unhighlighted window
+  // (no match). Strip any orphan markers and return as-is.
+  if (startIdx === -1 || endIdx === -1) {
+    return text.replace(/[]/g, '').trim();
+  }
+
+  // Expand left to the character after the previous sentence terminator.
+  let left = 0;
+  for (let i = startIdx - 1; i >= 0; i--) {
+    if (SENT_END_RE.test(text[i])) { left = i + 1; break; }
+  }
+  // Expand right to and including the next sentence terminator.
+  let right = text.length;
+  for (let i = endIdx + 1; i < text.length; i++) {
+    if (SENT_END_RE.test(text[i])) { right = i + 1; break; }
+  }
+
+  let out = text.slice(left, right).replace(/[]/g, '').trim();
+  // Hard-cap to keep card layout predictable when sentence expansion ran far.
+  if (out.length > SNIPPET_MAX) out = out.slice(0, SNIPPET_MAX).trimEnd() + '…';
+  // Mark trimmed edges so the reader sees this isn't the full paragraph.
+  if (left > 0)            out = '… ' + out;
+  if (right < text.length) out = out + ' …';
+  return out;
+}
+
 function makeSnippet(p) {
   // Prefer the FTS-aware fragment when the SQL returned one — that's a
-  // window around the matched token rather than the always-the-opening
-  // text. Fall back to first ~200 chars when there was no FTS match
-  // (vector-only Meaning hits or empty queries).
-  if (p.headline && p.headline.trim()) return p.headline.trim();
+  // sentence-aware window around the matched token (see refineSnippet).
+  // Fall back to first ~200 chars when there was no FTS match (vector-only
+  // Meaning hits or empty queries).
+  const refined = refineSnippet(p.headline);
+  if (refined) return refined;
   const text = p.translation || p.original || '';
   if (text.length <= SNIPPET_LEN) return text;
   return text.slice(0, SNIPPET_LEN).trimEnd() + '…';
@@ -168,21 +257,23 @@ function shapeResult(p) {
   return out;
 }
 
-function normalizeParams({ q, mode, field, limit }) {
+function normalizeParams({ q, mode, field, limit, pitaka }) {
+  const pit = typeof pitaka === 'string' ? pitaka.toLowerCase() : '';
   return {
     q: typeof q === 'string' ? q : '',
     mode: MODES.has(mode) ? mode : 'exact',
     field: FIELDS.has(field) ? field : 'all',
     limit: Math.max(1, Math.min(MAX_LIMIT, Number(limit) || DEFAULT_LIMIT)),
+    pitaka: PITAKAS.has(pit) ? pit : null,
   };
 }
 
 export async function runSearch(rawParams) {
   const t0 = Date.now();
-  const { q, mode, field, limit } = normalizeParams(rawParams);
+  const { q, mode, field, limit, pitaka } = normalizeParams(rawParams);
 
   if (!q.trim()) {
-    return { query: q, mode, field, limit, took_ms: 0, results: [], expanded: [] };
+    return { query: q, mode, field, limit, pitaka, took_ms: 0, results: [], expanded: [] };
   }
 
   const parsed = parseQuery(q);
@@ -190,10 +281,19 @@ export async function runSearch(rawParams) {
   const { tsquery, expanded } = buildTsquery(parsed, { expandAliases });
 
   if (!tsquery && mode !== 'meaning') {
-    return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded };
+    return { query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0, results: [], expanded };
   }
 
   const fts = ftsFragment(field);
+  // Pitaka filter is a passage-level concept (work_slug ∈ descendants of a
+  // pitaka root). Library mode hits the articles table — no pitaka there —
+  // so we silently ignore the param in that branch.
+  const pSlugs = field === 'library' ? null : await pitakaWorkSlugs(pitaka);
+  // Two flavors of the same predicate: one for queries with no alias on
+  // passages, one for queries where passages is aliased "p". Empty fragments
+  // when pitaka is null so the SQL parses without an unused AND clause.
+  const pitakaBare = pSlugs ? sql`AND work_slug   = ANY(${pSlugs})` : sql``;
+  const pitakaP    = pSlugs ? sql`AND p.work_slug = ANY(${pSlugs})` : sql``;
   let rows;
   let warning;
 
@@ -207,7 +307,7 @@ export async function runSearch(rawParams) {
       title: r.author || r.category,
       canon: 'Library',
       work_slug: r.work_slug,
-      snippet: r.headline || '',
+      snippet: refineSnippet(r.headline) || '',
       score: Number(r.score) || 0,
       library: true,
       category: r.category,
@@ -216,22 +316,20 @@ export async function runSearch(rawParams) {
 
     if (mode !== 'meaning') {
       if (!tsquery) {
-        return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded };
+        return { query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0, results: [], expanded };
       }
       rows = await sql`
         SELECT slug AS id, title, author, category, year, source_url,
                'Library' AS canon, slug AS work_slug,
                ts_rank(fts_doc, q) AS score,
-               ts_headline('simple', body, q,
-                 'MaxFragments=2,MinWords=10,MaxWords=32,StartSel="",StopSel="",FragmentDelimiter="… "'
-               ) AS headline
+               ts_headline('simple', body, q, ${HL_OPTS_LIB}) AS headline
         FROM articles, to_tsquery('simple', ${tsquery}) q
         WHERE source = 'ati' AND fts_doc @@ q
         ORDER BY score DESC
         LIMIT ${limit}
       `;
       return {
-        query: q, mode, field, limit, took_ms: Date.now() - t0,
+        query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0,
         results: rows.map(shapeLibrary),
         expanded,
       };
@@ -245,21 +343,19 @@ export async function runSearch(rawParams) {
     catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
-        return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded, warning };
+        return { query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning };
       }
       rows = await sql`
         SELECT slug AS id, title, author, category, year, source_url,
                'Library' AS canon, slug AS work_slug,
                ts_rank(fts_doc, q) AS score,
-               ts_headline('simple', body, q,
-                 'MaxFragments=2,MinWords=10,MaxWords=32,StartSel="",StopSel="",FragmentDelimiter="… "'
-               ) AS headline
+               ts_headline('simple', body, q, ${HL_OPTS_LIB}) AS headline
         FROM articles, to_tsquery('simple', ${tsquery}) q
         WHERE source = 'ati' AND fts_doc @@ q
         ORDER BY score DESC
         LIMIT ${limit}
       `;
-      return { query: q, mode, field, limit, took_ms: Date.now() - t0,
+      return { query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0,
                results: rows.map(shapeLibrary), expanded, warning };
     }
     const qVecLit = `[${qVec.join(',')}]`;
@@ -297,8 +393,7 @@ export async function runSearch(rawParams) {
              + COALESCE(1.0 / (${RRF_K} + vec.rnk), 0) AS score,
                CASE WHEN fts.id IS NOT NULL
                  THEN ts_headline('simple', a.body,
-                        to_tsquery('simple', ${tsquery}),
-                        'MaxFragments=2,MinWords=10,MaxWords=32,StartSel="",StopSel="",FragmentDelimiter="… "')
+                        to_tsquery('simple', ${tsquery}), ${HL_OPTS_LIB})
                  ELSE NULL
                END AS headline
         FROM articles a
@@ -309,7 +404,7 @@ export async function runSearch(rawParams) {
         LIMIT ${limit}
       `;
     }
-    return { query: q, mode, field, limit, took_ms: Date.now() - t0,
+    return { query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0,
              results: rows.map(shapeLibrary), expanded };
   }
 
@@ -324,13 +419,11 @@ export async function runSearch(rawParams) {
              t.translator, t.source AS translator_source, t.copyright AS translator_copyright,
              t.license AS translator_license, t.source_url AS translator_source_url,
              ts_rank(t.fts_doc, q) AS score,
-             ts_headline('simple', t.text, q,
-               'MaxFragments=1,MinWords=10,MaxWords=28,StartSel="",StopSel="",FragmentDelimiter="… "'
-             ) AS headline
+             ts_headline('simple', t.text, q, ${HL_OPTS}) AS headline
       FROM translations t
       JOIN passages p ON p.id = t.passage_id,
            to_tsquery('simple', ${tsquery}) q
-      WHERE t.fts_doc @@ q
+      WHERE t.fts_doc @@ q ${pitakaP}
       ORDER BY score DESC
       LIMIT ${limit}
     `;
@@ -340,11 +433,9 @@ export async function runSearch(rawParams) {
              ts_rank(${fts}, q) AS score,
              ts_headline('simple',
                COALESCE(original, '') || ' || ' || COALESCE(translation, ''),
-               q,
-               'MaxFragments=1,MinWords=10,MaxWords=28,StartSel="",StopSel="",FragmentDelimiter="… "'
-             ) AS headline
+               q, ${HL_OPTS}) AS headline
       FROM passages, to_tsquery('simple', ${tsquery}) q
-      WHERE ${fts} @@ q
+      WHERE ${fts} @@ q ${pitakaBare}
       ORDER BY score DESC
       LIMIT ${limit}
     `;
@@ -358,7 +449,7 @@ export async function runSearch(rawParams) {
     catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
-        return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded, warning };
+        return { query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning };
       }
       rows = await sql`
         SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
@@ -369,11 +460,11 @@ export async function runSearch(rawParams) {
         FROM translations t
         JOIN passages p ON p.id = t.passage_id,
              to_tsquery('simple', ${tsquery}) q
-        WHERE t.fts_doc @@ q
+        WHERE t.fts_doc @@ q ${pitakaP}
         ORDER BY score DESC
         LIMIT ${limit}
       `;
-      return { query: q, mode, field, limit, took_ms: Date.now() - t0,
+      return { query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0,
                results: rows.map(shapeResult), expanded, warning };
     }
     const qVecLit = `[${qVec.join(',')}]`;
@@ -386,7 +477,7 @@ export async function runSearch(rawParams) {
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector)) AS score
         FROM translations t
         JOIN passages p ON p.id = t.passage_id
-        WHERE t.embedding IS NOT NULL
+        WHERE t.embedding IS NOT NULL ${pitakaP}
         ORDER BY t.embedding <=> ${qVecLit}::vector
         LIMIT ${limit}
       `;
@@ -395,14 +486,17 @@ export async function runSearch(rawParams) {
         WITH
         fts AS (
           SELECT t.id, ROW_NUMBER() OVER (ORDER BY ts_rank(t.fts_doc, q) DESC) AS rnk
-          FROM translations t, to_tsquery('simple', ${tsquery}) q
-          WHERE t.fts_doc @@ q
+          FROM translations t
+          JOIN passages p ON p.id = t.passage_id,
+               to_tsquery('simple', ${tsquery}) q
+          WHERE t.fts_doc @@ q ${pitakaP}
           LIMIT ${FUSION_POOL}
         ),
         vec AS (
           SELECT t.id, ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector) AS rnk
           FROM translations t
-          WHERE t.embedding IS NOT NULL
+          JOIN passages p ON p.id = t.passage_id
+          WHERE t.embedding IS NOT NULL ${pitakaP}
           ORDER BY t.embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )
@@ -414,8 +508,7 @@ export async function runSearch(rawParams) {
              + COALESCE(1.0 / (${RRF_K} + vec.rnk), 0) AS score,
                CASE WHEN fts.id IS NOT NULL
                  THEN ts_headline('simple', t.text,
-                        to_tsquery('simple', ${tsquery}),
-                        'MaxFragments=1,MinWords=10,MaxWords=28,StartSel="",StopSel="",FragmentDelimiter="… "')
+                        to_tsquery('simple', ${tsquery}), ${HL_OPTS})
                  ELSE NULL
                END AS headline
         FROM translations t
@@ -427,7 +520,7 @@ export async function runSearch(rawParams) {
         LIMIT ${limit}
       `;
     }
-    return { query: q, mode, field, limit, took_ms: Date.now() - t0,
+    return { query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0,
              results: rows.map(shapeResult), expanded };
   } else {
     // Meaning mode: FTS (if any) + vector ANN, RRF-fused. If embedding fails,
@@ -439,18 +532,18 @@ export async function runSearch(rawParams) {
     } catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
-        return { query: q, mode, field, limit, took_ms: Date.now() - t0, results: [], expanded, warning };
+        return { query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning };
       }
       rows = await sql`
         SELECT id, citation, title, canon, original, translation,
                ts_rank(${fts}, q) AS score
         FROM passages, to_tsquery('simple', ${tsquery}) q
-        WHERE ${fts} @@ q
+        WHERE ${fts} @@ q ${pitakaBare}
         ORDER BY score DESC
         LIMIT ${limit}
       `;
       return {
-        query: q, mode, field, limit, took_ms: Date.now() - t0,
+        query: q, mode, field, limit, pitaka, took_ms: Date.now() - t0,
         results: rows.map(shapeResult), expanded, warning,
       };
     }
@@ -464,7 +557,7 @@ export async function runSearch(rawParams) {
         SELECT id, citation, title, canon, work_slug, original, translation,
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector)) AS score
         FROM passages
-        WHERE embedding IS NOT NULL
+        WHERE embedding IS NOT NULL ${pitakaBare}
         ORDER BY embedding <=> ${qVecLit}::vector
         LIMIT ${limit}
       `;
@@ -474,13 +567,13 @@ export async function runSearch(rawParams) {
         fts AS (
           SELECT id, ROW_NUMBER() OVER (ORDER BY ts_rank(${fts}, q) DESC) AS rnk
           FROM passages, to_tsquery('simple', ${tsquery}) q
-          WHERE ${fts} @@ q
+          WHERE ${fts} @@ q ${pitakaBare}
           LIMIT ${FUSION_POOL}
         ),
         vec AS (
           SELECT id, ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector) AS rnk
           FROM passages
-          WHERE embedding IS NOT NULL
+          WHERE embedding IS NOT NULL ${pitakaBare}
           ORDER BY embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )
@@ -490,8 +583,7 @@ export async function runSearch(rawParams) {
                CASE WHEN fts.id IS NOT NULL
                  THEN ts_headline('simple',
                         COALESCE(p.original, '') || ' || ' || COALESCE(p.translation, ''),
-                        to_tsquery('simple', ${tsquery}),
-                        'MaxFragments=1,MinWords=10,MaxWords=28,StartSel="",StopSel="",FragmentDelimiter="… "')
+                        to_tsquery('simple', ${tsquery}), ${HL_OPTS})
                  ELSE NULL
                END AS headline
         FROM passages p
@@ -505,7 +597,7 @@ export async function runSearch(rawParams) {
   }
 
   return {
-    query: q, mode, field, limit,
+    query: q, mode, field, limit, pitaka,
     took_ms: Date.now() - t0,
     results: rows.map(shapeResult),
     expanded,
