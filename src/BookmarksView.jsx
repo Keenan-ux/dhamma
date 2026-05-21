@@ -58,7 +58,7 @@ const scrollWrap = { position: 'absolute', inset: 0, overflow: 'auto', paddingTo
 
 const pageHeader = {
   maxWidth: 820,
-  margin: '64px auto 0',
+  margin: '64px 0 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -91,7 +91,7 @@ const pageSubtitle = {
 
 const list = {
   maxWidth: 720,
-  margin: '32px auto 64px',
+  margin: '32px 0 64px',
   padding: '0 28px',
   listStyle: 'none',
   display: 'flex',

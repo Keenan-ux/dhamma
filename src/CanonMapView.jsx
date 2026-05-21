@@ -327,7 +327,7 @@ const scrollWrap = {
 
 const pageHeader = {
   maxWidth: 820,
-  margin: '64px auto 0',
+  margin: '64px 0 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -365,7 +365,7 @@ const pageSubtitle = {
 // frontmatter. Houses the translation filter, the most-used setting.
 const topControls = {
   maxWidth: 820,
-  margin: '24px auto 0',
+  margin: '24px 0 0',
   padding: '0 28px',
   display: 'flex',
   justifyContent: 'center',
@@ -373,7 +373,7 @@ const topControls = {
 
 const threeCol = {
   maxWidth: 1100,
-  margin: '32px auto 0',
+  margin: '32px 0 0',
   padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -383,7 +383,7 @@ const threeCol = {
 
 const singleCol = {
   maxWidth: 480,
-  margin: '32px auto 0',
+  margin: '32px 0 0',
   padding: '0 24px',
   display: 'flex',
   flexDirection: 'column',
@@ -393,7 +393,7 @@ const singleCol = {
 
 const pitakaSelector = {
   maxWidth: 480,
-  margin: '24px auto 0',
+  margin: '24px 0 0',
   padding: '0 24px',
   display: 'flex',
   justifyContent: 'center',
@@ -503,7 +503,7 @@ const nikayaCount = {
 // viewport; they wrap to a couple of lines instead.
 const khuddakaSection = {
   maxWidth: 720,
-  margin: '48px auto 0',
+  margin: '48px 0 0',
   padding: '0 32px',
   textAlign: 'center',
 };
@@ -560,7 +560,7 @@ const dotSep = {
 
 const footerWrap = {
   maxWidth: 580,
-  margin: '72px auto 56px',
+  margin: '72px 0 56px',
   padding: '0 28px',
   textAlign: 'center',
 };

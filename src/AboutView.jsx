@@ -281,7 +281,7 @@ const scrollWrap = { position: 'absolute', inset: 0, overflow: 'auto', paddingTo
 
 const pageHeader = {
   maxWidth: 760,
-  margin: '0 auto',
+  margin: '0 0',
   padding: '40px 28px 24px',
   textAlign: 'center',
 };
@@ -314,7 +314,7 @@ const rule = {
 
 const bodyWrap = {
   maxWidth: 720,
-  margin: '32px auto 0',
+  margin: '32px 0 0',
   padding: '0 28px',
 };
 
@@ -494,6 +494,6 @@ const revealBtn = {
 
 const footerWrap = {
   maxWidth: 280,
-  margin: '64px auto 56px',
+  margin: '64px 0 56px',
   padding: '0 28px',
 };

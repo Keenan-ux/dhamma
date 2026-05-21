@@ -235,7 +235,7 @@ const scrollWrap = { position: 'absolute', inset: 0, overflow: 'auto', paddingTo
 
 const pageHeader = {
   maxWidth: 820,
-  margin: '64px auto 0',
+  margin: '64px 0 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -268,7 +268,7 @@ const pageSubtitle = {
 
 const breadcrumb = {
   maxWidth: 980,
-  margin: '24px auto 8px',
+  margin: '24px 0 8px',
   padding: '0 24px',
   display: 'flex',
   alignItems: 'baseline',
@@ -299,7 +299,7 @@ const crumbCurrent = {
 
 const typeGrid = {
   maxWidth: 880,
-  margin: '32px auto 0',
+  margin: '32px 0 0',
   padding: '0 24px',
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
@@ -348,7 +348,7 @@ const typeCount = {
 
 const valueList = {
   maxWidth: 720,
-  margin: '24px auto 0',
+  margin: '24px 0 0',
   padding: '0 24px',
   listStyle: 'none',
   display: 'flex',
@@ -386,7 +386,7 @@ const valueCount = {
 
 const passageList = {
   maxWidth: 720,
-  margin: '24px auto 0',
+  margin: '24px 0 0',
   padding: '0 24px',
   listStyle: 'none',
   display: 'flex',
@@ -432,12 +432,12 @@ const loadingHint = {
   fontStyle: 'italic',
   fontSize: 13,
   color: 'var(--bc-text-tertiary)',
-  margin: '40px auto',
+  margin: '40px 0',
 };
 
 const footerWrap = {
   maxWidth: 720,
-  margin: '72px auto 56px',
+  margin: '72px 0 56px',
   padding: '0 28px',
   textAlign: 'center',
 };
