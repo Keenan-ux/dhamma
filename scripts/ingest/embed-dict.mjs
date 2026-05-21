@@ -19,7 +19,7 @@
 // EMBED_BATCH = how many strings to feed BGE-M3 in one inference call.
 
 import postgres from 'postgres';
-import { pipeline, env } from '@xenova/transformers';
+import { pipeline, env } from '@huggingface/transformers';
 import path from 'node:path';
 
 const MODEL = 'Xenova/bge-m3';
@@ -63,7 +63,7 @@ function buildEmbeddingInput(row) {
 
 console.log(`[embed-dict] loading ${MODEL}…`);
 const t0 = Date.now();
-const embedder = await pipeline('feature-extraction', MODEL, { quantized: true });
+const embedder = await pipeline('feature-extraction', MODEL, { dtype: 'q8' });
 console.log(`[embed-dict] model ready in ${Date.now() - t0}ms`);
 
 const [{ total }]   = await sql`SELECT COUNT(*)::int AS total FROM dictionary_entries`;

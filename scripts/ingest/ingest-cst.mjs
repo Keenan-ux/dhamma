@@ -19,7 +19,7 @@
 //        node ingest-cst.mjs --role=attha                # only commentaries
 //        node ingest-cst.mjs                              # the full lot
 
-import { pipeline, env } from '@xenova/transformers';
+import { pipeline, env } from '@huggingface/transformers';
 import postgres from 'postgres';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -157,7 +157,7 @@ async function main() {
   }
 
   console.log(`[model] loading ${MODEL}…`);
-  const embedder = await pipeline('feature-extraction', MODEL, { quantized: true });
+  const embedder = await pipeline('feature-extraction', MODEL, { dtype: 'q8' });
   console.log('[model] ready.');
 
   let totalPassages = 0;
