@@ -19,6 +19,16 @@ let _byTerm = null;
 let _byEquiv = null;
 let _readyPromise = null;
 
+// Normalize a lookup key. Folds case + collapses any sequence of hyphens,
+// underscores, or whitespace runs to a single space. Lets a user query
+// of "loving kindness", "loving-kindness", or "LOVING_KINDNESS" all
+// match the same alias row. The CANONICAL form stored on each row keeps
+// whatever diacritics + hyphens it was seeded with — only the LOOKUP
+// key is normalised, not the returned equivalents.
+function normalizeKey(s) {
+  return String(s).toLowerCase().replace(/[\s\-_]+/g, ' ').trim();
+}
+
 export function aliasesReady() {
   if (!_readyPromise) {
     _readyPromise = (async () => {
@@ -31,10 +41,10 @@ export function aliasesReady() {
       _byTerm = new Map();
       _byEquiv = new Map();
       for (const r of rows) {
-        const canon = r.term.toLowerCase();
+        const canon = normalizeKey(r.term);
         _byTerm.set(canon, r.equivalents);
         for (const eq of r.equivalents) {
-          _byEquiv.set(String(eq).toLowerCase(), canon);
+          _byEquiv.set(normalizeKey(eq), canon);
         }
       }
       console.log(`[aliases] loaded ${_byTerm.size} entries`);
@@ -45,16 +55,18 @@ export function aliasesReady() {
 
 export function aliasesFor(term) {
   if (!_byTerm) return [];
-  const lower = String(term).toLowerCase();
-  // Direct hit: term is the canonical, return its equivalents.
-  if (_byTerm.has(lower)) return _byTerm.get(lower);
-  // Reverse hit: term is one of the equivalents. Return the canonical
-  // plus the OTHER equivalents (so the user-typed word doesn't appear
-  // in its own alias list, which would dilute the OR-group).
-  const canon = _byEquiv.get(lower);
+  const key = normalizeKey(term);
+  // Direct hit: normalised term matches a canonical row's normalised
+  // form — return its equivalents.
+  if (_byTerm.has(key)) return _byTerm.get(key);
+  // Reverse hit: term matches one of an entry's equivalents (under the
+  // same normalisation). Return the canonical plus the OTHER
+  // equivalents (so the user-typed word doesn't appear in its own
+  // alias list, which would dilute the OR-group).
+  const canon = _byEquiv.get(key);
   if (canon) {
     const siblings = _byTerm.get(canon) || [];
-    return [canon, ...siblings.filter((s) => s.toLowerCase() !== lower)];
+    return [canon, ...siblings.filter((s) => normalizeKey(s) !== key)];
   }
   return [];
 }
