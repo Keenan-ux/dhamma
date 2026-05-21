@@ -180,7 +180,7 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
         {/* About */}
         <button onClick={() => setOpen(false)} style={menuItem}>
           <span style={menuItemLabel}>About</span>
-          <span style={menuItemSub}>What Dhamma Data is and how it works</span>
+          <span style={menuItemSub}>What Dhamma data is and how it works</span>
         </button>
       </div>
     </div>
@@ -194,12 +194,12 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
       <button
         onClick={onHome}
         style={brandBtn}
-        aria-label="Dhamma Data — home"
+        aria-label="Dhamma data — home"
         type="button"
       >
         <Leaf size={26} />
         <span style={titleStyle}>
-          Dhamma <span style={{ color: 'var(--bc-text-tertiary)', fontWeight: 400 }}>Data</span>
+          Dhamma <span style={{ color: 'var(--bc-text-tertiary)', fontWeight: 400 }}>data</span>
         </span>
       </button>
 
@@ -270,6 +270,7 @@ const brandBtn = {
 };
 
 const titleStyle = {
+  fontFamily: 'Montserrat, system-ui, sans-serif',
   fontSize: 17,
   fontWeight: 600,
   letterSpacing: '-0.01em',
