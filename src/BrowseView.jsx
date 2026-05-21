@@ -1746,27 +1746,44 @@ const cstMulaBannerLink = {
 const readingHeader = {
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'baseline',
-  gap: 16,
-  flexWrap: 'wrap',
+  alignItems: 'flex-start',
+  gap: 12,
+  // No flex-wrap: the right-side icons stay inline with the
+  // citation on every viewport. Long Pali subtitles (e.g.
+  // "Brahmajālasuttaṃ") break inside the citation column via
+  // overflowWrap below instead of pushing the icons to a new line.
+  flexWrap: 'nowrap',
   marginBottom: 24,
   paddingBottom: 14,
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
 };
 
-const readingCitationLine = { display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 };
+const readingCitationLine = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 4,
+  minWidth: 0,
+  flex: 1,
+  // overflowWrap: 'anywhere' lets the long Pali compound words
+  // (Brahmajālasuttaṃ, paṭiccasamuppādasutta, etc.) break mid-word
+  // when the column gets narrow — without it the un-spaced word
+  // is treated as one atom and forces the parent to overflow.
+  overflowWrap: 'anywhere',
+};
 
 const readingCitation = {
   fontFamily: '"Noto Serif", Georgia, serif',
   fontStyle: 'italic',
   fontSize: 22,
   color: 'var(--bc-accent)',
+  lineHeight: 1.2,
 };
 
 const readingWork = {
   fontFamily: '"Noto Serif", Georgia, serif',
   fontSize: 13,
   color: 'var(--bc-text-tertiary)',
+  lineHeight: 1.35,
 };
 
 const readingTradition = {
