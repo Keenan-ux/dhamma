@@ -3,6 +3,7 @@ import { parseQuery } from './parseQuery.js';
 import useSearchHistory from './searchHistory.js';
 import useSearch from './useSearch.js';
 import useCorpus from './useCorpus.js';
+import useIsNarrow from './useIsNarrow.js';
 import PassageCard from './PassageCard.jsx';
 import { SelectionActions } from './SelectionActions.jsx';
 
@@ -122,6 +123,14 @@ export default function SearchView({
       setScope('all');
     }
   }, [layer, scope]);
+
+  // Filter disclosure — Where / Piṭaka / Search-in / Traditions go behind
+  // a "Filters" toggle so the search header doesn't take half the screen
+  // on mobile. Match stays visible because it's the most fundamental
+  // choice. Default: collapsed on narrow viewports, expanded on wide.
+  const isNarrowSV = useIsNarrow();
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const showFilters = filtersOpen || !isNarrowSV;
 
   // The diacritics row only matters when the user is typing. Reveal on
   // focus, hide on blur — except: clicking a diacritic button briefly
@@ -330,39 +339,84 @@ export default function SearchView({
           <p style={modeHint}>
             {MODES.find((m) => m.key === mode)?.hint}
           </p>
-          {/* Where to search (corpus layer). The Library row sits here
-              instead of in "Search in" so the two axes are visibly
-              separate — corpus layer above, text-field within it below.
-              Piṭaka sub-row only shows when the user is searching the
-              Tipiṭaka (mula). */}
-          <FilterRow label="Where" options={LAYERS} active={layer} onChange={setLayer} />
-          {layer === 'mula' && (
-            <FilterRow label="Piṭaka" options={PITAKAS} active={pitaka} onChange={setPitaka} />
-          )}
-          <FilterRow label="Search in" options={scopesForLayer(mode, layer)} active={scope} onChange={setScope} />
-        </div>
-
-        {showInlineFilters && traditions.length > 0 && (
-          <div style={filterRow}>
-            <span style={filterLabel}>Traditions</span>
-            {traditions.map((t) => {
-              const on = activeTraditions.has(t);
-              return (
-                <button
-                  key={t}
-                  onClick={() => toggleTradition(t)}
-                  style={{
-                    ...filterBtn,
-                    color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
-                    borderBottomColor: on ? 'var(--bc-accent)' : 'transparent',
-                  }}
-                >
-                  {t}
-                </button>
-              );
-            })}
+          {/* Filters disclosure — on narrow viewports the chip rows
+              collapse behind a toggle to recover vertical space. On
+              wide viewports the rows show inline; the toggle still
+              works for users who prefer the minimal layout. The
+              summary chip beside the toggle lists non-default active
+              filters so the user can see what's narrowing the query
+              without expanding. */}
+          <div style={filterToggleRow}>
+            <button
+              type="button"
+              onClick={() => setFiltersOpen((v) => !v)}
+              style={{
+                ...filterLabel,
+                cursor: 'pointer',
+                background: 'transparent',
+                border: 'none',
+                padding: 0,
+                color: showFilters ? 'var(--bc-text-secondary)' : 'var(--bc-text-tertiary)',
+              }}
+              aria-expanded={showFilters}
+              aria-controls="search-filter-rows"
+            >
+              {showFilters ? 'Filters −' : 'Filters +'}
+            </button>
+            {!showFilters && (() => {
+              // Active-filter summary when collapsed. Only show values
+              // that differ from the defaults so the line stays quiet
+              // for the common case (no filtering).
+              const parts = [];
+              if (layer !== 'all') parts.push(LAYERS.find((l) => l.key === layer)?.label);
+              if (layer === 'mula' && pitaka !== 'all') parts.push(PITAKAS.find((p) => p.key === pitaka)?.label);
+              if (scope !== 'all') parts.push(SCOPES.find((s) => s.key === scope)?.label);
+              if (showInlineFilters && traditions.length > 0) {
+                const off = traditions.filter((t) => !activeTraditions.has(t));
+                if (off.length > 0 && off.length < traditions.length) {
+                  parts.push(`−${off.join(', ')}`);
+                }
+              }
+              if (parts.length === 0) return null;
+              return <span style={filterSummary}>{parts.filter(Boolean).join(' · ')}</span>;
+            })()}
           </div>
-        )}
+          {showFilters && (
+            <div id="search-filter-rows">
+              {/* Where to search (corpus layer). The Library row sits here
+                  instead of in "Search in" so the two axes are visibly
+                  separate — corpus layer above, text-field within it below.
+                  Piṭaka sub-row only shows when the user is searching the
+                  Tipiṭaka (mula). */}
+              <FilterRow label="Where" options={LAYERS} active={layer} onChange={setLayer} />
+              {layer === 'mula' && (
+                <FilterRow label="Piṭaka" options={PITAKAS} active={pitaka} onChange={setPitaka} />
+              )}
+              <FilterRow label="Search in" options={scopesForLayer(mode, layer)} active={scope} onChange={setScope} />
+              {showInlineFilters && traditions.length > 0 && (
+                <div style={filterRow}>
+                  <span style={filterLabel}>Traditions</span>
+                  {traditions.map((t) => {
+                    const on = activeTraditions.has(t);
+                    return (
+                      <button
+                        key={t}
+                        onClick={() => toggleTradition(t)}
+                        style={{
+                          ...filterBtn,
+                          color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                          borderBottomColor: on ? 'var(--bc-accent)' : 'transparent',
+                        }}
+                      >
+                        {t}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {!parsed.raw && (
           <p style={meta}>
@@ -480,6 +534,26 @@ export default function SearchView({
           </p>
         )}
 
+        {/* "Show all" toggle moved up here so it stays in reach as infinite
+            scroll loads more — the previous bottom-of-list placement kept
+            scrolling out of view. Only render when results exist; toggling
+            re-fetches at limit=500 with nosnippet=true (flat citation
+            list, no per-row ts_headline cost). */}
+        {parsed.raw && !loading && !error && visibleResults.length > 0 && (
+          <p style={showAllInline}>
+            <button
+              type="button"
+              onClick={() => setNosnippet((v) => !v)}
+              style={inlineLink}
+              title={nosnippet
+                ? 'Restore snippet windows around each match'
+                : 'Drop snippets and load all matches as a flat list'}
+            >
+              {nosnippet ? 'Show snippets' : 'Show all without snippets'}
+            </button>
+          </p>
+        )}
+
         {/* Hide stale results during a new search to avoid showing previous-
             mode results while the new fetch is in flight. */}
         <div ref={resultsRef}>
@@ -500,25 +574,6 @@ export default function SearchView({
             />
           ))}
         </div>
-        {/* "Show all" toggle — drops snippets (and ts_headline cost) so the
-            long tail of broad-term hits can be browsed as a flat citation
-            list. Only surfaced when results exist and there's clearly more
-            available (hasMore on the first page, or already a non-trivial
-            count). */}
-        {!loading && !error && visibleResults.length > 0 && (
-          <div style={showAllRow}>
-            <button
-              type="button"
-              onClick={() => setNosnippet((v) => !v)}
-              style={inlineLink}
-              title={nosnippet
-                ? 'Restore snippet windows around each match'
-                : 'Drop snippets and load all matches as a flat list'}
-            >
-              {nosnippet ? 'Show snippets' : 'Show all without snippets'}
-            </button>
-          </div>
-        )}
         {/* Sentinel for infinite-scroll. Renders only while hasMore is true;
             an IntersectionObserver attached in useEffect fires loadMore when
             it scrolls into view (with a 200px rootMargin, so the next page
@@ -737,12 +792,31 @@ const code = {
   color: 'var(--bc-text-secondary)',
 };
 
-const showAllRow = {
-  marginTop: 20,
-  paddingTop: 14,
-  borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.15)',
+// Inline "Show all without snippets" — sits directly under the result-
+// count so it stays in reach even as infinite scroll loads more. The
+// older bottom-of-list placement scrolled out of view, forcing users to
+// chase it down.
+const showAllInline = {
+  margin: '4px 0 16px',
   fontFamily: '"Noto Serif", Georgia, serif',
   fontSize: 13,
+  fontStyle: 'italic',
   color: 'var(--bc-text-tertiary)',
-  textAlign: 'center',
+};
+
+// Filter disclosure header — "Filters +" toggle on the left with a
+// summary of non-default active values trailing on the right.
+const filterToggleRow = {
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: 12,
+  flexWrap: 'wrap',
+  margin: '4px 0 6px',
+};
+
+const filterSummary = {
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 12,
+  color: 'var(--bc-text-tertiary)',
 };
