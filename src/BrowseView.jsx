@@ -8,6 +8,7 @@ import { sanitizeDictHtml } from './dictHtml.js';
 import { formatCitation } from './citationFormat.js';
 import useBookmarks from './useBookmarks.js';
 import useIsNarrow from './useIsNarrow.js';
+import useHeaderProgress from './useHeaderProgress.js';
 import { paliStem } from './paliStem.js';
 
 // Pali diacritic shortcuts for the in-passage find input. Same set
@@ -303,16 +304,11 @@ export default function BrowseView({
              position. Pinned panel still shows above (unless it's the
              same passage we're reading). */
           <>
-            <button
-              onClick={() => setLeafId(null)}
-              style={backBtn}
-              aria-label="Back to canon (Esc)"
-            >
-              <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
-              <span>Back to canon</span>
-              <span style={backBtnHint}>Esc</span>
-            </button>
-
+            {/* Back-to-canon used to render here as a standalone button
+                above ReadingPanel. It now lives at the top of the
+                sticky reader chrome inside ReadingPanel (desktop only),
+                so it collapses + reappears together with the rest of
+                the reader header on scroll. */}
             {selectedLoading && <p style={hint}>Loading passage…</p>}
             {!selectedLoading && selectedPassage && (
               <ReadingPanel
@@ -324,6 +320,7 @@ export default function BrowseView({
                 setPinnedLeafId={setPinnedLeafId}
                 readingMode={readingMode}
                 setReadingMode={setReadingMode}
+                onBack={() => setLeafId(null)}
                 onNavigate={(id) => {
                   const newPath = pathToLeaf(top, id);
                   if (newPath) setPath(newPath);
@@ -585,9 +582,23 @@ function ReadingPanel({
                  // columns in the split-pane viewer. The pin-to-top
                  // icon makes no sense there (both passages are
                  // already shown) — hide it.
+  onBack,        // optional handler that exits the reader back to the
+                 // canon drill. Rendered as a "← Back to canon" row
+                 // at the top of the sticky reader header on desktop.
+                 // Hidden on mobile where the OS/browser back gesture
+                 // covers the same need.
 }) {
   const ref = useRef(null);
   const isPinned = pinnedLeafId === leafId;
+
+  // Reader sticky-header collapse progress. 0 at rest → 1 when fully
+  // collapsed. Hook always runs (rules-of-hooks); we gate its effect
+  // to the standard reader mode — compact / reading-mode / split-pane
+  // skip the sticky chrome and render the top sections inline.
+  const headerProgressRaw = useHeaderProgress({ collapseHeight: 220, reExpandZone: 80 });
+  const stickyEnabled = !(compact || readingMode || inSplitPane);
+  const headerProgress = stickyEnabled ? headerProgressRaw : 0;
+  const stickyHidden = headerProgress >= 1;
 
   // Flat depth-first order across the whole canon — adjacent nav crosses
   // work / canon boundaries so a reader can trace a concept end-to-end.
@@ -793,8 +804,52 @@ function ReadingPanel({
     ? { ...reading, padding: '12px 0 8px', maxWidth: hasParallel ? '100%' : reading.maxWidth }
     : { ...reading, maxWidth: hasParallel ? '100%' : reading.maxWidth };
 
+  // Sticky reader chrome: wraps the prev/next nav, citation header,
+  // contextual banners, translator chips, and find-in-passage row in
+  // one collapsible element. The hook above drives a 0→1 progress
+  // value that the style consumes via maxHeight + opacity, so the
+  // chrome shrinks smoothly as the user scrolls down and re-expands
+  // when they scroll back near the top. When stickyEnabled is false
+  // (compact/reading-mode/split-pane) we render the inner JSX in
+  // place without any wrap styling.
+  const stickyWrapStyle = stickyEnabled ? {
+    position: 'sticky',
+    top: 0,
+    zIndex: 20,
+    marginLeft: -28,
+    marginRight: -28,
+    paddingLeft: 28,
+    paddingRight: 28,
+    paddingTop: 14,
+    paddingBottom: 4,
+    background: `rgba(var(--bc-bg-base-rgb, 26, 26, 27), ${0.80 - headerProgress * 0.20})`,
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    borderBottom: `1px solid rgba(var(--bc-accent-rgb), ${0.22 * (1 - headerProgress)})`,
+    maxHeight: stickyHidden ? 0 : 800,
+    opacity: stickyHidden ? 0 : 1 - headerProgress * 0.92,
+    overflow: 'hidden',
+    pointerEvents: stickyHidden ? 'none' : 'auto',
+    transition: 'max-height 0.05s linear',
+  } : undefined;
+
   return (
     <article ref={ref} style={articleStyle}>
+      <div style={stickyWrapStyle}>
+        {/* Back-to-canon affordance — desktop only. On mobile the
+            OS / browser back gesture covers the same need without
+            the explicit button taking up sticky-header real estate. */}
+        {stickyEnabled && onBack && !isNarrow && (
+          <button
+            onClick={onBack}
+            style={{ ...backBtn, marginBottom: 8 }}
+            aria-label="Back to canon (Esc)"
+          >
+            <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+            <span>Back to canon</span>
+            <span style={backBtnHint}>Esc</span>
+          </button>
+        )}
       {!compact && (
         <nav style={navRow}>
           {prev ? (
@@ -1180,6 +1235,7 @@ function ReadingPanel({
           )}
         </>
       )}
+      </div>
 
       {/* Mobile column selector — picks Pali or English instead of the
           cramped side-by-side. Only renders when both columns exist. */}
