@@ -410,10 +410,10 @@ export function buildTsquery(parsed, { expandAliases = false } = {}) {
 
 function ftsFragment(field) {
   switch (field) {
-    case 'citation':    return sql`to_tsvector('simple', coalesce(citation, ''))`;
-    case 'title':       return sql`to_tsvector('simple', coalesce(title, ''))`;
-    case 'original':    return sql`to_tsvector('simple', coalesce(original, ''))`;
-    case 'translation': return sql`to_tsvector('simple', coalesce(translation, ''))`;
+    case 'citation':    return sql`to_tsvector('simple_unaccent', coalesce(citation, ''))`;
+    case 'title':       return sql`to_tsvector('simple_unaccent', coalesce(title, ''))`;
+    case 'original':    return sql`to_tsvector('simple_unaccent', coalesce(original, ''))`;
+    case 'translation': return sql`to_tsvector('simple_unaccent', coalesce(translation, ''))`;
     default:            return sql`fts_doc`;
   }
 }
@@ -437,7 +437,7 @@ async function countFtsMatches({ field, tsquery, pSlugs, layer, translator }) {
   if (field === 'library') {
     const [{ n }] = await sql`
       SELECT COUNT(*)::int AS n
-      FROM articles, to_tsquery('simple', ${tsquery}) q
+      FROM articles, to_tsquery('simple_unaccent', ${tsquery}) q
       WHERE source = 'ati' AND fts_doc @@ q
     `;
     return n;
@@ -455,7 +455,7 @@ async function countFtsMatches({ field, tsquery, pSlugs, layer, translator }) {
       SELECT COUNT(*)::int AS n
       FROM translations t
       JOIN passages p ON p.id = t.passage_id,
-           to_tsquery('simple', ${tsquery}) q
+           to_tsquery('simple_unaccent', ${tsquery}) q
       WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT}
     `;
     return n;
@@ -464,7 +464,7 @@ async function countFtsMatches({ field, tsquery, pSlugs, layer, translator }) {
   const pitakaBare = pSlugs ? sql`AND work_slug = ANY(${pSlugs})` : sql``;
   const [{ n }] = await sql`
     SELECT COUNT(*)::int AS n
-    FROM passages, to_tsquery('simple', ${tsquery}) q
+    FROM passages, to_tsquery('simple_unaccent', ${tsquery}) q
     WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
   `;
   return n;
@@ -694,33 +694,33 @@ export async function runSearch(rawParams) {
   // opt in to nosnippet and get sub-second queries above a thousand rows.
   const hlPassage = nosnippet
     ? sql`NULL`
-    : sql`ts_headline('simple', COALESCE(original, '') || ' || ' || COALESCE(translation, ''), q, ${HL_OPTS})`;
+    : sql`ts_headline('simple_unaccent', COALESCE(original, '') || ' || ' || COALESCE(translation, ''), q, ${HL_OPTS})`;
   const hlPassageRRF = nosnippet
     ? sql`NULL`
     : sql`CASE WHEN fts.id IS NOT NULL
-             THEN ts_headline('simple',
+             THEN ts_headline('simple_unaccent',
                     COALESCE(p.original, '') || ' || ' || COALESCE(p.translation, ''),
-                    to_tsquery('simple', ${tsquery}), ${HL_OPTS})
+                    to_tsquery('simple_unaccent', ${tsquery}), ${HL_OPTS})
              ELSE NULL
            END`;
   const hlTranslation = nosnippet
     ? sql`NULL`
-    : sql`ts_headline('simple', t.text, q, ${HL_OPTS})`;
+    : sql`ts_headline('simple_unaccent', t.text, q, ${HL_OPTS})`;
   const hlTranslationRRF = nosnippet
     ? sql`NULL`
     : sql`CASE WHEN fts.id IS NOT NULL
-             THEN ts_headline('simple', t.text,
-                    to_tsquery('simple', ${tsquery}), ${HL_OPTS})
+             THEN ts_headline('simple_unaccent', t.text,
+                    to_tsquery('simple_unaccent', ${tsquery}), ${HL_OPTS})
              ELSE NULL
            END`;
   const hlLibrary = nosnippet
     ? sql`NULL`
-    : sql`ts_headline('simple', body, q, ${HL_OPTS_LIB})`;
+    : sql`ts_headline('simple_unaccent', body, q, ${HL_OPTS_LIB})`;
   const hlLibraryRRF = nosnippet
     ? sql`NULL`
     : sql`CASE WHEN fts.id IS NOT NULL
-             THEN ts_headline('simple', a.body,
-                    to_tsquery('simple', ${tsquery}), ${HL_OPTS_LIB})
+             THEN ts_headline('simple_unaccent', a.body,
+                    to_tsquery('simple_unaccent', ${tsquery}), ${HL_OPTS_LIB})
              ELSE NULL
            END`;
   let rows;
@@ -752,7 +752,7 @@ export async function runSearch(rawParams) {
                'Library' AS canon, slug AS work_slug,
                ts_rank(${FTS_WEIGHTS}, fts_doc, q) AS score,
                ${hlLibrary} AS headline
-        FROM articles, to_tsquery('simple', ${tsquery}) q
+        FROM articles, to_tsquery('simple_unaccent', ${tsquery}) q
         WHERE source = 'ati' AND fts_doc @@ q
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
@@ -781,7 +781,7 @@ export async function runSearch(rawParams) {
                'Library' AS canon, slug AS work_slug,
                ts_rank(${FTS_WEIGHTS}, fts_doc, q) AS score,
                ${hlLibrary} AS headline
-        FROM articles, to_tsquery('simple', ${tsquery}) q
+        FROM articles, to_tsquery('simple_unaccent', ${tsquery}) q
         WHERE source = 'ati' AND fts_doc @@ q
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
@@ -809,7 +809,7 @@ export async function runSearch(rawParams) {
         WITH
         fts AS (
           SELECT id, ROW_NUMBER() OVER (ORDER BY ts_rank(${FTS_WEIGHTS}, fts_doc, q) DESC) AS rnk
-          FROM articles, to_tsquery('simple', ${tsquery}) q
+          FROM articles, to_tsquery('simple_unaccent', ${tsquery}) q
           WHERE source = 'ati' AND fts_doc @@ q
           LIMIT ${FUSION_POOL}
         ),
@@ -853,7 +853,7 @@ export async function runSearch(rawParams) {
              ${hlTranslation} AS headline
       FROM translations t
       JOIN passages p ON p.id = t.passage_id,
-           to_tsquery('simple', ${tsquery}) q
+           to_tsquery('simple_unaccent', ${tsquery}) q
       WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT}
       ORDER BY score DESC
       LIMIT ${limit} ${offsetFrag}
@@ -863,7 +863,7 @@ export async function runSearch(rawParams) {
       SELECT id, citation, title, canon, work_slug, original, translation,
              ${ftsRank} AS score,
              ${hlPassage} AS headline
-      FROM passages, to_tsquery('simple', ${tsquery}) q
+      FROM passages, to_tsquery('simple_unaccent', ${tsquery}) q
       WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
       ORDER BY score DESC
       LIMIT ${limit} ${offsetFrag}
@@ -888,7 +888,7 @@ export async function runSearch(rawParams) {
                ts_rank(t.fts_doc, q) AS score
         FROM translations t
         JOIN passages p ON p.id = t.passage_id,
-             to_tsquery('simple', ${tsquery}) q
+             to_tsquery('simple_unaccent', ${tsquery}) q
         WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT}
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
@@ -920,7 +920,7 @@ export async function runSearch(rawParams) {
           SELECT t.id, ROW_NUMBER() OVER (ORDER BY ts_rank(t.fts_doc, q) DESC) AS rnk
           FROM translations t
           JOIN passages p ON p.id = t.passage_id,
-               to_tsquery('simple', ${tsquery}) q
+               to_tsquery('simple_unaccent', ${tsquery}) q
           WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT}
           LIMIT ${FUSION_POOL}
         ),
@@ -968,7 +968,7 @@ export async function runSearch(rawParams) {
       rows = await sql`
         SELECT id, citation, title, canon, original, translation,
                ${ftsRank} AS score
-        FROM passages, to_tsquery('simple', ${tsquery}) q
+        FROM passages, to_tsquery('simple_unaccent', ${tsquery}) q
         WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
@@ -1022,7 +1022,7 @@ export async function runSearch(rawParams) {
         WITH
         fts AS (
           SELECT id, ROW_NUMBER() OVER (ORDER BY ${ftsRank} DESC) AS rnk
-          FROM passages, to_tsquery('simple', ${tsquery}) q
+          FROM passages, to_tsquery('simple_unaccent', ${tsquery}) q
           WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
           LIMIT ${FUSION_POOL}
         ),

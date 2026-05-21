@@ -3,6 +3,24 @@
 -- the embedding column dimension MUST change and existing vectors become
 -- invalid (different vector spaces aren't comparable).
 
+-- Postgres extensions used by the schema. unaccent + a custom 'simple_unaccent'
+-- text-search configuration fold diacritics at index AND query time, so a
+-- query for 'anapana' matches indexed 'ānāpāna' (and Mettasutta, etc.) across
+-- the whole corpus without per-term seeding. Every fts_doc tsvector below
+-- uses this config; search.js uses it in every to_tsquery() and ts_headline().
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_ts_config WHERE cfgname = 'simple_unaccent') THEN
+    CREATE TEXT SEARCH CONFIGURATION simple_unaccent (COPY = simple);
+    ALTER TEXT SEARCH CONFIGURATION simple_unaccent
+      ALTER MAPPING FOR hword, hword_part, word
+      WITH unaccent, simple;
+  END IF;
+END
+$$;
+
 CREATE TABLE IF NOT EXISTS traditions (
   slug          TEXT PRIMARY KEY,
   name          TEXT NOT NULL,
@@ -37,10 +55,10 @@ CREATE TABLE IF NOT EXISTS passages (
   notes         TEXT,
   embedding     vector(1024),
   fts_doc       tsvector GENERATED ALWAYS AS (
-    setweight(to_tsvector('simple', coalesce(citation, '')), 'A') ||
-    setweight(to_tsvector('simple', coalesce(title, '')),    'B') ||
-    setweight(to_tsvector('simple', coalesce(original, '')), 'C') ||
-    setweight(to_tsvector('simple', coalesce(translation, '')), 'D')
+    setweight(to_tsvector('simple_unaccent', coalesce(citation, '')), 'A') ||
+    setweight(to_tsvector('simple_unaccent', coalesce(title, '')),    'B') ||
+    setweight(to_tsvector('simple_unaccent', coalesce(original, '')), 'C') ||
+    setweight(to_tsvector('simple_unaccent', coalesce(translation, '')), 'D')
   ) STORED,
   created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -183,7 +201,7 @@ CREATE TABLE IF NOT EXISTS translations (
   copyright   TEXT,
   license     TEXT,
   source_url  TEXT,
-  fts_doc     tsvector GENERATED ALWAYS AS (to_tsvector('simple', text)) STORED,
+  fts_doc     tsvector GENERATED ALWAYS AS (to_tsvector('simple_unaccent', text)) STORED,
   embedding   vector(1024),
   position    INT,
   created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -238,9 +256,9 @@ CREATE TABLE IF NOT EXISTS articles (
   license     TEXT,
   year        INT,
   fts_doc     tsvector GENERATED ALWAYS AS (
-    setweight(to_tsvector('simple', coalesce(title, '')),  'A') ||
-    setweight(to_tsvector('simple', coalesce(author, '')), 'B') ||
-    setweight(to_tsvector('simple', coalesce(body, '')),   'C')
+    setweight(to_tsvector('simple_unaccent', coalesce(title, '')),  'A') ||
+    setweight(to_tsvector('simple_unaccent', coalesce(author, '')), 'B') ||
+    setweight(to_tsvector('simple_unaccent', coalesce(body, '')),   'C')
   ) STORED,
   embedding   vector(1024),
   created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
