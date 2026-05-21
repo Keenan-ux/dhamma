@@ -19,7 +19,7 @@ const NAV_ITEMS = [
   { key: 'bookmarks',   label: 'Bookmarks',       group: 'tools' },
 ];
 
-export default function TopNav({ tab, setTab, onRandomSutta }) {
+export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= MOBILE_BREAKPOINT);
   const [panelVisible, setPanelVisible] = useState(false);
@@ -188,12 +188,20 @@ export default function TopNav({ tab, setTab, onRandomSutta }) {
 
   return (
     <header style={header}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      {/* Logo + title → home (Tipiṭaka frontmatter). Rendered as a
+          button for keyboard accessibility but kept visually identical
+          to the original static branding. */}
+      <button
+        onClick={onHome}
+        style={brandBtn}
+        aria-label="Dhamma Data — home"
+        type="button"
+      >
         <Leaf size={26} />
         <span style={titleStyle}>
           Dhamma <span style={{ color: 'var(--bc-text-tertiary)', fontWeight: 400 }}>Data</span>
         </span>
-      </div>
+      </button>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <ThemeToggle />
@@ -245,6 +253,20 @@ const header = {
   position: 'relative',
   flexShrink: 0,
   zIndex: 1000,
+};
+
+// Reset button defaults so the brand reads as branding, not a control.
+const brandBtn = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 10,
+  background: 'transparent',
+  border: 'none',
+  padding: 0,
+  margin: 0,
+  cursor: 'pointer',
+  color: 'inherit',
+  fontFamily: 'inherit',
 };
 
 const titleStyle = {

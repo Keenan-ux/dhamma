@@ -199,6 +199,10 @@ export default function BrowseView({
         </div>
         <div style={splitColumns}>
           <div style={splitColumn}>
+            <div style={splitColumnLabel}>
+              <span style={splitColumnLabelDot} aria-hidden="true">●</span>
+              Primary
+            </div>
             {!selectedLoading && selectedPassage && (
               <ReadingPanel
                 passage={selectedPassage}
@@ -225,6 +229,10 @@ export default function BrowseView({
             )}
           </div>
           <div style={splitColumn}>
+            <div style={{ ...splitColumnLabel, ...splitColumnLabelPinned }}>
+              <span style={splitColumnLabelDot} aria-hidden="true">⤒</span>
+              Pinned
+            </div>
             <ReadingPanel
               passage={pinnedPassage}
               tree={tree}
@@ -1367,6 +1375,34 @@ const splitColumn = {
   minWidth: 0,
   overflow: 'auto',
   padding: '24px 28px 48px',
+};
+
+// Tiny kicker above each split-pane column body identifying which
+// passage is the primary (the one back/prev/next operate on) vs.
+// the pinned companion. Otherwise a swap leaves the user wondering
+// which side moved.
+const splitColumnLabel = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 6,
+  marginBottom: 18,
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+};
+
+// Pinned column gets a slightly dimmer label — the primary is the
+// "active" side that owns the back-stack + prev/next nav.
+const splitColumnLabelPinned = {
+  color: 'var(--bc-text-tertiary)',
+};
+
+const splitColumnLabelDot = {
+  fontSize: 10,
+  lineHeight: 1,
 };
 
 const pinnedLabel = {
