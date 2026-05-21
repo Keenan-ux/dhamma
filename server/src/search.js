@@ -410,7 +410,7 @@ const FTS_WEIGHTS = sql`'{0.05, 0.15, 0.6, 1.0}'::float4[]`;
 // Returns null when there's no FTS predicate (vector-only Meaning queries)
 // — there's no meaningful "total" for a pure ANN search, the answer is
 // the entire embedded corpus sorted by similarity.
-async function countFtsMatches({ field, tsquery, pSlugs, layer }) {
+async function countFtsMatches({ field, tsquery, pSlugs, layer, translator }) {
   if (!tsquery) return null;
   if (field === 'library') {
     const [{ n }] = await sql`
@@ -425,6 +425,8 @@ async function countFtsMatches({ field, tsquery, pSlugs, layer }) {
   // generated SQL collapses to the simplest possible form.
   const layerP = (layer && layer !== 'library') ? sql`AND p.work_role = ${layer}` : sql``;
   const layerBare = (layer && layer !== 'library') ? sql`AND work_role = ${layer}` : sql``;
+  const translatorT = (translator && field === 'translation')
+    ? sql`AND t.translator = ${translator}` : sql``;
   if (field === 'translation') {
     const pitakaP = pSlugs ? sql`AND p.work_slug = ANY(${pSlugs})` : sql``;
     const [{ n }] = await sql`
@@ -432,7 +434,7 @@ async function countFtsMatches({ field, tsquery, pSlugs, layer }) {
       FROM translations t
       JOIN passages p ON p.id = t.passage_id,
            to_tsquery('simple', ${tsquery}) q
-      WHERE t.fts_doc @@ q ${pitakaP} ${layerP}
+      WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT}
     `;
     return n;
   }
@@ -534,7 +536,7 @@ function shapeResult(p) {
   return out;
 }
 
-function normalizeParams({ q, mode, field, limit, offset, pitaka, nosnippet, layer }) {
+function normalizeParams({ q, mode, field, limit, offset, pitaka, nosnippet, layer, translator }) {
   const pit = typeof pitaka === 'string' ? pitaka.toLowerCase() : '';
   const lay = typeof layer === 'string' ? layer.toLowerCase() : '';
   const lim = Math.max(1, Math.min(MAX_LIMIT, Number(limit) || DEFAULT_LIMIT));
@@ -550,6 +552,10 @@ function normalizeParams({ q, mode, field, limit, offset, pitaka, nosnippet, lay
   const effectiveField = (field === 'library' || normalizedLayer === 'library')
     ? 'library'
     : (FIELDS.has(field) ? field : 'all');
+  // Translator filter — only takes effect on translation-scope queries
+  // (the only path that touches the translations table directly). Defensive
+  // length cap so a malformed slug can't blow up the parameter binding.
+  const tr = typeof translator === 'string' ? translator.trim().slice(0, 64) : '';
   return {
     q: typeof q === 'string' ? q : '',
     mode: MODES.has(mode) ? mode : 'exact',
@@ -558,13 +564,14 @@ function normalizeParams({ q, mode, field, limit, offset, pitaka, nosnippet, lay
     offset: off,
     pitaka: PITAKAS.has(pit) ? pit : null,
     layer: normalizedLayer,
+    translator: tr || null,
     nosnippet: noSnip,
   };
 }
 
 export async function runSearch(rawParams) {
   const t0 = Date.now();
-  const { q, mode, field, limit, offset, pitaka, layer, nosnippet } = normalizeParams(rawParams);
+  const { q, mode, field, limit, offset, pitaka, layer, translator, nosnippet } = normalizeParams(rawParams);
 
   if (!q.trim()) {
     return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: 0, results: [], expanded: [], hasMore: false, total: 0 };
@@ -595,7 +602,7 @@ export async function runSearch(rawParams) {
   // the UI say "4,237 passages matching sati" upfront, instead of just
   // the loaded-so-far count growing as the user scrolls. Resolves to
   // null when there's no FTS predicate (vector-only Meaning).
-  const totalPromise = countFtsMatches({ field, tsquery, pSlugs, layer });
+  const totalPromise = countFtsMatches({ field, tsquery, pSlugs, layer, translator });
   // Two flavors of the same predicate: one for queries with no alias on
   // passages, one for queries where passages is aliased "p". Empty fragments
   // when pitaka is null so the SQL parses without an unused AND clause.
@@ -610,6 +617,13 @@ export async function runSearch(rawParams) {
     : { bare: sql``, p: sql`` };
   const layerBare = layerWhere.bare;
   const layerP    = layerWhere.p;
+  // Translator filter — only meaningful when querying the translations
+  // table (field === 'translation'). For non-translation scopes the
+  // filter would have nothing to constrain against, so we ignore it
+  // there. Empty fragment when not set.
+  const translatorT = (translator && field === 'translation')
+    ? sql`AND t.translator = ${translator}`
+    : sql``;
   // Pagination fragment — zero offset stays as an empty fragment so the
   // generated SQL is identical to the pre-pagination form for the default
   // first-page case.
@@ -780,7 +794,7 @@ export async function runSearch(rawParams) {
       FROM translations t
       JOIN passages p ON p.id = t.passage_id,
            to_tsquery('simple', ${tsquery}) q
-      WHERE t.fts_doc @@ q ${pitakaP} ${layerP}
+      WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT}
       ORDER BY score DESC
       LIMIT ${limit} ${offsetFrag}
     `;
@@ -815,7 +829,7 @@ export async function runSearch(rawParams) {
         FROM translations t
         JOIN passages p ON p.id = t.passage_id,
              to_tsquery('simple', ${tsquery}) q
-        WHERE t.fts_doc @@ q ${pitakaP} ${layerP}
+        WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT}
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -833,7 +847,7 @@ export async function runSearch(rawParams) {
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector)) AS score
         FROM translations t
         JOIN passages p ON p.id = t.passage_id
-        WHERE t.embedding IS NOT NULL ${pitakaP} ${layerP}
+        WHERE t.embedding IS NOT NULL ${pitakaP} ${layerP} ${translatorT}
         ORDER BY t.embedding <=> ${qVecLit}::vector
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -845,14 +859,14 @@ export async function runSearch(rawParams) {
           FROM translations t
           JOIN passages p ON p.id = t.passage_id,
                to_tsquery('simple', ${tsquery}) q
-          WHERE t.fts_doc @@ q ${pitakaP} ${layerP}
+          WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT}
           LIMIT ${FUSION_POOL}
         ),
         vec AS (
           SELECT t.id, ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector) AS rnk
           FROM translations t
           JOIN passages p ON p.id = t.passage_id
-          WHERE t.embedding IS NOT NULL ${pitakaP} ${layerP}
+          WHERE t.embedding IS NOT NULL ${pitakaP} ${layerP} ${translatorT}
           ORDER BY t.embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )

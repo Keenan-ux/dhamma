@@ -10,11 +10,47 @@
 // attribution lives in ArticleView's footer.
 
 import { useEffect, useMemo, useState } from 'react';
-import { libraryListApi, libraryArticleApi } from './api.js';
+import { libraryListApi, libraryArticleApi, translatorsApi } from './api.js';
 import { sanitizeDictHtml } from './dictHtml.js';
 import { SelectionActions } from './SelectionActions.jsx';
 import { useRef } from 'react';
 import useIsNarrow from './useIsNarrow.js';
+
+// Display names for translator slugs that don't read as a name on their own.
+// Falls back to the slug if unknown. Mirrors PassageCard's map but expanded
+// for the translator-index view where every translator surfaces.
+const TRANSLATOR_LABELS = {
+  sujato: 'Bhante Sujato',
+  thanissaro: 'Thanissaro Bhikkhu',
+  walshe: 'Maurice Walshe',
+  ireland: 'John D. Ireland',
+  olendzki: 'Andrew Olendzki',
+  buddharakkhita: 'Acharya Buddharakkhita',
+  nyanaponika: 'Nyanaponika Thera',
+  nanamoli: 'Ñāṇamoli Thera',
+  piyadassi: 'Piyadassi Thera',
+  bodhi: 'Bhikkhu Bodhi',
+  narada: 'Nārada Thera',
+  soma: 'Soma Thera',
+  nyanasatta: 'Nyanasatta Thera',
+  'sister-uppalavanna': 'Sister Uppalavanna',
+  'nanamoli-bodhi': 'Ñāṇamoli & Bodhi',
+  horner: 'I. B. Horner',
+  hare: 'E. M. Hare',
+  'amaravati-sangha': 'Amaravati Sangha',
+  nizamis: 'Nizamis',
+  hecker: 'Hellmuth Hecker',
+  vajira: 'Sister Vajira',
+  kelly: 'John Kelly',
+  harvey: 'Peter Harvey',
+  sonadhammo: 'Sonadhammo',
+  kandy: 'Kandy News-Wheel',
+  brahmali: 'Bhikkhu Brahmali',
+  anandajoti: 'Bhikkhu Ānandajoti',
+  kovilo: 'Kovilo Bhikkhu',
+  suddhaso: 'Bhante Suddhāso',
+  patton: 'Charles Patton',
+};
 
 const CATEGORY_LABELS = {
   'study-guide':  'Study guides',
@@ -24,6 +60,7 @@ const CATEGORY_LABELS = {
   'noncanon':     'Non-canonical',
   'index':        'Curated indexes',
   'glossary':     'Glossary',
+  'translators':  'Translators',
 };
 
 const CATEGORY_BLURBS = {
@@ -34,15 +71,28 @@ const CATEGORY_BLURBS = {
   'noncanon':     'Extra-canonical material — Visuddhimagga, Vinaya excerpts.',
   'index':        'Curated indexes assembled by ATI — similes, names, subjects, titles, numbers, authors, and the suttas.',
   'glossary':     'A supplementary Pali → English term glossary by various contributors.',
+  'translators':  'Every distinct translator whose work is indexed across the corpus, with passage counts. Click a name to filter Search by that translator.',
 };
 
-const CATEGORY_ORDER = ['study-guide', 'author-essay', 'thai', 'ptf', 'noncanon', 'index', 'glossary'];
+const CATEGORY_ORDER = ['study-guide', 'author-essay', 'thai', 'ptf', 'noncanon', 'index', 'glossary', 'translators'];
 
-export default function LibraryView({ onSearchTerm, onCompareTerm }) {
+export default function LibraryView({ onSearchTerm, onCompareTerm, onOpenTranslator }) {
   const isNarrow = useIsNarrow();
   const [listing, setListing] = useState(null); // { articles, byCategory }
+  const [translators, setTranslators] = useState(null); // [{translator, source, passage_count, ...}]
   const [activeCategory, setActiveCategory] = useState('study-guide');
   const [openSlug, setOpenSlug] = useState(null);
+
+  // Fetch the translator-coverage index once on mount. ~16 rows, cheap;
+  // the count surfaces in the category chip ("Translators · 16") even
+  // before the user opens the section.
+  useEffect(() => {
+    const ac = new AbortController();
+    translatorsApi({ signal: ac.signal })
+      .then((r) => setTranslators(r.translators || []))
+      .catch(() => setTranslators([]));
+    return () => ac.abort();
+  }, []);
 
   // Restore the open article from hash when this view mounts directly.
   useEffect(() => {
@@ -61,8 +111,11 @@ export default function LibraryView({ onSearchTerm, onCompareTerm }) {
 
   // Fetch the active category's articles directly — keeps each
   // request small and side-steps the "first sort bucket fills the
-  // limit" trap (author-essay alone has 277 entries).
+  // limit" trap (author-essay alone has 277 entries). The 'translators'
+  // category is a different shape (no articles, just the translator
+  // index loaded above) so we skip the article fetch there.
   useEffect(() => {
+    if (activeCategory === 'translators') return;
     const ac = new AbortController();
     libraryListApi({ category: activeCategory, limit: 500, signal: ac.signal })
       .then(setListing)
@@ -108,9 +161,16 @@ export default function LibraryView({ onSearchTerm, onCompareTerm }) {
             style={isNarrow ? categoryNavStack : categoryNav}
             aria-label="Article categories"
           >
-            {CATEGORY_ORDER.filter((c) => (listing.byCategory[c] || 0) > 0).map((c) => {
+            {CATEGORY_ORDER.filter((c) => {
+              // 'translators' is a pseudo-category — its count comes from
+              // the translators index, not from listing.byCategory.
+              if (c === 'translators') return (translators?.length || 0) > 0;
+              return (listing.byCategory[c] || 0) > 0;
+            }).map((c) => {
               const on = activeCategory === c;
-              const n = listing.byCategory[c] || 0;
+              const n = c === 'translators'
+                ? (translators?.length || 0)
+                : (listing.byCategory[c] || 0);
               return (
                 <button
                   key={c}
@@ -139,27 +199,63 @@ export default function LibraryView({ onSearchTerm, onCompareTerm }) {
             {CATEGORY_BLURBS[activeCategory]}
           </p>
 
-          <ul style={isNarrow ? articleListNarrow : articleListGrid}>
-            {activeList.map((a) => (
-              <li
-                key={a.slug}
-                style={articleItem}
-                onClick={() => setOpenSlug(a.slug)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpenSlug(a.slug); } }}
-              >
-                <span style={articleTitle}>{a.title}</span>
-                {a.author && <span style={articleAuthor}>{a.author}</span>}
-                <span style={articleMeta}>
-                  {a.year || ''}{a.year && a.body_len ? ' · ' : ''}{a.body_len ? `${Math.round(a.body_len / 1000)}K chars` : ''}
-                </span>
-              </li>
-            ))}
-          </ul>
+          {/* Translator-index branch — renders a different shape than the
+              article list. Each row links to Search with field=translation
+              + translator pre-filled, so a click drops the user into a
+              query interface scoped to that translator's work. */}
+          {activeCategory === 'translators' ? (
+            <ul style={isNarrow ? articleListNarrow : articleListGrid}>
+              {(translators || []).map((t) => {
+                const label = TRANSLATOR_LABELS[t.translator] || t.translator;
+                const sourceLabel = t.source === 'ati' ? 'Access to Insight' : 'SuttaCentral';
+                return (
+                  <li
+                    key={`${t.translator}::${t.source}`}
+                    style={articleItem}
+                    onClick={() => onOpenTranslator?.(t.translator)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        onOpenTranslator?.(t.translator);
+                      }
+                    }}
+                  >
+                    <span style={articleTitle}>{label}</span>
+                    <span style={articleAuthor}>{sourceLabel}</span>
+                    <span style={articleMeta}>
+                      {t.passage_count.toLocaleString()} passage{t.passage_count === 1 ? '' : 's'}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+          <>
+            <ul style={isNarrow ? articleListNarrow : articleListGrid}>
+              {activeList.map((a) => (
+                <li
+                  key={a.slug}
+                  style={articleItem}
+                  onClick={() => setOpenSlug(a.slug)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpenSlug(a.slug); } }}
+                >
+                  <span style={articleTitle}>{a.title}</span>
+                  {a.author && <span style={articleAuthor}>{a.author}</span>}
+                  <span style={articleMeta}>
+                    {a.year || ''}{a.year && a.body_len ? ' · ' : ''}{a.body_len ? `${Math.round(a.body_len / 1000)}K chars` : ''}
+                  </span>
+                </li>
+              ))}
+            </ul>
 
-          {activeList.length === 0 && (
-            <p style={emptyHint}>No articles ingested in this category.</p>
+            {activeList.length === 0 && (
+              <p style={emptyHint}>No articles ingested in this category.</p>
+            )}
+          </>
           )}
         </>
       )}
@@ -268,7 +364,11 @@ const scrollWrap = {
 };
 
 const pageHeader = {
-  maxWidth: 820,
+  // Unified width with the chip row + article grid so the title block
+  // sits visually centered over the content rather than floating in a
+  // narrower column above it. Title text still self-centers via the
+  // letter-spaced uppercase + textAlign:center.
+  maxWidth: 980,
   margin: '64px auto 0',
   padding: '0 28px',
   textAlign: 'center',
@@ -384,7 +484,10 @@ const categoryBlurb = {
 };
 
 const articleListGrid = {
-  maxWidth: 1100,
+  // Unified with pageHeader + categoryNav so the page reads as one
+  // centered column of content. 980 fits a 3-column auto-fit at
+  // ~280px each with comfortable gutters.
+  maxWidth: 980,
   margin: '0 auto 32px',
   padding: '0 20px',
   display: 'grid',
