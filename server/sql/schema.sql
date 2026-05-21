@@ -265,3 +265,22 @@ CREATE TABLE IF NOT EXISTS passage_tags (
 );
 CREATE INDEX IF NOT EXISTS idx_pt_passage    ON passage_tags(passage_id);
 CREATE INDEX IF NOT EXISTS idx_pt_type_value ON passage_tags(tag_type, tag_value);
+
+-- Messages submitted via the About-page contact form. Plain inbox
+-- table — the maintainer reads via the DB proxy (no email-service
+-- wiring needed). from_email is optional (some users won't share
+-- one and that's fine). ip_hash is SHA-256 of the client IP so we
+-- can rate-limit without storing PII.
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id           BIGSERIAL PRIMARY KEY,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  from_email   TEXT,
+  subject      TEXT NOT NULL,
+  body         TEXT NOT NULL,
+  user_agent   TEXT,
+  ip_hash      TEXT,
+  status       TEXT NOT NULL DEFAULT 'new'
+);
+CREATE INDEX IF NOT EXISTS idx_contact_created ON contact_messages(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_contact_status  ON contact_messages(status);
+CREATE INDEX IF NOT EXISTS idx_contact_iphash  ON contact_messages(ip_hash, created_at);

@@ -6,9 +6,50 @@
 // Reachable from the Sidebar "About" link (desktop) and the slide-in
 // menu "About" item (mobile). URL is /about.
 
+import { useState } from 'react';
+import { contactApi } from './api.js';
+
 const SERIF = '"Noto Serif", Georgia, serif';
+const SANS  = 'Outfit, system-ui, sans-serif';
+const CONTACT_EMAIL = 'Keenan@boothcheck.com';
 
 export default function AboutView() {
+  // Inline contact form state. The form is the primary contact path;
+  // the email address is revealed on demand below it as a secondary
+  // option for users who prefer their own mail client.
+  const [fromEmail, setFromEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [website, setWebsite] = useState(''); // honeypot
+  const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'sent' | 'error'
+  const [errorText, setErrorText] = useState('');
+  const [emailRevealed, setEmailRevealed] = useState(false);
+
+  async function submit(e) {
+    e.preventDefault();
+    if (!subject.trim() || !message.trim()) return;
+    setStatus('sending');
+    setErrorText('');
+    try {
+      await contactApi({
+        from_email: fromEmail.trim() || null,
+        subject: subject.trim(),
+        body: message.trim(),
+        website, // honeypot — empty for real users
+      });
+      setStatus('sent');
+      // Don't clear the fields on success — the user might want to see
+      // what they just sent. They can manually clear and write again.
+    } catch (err) {
+      setStatus('error');
+      setErrorText(
+        err.status === 429
+          ? "Too many messages in a short window — please wait a minute and try again."
+          : "Couldn't send right now. You can email me directly instead (link below)."
+      );
+    }
+  }
+
   return (
     <div style={scrollWrap}>
       <header style={pageHeader}>
@@ -109,16 +150,123 @@ export default function AboutView() {
 
         <h2 style={section}>Contact</h2>
         <p style={para}>
-          Corrections, questions, attribution concerns, or anything
-          else &mdash; please write.
+          Dhamma data is built and maintained by one person, not an
+          organisation. Replies come from me directly. Corrections,
+          questions, attribution concerns, or anything else &mdash;
+          please write.
         </p>
-        <p style={para}>
-          <a
-            href="mailto:Keenan@boothcheck.com?subject=Dhamma%20data"
-            style={contactLink}
-          >
-            Keenan@boothcheck.com
-          </a>
+
+        {status === 'sent' ? (
+          <div style={sentNote}>
+            <p style={{ ...para, margin: 0 }}>
+              Thanks &mdash; your message landed in my inbox. I read
+              everything; I&rsquo;ll write back if you included an email
+              address.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setStatus('idle');
+                setSubject('');
+                setMessage('');
+                setFromEmail('');
+              }}
+              style={resetBtn}
+            >
+              Send another
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={submit} style={form} noValidate>
+            <label style={fieldLabel}>
+              <span style={labelText}>
+                Your email <span style={labelOptional}>(optional)</span>
+              </span>
+              <input
+                type="email"
+                value={fromEmail}
+                onChange={(e) => setFromEmail(e.target.value)}
+                placeholder="you@example.com"
+                style={input}
+                autoComplete="email"
+                maxLength={200}
+              />
+            </label>
+            <label style={fieldLabel}>
+              <span style={labelText}>Subject</span>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="What is this about?"
+                style={input}
+                required
+                maxLength={200}
+              />
+            </label>
+            <label style={fieldLabel}>
+              <span style={labelText}>Message</span>
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="…"
+                style={textarea}
+                rows={6}
+                required
+                maxLength={10000}
+              />
+            </label>
+            {/* Honeypot — hidden visually + from assistive tech. Real
+                users never fill it; spambots that auto-fill every input
+                do, and the server silently drops those submissions. */}
+            <label
+              aria-hidden="true"
+              tabIndex={-1}
+              style={{ position: 'absolute', left: '-10000px', height: 0, width: 0, overflow: 'hidden' }}
+            >
+              Website (leave empty)
+              <input
+                type="text"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </label>
+            <div style={formActions}>
+              <button
+                type="submit"
+                disabled={status === 'sending' || !subject.trim() || !message.trim()}
+                style={{
+                  ...sendBtn,
+                  opacity: (status === 'sending' || !subject.trim() || !message.trim()) ? 0.5 : 1,
+                  cursor: (status === 'sending' || !subject.trim() || !message.trim()) ? 'default' : 'pointer',
+                }}
+              >
+                {status === 'sending' ? 'Sending…' : 'Send'}
+              </button>
+              {errorText && <span style={errorTextStyle}>{errorText}</span>}
+            </div>
+          </form>
+        )}
+
+        <p style={{ ...para, marginTop: 24, fontSize: 13 }}>
+          Prefer your own mail client? {emailRevealed ? (
+            <a
+              href={`mailto:${CONTACT_EMAIL}?subject=Dhamma%20data`}
+              style={contactLink}
+            >
+              {CONTACT_EMAIL}
+            </a>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setEmailRevealed(true)}
+              style={revealBtn}
+            >
+              Reveal email
+            </button>
+          )}
         </p>
       </div>
 
@@ -220,6 +368,128 @@ const contactLink = {
   textDecoration: 'underline',
   textDecorationColor: 'rgba(var(--bc-accent-rgb), 0.40)',
   textUnderlineOffset: 4,
+};
+
+// Inline contact-form styles. Form sits in a thin gold-rule frame so
+// it reads as a self-contained block within the About flow. Fields
+// are full-width on every viewport; the page itself already maxes at
+// 720px so this stays comfortable.
+const form = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 14,
+  padding: '20px 22px 18px',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
+  borderRadius: 8,
+  background: 'rgba(var(--bc-accent-rgb), 0.03)',
+  marginTop: 8,
+};
+
+const fieldLabel = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 6,
+};
+
+const labelText = {
+  fontFamily: SANS,
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-secondary)',
+};
+
+const labelOptional = {
+  fontWeight: 400,
+  textTransform: 'none',
+  letterSpacing: 'normal',
+  color: 'var(--bc-text-tertiary)',
+  fontStyle: 'italic',
+};
+
+const inputBase = {
+  fontFamily: SERIF,
+  fontSize: 14,
+  lineHeight: 1.5,
+  padding: '8px 10px',
+  background: 'var(--bc-bg-base, transparent)',
+  color: 'var(--bc-text-primary)',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.20)',
+  borderRadius: 4,
+  outline: 'none',
+  width: '100%',
+  boxSizing: 'border-box',
+};
+
+const input = inputBase;
+const textarea = { ...inputBase, resize: 'vertical', minHeight: 120 };
+
+const formActions = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 14,
+  flexWrap: 'wrap',
+  marginTop: 4,
+};
+
+const sendBtn = {
+  fontFamily: SANS,
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  padding: '8px 18px',
+  background: 'var(--bc-accent)',
+  color: 'var(--bc-accent-text)',
+  border: 'none',
+  borderRadius: 999,
+};
+
+const errorTextStyle = {
+  fontFamily: SERIF,
+  fontSize: 12,
+  fontStyle: 'italic',
+  color: 'var(--bc-text-tertiary)',
+};
+
+const sentNote = {
+  padding: '16px 22px',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.30)',
+  borderRadius: 8,
+  background: 'rgba(var(--bc-accent-rgb), 0.06)',
+  marginTop: 8,
+};
+
+const resetBtn = {
+  marginTop: 10,
+  background: 'transparent',
+  border: 'none',
+  padding: 0,
+  fontFamily: SANS,
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+  cursor: 'pointer',
+};
+
+// Reveal-email button. Quiet, same uppercase chrome family the rest
+// of the page uses for small actions. Once clicked, it's replaced
+// inline by the mailto link itself.
+const revealBtn = {
+  background: 'transparent',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.30)',
+  padding: '3px 10px',
+  borderRadius: 999,
+  fontFamily: SANS,
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  cursor: 'pointer',
 };
 
 const footerWrap = {
