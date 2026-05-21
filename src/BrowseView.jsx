@@ -123,9 +123,12 @@ export default function BrowseView({
     return (
       <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={readingModeWrap}>
-          <button onClick={() => setReadingMode(false)} style={exitReadingBtn} aria-label="Exit reading mode (Esc)">
-            Exit reading mode  ·  Esc
-          </button>
+          {/* Exit-reading affordance used to sit here as a standalone
+              button. It now lives at the top of the sticky chrome
+              inside ReadingPanel (as the "← Exit reading mode" row)
+              so it collapses with the rest of the reader header on
+              scroll, consistent with how back-to-canon behaves in
+              the standard reader. */}
           {selectedLoading && <p style={hint}>Loading passage…</p>}
           {!selectedLoading && selectedPassage && (
             <ReadingPanel
@@ -137,6 +140,7 @@ export default function BrowseView({
               setPinnedLeafId={setPinnedLeafId}
               readingMode={readingMode}
               setReadingMode={setReadingMode}
+              onBack={() => setReadingMode(false)}
               onNavigate={(id) => {
                 const newPath = pathToLeaf(top, id);
                 if (newPath) setPath(newPath);
@@ -590,10 +594,10 @@ function ReadingPanel({
   const ref = useRef(null);
   const isPinned = pinnedLeafId === leafId;
 
-  // Reader sticky chrome — gated to the standard reader mode.
-  // compact / reading-mode / split-pane skip the sticky pattern and
-  // render the top sections inline.
-  const stickyEnabled = !(compact || readingMode || inSplitPane);
+  // Reader sticky chrome — enabled in the standard reader AND in
+  // reading-mode (focus). compact (pinned panel) and split-pane
+  // skip the sticky pattern because they don't have the room.
+  const stickyEnabled = !(compact || inSplitPane);
 
   // Scroll-driven fade is applied via direct DOM writes, not React
   // state. Earlier attempts used a useState-backed `headerProgress`
@@ -930,17 +934,20 @@ function ReadingPanel({
   return (
     <article ref={ref} style={articleStyle}>
       <div ref={stickyRef} style={stickyWrapStyle}>
-        {/* Back-to-canon affordance — desktop only. On mobile the
-            OS / browser back gesture covers the same need without
-            the explicit button taking up sticky-header real estate. */}
-        {stickyEnabled && onBack && !isNarrow && (
+        {/* Back affordance. In the standard reader this exits to the
+            canon drill; in reading-mode (focus) it exits the focus
+            view. On mobile in the standard reader we hide it because
+            the OS/browser back gesture covers it — but in reading
+            mode there's no route to back out of, so the explicit
+            button is the only way out, and it shows on every viewport. */}
+        {stickyEnabled && onBack && (readingMode || !isNarrow) && (
           <button
             onClick={onBack}
             style={{ ...backBtn, marginBottom: 8 }}
-            aria-label="Back to canon (Esc)"
+            aria-label={readingMode ? 'Exit reading mode (Esc)' : 'Back to canon (Esc)'}
           >
             <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
-            <span>Back to canon</span>
+            <span>{readingMode ? 'Exit reading mode' : 'Back to canon'}</span>
             <span style={backBtnHint}>Esc</span>
           </button>
         )}
