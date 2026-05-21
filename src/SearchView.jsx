@@ -80,6 +80,11 @@ export default function SearchView({
   searchMode, setSearchMode,
   onCompareTerm,
   onOpenPassage,
+  // Pre-set translator filter passed in when the user navigates here
+  // from the Library "Translator coverage" index. Consumed on mount;
+  // user can clear via the chip indicator below the search input.
+  initialTranslator,
+  onClearTranslator,
 }) {
   const q = query ?? '';
   const setQ = setQuery ?? (() => {});
@@ -106,6 +111,24 @@ export default function SearchView({
   // Tipiṭaka (mula); other layers ignore it.
   const [layer, setLayer] = useState('all');
   const layerParam = layer !== 'all' ? layer : undefined;
+  // Translator filter. Pre-populated from initialTranslator on first
+  // mount when arriving from the Library "Translator coverage" index.
+  // Only applies to translation-scope queries; if the user switches
+  // away from that scope the filter still sits in state but is a no-op
+  // server-side. Snap scope to 'translation' when a translator is set.
+  const [translator, setTranslator] = useState(initialTranslator || null);
+  useEffect(() => {
+    if (initialTranslator) {
+      setTranslator(initialTranslator);
+      setScope('translation');
+      // Consume the prop once so a subsequent visit to Search doesn't
+      // re-apply the same filter unexpectedly. The parent clears its
+      // own state via the callback.
+      onClearTranslator?.();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialTranslator]);
+  const translatorParam = translator || undefined;
   // Piṭaka filter. 'all' = no filter. Only relevant when layer is the
   // Tipiṭaka (mula) — snap back to 'all' for other layers so the chip
   // state matches the visible row.
@@ -170,7 +193,7 @@ export default function SearchView({
   const effectiveField = layer === 'library' ? 'library' : scope;
   const { data: result, loading, loadingMore, hasMore, error, loadMore } = useSearch({
     q: q.trim(), mode, field: effectiveField, limit: perPage, nosnippet,
-    pitaka: pitakaParam, layer: layerParam,
+    pitaka: pitakaParam, layer: layerParam, translator: translatorParam,
   });
 
   // Visible-tradition filter is a display concern only — the server returns
@@ -408,6 +431,31 @@ export default function SearchView({
 
         {parsed.raw && !loading && result?.warning && (
           <p style={warnMeta}>Embedding service unavailable; results from FTS only.</p>
+        )}
+
+        {/* Active translator-filter chip. Shows the slug being filtered
+            with a clear button. Surfaces what's narrowing the query when
+            the user arrives from the Library "Translator coverage" view
+            or sets the filter manually. Hidden when no translator is
+            active. */}
+        {translator && (
+          <p style={translatorChipRow}>
+            <span style={translatorChipLabel}>Filter:</span>
+            <span style={translatorChipValue}>tr. {translator}</span>
+            <button
+              type="button"
+              onClick={() => setTranslator(null)}
+              style={inlineLink}
+              title="Clear the translator filter"
+            >
+              clear
+            </button>
+            {!parsed.raw && (
+              <span style={translatorChipHint}>
+                Type a query to search within their work.
+              </span>
+            )}
+          </p>
         )}
 
         {parsed.raw && !loading && result && !error && mode === 'exact' && visibleResults.length === 0 && (
@@ -782,5 +830,38 @@ const filterSummary = {
   fontFamily: '"Noto Serif", Georgia, serif',
   fontStyle: 'italic',
   fontSize: 12,
+  color: 'var(--bc-text-tertiary)',
+};
+
+// Active-translator-filter chip row — shows below the diacritics row
+// when the user is searching scoped to one translator's work.
+const translatorChipRow = {
+  display: 'flex',
+  alignItems: 'baseline',
+  flexWrap: 'wrap',
+  gap: 10,
+  margin: '0 0 16px',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  color: 'var(--bc-text-secondary)',
+};
+
+const translatorChipLabel = {
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+};
+
+const translatorChipValue = {
+  fontStyle: 'italic',
+  color: 'var(--bc-accent)',
+};
+
+const translatorChipHint = {
+  fontSize: 12,
+  fontStyle: 'italic',
   color: 'var(--bc-text-tertiary)',
 };

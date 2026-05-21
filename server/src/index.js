@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { applySchema, health as dbHealth } from './db.js';
+import { applySchema, health as dbHealth, sql } from './db.js';
 import { embedReady } from './embed.js';
 import { aliasesReady } from './aliases.js';
 import { runSearch } from './search.js';
@@ -429,9 +429,30 @@ app.get('/api/search', async (c) => {
       offset: c.req.query('offset'),
       pitaka: c.req.query('pitaka'),
       layer: c.req.query('layer'),
+      translator: c.req.query('translator'),
       nosnippet: c.req.query('nosnippet'),
     });
     return c.json(out);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// /api/translators — list every distinct translator with metadata and
+// passage count. Powers the Library "Translators" view that gives ATI
+// maintainers (and any scholar) a navigable index of who translated
+// what, with click-through to filter Search by translator.
+app.get('/api/translators', async (c) => {
+  try {
+    const rows = await sql`
+      SELECT translator, source, language,
+             COUNT(DISTINCT passage_id)::int AS passage_count,
+             MIN(copyright) AS sample_copyright
+      FROM translations
+      GROUP BY translator, source, language
+      ORDER BY passage_count DESC, translator
+    `;
+    return c.json({ translators: rows });
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }

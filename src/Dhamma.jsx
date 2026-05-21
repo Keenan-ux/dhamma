@@ -105,6 +105,11 @@ export default function Dhamma() {
   // distinct tokens from the dictionary form (sampajāna). Stem mode adds
   // cross-canon alias expansion that's almost always what scholars want.
   const [searchMode, setSearchMode] = useState(INITIAL.searchMode);
+  // Pre-set translator filter — populated when the user clicks a row in
+  // the Library "Translators" view, then consumed by SearchView so the
+  // landing search is already scoped. Cleared on the next deliberate
+  // search-tab visit if not the translator-coverage path.
+  const [searchTranslator, setSearchTranslator] = useState(null);
   const [browsePath, setBrowsePath] = useState(INITIAL.path);
   const [browseLeafId, setBrowseLeafId] = useState(INITIAL.leaf);
   const [pinnedLeafId, setPinnedLeafId] = useState(INITIAL.pin);
@@ -330,6 +335,17 @@ export default function Dhamma() {
               <LibraryView
                 onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
+                onOpenTranslator={(slug) => {
+                  // Clicked a row in the Translator coverage index.
+                  // Drop the user into Search with the translator filter
+                  // already applied and the scope set to Translation, so
+                  // any query they type narrows within that translator's
+                  // work. Empty query state in Search still tells them
+                  // what's filtered.
+                  setQuery('');
+                  setSearchTranslator(slug);
+                  setTab('search');
+                }}
               />
             )}
             {tab === 'bookmarks' && (
@@ -375,6 +391,8 @@ export default function Dhamma() {
                 setQuery={setQuery}
                 searchMode={searchMode}
                 setSearchMode={setSearchMode}
+                initialTranslator={searchTranslator}
+                onClearTranslator={() => setSearchTranslator(null)}
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
                 onOpenPassage={(p, highlight) => {
                   // Library hits carry slug as id; route to LibraryView's

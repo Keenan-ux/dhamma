@@ -96,7 +96,7 @@ export function compareApi(ids, opts) {
   return get(`/api/compare?ids=${ids.map(encodeURIComponent).join(',')}`, opts);
 }
 
-export function searchApi({ q, mode, field, limit, offset, nosnippet, pitaka, layer, signal }) {
+export function searchApi({ q, mode, field, limit, offset, nosnippet, pitaka, layer, translator, signal }) {
   const params = new URLSearchParams();
   if (q) params.set('q', q);
   if (mode) params.set('mode', mode);
@@ -106,7 +106,15 @@ export function searchApi({ q, mode, field, limit, offset, nosnippet, pitaka, la
   if (nosnippet) params.set('nosnippet', 'true');
   if (pitaka) params.set('pitaka', pitaka);
   if (layer) params.set('layer', layer);
+  if (translator) params.set('translator', translator);
   return get(`/api/search?${params.toString()}`, { signal });
+}
+
+// /api/translators — list every distinct translator with passage counts,
+// powering the Library "Translators" view. Cached at the call site since
+// the list changes only on ingest.
+export function translatorsApi(opts) {
+  return get('/api/translators', opts);
 }
 
 export function compareStatsApi({ q, limit, signal }) {
