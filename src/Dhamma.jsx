@@ -111,10 +111,19 @@ export default function Dhamma() {
   // Random sutta: fetched from the server (filters: has translation,
   // not uddāna, in sutta piṭaka). Single handler shared by Sidebar
   // (desktop) and TopNav slide-in panel (mobile).
+  //
+  // Setting window.location.hash alone wouldn't update React state —
+  // the router is one-way (state → hash) with no hashchange listener.
+  // Update state via the same path Bookmarks/Tags use to open a
+  // passage; the URL-writing useEffect picks the hash up after.
   const handleRandomSutta = async () => {
     try {
       const { id } = await randomPassageApi({ scope: 'sutta' });
-      if (id) window.location.hash = `#/read/${id}`;
+      if (id) {
+        setBrowseLeafId(id);
+        setBrowsePath([]);  // BrowseView's pathToLeaf fills the tree path
+        setTab('browse');
+      }
     } catch (err) {
       console.warn('Random sutta failed:', err.message);
     }
