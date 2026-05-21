@@ -59,5 +59,31 @@ INSERT INTO aliases (term, equivalents) VALUES
   ('citta',         ARRAY['心', 'mind', 'heart']),
   ('jhāna',         ARRAY['jhana', 'dhyāna', 'dhyana', '禪', 'absorption', 'meditation']),
   ('samādhi',       ARRAY['samadhi', '定', 'concentration', 'unification of mind']),
-  ('viriya',        ARRAY['vīrya', 'virya', '精進', 'energy', 'effort'])
+  ('viriya',        ARRAY['vīrya', 'virya', '精進', 'energy', 'effort']),
+  -- Common practice topics. ānāpāna(sati) is the breath-meditation
+  -- corpus; without these rows queries like 'anapana' or 'mindfulness
+  -- of breathing' return junk because the Pāli text uses ānāpāna with
+  -- diacritics and Sujato's English uses different phrasings. Includes
+  -- multi-word keys so the search engine's phrase-alias lookup catches
+  -- common English research phrases.
+  ('ānāpāna',                 ARRAY['anapana', 'ānāpānasati', 'anapanasati', '出入息念', 'breathing', 'in-and-out breathing', 'mindfulness of breathing']),
+  ('ānāpānasati',             ARRAY['anapanasati', 'ānāpāna', 'anapana', '安那般那', 'mindfulness of breathing', 'breath meditation']),
+  ('mindfulness of breathing', ARRAY['ānāpānasati', 'anapanasati', 'ānāpāna', 'anapana', '出入息念', '安那般那']),
+  -- Four noble truths
+  ('ariyasacca',              ARRAY['ariyasaccāni', 'ariyasaccani', 'cattāri ariyasaccāni', 'four noble truths', 'noble truth']),
+  ('four noble truths',       ARRAY['cattāri ariyasaccāni', 'ariyasaccāni', 'ariyasaccani', 'ariyasacca']),
+  -- Noble eightfold path
+  ('ariya aṭṭhaṅgika magga',  ARRAY['ariya atthangika magga', 'aṭṭhaṅgika magga', 'atthangika magga', 'noble eightfold path', 'eightfold path']),
+  ('noble eightfold path',    ARRAY['ariya aṭṭhaṅgika magga', 'ariya atthangika magga', 'aṭṭhaṅgika magga', 'eightfold path']),
+  -- Dependent origination
+  ('paṭiccasamuppāda',        ARRAY['paticcasamuppada', 'pratītyasamutpāda', 'pratityasamutpada', '緣起', 'dependent origination', 'dependent arising']),
+  ('dependent origination',   ARRAY['paṭiccasamuppāda', 'paticcasamuppada', 'pratītyasamutpāda']),
+  -- Five aggregates as a phrase
+  ('khandha',                 ARRAY['khandhā', 'skandha', '蘊', 'aggregate', 'five aggregates']),
+  ('five aggregates',         ARRAY['pañcakkhandhā', 'pancakkhandha', 'khandhā', 'khandha']),
+  -- Three marks of existence
+  ('tilakkhaṇa',              ARRAY['tilakkhana', 'three marks of existence', 'three characteristics']),
+  -- Disenchantment / dispassion / cessation as renunciation language
+  ('virāga',                  ARRAY['viraga', '離欲', 'dispassion', 'fading away']),
+  ('nirodha',                 ARRAY['nirodha', '滅', 'cessation', 'ending'])
 ON CONFLICT (term) DO UPDATE SET equivalents = EXCLUDED.equivalents;
