@@ -49,6 +49,11 @@ const HL_OPTS_LIB = 'MaxFragments=3,MinWords=18,MaxWords=40,StartSel=,StopSel=
 const MODES = new Set(['exact', 'stem', 'meaning']);
 const FIELDS = new Set(['all', 'original', 'translation', 'citation', 'title', 'library']);
 const PITAKAS = new Set(['sutta', 'vinaya', 'abhidhamma']);
+// Corpus layer — orthogonal to field/scope. 'library' routes to the
+// articles table (replaces field=library). The other four map to
+// passages.work_role values populated by the CST ingest + the SC mula
+// backfill. `null` = no constraint (everything except Library).
+const LAYERS = new Set(['mula', 'attha', 'tika', 'anya', 'library']);
 const PITAKA_ROOTS = {
   sutta:      'pli-sutta',
   vinaya:     'pli-vinaya',
@@ -405,7 +410,7 @@ const FTS_WEIGHTS = sql`'{0.05, 0.15, 0.6, 1.0}'::float4[]`;
 // Returns null when there's no FTS predicate (vector-only Meaning queries)
 // — there's no meaningful "total" for a pure ANN search, the answer is
 // the entire embedded corpus sorted by similarity.
-async function countFtsMatches({ field, tsquery, pSlugs }) {
+async function countFtsMatches({ field, tsquery, pSlugs, layer }) {
   if (!tsquery) return null;
   if (field === 'library') {
     const [{ n }] = await sql`
@@ -415,6 +420,11 @@ async function countFtsMatches({ field, tsquery, pSlugs }) {
     `;
     return n;
   }
+  // Mirror the runSearch predicates for accurate counts under both
+  // pitaka and layer constraints. Empty fragments when not set so the
+  // generated SQL collapses to the simplest possible form.
+  const layerP = (layer && layer !== 'library') ? sql`AND p.work_role = ${layer}` : sql``;
+  const layerBare = (layer && layer !== 'library') ? sql`AND work_role = ${layer}` : sql``;
   if (field === 'translation') {
     const pitakaP = pSlugs ? sql`AND p.work_slug = ANY(${pSlugs})` : sql``;
     const [{ n }] = await sql`
@@ -422,7 +432,7 @@ async function countFtsMatches({ field, tsquery, pSlugs }) {
       FROM translations t
       JOIN passages p ON p.id = t.passage_id,
            to_tsquery('simple', ${tsquery}) q
-      WHERE t.fts_doc @@ q ${pitakaP}
+      WHERE t.fts_doc @@ q ${pitakaP} ${layerP}
     `;
     return n;
   }
@@ -431,7 +441,7 @@ async function countFtsMatches({ field, tsquery, pSlugs }) {
   const [{ n }] = await sql`
     SELECT COUNT(*)::int AS n
     FROM passages, to_tsquery('simple', ${tsquery}) q
-    WHERE ${fts} @@ q ${pitakaBare}
+    WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
   `;
   return n;
 }
@@ -524,31 +534,40 @@ function shapeResult(p) {
   return out;
 }
 
-function normalizeParams({ q, mode, field, limit, offset, pitaka, nosnippet }) {
+function normalizeParams({ q, mode, field, limit, offset, pitaka, nosnippet, layer }) {
   const pit = typeof pitaka === 'string' ? pitaka.toLowerCase() : '';
+  const lay = typeof layer === 'string' ? layer.toLowerCase() : '';
   const lim = Math.max(1, Math.min(MAX_LIMIT, Number(limit) || DEFAULT_LIMIT));
   const off = Math.max(0, Number(offset) || 0);
   // Coerce nosnippet from URL string ('true'/'1') or boolean. Frontends should
   // send 'true' as a string; defensively accept the bool form for callers like
   // the smoke-test scripts.
   const noSnip = nosnippet === true || nosnippet === 'true' || nosnippet === '1';
+  // Layer 'library' is the modern path that replaces field='library' (the
+  // old way still works for backward-compat). Normalise to a single
+  // routing decision: effectively-library iff either signal says so.
+  const normalizedLayer = LAYERS.has(lay) ? lay : null;
+  const effectiveField = (field === 'library' || normalizedLayer === 'library')
+    ? 'library'
+    : (FIELDS.has(field) ? field : 'all');
   return {
     q: typeof q === 'string' ? q : '',
     mode: MODES.has(mode) ? mode : 'exact',
-    field: FIELDS.has(field) ? field : 'all',
+    field: effectiveField,
     limit: lim,
     offset: off,
     pitaka: PITAKAS.has(pit) ? pit : null,
+    layer: normalizedLayer,
     nosnippet: noSnip,
   };
 }
 
 export async function runSearch(rawParams) {
   const t0 = Date.now();
-  const { q, mode, field, limit, offset, pitaka, nosnippet } = normalizeParams(rawParams);
+  const { q, mode, field, limit, offset, pitaka, layer, nosnippet } = normalizeParams(rawParams);
 
   if (!q.trim()) {
-    return { query: q, mode, field, limit, offset, pitaka, took_ms: 0, results: [], expanded: [], hasMore: false, total: 0 };
+    return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: 0, results: [], expanded: [], hasMore: false, total: 0 };
   }
 
   const parsed = parseQuery(q);
@@ -556,7 +575,7 @@ export async function runSearch(rawParams) {
   const { tsquery, expanded } = buildTsquery(parsed, { expandAliases });
 
   if (!tsquery && mode !== 'meaning') {
-    return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, hasMore: false, total: 0 };
+    return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0, results: [], expanded, hasMore: false, total: 0 };
   }
 
   const fts = ftsFragment(field);
@@ -576,12 +595,21 @@ export async function runSearch(rawParams) {
   // the UI say "4,237 passages matching sati" upfront, instead of just
   // the loaded-so-far count growing as the user scrolls. Resolves to
   // null when there's no FTS predicate (vector-only Meaning).
-  const totalPromise = countFtsMatches({ field, tsquery, pSlugs });
+  const totalPromise = countFtsMatches({ field, tsquery, pSlugs, layer });
   // Two flavors of the same predicate: one for queries with no alias on
   // passages, one for queries where passages is aliased "p". Empty fragments
   // when pitaka is null so the SQL parses without an unused AND clause.
   const pitakaBare = pSlugs ? sql`AND work_slug   = ANY(${pSlugs})` : sql``;
   const pitakaP    = pSlugs ? sql`AND p.work_slug = ANY(${pSlugs})` : sql``;
+  // Layer filter — passages.work_role ∈ {mula, attha, tika, anya}. 'library'
+  // is handled by routing into the articles branch (above), not via this
+  // predicate. Empty fragments when no layer is set so the SQL is identical
+  // to the pre-layer form for unfiltered queries.
+  const layerWhere = (layer && layer !== 'library')
+    ? { bare: sql`AND work_role = ${layer}`, p: sql`AND p.work_role = ${layer}` }
+    : { bare: sql``, p: sql`` };
+  const layerBare = layerWhere.bare;
+  const layerP    = layerWhere.p;
   // Pagination fragment — zero offset stays as an empty fragment so the
   // generated SQL is identical to the pre-pagination form for the default
   // first-page case.
@@ -752,7 +780,7 @@ export async function runSearch(rawParams) {
       FROM translations t
       JOIN passages p ON p.id = t.passage_id,
            to_tsquery('simple', ${tsquery}) q
-      WHERE t.fts_doc @@ q ${pitakaP}
+      WHERE t.fts_doc @@ q ${pitakaP} ${layerP}
       ORDER BY score DESC
       LIMIT ${limit} ${offsetFrag}
     `;
@@ -762,7 +790,7 @@ export async function runSearch(rawParams) {
              ${ftsRank} AS score,
              ${hlPassage} AS headline
       FROM passages, to_tsquery('simple', ${tsquery}) q
-      WHERE ${fts} @@ q ${pitakaBare}
+      WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
       ORDER BY score DESC
       LIMIT ${limit} ${offsetFrag}
     `;
@@ -787,7 +815,7 @@ export async function runSearch(rawParams) {
         FROM translations t
         JOIN passages p ON p.id = t.passage_id,
              to_tsquery('simple', ${tsquery}) q
-        WHERE t.fts_doc @@ q ${pitakaP}
+        WHERE t.fts_doc @@ q ${pitakaP} ${layerP}
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -805,7 +833,7 @@ export async function runSearch(rawParams) {
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector)) AS score
         FROM translations t
         JOIN passages p ON p.id = t.passage_id
-        WHERE t.embedding IS NOT NULL ${pitakaP}
+        WHERE t.embedding IS NOT NULL ${pitakaP} ${layerP}
         ORDER BY t.embedding <=> ${qVecLit}::vector
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -817,14 +845,14 @@ export async function runSearch(rawParams) {
           FROM translations t
           JOIN passages p ON p.id = t.passage_id,
                to_tsquery('simple', ${tsquery}) q
-          WHERE t.fts_doc @@ q ${pitakaP}
+          WHERE t.fts_doc @@ q ${pitakaP} ${layerP}
           LIMIT ${FUSION_POOL}
         ),
         vec AS (
           SELECT t.id, ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector) AS rnk
           FROM translations t
           JOIN passages p ON p.id = t.passage_id
-          WHERE t.embedding IS NOT NULL ${pitakaP}
+          WHERE t.embedding IS NOT NULL ${pitakaP} ${layerP}
           ORDER BY t.embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )
@@ -863,7 +891,7 @@ export async function runSearch(rawParams) {
         SELECT id, citation, title, canon, original, translation,
                ${ftsRank} AS score
         FROM passages, to_tsquery('simple', ${tsquery}) q
-        WHERE ${fts} @@ q ${pitakaBare}
+        WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -884,7 +912,7 @@ export async function runSearch(rawParams) {
         SELECT id, citation, title, canon, work_slug, original, translation,
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector)) AS score
         FROM passages
-        WHERE embedding IS NOT NULL ${pitakaBare}
+        WHERE embedding IS NOT NULL ${pitakaBare} ${layerBare}
         ORDER BY embedding <=> ${qVecLit}::vector
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -894,13 +922,13 @@ export async function runSearch(rawParams) {
         fts AS (
           SELECT id, ROW_NUMBER() OVER (ORDER BY ${ftsRank} DESC) AS rnk
           FROM passages, to_tsquery('simple', ${tsquery}) q
-          WHERE ${fts} @@ q ${pitakaBare}
+          WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
           LIMIT ${FUSION_POOL}
         ),
         vec AS (
           SELECT id, ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector) AS rnk
           FROM passages
-          WHERE embedding IS NOT NULL ${pitakaBare}
+          WHERE embedding IS NOT NULL ${pitakaBare} ${layerBare}
           ORDER BY embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )

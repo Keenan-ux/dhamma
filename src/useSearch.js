@@ -27,7 +27,7 @@ const EMPTY_STATE = {
   total: null,
 };
 
-export default function useSearch({ q, mode, field, limit, nosnippet, pitaka }) {
+export default function useSearch({ q, mode, field, limit, nosnippet, pitaka, layer }) {
   const [state, setState] = useState(EMPTY_STATE);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -36,7 +36,7 @@ export default function useSearch({ q, mode, field, limit, nosnippet, pitaka }) 
   // Snapshot of the query params the latest accumulator belongs to. loadMore
   // refuses to append rows fetched against an older snapshot — guards against
   // race conditions where a stale request lands after the params changed.
-  const snapshotRef = useRef({ q: '', mode: '', field: '', nosnippet: false, limit: 0, pitaka: '' });
+  const snapshotRef = useRef({ q: '', mode: '', field: '', nosnippet: false, limit: 0, pitaka: '', layer: '' });
 
   useEffect(() => {
     if (!q || !q.trim()) {
@@ -51,13 +51,13 @@ export default function useSearch({ q, mode, field, limit, nosnippet, pitaka }) 
     if (abortRef.current) abortRef.current.abort();
     const ctrl = new AbortController();
     abortRef.current = ctrl;
-    const snapshot = { q, mode, field, nosnippet: !!nosnippet, limit, pitaka: pitaka || '' };
+    const snapshot = { q, mode, field, nosnippet: !!nosnippet, limit, pitaka: pitaka || '', layer: layer || '' };
     snapshotRef.current = snapshot;
 
     setLoading(true);
     setLoadingMore(false);
     const t = setTimeout(() => {
-      searchApi({ q, mode, field, limit, offset: 0, nosnippet, pitaka, signal: ctrl.signal })
+      searchApi({ q, mode, field, limit, offset: 0, nosnippet, pitaka, layer, signal: ctrl.signal })
         .then((r) => {
           if (ctrl.signal.aborted) return;
           setState({
@@ -83,7 +83,7 @@ export default function useSearch({ q, mode, field, limit, nosnippet, pitaka }) 
       clearTimeout(t);
       ctrl.abort();
     };
-  }, [q, mode, field, nosnippet, limit, pitaka]);
+  }, [q, mode, field, nosnippet, limit, pitaka, layer]);
 
   const loadMore = useCallback(() => {
     const snap = snapshotRef.current;
@@ -96,7 +96,9 @@ export default function useSearch({ q, mode, field, limit, nosnippet, pitaka }) 
     setLoadingMore(true);
     searchApi({
       q: snap.q, mode: snap.mode, field: snap.field,
-      limit: snap.limit, offset, nosnippet: snap.nosnippet, pitaka: snap.pitaka || undefined,
+      limit: snap.limit, offset, nosnippet: snap.nosnippet,
+      pitaka: snap.pitaka || undefined,
+      layer: snap.layer || undefined,
     })
       .then((r) => {
         // Drop the response if the user changed query params between the
@@ -105,7 +107,7 @@ export default function useSearch({ q, mode, field, limit, nosnippet, pitaka }) 
         const now = snapshotRef.current;
         if (now.q !== snap.q || now.mode !== snap.mode || now.field !== snap.field
             || now.nosnippet !== snap.nosnippet || now.limit !== snap.limit
-            || now.pitaka !== snap.pitaka) {
+            || now.pitaka !== snap.pitaka || now.layer !== snap.layer) {
           return;
         }
         setState((s) => ({

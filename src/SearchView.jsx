@@ -14,20 +14,37 @@ const MODES = [
   { key: 'meaning', label: 'Meaning', hint: 'BGE-M3 vector semantic search blended with FTS — finds passages near in meaning, not just by token' },
 ];
 
+// "Search in" is now strictly the text-field selection. The corpus
+// LAYER (canonical vs commentary vs Library) lives in its own chip row
+// below, so the two axes — what TEXT to match and which CORPUS LAYER
+// to search — can compose freely. (Old build folded Library into this
+// row; that mixed two orthogonal concepts.)
 const SCOPES = [
   { key: 'all',         label: 'All' },
   { key: 'title',       label: 'Title' },
   { key: 'original',    label: 'Original' },
   { key: 'translation', label: 'Translation' },
   { key: 'citation',    label: 'Citation' },
-  { key: 'library',     label: 'Library' },
 ];
 
-// Piṭaka filter — only meaningful when the scope is targeting the
-// Tipiṭaka (not the ATI Library). 'all' means no filter; the others
-// constrain work_slug to descendants of pli-sutta / pli-vinaya /
-// pli-abhidhamma respectively. Server already supports this via the
-// ?pitaka= param; the chip row below just exposes the toggle.
+// Corpus layer — passages.work_role for the four canonical/commentarial
+// tiers, plus Library for the ATI articles table. 'all' = no constraint
+// (everything except Library — i.e. all passage layers). Server-side
+// the 'library' value routes into the articles branch and ignores the
+// scope/field; the other values add a `work_role = X` predicate.
+const LAYERS = [
+  { key: 'all',     label: 'All' },
+  { key: 'mula',    label: 'Tipiṭaka' },
+  { key: 'attha',   label: 'Aṭṭhakathā' },
+  { key: 'tika',    label: 'Ṭīkā' },
+  { key: 'anya',    label: 'Extra-canonical' },
+  { key: 'library', label: 'Library' },
+];
+
+// Piṭaka filter — only meaningful when searching the Tipiṭaka (mula).
+// 'all' means no filter; the others constrain work_slug to descendants
+// of pli-sutta / pli-vinaya / pli-abhidhamma respectively. Server
+// already supports this via the ?pitaka= param.
 const PITAKAS = [
   { key: 'all',        label: 'All' },
   { key: 'sutta',      label: 'Sutta' },
@@ -42,6 +59,19 @@ const PITAKAS = [
 function scopesFor(mode) {
   if (mode === 'meaning') return SCOPES.filter((s) => s.key !== 'title');
   return SCOPES;
+}
+
+// Library is a separate corpus (ATI articles, not passages), so when
+// the user picks Library the field/piṭaka chips don't apply. Hide the
+// Citation field option in Library — articles don't have a citation
+// field. Original/Translation/Title also don't map cleanly; for now we
+// surface only "All" + "Title" (matches the article's body or title).
+function scopesForLayer(mode, layer) {
+  const base = scopesFor(mode);
+  if (layer === 'library') {
+    return base.filter((s) => s.key === 'all' || s.key === 'title');
+  }
+  return base;
 }
 
 export default function SearchView({
@@ -71,15 +101,27 @@ export default function SearchView({
   const [nosnippet, setNosnippet] = useState(false);
   const perPage = nosnippet ? 500 : 50;
 
-  // Piṭaka filter. 'all' = no filter. Hidden when scope is Library (the
-  // ATI articles aren't in any piṭaka). Snap back to 'all' if the user
-  // moves from a Tipiṭaka scope into Library — server would ignore the
-  // param either way but the chip should match the visible state.
+  // Corpus layer. 'all' = no constraint (all passage layers); 'library'
+  // routes to the articles table. Mula/attha/tika/anya constrain
+  // passages.work_role. The piṭaka chip below only makes sense for
+  // Tipiṭaka (mula); other layers ignore it.
+  const [layer, setLayer] = useState('all');
+  const layerParam = layer !== 'all' ? layer : undefined;
+  // Piṭaka filter. 'all' = no filter. Only relevant when layer is the
+  // Tipiṭaka (mula) — snap back to 'all' for other layers so the chip
+  // state matches the visible row.
   const [pitaka, setPitaka] = useState('all');
   useEffect(() => {
-    if (scope === 'library' && pitaka !== 'all') setPitaka('all');
-  }, [scope, pitaka]);
+    if (layer !== 'mula' && pitaka !== 'all') setPitaka('all');
+  }, [layer, pitaka]);
   const pitakaParam = pitaka !== 'all' ? pitaka : undefined;
+  // When the user picks Library, narrow the field/scope options.
+  // If their previous field choice no longer applies, snap to 'all'.
+  useEffect(() => {
+    if (layer === 'library' && scope !== 'all' && scope !== 'title') {
+      setScope('all');
+    }
+  }, [layer, scope]);
 
   // The diacritics row only matters when the user is typing. Reveal on
   // focus, hide on blur — except: clicking a diacritic button briefly
@@ -115,8 +157,13 @@ export default function SearchView({
   const { history, push } = useSearchHistory();
 
   const parsed = useMemo(() => parseQuery(q.trim()), [q]);
+  // When the user picks Layer=Library, the server reroutes to the articles
+  // table regardless of field. Send field='library' to keep the back-compat
+  // path working alongside the new layer param.
+  const effectiveField = layer === 'library' ? 'library' : scope;
   const { data: result, loading, loadingMore, hasMore, error, loadMore } = useSearch({
-    q: q.trim(), mode, field: scope, limit: perPage, nosnippet, pitaka: pitakaParam,
+    q: q.trim(), mode, field: effectiveField, limit: perPage, nosnippet,
+    pitaka: pitakaParam, layer: layerParam,
   });
 
   // Visible-tradition filter is a display concern only — the server returns
@@ -283,13 +330,16 @@ export default function SearchView({
           <p style={modeHint}>
             {MODES.find((m) => m.key === mode)?.hint}
           </p>
-          <FilterRow label="Search in" options={scopesFor(mode)} active={scope} onChange={setScope} />
-          {/* Piṭaka filter — hidden when scoping to the ATI Library since
-              the article corpus isn't divided by piṭaka. 'all' chip
-              clears the filter. */}
-          {scope !== 'library' && (
+          {/* Where to search (corpus layer). The Library row sits here
+              instead of in "Search in" so the two axes are visibly
+              separate — corpus layer above, text-field within it below.
+              Piṭaka sub-row only shows when the user is searching the
+              Tipiṭaka (mula). */}
+          <FilterRow label="Where" options={LAYERS} active={layer} onChange={setLayer} />
+          {layer === 'mula' && (
             <FilterRow label="Piṭaka" options={PITAKAS} active={pitaka} onChange={setPitaka} />
           )}
+          <FilterRow label="Search in" options={scopesForLayer(mode, layer)} active={scope} onChange={setScope} />
         </div>
 
         {showInlineFilters && traditions.length > 0 && (

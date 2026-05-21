@@ -428,6 +428,7 @@ app.get('/api/search', async (c) => {
       limit: c.req.query('limit'),
       offset: c.req.query('offset'),
       pitaka: c.req.query('pitaka'),
+      layer: c.req.query('layer'),
       nosnippet: c.req.query('nosnippet'),
     });
     return c.json(out);
