@@ -426,7 +426,9 @@ app.get('/api/search', async (c) => {
       // param has historically been "field".
       field: c.req.query('field') || c.req.query('scope'),
       limit: c.req.query('limit'),
+      offset: c.req.query('offset'),
       pitaka: c.req.query('pitaka'),
+      nosnippet: c.req.query('nosnippet'),
     });
     return c.json(out);
   } catch (err) {

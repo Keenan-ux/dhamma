@@ -51,6 +51,14 @@ export default function SearchView({
     if (mode === 'meaning' && scope === 'title') setScope('all');
   }, [mode, scope]);
 
+  // "Show all" toggle drops the per-row snippet (skips ts_headline server-
+  // side) and switches to a flat citation-only list. Per-page jumps from
+  // 50 to 500 so the long tail loads in a couple of round-trips. Useful
+  // for terms with thousands of hits — "every passage containing sati"
+  // as one scrollable column, not paginated through with snippets.
+  const [nosnippet, setNosnippet] = useState(false);
+  const perPage = nosnippet ? 500 : 50;
+
   // The diacritics row only matters when the user is typing. Reveal on
   // focus, hide on blur — except: clicking a diacritic button briefly
   // blurs the input, so we delay the hide and the diacritic onMouseDown
@@ -79,13 +87,14 @@ export default function SearchView({
   const inputRef = useRef(null);
   const wrapRef = useRef(null);
   const resultsRef = useRef(null);
+  const sentinelRef = useRef(null);
 
   const { shape } = useCorpus();
   const { history, push } = useSearchHistory();
 
   const parsed = useMemo(() => parseQuery(q.trim()), [q]);
-  const { data: result, loading, error } = useSearch({
-    q: q.trim(), mode, field: scope, limit: 50,
+  const { data: result, loading, loadingMore, hasMore, error, loadMore } = useSearch({
+    q: q.trim(), mode, field: scope, limit: perPage, nosnippet,
   });
 
   // Visible-tradition filter is a display concern only — the server returns
@@ -121,6 +130,27 @@ export default function SearchView({
     }, 1200);
     return () => clearTimeout(t);
   }, [parsed, push]);
+
+  // Infinite-scroll sentinel — IntersectionObserver fires loadMore the
+  // moment the bottom-of-results marker enters the viewport. The sentinel
+  // only renders while hasMore is true (see JSX below), so the observer
+  // reattaches itself across page boundaries.
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    if (!hasMore) return;
+    if (loadingMore || loading) return;
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          loadMore();
+          break;
+        }
+      }
+    }, { rootMargin: '200px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasMore, loadingMore, loading, loadMore, result?.results.length]);
 
   // No need for a document-level mousedown listener anymore — the
   // backdrop overlay (rendered below) catches off-clicks and dismisses
@@ -259,7 +289,11 @@ export default function SearchView({
         {!parsed.raw && (
           <p style={meta}>
             Search across the canon. Prefix a term with <code style={code}>-</code> to exclude
-            (e.g. <code style={code}>sampajāna -bhikkhu</code>). Wrap a phrase in quotes for an exact phrase.
+            (e.g. <code style={code}>sampajāna -bhikkhu</code>). Wrap a phrase in quotes
+            for an exact phrase. Combine with <code style={code}>OR</code> and parentheses
+            for boolean queries, e.g. <code style={code}>(sati OR smṛti) -kāya</code>. Use
+            {' '}<code style={code}>NEAR/N</code> to require two terms within N words
+            (e.g. <code style={code}>sati NEAR/3 sampajāno</code>).
           </p>
         )}
 
@@ -358,14 +392,46 @@ export default function SearchView({
         <div ref={resultsRef}>
           {!loading && visibleResults.map((p, i) => (
             <PassageCard
-              key={p.id}
+              key={`${p.id}-${i}`}
               passage={p}
               highlight={highlightTerms}
               first={i === 0}
-              onOpen={onOpenPassage}
+              // Forward the matched-term array so the reader can highlight
+              // every occurrence of the search terms (alias-expanded), not
+              // just the snippet window that ts_headline returned.
+              onOpen={(passage) => onOpenPassage?.(passage, highlightTerms)}
             />
           ))}
         </div>
+        {/* "Show all" toggle — drops snippets (and ts_headline cost) so the
+            long tail of broad-term hits can be browsed as a flat citation
+            list. Only surfaced when results exist and there's clearly more
+            available (hasMore on the first page, or already a non-trivial
+            count). */}
+        {!loading && !error && visibleResults.length > 0 && (
+          <div style={showAllRow}>
+            <button
+              type="button"
+              onClick={() => setNosnippet((v) => !v)}
+              style={inlineLink}
+              title={nosnippet
+                ? 'Restore snippet windows around each match'
+                : 'Drop snippets and load all matches as a flat list'}
+            >
+              {nosnippet ? 'Show snippets' : 'Show all without snippets'}
+            </button>
+          </div>
+        )}
+        {/* Sentinel for infinite-scroll. Renders only while hasMore is true;
+            an IntersectionObserver attached in useEffect fires loadMore when
+            it scrolls into view (with a 200px rootMargin, so the next page
+            starts loading before the user hits the bottom). */}
+        {hasMore && !loading && (
+          <div ref={sentinelRef} style={{ height: 1 }} aria-hidden />
+        )}
+        {loadingMore && (
+          <p style={meta}>Loading more…</p>
+        )}
         <SelectionActions
           containerRef={resultsRef}
           onSearch={setQ}
@@ -572,4 +638,14 @@ const code = {
   padding: '1px 5px',
   borderRadius: 3,
   color: 'var(--bc-text-secondary)',
+};
+
+const showAllRow = {
+  marginTop: 20,
+  paddingTop: 14,
+  borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.15)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  color: 'var(--bc-text-tertiary)',
+  textAlign: 'center',
 };
