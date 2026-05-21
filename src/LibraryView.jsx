@@ -86,7 +86,7 @@ export default function LibraryView({ onSearchTerm, onCompareTerm }) {
   }
 
   return (
-    <div style={scrollWrap}>
+    <div data-scroll-root="" style={scrollWrap}>
       <header style={pageHeader}>
         <div style={rule} />
         <h1 style={pageTitle}>Library</h1>
@@ -201,7 +201,7 @@ function ArticleView({ slug, onBack, onSearchTerm, onCompareTerm }) {
   }, [onBack]);
 
   return (
-    <div style={scrollWrap}>
+    <div data-scroll-root="" style={scrollWrap}>
       <article ref={ref} style={articleReadWrap}>
         <button onClick={onBack} style={backBtn} aria-label="Back to Library (Esc)">
           <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
@@ -264,6 +264,7 @@ const scrollWrap = {
   position: 'absolute',
   inset: 0,
   overflow: 'auto',
+  paddingTop: 56,
 };
 
 const pageHeader = {

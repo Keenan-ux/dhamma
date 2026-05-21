@@ -150,7 +150,7 @@ export default function SearchView({
   const traditions = shape?.traditions || [];
 
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
+    <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
       <div style={wrap}>
         <div style={{ position: 'relative' }} ref={wrapRef}>
           <input

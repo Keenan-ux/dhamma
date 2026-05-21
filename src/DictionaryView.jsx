@@ -166,7 +166,7 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
   const groups = groupEntriesBySource(entries);
 
   return (
-    <div style={scroller}>
+    <div data-scroll-root="" style={scroller}>
       <div style={page}>
       <header style={pageHeader}>
         <h1 style={pageTitle}>Dictionary</h1>
@@ -338,7 +338,7 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
 
 // ─────────────────────────── styles ───────────────────────────
 
-const scroller = { position: 'absolute', inset: 0, overflow: 'auto' };
+const scroller = { position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 };
 
 const page = {
   maxWidth: 880,

@@ -7,7 +7,7 @@ export default function BookmarksView({ onOpenPassage }) {
   const { bookmarks, remove } = useBookmarks();
 
   return (
-    <div style={scrollWrap}>
+    <div data-scroll-root="" style={scrollWrap}>
       <header style={pageHeader}>
         <div style={rule} />
         <h1 style={pageTitle}>Bookmarks</h1>
@@ -54,7 +54,7 @@ export default function BookmarksView({ onOpenPassage }) {
 const SERIF = '"Noto Serif", Georgia, serif';
 const SANS = 'Outfit, system-ui, sans-serif';
 
-const scrollWrap = { position: 'absolute', inset: 0, overflow: 'auto' };
+const scrollWrap = { position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 };
 
 const pageHeader = {
   maxWidth: 820,
