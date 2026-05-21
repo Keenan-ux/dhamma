@@ -119,7 +119,7 @@ export default function CanonMapView({ onDrill }) {
   }
 
   return (
-    <div style={scrollWrap}>
+    <div data-scroll-root="" style={scrollWrap}>
       <header style={pageHeader}>
         <div style={rule} />
         <h1 style={pageTitle}>Tipiṭaka</h1>
@@ -322,6 +322,7 @@ const scrollWrap = {
   position: 'absolute',
   inset: 0,
   overflow: 'auto',
+  paddingTop: 56, // clearance for the fixed TopNav
 };
 
 const pageHeader = {

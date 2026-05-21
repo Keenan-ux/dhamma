@@ -39,7 +39,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
 
   if (!t) {
     return (
-      <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
+      <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={wrap}>
           <p style={meta}>Search a term first. Concordance will show its frequency by piṭaka, every occurrence in keyword-in-context (KWIC), and which words tend to appear near it.</p>
         </div>
@@ -49,7 +49,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
 
   if (loading) {
     return (
-      <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
+      <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={wrap}>
           <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
           <p style={meta}>Loading…</p>
@@ -60,7 +60,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
 
   if (error) {
     return (
-      <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
+      <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={wrap}>
           <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
           <p style={{ ...meta, color: 'var(--bc-loss-text)' }}>Failed: {error.message}</p>
@@ -71,7 +71,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
 
   if (!stats || stats.matchingPassageCount === 0) {
     return (
-      <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
+      <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={wrap}>
           <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
           <p style={meta}>No occurrences in the corpus. Try a different inflection or term.</p>
@@ -96,7 +96,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
   const freqLabel = stats.frequencyByPitaka ? 'Frequency by piṭaka' : 'Frequency by tradition';
 
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
+    <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
       <div style={wrap} ref={resultsRef}>
         <SelectionActions
           containerRef={resultsRef}
