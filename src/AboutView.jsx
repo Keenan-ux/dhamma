@@ -106,6 +106,20 @@ export default function AboutView() {
           limit &mdash; Dhamma data will not carry advertising,
           paywalls, or commercial features.
         </p>
+
+        <h2 style={section}>Contact</h2>
+        <p style={para}>
+          Corrections, questions, attribution concerns, or anything
+          else &mdash; please write.
+        </p>
+        <p style={para}>
+          <a
+            href="mailto:Keenan@boothcheck.com?subject=Dhamma%20data"
+            style={contactLink}
+          >
+            Keenan@boothcheck.com
+          </a>
+        </p>
       </div>
 
       <footer style={footerWrap}>
@@ -193,6 +207,19 @@ const src = {
   minWidth: 92,
   fontWeight: 600,
   color: 'var(--bc-text-primary)',
+};
+
+// Contact email — rendered in the body serif so it doesn't read
+// like a CTA button, just a quietly emphasised line. Underline stays
+// on a subtle gold; hover state inherits the accent through the link
+// element's own color, so no JS needed for hover styling.
+const contactLink = {
+  fontFamily: SERIF,
+  fontSize: 15,
+  color: 'var(--bc-accent)',
+  textDecoration: 'underline',
+  textDecorationColor: 'rgba(var(--bc-accent-rgb), 0.40)',
+  textUnderlineOffset: 4,
 };
 
 const footerWrap = {
