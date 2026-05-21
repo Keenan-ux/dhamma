@@ -21,7 +21,7 @@
 //      (`--only=mn10` runs a single sutta as smoke test before the full Tipiṭaka)
 //      Drop the flag to ingest everything: `node ingest.mjs`
 
-import { pipeline, env } from '@xenova/transformers';
+import { pipeline, env } from '@huggingface/transformers';
 import postgres from 'postgres';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -245,7 +245,7 @@ async function main() {
   await ensureWorks();
 
   console.log(`[model] loading ${MODEL} (downloads on first run, cached locally)…`);
-  const embedder = await pipeline('feature-extraction', MODEL, { quantized: true });
+  const embedder = await pipeline('feature-extraction', MODEL, { dtype: 'q8' });
   console.log('[model] ready.');
 
   const filter = {};

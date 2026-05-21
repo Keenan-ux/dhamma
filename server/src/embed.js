@@ -5,7 +5,7 @@
 // produced by scripts/ingest/ingest.mjs. Keep model name, quantization, and
 // pooling/normalize options in lockstep with that file.
 
-import { pipeline, env } from '@xenova/transformers';
+import { pipeline, env } from '@huggingface/transformers';
 import path from 'node:path';
 
 const MODEL = 'Xenova/bge-m3';
@@ -20,7 +20,7 @@ export function embedReady() {
   if (!_readyPromise) {
     _readyPromise = (async () => {
       const t0 = Date.now();
-      _pipe = await pipeline('feature-extraction', MODEL, { quantized: true });
+      _pipe = await pipeline('feature-extraction', MODEL, { dtype: 'q8' });
       console.log(`[embed] BGE-M3 ready in ${Date.now() - t0}ms (cacheDir=${env.cacheDir})`);
     })();
   }

@@ -32,3 +32,12 @@ server/data/
 /scripts/ingest/abt.tar.zst
 /scripts/ingest/CPED.csv
 /scripts/ingest/.cache/
+
+# Xenova v2 vs v3 smoke-test scratch (~250 MB of node_modules
+# across two runner subdirs). The driver scripts themselves are
+# fine to keep but the installed deps + per-version model caches
+# shouldn't be tracked.
+/scripts/xenova-smoke/node_modules/
+/scripts/xenova-smoke/*/node_modules/
+/scripts/xenova-smoke/*/.cache/
+/scripts/xenova-smoke/queries.ndjson

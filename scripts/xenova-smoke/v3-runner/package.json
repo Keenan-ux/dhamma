@@ -1,0 +1,11 @@
+{
+  "name": "v3-runner",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@huggingface/transformers": "^3"
+  },
+  "overrides": {
+    "onnxruntime-node": "1.17.0"
+  }
+}
