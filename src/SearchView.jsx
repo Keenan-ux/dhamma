@@ -329,10 +329,13 @@ export default function SearchView({
           <p style={meta}>
             <strong style={{ color: 'var(--bc-text-secondary)' }}>{visibleResults.length}</strong>{' '}
             {visibleResults.length === 1 ? 'passage' : 'passages'} {modeVerb(mode)}{' '}
+            {/* Comma-separated rather than ' + '-joined — the new boolean
+                grammar lets `must` contain terms that combined with OR
+                instead of AND, and " + " misleadingly implied "all of". */}
             {parsed.must.map((t, i) => (
               <span key={t}>
                 <strong style={{ color: 'var(--bc-accent)' }}>{t}</strong>
-                {i < parsed.must.length - 1 ? ' + ' : ''}
+                {i < parsed.must.length - 1 ? ', ' : ''}
               </span>
             ))}
             {parsed.excluded.length > 0 && (
@@ -396,6 +399,10 @@ export default function SearchView({
               passage={p}
               highlight={highlightTerms}
               first={i === 0}
+              // In "Show all without snippets" mode, render the card as a
+              // flat citation row (no body block) — turns the page into
+              // a scholarly index of every hit.
+              compact={nosnippet}
               // Forward the matched-term array so the reader can highlight
               // every occurrence of the search terms (alias-expanded), not
               // just the snippet window that ts_headline returned.

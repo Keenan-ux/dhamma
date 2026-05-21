@@ -49,7 +49,7 @@ const TRANSLATOR_LABEL = {
   kandy: 'Kandy News-Wheel',
 };
 
-export default function PassageCard({ passage, highlight, first, onOpen }) {
+export default function PassageCard({ passage, highlight, first, onOpen, compact }) {
   const [copied, setCopied] = useState(false);
   const [hovered, setHovered] = useState(false);
 
@@ -113,15 +113,19 @@ export default function PassageCard({ passage, highlight, first, onOpen }) {
         <div style={traditionLine}>{passage.tradition}</div>
       </header>
 
-      {passage.original && (
+      {/* Compact mode (driven by the SearchView "Show all without snippets"
+          toggle): skip every body block so the card collapses to citation +
+          title + work + tradition + footer — a flat scholarly index of
+          every hit. Otherwise the standard renderings below apply. */}
+      {!compact && passage.original && (
         <p style={originalText}>{highlightTerm(passage.original, highlight)}</p>
       )}
-      {passage.translation && (
+      {!compact && passage.translation && (
         <p style={translationText}>{highlightTerm(passage.translation, highlight)}</p>
       )}
       {/* Snippet path: search-result cards carry only a short excerpt, not
           full text. Show it in the translation slot if no full text exists. */}
-      {!passage.original && !passage.translation && passage.snippet && (
+      {!compact && !passage.original && !passage.translation && passage.snippet && (
         <p style={translationText}>{highlightTerm(passage.snippet, highlight)}</p>
       )}
 
