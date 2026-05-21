@@ -388,11 +388,11 @@ function ftsFragment(field) {
 
 // Field-weighting for ts_rank when matching against the multi-field
 // fts_doc (default scope). Schema applies setweight A=citation, B=title,
-// C=original, D=translation. ts_rank's defaults {D:0.1, C:0.2, B:0.4, A:1}
-// already favour A and B, but citation/title matches are *so* much more
-// load-bearing (exact ID, sutta name) that we bump them harder. The
-// weights array is {D, C, B, A}.
-const FTS_WEIGHTS = sql`'{0.1, 0.3, 0.7, 3.0}'::float4[]`;
+// C=original, D=translation. ts_rank's defaults {D:0.1, C:0.2, B:0.4, A:1};
+// Postgres constrains every weight ∈ [0, 1] so we can't push A above
+// 1.0. Instead we suppress D + C to widen the gap so citation/title
+// hits clearly outrank body-only matches. The weights array is {D, C, B, A}.
+const FTS_WEIGHTS = sql`'{0.05, 0.15, 0.6, 1.0}'::float4[]`;
 
 
 // Sentence boundaries: ASCII terminators plus CJK full stop. ts_headline gives
