@@ -47,10 +47,16 @@ pushed and deployed:
 - `cc5606a` — Scholarly-register `README.md` rewrite + new
   `CONTRIBUTING.md`. **Awaiting user review.**
 - `da2b6bd` — CPD + Bhikkhu Bodhi licensing audits documented;
-  Xenova v3 migration plan in the `xenova-v2-pinned` memory note.
+  Xenova v3 migration playbook documented.
 - `889ac44` — Permission-request letter drafts to **BPS** (Bodhi
   commentary books) and **Cologne + PTS** (CPD mirror).
 - `aa22344` — Gitignored CPED source archives + ingest `.cache/`.
+- `e3176ac` — **Xenova v2 → v3 migration executed.** Smoke test
+  proved vector equivalence (min cosine 0.999999 across 50
+  queries), so no corpus re-embed needed. Dropped the protobufjs
+  CVE-mitigation override. Server dep tree shrank 119 → 31
+  packages, 4 vulnerabilities → 0. Meaning-mode search live and
+  returning the right hits.
 
 ### Notable additions to the runtime
 
@@ -83,19 +89,12 @@ dev work — start whichever the user picks.
    (BP209S, BP210S, BP211S, BP212S).
 6. **Send the Cologne+PTS email** (`CPD_EMAIL_DRAFT.md`) — asks
    for permission to mirror the Critical Pali Dictionary.
-7. **`@xenova/transformers` v2 → v3 migration.** See updated
-   `xenova-v2-pinned` memory note for the full playbook:
-   smoke-test vector equivalence first; if cosine v2-vs-v3 holds
-   > 0.9999, pure code swap (drop the protobufjs override too);
-   otherwise full corpus re-embed (~30 min local CPU, no schema
-   change). Best bundled with the next re-ingest moment
-   (Chinese/Sanskrit corpus, or a model swap).
-8. **If BPS replies yes** to item 5 — ingest the four Bodhi
+7. **If BPS replies yes** to item 5 — ingest the four Bodhi
    commentary translation books from bps.lk PDFs into
    `translations` and `passages` tables. Same attribution
    pattern as ATI (translator + year + licence + source URL in
    each row's footer).
-9. **If Cologne/PTS replies yes** to item 6 — ingest the CPD
+8. **If Cologne/PTS replies yes** to item 6 — ingest the CPD
    from DPD's scraped SQLite (`digitalpalidictionary/other-dictionaries`,
    `dictionaries/cpd/cpd.tar.zst`, 29,734 entries). Same ingest
    pattern as `ingest-cped.mjs` landed this session; new source
@@ -162,7 +161,7 @@ server/src/
   compareStats.js — /api/compare-stats
   dictionary.js   — /api/lookup cascade across dpd/dppn/ped/cped/mw/bhs
   aliases.js   — alias table cache
-  embed.js     — BGE-M3 ONNX local (@xenova/transformers v2, pinned)
+  embed.js     — BGE-M3 ONNX local (@huggingface/transformers v3, dtype:q8)
   paliStem.js  — server copy of the heuristic
 server/sql/
   schema.sql   — all CREATE TABLE IF NOT EXISTS (idempotent on boot)
@@ -222,7 +221,8 @@ server/sql/
 
 Located at `~/.claude/projects/C--Dev-Dhamma/memory/`:
 - `fly-memory-requirement.md` — 4 GB or BGE-M3 OOMs
-- `xenova-v2-pinned.md` — full v3 migration playbook
+- `xenova-v2-pinned.md` — **superseded by v3 migration this session**;
+  notes kept for historical context + the onnxruntime-node 1.17 pin
 - `snippet-sentence-upgrade.md` — FTS-side shipped this session;
   vector-only sentence embeddings still deferred (notes updated)
 - `cst-tipitaka-source.md` — VRI CST XML peculiarities
@@ -241,7 +241,9 @@ be clean.
 
 Start at item 1 in HANDOFF.md's to-do list. Items 1-6 need user
 sign-off or are user actions; surface them and wait for direction
-before proceeding. Items 7-9 are dev work — start whichever the
-user picks. Don't stop between items — keep going until you hit
-context limit, then write a new HANDOFF.md.
+before proceeding. Items 7-8 are dev work but blocked on the
+permission emails (items 5-6); without those replies, the dev
+backlog is effectively empty. Surface that to the user and ask
+what to pick up next. Don't stop between items — keep going until
+you hit context limit, then write a new HANDOFF.md.
 ```
