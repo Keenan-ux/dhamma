@@ -514,6 +514,8 @@ const articleItem = {
   fontFamily: SERIF,
   display: 'flex',
   flexDirection: 'column',
+  alignItems: 'center',  // centers title/author/meta within the card cell
+  textAlign: 'center',   // also handles inline wrap if a title runs long
   gap: 2,
   cursor: 'pointer',
   padding: '4px 0',
