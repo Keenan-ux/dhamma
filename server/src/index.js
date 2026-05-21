@@ -151,11 +151,66 @@ app.get('/api/library/:slug', async (c) => {
   }
 });
 
-// POST /api/contact — store a message from the About-page form.
-// Plain inbox table; the maintainer reads via the DB proxy. No
-// third-party email service wired up. Rate-limits per client IP
-// to keep casual spam off; the actual response just confirms the
-// message was stored.
+// Notify the maintainer of a contact-form submission via Resend's
+// transactional email API. Reads RESEND_API_KEY from env; when the
+// key isn't set this is a no-op (the message still gets stored in
+// contact_messages, so nothing is lost — the user can wire up Resend
+// later and start receiving notifications without code changes).
+//
+// CONTACT_FROM_EMAIL defaults to onboarding@resend.dev (works
+// immediately without DNS setup). After verifying boothcheck.com
+// on Resend, swap to notifications@boothcheck.com via the Fly
+// secret — no code change needed.
+async function sendContactEmail({ from_email, subject, body }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { sent: false, reason: 'no_api_key' };
+  const fromAddr = process.env.CONTACT_FROM_EMAIL || 'Dhamma data <onboarding@resend.dev>';
+  const toAddr   = process.env.CONTACT_TO_EMAIL   || 'Keenan@boothcheck.com';
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+  const html = `
+    <div style="font-family: -apple-system, system-ui, sans-serif; max-width: 600px;">
+      <p style="margin: 0 0 6px; color: #888; font-size: 12px;">New message from the dhamma.fly.dev contact form</p>
+      <h2 style="margin: 8px 0 16px;">${esc(subject)}</h2>
+      <p style="margin: 0 0 4px; color: #444;">
+        <strong>From:</strong> ${from_email ? esc(from_email) : '<em>(no email provided)</em>'}
+      </p>
+      <hr style="border: 0; border-top: 1px solid #ddd; margin: 16px 0;">
+      <pre style="white-space: pre-wrap; font-family: Georgia, serif; font-size: 14px; line-height: 1.5; margin: 0;">${esc(body)}</pre>
+    </div>
+  `;
+
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: fromAddr,
+        to: toAddr,
+        reply_to: from_email || undefined,
+        subject: `[dhamma.fly.dev] ${subject}`,
+        html,
+      }),
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '');
+      return { sent: false, reason: `resend_${res.status}: ${detail.slice(0, 200)}` };
+    }
+    return { sent: true };
+  } catch (err) {
+    return { sent: false, reason: err.message };
+  }
+}
+
+// POST /api/contact — store a message from the About-page form,
+// then notify the maintainer via Resend (if configured). The DB
+// row is the source of truth — every submission is persisted even
+// if the email delivery fails or no API key is configured.
 app.post('/api/contact', async (c) => {
   try {
     const { sql } = await import('./db.js');
@@ -197,6 +252,14 @@ app.post('/api/contact', async (c) => {
       INSERT INTO contact_messages (from_email, subject, body, user_agent, ip_hash)
       VALUES (${fromEmailRaw}, ${subject}, ${message}, ${userAgent}, ${ipHash})
     `;
+    // Fire-and-don't-block email notification. The DB row is the
+    // source of truth; if Resend isn't configured or the API call
+    // fails, we still return success to the user — their message is
+    // saved either way.
+    sendContactEmail({ from_email: fromEmailRaw, subject, body: message })
+      .then((result) => {
+        if (!result.sent) console.warn(`[contact] email not sent: ${result.reason}`);
+      });
     return c.json({ ok: true });
   } catch (err) {
     return c.json({ error: err.message }, 500);
