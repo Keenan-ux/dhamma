@@ -282,9 +282,13 @@ export default function CanonMapView({ onDrill }) {
           <section style={khuddakaSection}>
             <div style={khuddakaRule} />
             <p style={khuddakaHeader}>Khuddaka books</p>
-            <p style={khuddakaInline}>
+            {/* Flex-wrap so the 18 abbreviations flow onto multiple
+                rows on narrow viewports rather than blowing out into a
+                horizontal scrollbar. Each tag + dot pair is a single
+                inline-flex unit so the separator never wraps alone. */}
+            <div style={khuddakaInline}>
               {visible.map((b, i) => (
-                <span key={b.id}>
+                <span key={b.id} style={khuddakaCell}>
                   <span
                     style={khuddakaTag}
                     onClick={() => drill(tipitaka.id, sutta.id, kn.id, b.id)}
@@ -294,10 +298,10 @@ export default function CanonMapView({ onDrill }) {
                   >
                     {KHUDDAKA_ABBREV[b.id] || b.name}
                   </span>
-                  {i < visible.length - 1 && <span style={dotSep}>&nbsp;·&nbsp;</span>}
+                  {i < visible.length - 1 && <span style={dotSep}>·</span>}
                 </span>
               ))}
-            </p>
+            </div>
           </section>
         );
       })()}
@@ -525,8 +529,21 @@ const khuddakaInline = {
   fontFamily: SERIF,
   fontStyle: 'italic',
   fontSize: 14,
-  lineHeight: 2.0,
+  lineHeight: 1.8,
   color: 'var(--bc-text-secondary)',
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'center',
+  rowGap: 4,
+};
+
+// Each "tag · " unit is a single inline-flex cell so the separator
+// stays welded to its preceding tag and the whole pair wraps together
+// rather than the dot stranding at the start of a new line.
+const khuddakaCell = {
+  display: 'inline-flex',
+  alignItems: 'baseline',
+  whiteSpace: 'nowrap',
 };
 
 const khuddakaTag = {
@@ -537,6 +554,7 @@ const khuddakaTag = {
 const dotSep = {
   color: 'var(--bc-text-tertiary)',
   fontStyle: 'normal',
+  padding: '0 8px',
 };
 
 const footerWrap = {
