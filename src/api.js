@@ -27,6 +27,27 @@ export function randomPassageApi({ scope, signal } = {}) {
   return get(`/api/random-passage${qs}`, { signal });
 }
 
+// POST a message from the About-page contact form. The server stores
+// it in contact_messages; the maintainer reads via the DB proxy.
+// `from_email` is optional (some users won't include one). `website`
+// is the honeypot — should always be empty for real submissions.
+export async function contactApi({ from_email, subject, body, website, signal } = {}) {
+  const res = await fetch('/api/contact', {
+    method: 'POST',
+    headers: { accept: 'application/json', 'content-type': 'application/json' },
+    body: JSON.stringify({ from_email, subject, body, website }),
+    signal,
+  });
+  if (!res.ok) {
+    let detail = '';
+    try { detail = (await res.json()).error || ''; } catch { /* */ }
+    const err = new Error(detail || `${res.status} ${res.statusText}`);
+    err.status = res.status;
+    throw err;
+  }
+  return res.json();
+}
+
 export function passageTranslationsApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}/translations`, opts);
 }

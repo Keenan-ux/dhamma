@@ -151,6 +151,58 @@ app.get('/api/library/:slug', async (c) => {
   }
 });
 
+// POST /api/contact — store a message from the About-page form.
+// Plain inbox table; the maintainer reads via the DB proxy. No
+// third-party email service wired up. Rate-limits per client IP
+// to keep casual spam off; the actual response just confirms the
+// message was stored.
+app.post('/api/contact', async (c) => {
+  try {
+    const { sql } = await import('./db.js');
+    if (!sql) return c.json({ error: 'no_db' }, 500);
+    const body = await c.req.json().catch(() => ({}));
+    const subject = String(body.subject || '').trim().slice(0, 200);
+    const message = String(body.body || '').trim().slice(0, 10000);
+    const fromEmailRaw = body.from_email ? String(body.from_email).trim().slice(0, 200) : null;
+    if (!subject) return c.json({ error: 'subject_required' }, 400);
+    if (!message) return c.json({ error: 'message_required' }, 400);
+    // Loose email shape check — we don't want false rejections on
+    // valid-but-unusual addresses, just basic sanity.
+    if (fromEmailRaw && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(fromEmailRaw)) {
+      return c.json({ error: 'invalid_email' }, 400);
+    }
+    // Honeypot — the form's hidden "website" field should always be
+    // empty for a real human. Bots that auto-fill every input set it.
+    if (body.website && String(body.website).trim().length > 0) {
+      // Pretend success to avoid signalling the trap is detected.
+      return c.json({ ok: true });
+    }
+
+    // Rate limit: SHA-256(ip) so we can throttle without storing PII.
+    // Fly puts the client IP in the Fly-Client-IP header.
+    const crypto = await import('node:crypto');
+    const ip = c.req.header('fly-client-ip')
+            || c.req.header('x-forwarded-for')?.split(',')[0]?.trim()
+            || 'unknown';
+    const ipHash = crypto.createHash('sha256').update(ip).digest('hex');
+    const recent = await sql`
+      SELECT COUNT(*)::int AS n FROM contact_messages
+      WHERE ip_hash = ${ipHash} AND created_at > NOW() - INTERVAL '1 minute'
+    `;
+    if (recent[0]?.n >= 5) {
+      return c.json({ error: 'rate_limited', retry_after_s: 60 }, 429);
+    }
+    const userAgent = c.req.header('user-agent') || null;
+    await sql`
+      INSERT INTO contact_messages (from_email, subject, body, user_agent, ip_hash)
+      VALUES (${fromEmailRaw}, ${subject}, ${message}, ${userAgent}, ${ipHash})
+    `;
+    return c.json({ ok: true });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.post('/api/gloss', async (c) => {
   // Batch word-gloss lookup for interlinear / hover glosses. Body:
   // { words: ["sampajāno", "bhikkhave", ...] }.
