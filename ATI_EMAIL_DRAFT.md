@@ -26,14 +26,17 @@ which I also admire, doesn't, and the curated articles and indexes
 are irreplaceable.
 
 Within the CC BY-NC 4.0 terms, all of your translations now sit
-alongside the SuttaCentral translation on each sutta page, each
+alongside the SuttaCentral translation on each sutta page. Each is
 attributed to its translator and to "From Access to Insight
 (Offline Edition 2013.12.01.01)" with a link back to your page.
-The non-sutta material, study guides, author essays, the Thai
-forest collection, Path to Freedom, the glossary, lives in a
-separate Library tab. As a concrete example you can verify,
-Bhikkhu Bodhi's *A Look at the Kalama Sutta* is at
-https://dhamma.fly.dev/#/library/ati-lib-authors-bodhi-bps-essay-09.
+As a concrete example, the Karaṇīyamettā Sutta at
+https://dhamma.fly.dev/#/read/snp1.8 carries five ATI translations
+side by side (Amaravati, Buddharakkhita, Ñāṇamoli, Piyadassi,
+Thanissaro). The non-sutta material, study guides, author essays,
+the Thai forest collection, Path to Freedom, the glossary, lives
+in a separate Library tab at https://dhamma.fly.dev/#/library.
+That page also has a Translators index listing every translator
+across the corpus with their passage counts.
 
 If there is any specific way you'd like the attribution displayed,
 any content you'd prefer I exclude, or any other constraint to
