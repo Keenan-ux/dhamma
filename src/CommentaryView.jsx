@@ -221,7 +221,7 @@ const scrollWrap = {
 
 const pageHeader = {
   maxWidth: 820,
-  margin: '64px auto 0',
+  margin: '64px 0 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -255,7 +255,7 @@ const pageSubtitle = {
 
 const topControls = {
   maxWidth: 820,
-  margin: '24px auto 0',
+  margin: '24px 0 0',
   padding: '0 28px',
   display: 'flex',
   justifyContent: 'center',
@@ -263,7 +263,7 @@ const topControls = {
 
 const featuredBlock = {
   maxWidth: 560,
-  margin: '48px auto 0',
+  margin: '48px 0 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -298,7 +298,7 @@ const featuredCount = {
 
 const sectionHeader = {
   maxWidth: 1100,
-  margin: '52px auto 4px',
+  margin: '52px 0 4px',
   padding: '0 20px',
   fontFamily: SERIF,
   fontSize: 18,
@@ -322,7 +322,7 @@ const sectionSubtitle = {
 
 const threeCol = {
   maxWidth: 1100,
-  margin: '0 auto',
+  margin: '0 0',
   padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -403,7 +403,7 @@ const workCount = {
 
 const miscBlock = {
   maxWidth: 720,
-  margin: '32px auto 0',
+  margin: '32px 0 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -442,7 +442,7 @@ const toggleLabel = {
 
 const footerWrap = {
   maxWidth: 720,
-  margin: '72px auto 56px',
+  margin: '72px 0 56px',
   padding: '0 28px',
   textAlign: 'center',
 };

@@ -137,7 +137,7 @@ const scrollWrap = {
 
 const pageHeader = {
   maxWidth: 820,
-  margin: '64px auto 0',
+  margin: '64px 0 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -171,7 +171,7 @@ const pageSubtitle = {
 
 const topControls = {
   maxWidth: 1100,
-  margin: '24px auto 0',
+  margin: '24px 0 0',
   padding: '0 20px',
   display: 'flex',
   justifyContent: 'space-between',
@@ -222,7 +222,7 @@ const sortBtn = {
 
 const grid = {
   maxWidth: 1100,
-  margin: '40px auto 0',
+  margin: '40px 0 0',
   padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
@@ -233,7 +233,7 @@ const grid = {
 
 const singleList = {
   maxWidth: 480,
-  margin: '32px auto 0',
+  margin: '32px 0 0',
   padding: '0 24px',
   display: 'flex',
   flexDirection: 'column',
@@ -279,7 +279,7 @@ const workCount = {
 
 const footerWrap = {
   maxWidth: 720,
-  margin: '72px auto 56px',
+  margin: '72px 0 56px',
   padding: '0 28px',
   textAlign: 'center',
 };

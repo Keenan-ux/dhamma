@@ -369,7 +369,7 @@ const pageHeader = {
   // narrower column above it. Title text still self-centers via the
   // letter-spaced uppercase + textAlign:center.
   maxWidth: 980,
-  margin: '64px auto 0',
+  margin: '64px 0 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -406,7 +406,7 @@ const pageSubtitle = {
 
 const categoryNav = {
   maxWidth: 980,
-  margin: '32px auto 16px',
+  margin: '32px 0 16px',
   padding: '0 20px',
   display: 'flex',
   flexWrap: 'wrap',
@@ -443,7 +443,7 @@ const categoryCount = {
 // viewports.
 const categoryNavStack = {
   maxWidth: 480,
-  margin: '32px auto 16px',
+  margin: '32px 0 16px',
   padding: '0 8px',
   display: 'flex',
   flexDirection: 'column',
@@ -477,7 +477,7 @@ const categoryRowCount = {
 
 const categoryBlurb = {
   maxWidth: 720,
-  margin: '0 auto 28px',
+  margin: '0 0 28px',
   padding: '0 28px',
   fontFamily: SERIF,
   fontStyle: 'italic',
@@ -492,7 +492,7 @@ const articleListGrid = {
   // centered column of content. 980 fits a 3-column auto-fit at
   // ~280px each with comfortable gutters.
   maxWidth: 980,
-  margin: '0 auto 32px',
+  margin: '0 0 32px',
   padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
@@ -502,7 +502,7 @@ const articleListGrid = {
 
 const articleListNarrow = {
   maxWidth: 480,
-  margin: '0 auto 32px',
+  margin: '0 0 32px',
   padding: '0 20px',
   display: 'flex',
   flexDirection: 'column',
@@ -549,7 +549,7 @@ const articleMeta = {
 
 const emptyHint = {
   maxWidth: 720,
-  margin: '40px auto',
+  margin: '40px 0',
   padding: '0 28px',
   fontFamily: SERIF,
   fontStyle: 'italic',
@@ -561,7 +561,7 @@ const emptyHint = {
 const articleReadWrap = {
   position: 'relative',
   maxWidth: 720,
-  margin: '0 auto',
+  margin: '0 0',
   padding: '28px 28px 64px',
 };
 
@@ -639,7 +639,7 @@ const articleFooter = {
 
 const footerWrap = {
   maxWidth: 720,
-  margin: '72px auto 56px',
+  margin: '72px 0 56px',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -660,7 +660,7 @@ const attribLink = {
 };
 
 const loadingHint = {
-  margin: '40px auto',
+  margin: '40px 0',
   textAlign: 'center',
   fontFamily: SERIF,
   fontStyle: 'italic',
@@ -669,7 +669,7 @@ const loadingHint = {
 };
 
 const errorHint = {
-  margin: '40px auto',
+  margin: '40px 0',
   textAlign: 'center',
   fontFamily: SERIF,
   fontStyle: 'italic',

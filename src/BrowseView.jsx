@@ -369,7 +369,7 @@ function BreadcrumbLink({ children, onClick }) {
   );
 }
 
-const wrap = { maxWidth: 1200, margin: '0 auto', padding: '24px 28px 48px' };
+const wrap = { maxWidth: 1200, margin: 0, padding: '24px 28px 48px' };
 
 const readingModeWrap = { maxWidth: 720, margin: '0 auto', padding: '40px 28px 64px' };
 
