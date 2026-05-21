@@ -183,9 +183,23 @@ export default function CanonMapView({ onDrill }) {
             </h2>
             <p style={colCount}>{fmtCount(vinaya)} passages</p>
             <p style={colKind}>five books</p>
+            {/* The 5 books are stored flat under pli-vinaya in our corpus
+                (not as separate sub-works), so every book name routes to
+                the same drill destination. Click affordance kept so the
+                column reads as interactive — matches Sutta visually — and
+                the destination is the same Vinaya-wide list either way. */}
             <ul style={textList}>
               {VINAYA_BOOKS.map((name) => (
-                <li key={name} style={textListItem}>{name}</li>
+                <li
+                  key={name}
+                  style={{ ...textListItem, ...flatBookRow }}
+                  onClick={() => drill(tipitaka.id, vinaya.id)}
+                  role="button"
+                  tabIndex={0}
+                  title="Open Vinaya passages — the five books are not yet separately browsable in the corpus"
+                >
+                  {name}
+                </li>
               ))}
             </ul>
           </section>
@@ -235,9 +249,20 @@ export default function CanonMapView({ onDrill }) {
             </h2>
             <p style={colCount}>{fmtCount(abhidhamma)} passages</p>
             <p style={colKind}>seven books</p>
+            {/* Same situation as Vinaya — the 7 books are flat in the
+                corpus, so each name routes to the same drill destination. */}
             <ul style={textList}>
               {ABHIDHAMMA_BOOKS.map((name) => (
-                <li key={name} style={textListItem}>{name}</li>
+                <li
+                  key={name}
+                  style={{ ...textListItem, ...flatBookRow }}
+                  onClick={() => drill(tipitaka.id, abhidhamma.id)}
+                  role="button"
+                  tabIndex={0}
+                  title="Open Abhidhamma passages — the seven books are not yet separately browsable in the corpus"
+                >
+                  {name}
+                </li>
               ))}
             </ul>
           </section>
@@ -442,6 +467,16 @@ const nikayaRow = {
   gap: 12,
   cursor: 'pointer',
   transition: 'color 120ms ease',
+};
+
+// Same affordance as a nikāya row, but slightly dimmer to signal that
+// these route to the whole-piṭaka view rather than a book-specific
+// drill (Vinaya + Abhidhamma books aren't separated as sub-works in
+// the corpus yet).
+const flatBookRow = {
+  cursor: 'pointer',
+  transition: 'color 120ms ease',
+  color: 'var(--bc-text-secondary)',
 };
 
 const nikayaName = {
