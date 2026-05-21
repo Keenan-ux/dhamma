@@ -316,6 +316,11 @@ function termToTsquery(term, { prefix = false } = {}) {
 function nodeToTsquery(node, ctx) {
   if (!node) return null;
   if (node.kind === 'term') {
+    // Drop bare stopwords + 1-char tokens — matches flattenAst's filter so
+    // the tsquery and the user-facing "must terms" list agree on what's
+    // load-bearing. Without this, typing `the` would generate a tsquery
+    // that matches every English passage and report a misleading total.
+    if (isStopword(node.value)) return null;
     const base = termToTsquery(node.value, { prefix: ctx.prefix });
     if (!base) return null;
     if (!ctx.expandAliases) return base;
