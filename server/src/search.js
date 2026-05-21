@@ -742,6 +742,7 @@ export async function runSearch(rawParams) {
                NULL AS headline
         FROM articles
         WHERE source = 'ati' AND embedding IS NOT NULL
+          AND (embedding <=> ${qVecLit}::vector) < 0.7
         ORDER BY embedding <=> ${qVecLit}::vector
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -758,6 +759,7 @@ export async function runSearch(rawParams) {
           SELECT id, ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector) AS rnk
           FROM articles
           WHERE source = 'ati' AND embedding IS NOT NULL
+            AND (embedding <=> ${qVecLit}::vector) < 0.7
           ORDER BY embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )
@@ -847,7 +849,9 @@ export async function runSearch(rawParams) {
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector)) AS score
         FROM translations t
         JOIN passages p ON p.id = t.passage_id
-        WHERE t.embedding IS NOT NULL ${pitakaP} ${layerP} ${translatorT}
+        WHERE t.embedding IS NOT NULL
+          AND (t.embedding <=> ${qVecLit}::vector) < 0.7
+          ${pitakaP} ${layerP} ${translatorT}
         ORDER BY t.embedding <=> ${qVecLit}::vector
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -866,7 +870,9 @@ export async function runSearch(rawParams) {
           SELECT t.id, ROW_NUMBER() OVER (ORDER BY t.embedding <=> ${qVecLit}::vector) AS rnk
           FROM translations t
           JOIN passages p ON p.id = t.passage_id
-          WHERE t.embedding IS NOT NULL ${pitakaP} ${layerP} ${translatorT}
+          WHERE t.embedding IS NOT NULL
+            AND (t.embedding <=> ${qVecLit}::vector) < 0.7
+            ${pitakaP} ${layerP} ${translatorT}
           ORDER BY t.embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )
@@ -922,15 +928,38 @@ export async function runSearch(rawParams) {
       // Vector-only: no parseable FTS terms.
       // Vector-only branch — no FTS match to headline against, so no
       // headline column. shapeResult falls back to first-N-chars snippet.
+      // Distance < 0.7 clips long-tail noise (see the three-way RRF
+      // block below for the rationale).
       rows = await sql`
         SELECT id, citation, title, canon, work_slug, original, translation,
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector)) AS score
         FROM passages
-        WHERE embedding IS NOT NULL ${pitakaBare} ${layerBare}
+        WHERE embedding IS NOT NULL
+          AND (embedding <=> ${qVecLit}::vector) < 0.7
+          ${pitakaBare} ${layerBare}
         ORDER BY embedding <=> ${qVecLit}::vector
         LIMIT ${limit} ${offsetFrag}
       `;
     } else {
+      // Three-way RRF for default-scope Meaning:
+      //   fts    — literal token / phrase matches (alias-expanded)
+      //   vec_p  — passages.embedding ANN (mixed Pali+English content)
+      //   vec_t  — translations.embedding ANN, best-translation-per-passage
+      //
+      // vec_t closes the cross-lingual gap on 11,609 CST passages that
+      // embed as pure Pāli. An English query like "clear comprehension"
+      // gets weak matches from vec_p (which has to bridge through BGE-M3's
+      // Pāli understanding) but strong matches from vec_t (against rich
+      // English translation text). RRF fuses all three; in practice the
+      // good vec_t hits surface above weak vec_p tail when the query is
+      // English-heavy.
+      //
+      // Distance threshold (`<=> < 0.7`) clips long-tail vector noise. The
+      // top-K ANN scan always returns K rows however irrelevant the K-th
+      // is; the filter drops rows whose cosine distance to the query
+      // vector is worse than 0.7 (cosine sim < 0.3) so a poorly-aimed
+      // query returns fewer-but-relevant results instead of junk.
+      const VEC_MAX_DIST = 0.7;
       rows = await sql`
         WITH
         fts AS (
@@ -939,21 +968,37 @@ export async function runSearch(rawParams) {
           WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
           LIMIT ${FUSION_POOL}
         ),
-        vec AS (
+        vec_p AS (
           SELECT id, ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector) AS rnk
           FROM passages
-          WHERE embedding IS NOT NULL ${pitakaBare} ${layerBare}
+          WHERE embedding IS NOT NULL
+            AND (embedding <=> ${qVecLit}::vector) < ${VEC_MAX_DIST}
+            ${pitakaBare} ${layerBare}
           ORDER BY embedding <=> ${qVecLit}::vector
+          LIMIT ${FUSION_POOL}
+        ),
+        vec_t AS (
+          SELECT t.passage_id AS id,
+                 ROW_NUMBER() OVER (ORDER BY MIN(t.embedding <=> ${qVecLit}::vector)) AS rnk
+          FROM translations t
+          JOIN passages p ON p.id = t.passage_id
+          WHERE t.embedding IS NOT NULL
+            AND (t.embedding <=> ${qVecLit}::vector) < ${VEC_MAX_DIST}
+            ${pitakaP} ${layerP}
+          GROUP BY t.passage_id
+          ORDER BY MIN(t.embedding <=> ${qVecLit}::vector)
           LIMIT ${FUSION_POOL}
         )
         SELECT p.id, p.citation, p.title, p.canon, p.work_slug, p.original, p.translation,
                COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
-             + COALESCE(1.0 / (${RRF_K} + vec.rnk), 0) AS score,
+             + COALESCE(1.0 / (${RRF_K} + vec_p.rnk), 0)
+             + COALESCE(1.0 / (${RRF_K} + vec_t.rnk), 0) AS score,
                ${hlPassageRRF} AS headline
         FROM passages p
-        LEFT JOIN fts ON fts.id = p.id
-        LEFT JOIN vec ON vec.id = p.id
-        WHERE (fts.id IS NOT NULL OR vec.id IS NOT NULL)
+        LEFT JOIN fts   ON fts.id   = p.id
+        LEFT JOIN vec_p ON vec_p.id = p.id
+        LEFT JOIN vec_t ON vec_t.id = p.id
+        WHERE (fts.id IS NOT NULL OR vec_p.id IS NOT NULL OR vec_t.id IS NOT NULL)
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
       `;
