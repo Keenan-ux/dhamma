@@ -826,15 +826,22 @@ function ReadingPanel({
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(20px)',
     borderBottom: `1px solid rgba(var(--bc-accent-rgb), ${0.22 * (1 - headerProgress)})`,
-    // maxHeight scales linearly with progress. No CSS transition —
-    // the hook's rAF-throttled per-frame updates already give the
-    // natural pacing. A CSS transition on top here would start a
-    // small animation on every frame's tiny progress change, which
-    // they would interrupt and overlap into the stutter the user
-    // reported.
-    maxHeight: stickyHidden ? 0 : Math.max(0, 800 * (1 - headerProgress)),
-    opacity: stickyHidden ? 0 : 1 - headerProgress * 0.92,
-    overflow: 'hidden',
+    // No layout-affecting properties driven from progress. Earlier
+    // versions used maxHeight which caused a feedback loop with the
+    // browser's overflow-anchor: shrinking the chrome moved body
+    // content visually, the browser auto-adjusted scrollTop to keep
+    // visible content stable, that re-fired the scroll handler, the
+    // chrome resized again — net effect was visible stutter and
+    // scroll input that wouldn't advance.
+    //
+    // Instead: the chrome stays at its natural height (sticky at
+    // top: 0 of the scroll viewport), and only its opacity +
+    // background alpha + border-rule alpha animate with progress.
+    // Body content scrolls up *under* the sticky overlay; as
+    // opacity drops the body content is revealed through it. At
+    // progress=1 the chrome is fully transparent and doesn't catch
+    // pointer events, so it reads as if it's gone.
+    opacity: stickyHidden ? 0 : 1 - headerProgress * 0.95,
     pointerEvents: stickyHidden ? 'none' : 'auto',
   } : undefined;
 
