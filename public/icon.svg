@@ -17,7 +17,7 @@
          surface, the way a botanical-illustration line drawing does. -->
     <path
       fill="#D4A93B"
-      fill-opacity="0.65"
+      fill-opacity="0.35"
       stroke="#D4A93B"
       stroke-width="5"
       stroke-linejoin="round"
