@@ -198,8 +198,15 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
         type="button"
       >
         <Leaf size={26} />
+        {/* Wordmark deliberately mixes typefaces:
+            - "Dhamma" in Noto Serif to echo the page titles (TIPIṬAKA,
+              SUTTA PIṬAKA, etc.) — anchors the brand in the scholarly
+              voice of the body content.
+            - "data" in Montserrat to keep the modern-toolish tone the
+              chrome reads in everywhere else. */}
         <span style={titleStyle}>
-          Dhamma <span style={{ color: 'var(--bc-text-tertiary)', fontWeight: 400 }}>data</span>
+          <span style={dhammaWord}>Dhamma</span>{' '}
+          <span style={dataWord}>data</span>
         </span>
       </button>
 
@@ -269,15 +276,25 @@ const brandBtn = {
   fontFamily: 'inherit',
 };
 
+// Wrapper holds the baseline; the two words inside override fontFamily
+// and weight to mix Noto Serif ("Dhamma") with Montserrat ("data").
 const titleStyle = {
-  fontFamily: 'Montserrat, system-ui, sans-serif',
   fontSize: 17,
-  // 500 instead of 600 — at the capital "Dhamma" weight 600 read
-  // chunky and blocky against the lowercase "data"; 500 still
-  // distinguishes brand from chrome but breathes. Positive tracking
-  // helps Montserrat's geometric capitals — its caps look squeezed
-  // at default tracking, especially next to the airier lowercase.
+  display: 'inline-flex',
+  alignItems: 'baseline',
+};
+
+const dhammaWord = {
+  fontFamily: '"Noto Serif", Georgia, serif',
   fontWeight: 500,
+  color: 'var(--bc-text-primary)',
+  letterSpacing: '0.01em',
+};
+
+const dataWord = {
+  fontFamily: 'Montserrat, system-ui, sans-serif',
+  fontWeight: 400,
+  color: 'var(--bc-text-tertiary)',
   letterSpacing: '0.02em',
 };
 
