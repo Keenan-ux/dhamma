@@ -13,10 +13,11 @@ and am incorporating it into a research tool at https://dhamma.fly.dev/.
 
 It indexes the SuttaCentral bilara-data corpus and the VRI/CST
 commentaries with hybrid full-text and vector search (BGE-M3
-embeddings), so a query like "clear comprehension" surfaces sampajāna
-passages without the literal English appearing. Selection-lookup runs
-against six dictionaries: DPD, DPPN, PED, CPED, Monier-Williams, BHS.
-No ads, no tracking, non-commercial throughout.
+embeddings), so a query like "mindfulness of breathing" surfaces
+the Ānāpāna-saṃyutta (SN 54) even though those Pāli passages don't
+contain that English phrase. Selection-lookup runs against six
+dictionaries: DPD, DPPN, PED, CPED, Monier-Williams, BHS. No ads,
+no tracking, non-commercial throughout.
 
 ATI's translator coverage (Thanissaro, Walshe, Nyanaponika, Bodhi
 extracts, Ireland, and the rest) is broader than what SuttaCentral
