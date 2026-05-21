@@ -272,8 +272,13 @@ const brandBtn = {
 const titleStyle = {
   fontFamily: 'Montserrat, system-ui, sans-serif',
   fontSize: 17,
-  fontWeight: 600,
-  letterSpacing: '-0.01em',
+  // 500 instead of 600 — at the capital "Dhamma" weight 600 read
+  // chunky and blocky against the lowercase "data"; 500 still
+  // distinguishes brand from chrome but breathes. Positive tracking
+  // helps Montserrat's geometric capitals — its caps look squeezed
+  // at default tracking, especially next to the airier lowercase.
+  fontWeight: 500,
+  letterSpacing: '0.02em',
 };
 
 const settingsBtn = {
