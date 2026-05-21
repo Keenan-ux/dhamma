@@ -377,8 +377,12 @@ const pageHeader = {
 const rule = {
   height: 1,
   background: 'rgba(var(--bc-accent-rgb), 0.32)',
+  // No internal maxWidth — the rule spans the full pageHeader column
+  // (currently 980), matching the visual width of the chip row and the
+  // article grid below. Previously this was capped at 580, which made
+  // the title block look like it sat in a narrower column than the
+  // content beneath it.
   margin: '0 auto',
-  maxWidth: 580,
 };
 
 const pageTitle = {
