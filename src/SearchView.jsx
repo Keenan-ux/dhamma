@@ -23,6 +23,18 @@ const SCOPES = [
   { key: 'library',     label: 'Library' },
 ];
 
+// Piṭaka filter — only meaningful when the scope is targeting the
+// Tipiṭaka (not the ATI Library). 'all' means no filter; the others
+// constrain work_slug to descendants of pli-sutta / pli-vinaya /
+// pli-abhidhamma respectively. Server already supports this via the
+// ?pitaka= param; the chip row below just exposes the toggle.
+const PITAKAS = [
+  { key: 'all',        label: 'All' },
+  { key: 'sutta',      label: 'Sutta' },
+  { key: 'vinaya',     label: 'Vinaya' },
+  { key: 'abhidhamma', label: 'Abhidhamma' },
+];
+
 // Title-only scope doesn't compose with Meaning mode — vectors are on
 // the full passage, so semantic similarity doesn't restrict to titles.
 // Hide the Title chip when Meaning is active so users can't pick a
@@ -59,6 +71,16 @@ export default function SearchView({
   const [nosnippet, setNosnippet] = useState(false);
   const perPage = nosnippet ? 500 : 50;
 
+  // Piṭaka filter. 'all' = no filter. Hidden when scope is Library (the
+  // ATI articles aren't in any piṭaka). Snap back to 'all' if the user
+  // moves from a Tipiṭaka scope into Library — server would ignore the
+  // param either way but the chip should match the visible state.
+  const [pitaka, setPitaka] = useState('all');
+  useEffect(() => {
+    if (scope === 'library' && pitaka !== 'all') setPitaka('all');
+  }, [scope, pitaka]);
+  const pitakaParam = pitaka !== 'all' ? pitaka : undefined;
+
   // The diacritics row only matters when the user is typing. Reveal on
   // focus, hide on blur — except: clicking a diacritic button briefly
   // blurs the input, so we delay the hide and the diacritic onMouseDown
@@ -94,7 +116,7 @@ export default function SearchView({
 
   const parsed = useMemo(() => parseQuery(q.trim()), [q]);
   const { data: result, loading, loadingMore, hasMore, error, loadMore } = useSearch({
-    q: q.trim(), mode, field: scope, limit: perPage, nosnippet,
+    q: q.trim(), mode, field: scope, limit: perPage, nosnippet, pitaka: pitakaParam,
   });
 
   // Visible-tradition filter is a display concern only — the server returns
@@ -262,6 +284,12 @@ export default function SearchView({
             {MODES.find((m) => m.key === mode)?.hint}
           </p>
           <FilterRow label="Search in" options={scopesFor(mode)} active={scope} onChange={setScope} />
+          {/* Piṭaka filter — hidden when scoping to the ATI Library since
+              the article corpus isn't divided by piṭaka. 'all' chip
+              clears the filter. */}
+          {scope !== 'library' && (
+            <FilterRow label="Piṭaka" options={PITAKAS} active={pitaka} onChange={setPitaka} />
+          )}
         </div>
 
         {showInlineFilters && traditions.length > 0 && (
