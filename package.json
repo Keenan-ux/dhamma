@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Query the Buddhist canon. Compare terms across Pali, Sanskrit, Chinese, and Zen sources.",
+  "description": "Search the Pāli Buddhist canon — Tipiṭaka, commentaries, sub-commentaries — with cross-canon Sanskrit dictionary lookup.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

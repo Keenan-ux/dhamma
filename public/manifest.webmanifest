@@ -1,7 +1,7 @@
 {
   "name": "Dhamma data",
   "short_name": "Dhamma",
-  "description": "Query the Buddhist canon. Compare terms across Pali, Sanskrit, Chinese, and Zen sources.",
+  "description": "Search the Pāli Buddhist canon — Tipiṭaka, commentaries, sub-commentaries — with cross-canon Sanskrit dictionary lookup.",
   "scope": "/",
   "start_url": "/",
   "display": "standalone",

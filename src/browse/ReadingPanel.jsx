@@ -489,7 +489,10 @@ export default function ReadingPanel({
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, position: 'relative' }} ref={moreRef}>
           {(() => {
             if (compact) {
-              return <div style={readingTradition}>{traditionLabel}</div>;
+              // Tradition label retired (only Theravāda is live) — pinned
+              // pane now has no kicker on the right. Restore the chip if
+              // cross-tradition data lands.
+              return null;
             }
             // Build the action list once; render expanded on wide
             // viewports, collapsed into a "…" menu on narrow.

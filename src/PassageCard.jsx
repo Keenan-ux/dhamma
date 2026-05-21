@@ -118,13 +118,15 @@ export default function PassageCard({ passage, highlight, first, onOpen, compact
             </span>
           )}
         </div>
-        <div style={traditionLine}>{passage.tradition}</div>
+        {/* Tradition chip retired — only Theravāda is ingested, so the
+            "THERAVĀDA" label on every card was redundant clutter. Restore
+            this when cross-tradition data lands. */}
       </header>
 
       {/* Compact mode (driven by the SearchView "Show all without snippets"
           toggle): skip every body block so the card collapses to citation +
-          title + work + tradition + footer — a flat scholarly index of
-          every hit. Otherwise the standard renderings below apply. */}
+          title + work + footer — a flat scholarly index of every hit.
+          Otherwise the standard renderings below apply. */}
       {!compact && passage.original && (
         <p style={originalText}>{highlightTerm(passage.original, highlight)}</p>
       )}
