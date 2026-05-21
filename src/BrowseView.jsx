@@ -634,15 +634,29 @@ function ReadingPanel({
       rafId = 0;
       if (!scrollEl) return;
       const y = scrollEl.scrollTop;
+      // Adapt collapse range to the actual scrollable height of
+      // this passage. On long pages (>= COLLAPSE_HEIGHT of slack)
+      // use the standard 220 px curve. On shorter pages, scale the
+      // curve to finish at the bottom of available scroll so the
+      // chrome can fully collapse before runway runs out. On pages
+      // with essentially no scroll (< 50 px slack) skip collapse
+      // entirely — the user can already see everything.
+      const maxScroll = scrollEl.scrollHeight - scrollEl.clientHeight;
       let p;
-      if (!collapsed) {
-        p = Math.min(1, y / COLLAPSE_HEIGHT);
-        if (p >= 0.98) { p = 1; collapsed = true; }
-      } else if (y < RE_EXPAND_ZONE) {
-        collapsed = false;
-        p = Math.min(1, y / COLLAPSE_HEIGHT);
+      if (maxScroll < 50) {
+        p = 0;
       } else {
-        p = 1;
+        const effectiveCollapse = Math.min(COLLAPSE_HEIGHT, Math.max(60, maxScroll - 8));
+        const effectiveReExpand = Math.min(RE_EXPAND_ZONE, effectiveCollapse * 0.35);
+        if (!collapsed) {
+          p = Math.min(1, y / effectiveCollapse);
+          if (p >= 0.98) { p = 1; collapsed = true; }
+        } else if (y < effectiveReExpand) {
+          collapsed = false;
+          p = Math.min(1, y / effectiveCollapse);
+        } else {
+          p = 1;
+        }
       }
       if (p < 0.02) p = 0;
       if (p === lastProgress) return;
