@@ -15,10 +15,10 @@ meaning (a BGE-M3 vector index, so a description of an idea returns
 passages that express it even when the literal words are different).
 
 Selecting a word in any reader opens a side panel with entries from
-five dictionaries — DPD, DPPN, the PTS PED, Monier-Williams, and
-Edgerton's BHS. Each passage's reader view shows SuttaCentral's
-parallels, including Sanskrit, Chinese, and Gāndhārī links where they
-exist.
+six dictionaries — DPD, DPPN, PED, and Buddhadatta's CPED for Pali;
+Monier-Williams and Edgerton's BHS for Sanskrit. Each passage's
+reader view shows SuttaCentral's parallels, including Sanskrit,
+Chinese, and Gāndhārī links where they exist.
 
 A separate Library tab carries the 386 secondary articles from Access
 to Insight: the study guides, the author essays, the Thai forest
@@ -37,7 +37,8 @@ theme tokens. The server is Hono on Node, serving the SPA and the
 `/api/*` routes from a single Fly container. Behind it, a sibling
 Fly app runs Postgres 16 + pgvector with the corpus, dictionaries,
 articles, parallels, and tags. Embeddings are 1024-dim BGE-M3,
-produced locally via `@xenova/transformers` and indexed with HNSW.
+produced via `@huggingface/transformers` (ONNX Runtime) and indexed
+with HNSW.
 
 `CLAUDE.md` carries the standing project context — corpus counts,
 schema notes, decisions worth remembering. `HACKING.md` walks
@@ -48,12 +49,14 @@ who wants to read the code.
 
 ```
 npm install
-cd server && npm install && cd ..
-npm run dev          # frontend on :5173
-cd server && npm run dev   # API on :8080
+cd server && npm install
 ```
 
-The frontend proxies `/api/*` to `http://localhost:8080` by default.
+The frontend dev server (`npm run dev` from the repo root) proxies
+`/api/*` to **`https://dhamma.fly.dev`** by default, so you can run
+the UI against the live corpus without setting up a database. Point
+the proxy at a local server in `vite.config.js` if you want to work
+on the API too.
 
 The full Postgres corpus is not in the repo — it lives in the
 `dhamma-pg` Fly app and the ingest scripts under `scripts/ingest/`
@@ -71,17 +74,19 @@ The corpus is assembled from:
   and extra-canonical works, in the public domain per their
   publication policy.
 - **Access to Insight** — translations by Ṭhānissaro, Walshe,
-  Ireland, Nyanaponika, Olendzki, Bhikkhu Bodhi (extracts),
-  Piyadassi, Ñāṇamoli, Soma, Buddharakkhita, Ireland, and others,
-  alongside ATI's secondary articles and curated indexes.
-  **CC BY-NC 4.0** — each ATI-sourced rendering carries the original
-  translator's copyright, the licence, and a link back to the
-  source page on `accesstoinsight.org`.
+  Nyanaponika, Olendzki, Bhikkhu Bodhi (extracts), Piyadassi,
+  Ñāṇamoli, Soma, Buddharakkhita, Ireland, and others, alongside
+  ATI's secondary articles and curated indexes. **CC BY-NC 4.0** —
+  each ATI-sourced rendering carries the original translator's
+  copyright, the licence, and a link back to the source page on
+  `accesstoinsight.org`.
 - **DPD** — *Digital Pāli Dictionary* by Bodhirasa, CC BY-NC-SA 4.0.
 - **DPPN** — *Dictionary of Pali Proper Names* (Malalasekera, 1937,
   rev. Ānandajoti 2025).
 - **PED** — Pali Text Society *Pali-English Dictionary* (Rhys Davids
   & Stede, 1921–25), CC BY-NC 3.0.
+- **CPED** — A.P. Buddhadatta's *Concise Pali-English Dictionary*
+  (1957), digitised via DPD's `other-dictionaries` archive.
 - **Monier-Williams** + **BHS (Edgerton)** — Cologne Digital Sanskrit
   Lexicon digitisation.
 

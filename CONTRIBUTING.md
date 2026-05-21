@@ -77,8 +77,8 @@ list of current sources.
 
 ## Communication
 
-Open an issue first for anything larger than a small fix. The
-maintainers (`@Keenan-ux`) read GitHub. If you're a maintainer of
-one of the upstream projects (SuttaCentral, ATI/BCBS, VRI, the
-Cologne lexica) and you'd like attribution displayed differently
-or content removed, please contact us and it'll be done.
+Open an issue first for anything larger than a small fix. I read
+GitHub (`@Keenan-ux`). If you're a maintainer of one of the
+upstream projects (SuttaCentral, ATI/BCBS, VRI, the Cologne lexica)
+and you'd like attribution displayed differently or content
+removed, please contact me and it'll be done.
