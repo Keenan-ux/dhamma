@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import TopNav from './TopNav.jsx';
 import Sidebar from './Sidebar.jsx';
 import SearchView from './SearchView.jsx';
@@ -131,8 +131,14 @@ export default function Dhamma() {
   const isNarrow = useIsNarrow();
 
   // Mirror enough state into the URL hash that refresh / shared link
-  // restores the same view. replaceState rather than pushState so
-  // typing in the search input doesn't fill the back-button history.
+  // restores the same view. Uses pushState for *meaningful* navigations
+  // (top-level tab change, opening a different passage, drilling to a
+  // different tree node) so the browser back button + mobile back
+  // gesture walk through the user's actual journey. Falls back to
+  // replaceState for in-place state shifts (typing in a search input,
+  // toggling the pinned passage) so the back stack doesn't fill with
+  // keystroke noise.
+  const lastWrittenHashRef = useRef(typeof window !== 'undefined' ? window.location.hash : '');
   useEffect(() => {
     let hash = '';
     const enc = (s) => encodeURIComponent(s).replace(/%20/g, '+');
@@ -170,9 +176,49 @@ export default function Dhamma() {
     const next = hash ? `${window.location.pathname}#${hash}` : window.location.pathname;
     const current = `${window.location.pathname}${window.location.hash}`;
     if (next !== current) {
-      window.history.replaceState(null, '', target);
+      // Distinguish "meaningful navigation" (deserves a back-stack
+      // entry) from "in-place state shift" (shouldn't). The heuristic
+      // compares the route head (#/<head>/…) between the previously-
+      // written hash and the new one: if the head changed, or the head
+      // is /read or /library and the trailing slug changed, push. Pure
+      // /search/<query> keystrokes only change the query suffix → replace.
+      const lastHash = lastWrittenHashRef.current || '';
+      const headOf = (h) => (h.replace(/^#\/?/, '').split('/')[0] || '');
+      const slugOf = (h) => h.replace(/^#\/?/, '').split('/').slice(1).join('/');
+      const newHead = headOf(target);
+      const oldHead = headOf(lastHash);
+      const isMeaningful =
+        newHead !== oldHead ||
+        ((newHead === 'read' || newHead === 'library' || newHead === 'browse') &&
+          slugOf(target) !== slugOf(lastHash));
+      if (isMeaningful) {
+        window.history.pushState(null, '', target);
+      } else {
+        window.history.replaceState(null, '', target);
+      }
+      lastWrittenHashRef.current = target;
     }
   }, [tab, query, searchMode, browsePath, browseLeafId, pinnedLeafId]);
+
+  // Browser back / forward (incl. mobile back gesture) — re-parse the
+  // hash and replay it into React state. Without this listener, the
+  // router is one-way (state → hash) and back exits the SPA entirely.
+  useEffect(() => {
+    function onPop() {
+      const parsed = parseInitialHash();
+      setTab(parsed.tab);
+      setQuery(parsed.query);
+      setSearchMode(parsed.searchMode);
+      setBrowsePath(parsed.path);
+      setBrowseLeafId(parsed.leaf);
+      setPinnedLeafId(parsed.pin);
+      // Don't push a duplicate — sync the ref so the URL effect
+      // doesn't try to re-write what the browser just navigated to.
+      lastWrittenHashRef.current = window.location.hash;
+    }
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   const { shape, error: corpusError } = useCorpus();
 
@@ -229,7 +275,22 @@ export default function Dhamma() {
       }}
     >
       {!readingMode && (
-        <TopNav tab={effectiveTab} setTab={setTab} onRandomSutta={handleRandomSutta} />
+        <TopNav
+          tab={effectiveTab}
+          setTab={setTab}
+          onRandomSutta={handleRandomSutta}
+          onHome={() => {
+            // Reset to the canonical landing view (Tipiṭaka frontmatter).
+            // Clears any in-progress drill / open leaf so the user
+            // really lands "home" rather than re-entering wherever they
+            // last were inside browse.
+            setTab('tipitaka');
+            setBrowsePath([]);
+            setBrowseLeafId(null);
+            setPinnedLeafId(null);
+            setReadingMode(false);
+          }}
+        />
       )}
       <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
         {!readingMode && !isNarrow && (
