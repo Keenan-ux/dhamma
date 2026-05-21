@@ -278,10 +278,13 @@ const brandBtn = {
 
 // Wrapper holds the baseline; the two words inside override fontFamily
 // and weight to mix Noto Serif ("Dhamma") with Montserrat ("data").
+// Flex collapses the literal " " between the spans, so the half-space
+// gap is set explicitly here.
 const titleStyle = {
   fontSize: 17,
   display: 'inline-flex',
   alignItems: 'baseline',
+  gap: '0.25em',
 };
 
 const dhammaWord = {
