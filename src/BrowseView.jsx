@@ -835,6 +835,10 @@ function ReadingPanel({
             const actions = [];
             actions.push({
               key: 'bookmark',
+              // Marked primary: stays inline even on narrow viewports.
+              // Bookmarking is one of the two most-used reader actions
+              // on mobile, so it doesn't belong hidden behind a "…".
+              primary: true,
               label: isBookmarked(leafId) ? 'Remove bookmark' : 'Bookmark passage',
               active: isBookmarked(leafId),
               onClick: () => toggleBookmark({ id: leafId, citation: passage.citation, title: passage.title, work: workLabel }),
@@ -869,6 +873,11 @@ function ReadingPanel({
             // checkmark icon swap.
             actions.push({
               key: 'share',
+              // Primary on narrow: share is the highest-value mobile
+              // action (native share sheet on iOS / Android). User
+              // explicitly asked for it to be visible in the header,
+              // not buried in the overflow dropdown.
+              primary: true,
               label: shareCopied ? 'Link copied' : 'Share passage',
               onClick: async () => {
                 const shareUrl = `${window.location.origin}/#/read/${encodeURIComponent(passage.id)}`;
@@ -955,50 +964,60 @@ function ReadingPanel({
               });
             }
 
-            if (!isNarrow) {
+            // Helper: render one action as its inline icon button.
+            const renderIcon = (a) => {
+              if (a.href) {
+                return (
+                  <a key={a.key} href={a.href} target="_blank" rel="noopener noreferrer" style={scLink} title={a.label}>
+                    SC ↗
+                  </a>
+                );
+              }
+              const style = a.active ? {
+                ...iconAction,
+                color: 'var(--bc-accent)',
+                borderColor: 'var(--bc-accent)',
+              } : iconAction;
               return (
-                <>
-                  {actions.map((a) => {
-                    if (a.href) {
-                      return (
-                        <a key={a.key} href={a.href} target="_blank" rel="noopener noreferrer" style={scLink} title={a.label}>
-                          SC ↗
-                        </a>
-                      );
-                    }
-                    const style = a.active ? {
-                      ...iconAction,
-                      color: 'var(--bc-accent)',
-                      borderColor: 'var(--bc-accent)',
-                    } : iconAction;
-                    return (
-                      <button key={a.key} onClick={a.onClick} style={style} title={a.label} aria-label={a.label} aria-pressed={a.active || undefined}>
-                        {a.icon}
-                      </button>
-                    );
-                  })}
-                  <div style={readingTradition}>{traditionLabel}</div>
-                </>
+                <button key={a.key} onClick={a.onClick} style={style} title={a.label} aria-label={a.label} aria-pressed={a.active || undefined}>
+                  {a.icon}
+                </button>
               );
+            };
+
+            // Tradition badge intentionally not rendered here. The
+            // entire corpus is Theravāda right now; the badge was
+            // dead weight. When Mahāyāna/Zen come online, restore
+            // <div style={readingTradition}>{traditionLabel}</div>.
+
+            if (!isNarrow) {
+              return <>{actions.map(renderIcon)}</>;
             }
 
-            // Narrow viewport: single "…" trigger + dropdown.
+            // Narrow viewport: actions marked primary render inline,
+            // the rest collapse into a "…" dropdown so the header
+            // never overflows the screen edge. User explicitly
+            // requested Share + Bookmark stay visible inline.
+            const primary  = actions.filter((a) => a.primary);
+            const overflow = actions.filter((a) => !a.primary);
             return (
               <>
-                <button
-                  type="button"
-                  onClick={() => setMoreOpen((v) => !v)}
-                  style={iconAction}
-                  aria-label="Passage actions"
-                  aria-haspopup="menu"
-                  aria-expanded={moreOpen}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
-                </button>
-                <div style={readingTradition}>{traditionLabel}</div>
+                {primary.map(renderIcon)}
+                {overflow.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setMoreOpen((v) => !v)}
+                    style={iconAction}
+                    aria-label="Passage actions"
+                    aria-haspopup="menu"
+                    aria-expanded={moreOpen}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+                  </button>
+                )}
                 {moreOpen && (
                   <div role="menu" style={overflowMenu}>
-                    {actions.map((a) => {
+                    {overflow.map((a) => {
                       const common = {
                         role: 'menuitem',
                         style: { ...overflowItem, ...(a.active ? overflowItemActive : null) },
@@ -1515,7 +1534,11 @@ const overflowMenu = {
   top: '100%',
   right: 0,
   marginTop: 6,
-  minWidth: 200,
+  // Bounded so the menu can't push past the viewport on narrow.
+  // Without this, a 200px-min menu anchored too close to the right
+  // edge of a 375px phone left the content visually off-screen.
+  minWidth: 180,
+  maxWidth: 'calc(100vw - 32px)',
   background: 'var(--bc-bg-elevated, var(--bc-bg))',
   border: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
   borderRadius: 8,
