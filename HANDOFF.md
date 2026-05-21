@@ -1,317 +1,334 @@
 # Dhamma data — handoff to next session
 
-This document captures the state at the end of the previous chat
-so the next chat can pick up without re-reading the full
-conversation. Read **this**, then **CLAUDE.md** for project
-context, then **TRANSLATIONS-AI.md** if the AI-draft work is the
-next priority.
+Picks up after a long session (May 2026) that materially improved
+search quality, search UX, library navigation, and tradition-UI
+cleanup. Read **this** first, then **CLAUDE.md** for project context.
 
 Live at **https://dhamma.fly.dev/** · GitHub: `Keenan-ux/dhamma` (still private)
 Last verified: `dbcheck → passages: 25,986, tables: 11, pgvector: true`
 
 ---
 
-## What's live
+## What landed this session
 
-The reader app is feature-complete for the original "single
-person scholarly tool" scope. What ships today:
+The bulk of the work was on **Meaning search quality**, which went
+from "returns random Pāli grammar passages for English queries" to
+"surfaces canonical sutta corpora for any reasonable Buddhist query
+in any reasonable typing convention." Plus a long tail of UX +
+ingest + structural fixes.
 
-**Corpus**
-- Pali Tipiṭaka (14,377 passages) + Commentaries (3,470) +
-  Sub-commentaries (5,109) + Extra-canonical (3,030) via
-  SuttaCentral + VRI/CST.
-- Library: 386 ATI articles with BGE-M3 embeddings + meaning
-  search.
-- 30,741 SuttaCentral parallels (in-corpus targets clickable;
-  Sanskrit / Chinese / Gāndhārī rendered as plain text).
-- 3,547 ATI-indexed tags across simile / name / subject /
-  number, with `/tags/<type>/<value>` drill-down.
+### Search engine (server/src/search.js + schema)
 
-**Multi-translator coverage**
-- 5,113 Sujato (CC0) + 1,139 ATI translators across ~15
-  translators (Ṭhānissaro, Walshe, Bodhi extracts, Ireland,
-  Olendzki, Piyadassi, Ñāṇamoli, Soma, Buddharakkhita,
-  Uppalavaṇṇā, et al.; CC BY-NC 4.0).
-- Reader carries translator chip switcher + per-row
-  attribution footer.
+- **`MAX_LIMIT` 100 → 5000**. Added `offset` + `nosnippet` params, plus
+  `hasMore` in the response shape, plus a `total` count via parallel
+  COUNT against the same FTS predicate.
+- **`FUSION_POOL` 200 → 500** for wider RRF recall on broad terms.
+- **MaxFragments 1 → 3** with `FragmentDelimiter=⌇`; `refineSnippet`
+  refines each fragment independently.
+- **`OR`, `NEAR/N`, parens** added to the query grammar via a full
+  tokenizer + recursive-descent AST. Legacy `must`/`phrases`/`exclude`
+  flat shape preserved.
+- **Field-weighted `ts_rank`** with explicit weights `{0.05, 0.15, 0.6, 1.0}`
+  on `fts_doc` (citation/title/original/translation) — Postgres caps
+  weights at 1.0 so we suppress D + C instead of bumping A.
+- **3-way RRF in default Meaning scope**: fuses FTS + passages.embedding
+  ANN + translations.embedding ANN with best-translation-per-passage.
+  This was the single biggest quality jump for English queries against
+  the CST commentary (which is embedded as pure Pāli).
+- **0.7 cosine-distance threshold** on all vector lookups — clips
+  long-tail noise so no-good-match queries return fewer relevant
+  results instead of irrelevant ones.
+- **Length-aware re-rank** in passages Meaning RRF: scores multiplied
+  by `1 - exp(-len/800)` so single-line verse passages stop dominating
+  thematic queries over substantial suttas (~0.22 at 200 chars, ~0.92
+  at 2000).
+- **`Postgres unaccent` extension + custom `simple_unaccent` config**
+  applied corpus-wide: every fts_doc tsvector and every to_tsquery /
+  ts_headline call uses the new config. **Diacritic-blind matching
+  across the entire 26K-passage corpus, automatic, no per-term seeding.**
+  `anapana ↔ ānāpāna`, `metta ↔ mettā ↔ Mettasutta`, every Pāli word.
+- **Reader-side highlight of every match** when arriving from a search
+  hit (not just the snippet window). Find bar placeholder advertises
+  the active highlight; typing in find overrides.
 
-**Dictionaries** — six sources cascading on every `/api/lookup`:
-DPD, DPPN, PED, CPED (Pāli) · MW, BHS (Sanskrit, gated under
-`?language=san`).
+### Aliases table (server/src/aliases.js + seed-aliases.sql)
 
-**Search**
-- Exact / Stem / Meaning modes
-- Scopes: All / Title / Original / Translation / Citation /
-  Library
-- `?pitaka=sutta|vinaya|abhidhamma` filter for canon-scoped
-  queries
-- Sentence-aware FTS snippets (`refineSnippet`)
+- **Bidirectional lookup**: `aliasesFor("loving-kindness")` now hits the
+  mettā row via `_byEquiv` reverse index. Direct + reverse hit logic
+  with the canonical term prepended to the returned siblings.
+- **Hyphen / underscore / case normalisation** in lookup keys, so
+  "loving kindness", "loving-kindness", "Loving Kindness" all match the
+  same entry. Stored alias strings keep their original form.
+- **English equivalents** added to every existing Pāli↔Sanskrit↔Chinese
+  row (sati ↔ mindfulness, sampajāna ↔ clear comprehension/alertness,
+  dukkha ↔ suffering/stress, etc.).
+- **15 new rows** for the Brahmavihāras (mettā, karuṇā, muditā, upekkhā),
+  five aggregates (rūpa, vedanā, saññā, saṅkhāra, viññāṇa), path
+  elements (bodhi, magga, citta, jhāna, samādhi, viriya), plus
+  multi-word topics (mindfulness of breathing → ānāpānasati, four
+  noble truths → cattāri ariyasaccāni, noble eightfold path,
+  paṭiccasamuppāda, khandha, tilakkhaṇa, virāga, nirodha).
+- **Diacritic-stripped variants** on every Pāli term equivalent
+  (`metta` alongside `mettā`, `karuna` alongside `karuṇā`, …). Mostly
+  redundant now that unaccent is live, but harmless and a good fallback
+  if someone disables the extension.
+- **Multi-word phrase detection** at AND nodes in nodeToTsquery +
+  expandEmbeddingQuery — when the user types "clear comprehension",
+  the engine tries the joined phrase as an alias key before falling
+  through to per-term expansion.
 
-**Reader chrome (this session's main work)**
-- TopNav: `position: fixed`, backdrop-blur, fades up on
-  scroll-down + slides back on scroll-up. Same hide-on-scroll
-  pattern as the boothcheck top nav.
-- Sticky reader header: back (or "Exit reading mode") + prev /
-  next nav + citation + action icons + find-in-passage row, all
-  wrapped in a single sticky chrome that collapses smoothly with
-  scroll progress. Adapts collapse range to short passages so it
-  never gets stranded.
-- Both fades use `data-scroll-root` selector + MutationObserver
-  re-attach on route change. Scroll handler is `useEffect` with
-  rAF throttle writing directly to a DOM ref (no React re-renders
-  during scroll — that was the cause of the mobile stutter).
+### Search UX (src/SearchView.jsx)
 
-**Other reader features**
-- Split-pane parallel view (pin a passage + open another at
-  ≥ 880 px → two full-chrome columns with swap / unpin)
-- Reading-mode (focus) variant with the same sticky chrome
-- Bookmarks (localStorage)
-- Citation copy
-- Share button (Web Share API on mobile, clipboard URL on desktop)
-- Interlinear DPD glosses on hover
-- Mobile overflow menu for low-priority actions; Share +
-  Bookmark stay inline
+- **Filter rows collapse behind a "Filters" disclosure** on narrow
+  viewports with a compact summary line of non-default active values.
+- **"Show all without snippets"** moved inline directly under the
+  result-count line (was at the bottom, scrolling out of reach as
+  infinite-scroll loaded more).
+- **Piṭaka chips** (Sutta / Vinaya / Abhidhamma) — server already
+  supported `?pitaka=`, this is the UI.
+- **Layer filter** (Tipiṭaka / Aṭṭhakathā / Ṭīkā / Extra-canonical /
+  Library) — pulls Library out of "Search in" so the two axes
+  compose. Server adds `?layer=` mapped to `work_role`.
+- **Translator chip indicator** when arriving from the Translator
+  coverage view, with a clear button.
+- **Result-count true-total** via parallel COUNT against the FTS
+  predicate; `≥` prefix for Meaning mode to flag the FTS count as a
+  lower bound on what semantic search adds; loaded-count fallback
+  when FTS=0 but vector returns results.
+- **Comma-separated must-term display** instead of " + " (the new
+  boolean grammar lets must contain OR-joined terms, where " + " was
+  misleading).
 
-**Pages**
-- Tipiṭaka / Commentaries / Extra-canonical: typeset frontmatter
-  + leaf-drill via Browse
-- Library: 386 ATI articles, browse by category + reader at
-  `/library/:slug`
-- Tags: drill type → value → passage list
-- Search: Exact / Stem / Meaning + scopes
-- Concordance: per-piṭaka frequency + KWIC + companion words
-- Dictionary: standalone lookup at `/dict/<term>` + selection-
-  popover inside every reader
-- Bookmarks: localStorage list
-- **About**: dedicated `/about` page with the corpus + dictionary
-  inventory + Contact section
-- **Contact form**: server-side `POST /api/contact` → stores in
-  Postgres + emails the maintainer via Resend
-  (`notifications@boothcheck.com` → `Keenan@boothcheck.com`)
-- Random sutta: server picks a passage with English + opens
-  reader
+### Library tab (src/LibraryView.jsx + ReadingPanel + Dhamma.jsx)
 
-**Brand**
-- Custom bodhi-leaf SVG (heart-cordate base + long acuminate
-  drip tip + pinnate venation), translucent membrane at 35 %
-  fill, crisp outline + veins
-- "Dhamma data" wordmark — "Dhamma" in Noto Serif, "data" in
-  Montserrat tertiary
-- Clickable logo → home (Tipiṭaka)
-- Working back button via `popstate` listener + meaningful
-  `pushState` heuristic
+- **Translator coverage index** — new "Translators" chip lists all 27
+  distinct translators across SC + ATI with passage counts. Click
+  opens Search with the translator filter pre-applied. `/api/translators`
+  endpoint powers it.
+- **Page layout unified at 980 maxWidth** so title + chips + grid sit
+  in one centered column; gold rule spans the full column.
+- **Article cards center-aligned content** so middle-column text
+  visually aligns with the centered title.
+- **`/library/<slug>` URL form noted broken**; works as `/#/library/<slug>`
+  via the hash router. Task #21 tracks a server-side redirect.
 
-**Infrastructure**
-- `@xenova/transformers` v2 → `@huggingface/transformers` v3
-  migration shipped (vector equivalence proved at min cosine
-  0.999999 across 50 queries; no corpus re-embed needed)
-- Server dep tree: 119 → 31 packages, 4 vulnerabilities → 0
-- Service worker stripped to no-op (was intercepting navigations
-  and causing stalled refreshes)
+### BrowseView refactor
+
+`src/BrowseView.jsx` went from a 2,433-line monolith to a 594-line
+orchestrator plus:
+- `src/browse/ReadingPanel.jsx` — the passage reader (1,616 lines)
+- `src/browse/SideBySideReader.jsx` — the dual-pane Pāli/English reader
+- `src/browse/TreeLevel.jsx` — the recursive tree-drill column
+- `src/browse/highlight.jsx` — escapeRegExp / highlightFind / withGlosses
+  utilities
+
+Pure refactor, no behaviour change. Delegated to a background agent
+and reviewed before commit.
+
+### Ingest
+
+- **552 new translation rows** via `scripts/ingest/ingest-sc-translators.mjs`
+  — Brahmali (420 Vinaya passages), Kelly (100 Khuddaka), Suddhaso (30),
+  Kovilo (2). `soma` excluded to avoid the Ayya-Soma / Soma-Thera
+  attribution collision with ATI.
+- **420 mis-attributed `sujato/sc` Vinaya rows deleted**
+  (`scripts/ingest/fix-vinaya-sujato-misattrib.mjs`) — they contained
+  Brahmali's text labelled as Sujato due to an earlier backfill chain.
+  The Bhu. Pc. 22 reader now correctly shows only Brahmali's chip.
+- **7,286 SC bilara passages backfilled to `work_role='mula'`** so the
+  Layer filter sees the canonical corpus (14,564 mula passages now).
+- **`idx_articles_embedding` HNSW index built** (3,104 kB). 387 article
+  embeddings were already there; the index was the missing piece for
+  Library Meaning search. Library Meaning now returns 100s of hits for
+  "mindfulness of breathing"-style queries.
+
+### Tradition UI retired
+
+Only Theravāda is live; the Mahāyāna/Zen schema rows have zero
+passages. Removed the Traditions chip row from SearchView, the
+"THERAVĀDA" sticker from PassageCard headers, the compact-pane
+tradition kicker from ReadingPanel, and the related state +
+props in Dhamma.jsx. `/api/corpus` filters out traditions with zero
+passages in their subtree so the front-end doesn't have to.
+
+Meta descriptions (`index.html`, `manifest.webmanifest`, `package.json`)
+no longer claim "Chinese, and Zen sources" — replaced with what the
+corpus actually contains.
+
+### Layout pass
+
+Every non-search page (Tipiṭaka, Commentaries, Extra-canonical, Tags,
+Bookmarks, About, Browse, Library) was using `margin: '0 auto'` which
+centered each page in the full main viewport. Now `margin: 0` so
+content hugs the sidebar like Search/Concordance/Dictionary. 24 wraps
+updated across 8 files via one-shot `trim-left-margins.mjs` (deleted
+after running).
+
+### Docs + cleanup
+
+- **README + CONTRIBUTING fixes**: `@xenova/transformers` →
+  `@huggingface/transformers`, "five dictionaries" → six (CPED added),
+  dev-proxy claim corrected, first-person voice in CONTRIBUTING.
+- **`useHeaderProgress.js` + `ScrollPage.jsx` deleted** — orphan dead
+  code from the earlier sticky-chrome rework.
 
 ---
 
-## To-do — work through top to bottom
+## ATI email — drafted, ready to send
 
-Linear list. Items 1–6 need user actions or sign-off. Items 7–10
-are dev work, ready to start.
+`ATI_EMAIL_DRAFT.md` finalised:
+- **To:** `contact@buddhistinquiry.org` (verified via ATI's own FAQ
+  page; the HANDOFF's old `info@bcbs.org` was stale)
+- **Tone:** scholarly, no em-dashes anywhere, no marketing register,
+  first-person singular
+- **Links:** `https://dhamma.fly.dev/#/read/snp1.8` (Karaṇīyamettā,
+  five ATI translations side-by-side) + `https://dhamma.fly.dev/#/library`
+  (article landing + new Translators index)
+- **Demonstration query**: `"mindfulness of breathing"` → SN 54
+  Ānāpāna-saṃyutta. Verified to work on prod.
+- **Sign-off**: Isaac Keenan Cyr / keenan@boothcheck.com
 
-**User actions / sign-off:**
+Three other email drafts (`BPS_EMAIL_DRAFT.md`,
+`SUTTACENTRAL_EMAIL_DRAFT.md`, `CPD_EMAIL_DRAFT.md`) **not yet
+revised** — still in their original state from the prior session.
 
-1. **Review `README.md` + `CONTRIBUTING.md`** — committed, but
-   maintainer hasn't read them. Get sign-off on tone before any
-   public-flip.
-2. **Flip GitHub repo public**: `gh repo edit Keenan-ux/dhamma --visibility public`.
-   Maintainer must authorise — destructive to do without explicit
-   green light.
-3. **Send `ATI_EMAIL_DRAFT.md`** (info@bcbs.org)
-4. **Send `SUTTACENTRAL_EMAIL_DRAFT.md`**
-5. **Send `BPS_EMAIL_DRAFT.md`** (info@bps.lk + cnt@bps.lk) —
-   asks BPS to extend ATI's CC BY-NC 4.0 precedent to Bodhi's four
-   commentary translation books (BP209S Brahmajāla, BP210S Mūla-
-   pariyāya, BP211S Sāmaññaphala, BP212S Mahānidāna).
-6. **Send `CPD_EMAIL_DRAFT.md`** (cpd-contact@uni-koeln.de,
-   info@palitextsociety.org cc) — asks Cologne + PTS for
-   permission to mirror the Critical Pāli Dictionary.
+---
 
-**Conditional ingests (start when replies land):**
+## Open backlog (priority order)
 
-7. **If BPS replies yes** → ingest Bodhi's four commentary
-   translation books from bps.lk PDFs into `translations` +
-   `passages` tables. Same attribution pattern as ATI rows
-   (translator + year + licence + source URL in the footer).
-   Lifts commentary translation coverage from ~2.3 % to a
-   meaningful percent of canonical sutta material.
-8. **If Cologne / PTS replies yes** → ingest CPD from DPD's
-   scraped SQLite (`digitalpalidictionary/other-dictionaries`,
-   `dictionaries/cpd/cpd.tar.zst`, 29,734 entries). Pattern
-   identical to `ingest-cped.mjs`; new source value `'cpd'`,
-   `language='pli'`. While the letter is open also ask about
-   Cone's *Dictionary of Pāli*.
+### Structural — pick up here
 
-**Other dev work, no blockers:**
+1. **CST passage re-embed for cross-language Meaning quality (#25)**.
+   11,609 commentary passages embedded as pure Pāli — vector matches
+   for English queries land them weakly. Two paths:
+   - (a) Inject per-token DPD English glosses into the embedding text,
+     re-embed. Existing DPD-inflections table has the gloss data;
+     would need a small script to walk each passage's Pāli, look up
+     each word's headword + first meaning_1, concatenate gloss text
+     after the original, re-embed.
+   - (b) Re-embed once AI translation drafts land (task #9 in the
+     long-term backlog). Higher quality but blocks on the AI pilot.
+   Path (a) is the deliverable for the next session.
 
-9. **AI-assisted draft translations** — see `TRANSLATIONS-AI.md`
-   for the full process plan. Goal is to fill the ~67 % of CST
-   commentarial / sub-commentarial passages that have no English
-   at all, as visibly-labelled machine drafts (not translations).
-   The model is Claude via the maintainer's flat-rate Anthropic
-   plan — per-token cost is not a constraint, so we can afford
-   generous context (DPD anchors, adjacent passages) and a high-
-   quality variant. **First step**: run a one-shot generation on
-   the DN 1 Aṭṭhakathā passage that Bodhi covered in BP209S so
-   we have a human gold standard to compare against. Iterate
-   from there.
+2. **Canonicality / "primary text on X" boost.** Even with all
+   today's tuning, the Visuddhimagga + its commentaries beat
+   Karaṇīyamettā on "metta" because they're more term-dense. That's
+   not wrong — Vism §80 IS the systematic treatment of mettā — but
+   scholars looking for the canonical sutta want it surfaced too.
+   Options:
+   - A small handcrafted `passage_priority` table flagging the ~30
+     "primary text on" suttas (Karaṇīyamettā, Dhammacakkappavattana,
+     Mahāsatipaṭṭhāna, etc.) with a score boost in the RRF.
+   - Surface a "primary canonical text" suggestion *above* the result
+     list when the query matches a known concept (autocomplete-style).
+   - A "Canon-first" toggle in the Filters disclosure that boosts
+     mula passages over commentaries in scoring.
+   First option is cheapest; third is most discoverable.
 
-10. **Smaller follow-ups** — clean-up rather than new features:
-    - Vinaya citation formatting (`PLI-TV-BI-VB-PJ1-4` →
-      `Bhi. Pj. 1-4`)
-    - Maybe a `simplify`-pass on `BrowseView.jsx` (~1800 lines now)
-    - Audit / remove `useHeaderProgress.js` — was extracted as a
-      shared hook then inlined into ReadingPanel for ref-based DOM
-      writes; the file is now unused. Either delete or re-use.
-    - Drop the `xenova-v2-pinned` memory note now that v3 is
-      shipped and the override is gone.
+3. **Path-form deep-link redirect (#21).** SPA only consumes URL hash.
+   Direct path links like `/library/<slug>` silently fall through to
+   default tab. Add server-side redirect on the Hono routes for the
+   well-known patterns (`/library/X`, `/read/X`, `/search/X`,
+   `/dict/X`) so direct URLs from anywhere work without the `#/`.
+
+### Outreach — ready when you are
+
+4. **Send `ATI_EMAIL_DRAFT.md`** to `contact@buddhistinquiry.org`.
+   Final version is in the repo, demonstration query verified on prod.
+5. **Revise + send `SUTTACENTRAL_EMAIL_DRAFT.md`**. Section-by-section
+   pass same as we did for ATI — strip em-dashes, tighten tone, swap
+   any stale facts, drop the word "Buddhist" per the in-flight site-
+   wide review of that term.
+6. **Revise + send `BPS_EMAIL_DRAFT.md`** (info@bps.lk + cnt@bps.lk).
+   Permission request for Bodhi's four commentary translation books.
+7. **Revise + send `CPD_EMAIL_DRAFT.md`** (cpd-contact@uni-koeln.de,
+   info@palitextsociety.org cc). Permission for Critical Pāli Dictionary.
+8. **GitHub repo public-flip** (needs maintainer sign-off):
+   `gh repo edit Keenan-ux/dhamma --visibility public`.
+
+### Conditional ingests (blocked on email replies)
+
+9. **If BPS replies yes** → ingest Bodhi's four commentary translation
+   books from bps.lk PDFs into `translations`. Same attribution
+   pattern as ATI rows.
+10. **If Cologne/PTS replies yes** → ingest CPD from DPD's
+    `other-dictionaries` archive. Pattern identical to `ingest-cped.mjs`.
+
+### Substantive next dev item
+
+11. **AI-assisted draft translations** — see `TRANSLATIONS-AI.md` for
+    the full process. The DN 1 Aṭṭhakathā pilot (Bhikkhu Bodhi's
+    BP209S as gold standard) is the first concrete step.
+
+### Smaller follow-ups
+
+12. **Site-wide review of the word "Buddhist"**. The maintainer is
+    rethinking that framing; touched only the README this session.
+    A site-wide pass would update meta descriptions, About page, and
+    UI prose. Doesn't need to be one big PR — can be iterative.
+
+13. **Drop the `xenova-v2-pinned` memory note** — superseded by the
+    v3 migration; was delegated this session.
 
 ---
 
 ## Architecture quick-reference
 
-### Frontend
+(see CLAUDE.md for full corpus + dictionary inventory)
+
+### Frontend layout
 ```
 src/
-  Dhamma.jsx              — top-level hash router; handleRandomSutta,
-                            handleBack via popstate listener
-  TopNav.jsx              — fixed-position, scroll-hides via
-                            useScrollHide; backdrop-blur; clickable
-                            "Dhamma data" wordmark = home
-  Sidebar.jsx             — desktop sidebar (Corpus + Tools + About);
-                            top padding clears the fixed TopNav
+  Dhamma.jsx              — hash router; routes by tab + leafId
+  TopNav.jsx              — fixed nav, scroll-hides on narrow
+  Sidebar.jsx             — desktop nav (Corpus + Tools + About)
   CanonMapView.jsx        — Tipiṭaka frontmatter
   CommentaryView.jsx      — Aṭṭhakathā + Ṭīkā frontmatter
   ExtraCanonicalView.jsx  — Anya frontmatter
-  LibraryView.jsx         — ATI library
-  TagsView.jsx            — curated tag drill
-  BookmarksView.jsx       — local-only bookmarks
-  SearchView.jsx          — Exact / Stem / Meaning + scopes
+  LibraryView.jsx         — ATI library + Translators coverage index
+  TagsView.jsx            — passage_tags drill-down
+  BookmarksView.jsx       — localStorage bookmarks
+  SearchView.jsx          — Exact / Stem / Meaning + filter disclosure
   CompareView.jsx         — Concordance (KWIC + companion words)
-  DictionaryView.jsx      — selection-popover host + standalone
-  AboutView.jsx           — typeset About page + Contact form
-                            (POST /api/contact → Resend)
-  BrowseView.jsx          — column drill + ReadingPanel + sticky
-                            collapsing chrome (back/prev-next/citation/
-                            find wrapped in single sticky <div>,
-                            opacity-driven by direct DOM writes in
-                            useEffect — no React re-renders during scroll)
+  DictionaryView.jsx      — six-source dictionary lookup
+  AboutView.jsx           — About page + Contact form
+  BrowseView.jsx          — orchestrator (594 lines after refactor)
+  browse/
+    ReadingPanel.jsx      — the passage reader
+    SideBySideReader.jsx  — dual-pane reader
+    TreeLevel.jsx         — recursive tree drill
+    highlight.jsx         — find-in-passage helpers
   PassageCard.jsx         — search/concordance result tile
-  SelectionActions.jsx    — selection popover
-  Leaf.jsx                — bodhi-leaf SVG (translucent at 35 %,
-                            crisp outline + veins)
-  api.js                  — fetch helpers (incl. randomPassageApi,
-                            contactApi)
-  useCorpus.js, usePassage.js, useSearch.js, useCompareStats.js
-  useBookmarks.js, useIsNarrow.js
-  useScrollHide.js        — generic hide-on-scroll-down chrome
-  useHeaderProgress.js    — extracted scroll-progress hook
-                            (currently unused; ReadingPanel inlined
-                            the equivalent for ref-based DOM writes)
-  ScrollPage.jsx          — shared scroll-root wrapper helper
-                            (currently unused; views still set the
-                            attribute inline)
-  paliStem.js, parseQuery.js, searchHistory.js
-  citationFormat.js, dictHtml.js, theme.css
+  api.js                  — fetch helpers incl. translatorsApi
+  parseQuery.js           — boolean grammar (OR / NEAR / parens / NOT)
+  useSearch.js            — debounced + paginated search hook
 ```
 
 ### Server
 ```
 server/src/
-  index.js     — Hono routes incl. /api/contact, /api/random-passage
+  index.js     — Hono routes incl. /api/translators, /api/contact
   db.js        — postgres connection + applySchema on boot
-  corpus.js    — /api/corpus (hides uddāna mūla rows)
-  search.js    — /api/search (FTS + vector + RRF; pitaka filter)
+  corpus.js    — /api/corpus (hides empty traditions + uddāna rows)
+  search.js    — /api/search (3-way RRF + alias + unaccent + length-rerank)
+  aliases.js   — bidirectional lookup, hyphen/case-normalised keys
   compareStats.js
   dictionary.js — six-source cascade
-  aliases.js
-  embed.js     — BGE-M3 ONNX via @huggingface/transformers v3
+  embed.js     — BGE-M3 ONNX via @huggingface/transformers
   paliStem.js
-server/sql/schema.sql — incl. contact_messages, articles, parallels,
-                       passage_tags
+server/sql/schema.sql   — applies unaccent + simple_unaccent on boot
+server/sql/seed-aliases.sql — 44 rows, multi-language + multi-word
 ```
 
-### Data tables (11)
-- traditions, works (display_order normalised), passages
-- dictionary_entries + dictionary_inflections (six sources)
-- translations (Sujato + ATI multi-translator)
-- articles (ATI Library + embedding)
-- passage_parallels (30,741)
-- passage_tags (3,547)
-- aliases
-- contact_messages (form inbox)
-
-### Endpoints
-- `/api/corpus`, `/api/passage/:id`, `/api/passages?ids=`
-- `/api/random-passage?scope=sutta|all`
-- `/api/search?q=&mode=&field=&limit=&pitaka=`
-- `/api/compare-stats?q=`
-- `/api/lookup?term=&source=&language=&mode=`
-- `/api/library`, `/api/library/:slug`
-- `/api/passage/:id/translations`
-- `/api/passage/:id/parallels`
-- `/api/passage/:id/tags`, `/api/tags?type=&value=`
-- `POST /api/contact` (rate-limited, Resend-relayed)
-- `POST /api/gloss`
-- `/api/healthz`, `/api/dbcheck`
-
-### Deploy / data ops
-- **Deploy**: `flyctl deploy --app dhamma` (5–8 min, schema
-  auto-applies on boot)
-- **Local DB access**: `flyctl proxy 15432 --app dhamma-pg`
-  running in background (often left running)
-- **DB password fetch**:
-  `flyctl ssh console --app dhamma -C "printenv DATABASE_URL"`
-- **Resend API key**: stored as Fly secret `RESEND_API_KEY`;
-  domain `boothcheck.com` is verified on Resend so
-  `notifications@boothcheck.com` is the validated FROM
-- **Ingest scripts** run from `scripts/ingest/`, using
-  `DATABASE_URL` pointing at the local proxy (`ssl: false` —
-  flyctl loopback)
-
----
-
-## Project rules (don't violate)
-
-- **No Tailwind.** Inline styles using `var(--bc-*)` tokens only.
-- **No analytics, telemetry, geolocation.**
-- **No LLM at runtime by default.** AI translation drafts (per
-  `TRANSLATIONS-AI.md`) are generated **offline**, stored as
-  static DB rows, off by default behind a user toggle, and
-  visually distinct from human translations.
-- **Academic typesetting** — Noto Serif body, small-caps section
-  labels, thin gold rules.
-- **CC BY-NC 4.0 honoured** — every ATI-sourced rendering shows
-  copyright + licence + source link.
-- **Pin model & DB versions** — BGE-M3 only works against
-  BGE-M3 vectors.
-- **Scholarly register in outreach + UI prose.** See
-  `feedback-tone-no-marketing` memory note.
-- **One person, not an organisation.** First-person framing in
-  user-facing copy. Maintainer is Keenan; replies come from him.
-
----
-
-## Memory notes worth re-reading
-
-Located at `~/.claude/projects/C--Dev-Dhamma/memory/`:
-
-- `fly-memory-requirement.md` — 4 GB or BGE-M3 OOMs
-- `xenova-v2-pinned.md` — **superseded by the v3 migration**;
-  remove next time you touch memory
-- `snippet-sentence-upgrade.md` — FTS-side shipped; vector-only
-  sentence embeddings still deferred
-- `cst-tipitaka-source.md` — VRI CST XML peculiarities
-- `never-suggest-stopping.md` — bias toward forward motion
-- `feedback-tone-no-marketing.md` — scholarly voice in outreach +
-  docs
+### DB
+- **simple_unaccent** text-search config (Postgres unaccent + simple)
+- `passages.fts_doc`, `translations.fts_doc`, `articles.fts_doc` all
+  built with simple_unaccent
+- HNSW indexes: `passages.embedding`, `articles.embedding`,
+  `translations.embedding` (per-source partial indexes on
+  `dictionary_entries.embedding`)
+- Sanity check: 25,986 passages · 6,217 translations · 387 articles
+  · 27 distinct translators · 44 alias rows
 
 ---
 
@@ -320,27 +337,46 @@ Located at `~/.claude/projects/C--Dev-Dhamma/memory/`:
 Paste this into the new chat verbatim:
 
 ```
-Read C:\Dev\Dhamma\HANDOFF.md and C:\Dev\Dhamma\CLAUDE.md.
-Previous chat is at context limit. Deployed state is good —
-verify with `curl -s https://dhamma.fly.dev/api/dbcheck`. The
-working tree should be clean.
+Read C:\Dev\Dhamma\HANDOFF.md, C:\Dev\Dhamma\CLAUDE.md, and
+C:\Dev\Dhamma\TRANSLATIONS-AI.md. Previous chat is at context
+limit. Deployed state is good — verify with
+`curl -s https://dhamma.fly.dev/api/dbcheck`. Working tree clean.
 
-The reader app is feature-complete; remaining work is mostly
-outreach (items 1–6 in HANDOFF.md, all needing my sign-off
-or my hand to send) plus AI-draft translations (item 9, the
-substantive next dev item — see TRANSLATIONS-AI.md for the
-full process plan).
+We just shipped a major Meaning-search overhaul (3-way RRF +
+unaccent + multi-word aliases + length-dampening). Quality is
+materially better but two structural ceilings remain that need
+focused work:
+
+  1. CST commentary passages (11,609 of them) are still
+     embedded as pure Pāli, so cross-language Meaning quality
+     is weaker on them than on SC sutta passages. Re-embed with
+     DPD-gloss-injected text — task #25 in HANDOFF, path (a).
+
+  2. Canonical suttas get beaten by their own commentaries on
+     thematic queries because Visuddhimagga etc. are more term-
+     dense (Vism §80 beats Karaṇīyamettā on "metta"). Need a
+     canonicality boost — task #2 in HANDOFF's open backlog.
+
+Pick (1) first. It's a corpus-wide compute job: walk every CST
+passage's Pāli, look up each word's DPD entry from the
+dictionary_entries + dictionary_inflections tables, gather the
+headword_lower + first sense from definition (or definition_lit),
+concatenate as a synthetic English-gloss appendix to the original
+Pāli text, re-embed with the existing BGE-M3 pipeline. Use the
+existing embed scripts in scripts/ingest/ as the template.
+
+Don't touch the email queue until I say so — ATI email is
+finalised in the repo, others are still in their pre-session
+state.
 
 Notes for working with me:
 - I have flat-rate Anthropic plans. Per-token cost is not a
   constraint. Don't penny-pinch model variant or context.
-- Both `C:\Dev\Dhamma` and `C:\Dev\boothcheck` are my own
-  private projects. When I ask to port a pattern between them
-  it's just refactoring across my own codebases — not an
-  external IP question.
-- I'm one person (Keenan), not a team. First-person framing in
-  any user-facing copy.
+- Em-dashes are an AI tell. Use commas/periods instead.
+- Don't use the word "Buddhist" in user-facing copy without
+  asking — there's an in-flight site-wide review of that term.
+- I'm one person (Isaac Keenan Cyr, but go by Keenan). Code
+  comments and user-facing copy use first-person singular.
 
-Wait for direction before starting anything from the to-do list —
-ask which item I want to work on. Don't assume.
+Wait for direction before starting anything substantive.
 ```
