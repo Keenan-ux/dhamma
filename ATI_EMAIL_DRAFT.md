@@ -11,19 +11,16 @@ that made Access to Insight what it is. Second, to let you know
 straightforwardly that I downloaded your offline edition for re-use
 and am incorporating it into a research tool at https://dhamma.fly.dev/.
 
-The site started as an idea on a Satipaṭṭhāna retreat in the Goenka
-tradition. A search tool that understands meaning, not just words,
-so a query for "clear comprehension" returns passages about
-sampajāna even when the literal English isn't there. It's built on
-the Pāli canon (SuttaCentral bilara-data, VRI/CST commentaries),
-six dictionaries (DPD, DPPN, PED, CPED, Monier-Williams, BHS), and
-a BGE-M3 vector index. No ads, no tracking, non-commercial throughout.
+It indexes the SuttaCentral bilara-data corpus and the VRI/CST
+commentaries with hybrid full-text and vector search (BGE-M3
+embeddings), so a query like "clear comprehension" surfaces sampajāna
+passages without the literal English appearing. Selection-lookup runs
+against six dictionaries: DPD, DPPN, PED, CPED, Monier-Williams, BHS.
+No ads, no tracking, non-commercial throughout.
 
-When I saw ATI is winding down I was sorry. The breadth of
-translators you make accessible (Thanissaro, Walshe, Nyanaponika,
-Bodhi extracts, Ireland, and the rest) covers ground SuttaCentral,
-which I also admire, doesn't, and the curated articles and indexes
-are irreplaceable.
+ATI's translator coverage (Thanissaro, Walshe, Nyanaponika, Bodhi
+extracts, Ireland, and the rest) is broader than what SuttaCentral
+ships, and the curated indexes have no equivalent elsewhere.
 
 Within the CC BY-NC 4.0 terms, all of your translations now sit
 alongside the SuttaCentral translation on each sutta page. Each is
