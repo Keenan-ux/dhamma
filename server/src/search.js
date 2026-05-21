@@ -1051,14 +1051,16 @@ export async function runSearch(rawParams) {
                -- Length-aware score: dampen very short passages so single-line
                -- Theragāthā / Therīgāthā verses don't dominate the top of broad
                -- thematic queries over substantial sutta passages on the same
-               -- topic. The 1 - exp(-len/300) curve is ~0 for empty text, ~0.5
-               -- at 200 chars, ~0.9 at 700, asymptotic to 1 for long passages.
-               -- Multiplies the fused RRF score so the relative ordering between
-               -- like-length results is preserved.
+               -- topic. The 1 - exp(-len/800) curve is ~0.22 at 200 chars, ~0.47
+               -- at 500, ~0.71 at 1000, ~0.92 at 2000, asymptotic to 1. Tuned
+               -- aggressively because verse passages (50-300 chars) were
+               -- consistently out-RRF'ing canonical suttas (1000+ chars) on
+               -- broad thematic queries like 'metta'. Earlier curve (/300) was
+               -- too gentle to flip the ordering.
                ((COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
                + COALESCE(1.0 / (${RRF_K} + vec_p.rnk), 0)
                + COALESCE(1.0 / (${RRF_K} + vec_t.rnk), 0))
-               * (1.0 - exp(-length(COALESCE(p.original, '') || COALESCE(p.translation, '')) / 300.0))) AS score,
+               * (1.0 - exp(-length(COALESCE(p.original, '') || COALESCE(p.translation, '')) / 800.0))) AS score,
                ${hlPassageRRF} AS headline
         FROM passages p
         LEFT JOIN fts   ON fts.id   = p.id
