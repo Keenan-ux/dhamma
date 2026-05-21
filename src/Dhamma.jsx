@@ -110,6 +110,11 @@ export default function Dhamma() {
   const [browseLeafId, setBrowseLeafId] = useState(INITIAL.leaf);
   const [pinnedLeafId, setPinnedLeafId] = useState(INITIAL.pin);
   const [readingMode, setReadingMode] = useState(false);
+  // Search-context highlight: an array of terms (matched user terms +
+  // alias expansions) that the reader applies to the open passage. Set
+  // when the user clicks a search result; cleared when they navigate
+  // from any other entry point (sidebar, bookmarks, random sutta, …).
+  const [searchHighlight, setSearchHighlight] = useState({ terms: [], stem: false });
 
   // Random sutta: fetched from the server (filters: has translation,
   // not uddāna, in sutta piṭaka). Single handler shared by Sidebar
@@ -123,6 +128,7 @@ export default function Dhamma() {
     try {
       const { id } = await randomPassageApi({ scope: 'sutta' });
       if (id) {
+        setSearchHighlight({ terms: [], stem: false });
         setBrowseLeafId(id);
         setBrowsePath([]);  // BrowseView's pathToLeaf fills the tree path
         setTab('browse');
@@ -347,6 +353,7 @@ export default function Dhamma() {
             {tab === 'bookmarks' && (
               <BookmarksView
                 onOpenPassage={(id) => {
+                  setSearchHighlight({ terms: [], stem: false });
                   setBrowseLeafId(id);
                   setBrowsePath([]);
                   setTab('browse');
@@ -356,6 +363,7 @@ export default function Dhamma() {
             {tab === 'tags' && (
               <TagsView
                 onOpenPassage={(id) => {
+                  setSearchHighlight({ terms: [], stem: false });
                   setBrowseLeafId(id);
                   setBrowsePath([]);
                   setTab('browse');
@@ -375,6 +383,8 @@ export default function Dhamma() {
                 setReadingMode={setReadingMode}
                 onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
+                highlightTerms={searchHighlight.terms}
+                highlightStem={searchHighlight.stem}
               />
             )}
             {tab === 'search' && (
@@ -387,13 +397,25 @@ export default function Dhamma() {
                 searchMode={searchMode}
                 setSearchMode={setSearchMode}
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
-                onOpenPassage={(p) => {
+                onOpenPassage={(p, highlight) => {
                   // Library hits carry slug as id; route to LibraryView's
                   // article reader instead of the passage reader.
                   if (p && p.library) {
                     window.location.hash = `#/library/${encodeURIComponent(p.id)}`;
                     setTab('library');
                     return;
+                  }
+                  // Capture the matched terms (+ alias expansions) so the
+                  // reader can highlight every occurrence, not just the
+                  // ts_headline window. `highlight` is the same array the
+                  // PassageCard used for its snippet highlight.
+                  if (Array.isArray(highlight) && highlight.length > 0) {
+                    setSearchHighlight({
+                      terms: highlight,
+                      stem: searchMode === 'stem' || searchMode === 'meaning',
+                    });
+                  } else {
+                    setSearchHighlight({ terms: [], stem: false });
                   }
                   setBrowseLeafId(p?.id ?? p);
                   setBrowsePath([]);

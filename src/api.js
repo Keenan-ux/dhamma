@@ -96,12 +96,14 @@ export function compareApi(ids, opts) {
   return get(`/api/compare?ids=${ids.map(encodeURIComponent).join(',')}`, opts);
 }
 
-export function searchApi({ q, mode, field, limit, signal }) {
+export function searchApi({ q, mode, field, limit, offset, nosnippet, signal }) {
   const params = new URLSearchParams();
   if (q) params.set('q', q);
   if (mode) params.set('mode', mode);
   if (field) params.set('field', field);
   if (limit != null) params.set('limit', String(limit));
+  if (offset != null && offset > 0) params.set('offset', String(offset));
+  if (nosnippet) params.set('nosnippet', 'true');
   return get(`/api/search?${params.toString()}`, { signal });
 }
 

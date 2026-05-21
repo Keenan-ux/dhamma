@@ -48,6 +48,12 @@ export default function BrowseView({
   pinnedLeafId, setPinnedLeafId,
   readingMode, setReadingMode,
   onSearchTerm, onCompareTerm,
+  // Search-context highlight: an array of terms (matched terms + alias
+  // expansions) that the reader should highlight throughout the passage
+  // when the user arrived from a search hit. Falls back when the user
+  // types in the in-passage find bar.
+  highlightTerms,
+  highlightStem,
 }) {
   const columnsScrollRef = useRef(null);
   const { shape, loading: corpusLoading } = useCorpus();
@@ -152,6 +158,8 @@ export default function BrowseView({
               }}
               onSearchTerm={onSearchTerm}
               onCompareTerm={onCompareTerm}
+              highlightTerms={highlightTerms}
+              highlightStem={highlightStem}
             />
           )}
         </div>
@@ -229,6 +237,8 @@ export default function BrowseView({
                 }}
                 onSearchTerm={onSearchTerm}
                 onCompareTerm={onCompareTerm}
+                highlightTerms={highlightTerms}
+                highlightStem={highlightStem}
               />
             )}
           </div>
@@ -335,6 +345,8 @@ export default function BrowseView({
                 }}
                 onSearchTerm={onSearchTerm}
                 onCompareTerm={onCompareTerm}
+                highlightTerms={highlightTerms}
+                highlightStem={highlightStem}
               />
             )}
           </>
@@ -410,23 +422,32 @@ function displayCitation(citation, workName) {
 }
 
 // Wrap matches of `find` in <mark> tags. Case-insensitive, Unicode-safe.
-// In stem mode, tokens whose paliStem() equals the find term's stem are
+// `find` accepts either a string (single term — what the in-passage find
+// bar produces) or an array of strings (search-context highlights —
+// multiple matched terms + alias-expanded variants from the result set).
+// In stem mode, tokens whose paliStem() equals any target stem are
 // highlighted (so "sati" catches "satiyā", "satimā", etc.). Returns the
 // original text when find is empty so non-find paths stay zero-cost.
 function highlightFind(text, find, stemMode = false) {
   if (!find) return text;
+  const terms = Array.isArray(find)
+    ? find.filter((t) => t && String(t).trim().length > 0).map(String)
+    : (String(find).trim() ? [String(find)] : []);
+  if (terms.length === 0) return text;
   if (stemMode) {
-    const targetStem = paliStem(String(find).toLowerCase());
-    if (!targetStem) return text;
+    const targetStems = new Set(
+      terms.map((t) => paliStem(t.toLowerCase())).filter(Boolean)
+    );
+    if (targetStems.size === 0) return text;
     const parts = String(text).split(/(\p{L}+)/u);
     return parts.map((p, i) => {
       if (i % 2 === 0) return <span key={i}>{p}</span>;
-      return paliStem(p.toLowerCase()) === targetStem
+      return targetStems.has(paliStem(p.toLowerCase()))
         ? <mark key={i} style={findMark}>{p}</mark>
         : <span key={i}>{p}</span>;
     });
   }
-  const re = new RegExp(`(${escapeRegExp(find)})`, 'giu');
+  const re = new RegExp(`(${terms.map(escapeRegExp).join('|')})`, 'giu');
   const parts = String(text).split(re);
   return parts.map((p, i) =>
     i % 2 === 1
@@ -590,6 +611,13 @@ function ReadingPanel({
                  // at the top of the sticky reader header on desktop.
                  // Hidden on mobile where the OS/browser back gesture
                  // covers the same need.
+  highlightTerms, // array of strings — search-context highlights. When
+                  // non-empty and the find bar is empty, the passage is
+                  // rendered with these terms marked. The user can
+                  // override by typing in the find bar.
+  highlightStem,  // boolean — whether to apply paliStem matching to
+                  // highlightTerms. Comes from the search mode (Stem
+                  // and Meaning modes use stem-bridged matching).
 }) {
   const ref = useRef(null);
   const isPinned = pinnedLeafId === leafId;
@@ -870,29 +898,40 @@ function ReadingPanel({
     });
   }
   const findStripped = findText.trim();
+  // Effective highlight: user-typed find term wins; otherwise fall back to
+  // the search-context highlightTerms array passed in by the parent. Lets
+  // a passage opened from a search hit auto-highlight every occurrence
+  // of the matched terms (alias-expanded), and still gives the user a
+  // way to override by typing their own find term.
+  const userTypedFind = findStripped.length > 0;
+  const activeHighlight = userTypedFind
+    ? findStripped
+    : (Array.isArray(highlightTerms) && highlightTerms.length > 0 ? highlightTerms : null);
+  const activeStem = userTypedFind ? findStem : !!highlightStem;
   const matchCount = useMemo(() => {
-    if (!findStripped) return 0;
-    if (findStem) {
-      const stem = paliStem(findStripped.toLowerCase());
-      if (!stem) return 0;
+    if (!activeHighlight) return 0;
+    const terms = Array.isArray(activeHighlight) ? activeHighlight : [activeHighlight];
+    if (activeStem) {
+      const stems = new Set(terms.map((t) => paliStem(String(t).toLowerCase())).filter(Boolean));
+      if (stems.size === 0) return 0;
       let count = 0;
       const re = /\p{L}+/giu;
       if (passage.original) {
         const ws = passage.original.match(re) || [];
-        for (const w of ws) if (paliStem(w.toLowerCase()) === stem) count++;
+        for (const w of ws) if (stems.has(paliStem(w.toLowerCase()))) count++;
       }
       if (translationText && !translationIsHtml) {
         const ws = translationText.match(re) || [];
-        for (const w of ws) if (paliStem(w.toLowerCase()) === stem) count++;
+        for (const w of ws) if (stems.has(paliStem(w.toLowerCase()))) count++;
       }
       return count;
     }
-    const re = new RegExp(escapeRegExp(findStripped), 'giu');
+    const re = new RegExp(terms.map(escapeRegExp).join('|'), 'giu');
     let count = 0;
     if (passage.original) count += (passage.original.match(re) || []).length;
     if (translationText && !translationIsHtml) count += (translationText.match(re) || []).length;
     return count;
-  }, [findStripped, findStem, passage.original, translationText, translationIsHtml]);
+  }, [activeHighlight, activeStem, passage.original, translationText, translationIsHtml]);
 
   // When both Pali + English exist, drop the single-column reading-width
   // cap so the parallel reader can span the full available content area.
@@ -1293,7 +1332,11 @@ function ReadingPanel({
               onChange={(e) => setFindText(e.target.value)}
               onFocus={handleFindFocus}
               onBlur={handleFindBlur}
-              placeholder="Find in passage…"
+              placeholder={
+                !userTypedFind && Array.isArray(highlightTerms) && highlightTerms.length > 0
+                  ? `Highlighting ${highlightTerms.slice(0, 3).join(', ')}${highlightTerms.length > 3 ? '…' : ''} — type to override`
+                  : 'Find in passage…'
+              }
               style={findInput}
               spellCheck={false}
               aria-label="Find in passage"
@@ -1310,7 +1353,7 @@ function ReadingPanel({
             >
               Stem
             </button>
-            {findStripped && (
+            {activeHighlight && (
               <span style={findCount}>
                 {matchCount.toLocaleString()} {matchCount === 1 ? 'match' : 'matches'}
               </span>
@@ -1376,8 +1419,8 @@ function ReadingPanel({
           pali={passage.original}
           english={translationText}
           englishIsHtml={translationIsHtml}
-          findText={findStripped}
-          findStem={findStem}
+          findText={activeHighlight}
+          findStem={activeStem}
           glossMap={glossesOn ? glossMap : null}
         />
       ) : (
@@ -1388,13 +1431,13 @@ function ReadingPanel({
             <p style={readingOriginal}>
               {glossesOn && glossMap
                 ? withGlosses(passage.original, glossMap)
-                : highlightFind(passage.original, findStripped, findStem)}
+                : highlightFind(passage.original, activeHighlight, activeStem)}
             </p>
           )}
           {translationText && (!isNarrow || !passage.original || mobileColumn === 'english') && (
             translationIsHtml
               ? <div style={readingTranslation} dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(translationText) }} />
-              : <p style={readingTranslation}>{highlightFind(translationText, findStripped, findStem)}</p>
+              : <p style={readingTranslation}>{highlightFind(translationText, activeHighlight, activeStem)}</p>
           )}
         </>
       )}
