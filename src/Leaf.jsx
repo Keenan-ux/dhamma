@@ -27,7 +27,7 @@ export default function Leaf({ size = 28, color = 'var(--bc-accent)' }) {
           internal detail without needing to be made louder themselves. */}
       <path
         fill={color}
-        fillOpacity={0.65}
+        fillOpacity={0.35}
         stroke={color}
         strokeWidth={5}
         strokeLinejoin="round"
