@@ -175,13 +175,19 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
           </button>
         )}
 
-        {!isMobile && <div style={divider} />}
-
-        {/* About */}
-        <button onClick={() => setOpen(false)} style={menuItem}>
-          <span style={menuItemLabel}>About</span>
-          <span style={menuItemSub}>What Dhamma data is and how it works</span>
-        </button>
+        {/* About — only on mobile. On desktop the Sidebar carries
+            its own compact "About" link, so showing it in the
+            Settings dropdown too would just duplicate the affordance.
+            Mobile keeps it because there is no sidebar to host it. */}
+        {isMobile && setTab && (
+          <button
+            onClick={() => { setTab('about'); setOpen(false); }}
+            style={menuItem}
+          >
+            <span style={menuItemLabel}>About</span>
+            <span style={menuItemSub}>What Dhamma data is and how it works</span>
+          </button>
+        )}
       </div>
     </div>
   );

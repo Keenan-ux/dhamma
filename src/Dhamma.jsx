@@ -13,6 +13,7 @@ import TagsView from './TagsView.jsx';
 import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
+import AboutView from './AboutView.jsx';
 import { randomPassageApi } from './api.js';
 
 // Path-style hash routing. Keeps URLs short and human-readable.
@@ -65,6 +66,8 @@ function parseInitialHash() {
     out.tab = 'bookmarks';
   } else if (head === 'tags') {
     out.tab = 'tags';
+  } else if (head === 'about') {
+    out.tab = 'about';
   } else if (head === 'browse') {
     // Browse is the leaf-drill fallback until slice 2's cascading typeset
     // pages replace it. Sidebar no longer links here, but URL
@@ -157,6 +160,8 @@ export default function Dhamma() {
     } else if (tab === 'tags') {
       // TagsView manages its own /tags/<type>/<value> deep links.
       if (!window.location.hash.startsWith('#/tags')) hash = '/tags';
+    } else if (tab === 'about') {
+      hash = '/about';
     } else if (tab === 'browse') {
       if (browseLeafId) {
         hash = `/read/${enc(browseLeafId)}`;
@@ -357,6 +362,7 @@ export default function Dhamma() {
                 }}
               />
             )}
+            {tab === 'about' && <AboutView />}
             {tab === 'browse' && (
               <BrowseView
                 path={browsePath}
