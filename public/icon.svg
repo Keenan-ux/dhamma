@@ -1,12 +1,69 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background: cream tile with the app's rounded-corner radius.
+       Matches manifest.webmanifest theme_color / background_color so
+       the install icon, splash screen, and favicon all read as one. -->
   <rect width="512" height="512" rx="96" fill="#F6F2E8"/>
-  <g fill="none" stroke="#8B6914" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Bodhi leaf: heart base, pointed tip, central vein, two lateral veins -->
-    <path d="M 256 96 C 156 156 116 256 156 336 C 196 416 296 426 256 416 C 216 426 316 416 356 336 C 396 256 356 156 256 96 Z"/>
-    <path d="M 256 96 L 256 416"/>
-    <path d="M 256 220 L 196 280"/>
-    <path d="M 256 220 L 316 280"/>
-    <path d="M 256 300 L 206 350"/>
-    <path d="M 256 300 L 306 350"/>
+
+  <!-- Bodhi leaf, centred and slightly inset from the tile edges.
+       Filled in warm gold to match the photographed reference; the
+       midrib + pinnate side-vein pattern is drawn over the fill in
+       a dim amber so the venation reads as part of the leaf rather
+       than as separate lines. -->
+  <g transform="translate(46 26) scale(0.82)">
+    <!-- Leaf body -->
+    <path
+      fill="#D4A93B"
+      d="
+        M 256 26
+        C 246 50 230 78 210 108
+        C 178 152 142 192 116 228
+        C 92 264 78 304 80 348
+        C 84 402 122 442 172 458
+        C 196 464 222 466 252 472
+        L 256 472
+        L 260 472
+        C 290 466 316 464 340 458
+        C 390 442 428 402 432 348
+        C 434 304 420 264 396 228
+        C 370 192 334 152 302 108
+        C 282 78 266 50 256 26
+        Z
+      "/>
+    <!-- Petiole -->
+    <path
+      stroke="#D4A93B"
+      stroke-width="10"
+      stroke-linecap="round"
+      d="M 256 472 L 256 498"/>
+    <!-- Midrib -->
+    <path
+      stroke="#7E5A14"
+      stroke-width="6"
+      stroke-linecap="round"
+      fill="none"
+      opacity="0.55"
+      d="M 256 470 L 256 90"/>
+    <!-- Pinnate side veins -->
+    <g
+      stroke="#7E5A14"
+      stroke-width="4"
+      stroke-linecap="round"
+      fill="none"
+      opacity="0.45">
+      <path d="M 256 420 Q 200 432 152 432"/>
+      <path d="M 256 420 Q 312 432 360 432"/>
+
+      <path d="M 256 348 Q 180 356 110 332"/>
+      <path d="M 256 348 Q 332 356 402 332"/>
+
+      <path d="M 256 276 Q 180 256 108 226"/>
+      <path d="M 256 276 Q 332 256 404 226"/>
+
+      <path d="M 256 204 Q 200 180 152 156"/>
+      <path d="M 256 204 Q 312 180 360 156"/>
+
+      <path d="M 256 138 Q 226 122 198 116"/>
+      <path d="M 256 138 Q 286 122 314 116"/>
+    </g>
   </g>
 </svg>
