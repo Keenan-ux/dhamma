@@ -47,6 +47,14 @@ const TRANSLATOR_LABEL = {
   harvey: 'Peter Harvey',
   sonadhammo: 'Sonadhammo',
   kandy: 'Kandy News-Wheel',
+  // SuttaCentral CC0 community translators (ingested via
+  // ingest-sc-translators.mjs). Brahmali is the main Vinaya translator
+  // on SC; the others fill scattered Khuddaka + verse coverage.
+  brahmali: 'Bhikkhu Brahmali',
+  anandajoti: 'Bhikkhu Ānandajoti',
+  kovilo: 'Kovilo Bhikkhu',
+  suddhaso: 'Bhante Suddhāso',
+  patton: 'Charles Patton',
 };
 
 export default function PassageCard({ passage, highlight, first, onOpen, compact }) {
