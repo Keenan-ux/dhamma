@@ -122,7 +122,17 @@ export async function runCorpus() {
     for (const w of t.works) attach(w);
   }
 
-  return { traditions: Array.from(traditions.values()) };
+  // Hide traditions that have zero actual passages anywhere in their
+  // subtree. Mahāyāna and Zen are seeded in the schema as stubs (so the
+  // tree CAN render them when real data lands) but they have no
+  // canonical material ingested yet — surfacing empty branches read as
+  // clutter on the UI side. Filter at the API boundary so the schema
+  // stays intact for when those corpora come online.
+  const filtered = Array.from(traditions.values()).filter((t) =>
+    t.works.some((w) => (w.total_passage_count || 0) > 0)
+  );
+
+  return { traditions: filtered };
 }
 
 export async function getPassage(id) {

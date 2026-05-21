@@ -77,8 +77,6 @@ function scopesForLayer(mode, layer) {
 
 export default function SearchView({
   query, setQuery,
-  activeTraditions, toggleTradition,
-  showInlineFilters,
   searchMode, setSearchMode,
   onCompareTerm,
   onOpenPassage,
@@ -180,15 +178,15 @@ export default function SearchView({
   // toggled off in the sidebar.
   const visibleResults = useMemo(() => {
     if (!result?.results) return [];
+    // Only Theravāda is ingested, so the per-result tradition filter that
+    // lived here is now a no-op. Strip it; result.results is what we show.
+    // (When other traditions land, restore a filter step + Traditions chip
+    // row — both were committed up to but reverted in this branch.)
     return result.results.map((r) => ({
       ...r,
-      tradition: shape?.workBySlug.get(r.work_slug)?.tradition || null,
       work: shape?.workBySlug.get(r.work_slug)?.name || null,
-    })).filter((r) => {
-      if (!r.tradition) return true; // unknown tradition → show
-      return activeTraditions.has(r.tradition);
-    });
-  }, [result, shape, activeTraditions]);
+    }));
+  }, [result, shape]);
 
   // Highlight terms = user's positive query terms PLUS any aliases the
   // server expanded the query into. Lets the visual highlight catch the
@@ -254,8 +252,6 @@ export default function SearchView({
       el.setSelectionRange(pos, pos);
     });
   }
-
-  const traditions = shape?.traditions || [];
 
   return (
     <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
@@ -371,12 +367,6 @@ export default function SearchView({
               if (layer !== 'all') parts.push(LAYERS.find((l) => l.key === layer)?.label);
               if (layer === 'mula' && pitaka !== 'all') parts.push(PITAKAS.find((p) => p.key === pitaka)?.label);
               if (scope !== 'all') parts.push(SCOPES.find((s) => s.key === scope)?.label);
-              if (showInlineFilters && traditions.length > 0) {
-                const off = traditions.filter((t) => !activeTraditions.has(t));
-                if (off.length > 0 && off.length < traditions.length) {
-                  parts.push(`−${off.join(', ')}`);
-                }
-              }
               if (parts.length === 0) return null;
               return <span style={filterSummary}>{parts.filter(Boolean).join(' · ')}</span>;
             })()}
@@ -393,27 +383,6 @@ export default function SearchView({
                 <FilterRow label="Piṭaka" options={PITAKAS} active={pitaka} onChange={setPitaka} />
               )}
               <FilterRow label="Search in" options={scopesForLayer(mode, layer)} active={scope} onChange={setScope} />
-              {showInlineFilters && traditions.length > 0 && (
-                <div style={filterRow}>
-                  <span style={filterLabel}>Traditions</span>
-                  {traditions.map((t) => {
-                    const on = activeTraditions.has(t);
-                    return (
-                      <button
-                        key={t}
-                        onClick={() => toggleTradition(t)}
-                        style={{
-                          ...filterBtn,
-                          color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
-                          borderBottomColor: on ? 'var(--bc-accent)' : 'transparent',
-                        }}
-                      >
-                        {t}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -492,11 +461,6 @@ export default function SearchView({
                   </span>
                 ))}
               </>
-            )}
-            {result.results.length > visibleResults.length && (
-              <em style={{ color: 'var(--bc-text-tertiary)' }}>
-                {' '}— {result.results.length - visibleResults.length} hidden by tradition filter
-              </em>
             )}
             .
             {(() => {

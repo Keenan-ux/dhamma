@@ -100,7 +100,6 @@ const INITIAL = parseInitialHash();
 export default function Dhamma() {
   const [tab, setTab] = useState(INITIAL.tab);
   const [query, setQuery] = useState(INITIAL.query);
-  const [activeTraditions, setActiveTraditions] = useState(() => new Set());
   // Default to Stem mode. Exact-token FTS over Pali rarely matches
   // because the canonical inflections (sampajāno, sampajānakārī, …) are
   // distinct tokens from the dictionary form (sampajāna). Stem mode adds
@@ -232,23 +231,6 @@ export default function Dhamma() {
   }, []);
 
   const { shape, error: corpusError } = useCorpus();
-
-  // Initialize activeTraditions once the corpus loads — start with all
-  // selected. Subsequent toggles narrow the visible set.
-  useEffect(() => {
-    if (shape && activeTraditions.size === 0) {
-      setActiveTraditions(new Set(shape.traditions));
-    }
-  }, [shape, activeTraditions.size]);
-
-  function toggleTradition(t) {
-    setActiveTraditions((cur) => {
-      const next = new Set(cur);
-      if (next.has(t)) next.delete(t);
-      else next.add(t);
-      return next;
-    });
-  }
 
   useEffect(() => {
     if (!readingMode) return;
@@ -391,9 +373,6 @@ export default function Dhamma() {
               <SearchView
                 query={query}
                 setQuery={setQuery}
-                activeTraditions={activeTraditions}
-                toggleTradition={toggleTradition}
-                showInlineFilters={isNarrow}
                 searchMode={searchMode}
                 setSearchMode={setSearchMode}
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
@@ -426,7 +405,6 @@ export default function Dhamma() {
             {tab === 'concordance' && (
               <CompareView
                 term={query}
-                activeTraditions={activeTraditions}
                 onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
                 onCompareTerm={(term) => setQuery(term)}
               />
