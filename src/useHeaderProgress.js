@@ -1,16 +1,26 @@
 // Scroll-driven gradual-collapse progress for sticky headers.
 //
-// Adapted from the report-page header pattern in boothcheck. Same
-// shape as that hook — progress tracks scrollTop 1:1 from 0 to a
-// configurable collapse height, then ratchets locked at 1 so that
-// mid-page upward scrolling doesn't surprise-re-expand the header.
-// Only when scrollTop falls below a small re-expand zone (default
-// 80 px) does the ratchet unlock and progress can shrink back to 0.
+// Returns `progress` (0 = fully visible, 1 = fully collapsed). The
+// caller drives maxHeight / opacity / etc. of its sticky chrome
+// from that value. Progress tracks scrollTop 1:1 from 0 up to
+// `collapseHeight`, ratchet-locks at 1 once it crosses, and only
+// unlocks when scrollTop drops back below `reExpandZone` near the
+// top — so mid-page upward scrolling doesn't surprise-re-expand.
 //
-// The consuming component uses `progress` (0 = fully visible,
-// 1 = fully collapsed) to drive maxHeight / opacity / borderBottom
-// of its sticky header — no CSS transitions needed because the
-// hook itself updates state on every scroll frame.
+// Two anti-stutter measures matter when the consumer drives
+// layout-affecting properties (maxHeight, height, padding) from
+// progress:
+//
+//   1. requestAnimationFrame throttle. The scroll handler may fire
+//      faster than the browser can settle layout, and changing
+//      maxHeight changes the document scrollHeight, which can
+//      adjust scrollTop, which fires another scroll event — a
+//      feedback loop that reads as visual stutter. Coalescing
+//      reads to one per animation frame breaks the loop.
+//   2. Small dead zones at 0 and 1. Without them, rapid
+//      oscillation around the endpoints (caused by layout-induced
+//      scrollTop adjustments of a pixel or two) flickers the
+//      header between fully-collapsed and almost-collapsed.
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -21,31 +31,45 @@ export default function useHeaderProgress({
 } = {}) {
   const [progress, setProgress] = useState(0);
   const collapsedRef = useRef(false);
+  const rafRef = useRef(0);
+  const progressRef = useRef(0);
 
   useEffect(() => {
     let currentEl = null;
 
-    function onScroll() {
+    function compute() {
+      rafRef.current = 0;
       if (!currentEl) return;
       const y = currentEl.scrollTop;
+      let p;
       if (!collapsedRef.current) {
-        // Phase 1: gradual collapse as the user scrolls down. The
-        // progress value tracks scrollTop 1:1 — no threshold, no
-        // snap. Once it crosses 1 the ratchet locks.
-        const p = Math.min(1, y / collapseHeight);
-        setProgress(p);
-        if (p >= 1) collapsedRef.current = true;
+        p = Math.min(1, y / collapseHeight);
+        if (p >= 0.98) {
+          p = 1;
+          collapsedRef.current = true;
+        }
       } else {
-        // Phase 2: collapsed lock. Stay at 1 until scrollTop drops
-        // back inside the re-expand zone near the top, then resume
-        // tracking 1:1 as the header reappears.
         if (y < reExpandZone) {
           collapsedRef.current = false;
-          setProgress(Math.min(1, y / collapseHeight));
+          p = Math.min(1, y / collapseHeight);
         } else {
-          setProgress(1);
+          p = 1;
         }
       }
+      // Snap near-zero to zero. Tiny scroll bounces shouldn't
+      // produce flickery sub-pixel progress values.
+      if (p < 0.02) p = 0;
+      // Only commit if it actually changed enough to be perceptible.
+      // This keeps React from re-rendering on every sub-pixel scroll
+      // tick, which is what was making maxHeight stutter.
+      if (Math.abs(p - progressRef.current) < 0.005 && p !== 0 && p !== 1) return;
+      progressRef.current = p;
+      setProgress(p);
+    }
+
+    function onScroll() {
+      if (rafRef.current) return;
+      rafRef.current = requestAnimationFrame(compute);
     }
 
     function attach() {
@@ -55,18 +79,18 @@ export default function useHeaderProgress({
       currentEl = el;
       if (currentEl) {
         currentEl.addEventListener('scroll', onScroll, { passive: true });
-        // Reset state for a new scroll container (route change).
-        setProgress(0);
+        progressRef.current = 0;
         collapsedRef.current = false;
+        setProgress(0);
       }
     }
 
     attach();
-    // Re-attach when the scroll-root element changes (route nav).
     const observer = new MutationObserver(() => attach());
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
       if (currentEl) currentEl.removeEventListener('scroll', onScroll);
       observer.disconnect();
     };
