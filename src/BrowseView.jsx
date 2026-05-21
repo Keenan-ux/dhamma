@@ -639,6 +639,7 @@ function ReadingPanel({
   // direct parallels vs. mentions vs. retells separately.
   const [parallels, setParallels] = useState(null);
   const [citeCopied, setCiteCopied] = useState(false);
+  const [shareCopied, setShareCopied] = useState(false);
   const { has: isBookmarked, toggle: toggleBookmark } = useBookmarks();
   const isNarrow = useIsNarrow();
   // Narrow viewports: 7 header icons (bookmark, cite, pin, gloss,
@@ -857,6 +858,51 @@ function ReadingPanel({
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               ) : (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              ),
+            });
+            // Share: on devices with the Web Share API (most mobile +
+            // some desktop), opens the native share sheet — handy for
+            // sending a passage to a friend, posting, dropping into
+            // notes, etc. Falls back to copying the canonical URL to
+            // the clipboard everywhere else. Either way the user gets
+            // brief "Link copied" / "Shared" feedback via the
+            // checkmark icon swap.
+            actions.push({
+              key: 'share',
+              label: shareCopied ? 'Link copied' : 'Share passage',
+              onClick: async () => {
+                const shareUrl = `${window.location.origin}/#/read/${encodeURIComponent(passage.id)}`;
+                const shareData = {
+                  title: `${passage.citation || passage.id} — Dhamma data`,
+                  text: passage.title ? `${passage.citation} · ${passage.title}` : passage.citation || passage.id,
+                  url: shareUrl,
+                };
+                try {
+                  if (navigator.share && navigator.canShare?.(shareData)) {
+                    await navigator.share(shareData);
+                    // The native sheet handles its own confirmation;
+                    // no extra UI feedback needed.
+                  } else {
+                    await navigator.clipboard.writeText(shareUrl);
+                    setShareCopied(true);
+                    setTimeout(() => setShareCopied(false), 1400);
+                  }
+                } catch {/* user cancelled / clipboard blocked */}
+              },
+              icon: shareCopied ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              ) : (
+                // Share-node glyph: three connected dots (source +
+                // two destinations) with line links between. Reads
+                // as "share" across iOS, Android, and desktop muscle
+                // memory better than the arrow-out-of-box variant.
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="18" cy="5" r="3" />
+                  <circle cx="6" cy="12" r="3" />
+                  <circle cx="18" cy="19" r="3" />
+                  <line x1="8.6" y1="10.5" x2="15.4" y2="6.5" />
+                  <line x1="8.6" y1="13.5" x2="15.4" y2="17.5" />
+                </svg>
               ),
             });
             if (!inSplitPane) {
