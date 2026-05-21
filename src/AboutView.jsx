@@ -22,12 +22,12 @@ export default function AboutView() {
 
       <div style={bodyWrap}>
         <p style={para}>
-          Dhamma data is an open-source scholarly tool for working
-          with the Pali canon and its surrounding literature. You can
-          browse the Tipiṭaka, the major aṭṭhakathā commentaries, the
-          ṭīkā sub-commentaries, and a long tail of extra-canonical
-          works in their original Pali and — where translations
-          exist — in English.
+          Dhamma data is a scholarly tool for working with the Pali
+          canon and its surrounding literature. You can browse the
+          Tipiṭaka, the major aṭṭhakathā commentaries, the ṭīkā
+          sub-commentaries, and a long tail of extra-canonical works
+          in their original Pali and — where translations exist —
+          in English.
         </p>
 
         <p style={para}>
@@ -39,12 +39,6 @@ export default function AboutView() {
           the reader opens a side panel with entries from six
           dictionaries: DPD, DPPN, the PTS PED, Buddhadatta&rsquo;s CPED,
           Monier-Williams, and Edgerton&rsquo;s BHS.
-        </p>
-
-        <p style={para}>
-          There is no AI summary by default, no analytics, no
-          telemetry, no account, no paywall. The tool finds; the
-          scholar interprets.
         </p>
 
         <h2 style={section}>The corpus</h2>
@@ -104,42 +98,13 @@ export default function AboutView() {
           </li>
         </ul>
 
-        <h2 style={section}>Why this exists</h2>
+        <h2 style={section}>Licence</h2>
         <p style={para}>
-          The idea came up on a Satipaṭṭhāna retreat. The Pali canon
-          is already free and online &mdash; at SuttaCentral, at
-          Access to Insight, in the VRI&rsquo;s CST &mdash; but
-          moving across those sources, looking up a word, checking a
-          parallel, and reading a commentary on the same passage
-          takes more clicking than it should. A scholar who has
-          internalised the canon doesn&rsquo;t need that friction. A
-          new student certainly doesn&rsquo;t.
-        </p>
-
-        <p style={para}>
-          The tool is built for people who treat the texts as primary
-          sources, not as something to be summarised on their behalf.
-          Corrections and contributions are welcome: see the GitHub
-          repository for issue tracking and pull requests.
-        </p>
-
-        <h2 style={section}>Source &amp; licence</h2>
-        <p style={para}>
-          Code is MIT-licensed. Corpus data carries the licences
-          listed above, which the tool honours in display and
-          attribution. The non-commercial constraint of CC BY-NC 4.0
-          is the binding limit — Dhamma data will not carry
-          advertising, paywalls, or commercial features.
-        </p>
-        <p style={para}>
-          <a
-            href="https://github.com/Keenan-ux/dhamma"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={link}
-          >
-            github.com/Keenan-ux/dhamma →
-          </a>
+          Corpus data carries the licences shown above and is
+          displayed with the original attribution preserved. The
+          non-commercial constraint of CC BY-NC 4.0 is the binding
+          limit &mdash; Dhamma data will not carry advertising,
+          paywalls, or commercial features.
         </p>
       </div>
 
@@ -228,17 +193,6 @@ const src = {
   minWidth: 92,
   fontWeight: 600,
   color: 'var(--bc-text-primary)',
-};
-
-const link = {
-  fontFamily: 'Outfit, system-ui, sans-serif',
-  fontSize: 12,
-  letterSpacing: '0.14em',
-  textTransform: 'uppercase',
-  color: 'var(--bc-accent)',
-  textDecoration: 'none',
-  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.35)',
-  paddingBottom: 2,
 };
 
 const footerWrap = {
