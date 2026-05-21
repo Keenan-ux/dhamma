@@ -327,14 +327,18 @@ export default function SearchView({
 
         {parsed.raw && !loading && result && !error && !(mode === 'exact' && visibleResults.length === 0) && (
           <p style={meta}>
-            {/* Prefer server-reported true total (count of FTS matches) over
-                loaded-so-far. Falls back to visible count when the server
-                can't give a meaningful total (vector-only Meaning queries
-                — total is null there). When the tradition filter has hidden
-                rows, the visible count appears in parentheses so the
-                discrepancy reads as intentional. */}
+            {/* Total semantics:
+                - exact/stem: server-counted FTS matches = exact total.
+                - meaning + FTS: the count is the literal-match subset, but
+                  Meaning mode also surfaces vector hits not in that count.
+                  Prefix `≥` so the number reads as a lower bound rather
+                  than the full set.
+                - meaning vector-only (server returns total=null): fall back
+                  to loaded count. */}
             <strong style={{ color: 'var(--bc-text-secondary)' }}>
-              {(typeof result.total === 'number' ? result.total : visibleResults.length).toLocaleString()}
+              {typeof result.total === 'number'
+                ? `${mode === 'meaning' ? '≥ ' : ''}${result.total.toLocaleString()}`
+                : visibleResults.length.toLocaleString()}
             </strong>{' '}
             {(typeof result.total === 'number' ? result.total : visibleResults.length) === 1 ? 'passage' : 'passages'} {modeVerb(mode)}{' '}
             {/* Comma-separated rather than ' + '-joined — the new boolean
