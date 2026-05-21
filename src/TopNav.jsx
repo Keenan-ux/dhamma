@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Leaf from './Leaf.jsx';
 import ThemeToggle from './ThemeToggle.jsx';
+import useScrollHide from './useScrollHide.js';
 
 const MOBILE_BREAKPOINT = 1024;
 
@@ -21,6 +22,9 @@ const NAV_ITEMS = [
 
 export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
   const [open, setOpen] = useState(false);
+  // Hide-on-scroll. Pauses while the dropdown/slide-in is open so
+  // the chrome can't disappear mid-interaction.
+  const hidden = useScrollHide({ paused: open });
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= MOBILE_BREAKPOINT);
   const [panelVisible, setPanelVisible] = useState(false);
   const [swipeOffset, setSwipeOffset] = useState(0);
@@ -193,7 +197,12 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
   );
 
   return (
-    <header style={header}>
+    <header
+      style={{
+        ...header,
+        transform: hidden ? 'translateY(-100%)' : 'translateY(0)',
+      }}
+    >
       {/* Logo + title → home (Tipiṭaka frontmatter). Rendered as a
           button for keyboard accessibility but kept visually identical
           to the original static branding. */}
@@ -255,17 +264,27 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
   );
 }
 
+// Fixed-positioned chrome so the hide-on-scroll transform reclaims
+// the space at the top of the viewport when the user scrolls down.
+// Backdrop blur lets content from the scroll container below show
+// softly through — same effect as boothcheck's top nav.
 const header = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
   height: 56,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '0 16px',
-  background: 'var(--bc-bg-base)',
-  borderBottom: '1px solid rgba(255,255,255,0.06)',
-  position: 'relative',
+  background: 'rgba(var(--bc-bg-base-rgb, 26, 26, 27), 0.72)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.14)',
   flexShrink: 0,
   zIndex: 1000,
+  transition: 'transform 0.3s ease',
 };
 
 // Reset button defaults so the brand reads as branding, not a control.

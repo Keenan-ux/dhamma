@@ -117,7 +117,11 @@ function Section({ title, children }) {
 const wrap = {
   width: 260,
   flexShrink: 0,
-  padding: '28px 20px 28px 24px',
+  // Top padding clears the fixed TopNav (56px) plus the original
+  // 28px breathing room. Sidebar background extends to the top of
+  // the viewport so the TopNav's backdrop-blur reads on a clean
+  // sidebar surface instead of garbage from outside the column.
+  padding: '84px 20px 28px 24px',
   borderRight: '1px solid rgba(var(--bc-accent-rgb), 0.14)',
   overflow: 'auto',
   background: 'var(--bc-bg-base)',
