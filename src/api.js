@@ -96,7 +96,7 @@ export function compareApi(ids, opts) {
   return get(`/api/compare?ids=${ids.map(encodeURIComponent).join(',')}`, opts);
 }
 
-export function searchApi({ q, mode, field, limit, offset, nosnippet, pitaka, signal }) {
+export function searchApi({ q, mode, field, limit, offset, nosnippet, pitaka, layer, signal }) {
   const params = new URLSearchParams();
   if (q) params.set('q', q);
   if (mode) params.set('mode', mode);
@@ -105,6 +105,7 @@ export function searchApi({ q, mode, field, limit, offset, nosnippet, pitaka, si
   if (offset != null && offset > 0) params.set('offset', String(offset));
   if (nosnippet) params.set('nosnippet', 'true');
   if (pitaka) params.set('pitaka', pitaka);
+  if (layer) params.set('layer', layer);
   return get(`/api/search?${params.toString()}`, { signal });
 }
 
