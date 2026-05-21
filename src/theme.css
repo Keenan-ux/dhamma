@@ -4,6 +4,7 @@
 :root,
 [data-theme="dark"] {
   --bc-bg-base:          #1A1A1B;
+  --bc-bg-base-rgb:      26, 26, 27;
   --bc-bg-surface:       #202124;
   --bc-bg-elevated:      #242629;
 
@@ -21,6 +22,7 @@
 
 [data-theme="light"] {
   --bc-bg-base:          #F6F2E8;
+  --bc-bg-base-rgb:      246, 242, 232;
   --bc-bg-surface:       #F1ECE1;
   --bc-bg-elevated:      #FFFFFF;
 

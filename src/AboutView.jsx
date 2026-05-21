@@ -51,7 +51,7 @@ export default function AboutView() {
   }
 
   return (
-    <div style={scrollWrap}>
+    <div data-scroll-root="" style={scrollWrap}>
       <header style={pageHeader}>
         <div style={rule} />
         <h1 style={pageTitle}>About</h1>
@@ -277,7 +277,7 @@ export default function AboutView() {
   );
 }
 
-const scrollWrap = { position: 'absolute', inset: 0, overflow: 'auto' };
+const scrollWrap = { position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 };
 
 const pageHeader = {
   maxWidth: 760,

@@ -121,7 +121,7 @@ export default function BrowseView({
   // passage centered. Same usePassage data used in either layout.
   if (readingMode) {
     return (
-      <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
+      <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={readingModeWrap}>
           <button onClick={() => setReadingMode(false)} style={exitReadingBtn} aria-label="Exit reading mode (Esc)">
             Exit reading mode  ·  Esc
@@ -264,7 +264,7 @@ export default function BrowseView({
   }
 
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>
+    <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
       <div style={wrap}>
         {pinnedPassage && pinnedLeafId !== leafId && (
           <section style={pinnedSection}>
