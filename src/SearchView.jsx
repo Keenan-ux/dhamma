@@ -478,18 +478,34 @@ export default function SearchView({
           <p style={meta}>
             {/* Total semantics:
                 - exact/stem: server-counted FTS matches = exact total.
-                - meaning + FTS: the count is the literal-match subset, but
-                  Meaning mode also surfaces vector hits not in that count.
-                  Prefix `≥` so the number reads as a lower bound rather
-                  than the full set.
-                - meaning vector-only (server returns total=null): fall back
-                  to loaded count. */}
-            <strong style={{ color: 'var(--bc-text-secondary)' }}>
-              {typeof result.total === 'number'
-                ? `${mode === 'meaning' ? '≥ ' : ''}${result.total.toLocaleString()}`
-                : visibleResults.length.toLocaleString()}
-            </strong>{' '}
-            {(typeof result.total === 'number' ? result.total : visibleResults.length) === 1 ? 'passage' : 'passages'} {modeVerb(mode)}{' '}
+                - meaning + FTS > 0: the FTS count is a lower bound on
+                  what Meaning surfaces (vector hits add to it). Prefix
+                  `≥` so the number reads as the floor.
+                - meaning + FTS = 0 (only vector hits): showing "≥ 0"
+                  while results sit below it read as broken. Use the
+                  loaded count without prefix.
+                - meaning vector-only (server returns total=null): fall
+                  back to loaded count. */}
+            {(() => {
+              const fts = typeof result.total === 'number' ? result.total : null;
+              const loaded = visibleResults.length;
+              let n;
+              let prefix = '';
+              if (mode === 'meaning') {
+                if (fts !== null && fts > 0) { n = fts; prefix = '≥ '; }
+                else                          { n = loaded; }
+              } else {
+                n = fts ?? loaded;
+              }
+              return (
+                <>
+                  <strong style={{ color: 'var(--bc-text-secondary)' }}>
+                    {prefix}{n.toLocaleString()}
+                  </strong>{' '}
+                  {n === 1 ? 'passage' : 'passages'}{' '}
+                </>
+              );
+            })()}{modeVerb(mode)}{' '}
             {/* Comma-separated rather than ' + '-joined — the new boolean
                 grammar lets `must` contain terms that combined with OR
                 instead of AND, and " + " misleadingly implied "all of". */}
