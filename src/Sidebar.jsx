@@ -76,18 +76,27 @@ export default function Sidebar({ tab, setTab, onRandomSutta }) {
             lands, the filter restores here. */}
       </div>
 
+      {/* Compact "About" pinned to the sidebar foot. The long
+          descriptive paragraph that used to live here is now its own
+          page at /about — reachable from this link. Pinned to the
+          bottom so it doesn't compete with the corpus + tools nav. */}
       <div style={bottomGroup}>
-        <Section title="About">
-          <p style={aboutText}>
-            Query the Pali canon. Tipiṭaka via SuttaCentral; Aṭṭhakathā,
-            Ṭīkā and supplementary works via VRI/CST. Three Pali
-            dictionaries integrated: DPD (88K headwords), DPPN proper
-            names (13K biographies), and PTS PED (15K headwords). Search
-            modes: Exact (FTS), Stem (alias-bridged), Meaning (BGE-M3
-            vectors). Cross-referencing with other Buddhist traditions
-            is an open direction as the corpus expands.
-          </p>
-        </Section>
+        <button
+          onClick={() => setTab?.('about')}
+          style={{
+            ...navBtn,
+            color: tab === 'about' ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+            background: tab === 'about' ? 'rgba(var(--bc-accent-rgb), 0.08)' : 'transparent',
+            borderLeftColor: tab === 'about' ? 'var(--bc-accent)' : 'transparent',
+            fontWeight: tab === 'about' ? 600 : 500,
+            fontSize: 12,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            fontFamily: 'Outfit, system-ui, sans-serif',
+          }}
+        >
+          About
+        </button>
       </div>
     </aside>
   );
