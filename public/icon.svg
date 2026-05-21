@@ -10,9 +10,18 @@
        a dim amber so the venation reads as part of the leaf rather
        than as separate lines. -->
   <g transform="translate(46 26) scale(0.82)">
-    <!-- Leaf body -->
+    <!-- Leaf body. fill-opacity=0.65 makes the membrane translucent;
+         the stroke on the same path redraws the silhouette at full
+         opacity so the outline stays crisp. Together this gives the
+         outline + veins + petiole more visual weight than the
+         surface, the way a botanical-illustration line drawing does. -->
     <path
       fill="#D4A93B"
+      fill-opacity="0.65"
+      stroke="#D4A93B"
+      stroke-width="5"
+      stroke-linejoin="round"
+      stroke-linecap="round"
       d="
         M 256 26
         C 246 50 230 78 210 108
