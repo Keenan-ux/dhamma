@@ -569,6 +569,34 @@ function normalizeParams({ q, mode, field, limit, offset, pitaka, nosnippet, lay
   };
 }
 
+// Expand the embedding query text with alias equivalents (sati ↔ smṛti ↔ 念,
+// mettā ↔ loving-kindness ↔ friendliness, etc.) so the vector picks up
+// semantic neighbors that use different vocabulary. Stem mode already
+// expands the tsquery via aliases; this does the equivalent for the
+// vector side. Without it, a query like "loving-kindness" embeds purely
+// against passages that use that exact English phrase and misses
+// Karaṇīyamettā (which Sujato translates as "good-will") plus the rest
+// of the mettā corpus that uses different English vocabulary.
+function expandEmbeddingQuery(rawQuery, parsed) {
+  const aliasSet = new Set();
+  const walk = (node) => {
+    if (!node) return;
+    if (node.kind === 'term') {
+      const aList = aliasesFor(node.value);
+      for (const a of aList) aliasSet.add(a);
+    } else if (node.kind === 'and' || node.kind === 'or') {
+      for (const c of node.children) walk(c);
+    } else if (node.kind === 'not') {
+      walk(node.child);
+    } else if (node.kind === 'near') {
+      walk(node.left); walk(node.right);
+    }
+  };
+  walk(parsed.tree);
+  if (aliasSet.size === 0) return rawQuery;
+  return `${rawQuery} ${Array.from(aliasSet).join(' ')}`;
+}
+
 export async function runSearch(rawParams) {
   const t0 = Date.now();
   const { q, mode, field, limit, offset, pitaka, layer, translator, nosnippet } = normalizeParams(rawParams);
@@ -712,7 +740,7 @@ export async function runSearch(rawParams) {
     // passages Meaning branch: embed query, RRF-fuse FTS + vector. If
     // embedding fails, fall back to FTS-only with a warning.
     let qVec;
-    try { qVec = await embedQuery(q); }
+    try { qVec = await embedQuery(expandEmbeddingQuery(q, parsed)); }
     catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
@@ -816,7 +844,7 @@ export async function runSearch(rawParams) {
     // when there's a tsquery. Results carry per-translator metadata so
     // the UI shows "tr. Thanissaro Bhikkhu" etc.
     let qVec;
-    try { qVec = await embedQuery(q); }
+    try { qVec = await embedQuery(expandEmbeddingQuery(q, parsed)); }
     catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
@@ -901,7 +929,7 @@ export async function runSearch(rawParams) {
     // user terms were operator-only), do vector-only.
     let qVec;
     try {
-      qVec = await embedQuery(q);
+      qVec = await embedQuery(expandEmbeddingQuery(q, parsed));
     } catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
@@ -990,9 +1018,17 @@ export async function runSearch(rawParams) {
           LIMIT ${FUSION_POOL}
         )
         SELECT p.id, p.citation, p.title, p.canon, p.work_slug, p.original, p.translation,
-               COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
-             + COALESCE(1.0 / (${RRF_K} + vec_p.rnk), 0)
-             + COALESCE(1.0 / (${RRF_K} + vec_t.rnk), 0) AS score,
+               -- Length-aware score: dampen very short passages so single-line
+               -- Theragāthā / Therīgāthā verses don't dominate the top of broad
+               -- thematic queries over substantial sutta passages on the same
+               -- topic. The 1 - exp(-len/300) curve is ~0 for empty text, ~0.5
+               -- at 200 chars, ~0.9 at 700, asymptotic to 1 for long passages.
+               -- Multiplies the fused RRF score so the relative ordering between
+               -- like-length results is preserved.
+               ((COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
+               + COALESCE(1.0 / (${RRF_K} + vec_p.rnk), 0)
+               + COALESCE(1.0 / (${RRF_K} + vec_t.rnk), 0))
+               * (1.0 - exp(-length(COALESCE(p.original, '') || COALESCE(p.translation, '')) / 300.0))) AS score,
                ${hlPassageRRF} AS headline
         FROM passages p
         LEFT JOIN fts   ON fts.id   = p.id
