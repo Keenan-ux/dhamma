@@ -1169,15 +1169,42 @@ function ReadingPanel({
         </>
       )}
 
-      {activeTranslation && activeTranslation.source === 'ati' && (
-        <div style={attribFooter}>
-          {activeTranslation.copyright || 'Access to Insight'}{' '}
-          · <a href={activeTranslation.source_url} target="_blank" rel="noopener noreferrer" style={attribLink}>
-            CC BY-NC 4.0 · accesstoinsight.org
-          </a>
-          {activeTranslation.notes && <span style={attribNotes}> · {activeTranslation.notes}</span>}
-        </div>
-      )}
+      {/* Translator attribution. Always render when a translation is
+          shown, even if it's the only one — when the chip switcher is
+          hidden (single translator) the scholar otherwise has no way
+          to know who rendered the English. ATI rows carry CC BY-NC 4.0
+          and a back-link; SuttaCentral / Sujato is CC0. Bare-passage
+          fallback (no translations row) defaults to Sujato since
+          that's what the passages table was seeded with. */}
+      {translationText && !compact && (() => {
+        const t = activeTranslation;
+        // ATI: full attribution with copyright + back-link.
+        if (t && t.source === 'ati') {
+          return (
+            <div style={attribFooter}>
+              translated by <span style={attribTranslator}>{TRANSLATOR_LABEL[t.translator] || t.translator}</span>
+              {' · '}{t.copyright || 'Access to Insight'}{' · '}
+              <a href={t.source_url} target="_blank" rel="noopener noreferrer" style={attribLink}>
+                CC BY-NC 4.0 · accesstoinsight.org
+              </a>
+              {t.notes && <span style={attribNotes}> · {t.notes}</span>}
+            </div>
+          );
+        }
+        // SuttaCentral row (either an explicit translations entry or
+        // the bare passages.translation that defaults to Sujato).
+        const translator = t?.translator || 'sujato';
+        const url = t?.source_url || `https://suttacentral.net/${passage.id}/en/sujato`;
+        return (
+          <div style={attribFooter}>
+            translated by <span style={attribTranslator}>{TRANSLATOR_LABEL[translator] || translator}</span>
+            {' · '}
+            <a href={url} target="_blank" rel="noopener noreferrer" style={attribLink}>
+              SuttaCentral · CC0
+            </a>
+          </div>
+        );
+      })()}
 
       {tags && tags.length > 0 && !compact && (
         <section style={tagsSection}>
@@ -1879,6 +1906,14 @@ const attribLink = {
 
 const attribNotes = {
   color: 'var(--bc-text-tertiary)',
+};
+
+// Translator name gets a subtle emphasis inside the attribution footer
+// — same line, slightly brighter, no italic since the surrounding
+// footer is already italic.
+const attribTranslator = {
+  fontStyle: 'normal',
+  color: 'var(--bc-text-secondary)',
 };
 
 const tagsSection = {
