@@ -17,9 +17,21 @@ export default function Leaf({ size = 28, color = 'var(--bc-accent)' }) {
     >
       {/* Leaf body — single closed bezier path. Apex at top, heart-
           lobed base at bottom, widest in the upper third (matches the
-          ovate-cordate bodhi shape). */}
+          ovate-cordate bodhi shape).
+
+          The fill is held back to ~65% so the surface reads as a
+          translucent membrane; an explicit full-opacity stroke on the
+          SAME path then redraws the silhouette so the outline stays
+          crisp against the softer fill. With the membrane dropped,
+          the veins (drawn over the fill below) emerge as the dominant
+          internal detail without needing to be made louder themselves. */}
       <path
         fill={color}
+        fillOpacity={0.65}
+        stroke={color}
+        strokeWidth={5}
+        strokeLinejoin="round"
+        strokeLinecap="round"
         d="
           M 256 26
           C 246 50 230 78 210 108
@@ -37,7 +49,9 @@ export default function Leaf({ size = 28, color = 'var(--bc-accent)' }) {
           Z
         "
       />
-      {/* Petiole — short stem extending below the lobed base. */}
+      {/* Petiole — short stem extending below the lobed base. Full
+          opacity by design so it sits at the same visual weight as
+          the outline rather than fading with the membrane. */}
       <path
         stroke={color}
         strokeWidth={10}
