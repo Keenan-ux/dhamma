@@ -812,6 +812,17 @@ function ReadingPanel({
   // when they scroll back near the top. When stickyEnabled is false
   // (compact/reading-mode/split-pane) we render the inner JSX in
   // place without any wrap styling.
+  // Sticky reader chrome — minimum dynamic styling possible to keep
+  // mobile-Safari happy. backdrop-filter caused visible stutter and
+  // sometimes input-blocking on scroll because the GPU re-composites
+  // the blurred region every frame. progress-driven background +
+  // border alphas had a similar (smaller) cost.
+  //
+  // Only `opacity` and `pointer-events` change with progress, and
+  // both are GPU-composited operations that never affect layout
+  // (so no overflow-anchor feedback loop). The background is a
+  // solid token color so body content doesn't bleed through at
+  // rest — when opacity hits 0 the chrome no longer paints anyway.
   const stickyWrapStyle = stickyEnabled ? {
     position: 'sticky',
     top: 0,
@@ -822,25 +833,8 @@ function ReadingPanel({
     paddingRight: 28,
     paddingTop: 14,
     paddingBottom: 4,
-    background: `rgba(var(--bc-bg-base-rgb, 26, 26, 27), ${0.80 - headerProgress * 0.20})`,
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    borderBottom: `1px solid rgba(var(--bc-accent-rgb), ${0.22 * (1 - headerProgress)})`,
-    // No layout-affecting properties driven from progress. Earlier
-    // versions used maxHeight which caused a feedback loop with the
-    // browser's overflow-anchor: shrinking the chrome moved body
-    // content visually, the browser auto-adjusted scrollTop to keep
-    // visible content stable, that re-fired the scroll handler, the
-    // chrome resized again — net effect was visible stutter and
-    // scroll input that wouldn't advance.
-    //
-    // Instead: the chrome stays at its natural height (sticky at
-    // top: 0 of the scroll viewport), and only its opacity +
-    // background alpha + border-rule alpha animate with progress.
-    // Body content scrolls up *under* the sticky overlay; as
-    // opacity drops the body content is revealed through it. At
-    // progress=1 the chrome is fully transparent and doesn't catch
-    // pointer events, so it reads as if it's gone.
+    background: 'var(--bc-bg-base)',
+    borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
     opacity: stickyHidden ? 0 : 1 - headerProgress * 0.95,
     pointerEvents: stickyHidden ? 'none' : 'auto',
   } : undefined;
