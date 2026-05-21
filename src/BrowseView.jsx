@@ -826,11 +826,16 @@ function ReadingPanel({
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(20px)',
     borderBottom: `1px solid rgba(var(--bc-accent-rgb), ${0.22 * (1 - headerProgress)})`,
-    maxHeight: stickyHidden ? 0 : 800,
+    // maxHeight scales linearly with progress. No CSS transition —
+    // the hook's rAF-throttled per-frame updates already give the
+    // natural pacing. A CSS transition on top here would start a
+    // small animation on every frame's tiny progress change, which
+    // they would interrupt and overlap into the stutter the user
+    // reported.
+    maxHeight: stickyHidden ? 0 : Math.max(0, 800 * (1 - headerProgress)),
     opacity: stickyHidden ? 0 : 1 - headerProgress * 0.92,
     overflow: 'hidden',
     pointerEvents: stickyHidden ? 'none' : 'auto',
-    transition: 'max-height 0.05s linear',
   } : undefined;
 
   return (
