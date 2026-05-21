@@ -20,6 +20,11 @@ const EMPTY_STATE = {
   warning: null,
   hasMore: false,
   page: 0,
+  // True total of matching rows for the active FTS predicate, surfaced
+  // so the result-header can say "4,237 passages matching sati" instead
+  // of just the loaded-so-far count. Null when the server can't give a
+  // meaningful total (vector-only Meaning queries).
+  total: null,
 };
 
 export default function useSearch({ q, mode, field, limit, nosnippet }) {
@@ -61,6 +66,7 @@ export default function useSearch({ q, mode, field, limit, nosnippet }) {
             warning: r.warning || null,
             hasMore: !!r.hasMore,
             page: 0,
+            total: typeof r.total === 'number' ? r.total : null,
           });
           setError(null);
           setLoading(false);
@@ -117,9 +123,11 @@ export default function useSearch({ q, mode, field, limit, nosnippet }) {
   }, [loading, loadingMore, state.hasMore, state.page]);
 
   // Shape the return as a single `data` object so SearchView's existing
-  // `result?.results`, `result.expanded` references keep working.
+  // `result?.results`, `result.expanded` references keep working. `total`
+  // rides on the same object so the result-header can switch between
+  // server-true-count and loaded-count without prop churn.
   const data = q && q.trim()
-    ? { results: state.results, expanded: state.expanded, warning: state.warning }
+    ? { results: state.results, expanded: state.expanded, warning: state.warning, total: state.total }
     : null;
 
   return { data, loading, loadingMore, hasMore: state.hasMore, error, loadMore };

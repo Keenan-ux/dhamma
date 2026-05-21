@@ -327,8 +327,16 @@ export default function SearchView({
 
         {parsed.raw && !loading && result && !error && !(mode === 'exact' && visibleResults.length === 0) && (
           <p style={meta}>
-            <strong style={{ color: 'var(--bc-text-secondary)' }}>{visibleResults.length}</strong>{' '}
-            {visibleResults.length === 1 ? 'passage' : 'passages'} {modeVerb(mode)}{' '}
+            {/* Prefer server-reported true total (count of FTS matches) over
+                loaded-so-far. Falls back to visible count when the server
+                can't give a meaningful total (vector-only Meaning queries
+                — total is null there). When the tradition filter has hidden
+                rows, the visible count appears in parentheses so the
+                discrepancy reads as intentional. */}
+            <strong style={{ color: 'var(--bc-text-secondary)' }}>
+              {(typeof result.total === 'number' ? result.total : visibleResults.length).toLocaleString()}
+            </strong>{' '}
+            {(typeof result.total === 'number' ? result.total : visibleResults.length) === 1 ? 'passage' : 'passages'} {modeVerb(mode)}{' '}
             {/* Comma-separated rather than ' + '-joined — the new boolean
                 grammar lets `must` contain terms that combined with OR
                 instead of AND, and " + " misleadingly implied "all of". */}

@@ -394,6 +394,43 @@ function ftsFragment(field) {
 // hits clearly outrank body-only matches. The weights array is {D, C, B, A}.
 const FTS_WEIGHTS = sql`'{0.05, 0.15, 0.6, 1.0}'::float4[]`;
 
+// True total of FTS-matching rows for the active query, so the result-
+// count line can say "4,237 passages matching sati" instead of the
+// loaded-so-far count. Cheap on the GIN index even for broad terms.
+// Returns null when there's no FTS predicate (vector-only Meaning queries)
+// — there's no meaningful "total" for a pure ANN search, the answer is
+// the entire embedded corpus sorted by similarity.
+async function countFtsMatches({ field, tsquery, pSlugs }) {
+  if (!tsquery) return null;
+  if (field === 'library') {
+    const [{ n }] = await sql`
+      SELECT COUNT(*)::int AS n
+      FROM articles, to_tsquery('simple', ${tsquery}) q
+      WHERE source = 'ati' AND fts_doc @@ q
+    `;
+    return n;
+  }
+  if (field === 'translation') {
+    const pitakaP = pSlugs ? sql`AND p.work_slug = ANY(${pSlugs})` : sql``;
+    const [{ n }] = await sql`
+      SELECT COUNT(*)::int AS n
+      FROM translations t
+      JOIN passages p ON p.id = t.passage_id,
+           to_tsquery('simple', ${tsquery}) q
+      WHERE t.fts_doc @@ q ${pitakaP}
+    `;
+    return n;
+  }
+  const fts = ftsFragment(field);
+  const pitakaBare = pSlugs ? sql`AND work_slug = ANY(${pSlugs})` : sql``;
+  const [{ n }] = await sql`
+    SELECT COUNT(*)::int AS n
+    FROM passages, to_tsquery('simple', ${tsquery}) q
+    WHERE ${fts} @@ q ${pitakaBare}
+  `;
+  return n;
+}
+
 
 // Sentence boundaries: ASCII terminators plus CJK full stop. ts_headline gives
 // us a word-boundary-aligned window around the match; this trims that window
@@ -506,7 +543,7 @@ export async function runSearch(rawParams) {
   const { q, mode, field, limit, offset, pitaka, nosnippet } = normalizeParams(rawParams);
 
   if (!q.trim()) {
-    return { query: q, mode, field, limit, offset, pitaka, took_ms: 0, results: [], expanded: [], hasMore: false };
+    return { query: q, mode, field, limit, offset, pitaka, took_ms: 0, results: [], expanded: [], hasMore: false, total: 0 };
   }
 
   const parsed = parseQuery(q);
@@ -514,7 +551,7 @@ export async function runSearch(rawParams) {
   const { tsquery, expanded } = buildTsquery(parsed, { expandAliases });
 
   if (!tsquery && mode !== 'meaning') {
-    return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, hasMore: false };
+    return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, hasMore: false, total: 0 };
   }
 
   const fts = ftsFragment(field);
@@ -529,6 +566,12 @@ export async function runSearch(rawParams) {
   // pitaka root). Library mode hits the articles table — no pitaka there —
   // so we silently ignore the param in that branch.
   const pSlugs = field === 'library' ? null : await pitakaWorkSlugs(pitaka);
+  // Kick off the true-total count in parallel with the main row query.
+  // The COUNT runs against the same FTS predicate (no LIMIT) and lets
+  // the UI say "4,237 passages matching sati" upfront, instead of just
+  // the loaded-so-far count growing as the user scrolls. Resolves to
+  // null when there's no FTS predicate (vector-only Meaning).
+  const totalPromise = countFtsMatches({ field, tsquery, pSlugs });
   // Two flavors of the same predicate: one for queries with no alias on
   // passages, one for queries where passages is aliased "p". Empty fragments
   // when pitaka is null so the SQL parses without an unused AND clause.
@@ -597,7 +640,7 @@ export async function runSearch(rawParams) {
 
     if (mode !== 'meaning') {
       if (!tsquery) {
-        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, hasMore: false };
+        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, hasMore: false, total: 0 };
       }
       rows = await sql`
         SELECT slug AS id, title, author, category, year, source_url,
@@ -614,6 +657,7 @@ export async function runSearch(rawParams) {
         results: rows.map(shapeLibrary),
         expanded,
         hasMore: rows.length === limit,
+        total: await totalPromise,
       };
     }
 
@@ -625,7 +669,7 @@ export async function runSearch(rawParams) {
     catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
-        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false };
+        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
       }
       rows = await sql`
         SELECT slug AS id, title, author, category, year, source_url,
@@ -638,7 +682,8 @@ export async function runSearch(rawParams) {
         LIMIT ${limit} ${offsetFrag}
       `;
       return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
-               results: rows.map(shapeLibrary), expanded, warning, hasMore: rows.length === limit };
+               results: rows.map(shapeLibrary), expanded, warning, hasMore: rows.length === limit,
+               total: await totalPromise };
     }
     const qVecLit = `[${qVec.join(',')}]`;
 
@@ -683,7 +728,8 @@ export async function runSearch(rawParams) {
       `;
     }
     return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
-             results: rows.map(shapeLibrary), expanded, hasMore: rows.length === limit };
+             results: rows.map(shapeLibrary), expanded, hasMore: rows.length === limit,
+             total: await totalPromise };
   }
 
   if ((mode === 'exact' || mode === 'stem') && field === 'translation') {
@@ -725,7 +771,7 @@ export async function runSearch(rawParams) {
     catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
-        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false };
+        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
       }
       rows = await sql`
         SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
@@ -741,7 +787,8 @@ export async function runSearch(rawParams) {
         LIMIT ${limit} ${offsetFrag}
       `;
       return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
-               results: rows.map(shapeResult), expanded, warning, hasMore: rows.length === limit };
+               results: rows.map(shapeResult), expanded, warning, hasMore: rows.length === limit,
+               total: await totalPromise };
     }
     const qVecLit = `[${qVec.join(',')}]`;
     if (!tsquery) {
@@ -793,7 +840,8 @@ export async function runSearch(rawParams) {
       `;
     }
     return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
-             results: rows.map(shapeResult), expanded, hasMore: rows.length === limit };
+             results: rows.map(shapeResult), expanded, hasMore: rows.length === limit,
+             total: await totalPromise };
   } else {
     // Meaning mode: FTS (if any) + vector ANN, RRF-fused. If embedding fails,
     // fall back to FTS-only with a warning. If tsquery is empty (e.g. all
@@ -804,7 +852,7 @@ export async function runSearch(rawParams) {
     } catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
-        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false };
+        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
       }
       rows = await sql`
         SELECT id, citation, title, canon, original, translation,
@@ -818,6 +866,7 @@ export async function runSearch(rawParams) {
         query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
         results: rows.map(shapeResult), expanded, warning,
         hasMore: rows.length === limit,
+        total: await totalPromise,
       };
     }
     const qVecLit = `[${qVec.join(',')}]`;
@@ -870,6 +919,7 @@ export async function runSearch(rawParams) {
     results: rows.map(shapeResult),
     expanded,
     hasMore: rows.length === limit,
+    total: await totalPromise,
     ...(warning ? { warning } : {}),
   };
 }
