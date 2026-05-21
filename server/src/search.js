@@ -362,6 +362,28 @@ function nodeToTsquery(node, ctx) {
     return `(${left}) <${node.distance}> (${right})`;
   }
   if (node.kind === 'and') {
+    // Multi-word alias lookup: an AND of plain terms might collectively
+    // form a known alias key (e.g. "clear comprehension" → sampajāna;
+    // "mindfulness of breathing" → ānāpānasati). Try the joined phrase
+    // before falling through to per-term expansion. If found, return
+    // a single OR-group covering the phrase + its canonical + siblings
+    // instead of an AND-of-terms-individually-AND-aliased.
+    if (ctx.expandAliases && node.children.every((c) => c.kind === 'term')) {
+      const phrase = node.children.map((c) => c.value).join(' ');
+      const phraseAliases = aliasesFor(phrase);
+      if (phraseAliases.length > 0) {
+        const variants = [];
+        const phraseTsq = termToTsquery(phrase, { prefix: ctx.prefix });
+        if (phraseTsq) variants.push(`(${phraseTsq})`);
+        for (const a of phraseAliases) {
+          const v = termToTsquery(a, { prefix: ctx.prefix });
+          if (v) variants.push(v);
+        }
+        ctx.expanded.push({ term: phrase, aliases: phraseAliases });
+        if (variants.length > 1) return `(${variants.join(' | ')})`;
+        if (variants.length === 1) return variants[0];
+      }
+    }
     const parts = node.children.map((c) => nodeToTsquery(c, ctx)).filter(Boolean);
     if (parts.length === 0) return null;
     if (parts.length === 1) return parts[0];
@@ -585,6 +607,14 @@ function expandEmbeddingQuery(rawQuery, parsed) {
       const aList = aliasesFor(node.value);
       for (const a of aList) aliasSet.add(a);
     } else if (node.kind === 'and' || node.kind === 'or') {
+      // Multi-word lookup: try the joined phrase as a potential alias
+      // key BEFORE walking individual children. Catches phrases like
+      // "clear comprehension" → sampajāna and "mindfulness of breathing"
+      // → ānāpānasati that wouldn't surface from per-term lookup.
+      if (node.children.every((c) => c.kind === 'term')) {
+        const phrase = node.children.map((c) => c.value).join(' ');
+        for (const a of aliasesFor(phrase)) aliasSet.add(a);
+      }
       for (const c of node.children) walk(c);
     } else if (node.kind === 'not') {
       walk(node.child);
