@@ -8,7 +8,6 @@ import { sanitizeDictHtml } from './dictHtml.js';
 import { formatCitation } from './citationFormat.js';
 import useBookmarks from './useBookmarks.js';
 import useIsNarrow from './useIsNarrow.js';
-import useHeaderProgress from './useHeaderProgress.js';
 import { paliStem } from './paliStem.js';
 
 // Pali diacritic shortcuts for the in-passage find input. Same set
@@ -591,14 +590,94 @@ function ReadingPanel({
   const ref = useRef(null);
   const isPinned = pinnedLeafId === leafId;
 
-  // Reader sticky-header collapse progress. 0 at rest → 1 when fully
-  // collapsed. Hook always runs (rules-of-hooks); we gate its effect
-  // to the standard reader mode — compact / reading-mode / split-pane
-  // skip the sticky chrome and render the top sections inline.
-  const headerProgressRaw = useHeaderProgress({ collapseHeight: 220, reExpandZone: 80 });
+  // Reader sticky chrome — gated to the standard reader mode.
+  // compact / reading-mode / split-pane skip the sticky pattern and
+  // render the top sections inline.
   const stickyEnabled = !(compact || readingMode || inSplitPane);
-  const headerProgress = stickyEnabled ? headerProgressRaw : 0;
-  const stickyHidden = headerProgress >= 1;
+
+  // Scroll-driven fade is applied via direct DOM writes, not React
+  // state. Earlier attempts used a useState-backed `headerProgress`
+  // that re-rendered this whole component (~1700 lines of JSX) on
+  // every animation frame during scroll — that was hogging the main
+  // thread enough on mobile to back-pressure scroll input, which
+  // read as stutter and as scroll that wouldn't advance.
+  //
+  // Ref-based approach: keep the sticky element fully opaque in JSX,
+  // attach a single scroll listener inside a useEffect, and on each
+  // (rAF-throttled) frame write opacity + pointer-events to the
+  // sticky's DOM node via stickyRef. No re-renders happen during
+  // scroll. Same ratchet behaviour as before (lock once collapsed,
+  // re-expand only when scrollTop drops below 80).
+  const stickyRef = useRef(null);
+  useEffect(() => {
+    if (!stickyEnabled) return;
+    const COLLAPSE_HEIGHT = 220;
+    const RE_EXPAND_ZONE = 80;
+    let scrollEl = null;
+    let rafId = 0;
+    let collapsed = false;
+    let lastProgress = 0;
+
+    function applyProgress(p) {
+      const el = stickyRef.current;
+      if (!el) return;
+      if (p >= 1) {
+        el.style.opacity = '0';
+        el.style.pointerEvents = 'none';
+      } else {
+        el.style.opacity = String(1 - p * 0.95);
+        el.style.pointerEvents = 'auto';
+      }
+    }
+
+    function compute() {
+      rafId = 0;
+      if (!scrollEl) return;
+      const y = scrollEl.scrollTop;
+      let p;
+      if (!collapsed) {
+        p = Math.min(1, y / COLLAPSE_HEIGHT);
+        if (p >= 0.98) { p = 1; collapsed = true; }
+      } else if (y < RE_EXPAND_ZONE) {
+        collapsed = false;
+        p = Math.min(1, y / COLLAPSE_HEIGHT);
+      } else {
+        p = 1;
+      }
+      if (p < 0.02) p = 0;
+      if (p === lastProgress) return;
+      lastProgress = p;
+      applyProgress(p);
+    }
+
+    function onScroll() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(compute);
+    }
+
+    function attach() {
+      const el = document.querySelector('[data-scroll-root]');
+      if (el === scrollEl) return;
+      if (scrollEl) scrollEl.removeEventListener('scroll', onScroll);
+      scrollEl = el;
+      if (scrollEl) {
+        scrollEl.addEventListener('scroll', onScroll, { passive: true });
+        collapsed = false;
+        lastProgress = 0;
+        applyProgress(0);
+      }
+    }
+
+    attach();
+    const observer = new MutationObserver(() => attach());
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      if (scrollEl) scrollEl.removeEventListener('scroll', onScroll);
+      observer.disconnect();
+    };
+  }, [stickyEnabled]);
 
   // Flat depth-first order across the whole canon — adjacent nav crosses
   // work / canon boundaries so a reader can trace a concept end-to-end.
@@ -812,17 +891,10 @@ function ReadingPanel({
   // when they scroll back near the top. When stickyEnabled is false
   // (compact/reading-mode/split-pane) we render the inner JSX in
   // place without any wrap styling.
-  // Sticky reader chrome — minimum dynamic styling possible to keep
-  // mobile-Safari happy. backdrop-filter caused visible stutter and
-  // sometimes input-blocking on scroll because the GPU re-composites
-  // the blurred region every frame. progress-driven background +
-  // border alphas had a similar (smaller) cost.
-  //
-  // Only `opacity` and `pointer-events` change with progress, and
-  // both are GPU-composited operations that never affect layout
-  // (so no overflow-anchor feedback loop). The background is a
-  // solid token color so body content doesn't bleed through at
-  // rest — when opacity hits 0 the chrome no longer paints anyway.
+  // Sticky reader chrome — fully visible in initial render. The
+  // useEffect above mutates opacity + pointer-events via stickyRef
+  // as the user scrolls, so React never re-renders this component
+  // during scroll.
   const stickyWrapStyle = stickyEnabled ? {
     position: 'sticky',
     top: 0,
@@ -835,13 +907,15 @@ function ReadingPanel({
     paddingBottom: 4,
     background: 'var(--bc-bg-base)',
     borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
-    opacity: stickyHidden ? 0 : 1 - headerProgress * 0.95,
-    pointerEvents: stickyHidden ? 'none' : 'auto',
+    // opacity + pointer-events initialised here; the useEffect
+    // overwrites them on every rAF-throttled scroll frame.
+    opacity: 1,
+    pointerEvents: 'auto',
   } : undefined;
 
   return (
     <article ref={ref} style={articleStyle}>
-      <div style={stickyWrapStyle}>
+      <div ref={stickyRef} style={stickyWrapStyle}>
         {/* Back-to-canon affordance — desktop only. On mobile the
             OS / browser back gesture covers the same need without
             the explicit button taking up sticky-header real estate. */}
