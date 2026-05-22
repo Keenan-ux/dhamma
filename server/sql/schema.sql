@@ -216,6 +216,28 @@ CREATE INDEX IF NOT EXISTS idx_translations_fts        ON translations USING GIN
 -- skipped here for the same reason as the dictionary HNSW (avoid
 -- ACCESS EXCLUSIVE on every boot).
 
+-- BPS ingest support (Tier 2+ per BPS_INGEST_HANDOFF.md). source_book
+-- carries the publication title + catalogue number for per-card
+-- attribution, e.g. "The All-Embracing Net of Views (BP209S, 1978)".
+-- Distinct from `source` (which keys the ingest origin: 'sc' | 'ati'
+-- | 'bps-direct') so a single source can carry many books.
+ALTER TABLE translations ADD COLUMN IF NOT EXISTS source_book TEXT;
+
+-- Recognised values for translations.license and articles.license:
+--   'cc0'           — SuttaCentral Sujato rows
+--   'cc-by-nc-4.0'  — ATI offline-edition rows (Thanissaro, Walshe,
+--                     Bodhi extracts, Nyanaponika, Ireland, Olendzki,
+--                     Piyadassi, Ñāṇamoli, Soma, Buddharakkhita, …)
+--   'bps-fair-use'  — BPS-direct rows ingested under non-commercial
+--                     fair-use posture per BPS_INGEST_HANDOFF.md.
+--                     Display chrome must show: "Used under fair use
+--                     for non-commercial scholarly indexing. Original
+--                     © Buddhist Publication Society, Kandy." plus a
+--                     link back to bps.lk for the source publication.
+--                     Not a Creative Commons grant; reflects the
+--                     project's own asserted use posture, which BPS
+--                     can ask to be revisited.
+
 -- Passage parallels — cross-references between sutta passages, sourced
 -- from SuttaCentral's sc-data/relationship/parallels.json. Each record
 -- in that file is an array of passage IDs that are mutually related;
