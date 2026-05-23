@@ -53,8 +53,8 @@ bps.lk's online library:
 
 - *The All-Embracing Net of Views* (Brahmajāla Sutta + commentaries) — BP209S
 - *The Discourse on the Root of Existence* (Mūlapariyāya Sutta + cy.) — BP210S
-- *The Discourse on the Fruits of Recluseship* (Sāmaññaphala Sutta + cy.) — BP211S
-- *The Great Discourse on Causation* (Mahānidāna Sutta + cy.) — BP212S
+- *The Great Discourse on Causation* (Mahānidāna Sutta + cy.) — BP211S
+- *The Discourse on the Fruits of Recluseship* (Sāmaññaphala Sutta + cy.) — BP212S
 - *Transcendental Dependent Arising* (Upanisā Sutta + cy.) — Wheel 277
   *(already in our Library as an article)*
 - *Nourishing the Roots* — Wheel 259 *(already in our Library)*

@@ -73,12 +73,22 @@ free PDFs on bps.lk.
 
 - *The All-Embracing Net of Views* (BP209S) — Brahmajāla Sutta
   + its commentary + sub-commentary fragments. ~350 pp.
+  PDF: <https://www.bps.lk/olib/bp/bp209s-Bodhi_All-Embracing-Net-Of-Views.pdf>
 - *The Discourse on the Root of Existence* (BP210S) —
   Mūlapariyāya Sutta + commentary. ~80 pp.
-- *The Discourse on the Fruits of Recluseship* (BP211S) —
-  Sāmaññaphala Sutta + commentary. ~200 pp.
-- *The Great Discourse on Causation* (BP212S) — Mahānidāna Sutta
+  PDF: <https://www.bps.lk/olib/bp/bp210s_Bodhi_Root-Of-Existance.pdf>
+- *The Great Discourse on Causation* (BP211S) — Mahānidāna Sutta
   + commentary. ~120 pp.
+  PDF: <https://www.bps.lk/olib/bp/bp211s_Bodhi_Great-Discourse-n-Causation.pdf>
+- *The Discourse on the Fruits of Recluseship* (BP212S) —
+  Sāmaññaphala Sutta + commentary. ~200 pp.
+  PDF: <https://www.bps.lk/olib/bp/bp212s_Bodhi_Fruits-Of-Recluseship.pdf>
+
+Catalogue-number note: the earlier draft of this handoff had BP211S
+and BP212S reversed. The authoritative BPS catalogue (and the
+filenames of the PDFs above) confirm BP211S is Mahānidāna and BP212S
+is Sāmaññaphala. Per-book passage_id alignment: BP209S → dn1;
+BP210S → mn1; BP211S → dn15; BP212S → dn2.
 
 **Alignment:** each book has a structured English translation of
 the canonical sutta, then Bodhi's translation of the relevant
