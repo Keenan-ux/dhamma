@@ -1,15 +1,160 @@
 # Dhamma data — handoff to next session
 
-Picks up after a long session (May 2026) that materially improved
-search quality, search UX, library navigation, and tradition-UI
-cleanup. Read **this** first, then **CLAUDE.md** for project context.
-
 Live at **https://dhamma.fly.dev/** · GitHub: `Keenan-ux/dhamma` (private)
-Last verified: `dbcheck → passages: 25,986, tables: 11, pgvector: true`
+Last verified: `dbcheck → passages: 194,710, tables: 12, pgvector: true`
+
+Two large sessions have happened. The LATEST (May 2026, day 2)
+shipped CST per-`<p>` subdivision + BPS Tier 1 + BPS Tier 2 to
+production. The PRIOR session (May 2026, day 1) shipped Meaning
+search quality improvements, the Notes feature, segment-aware
+rendering, and SuttaCentral parallels. Both are recorded below;
+read the latest section first.
 
 ---
 
-## What landed this session
+## What landed this session (BPS Tier 1+2 + CST subdivision)
+
+This session moved from "BPS material isn't ingestable because CST
+commentary rows are monolithic" to "Tier 1 Vism + Tier 2 four Bodhi
+commentary books live in production, with paragraph-precise alignment
+to subdivided CST commentary rows."
+
+### CST per-`<p>` subdivision (#9, #10, #13, #14)
+
+Buddhaghosa's commentary on Brahmajāla was one row of 167 KB Pāli.
+Now it's 394 paragraph rows of ~420 chars each. Same content, 20x
+more retrievable units.
+
+- `scripts/ingest/cst-parse.mjs` — div-nested AND flat-mode parsers
+  both honour `mode: 'fine' | 'coarse'`. Fine emits one row per `<p>`,
+  with consecutive gatha lines grouped into one verse-row and
+  `<p rend="subhead">` propagating as title context for following
+  body rows.
+- `scripts/ingest/cst-works.mjs` — citation format for paragraph
+  IDs ("Sv-a 1 §47" for div-nested, "As §23.5" for flat-mode).
+- `scripts/ingest/ingest-cst.mjs` — `--fine` flag forces fine
+  granularity (used for Vism Pāli, tagged `role='mula'` in CST but
+  content-wise commentary).
+
+Corpus shape after:
+  - Aṭṭhakathā: 8,393 monolithic rows → ~91,800 paragraph rows
+  - Ṭīkā: 5,109 monolithic rows → ~77,800 paragraph rows
+  - Vism Pāli: 187 coarse rows → 3,619 paragraph rows
+  - Total fine CST rows: ~173,000 + Vism's 3,619 = ~177,000
+
+Embedding compute: ~9 hours of local BGE-M3 work across the night,
+plus a disk-full crash at ~150K rows that triggered volume extension
+from 5 GB → 15 GB. Snapshots existed; no data lost.
+
+### BPS Tier 1 — Visuddhimagga (#15)
+
+Ñāṇamoli's translation of the Visuddhimagga, 2,029 PDF pages →
+2,727 translation rows + 1 Library article live in prod. License
+`bps-online-free` (the BPS Online Edition uses share-alike free-
+redistribution terms, distinct from the other Bodhi-4 books'
+fair-use posture).
+
+Files:
+- `scripts/ingest/bps-bp207h.mjs` — PDF parser. 23 chapters across
+  Buddhaghosa's sīla/samādhi/paññā tripartite structure, all
+  paragraph-numbered with PTS edition page anchors ([N] markers).
+- `scripts/ingest/bps-vism-align.mjs` — chapter-aware alignment.
+  Detects chapter boundaries via the "N. <Pāli>niddeso" pattern in
+  CST subhead titles, then pairs Ñāṇamoli paragraphs to CST rows
+  sequentially within each chapter (proportional when counts drift).
+- `scripts/ingest/ingest-bps-vism.mjs` — orchestrator. Emits one
+  translations row per Ñāṇamoli paragraph + 1 article for the
+  Translator's Introduction.
+
+### BPS Tier 2 — Four Bodhi commentary books (#2)
+
+Bodhi's *All-Embracing Net of Views* (BP209S), *Root of Existence*
+(BP210S), *Great Discourse on Causation* (BP211S), *Fruits of
+Recluseship* (BP212S). 42 translation rows + 8 Library articles.
+License `bps-fair-use`.
+
+Files:
+- `scripts/ingest/bps-bp{209,210,211,212}s.mjs` — one per-book
+  parser. Each has its own per-PDF diacritic table (BP209S uses
+  canonical IAST already, BP210S/211S/212S use the BPS Latin-1
+  substitution family).
+- `scripts/ingest/bps-align-cst.mjs` — alignment helper with
+  `mode: 'subhead' | 'paragraph'` per-book dispatch. BP210S/211S/212S
+  use subhead-mode (Bodhi's named subsections → CST subhead-rows).
+  BP209S uses paragraph-mode (Bodhi's 9 long paragraph blocks →
+  proportional CST paragraph-row distribution; his BP209S has a
+  different prose-structure than the other three).
+- `scripts/ingest/ingest-bps-bodhi-cy.mjs` — orchestrator. Imports
+  all 4 per-book parsers, wires alignment, handles BP209S's extra
+  Library articles (Parts III-V are standalone essays not aligned
+  commentary).
+
+Alignment quality:
+  BP210S: 11 Bodhi sections → 11 CST subheads, **clean 1:1**
+  BP211S: 11 → 12, mostly clean with off-by-one near end
+  BP212S: 7 → 27, proportional (Bodhi is coarser than Buddhaghosa)
+  BP209S: 9 → 394 paragraph rows, proportional distribution
+
+The off-by-one issue in BP210S/211S was traced to a sutta-title-
+marker row ("1. Mūlapariyāyasuttavaṇṇanā") incorrectly counted as
+a content subhead. `fetchCstSubheads` now filters those via regex
+on the "<digit>. <PāliRoot>suttavaṇṇanā" pattern.
+
+### Schema migration (#1)
+
+- `translations.source_book` column added (TEXT, nullable).
+- License-string enum documented in `schema.sql`: `cc0`,
+  `cc-by-nc-4.0`, `bps-fair-use`, `bps-online-free`.
+
+### Search quality
+
+- Canonicality boost extended to discriminate `pli-vism` from the
+  canonical Sutta-Piṭaka mula. The original `WHEN work_role='mula'
+  THEN 1.25` lifted Vism alongside canonical suttas (Vism is also
+  tagged 'mula' in CST). Now: `WHEN work_role='mula' AND work_slug
+  <> 'pli-vism' THEN 1.25`. Verified — "metta" query moved Vism §80
+  from #1 to #10; canonical suttas (KN, VB, ITI Mettābhāvanāsutta)
+  now top results.
+
+### Reader UX (#12, step 1)
+
+`src/browse/paragraphGroup.js` — pure helper functions for
+grouping consecutive paragraph rows by their parent xml_div_id.
+`src/browse/ReadingPanel.jsx` — prev/next navigation now operates
+on groups instead of individual paragraph rows. For canonical
+mula passages (no `_p` suffix), each is its own singleton group;
+behaviour unchanged. For fine paragraph rows, prev/next jumps to
+the first leaf of the previous/next group instead of an adjacent
+paragraph — solves the "click 400 times to cross one sutta-
+commentary" problem.
+
+Step 2 deferred: render all paragraphs of the current group
+concatenated. Needs a server endpoint to fetch siblings. Without
+step 2 the reader still shows ONE paragraph at a time but
+prev/next is usable.
+
+### Dual-highlight cleanup
+
+`src/browse/SideBySideReader.jsx` refactored to build the Pāli and
+English columns independently — Pāli always renders as
+data-segment-marked spans when segment data is present, regardless
+of whether English is segmented or an ATI HTML blob. `theme.css`
+bumps `.dhamma-seg-hover` opacity from 0.10 to 0.22.
+`HANDOFF-DUAL-HIGHLIGHT.md` captures the open question on
+extending dual-highlight to non-bilara passages (4 design options
+considered, user pick pending).
+
+### Infrastructure
+
+- `dhamma-pg` volume extended from 5 GB to 15 GB (manual `flyctl
+  volumes extend` during the mid-ingest disk-full crash). CLAUDE.md
+  updated to reflect.
+- HNSW index now ~1.3 GB and growing. Task #11 (HNSW rebuild +
+  search verify) pending — recommended once Tier 1+2+3 are stable.
+
+---
+
+## What landed in the prior session (search quality + Notes)
 
 The bulk of the work was on **Meaning search quality**, which went
 from "returns random Pāli grammar passages for English queries" to
