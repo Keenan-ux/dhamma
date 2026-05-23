@@ -41,3 +41,13 @@ server/data/
 /scripts/xenova-smoke/*/node_modules/
 /scripts/xenova-smoke/*/.cache/
 /scripts/xenova-smoke/queries.ndjson
+
+# Python build artifacts from the gloss-injection re-embed pipeline.
+__pycache__/
+*.pyc
+
+# Throwaway probe scripts (per-session diagnostics, ad-hoc DB sizing
+# probes, smoke tests). The real backfill / migrate / reindex tools
+# in scripts/ingest/ are committed; the probe-* scripts are local
+# scratch only.
+/scripts/ingest/probe-*.mjs
