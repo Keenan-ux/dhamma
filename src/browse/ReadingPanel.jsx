@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { collectLeaves } from '../data/corpus.js';
+import { groupLeaves, findGroupContext } from './paragraphGroup.js';
 import { SelectionActions } from '../SelectionActions.jsx';
 import { isModifiedClick } from '../linkHelpers.js';
 import useNotes from '../useNotes.js';
+import useSegmentHover from './useSegmentHover.js';
 import { passageTranslationsApi, passageParallelsApi, passageTagsApi, glossApi } from '../api.js';
 import { sanitizeDictHtml } from '../dictHtml.js';
 import { formatCitation } from '../citationFormat.js';
@@ -152,6 +154,14 @@ export default function ReadingPanel({
   const ref = useRef(null);
   const isPinned = pinnedLeafId === leafId;
 
+  // Dual-highlight at the reader root: covers the side-by-side path,
+  // the stacked single-column path on narrow viewports, AND the case
+  // where the user has an ATI translator selected (englishIsHtml so
+  // the English column renders as HTML but the Pāli column still has
+  // segment markers). The hook is scoped to `ref` so two readers
+  // mounted simultaneously (pinned + active) don't cross-talk.
+  useSegmentHover(ref);
+
   // Scroll-to + flash on focusSegment. Runs after the segments are
   // in the DOM (passage data has loaded and rendering ran). Once the
   // scroll-to fires, clear the focus so a later in-passage nav
@@ -287,9 +297,18 @@ export default function ReadingPanel({
     () => collectLeaves(tree).filter((n) => !isUddanaId(n.id)),
     [tree]
   );
-  const idx = leafId ? allLeaves.findIndex((n) => n.id === leafId) : -1;
-  const prev = idx > 0 ? allLeaves[idx - 1] : null;
-  const next = idx >= 0 && idx < allLeaves.length - 1 ? allLeaves[idx + 1] : null;
+  // Paragraph-grouped navigation: after the 2026-05 per-<p> CST
+  // subdivision, fine commentary rows are ~5-30x as numerous as before.
+  // groupLeaves collapses consecutive paragraph-rows that share a
+  // parent xml_div_id into one logical "page" so prev/next operates
+  // on those pages instead of individual paragraphs (which would
+  // require hundreds of clicks to traverse one sutta-commentary).
+  // Non-fine leaves (canonical mula, anya, library articles) are
+  // each their own singleton group — same behaviour as before.
+  const groups = useMemo(() => groupLeaves(allLeaves), [allLeaves]);
+  const groupCtx = leafId ? findGroupContext(groups, leafId) : null;
+  const prev = groupCtx?.prevGroup ? groupCtx.prevGroup.items[0] : null;
+  const next = groupCtx?.nextGroup ? groupCtx.nextGroup.items[0] : null;
 
   // Derive display labels from the corpus tree (server gives us work_slug)
   const workInfo = workBySlug?.get(passage.work_slug);
