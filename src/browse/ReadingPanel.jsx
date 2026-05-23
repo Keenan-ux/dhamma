@@ -489,6 +489,21 @@ export default function ReadingPanel({
   useEffect(() => {
     setMobileColumn(passage.translation || passage.original ? 'english' : 'pali');
   }, [passage?.id]);
+  // Desktop column-display preference. 'both' = side-by-side (default),
+  // 'pali' = Pāli only, 'english' = English only. Persists across the
+  // session via localStorage; many scholars don't read Pāli at all and
+  // get a less-cluttered view by hiding it.
+  const [columnMode, setColumnModeRaw] = useState(() => {
+    if (typeof window === 'undefined') return 'both';
+    try {
+      const v = window.localStorage.getItem('dhamma:columnMode');
+      return v === 'pali' || v === 'english' || v === 'both' ? v : 'both';
+    } catch { return 'both'; }
+  });
+  const setColumnMode = (v) => {
+    setColumnModeRaw(v);
+    try { window.localStorage.setItem('dhamma:columnMode', v); } catch {/* */}
+  };
   useEffect(() => {
     if (!passage?.id) return;
     setParallels(null);
@@ -843,6 +858,40 @@ export default function ReadingPanel({
                 ),
               });
             }
+            // Column-mode toggle. Only meaningful when both columns
+            // exist and we're on a wide viewport (narrow has its own
+            // tab toggle). Cycles Both → Pāli → English → Both. The
+            // label encodes the CURRENT state so the user sees what's
+            // showing; the icon shows two-or-one columns.
+            if (passage.original && translationText && !isNarrow) {
+              const nextMode = columnMode === 'both' ? 'pali' : columnMode === 'pali' ? 'english' : 'both';
+              const modeLabel = columnMode === 'both' ? 'Both columns' : columnMode === 'pali' ? 'Pāli only' : 'English only';
+              actions.push({
+                key: 'col',
+                label: `${modeLabel}, click to switch`,
+                active: columnMode !== 'both',
+                onClick: () => setColumnMode(nextMode),
+                icon: columnMode === 'both' ? (
+                  // Two columns side by side
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="7" height="16" rx="1"/>
+                    <rect x="14" y="4" width="7" height="16" rx="1"/>
+                  </svg>
+                ) : columnMode === 'pali' ? (
+                  // Single column with a small "P" marker
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="6" y="4" width="12" height="16" rx="1"/>
+                    <text x="12" y="15" textAnchor="middle" fontSize="9" stroke="none" fill="currentColor" fontFamily="serif">P</text>
+                  </svg>
+                ) : (
+                  // Single column with a small "E" marker
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="6" y="4" width="12" height="16" rx="1"/>
+                    <text x="12" y="15" textAnchor="middle" fontSize="9" stroke="none" fill="currentColor" fontFamily="serif">E</text>
+                  </svg>
+                ),
+              });
+            }
             if (!readingMode) {
               actions.push({
                 key: 'reading',
@@ -1142,7 +1191,7 @@ export default function ReadingPanel({
         </div>
       )}
 
-      {passage.original && translationText && !isNarrow ? (
+      {passage.original && translationText && !isNarrow && columnMode === 'both' ? (
         <SideBySideReader
           passage={passage}
           pali={passage.original}
@@ -1155,9 +1204,17 @@ export default function ReadingPanel({
         />
       ) : (
         <>
-          {/* Narrow-viewport: only one column at a time. Wide: stack
-              fallback when only one column actually exists. */}
-          {passage.original && (!isNarrow || !translationText || mobileColumn === 'pali') && (
+          {/* Narrow viewport: one column picked via mobileColumn.
+              Wide viewport with columnMode='pali' or 'english':
+              one column picked via columnMode. Wide+both falls into
+              SideBySideReader above; this branch handles all the
+              one-column cases plus the natural fallback when only
+              one column actually exists. */}
+          {passage.original && (
+            !isNarrow
+              ? (columnMode === 'pali' || !translationText || columnMode === 'both')
+              : (!translationText || mobileColumn === 'pali')
+          ) && (
             <SegmentColumn
               passage={passage}
               language="pali"
@@ -1169,7 +1226,11 @@ export default function ReadingPanel({
               style={readingOriginal}
             />
           )}
-          {translationText && (!isNarrow || !passage.original || mobileColumn === 'english') && (
+          {translationText && (
+            !isNarrow
+              ? (columnMode === 'english' || !passage.original || columnMode === 'both')
+              : (!passage.original || mobileColumn === 'english')
+          ) && (
             translationIsHtml
               ? <div style={readingTranslation} dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(translationText) }} />
               : <SegmentColumn
