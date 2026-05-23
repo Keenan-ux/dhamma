@@ -22,6 +22,15 @@ export function passageApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}`, opts);
 }
 
+// Fetches the passage plus its sibling paragraph rows. For fine CST
+// rows (id ends in `_pNNN`), the response includes every paragraph
+// under the same parent div so the reader can render the whole
+// logical "page" at once. Singleton groups (canonical mula, library
+// articles, Vism coarse) return just the anchor row.
+export function passageGroupApi(id, opts) {
+  return get(`/api/passage/${encodeURIComponent(id)}/group`, opts);
+}
+
 export function randomPassageApi({ scope, signal } = {}) {
   const qs = scope ? `?scope=${encodeURIComponent(scope)}` : '';
   return get(`/api/random-passage${qs}`, { signal });
