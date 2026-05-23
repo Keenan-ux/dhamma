@@ -17,7 +17,7 @@ import { applySchema, health as dbHealth, sql } from './db.js';
 import { embedReady } from './embed.js';
 import { aliasesReady } from './aliases.js';
 import { runSearch } from './search.js';
-import { runCorpus, getPassage, getPassages, getPassageGroup } from './corpus.js';
+import { runCorpus, getPassage, getPassages, getPassageGroup, getPassageGroupTranslations } from './corpus.js';
 import { runCompareStats } from './compareStats.js';
 import { runLookup } from './dictionary.js';
 
@@ -65,6 +65,23 @@ app.get('/api/passage/:id', async (c) => {
 app.get('/api/passage/:id/group', async (c) => {
   try {
     const out = await getPassageGroup(c.req.param('id'));
+    if (!out) return c.json({ error: 'not_found' }, 404);
+    return c.json(out);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// Bulk translations across a paragraph group. Returns every row's
+// translations for the same group /api/passage/:id/group covers, so
+// the reader's translator dropdown can show translators present on
+// ANY group row (Tier 2 Bodhi cy commentary, for example, anchors
+// to specific paragraphs across the group; without this endpoint the
+// dropdown would only see translators on the user's exact landing
+// row).
+app.get('/api/passage/:id/group-translations', async (c) => {
+  try {
+    const out = await getPassageGroupTranslations(c.req.param('id'));
     if (!out) return c.json({ error: 'not_found' }, 404);
     return c.json(out);
   } catch (err) {

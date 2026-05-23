@@ -31,6 +31,13 @@ export function passageGroupApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}/group`, opts);
 }
 
+// Bulk translations across the paragraph group. Used by the reader's
+// multi-translator dropdown so it surfaces every translator present
+// on ANY group row, not just the anchor row's.
+export function passageGroupTranslationsApi(id, opts) {
+  return get(`/api/passage/${encodeURIComponent(id)}/group-translations`, opts);
+}
+
 export function randomPassageApi({ scope, signal } = {}) {
   const qs = scope ? `?scope=${encodeURIComponent(scope)}` : '';
   return get(`/api/random-passage${qs}`, { signal });

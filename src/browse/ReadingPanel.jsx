@@ -5,7 +5,7 @@ import { SelectionActions } from '../SelectionActions.jsx';
 import { isModifiedClick } from '../linkHelpers.js';
 import useNotes from '../useNotes.js';
 import useSegmentHover from './useSegmentHover.js';
-import { passageTranslationsApi, passageParallelsApi, passageTagsApi, glossApi, passageGroupApi } from '../api.js';
+import { passageTranslationsApi, passageParallelsApi, passageTagsApi, glossApi, passageGroupApi, passageGroupTranslationsApi } from '../api.js';
 import { paragraphGroupId } from './paragraphGroup.js';
 import { sanitizeDictHtml } from '../dictHtml.js';
 import { formatCitation } from '../citationFormat.js';
@@ -377,21 +377,70 @@ export default function ReadingPanel({
   // let the reader switch between Sujato (default), Thanissaro, etc.
   // The fetched list is ordered by curated position (sujato=0,
   // thanissaro=10, …); first item is the default selection.
-  const [translations, setTranslations] = useState(null); // null = loading
+  //
+  // For merged paragraph groups (Step 2), we fetch translations across
+  // the ENTIRE group instead of just the anchor — Tier 2 Bodhi
+  // commentary anchors translation rows to specific paragraph anchors
+  // scattered through the group, so an anchor-only fetch would miss
+  // them. The bulk endpoint returns per-row translations; we groupBy
+  // translator and concatenate per-row text in group order so the
+  // dropdown shows a unified "Bodhi" view that spans the whole group.
+  const [translations, setTranslations] = useState(null);
   const [selectedTranslator, setSelectedTranslator] = useState(null);
+  const isMergedGroup = passage?._groupSize > 1;
+  const groupAnchor = passage?._groupAnchor || anchorPassage?.id;
   useEffect(() => {
-    if (!passage?.id) return;
+    const fetchId = isMergedGroup ? groupAnchor : passage?.id;
+    if (!fetchId) return;
     setTranslations(null);
     setSelectedTranslator(null);
     const ac = new AbortController();
-    passageTranslationsApi(passage.id, { signal: ac.signal })
-      .then((r) => {
-        setTranslations(r.translations || []);
-        if (r.translations?.length) setSelectedTranslator(r.translations[0].translator);
-      })
-      .catch(() => { /* if endpoint fails, just fall back to passage.translation */ });
+    if (isMergedGroup) {
+      passageGroupTranslationsApi(fetchId, { signal: ac.signal })
+        .then((r) => {
+          // Group per-row rows by translator+source, concatenate
+          // text in source order (the server already returns rows
+          // ordered by group position). One unified row per (
+          // translator, source) pair: this lets a "bodhi" pick
+          // surface all his per-anchor commentary translations
+          // concatenated in reading order.
+          const byKey = new Map();
+          for (const t of r.translations || []) {
+            const key = `${t.translator}::${t.source}`;
+            if (!byKey.has(key)) {
+              byKey.set(key, {
+                translator: t.translator,
+                source: t.source,
+                texts: [],
+                license: t.license,
+                source_book: t.source_book,
+                source_url: t.source_url,
+              });
+            }
+            byKey.get(key).texts.push(t.text);
+          }
+          const merged = [...byKey.values()].map((g) => ({
+            translator: g.translator,
+            source: g.source,
+            text: g.texts.join('\n\n'),
+            license: g.license,
+            source_book: g.source_book,
+            source_url: g.source_url,
+          }));
+          setTranslations(merged);
+          if (merged.length) setSelectedTranslator(merged[0].translator);
+        })
+        .catch(() => { /* fall through to passage.translation */ });
+    } else {
+      passageTranslationsApi(fetchId, { signal: ac.signal })
+        .then((r) => {
+          setTranslations(r.translations || []);
+          if (r.translations?.length) setSelectedTranslator(r.translations[0].translator);
+        })
+        .catch(() => { /* fall through */ });
+    }
     return () => ac.abort();
-  }, [passage?.id]);
+  }, [passage?.id, isMergedGroup, groupAnchor]);
 
   const activeTranslation = translations?.find((t) => t.translator === selectedTranslator);
   const translationText = activeTranslation?.text || passage.translation;
