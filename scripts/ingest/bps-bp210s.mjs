@@ -83,14 +83,21 @@ const HEADER_RE = /^(?:\d{1,4}\s+)?(?:Discourse on the Root of Existence|The Mú
 const HEADER_RE2 = /^\d{1,4}\s*$/;       // bare page number
 const FOOTER_HEADER_RE = /^[a-zA-Z]+$/;  // very short single-word lines often page headers
 
-// Detect decorative reverse-flowed text by ratio of single-letter "lines"
-// (lots of single chars separated by tabs/newlines means the page was
-// laid out vertically and the extractor walked the wrong direction).
+// Detect decorative reverse-flowed text by ratio of single-letter
+// chunks — happens when a chapter-opener page is laid out vertically
+// (e.g. a large rotated title block) and pdf-parse extracts it one
+// glyph at a time. Both newline-separated AND tab/space-separated
+// single-char dominance count, since some pages put the artifact on
+// a single line with tabs and others use one char per line.
 function isDecorativeReverseTextPage(body) {
   const lines = body.split('\n').map((l) => l.trim()).filter(Boolean);
-  if (lines.length < 8) return false;
-  const singleCharCount = lines.filter((l) => l.length === 1).length;
-  return singleCharCount / lines.length > 0.5;
+  if (lines.length < 2) return false;
+  const singleCharLines = lines.filter((l) => l.length === 1).length;
+  const tokens = body.split(/[\s\t]+/).filter(Boolean);
+  if (tokens.length < 30) return false;
+  const singleCharTokens = tokens.filter((t) => t.length === 1).length;
+  return (lines.length >= 8 && singleCharLines / lines.length > 0.5) ||
+         (singleCharTokens / tokens.length > 0.5);
 }
 
 function cleanPageBody(body) {
@@ -166,8 +173,8 @@ export async function parseBp210s() {
 // .cache/bps/bp210s-extracted/{section}.txt for inspection.
 // Useful sanity check before any DB writes.
 
-if (import.meta.url === new URL(`file://${process.argv[1]}`).href ||
-    import.meta.url.endsWith(path.basename(process.argv[1] || ''))) {
+const entry = process.argv[1];
+if (entry && import.meta.url.endsWith(path.basename(entry))) {
   const parsed = await parseBp210s();
   const outDir = path.join(__dirname, '.cache', 'bps', 'bp210s-extracted');
   await fs.mkdir(outDir, { recursive: true });
