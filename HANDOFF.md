@@ -96,21 +96,53 @@ translation rows are embedded. Meaning search smoke-tested on
 both Vism content ("path of purification samadhi" → 22 hits) and
 BP214s Ireland Udāna content.
 
-### Reader UX Step 2 — backend ready, frontend pending
+### Reader UX Step 2 — LIVE
 
-`/api/passage/:id/group` added in `server/src/corpus.js` +
+Both backend and frontend shipped + deployed via `flyctl deploy`.
+
+Backend: `/api/passage/:id/group` in `server/src/corpus.js` +
 `server/src/index.js`. For a fine CST row like
 `cst-s0101a.att-dn1_1_p047`, the endpoint returns every `_p%`
 sibling row under the same parent div (`cst-s0101a.att-dn1_1`)
 ordered by paragraph-suffix integer. Singleton groups (mula,
 anya, library, Vism mula coarse) return the anchor row only.
-Frontend wire-up still pending — ReadingPanel.jsx needs to fetch
-the group on open and render the concatenated paragraphs.
 
-**Important:** the server change ships only when someone runs
-`flyctl deploy` or merges master → main. The CI workflow at
-`.github/workflows/fly-deploy.yml` triggers on push to `main`,
-not `master`. Prod still serves the pre-Step-2 server build.
+Frontend: `ReadingPanel.jsx` renames the incoming prop to
+`anchorPassage`, fetches the group via `passageGroupApi`, merges
+originals + translations into one display passage, and renders
+each paragraph as its own `<p>` so the user sees visual breaks.
+Verified on cst-s0101a.att-dn1_1_p047 (the full 394-paragraph
+Brahmajāla commentary renders as one continuous reader page) and
+on mn118 (singleton — unchanged behaviour, translator switcher
+shows Sujato + Thanissaro + Ñāṇamoli).
+
+Deploy note: the CI workflow `.github/workflows/fly-deploy.yml`
+still triggers on push to `main`, not `master`. Manual
+`flyctl deploy` does the right thing — used twice this session.
+
+### Tier 5 — Soma + Nyanaponika satipaṭṭhāna texts
+
+Two foundational satipaṭṭhāna works added on top of the Tier 4
+ingest:
+
+- **BP509S** *The Heart of Buddhist Meditation* (Nyanaponika,
+  1962). Part Two is the Mahāsatipaṭṭhāna Sutta (DN 22)
+  translation, ingested as a single `dn22` translation row (joins
+  Sujato + Thanissaro). Part One (Nyanaponika's essay) and Part
+  Three ("Flowers of Deliverance" anthology) become Library
+  articles. BP509S uses canonical IAST already so no diacritic
+  table needed.
+- **BP501S** *The Way of Mindfulness* (Soma Thera). The canonical
+  sutta and the commentary excerpts are typeset together
+  throughout the body, so it ships as three Library articles
+  (Foreword, Introduction, Discourse + Commentary) rather than as
+  a per-sutta translation row. Uses the BPS Latin-1 diacritic
+  family.
+
+`scripts/ingest/bps-bp509s.mjs` and `bps-bp501s.mjs` registered
+in the same `ingest-bps-tier4.mjs` orchestrator (which now
+handles BP502S, BP214S, BP509S, BP501S — the not-Tier-2-Bodhi-4
+books).
 
 ---
 
