@@ -32,6 +32,7 @@ import { parseBp502s } from './bps-bp502s.mjs';
 import { parseBp214s } from './bps-bp214s.mjs';
 import { parseBp509s } from './bps-bp509s.mjs';
 import { parseBp501s } from './bps-bp501s.mjs';
+import { parseBp304s } from './bps-bp304s.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -445,7 +446,150 @@ const BOOKS = {
     parser: parseBp501s,
     build: buildBp501sRows,
   },
+  BP304S: {
+    parser: parseBp304s,
+    build: buildBp304sRows,
+    needsSql: true,   // alignment requires DB access to fetch CST rows
+  },
 };
+
+// ─────────────────── BP304S processing ───────────────────
+//
+// Bodhi's *Comprehensive Manual of Abhidhamma* translates Anuruddha's
+// *Abhidhammattha-saṅgaha* in 9 chapters of §-numbered sections. Each
+// § contains:
+//   - the Pāli verse (Anuruddha)
+//   - Bodhi's English translation of that verse
+//   - "Guide to §N" — Bodhi's prose explanation
+//
+// Alignment target: the Abhidhammattha-saṅgaha sits in CST at
+// cst-abh07t.nrf-1..nrf-85 (the nrf-86+ rows are the Vibhāvinī-ṭīkā
+// commentary on it, not the same text). The 9 chapters map to
+// contiguous nrf-N ranges:
+//
+//   Ch.1 (Cittapariccheda):     nrf-1  to nrf-13  (preface + ch1)
+//   Ch.2 (Cetasikapariccheda):  nrf-14 to nrf-28
+//   Ch.3 (Pakiṇṇakapariccheda): nrf-29 to nrf-35
+//   Ch.4 (Vīthipariccheda):     nrf-36 to nrf-46
+//   Ch.5 (Vīthimuttapariccheda):nrf-47 to nrf-51
+//   Ch.6 (Rūpapariccheda):      nrf-52 to nrf-58
+//   Ch.7 (Samuccayapariccheda): nrf-59 to nrf-63
+//   Ch.8 (Paccayapariccheda):   nrf-64 to nrf-67
+//   Ch.9 (Kammaṭṭhānapar.):     nrf-68 to nrf-85
+//
+// Within each chapter we proportionally distribute Bodhi §-sections
+// across the CST `_p` rows: Bodhi §-N → the floor((N-1) * cstCount /
+// bodhiCount)-th CST row of that chapter. Each emits ONE translations
+// row with text=verse+English-translation, notes=Guide-commentary.
+
+const BP304S_CHAPTER_NRF_RANGES = {
+  1: [1, 13],
+  2: [14, 28],
+  3: [29, 35],
+  4: [36, 46],
+  5: [47, 51],
+  6: [52, 58],
+  7: [59, 63],
+  8: [64, 67],
+  9: [68, 85],
+};
+
+async function buildBp304sRows(parsed, { sql } = {}) {
+  if (!sql) {
+    // Without sql we can't resolve CST anchors — emit placeholder rows.
+    const placeholderRows = [];
+    for (const ch of parsed.chapters) {
+      for (const s of ch.sections) {
+        placeholderRows.push({
+          passage_id: `<TODO-align:bp304s-ch${ch.n}-section${s.n}>`,
+          language: 'en',
+          translator: 'bodhi',
+          source: parsed.source,
+          text: cleanBody([s.verse].filter(Boolean).join('\n\n')),
+          notes: s.guide ? cleanBody(s.guide) : null,
+          copyright: parsed.copyright,
+          license: parsed.license,
+          source_url: parsed.sourceUrl,
+          source_book: parsed.sourceBook,
+        });
+      }
+    }
+    return { suttaRows: placeholderRows, articles: buildBp304sArticles(parsed) };
+  }
+
+  // Fetch all CST fine paragraph rows in cst-abh07t.nrf-1..nrf-85
+  // ordered by (nrf integer, paragraph integer). We'll partition by
+  // chapter and pair each Bodhi § proportionally.
+  const cstRows = await sql`
+    SELECT id, citation, title, length(original) AS len
+    FROM passages
+    WHERE id LIKE 'cst-abh07t.nrf-%_p%'
+      AND (regexp_match(id, 'nrf-([0-9]+)'))[1]::int BETWEEN 1 AND 85
+    ORDER BY (regexp_match(id, 'nrf-([0-9]+)'))[1]::int,
+             (regexp_match(id, '_p([0-9]+)$'))[1]::int
+  `;
+  console.log(`    BP304S alignment: ${cstRows.length} CST rows across ${parsed.chapters.length} chapters`);
+  const rowsByChapter = new Map();
+  for (let ch = 1; ch <= 9; ch++) rowsByChapter.set(ch, []);
+  for (const r of cstRows) {
+    const m = r.id.match(/nrf-(\d+)/);
+    const nrf = m ? parseInt(m[1], 10) : 0;
+    for (const [ch, [lo, hi]] of Object.entries(BP304S_CHAPTER_NRF_RANGES)) {
+      if (nrf >= lo && nrf <= hi) {
+        rowsByChapter.get(parseInt(ch, 10)).push(r);
+        break;
+      }
+    }
+  }
+
+  const suttaRows = [];
+  for (const ch of parsed.chapters) {
+    const cstChRows = rowsByChapter.get(ch.n) || [];
+    if (cstChRows.length === 0 || ch.sections.length === 0) continue;
+    const ratio = cstChRows.length / ch.sections.length;
+    for (let i = 0; i < ch.sections.length; i++) {
+      const s = ch.sections[i];
+      const cstIdx = Math.min(cstChRows.length - 1, Math.floor(i * ratio));
+      const anchor = cstChRows[cstIdx];
+      suttaRows.push({
+        passage_id: anchor.id,
+        language: 'en',
+        translator: 'bodhi',
+        source: parsed.source,
+        text: cleanBody(s.verse),
+        notes: s.guide ? cleanBody(s.guide) : null,
+        copyright: parsed.copyright,
+        license: parsed.license,
+        source_url: parsed.sourceUrl,
+        source_book: parsed.sourceBook,
+      });
+    }
+  }
+  return { suttaRows, articles: buildBp304sArticles(parsed) };
+}
+
+function buildBp304sArticles(parsed) {
+  const articles = [];
+  // Introduction is in `parsed.intro`. Wrap as a Library article.
+  const intro = cleanBody(parsed.intro);
+  if (intro) {
+    articles.push({
+      slug: 'bps-bp304s-intro',
+      title: 'Introduction to A Comprehensive Manual of Abhidhamma (Bodhi)',
+      author: 'bodhi-bps',
+      category: 'author-essay',
+      source: parsed.source,
+      source_url: parsed.sourceUrl,
+      body: `<h2>Introduction</h2>\n${paragraphs(intro)}`,
+      summary: null,
+      tags: ['bps', 'bodhi', 'abhidhamma', 'introduction'],
+      copyright: parsed.copyright,
+      license: parsed.license,
+      year: 1993,
+    });
+  }
+  return articles;
+}
 
 // ─────────────────── BP501S processing ───────────────────
 //
@@ -524,7 +668,10 @@ async function ingestBook(code, { sql, dryRun }) {
   if (!cfg) throw new Error(`No registry entry for ${code}`);
   const parsed = await cfg.parser();
   console.log(`  pdfPages=${parsed.pdfPages}, license=${parsed.license}`);
-  const built = cfg.build(parsed);
+  // Books that need DB access for alignment (e.g. BP304S → CST
+  // Abhidhammattha-saṅgaha rows) declare needsSql: true and receive
+  // the postgres connection. Others just get the parsed data.
+  const built = await cfg.build(parsed, cfg.needsSql ? { sql } : {});
 
   console.log(`  built:`);
   // Single-sutta books expose `built.suttaRow`; multi-sutta books
