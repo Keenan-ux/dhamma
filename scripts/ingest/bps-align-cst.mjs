@@ -29,29 +29,40 @@ import postgres from 'postgres';
 // nesting). The `lastSubheadBefore` field marks the boundary row;
 // rows after it are NOT part of BP210S's coverage.
 
+// CST uses intra-volume sutta numbering, NOT canonical Sutta-Pitaka
+// numbering. A CST id like `dn2_2` means "DN cy vol 2, sutta 2" =
+// DN 15 (Mahānidāna) in canonical numbering. The cstIdPrefix per
+// book reflects the actual CST div structure.
+//
+// MN cy vol 1 (mn1_1) is unusual: it's a multi-sutta vagga div
+// containing the first 10 suttas' commentaries together (the
+// Mūlapariyāya-vagga). lastSubheadBefore caps the Bodhi-alignment
+// scope to just the first sutta's portion. DN cy divs are
+// single-sutta, so no boundary is needed for the DN books.
+
 const BOOK_RANGES = {
-  BP210S: {
-    target: 'mn1',
-    cstIdPrefix: 'cst-s0201a.att-mn1_1',
-    lastSubheadBefore: 'cst-s0201a.att-mn1_1_p263',  // "2. Sabbāsavasuttavaṇṇanā" = MN 2 cy starts
-    cyTitleHint: 'Mūlapariyāyasuttavaṇṇanā',
-  },
   BP209S: {
     target: 'dn1',
-    cstIdPrefix: 'cst-s0101a.att-dn1_1',
-    lastSubheadBefore: 'cst-s0101a.att-dn1_2_p001',  // "2. Sāmaññaphalasuttavaṇṇanā" = DN 2 cy
+    cstIdPrefix: 'cst-s0101a.att-dn1_1',      // DN cy vol 1 sutta 1 = Brahmajāla
+    lastSubheadBefore: null,                  // self-contained div
     cyTitleHint: 'Brahmajālasuttavaṇṇanā',
+  },
+  BP210S: {
+    target: 'mn1',
+    cstIdPrefix: 'cst-s0201a.att-mn1_1',      // MN cy vol 1 sutta 1 = Mūlapariyāya
+    lastSubheadBefore: 'cst-s0201a.att-mn1_1_p263',  // "2. Sabbāsavasuttavaṇṇanā" = MN 2 cy starts inside the same vagga div
+    cyTitleHint: 'Mūlapariyāyasuttavaṇṇanā',
   },
   BP211S: {
     target: 'dn15',
-    cstIdPrefix: 'cst-s0102a.att-dn15',  // need to verify the actual nesting; DN 15 lives in vol 2 (Mahāvagga)
-    lastSubheadBefore: null,  // resolved at runtime by querying for the next sutta's cy opener
+    cstIdPrefix: 'cst-s0102a.att-dn2_2',      // DN cy vol 2 sutta 2 = Mahānidāna
+    lastSubheadBefore: null,
     cyTitleHint: 'Mahānidānasuttavaṇṇanā',
   },
   BP212S: {
     target: 'dn2',
-    cstIdPrefix: 'cst-s0101a.att-dn1_2',  // Sāmaññaphala cy is the 2nd sutta-section of DN cy vol 1
-    lastSubheadBefore: null,  // resolved at runtime
+    cstIdPrefix: 'cst-s0101a.att-dn1_2',      // DN cy vol 1 sutta 2 = Sāmaññaphala
+    lastSubheadBefore: null,
     cyTitleHint: 'Sāmaññaphalasuttavaṇṇanā',
   },
 };
