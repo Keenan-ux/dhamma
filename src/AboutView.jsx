@@ -56,7 +56,7 @@ export default function AboutView() {
         <div style={rule} />
         <h1 style={pageTitle}>About</h1>
         <p style={pageSubtitle}>
-          a search and reading tool for Buddhist canonical texts
+          a search and reading tool for the Pāli canon and its commentaries
         </p>
         <div style={rule} />
       </header>

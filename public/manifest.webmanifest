@@ -1,7 +1,7 @@
 {
   "name": "Dhamma data",
   "short_name": "Dhamma",
-  "description": "Search the Pāli Buddhist canon — Tipiṭaka, commentaries, sub-commentaries — with cross-canon Sanskrit dictionary lookup.",
+  "description": "Search the Pāli canon, its commentaries and sub-commentaries, with cross-canon Sanskrit dictionary lookup. A scholarly reading tool.",
   "scope": "/",
   "start_url": "/",
   "display": "standalone",
