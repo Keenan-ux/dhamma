@@ -55,7 +55,10 @@ export async function runCorpus() {
       SELECT id, citation, title, work_slug
       FROM passages
       WHERE id !~ ${UDDANA_HEADER_REGEX}
-      ORDER BY work_slug, position NULLS LAST, id
+      ORDER BY work_slug,
+               COALESCE(regexp_replace(id, '_p[0-9]+$', ''), id),
+               position NULLS LAST,
+               id
     `,
   ]);
 
