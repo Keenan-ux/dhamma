@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { sanitizeDictHtml } from '../dictHtml.js';
 import { highlightFind, withGlosses } from './highlight.jsx';
 import { filterBodySegments } from './segments.js';
-import useSegmentHover from './useSegmentHover.js';
 
 // Side-by-side parallel reader for passages that have both Pāli and an
 // English translation. A draggable divider lets the reader weight one
@@ -31,10 +30,9 @@ export default function SideBySideReader({
   const containerRef = useRef(null);
   const draggingRef = useRef(false);
 
-  // Wire simultaneous Pāli/English segment-hover highlight: hovering a
-  // segment in either column highlights its paired segment on the
-  // other side. CSS-only via class toggling, no React re-render.
-  useSegmentHover(containerRef);
+  // Dual-highlight is now attached at the ReadingPanel root (covers
+  // every reading path including the ATI-translator case where this
+  // component still renders but with HTML on the English side).
 
   function onPointerDown(e) {
     draggingRef.current = true;
@@ -57,82 +55,86 @@ export default function SideBySideReader({
     document.body.style.userSelect = '';
   }
 
-  // When the passage has segments AND we'll be rendering the English
-  // segments as plain text (not html), use the per-segment grid path.
+  // Whether to render Pāli as segmented spans. We want this whenever
+  // the passage carries segments, regardless of what the English side
+  // renders as — that way the Pāli column always carries segment
+  // markers + dual-highlight hover targets, even when the user is
+  // reading with an ATI translator (English column = HTML blob).
   const hasTitle = !!(passage?.title || passage?.title_en);
-  const useSegments = passage?.segments && !englishIsHtml;
-  const keys = useSegments ? filterBodySegments(passage.segments, hasTitle) : [];
+  const hasSegments = !!passage?.segments;
+  const keys = hasSegments ? filterBodySegments(passage.segments, hasTitle) : [];
 
-  if (useSegments && keys.length > 0) {
-    return (
-      <div ref={containerRef} style={sideBySideWrap}>
-        <div style={{ ...sideBySidePane, flexBasis: `${pct}%` }}>
-          <div style={readingOriginal}>
-            {keys.map((k) => {
-              const seg = passage.segments[k];
-              if (!seg) return null;
-              const noted = segmentNoted(k, noteRanges);
-              const cls = `dhamma-seg dhamma-seg-pali${noted ? ' dhamma-seg-noted' : ''}`;
-              return (
-                <span
-                  key={k}
-                  className={cls}
-                  data-segment={k}
-                  data-passage-id={passage.id}
-                  style={segmentSpan}
-                >
-                  {glossMap
-                    ? withGlosses(seg.pali, glossMap)
-                    : highlightFind(seg.pali, findText, findStem)}
-                  {' '}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-        <div
-          style={sideBySideDivider}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
-          onPointerCancel={onPointerUp}
-          title="Drag to resize"
-        >
-          <div style={sideBySideGrip} />
-        </div>
-        <div style={{ ...sideBySidePane, flexBasis: `calc(${100 - pct}% - 18px)` }}>
-          <div style={readingTranslation}>
-            {keys.map((k) => {
-              const seg = passage.segments[k];
-              if (!seg) return null;
-              const noted = segmentNoted(k, noteRanges);
-              const cls = `dhamma-seg dhamma-seg-en${noted ? ' dhamma-seg-noted' : ''}`;
-              return (
-                <span
-                  key={k}
-                  className={cls}
-                  data-segment={k}
-                  data-passage-id={passage.id}
-                  style={segmentSpan}
-                >
-                  {highlightFind(seg.english, findText, findStem)}
-                  {' '}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Build each column independently so we can mix rendering modes:
+  // Pāli always segmented when data exists, English segmented OR
+  // HTML-blobbed depending on the active translator.
+  const paliColumn = hasSegments && keys.length > 0 ? (
+    <div style={readingOriginal}>
+      {keys.map((k) => {
+        const seg = passage.segments[k];
+        if (!seg || !seg.pali) return null;
+        const noted = segmentNoted(k, noteRanges);
+        const cls = `dhamma-seg dhamma-seg-pali${noted ? ' dhamma-seg-noted' : ''}`;
+        return (
+          <span
+            key={k}
+            className={cls}
+            data-segment={k}
+            data-passage-id={passage.id}
+            style={segmentSpan}
+          >
+            {glossMap
+              ? withGlosses(seg.pali, glossMap)
+              : highlightFind(seg.pali, findText, findStem)}
+            {' '}
+          </span>
+        );
+      })}
+    </div>
+  ) : (
+    <p style={readingOriginal}>
+      {glossMap ? withGlosses(pali, glossMap) : highlightFind(pali, findText, findStem)}
+    </p>
+  );
 
-  // Fallback for non-segmented passages: original single-column-per-side render.
+  const englishColumn = englishIsHtml ? (
+    // ATI translator → HTML blob. Dual-highlight on the Pāli side
+    // still works for visual feedback even though there's no English
+    // sister-element to highlight in turn.
+    <div
+      style={{ ...readingTranslation, marginBottom: 18 }}
+      dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(english) }}
+    />
+  ) : (hasSegments && keys.length > 0) ? (
+    <div style={readingTranslation}>
+      {keys.map((k) => {
+        const seg = passage.segments[k];
+        if (!seg || !seg.english) return null;
+        const noted = segmentNoted(k, noteRanges);
+        const cls = `dhamma-seg dhamma-seg-en${noted ? ' dhamma-seg-noted' : ''}`;
+        return (
+          <span
+            key={k}
+            className={cls}
+            data-segment={k}
+            data-passage-id={passage.id}
+            style={segmentSpan}
+          >
+            {highlightFind(seg.english, findText, findStem)}
+            {' '}
+          </span>
+        );
+      })}
+    </div>
+  ) : (
+    <p style={{ ...readingTranslation, marginBottom: 18 }}>
+      {highlightFind(english, findText, findStem)}
+    </p>
+  );
+
   return (
     <div ref={containerRef} style={sideBySideWrap}>
       <div style={{ ...sideBySidePane, flexBasis: `${pct}%` }}>
-        <p style={readingOriginal}>
-          {glossMap ? withGlosses(pali, glossMap) : highlightFind(pali, findText, findStem)}
-        </p>
+        {paliColumn}
       </div>
       <div
         style={sideBySideDivider}
@@ -145,14 +147,7 @@ export default function SideBySideReader({
         <div style={sideBySideGrip} />
       </div>
       <div style={{ ...sideBySidePane, flexBasis: `calc(${100 - pct}% - 18px)` }}>
-        {englishIsHtml ? (
-          <div
-            style={{ ...readingTranslation, marginBottom: 18 }}
-            dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(english) }}
-          />
-        ) : (
-          <p style={{ ...readingTranslation, marginBottom: 18 }}>{highlightFind(english, findText, findStem)}</p>
-        )}
+        {englishColumn}
       </div>
     </div>
   );
