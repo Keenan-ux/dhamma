@@ -16,13 +16,23 @@ coverage, SuttaCentral parallels, and an ATI Library tab. Most
 what's open.
 
 **What's live as of this handoff:**
-- **Pali corpus: 14,377 passages** across the live Theravāda canon
-  - Tipiṭaka (14,377 / 5,113 translated): Sutta 6,367, Vinaya 480, Abhidhamma 7,530
-  - Commentary (Aṭṭhakathā): 3,470 passages — Visuddhimagga, Samantapāsādikā,
-    Sumaṅgalavilāsinī (DN-A), Papañcasūdanī (MN-A), Sāratthappakāsinī (SN-A),
-    Manorathapūraṇī (AN-A), Atthasālinī (Abh-A), Khuddaka commentaries
-  - Sub-commentary (Ṭīkā): 5,109 passages — DN/MN/SN/AN/Vism/Abh/Vinaya ṭīkā
-  - Extra-canonical (Anya): 3,030 passages across 64 CST works
+- **Pali corpus: ~191,000 passages** across the live Theravāda canon
+  - **Major shift this session**: CST Aṭṭhakathā + Ṭīkā subdivided from
+    sutta-level rows to paragraph-level rows (per-`<p>` granularity).
+    The 8,579 monolithic commentary rows became 173,684 paragraph-row
+    siblings — same content, 20x more retrievable units. Each fine row
+    is now ~300-500 chars (vs 100-200 KB monoliths before), with its
+    own focused BGE-M3 vector and FTS index entry.
+  - Tipiṭaka (mula passages, unchanged): 14,377 / ~5,000 translated.
+    Sutta 6,367, Vinaya 480, Abhidhamma 7,530.
+  - Commentary (Aṭṭhakathā fine): ~93,000 paragraph rows across
+    Visuddhimagga (subdivided this session), Samantapāsādikā,
+    Sumaṅgalavilāsinī, Papañcasūdanī, Sāratthappakāsinī,
+    Manorathapūraṇī, Atthasālinī, Pañcappakaraṇa-aṭṭhakathā,
+    Khuddaka commentaries.
+  - Sub-commentary (Ṭīkā fine): ~78,000 paragraph rows — DN/MN/SN/AN/Vism/
+    Abh/Vinaya ṭīkā.
+  - Extra-canonical (Anya): 3,030 passages across 64 CST works (unchanged).
 - Hybrid FTS+vector search with HNSW, alias-OR expansion, prefix-stem
   matching, ts_headline snippets, stem-aware highlighting
 - Five dictionaries, plus selection-popover wired into every reader:
@@ -62,7 +72,7 @@ what's open.
 
 ```bash
 curl -s https://dhamma.fly.dev/api/dbcheck
-# expect: passages: 14377, tables: ~12, pgvector: true
+# expect: passages: ~191000, tables: 12, pgvector: true
 ```
 
 Dictionaries — try
@@ -80,7 +90,9 @@ study-guide: 16, noncanon: 2, glossary: 1`.
 
 - `dhamma` app: **shared-cpu-2x, 4 GB RAM**, auto-stop. DO NOT lower
   memory_mb under 4096 — see [fly-memory-requirement memory note](../../Users/isaac/.claude/projects/C--Dev-Dhamma/memory/fly-memory-requirement.md).
-- `dhamma-pg` app: shared-cpu-1x, 256 MB, always-on, 1 GB volume.
+- `dhamma-pg` app: shared-cpu-1x, 256 MB, always-on, **15 GB volume**
+  (extended from 5 GB → 15 GB during the per-`<p>` subdivision ingest
+  when disk hit 100% on the original 5 GB at ~150K fine rows).
 - HNSW index on `passages.embedding`. Grows incrementally.
 - Cold-start: ~**101 s** for the first `/api/search?mode=meaning` per
   wake (BGE-M3 ONNX load). Subsequent queries 500–2000 ms.
