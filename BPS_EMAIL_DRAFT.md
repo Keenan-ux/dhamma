@@ -40,6 +40,13 @@ What's currently live from BPS:
     standalone essays on exegetical method, the pāramīs, and the
     word "Tathāgata").
 
+  * *A Comprehensive Manual of Abhidhamma*, Bhikkhu Bodhi (BP304S,
+    1993). The complete book: 305 Bodhi-translated verse blocks
+    from Anuruddha's *Abhidhammattha-saṅgaha* aligned across all
+    nine chapters of the corresponding CST paragraph rows, with
+    Bodhi's "Guide to §N" prose explanation attached as per-row
+    notes. Translator's Introduction as a Library article.
+
   * *Mindfulness of Breathing*, Bhikkhu Ñāṇamoli (BP502S, 1964).
     Part I (the Ānāpānasati Sutta, MN 118) aligned to the canonical
     passage; Parts II, III, IV (the Visuddhimagga commentary
@@ -52,6 +59,19 @@ What's currently live from BPS:
     canonical passages, with the two Introductions combined into
     one Library article.
 
+  * *The Heart of Buddhist Meditation*, Nyanaponika Thera (BP509S,
+    1962). Part Two (the Mahāsatipaṭṭhāna-Sutta, DN 22) aligned to
+    the canonical passage. Part One (Nyanaponika's extended essay)
+    and Part Three (the "Flowers of Deliverance" anthology) as
+    Library articles.
+
+  * *The Way of Mindfulness*, Soma Thera (BP501S). The Satipaṭṭhāna
+    Sutta with classical commentary and sub-commentary excerpts.
+    Because Soma's typesetting weaves the canonical and commentarial
+    passages together throughout, the book is presented as Library
+    articles (Foreword, Introduction, Discourse and Commentary)
+    rather than as a single canonical translation row.
+
 A few representative URLs you can click to see how the material
 appears:
 
@@ -59,9 +79,14 @@ appears:
     <https://dhamma.fly.dev/#/read/mn118>
   * Udāna 1.1 with Ireland's translation:
     <https://dhamma.fly.dev/#/read/ud1.1>
+  * DN 22 Mahāsatipaṭṭhāna with Nyanaponika alongside Sujato:
+    <https://dhamma.fly.dev/#/read/dn22>
   * The Mūlapariyāya Sutta with Bodhi's commentary translation
     surfacing on the corresponding CST commentary passages:
     <https://dhamma.fly.dev/#/read/mn1>
+  * The opening verse of Anuruddha's Abhidhammattha-saṅgaha with
+    Bodhi's translation and Guide commentary:
+    <https://dhamma.fly.dev/#/read/cst-abh07t.nrf-1_p001>
   * The Library tab listing the BPS articles:
     <https://dhamma.fly.dev/#/library>
 
@@ -84,13 +109,6 @@ particular passages excluded, or any other adjustment, please
 tell me and I will honour it. I expect the right answer is
 somewhere between "leave as is" and "tighten this specific
 thing," and I'd rather hear from you than guess.
-
-A few other Bhikkhu Bodhi titles, notably *A Comprehensive Manual
-of Abhidhamma* (BP304S), are on my list to add when I can source
-a complete PDF. The copy currently circulating online is missing
-around twenty pages of chapter one and significant portions of
-chapters three through five, and I declined to ingest a partial
-work without flagging the gap clearly.
 
 With respect, and thanks for the decades of editorial work that
 made these translations possible.
