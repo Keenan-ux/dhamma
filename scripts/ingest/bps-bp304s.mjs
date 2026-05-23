@@ -108,26 +108,29 @@ function cleanPageBody(body) {
 
 // ─────────────────── Section ranges ───────────────────
 //
-// PDF page numbers vs printed page numbers:
+// PDF page numbers for the complete 448-page edition. (The earlier
+// cached 307-page PDF was an abbreviated edition that dropped ~89
+// of 256 § sections mid-book — see git history. The complete copy
+// was sourced from the archive.org "3 ABHIDHAMMA.rar" mirror.)
 //
-//   PDF p1-7    front matter (title + about contributors + General Contents)
-//   PDF p8-15   Detailed Contents (skipped — ToC noise)
-//   PDF p16-21  Abbreviations + Preface (Preface starts ~p18)
-//   PDF p22-46  Introduction (printed p 1-23 → Introduction)
-//   PDF p47-274 Body (CHAPTERS I-IX) (printed p23-365)
-//   PDF p275-281 Notes (endnotes)
-//   PDF p282-286 Appendices I-II (textual sources for cittas + cetasikas)
-//   PDF p287-297 Bibliography (skipped)
-//   PDF p298-307 Index (skipped)
-//
-// Boundaries verified by probe-bp304s-deep.mjs and -body.mjs.
+//   PDF p1-21    front matter (title, contributors, contents,
+//                List of Tables, Abbreviations, Preface)
+//   PDF p22-49   Introduction
+//   PDF p50-407  Body (CHAPTERS I-IX)
+//                  I:   p50  · II:  p105 · III: p146 · IV:  p183
+//                  V:   p220 · VI:  p268 · VII: p300 · VIII: p328
+//                  IX:  p366
+//   PDF p408-412 Notes (endnotes)
+//   PDF p413-417 Appendices I-II
+//   PDF p418-434 Bibliography (skipped)
+//   PDF p435+    Index (skipped)
 
 const SECTION_RANGES = {
-  front:      { start: 1,   end: 21  },   // through Preface
-  intro:      { start: 22,  end: 46  },   // Introduction
-  body:       { start: 47,  end: 274 },   // 9 chapters
-  notes:      { start: 275, end: 281 },
-  appendices: { start: 282, end: 286 },
+  front:      { start: 1,   end: 21  },
+  intro:      { start: 22,  end: 49  },
+  body:       { start: 50,  end: 407 },
+  notes:      { start: 408, end: 412 },
+  appendices: { start: 413, end: 417 },
 };
 
 function joinPages(pages, start, end) {
