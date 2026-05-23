@@ -1,6 +1,6 @@
 # Dhamma Data
 
-Standalone scholarly tool for querying Buddhist canonical texts across traditions. Deployed at **https://dhamma.fly.dev/**. Open-source intent. Audience is comparative-Buddhist-studies researchers and serious old students.
+Standalone scholarly tool for querying Buddhist canonical texts across traditions. Deployed at **https://dhamma.fly.dev/**. Audience is comparative-Buddhist-studies researchers and serious old students.
 
 Match an academic tone: quiet, typeset, no marketing copy, no AI summary unless the scholar opts in.
 
@@ -218,6 +218,6 @@ See HACKING.md for the full endpoint list and conventions.
 ## Notes for the next session
 
 - Cabinet (`C:\Dev\Cabinet`) — `apps/dhamma/` and `public/apps/dhamma/` deleted at Cabinet@d7ae5c9. The launcher no longer ships this app.
-- GitHub: `Keenan-ux/dhamma` (private). Phase 2 has shipped — flipping public is a one-line call (`gh repo edit ... --visibility public`).
+- GitHub: `Keenan-ux/dhamma` (private; staying private — do not propose a public flip).
 - Sibling project: `C:\Dev\DhammaWorld` — different app (Vipassana group sittings map), unrelated codebase.
 - A second collaborator joins eventually — HACKING.md is the briefing doc for them.
