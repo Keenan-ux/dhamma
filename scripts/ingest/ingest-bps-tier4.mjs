@@ -30,6 +30,8 @@ import postgres from 'postgres';
 
 import { parseBp502s } from './bps-bp502s.mjs';
 import { parseBp214s } from './bps-bp214s.mjs';
+import { parseBp509s } from './bps-bp509s.mjs';
+import { parseBp501s } from './bps-bp501s.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -307,6 +309,123 @@ function buildBp214sRows(parsed) {
   };
 }
 
+// ─────────────────── BP509S processing ───────────────────
+//
+// Nyanaponika's *The Heart of Buddhist Meditation* — four logical
+// sections in the source PDF:
+//   Front + Introduction → Library article (the editor's overview)
+//   Part One             → Library article (the essay on satipaṭṭhāna)
+//   Part Two             → translations row for dn22 (Mahāsatipaṭṭhāna)
+//   Part Three           → Library article ("Flowers of Deliverance"
+//                          anthology of related sutta passages)
+
+function buildBp509sRows(parsed) {
+  // Part Two = DN 22 (Mahā-Satipaṭṭhāna-Sutta) translation
+  const partTwoBody = cleanBody(
+    stripLeadingHeader(
+      parsed.partTwo,
+      'PART TWO',
+      'THE GREATER DISCOURSE',
+      'on',
+      'THE FOUNDATIONS',
+      'OF MINDFULNESS',
+      'Mahā-Satipaṭṭhāna-Sutta',
+      'Being the 22nd Text of the',
+      'Collection of Long Discourses',
+      'of the Buddha',
+      '\\(Dīgha-Nīkāya\\)',
+      'With Notes',
+      'Namo Tassa Bhagavato Arahato Sammā-Sambuddhassa',
+    ),
+  );
+  const suttaRow = {
+    passage_id: 'dn22',
+    language: 'en',
+    translator: 'nyanaponika',
+    source: parsed.source,
+    text: partTwoBody,
+    notes: null,
+    copyright: parsed.copyright,
+    license: parsed.license,
+    source_url: parsed.sourceUrl,
+    source_book: parsed.sourceBook,
+  };
+
+  // Extract the Front-matter Introduction. Look for "Introduction"
+  // header, take everything to PART ONE.
+  function extractFrontIntro() {
+    const front = parsed.front;
+    // The Introduction body sits between the "Introduction" landmark
+    // (appears multiple times — in ToC and as section heading) and
+    // the start of PART ONE.
+    const introHits = [...front.matchAll(/(?:^|\n)\s*Introduction\s*(?=\n)/g)];
+    if (introHits.length === 0) return '';
+    // Use the LAST occurrence (the section heading, not the ToC entry)
+    const start = introHits[introHits.length - 1].index;
+    return front.slice(start).replace(/^\s*Introduction\s*\n?/, '').trim();
+  }
+
+  const articles = [];
+
+  const intro = extractFrontIntro();
+  if (intro) {
+    articles.push({
+      slug: 'bps-bp509s-intro',
+      title: 'Introduction to The Heart of Buddhist Meditation (Nyanaponika)',
+      author: 'nyanaponika-bps',
+      category: 'author-essay',
+      source: parsed.source,
+      source_url: parsed.sourceUrl,
+      body: `<h2>Introduction</h2>\n${paragraphs(cleanBody(intro))}`,
+      summary: null,
+      tags: ['bps', 'nyanaponika', 'satipatthana', 'introduction'],
+      copyright: parsed.copyright,
+      license: parsed.license,
+      year: 1962,
+    });
+  }
+
+  // Part One — the essay
+  const partOneBody = cleanBody(stripLeadingHeader(parsed.partOne, 'PART ONE', 'The Heart of Buddhist', 'Meditation'));
+  if (partOneBody) {
+    articles.push({
+      slug: 'bps-bp509s-part-one',
+      title: 'The Heart of Buddhist Meditation (Nyanaponika): Essay',
+      author: 'nyanaponika-bps',
+      category: 'author-essay',
+      source: parsed.source,
+      source_url: parsed.sourceUrl,
+      body: `<h2>Part One: The Heart of Buddhist Meditation</h2>\n${paragraphs(partOneBody)}`,
+      summary: null,
+      tags: ['bps', 'nyanaponika', 'satipatthana', 'essay'],
+      copyright: parsed.copyright,
+      license: parsed.license,
+      year: 1962,
+    });
+  }
+
+  // Part Three — anthology
+  const partThreeBody = cleanBody(stripLeadingHeader(parsed.partThree, 'PART THREE', 'Flowers of Deliverance'));
+  if (partThreeBody) {
+    articles.push({
+      slug: 'bps-bp509s-flowers-of-deliverance',
+      title: 'Flowers of Deliverance — Sutta Anthology (Nyanaponika)',
+      author: 'nyanaponika-bps',
+      category: 'author-essay',
+      source: parsed.source,
+      source_url: parsed.sourceUrl,
+      body: `<h2>Part Three: Flowers of Deliverance</h2>\n${paragraphs(partThreeBody)}`,
+      summary: null,
+      tags: ['bps', 'nyanaponika', 'anthology'],
+      copyright: parsed.copyright,
+      license: parsed.license,
+      year: 1962,
+    });
+  }
+
+  return { suttaRow, articles };
+}
+
 // ─────────────────── Book registry ───────────────────
 
 const BOOKS = {
@@ -318,7 +437,84 @@ const BOOKS = {
     parser: parseBp214s,
     build: buildBp214sRows,
   },
+  BP509S: {
+    parser: parseBp509s,
+    build: buildBp509sRows,
+  },
+  BP501S: {
+    parser: parseBp501s,
+    build: buildBp501sRows,
+  },
 };
+
+// ─────────────────── BP501S processing ───────────────────
+//
+// Soma's *Way of Mindfulness* — the canonical sutta translation
+// and the commentary excerpts are typeset together throughout the
+// body, so they can't be cleanly separated into a translations row
+// + an article. We ship the whole document as three Library
+// articles (Foreword, Introduction, Body) and let scholars find
+// the material via search + library navigation.
+
+function buildBp501sRows(parsed) {
+  const articles = [];
+
+  const foreword = cleanBody(stripLeadingHeader(parsed.foreword, 'FOREWORD'));
+  if (foreword) {
+    articles.push({
+      slug: 'bps-bp501s-foreword',
+      title: 'Foreword to The Way of Mindfulness (Soma)',
+      author: 'soma-bps',
+      category: 'author-essay',
+      source: parsed.source,
+      source_url: parsed.sourceUrl,
+      body: `<h2>Foreword</h2>\n${paragraphs(foreword)}`,
+      summary: null,
+      tags: ['bps', 'soma', 'satipatthana', 'foreword'],
+      copyright: parsed.copyright,
+      license: parsed.license,
+      year: 1941,
+    });
+  }
+
+  const intro = cleanBody(stripLeadingHeader(parsed.introduction, 'INTRODUCTION'));
+  if (intro) {
+    articles.push({
+      slug: 'bps-bp501s-introduction',
+      title: 'Introduction to The Way of Mindfulness (Soma)',
+      author: 'soma-bps',
+      category: 'author-essay',
+      source: parsed.source,
+      source_url: parsed.sourceUrl,
+      body: `<h2>Introduction</h2>\n${paragraphs(intro)}`,
+      summary: null,
+      tags: ['bps', 'soma', 'satipatthana', 'introduction'],
+      copyright: parsed.copyright,
+      license: parsed.license,
+      year: 1941,
+    });
+  }
+
+  const body = cleanBody(parsed.body);
+  if (body) {
+    articles.push({
+      slug: 'bps-bp501s-discourse-and-commentary',
+      title: 'The Way of Mindfulness — Discourse on the Arousing of Mindfulness with Commentary (Soma)',
+      author: 'soma-bps',
+      category: 'author-essay',
+      source: parsed.source,
+      source_url: parsed.sourceUrl,
+      body: `<h2>The Discourse on the Arousing of Mindfulness (with Commentary and Sub-commentary)</h2>\n${paragraphs(body)}`,
+      summary: null,
+      tags: ['bps', 'soma', 'satipatthana', 'commentary'],
+      copyright: parsed.copyright,
+      license: parsed.license,
+      year: 1941,
+    });
+  }
+
+  return { articles };
+}
 
 // ─────────────────── Per-book ingest ───────────────────
 
