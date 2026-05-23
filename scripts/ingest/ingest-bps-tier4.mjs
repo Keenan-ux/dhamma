@@ -29,6 +29,7 @@ import { fileURLToPath } from 'node:url';
 import postgres from 'postgres';
 
 import { parseBp502s } from './bps-bp502s.mjs';
+import { parseBp214s } from './bps-bp214s.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -204,12 +205,118 @@ function buildBp502sRows(parsed) {
   return { suttaRow, articles };
 }
 
+// ─────────────────── BP214S processing ───────────────────
+//
+// Two short Khuddaka books, one introduction-pair, 192 sutta-aligned
+// translations. The shape returned by parseBp214s makes this almost
+// 1:1 — iterate udanaSuttas + itivuttakaSuttas, emit one translations
+// row each aligned to ud<X>.<Y> / iti<N>. The Introductions are
+// embedded inline in each Part opener, so we extract them to one
+// combined Library article.
+
+function buildBp214sRows(parsed) {
+  // Sutta translations — one row per ud + iti sutta
+  const suttaRows = [];
+  for (const s of parsed.udanaSuttas) {
+    suttaRows.push({
+      passage_id: s.passage_id,
+      language: 'en',
+      translator: 'ireland',
+      source: parsed.source,
+      text: cleanBody(s.text),
+      notes: null,
+      copyright: parsed.copyright,
+      license: parsed.license,
+      source_url: parsed.sourceUrl,
+      source_book: parsed.sourceBook,
+    });
+  }
+  for (const s of parsed.itivuttakaSuttas) {
+    suttaRows.push({
+      passage_id: s.passage_id,
+      language: 'en',
+      translator: 'ireland',
+      source: parsed.source,
+      text: cleanBody(s.text),
+      notes: s.sharedNote || null,
+      copyright: parsed.copyright,
+      license: parsed.license,
+      source_url: parsed.sourceUrl,
+      source_book: parsed.sourceBook,
+    });
+  }
+
+  // Two Introductions (one per book) → combined Library article.
+  // Each is the 8-12 page front-of-book essay by Ireland on the
+  // text's textual history, structure, and significance. The
+  // Introduction body sits between the Part opener and "CHAPTER 1"
+  // marker (the first chapter heading in each book), so we extract
+  // everything before "CHAPTER 1" as the introduction. The
+  // "INTRODUCTION" running header has been stripped by cleanPageBody,
+  // so we anchor on the chapter boundary instead.
+  function extractIntro(partText) {
+    const chapStart = partText.search(/(?:^|\n)\s*CHAPTER\s+1\b/);
+    if (chapStart <= 0) return '';
+    // Take everything before CHAPTER 1; drop only the very first
+    // boilerplate lines (Part heading, book title, subtitle) that
+    // sit above the prose introduction.
+    const slice = partText.slice(0, chapStart);
+    const lines = slice.split('\n').map((l) => l.trim());
+    // Skip the leading 3-4 boilerplate header lines until we find
+    // a line that starts the actual prose (50+ chars, no title-case
+    // multi-line break pattern).
+    let firstProseLine = 0;
+    for (let i = 0; i < Math.min(lines.length, 12); i++) {
+      const l = lines[i];
+      // First substantial paragraph line — long, ends with no
+      // boilerplate suffix. "The Udāna, or "Inspired Utterances..."
+      // qualifies; "Part I" / "The Udāna" / "Inspired Utterances of
+      // the Buddha" alone do not.
+      if (l.length >= 30 && !/^(Part\s+I|Part\s+II)\b/.test(l) && /[.,]/.test(l)) {
+        firstProseLine = i;
+        break;
+      }
+    }
+    return lines.slice(firstProseLine).join('\n').trim();
+  }
+  const udIntro = extractIntro(parsed.udPartI);
+  const itiIntro = extractIntro(parsed.itiPartII);
+  const introBody = [
+    udIntro ? `<h2>Introduction to the Udāna</h2>\n${paragraphs(cleanBody(udIntro.replace(/^\s*INTRODUCTION\s*/, '')))}` : '',
+    itiIntro ? `<h2>Introduction to the Itivuttaka</h2>\n${paragraphs(cleanBody(itiIntro.replace(/^\s*INTRODUCTION\s*/, '')))}` : '',
+  ].filter(Boolean).join('\n\n');
+
+  const introArticle = introBody ? {
+    slug: 'bps-bp214s-introductions',
+    title: 'Introductions to the Udāna and the Itivuttaka (Ireland)',
+    author: 'ireland-bps',
+    category: 'author-essay',
+    source: parsed.source,
+    source_url: parsed.sourceUrl,
+    body: introBody,
+    summary: null,
+    tags: ['bps', 'ireland', 'udana', 'itivuttaka', 'introduction'],
+    copyright: parsed.copyright,
+    license: parsed.license,
+    year: 1997,
+  } : null;
+
+  return {
+    suttaRows,
+    articles: introArticle ? [introArticle] : [],
+  };
+}
+
 // ─────────────────── Book registry ───────────────────
 
 const BOOKS = {
   BP502S: {
     parser: parseBp502s,
     build: buildBp502sRows,
+  },
+  BP214S: {
+    parser: parseBp214s,
+    build: buildBp214sRows,
   },
 };
 
@@ -224,8 +331,13 @@ async function ingestBook(code, { sql, dryRun }) {
   const built = cfg.build(parsed);
 
   console.log(`  built:`);
-  if (built.suttaRow) {
-    console.log(`    sutta translation: passage_id=${built.suttaRow.passage_id} (${built.suttaRow.text.length} chars)`);
+  // Single-sutta books expose `built.suttaRow`; multi-sutta books
+  // expose `built.suttaRows`. Normalise to a list internally.
+  const allSuttaRows = built.suttaRow ? [built.suttaRow] : (built.suttaRows || []);
+  if (allSuttaRows.length === 1) {
+    console.log(`    sutta translation: passage_id=${allSuttaRows[0].passage_id} (${allSuttaRows[0].text.length} chars)`);
+  } else if (allSuttaRows.length > 1) {
+    console.log(`    sutta translations: ${allSuttaRows.length} rows (first: ${allSuttaRows[0].passage_id})`);
   }
   console.log(`    articles: ${built.articles.length}`);
   for (const a of built.articles) console.log(`      - ${a.slug} (${a.body.length} chars body)`);
@@ -236,7 +348,7 @@ async function ingestBook(code, { sql, dryRun }) {
     const outFile = path.join(outDir, `${code.toLowerCase()}-proposed.json`);
     await fs.writeFile(outFile, JSON.stringify({
       code,
-      sutta_translation: built.suttaRow,
+      sutta_translations: allSuttaRows,
       articles: built.articles,
     }, null, 2));
     console.log(`  → dry-run JSON: ${outFile}`);
@@ -261,27 +373,29 @@ async function ingestBook(code, { sql, dryRun }) {
     console.log(`  ✓ article ${a.slug} upserted`);
   }
 
-  // Sutta translation
-  if (built.suttaRow) {
-    const exists = await sql`SELECT id FROM passages WHERE id = ${built.suttaRow.passage_id} LIMIT 1`;
+  // Sutta translations — skip rows whose passage_id isn't in passages
+  let placed = 0, skipped = 0;
+  for (const r of allSuttaRows) {
+    const exists = await sql`SELECT id FROM passages WHERE id = ${r.passage_id} LIMIT 1`;
     if (exists.length === 0) {
-      console.log(`  ⚠ skipped sutta translation: ${built.suttaRow.passage_id} not in passages`);
-    } else {
-      const r = built.suttaRow;
-      await sql`
-        INSERT INTO translations (passage_id, language, translator, source,
-                                  text, notes, copyright, license, source_url, source_book)
-        VALUES (${r.passage_id}, 'en', ${r.translator}, ${r.source},
-                ${r.text}, ${r.notes}, ${r.copyright},
-                ${r.license}, ${r.source_url}, ${r.source_book})
-        ON CONFLICT (passage_id, translator, source) DO UPDATE SET
-          text=EXCLUDED.text, notes=EXCLUDED.notes,
-          copyright=EXCLUDED.copyright, license=EXCLUDED.license,
-          source_url=EXCLUDED.source_url, source_book=EXCLUDED.source_book
-      `;
-      console.log(`  ✓ sutta translation aligned to ${r.passage_id} (${r.translator})`);
+      if (allSuttaRows.length <= 5) console.log(`  ⚠ skipped: ${r.passage_id} not in passages`);
+      skipped++;
+      continue;
     }
+    await sql`
+      INSERT INTO translations (passage_id, language, translator, source,
+                                text, notes, copyright, license, source_url, source_book)
+      VALUES (${r.passage_id}, 'en', ${r.translator}, ${r.source},
+              ${r.text}, ${r.notes}, ${r.copyright},
+              ${r.license}, ${r.source_url}, ${r.source_book})
+      ON CONFLICT (passage_id, translator, source) DO UPDATE SET
+        text=EXCLUDED.text, notes=EXCLUDED.notes,
+        copyright=EXCLUDED.copyright, license=EXCLUDED.license,
+        source_url=EXCLUDED.source_url, source_book=EXCLUDED.source_book
+    `;
+    placed++;
   }
+  console.log(`  sutta translations: ${placed} placed, ${skipped} skipped`);
 }
 
 // ─────────────────── Main ───────────────────
