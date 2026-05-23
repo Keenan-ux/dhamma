@@ -1130,14 +1130,18 @@ export async function runSearch(rawParams) {
                    WHEN p.work_role = 'mula' AND p.work_slug <> 'pli-vism' THEN 1.25
                    ELSE 1.0
                  END
-               -- Primary-text anchor boost: a 1.5× multiplier on top
+               -- Primary-text anchor boost: a 2.5× multiplier on top
                -- of the canonicality boost for the curated ~30 famous
                -- canonical suttas. Compose multiplicatively, so a
-               -- primary-text mula passage scores ~1.875× a generic
-               -- commentary row at the same RRF position. This pushes
-               -- snp1.8 (Karaṇīyamettā) above the long-tail mettā
-               -- mentions in AN / Iti / Abhidhamma for "metta".
-               * CASE WHEN p.id = ANY(${[...PRIMARY_TEXTS]}::text[]) THEN 1.5 ELSE 1.0 END) AS score,
+               -- primary-text mula passage scores ~3.1× a generic
+               -- mula row at the same RRF position. The larger
+               -- multiplier (vs 1.5) is necessary because primary
+               -- texts like snp1.8 are short verse passages and the
+               -- length-aware dampener applies a ~0.6-0.7× factor
+               -- that needs to be overcome. The goal: surface the
+               -- famous canonical text on a topic in the top few
+               -- results, not just the long-tail mula mentions.
+               * CASE WHEN p.id = ANY(${[...PRIMARY_TEXTS]}::text[]) THEN 2.5 ELSE 1.0 END) AS score,
                ${hlPassageRRF} AS headline
         FROM passages p
         LEFT JOIN fts   ON fts.id   = p.id
