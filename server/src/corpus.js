@@ -56,7 +56,14 @@ export async function runCorpus() {
       FROM passages
       WHERE id !~ ${UDDANA_HEADER_REGEX}
       ORDER BY work_slug,
-               COALESCE(regexp_replace(id, '_p[0-9]+$', ''), id),
+               -- Group siblings of the same file/sutta together (strip
+               -- the _pNNN paragraph suffix). For non-fine IDs this is
+               -- a no-op so SC bilara passages fall through to position.
+               COALESCE(regexp_replace(id, '_p[0-9]+$', ''), id) <> id,
+               regexp_replace(regexp_replace(id, '_p[0-9]+$', ''), '_[0-9]+$', ''),
+               -- Natural-numeric ordering on the sub-sutta number so
+               -- dn1_2 sorts before dn1_10 (lexical would put _10 first).
+               COALESCE((regexp_match(regexp_replace(id, '_p[0-9]+$', ''), '_([0-9]+)$'))[1]::int, 0),
                position NULLS LAST,
                id
     `,
