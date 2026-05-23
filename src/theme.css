@@ -65,7 +65,7 @@ html, body {
   transition: background 100ms ease;
 }
 .dhamma-seg-hover {
-  background: rgba(var(--bc-accent-rgb), 0.10);
+  background: rgba(var(--bc-accent-rgb), 0.22);
 }
 /* Active highlight (e.g. when a note is currently in focus or the
    user clicked a segment to anchor a quote) — stronger than hover so
