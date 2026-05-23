@@ -484,6 +484,22 @@ app.get('/api/lookup', async (c) => {
   }
 });
 
+// Path-form deep-link redirects. The SPA routes off the URL hash
+// (#/library/snp1.8), but humans copy-pasting URLs from email or
+// chat sometimes drop the #/ — e.g. dhamma.fly.dev/library/snp1.8.
+// Without these redirects, that lands on the default Tipiṭaka page
+// instead of the article. Catch the well-known patterns server-side
+// and 302 to the hash form. Order matters: register before the
+// static-file fallback so the catch-all SPA serve doesn't swallow
+// these first.
+const HASH_REDIRECT_PREFIXES = ['library', 'read', 'search', 'dict', 'concordance', 'compare'];
+for (const prefix of HASH_REDIRECT_PREFIXES) {
+  app.get(`/${prefix}/:rest{.+}`, (c) => {
+    const rest = c.req.param('rest');
+    return c.redirect(`/#/${prefix}/${rest}`, 302);
+  });
+}
+
 // Static SPA
 if (fs.existsSync(STATIC_DIR)) {
   app.use('/*', serveStatic({ root: path.relative(process.cwd(), STATIC_DIR) || '.' }));
