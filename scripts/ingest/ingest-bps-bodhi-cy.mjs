@@ -33,7 +33,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import postgres from 'postgres';
 
+import { parseBp209s } from './bps-bp209s.mjs';
 import { parseBp210s } from './bps-bp210s.mjs';
+import { parseBp211s } from './bps-bp211s.mjs';
+import { parseBp212s } from './bps-bp212s.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -54,25 +57,71 @@ const bookFilter = args.book;          // 'BP209S' | 'BP210S' | etc.
 // canonical passage_id its sutta translation aligns to. The
 // commentary-side passage_ids are fine CST rows (cst-*a.att-{target}_*)
 // resolved at ingest time by the alignment helper below.
+//
+// extraArticles entries surface additional sections from the parsed
+// output as standalone Library articles. BP209S has four — the three
+// standalone essays (Parts Three-Five) and the Appendices, in
+// addition to the main Preface+Introduction article that every book
+// produces. The other three books have empty extraArticles arrays.
 
 const BOOKS = [
   {
+    code: 'BP209S',
+    parser: parseBp209s,
+    suttaPassageId: 'dn1',                            // Brahmajāla
+    cstCommentaryPrefix: 'cst-s0101a.att-dn1_1',      // Brahmajāla cy lives in Sumaṅgalavilāsinī vol 1 sutta 1
+    cstSubCommentaryPrefix: 'cst-s0101t.tik-dn1_1',
+    introSlug: 'bps-bp209s-intro',
+    introTitle: 'Introduction to The Discourse on the All-Embracing Net of Views',
+    year: 1978,
+    extraArticles: [
+      { sectionKey: 'partThree', slug: 'bps-bp209s-exegetical-method',
+        title: 'The Method of the Exegetical Treatises',
+        heading: 'The Method of the Exegetical Treatises' },
+      { sectionKey: 'partFour', slug: 'bps-bp209s-paramis',
+        title: 'A Treatise on the Pāramīs',
+        heading: 'A Treatise on the Pāramīs' },
+      { sectionKey: 'partFive', slug: 'bps-bp209s-tathagata',
+        title: 'The Meaning of the Word "Tathāgata"',
+        heading: 'The Meaning of the Word "Tathāgata"' },
+      { sectionKey: 'appendices', slug: 'bps-bp209s-appendices',
+        title: 'Appendices to The All-Embracing Net of Views',
+        heading: 'Appendices' },
+    ],
+  },
+  {
     code: 'BP210S',
     parser: parseBp210s,
-    suttaPassageId: 'mn1',         // Mūlapariyāya
+    suttaPassageId: 'mn1',                            // Mūlapariyāya
     cstCommentaryPrefix: 'cst-s0201a.att-mn1',
     cstSubCommentaryPrefix: 'cst-s0201t.tik-mn1',
     introSlug: 'bps-bp210s-intro',
     introTitle: 'Introduction to The Discourse on the Root of Existence',
     year: 1980,
+    extraArticles: [],
   },
-  // Stubs — uncomment as per-book parsers land:
-  // { code: 'BP209S', parser: parseBp209s, suttaPassageId: 'dn1',
-  //   cstCommentaryPrefix: 'cst-s0101a.att-dn1_1',  ... },
-  // { code: 'BP211S', parser: parseBp211s, suttaPassageId: 'dn15',
-  //   cstCommentaryPrefix: 'cst-s0102a.att-dn15', ... },
-  // { code: 'BP212S', parser: parseBp212s, suttaPassageId: 'dn2',
-  //   cstCommentaryPrefix: 'cst-s0101a.att-dn1_2',  ... },
+  {
+    code: 'BP211S',
+    parser: parseBp211s,
+    suttaPassageId: 'dn15',                           // Mahānidāna
+    cstCommentaryPrefix: 'cst-s0102a.att-dn15',       // DN cy vol 2 (Sumaṅgalavilāsinī cont.)
+    cstSubCommentaryPrefix: 'cst-s0102t.tik-dn15',
+    introSlug: 'bps-bp211s-intro',
+    introTitle: 'Introduction to The Great Discourse on Causation',
+    year: 1984,
+    extraArticles: [],
+  },
+  {
+    code: 'BP212S',
+    parser: parseBp212s,
+    suttaPassageId: 'dn2',                            // Sāmaññaphala
+    cstCommentaryPrefix: 'cst-s0101a.att-dn1_2',      // DN cy vol 1, the 2nd sutta-section (Sāmaññaphalasuttavaṇṇanā)
+    cstSubCommentaryPrefix: 'cst-s0101t.tik-dn1_2',
+    introSlug: 'bps-bp212s-intro',
+    introTitle: 'Introduction to The Discourse on the Fruits of Recluseship',
+    year: 1989,
+    extraArticles: [],
+  },
 ];
 
 // ─────────────────── Text utilities ───────────────────
@@ -343,6 +392,37 @@ function buildArticle(book, parsed) {
 
 // ─────────────────── Per-book ingest ───────────────────
 
+// Build a standalone Library article from any text section. Used for
+// BP209S's Parts Three / Four / Five / Appendices — each one is a
+// self-contained essay rather than commentary on a specific sutta.
+function buildExtraArticle(book, parsed, extra) {
+  const raw = parsed[extra.sectionKey];
+  if (!raw) return null;
+  const cleaned = cleanBody(raw);
+  function paragraphs(s) {
+    return s.split(/\n{2,}/)
+      .map((p) => p.replace(/\s+/g, ' ').trim())
+      .filter(Boolean)
+      .filter((p) => !/^[ivxlcdm]{1,5}$/i.test(p) && !/^\d{1,4}$/.test(p))
+      .map((p) => `<p>${p}</p>`)
+      .join('\n');
+  }
+  return {
+    slug: extra.slug,
+    title: extra.title,
+    author: 'bodhi-bps',
+    category: 'author-essay',
+    source: parsed.source,
+    source_url: parsed.sourceUrl,
+    body: `<h2>${extra.heading}</h2>\n${paragraphs(cleaned)}`,
+    summary: null,
+    tags: ['bps', 'bodhi', 'commentary', 'essay'],
+    copyright: parsed.copyright,
+    license: parsed.license,
+    year: book.year,
+  };
+}
+
 async function ingestBook(book, { sql, dryRun }) {
   console.log(`\n========== ${book.code} ==========`);
   const parsed = await book.parser();
@@ -352,12 +432,19 @@ async function ingestBook(book, { sql, dryRun }) {
   const suttaRow = buildSuttaTranslation(book, parsed);
   const commentaryRows = buildCommentaryTranslations(book, parsed);
   const noteMap = parseNotes(parsed.notes);
+  const extraArticles = (book.extraArticles || [])
+    .map((extra) => buildExtraArticle(book, parsed, extra))
+    .filter(Boolean);
 
   console.log(`  built:`);
   console.log(`    article: ${article.slug} (${article.body.length} chars body)`);
   console.log(`    sutta translations row: passage_id=${suttaRow.passage_id}  text=${suttaRow.text.length} chars`);
   console.log(`    commentary translations rows: ${commentaryRows.length} (Bodhi subsections)`);
   console.log(`    endnotes parsed: ${Object.keys(noteMap).length}`);
+  if (extraArticles.length) {
+    console.log(`    extra articles: ${extraArticles.length}`);
+    for (const a of extraArticles) console.log(`      - ${a.slug} (${a.body.length} chars)`);
+  }
 
   if (dryRun) {
     const out = {
@@ -365,6 +452,7 @@ async function ingestBook(book, { sql, dryRun }) {
       article,
       sutta_translation: suttaRow,
       commentary_translations: commentaryRows,
+      extra_articles: extraArticles,
       endnotes: noteMap,
       _alignment_status: 'commentary_passage_ids are <TODO> placeholders; alignment-to-fine-CST is wired in a follow-up pass once the cst-*a.att-*_p rows exist.',
     };
@@ -381,19 +469,21 @@ async function ingestBook(book, { sql, dryRun }) {
   // resolved them yet); they'd violate the FK to passages otherwise.
   if (!sql) throw new Error('--dry-run was off but DATABASE_URL not set');
 
-  // Article
-  await sql`
-    INSERT INTO articles (slug, title, author, category, source, source_url,
-                          body, summary, tags, copyright, license, year)
-    VALUES (${article.slug}, ${article.title}, ${article.author},
-            ${article.category}, ${article.source}, ${article.source_url},
-            ${article.body}, ${article.summary}, ${article.tags},
-            ${article.copyright}, ${article.license}, ${article.year})
-    ON CONFLICT (slug) DO UPDATE SET
-      title=EXCLUDED.title, body=EXCLUDED.body, source_url=EXCLUDED.source_url,
-      copyright=EXCLUDED.copyright, license=EXCLUDED.license, year=EXCLUDED.year
-  `;
-  console.log(`  ✓ article ${article.slug} upserted`);
+  // Main article (Preface + Introduction) + any extra essay articles
+  for (const a of [article, ...extraArticles]) {
+    await sql`
+      INSERT INTO articles (slug, title, author, category, source, source_url,
+                            body, summary, tags, copyright, license, year)
+      VALUES (${a.slug}, ${a.title}, ${a.author},
+              ${a.category}, ${a.source}, ${a.source_url},
+              ${a.body}, ${a.summary}, ${a.tags},
+              ${a.copyright}, ${a.license}, ${a.year})
+      ON CONFLICT (slug) DO UPDATE SET
+        title=EXCLUDED.title, body=EXCLUDED.body, source_url=EXCLUDED.source_url,
+        copyright=EXCLUDED.copyright, license=EXCLUDED.license, year=EXCLUDED.year
+    `;
+    console.log(`  ✓ article ${a.slug} upserted`);
+  }
 
   // Sutta translation — only if the passage actually exists
   const suttaExists = await sql`SELECT id FROM passages WHERE id = ${suttaRow.passage_id} LIMIT 1`;
