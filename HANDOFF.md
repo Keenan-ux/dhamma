@@ -212,6 +212,35 @@ manifest.webmanifest with "Pāli canon and its commentaries".
 Em-dashes stripped from the meta descriptions while there. Proper
 nouns kept ("Buddhist Hybrid Sanskrit" / "Ancient Buddhist Texts").
 
+### Tag-filter from Tags tab into Search — LIVE (deploy pending)
+
+ATI's `passage_tags` table (3,547 rows across name / subject /
+simile / number) was browsable via the existing Tags tab but
+couldn't compose with a text query. New flow:
+
+  - TagsView's passage-list view gains a "↗ search within this tag"
+    button that routes to /search with the tag pre-applied.
+  - /api/search accepts a `tag=type:value` query param, applied
+    via EXISTS predicate against passage_tags in every passage /
+    translation branch (FTS, vector, RRF) plus the total-count
+    query.
+  - SearchView shows a clearable "Filter: type: value" chip
+    mirroring the translator-chip pattern.
+  - URL persists the tag as `?tag=type:value` so the deep link
+    survives reload and right-click-new-tab.
+
+Workflow: scholar opens Tags → drills to Similes → Lotus → clicks
+"search within this tag" → Search opens with the tag chip set →
+types "heart" → sees only passages tagged Lotus that match.
+
+### Desktop column-mode toggle — LIVE
+
+Reader header gains a single cycling icon: Both → Pāli only →
+English only → Both. Persists in `localStorage` so the user's
+preference sticks across sessions. Only shows when both columns
+exist and the viewport is wide (narrow has its own tab toggle).
+Icon adapts per state (two-rect / single-rect-P / single-rect-E).
+
 ### CST DPD-glossed re-embed — RUNNING IN BACKGROUND
 
 `scripts/ingest/embed_passages_glossed.py --scope=cst` kicked off
@@ -220,12 +249,25 @@ English-gloss appendix injected after the original Pāli, so vector
 queries in English match commentary content properly (the existing
 embeddings are pure Pāli so cross-language Meaning recall is weak).
 
-Progress: ~49,000 of ~177,000 done; ~14-16 rows/sec on the RTX
-5050; ETA ~2.5 hours from when restarted. Resume-friendly — meta
-table tracks per-passage gloss_version='glossed-v1'. The job
-deadlocks against in-progress `flyctl deploy` (AccessExclusiveLock
-on passages); restart picks up where it left off. Don't deploy
-while it's running.
+Progress: ~58,000 of ~187,000 done (~31%); rate drops from ~14
+rows/s on short Aṭṭhakathā paragraphs to ~2.4 rows/s on the longer
+ṭīkā passages (the DPD-lookup cost scales with passage length).
+Revised ETA from current rate: ~15 hours.
+
+Resume-friendly — meta table tracks per-passage
+gloss_version='glossed-v1'. The job deadlocks against in-progress
+`flyctl deploy` (AccessExclusiveLock on passages); restart picks
+up where it left off. Three commits are sitting on master waiting
+to deploy:
+
+  - `search: tag filter from TagsView + URL + active-filter chip`
+  - `reader: desktop column-mode toggle (Pāli / English / Both)`
+  - Plus the corpus tree-ordering fix and primary-text boost from
+    earlier in the session.
+
+Run `flyctl deploy --remote-only --app dhamma` after the gloss
+embed finishes (job tags meta rows once each; resuming is safe but
+deploying mid-run will deadlock).
 
 ### Tier 5 — Soma + Nyanaponika satipaṭṭhāna texts
 
