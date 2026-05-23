@@ -64,7 +64,7 @@ function parseInitialHash() {
   // injected re-embed Meaning is meaningfully better at surfacing the
   // right passages for most scholar queries. The chosen mode persists
   // in localStorage (see initialSearchMode below).
-  const out = { tab: 'tipitaka', query: 'sampajāna', searchMode: 'meaning', path: [], leaf: null, pin: null, searchTranslator: null, focusSegment: null };
+  const out = { tab: 'tipitaka', query: 'sampajāna', searchMode: 'meaning', path: [], leaf: null, pin: null, searchTranslator: null, searchTag: null, focusSegment: null };
   if (segs.length === 0) return out;
   const head = segs[0];
   const rest = segs.slice(1);
@@ -102,6 +102,8 @@ function parseInitialHash() {
     out.query = rest.join('/') || '';
     const t = query.get('translator');
     if (t) out.searchTranslator = t;
+    const tg = query.get('tag');
+    if (tg) out.searchTag = tg;
   } else if (head === 'dict') {
     out.tab = 'dictionary';
     out.query = rest.join('/') || '';
@@ -140,6 +142,7 @@ export default function Dhamma() {
   // landing search is already scoped. Cleared on the next deliberate
   // search-tab visit if not the translator-coverage path.
   const [searchTranslator, setSearchTranslator] = useState(INITIAL.searchTranslator);
+  const [searchTag, setSearchTag] = useState(INITIAL.searchTag);
   const [browsePath, setBrowsePath] = useState(INITIAL.path);
   const [browseLeafId, setBrowseLeafId] = useState(INITIAL.leaf);
   const [pinnedLeafId, setPinnedLeafId] = useState(INITIAL.pin);
@@ -218,7 +221,10 @@ export default function Dhamma() {
       // a path; the corpus frontmatter views are the new entry point)
     } else if (tab === 'search') {
       hash = query ? `/search/${enc(query)}` : '/search';
-      if (searchTranslator) hash += `?translator=${enc(searchTranslator)}`;
+      const qs = [];
+      if (searchTranslator) qs.push(`translator=${enc(searchTranslator)}`);
+      if (searchTag) qs.push(`tag=${enc(searchTag)}`);
+      if (qs.length) hash += `?${qs.join('&')}`;
     } else if (tab === 'dictionary') {
       hash = query ? `/dict/${enc(query)}` : '/dict';
     } else if (tab === 'concordance') {
@@ -250,7 +256,7 @@ export default function Dhamma() {
       }
       lastWrittenHashRef.current = target;
     }
-  }, [tab, query, searchMode, browsePath, browseLeafId, pinnedLeafId, searchTranslator]);
+  }, [tab, query, searchMode, browsePath, browseLeafId, pinnedLeafId, searchTranslator, searchTag]);
 
   // Browser back / forward (incl. mobile back gesture) — re-parse the
   // hash and replay it into React state. Without this listener, the
@@ -265,6 +271,7 @@ export default function Dhamma() {
       setBrowseLeafId(parsed.leaf);
       setPinnedLeafId(parsed.pin);
       setSearchTranslator(parsed.searchTranslator || null);
+      setSearchTag(parsed.searchTag || null);
       setFocusSegment(parsed.focusSegment || null);
       // Don't push a duplicate — sync the ref so the URL effect
       // doesn't try to re-write what the browser just navigated to.
@@ -416,6 +423,11 @@ export default function Dhamma() {
                   setBrowsePath([]);
                   setTab('browse');
                 }}
+                onSearchWithTag={(tag) => {
+                  setQuery('');
+                  setSearchTag(tag);
+                  setTab('search');
+                }}
               />
             )}
             {tab === 'about' && <AboutView />}
@@ -445,6 +457,8 @@ export default function Dhamma() {
                 setSearchMode={setSearchMode}
                 initialTranslator={searchTranslator}
                 onClearTranslator={() => setSearchTranslator(null)}
+                initialTag={searchTag}
+                onClearTag={() => setSearchTag(null)}
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
                 onOpenPassage={(p, highlight) => {
                   // Library hits carry slug as id; route to LibraryView's

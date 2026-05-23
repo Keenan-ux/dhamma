@@ -463,6 +463,7 @@ app.get('/api/search', async (c) => {
       pitaka: c.req.query('pitaka'),
       layer: c.req.query('layer'),
       translator: c.req.query('translator'),
+      tag: c.req.query('tag'),
       nosnippet: c.req.query('nosnippet'),
     });
     return c.json(out);

@@ -30,7 +30,7 @@ const TYPE_BLURBS = {
 
 const TYPE_ORDER = ['name', 'subject', 'simile', 'number', 'title'];
 
-export default function TagsView({ onOpenPassage }) {
+export default function TagsView({ onOpenPassage, onSearchWithTag }) {
   const isNarrow = useIsNarrow();
   // summary[type] = count of distinct values
   const [summary, setSummary] = useState(null);
@@ -188,8 +188,27 @@ export default function TagsView({ onOpenPassage }) {
         </ul>
       )}
 
-      {/* Tier 3: passages carrying the active (type, value) */}
+      {/* Tier 3: passages carrying the active (type, value).
+          A small "Combine with text query" link at the top jumps the
+          user to SearchView with the tag pre-applied, so they can
+          narrow the tag's passage list by a keyword query. */}
       {activeType && activeValue && passages && (
+        <>
+          {onSearchWithTag && passages.length > 0 && (
+            <p style={searchHintRow}>
+              <button
+                type="button"
+                onClick={() => onSearchWithTag(`${activeType}:${activeValue}`)}
+                style={searchHintBtn}
+                title="Open Search with this tag pre-applied"
+              >
+                ↗ search within this tag
+              </button>
+              <span style={searchHintText}>
+                · combine with a keyword query in Search
+              </span>
+            </p>
+          )}
         <ul style={passageList}>
           {passages.map((p) => (
             <li
@@ -208,6 +227,7 @@ export default function TagsView({ onOpenPassage }) {
             <p style={emptyHint}>No passages found for this tag.</p>
           )}
         </ul>
+        </>
       )}
 
       {(!summary || (activeType && !values) || (activeValue && !passages)) && (
@@ -424,6 +444,35 @@ const emptyHint = {
   fontSize: 13,
   color: 'var(--bc-text-tertiary)',
   marginTop: 24,
+};
+
+const searchHintRow = {
+  margin: '0 0 12px',
+  fontFamily: SERIF,
+  fontSize: 13,
+  color: 'var(--bc-text-secondary)',
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: 8,
+  alignItems: 'baseline',
+};
+
+const searchHintBtn = {
+  appearance: 'none',
+  background: 'transparent',
+  border: 'none',
+  padding: '2px 6px',
+  fontFamily: SERIF,
+  fontSize: 13,
+  color: 'var(--bc-accent)',
+  textDecoration: 'underline',
+  textUnderlineOffset: 2,
+  cursor: 'pointer',
+};
+
+const searchHintText = {
+  fontStyle: 'italic',
+  color: 'var(--bc-text-tertiary)',
 };
 
 const loadingHint = {

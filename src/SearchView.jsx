@@ -85,6 +85,12 @@ export default function SearchView({
   // user can clear via the chip indicator below the search input.
   initialTranslator,
   onClearTranslator,
+  // Pre-set tag filter passed in when the user clicks a tag chip in
+  // TagsView or on a passage card. Format is `type:value` (e.g.
+  // `simile:Burning house`). Same consume-once-on-mount lifecycle as
+  // initialTranslator.
+  initialTag,
+  onClearTag,
 }) {
   const q = query ?? '';
   const setQ = setQuery ?? (() => {});
@@ -129,6 +135,25 @@ export default function SearchView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialTranslator]);
   const translatorParam = translator || undefined;
+  // Tag filter. Pre-populated from initialTag on first mount when
+  // arriving from TagsView or a passage tag chip. Tag is a single
+  // string of the form `type:value` so the param flow stays uniform
+  // with the URL hash format.
+  const [tag, setTag] = useState(initialTag || null);
+  useEffect(() => {
+    if (initialTag) {
+      setTag(initialTag);
+      onClearTag?.();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialTag]);
+  const tagParam = tag || undefined;
+  // Display helpers for the tag chip: split the colon-format into
+  // human-readable parts. ("simile:Burning house" → type=simile,
+  // value=Burning house)
+  const tagDisplay = tag && tag.includes(':')
+    ? { type: tag.slice(0, tag.indexOf(':')), value: tag.slice(tag.indexOf(':') + 1) }
+    : null;
   // Piṭaka filter. 'all' = no filter. Only relevant when layer is the
   // Tipiṭaka (mula) — snap back to 'all' for other layers so the chip
   // state matches the visible row.
@@ -193,7 +218,7 @@ export default function SearchView({
   const effectiveField = layer === 'library' ? 'library' : scope;
   const { data: result, loading, loadingMore, hasMore, error, loadMore } = useSearch({
     q: q.trim(), mode, field: effectiveField, limit: perPage, nosnippet,
-    pitaka: pitakaParam, layer: layerParam, translator: translatorParam,
+    pitaka: pitakaParam, layer: layerParam, translator: translatorParam, tag: tagParam,
   });
 
   // Visible-tradition filter is a display concern only — the server returns
@@ -453,6 +478,28 @@ export default function SearchView({
             {!parsed.raw && (
               <span style={translatorChipHint}>
                 Type a query to search within their work.
+              </span>
+            )}
+          </p>
+        )}
+
+        {/* Active tag-filter chip. Set when the user arrives from
+            TagsView or clicks a tag chip on a passage card. */}
+        {tagDisplay && (
+          <p style={translatorChipRow}>
+            <span style={translatorChipLabel}>Filter:</span>
+            <span style={translatorChipValue}>{tagDisplay.type}: {tagDisplay.value}</span>
+            <button
+              type="button"
+              onClick={() => setTag(null)}
+              style={inlineLink}
+              title="Clear the tag filter"
+            >
+              clear
+            </button>
+            {!parsed.raw && (
+              <span style={translatorChipHint}>
+                Type a query to narrow within this tag.
               </span>
             )}
           </p>
