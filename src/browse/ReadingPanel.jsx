@@ -1207,6 +1207,25 @@ export default function ReadingPanel({
             </div>
           );
         }
+        // BPS-direct: Vism (bps-online-free), Bodhi-4 + BP304s + BP502s
+        // + BP214s + BP509s + BP501s (bps-fair-use). Attribution shows
+        // the source book, the BPS copyright, and a back-link to bps.lk.
+        if (t && t.source === 'bps-direct') {
+          const licenseLabel = t.license === 'bps-online-free'
+            ? 'BPS Online Edition'
+            : 'used under fair use, non-commercial scholarly indexing';
+          return (
+            <div style={attribFooter}>
+              translated by <span style={attribTranslator}>{TRANSLATOR_LABEL[t.translator] || t.translator}</span>
+              {t.source_book ? <> · {t.source_book}</> : null}
+              {' · '}
+              <a href={t.source_url} target="_blank" rel="noopener noreferrer" style={attribLink}>
+                {licenseLabel} · bps.lk
+              </a>
+              {t.notes && <span style={attribNotes}> · {t.notes}</span>}
+            </div>
+          );
+        }
         // SuttaCentral row (either an explicit translations entry or
         // the bare passages.translation that defaults to Sujato).
         const translator = t?.translator || 'sujato';
