@@ -46,68 +46,65 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export async function fetchAllVismRows(sql) {
   // Both volumes — e0101n covers chapters I-XI, e0102n covers
-  // chapters XII-XXIII. ORDER BY ensures proper sequential reading
-  // order across both files.
+  // chapters XII-XXIII. Fetch unsorted, then sort in JS by
+  // (file, section_num, paragraph_num) — Postgres regexp_match
+  // ordering on the dotted basename + double-numeric suffix has
+  // proved unreliable, so we just pull the rows and sort here.
   const rows = await sql`
     SELECT id, citation, title, length(original) AS len, original
     FROM passages
     WHERE work_slug = 'pli-vism'
       AND id LIKE '%_p%'
-    ORDER BY
-      split_part(id, '-', 2),
-      (regexp_match(id, '-(\d+)_'))[1]::int,
-      (regexp_match(id, '_p(\d+)$'))[1]::int
   `;
-  return rows;
+  function sortKey(id) {
+    // cst-e0101n.mul-{section}_p{para} → [file, sectionInt, paraInt]
+    const m = id.match(/^cst-(e\d+n\.\w+)-(\d+)_p(\d+)$/);
+    if (!m) return ['z', 9999, 9999];
+    return [m[1], parseInt(m[2], 10), parseInt(m[3], 10)];
+  }
+  return rows.slice().sort((a, b) => {
+    const ka = sortKey(a.id), kb = sortKey(b.id);
+    if (ka[0] !== kb[0]) return ka[0] < kb[0] ? -1 : 1;
+    if (ka[1] !== kb[1]) return ka[1] - kb[1];
+    return ka[2] - kb[2];
+  });
 }
 
-// Detect chapter boundaries in the ordered row list. A row is a
-// chapter-opener if its title matches one of the niddesa hints from
-// CHAPTER_STARTS, OR if it contains a Pāli chapter-numbering marker
-// like "dutiyo paricchedo" / "tatiyo paricchedo".
-export function detectChapterBoundaries(rows, chapterHints) {
-  const boundaries = [];   // [{ chapterIdx, rowIdx, rowId, matchedTitle }]
-  // Build a hint→chapterIdx map from the chapterHints array
-  const hintMap = new Map();
-  for (let i = 0; i < chapterHints.length; i++) {
-    const pali = (chapterHints[i].pali || '').toLowerCase();
-    if (pali) hintMap.set(pali, i);
-  }
-  // Walk rows looking for opener matches. Score by exact-title match,
-  // then partial-title match, then niddesa keyword match.
+// Detect chapter boundaries. Vism's CST subhead rows for chapter
+// openers follow a fixed pattern: "<digit>. <PāliName>niddeso"
+// (e.g. "1. Sīlaniddeso" for Chapter I, "2. Dhutaṅganiddeso" for
+// Chapter II, ..., "23. Paññābhāvanānisaṁsaniddeso" for Chapter
+// XXIII). The leading integer IS the chapter number, so we don't
+// have to match the per-chapter Pāli root against the
+// chapterHints — we read the chapter directly from the marker.
+//
+// Returns an array of { chapterNum, rowIdx, rowId, matchedTitle }
+// ordered by rowIdx (which is the source-order position in CST).
+
+const CHAPTER_OPENER_RE = /^(\d{1,2})\.\s+\S+niddeso\b/;
+
+export function detectChapterBoundaries(rows /* , chapterHints (unused — kept for API stability) */) {
+  const boundaries = [];
   for (let r = 0; r < rows.length; r++) {
-    const title = (rows[r].title || '').toLowerCase();
-    if (!title || title.length > 120) continue;
-    // Try exact
-    if (hintMap.has(title)) {
-      boundaries.push({
-        chapterIdx: hintMap.get(title),
-        rowIdx: r,
-        rowId: rows[r].id,
-        matchedTitle: rows[r].title,
-        confidence: 'exact',
-      });
-      continue;
-    }
-    // Try partial — the row title contains the niddesa hint as a substring
-    for (const [pali, idx] of hintMap) {
-      if (title.includes(pali) || pali.includes(title)) {
-        boundaries.push({
-          chapterIdx: idx,
-          rowIdx: r,
-          rowId: rows[r].id,
-          matchedTitle: rows[r].title,
-          confidence: 'partial',
-        });
-        break;
-      }
-    }
+    const title = rows[r].title || '';
+    const m = title.match(CHAPTER_OPENER_RE);
+    if (!m) continue;
+    const chapterNum = parseInt(m[1], 10);
+    if (chapterNum < 1 || chapterNum > 23) continue;   // sanity guard
+    boundaries.push({
+      chapterNum,
+      rowIdx: r,
+      rowId: rows[r].id,
+      matchedTitle: title,
+      confidence: 'opener-pattern',
+    });
   }
-  // Dedupe by chapterIdx (keep first occurrence)
+  // Dedupe by chapterNum (keep first occurrence — should already be
+  // unique in source order, but defensive).
   const seen = new Set();
   return boundaries.filter((b) => {
-    if (seen.has(b.chapterIdx)) return false;
-    seen.add(b.chapterIdx);
+    if (seen.has(b.chapterNum)) return false;
+    seen.add(b.chapterNum);
     return true;
   });
 }
@@ -193,47 +190,59 @@ export async function alignVism({ sql }) {
   const parsed = await parseBp207h();
   const allRows = await fetchAllVismRows(sql);
 
-  // Note: chapter boundaries detected from row titles. For a true
-  // per-chapter alignment we'd partition allRows by detected
-  // chapter-opener rows. As a first pass — without the subdivision
-  // landed yet — return the structural counts and let the caller
-  // verify.
-  const chapterHints = parsed.chapters.map((c) => ({
-    n: c.n,
-    title: c.title,
-    pali: c.pali,
-  }));
-  const boundaries = detectChapterBoundaries(allRows, chapterHints);
+  const boundaries = detectChapterBoundaries(allRows);
+  // Map chapterNum (1-23) → Ñāṇamoli chapter info from bps-bp207h.
+  // The parser uses Roman numerals for chapter `n` ("I", "II", …),
+  // so we convert chapterNum → "I"/.../"XXIII" for lookup.
+  const toRoman = (n) => ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI','XXII','XXIII'][n - 1];
 
   // Build per-chapter slices: each chapter's CST rows are between
-  // its detected boundary and the next chapter's boundary.
+  // its detected boundary and the next chapter's boundary (or EOF).
   const chapterSlices = [];
   for (let i = 0; i < boundaries.length; i++) {
-    const start = boundaries[i].rowIdx;
+    const b = boundaries[i];
+    const start = b.rowIdx;
     const end = (i + 1 < boundaries.length) ? boundaries[i + 1].rowIdx : allRows.length;
+    const roman = toRoman(b.chapterNum);
+    const chapterInfo = parsed.chapters.find((c) => c.n === roman);
     chapterSlices.push({
-      chapterIdx: boundaries[i].chapterIdx,
-      n: chapterHints[boundaries[i].chapterIdx].n,
-      title: chapterHints[boundaries[i].chapterIdx].title,
-      pali: chapterHints[boundaries[i].chapterIdx].pali,
+      chapterNum: b.chapterNum,
+      n: roman,
+      title: chapterInfo?.title || '(unknown)',
+      pali: chapterInfo?.pali || '',
+      cst_opener_id: b.rowId,
+      cst_opener_title: b.matchedTitle,
       cst_rows: allRows.slice(start, end),
       cst_row_count: end - start,
     });
   }
 
-  // For each detected chapter, pair Ñāṇamoli's paragraphs sequentially.
+  // For each detected chapter, pair Ñāṇamoli's paragraphs sequentially
+  // against the slice of CST rows for that chapter.
   const chapterPairings = chapterSlices.map((slice) => {
     const nyanamoliChapter = parsed.chapters.find((c) => c.n === slice.n);
     const nyanamoliPars = nyanamoliChapter ? parseNyanamoliParagraphs(nyanamoliChapter.text) : [];
     return {
       n: slice.n,
+      chapter_num: slice.chapterNum,
       title: slice.title,
       pali: slice.pali,
+      cst_opener_id: slice.cst_opener_id,
+      cst_opener_title: slice.cst_opener_title,
       cst_row_count: slice.cst_row_count,
       nyanamoli_paragraph_count: nyanamoliPars.length,
       pairings: pairChapter(nyanamoliPars, slice.cst_rows),
     };
   });
+
+  const detectedNums = new Set(boundaries.map((b) => b.chapterNum));
+  const unmatched = [];
+  for (let cn = 1; cn <= 23; cn++) {
+    if (detectedNums.has(cn)) continue;
+    const roman = toRoman(cn);
+    const ci = parsed.chapters.find((c) => c.n === roman);
+    unmatched.push({ chapter_num: cn, n: roman, title: ci?.title || '?', pali: ci?.pali || '' });
+  }
 
   return {
     book: 'BP207h',
@@ -245,9 +254,7 @@ export async function alignVism({ sql }) {
     chapters_expected: 23,
     total_cst_rows: allRows.length,
     chapter_pairings: chapterPairings,
-    unmatched_chapters: chapterHints
-      .filter((c, i) => !boundaries.some((b) => b.chapterIdx === i))
-      .map((c) => ({ n: c.n, title: c.title, pali: c.pali })),
+    unmatched_chapters: unmatched,
   };
 }
 
