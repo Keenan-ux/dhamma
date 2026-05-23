@@ -4,7 +4,7 @@ Picks up after a long session (May 2026) that materially improved
 search quality, search UX, library navigation, and tradition-UI
 cleanup. Read **this** first, then **CLAUDE.md** for project context.
 
-Live at **https://dhamma.fly.dev/** · GitHub: `Keenan-ux/dhamma` (still private)
+Live at **https://dhamma.fly.dev/** · GitHub: `Keenan-ux/dhamma` (private)
 Last verified: `dbcheck → passages: 25,986, tables: 11, pgvector: true`
 
 ---
@@ -243,26 +243,23 @@ revised** — still in their original state from the prior session.
    Permission request for Bodhi's four commentary translation books.
 7. **Revise + send `CPD_EMAIL_DRAFT.md`** (cpd-contact@uni-koeln.de,
    info@palitextsociety.org cc). Permission for Critical Pāli Dictionary.
-8. **GitHub repo public-flip** (needs maintainer sign-off):
-   `gh repo edit Keenan-ux/dhamma --visibility public`.
-
 ### Conditional ingests (blocked on email replies)
 
-9. **If BPS replies yes** → ingest Bodhi's four commentary translation
+8. **If BPS replies yes** → ingest Bodhi's four commentary translation
    books from bps.lk PDFs into `translations`. Same attribution
    pattern as ATI rows.
-10. **If Cologne/PTS replies yes** → ingest CPD from DPD's
-    `other-dictionaries` archive. Pattern identical to `ingest-cped.mjs`.
+9. **If Cologne/PTS replies yes** → ingest CPD from DPD's
+   `other-dictionaries` archive. Pattern identical to `ingest-cped.mjs`.
 
 ### Substantive next dev item
 
-11. **AI-assisted draft translations** — see `TRANSLATIONS-AI.md` for
+10. **AI-assisted draft translations** — see `TRANSLATIONS-AI.md` for
     the full process. The DN 1 Aṭṭhakathā pilot (Bhikkhu Bodhi's
     BP209S as gold standard) is the first concrete step.
 
 ### Smaller follow-ups
 
-12. **Site-wide review of the word "Buddhist"**. The maintainer is
+11. **Site-wide review of the word "Buddhist"**. The maintainer is
     rethinking that framing; touched only the README this session.
     A site-wide pass would update meta descriptions, About page, and
     UI prose. Doesn't need to be one big PR — can be iterative.

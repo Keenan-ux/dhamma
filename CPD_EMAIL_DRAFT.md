@@ -7,7 +7,7 @@
 Dear Critical Pāli Dictionary team,
 
 I'm writing to ask whether you would be willing to permit a small
-open-source scholarly tool I maintain at <https://dhamma.fly.dev/>
+scholarly tool I maintain at <https://dhamma.fly.dev/>
 to mirror the CPD data for non-commercial use, with full
 attribution to the Royal Danish Academy, the Pali Text Society,
 and the Cologne Data Center for the Humanities.
