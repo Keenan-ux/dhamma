@@ -4,13 +4,18 @@ Live at **https://dhamma.fly.dev/** · GitHub: `Keenan-ux/dhamma` (private)
 Last verified: `dbcheck → passages: 194,710, tables: 12, pgvector: true`
 
 Three sessions have happened. The CURRENT one (May 2026, day 3)
-shipped BPS Tier 4 (BP502s Ñāṇamoli + BP214s Ireland), drafted the
-BPS notification email, backfilled translation embeddings for
-~3,500 rows, and confirmed Tier 3 BP304s is blocked on a truncated
-source PDF. The prior session (day 2) shipped CST per-`<p>`
-subdivision + BPS Tier 1 + Tier 2. The earliest (day 1) shipped
-the Meaning search overhaul, Notes feature, and SC parallels.
-Read newest first.
+shipped BPS Tier 3 (BP304s Bodhi Abhidhamma — complete PDF sourced
+mid-session), Tier 4 (BP502s + BP214s), Tier 5 (BP509s + BP501s),
+Reader UX Step 2 (paragraph-group merged rendering), Step 2's
+group-aware multi-translator dropdown, a primary-text anchor boost
+for famous canonical suttas, a corpus tree-ordering fix that was
+sending prev/next to cross-volume passages, the "Buddhist" framing
+review (conservative pass), refreshed BPS/SC/CPD emails, and a
+~3,500-row translation embedding backfill. Started the corpus-wide
+CST DPD-glossed re-embed in background (~3 hour job, resume-friendly).
+The prior session (day 2) shipped CST per-`<p>` subdivision + BPS
+Tier 1 + Tier 2. The earliest (day 1) shipped the Meaning search
+overhaul, Notes feature, and SC parallels. Read newest first.
 
 ---
 
@@ -96,6 +101,41 @@ translation rows are embedded. Meaning search smoke-tested on
 both Vism content ("path of purification samadhi" → 22 hits) and
 BP214s Ireland Udāna content.
 
+### BPS Tier 3 — UNBLOCKED + shipped
+
+The cached PDF that blocked Tier 3 in the previous session was an
+abbreviated 307-page edition missing ~89 of 256 § sections. The
+complete 448-page edition was sourced from the archive.org
+"3 ABHIDHAMMA.rar" mirror. SECTION_RANGES updated; all 9 chapters
+now parse with their expected § counts (32 / 30 / 22 / 30 / 42 /
+32 / 40 / 32 / 45 = 305 total).
+
+`ingest-bps-tier4.mjs` gains `buildBp304sRows` + the alignment table
+`BP304S_CHAPTER_NRF_RANGES`. For each chapter, the orchestrator
+fetches the corresponding fine CST rows under `cst-abh07t.nrf-1..
+nrf-85` (the Abhidhammattha-saṅgaha — nrf-86+ is the Vibhāvinī-ṭīkā
+commentary on it, which we don't pair with), then proportionally
+distributes Bodhi's §-sections across the chapter's `_p` rows.
+Each emits one translations row with text = English verse and
+notes = Bodhi's "Guide to §N" commentary. Books that need DB
+access for alignment declare `needsSql:true` so the orchestrator
+passes the connection.
+
+Live: 305 BP304S translation rows + 1 article placed.
+
+### Tier 5 — Soma + Nyanaponika satipaṭṭhāna texts
+
+- BP509S Heart of Buddhist Meditation (Nyanaponika): Part Two
+  is the DN 22 Mahāsatipaṭṭhāna translation aligned to `dn22`.
+  Part One (Nyanaponika's essay) and Part Three ("Flowers of
+  Deliverance" anthology) → Library articles. BP509S uses
+  canonical IAST so no diacritic table needed.
+- BP501S The Way of Mindfulness (Soma): the canonical sutta and
+  the commentary excerpts are typeset together, so the body ships
+  as one Library article ("Discourse on the Arousing of Mindfulness
+  with Commentary") plus Foreword + Introduction articles. Latin-1
+  BPS diacritic family.
+
 ### Reader UX Step 2 — LIVE
 
 Both backend and frontend shipped + deployed via `flyctl deploy`.
@@ -118,7 +158,74 @@ shows Sujato + Thanissaro + Ñāṇamoli).
 
 Deploy note: the CI workflow `.github/workflows/fly-deploy.yml`
 still triggers on push to `main`, not `master`. Manual
-`flyctl deploy` does the right thing — used twice this session.
+`flyctl deploy --remote-only --app dhamma` is used. Don't deploy
+while the gloss embed job is running — they deadlock on the
+passages table.
+
+### Step 2 group-aware multi-translator dropdown — LIVE
+
+The previous Step 2 frontend fetched translations only for the
+anchor row. For Tier 2 Bodhi cy commentary anchored to specific
+paragraphs scattered through the group, that meant Bodhi could be
+entirely missing from the dropdown depending on which paragraph
+the user landed on. New endpoint `/api/passage/:id/group-
+translations` returns every translation across the group keyed by
+passage_id; ReadingPanel groups by `(translator, source)` and joins
+per-row text in group order so the merged view surfaces Bodhi as
+one continuous translation across the whole group.
+
+BPS-direct attribution also fixed in the same patch — the chip was
+hard-coded to fall through to "SuttaCentral · CC0" for any non-ATI
+source, so Bodhi's commentary translations were misattributed.
+Added a third branch that shows the source book, distinguishes
+bps-online-free from bps-fair-use, and back-links to bps.lk.
+
+### Primary-text canonicality boost — LIVE
+
+The existing canonicality multiplier (1.25× on mula except pli-vism)
+lifted mula over commentary but couldn't single out the FAMOUS text
+on a topic from long-tail mula mentions. Added a curated ~30-entry
+`PRIMARY_TEXTS` set in `server/src/search.js` (Karaṇīyamettā,
+Mahāsatipaṭṭhāna, Ānāpānasati, Dhammacakkappavattana, Mahāparinibbāna,
+Mūlapariyāya, Paṭiccasamuppāda etc.) with a 2.5× multiplier composed
+multiplicatively with the canonicality boost. Tested: "metta"
+surfaces iti27 at #1 and snp1.8 at #5 (was #30); "mindfulness of
+breathing" surfaces mn118 at #1.
+
+### Corpus tree-ordering fix — LIVE
+
+`ORDER BY work_slug, position NULLS LAST, id` was interleaving CST
+sub-volumes within the same work_slug because `position` restarts
+at 1 in every CST file. Within `pli-dn-attha` that meant the tree
+showed dn1_p001 → dn2_p001 → dn3_p001 → dn1_p002 → … and the user-
+visible effect was: prev/next from DN 1 Brahmajāla cy would jump
+cross-volume to DN 3. Fixed by sorting first on the file_root
+(id with `_pNNN` stripped) with natural-numeric ordering on the
+sub-sutta number so dn1_2 sorts before dn1_10. Verified in browser:
+prev from Brahmajāla cy = dn1_0 intro, next = dn1_2 Sāmaññaphala cy.
+
+### "Buddhist" framing copy review — partial
+
+Conservative pass. Replaced "Buddhist canonical texts" / "Pāli
+Buddhist canon" in the About subtitle, index.html meta, and
+manifest.webmanifest with "Pāli canon and its commentaries".
+Em-dashes stripped from the meta descriptions while there. Proper
+nouns kept ("Buddhist Hybrid Sanskrit" / "Ancient Buddhist Texts").
+
+### CST DPD-glossed re-embed — RUNNING IN BACKGROUND
+
+`scripts/ingest/embed_passages_glossed.py --scope=cst` kicked off
+in the background. Goal: re-embed every CST passage with a DPD
+English-gloss appendix injected after the original Pāli, so vector
+queries in English match commentary content properly (the existing
+embeddings are pure Pāli so cross-language Meaning recall is weak).
+
+Progress: ~49,000 of ~177,000 done; ~14-16 rows/sec on the RTX
+5050; ETA ~2.5 hours from when restarted. Resume-friendly — meta
+table tracks per-passage gloss_version='glossed-v1'. The job
+deadlocks against in-progress `flyctl deploy` (AccessExclusiveLock
+on passages); restart picks up where it left off. Don't deploy
+while it's running.
 
 ### Tier 5 — Soma + Nyanaponika satipaṭṭhāna texts
 
