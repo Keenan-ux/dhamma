@@ -5,7 +5,8 @@ import { SelectionActions } from '../SelectionActions.jsx';
 import { isModifiedClick } from '../linkHelpers.js';
 import useNotes from '../useNotes.js';
 import useSegmentHover from './useSegmentHover.js';
-import { passageTranslationsApi, passageParallelsApi, passageTagsApi, glossApi } from '../api.js';
+import { passageTranslationsApi, passageParallelsApi, passageTagsApi, glossApi, passageGroupApi } from '../api.js';
+import { paragraphGroupId } from './paragraphGroup.js';
 import { sanitizeDictHtml } from '../dictHtml.js';
 import { formatCitation } from '../citationFormat.js';
 import useBookmarks from '../useBookmarks.js';
@@ -23,12 +24,21 @@ function SegmentColumn({ passage, language, fallback, findText, findStem, glossM
   const hasTitle = !!(passage?.title || passage?.title_en);
   const keys = passage?.segments ? filterBodySegments(passage.segments, hasTitle) : [];
   if (!passage?.segments || keys.length === 0) {
+    // Merged paragraph-group passages come in with body text containing
+    // `\n\n` between source paragraphs. Render each as its own <p> so
+    // the reader sees visual breaks instead of one wall of text.
+    const text = fallback || '';
+    const parts = text.includes('\n\n') ? text.split(/\n{2,}/).filter(Boolean) : [text];
     return (
-      <p style={style}>
-        {language === 'pali' && glossMap
-          ? withGlosses(fallback, glossMap)
-          : highlightFind(fallback, findText, findStem)}
-      </p>
+      <div style={style}>
+        {parts.map((part, i) => (
+          <p key={i} style={i > 0 ? { marginTop: '0.85em' } : undefined}>
+            {language === 'pali' && glossMap
+              ? withGlosses(part, glossMap)
+              : highlightFind(part, findText, findStem)}
+          </p>
+        ))}
+      </div>
     );
   }
   return (
@@ -123,7 +133,7 @@ function displayCitation(citation, workName) {
 }
 
 export default function ReadingPanel({
-  passage, tree, workBySlug,
+  passage: anchorPassage, tree, workBySlug,
   leafId,
   pinnedLeafId, setPinnedLeafId,
   readingMode, setReadingMode,
@@ -153,6 +163,54 @@ export default function ReadingPanel({
 }) {
   const ref = useRef(null);
   const isPinned = pinnedLeafId === leafId;
+
+  // Paragraph-group fetch — Step 2 of the per-<p> CST subdivision UX.
+  // When the anchor passage is a fine paragraph row (id ends in
+  // `_pNNN`), pull every sibling row under the same parent div via
+  // /api/passage/:id/group and merge them into one "logical page"
+  // passage object for rendering. Originals + translations get
+  // concatenated; per-row segments are dropped (segments are only
+  // meaningful per-row, and fine CST rows don't carry segment JSON
+  // anyway — that's a SuttaCentral bilara thing).
+  //
+  // Singleton groups (canonical mula, anya, library, Vism coarse)
+  // pass through unchanged: the merged passage equals the anchor.
+  const [group, setGroup] = useState(null);
+  useEffect(() => {
+    if (!anchorPassage?.id) { setGroup(null); return; }
+    // Skip the fetch for singleton ids — saves a network round-trip
+    // for the 9/10 cases where there's nothing to merge.
+    if (!paragraphGroupId(anchorPassage.id)) { setGroup(null); return; }
+    let alive = true;
+    passageGroupApi(anchorPassage.id)
+      .then((r) => { if (alive) setGroup(r); })
+      .catch(() => { if (alive) setGroup(null); });
+    return () => { alive = false; };
+  }, [anchorPassage?.id]);
+
+  const passage = useMemo(() => {
+    if (!anchorPassage) return anchorPassage;
+    if (!group || !group.group || group.group.length <= 1) return anchorPassage;
+    const rows = group.group;
+    // Merge originals + translations into one continuous block.
+    // Paragraphs are separated by a blank line so the rendered <p>
+    // breaks them visually. Each paragraph keeps its own text but
+    // the rendered passage acts as one document for find / highlight
+    // / glosses / copy-citation purposes.
+    const mergedOriginal = rows.map((r) => r.original).filter(Boolean).join('\n\n');
+    const mergedTranslation = rows.map((r) => r.translation).filter(Boolean).join('\n\n');
+    return {
+      ...anchorPassage,
+      original: mergedOriginal || anchorPassage.original,
+      translation: mergedTranslation || anchorPassage.translation,
+      segments: null,
+      // Annotate the merged passage with the group size so downstream
+      // code (e.g. the multi-translator dropdown) can branch on it
+      // without re-running the LIKE pattern check.
+      _groupSize: rows.length,
+      _groupAnchor: anchorPassage.id,
+    };
+  }, [anchorPassage, group]);
 
   // Dual-highlight at the reader root: covers the side-by-side path,
   // the stacked single-column path on narrow viewports, AND the case
