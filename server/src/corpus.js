@@ -155,3 +155,47 @@ export async function getPassages(ids) {
   const byId = new Map(rows.map((r) => [r.id, r]));
   return ids.map((i) => byId.get(i)).filter(Boolean);
 }
+
+// Paragraph-group fetch. Returns the requested passage plus its
+// sibling paragraph rows (same parent div) so the reader can render
+// the whole logical "page" at once instead of one paragraph at a time.
+//
+// Group identity for a fine paragraph row `cst-{file}-{div}_p{NNN}`
+// is the prefix `cst-{file}-{div}` — everything before `_p\d+$`.
+// Rows without a `_p\d+$` suffix are singleton groups (canonical mula,
+// extra-canonical, Vism mula etc. — already monolithic).
+//
+// Returned shape: { anchor: passageId, group: [row, …] } where the
+// rows are ordered by their paragraph-suffix integer (position-aware
+// for fine rows; for singleton groups the group array has one entry).
+export async function getPassageGroup(id) {
+  if (!sql || !id) return null;
+  const m = id.match(/^(.+)_p\d+$/);
+  if (!m) {
+    // Singleton group — just return the single row.
+    const row = await getPassage(id);
+    if (!row) return null;
+    return { anchor: id, group: [row] };
+  }
+  const prefix = m[1];
+  const likePattern = prefix + '\\_p%';
+  // Postgres LIKE: `_` is a single-char wildcard, so we escape it as `\_`
+  // and pass `ESCAPE '\'` to keep the regexp_match ordering deterministic.
+  // ORDER BY the integer paragraph suffix so display order matches the
+  // CST source order, not alphabetical (otherwise _p10 sorts before _p2).
+  const rows = await sql`
+    SELECT id, work_slug, position, citation, title, title_en, canon,
+           original_lang, original, translation, notes, segments
+    FROM passages
+    WHERE id LIKE ${likePattern} ESCAPE '\\'
+    ORDER BY (regexp_match(id, '_p([0-9]+)$'))[1]::int
+  `;
+  if (rows.length === 0) {
+    // Anchor row exists but no siblings under the LIKE prefix —
+    // fall back to singleton group with the anchor only.
+    const row = await getPassage(id);
+    if (!row) return null;
+    return { anchor: id, group: [row] };
+  }
+  return { anchor: id, group: rows };
+}

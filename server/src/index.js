@@ -17,7 +17,7 @@ import { applySchema, health as dbHealth, sql } from './db.js';
 import { embedReady } from './embed.js';
 import { aliasesReady } from './aliases.js';
 import { runSearch } from './search.js';
-import { runCorpus, getPassage, getPassages } from './corpus.js';
+import { runCorpus, getPassage, getPassages, getPassageGroup } from './corpus.js';
 import { runCompareStats } from './compareStats.js';
 import { runLookup } from './dictionary.js';
 
@@ -51,6 +51,22 @@ app.get('/api/passage/:id', async (c) => {
     const row = await getPassage(c.req.param('id'));
     if (!row) return c.json({ error: 'not_found' }, 404);
     return c.json(row);
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// Sibling-paragraph fetch. For a fine CST row like
+// `cst-s0101a.att-dn1_1_p047`, returns every `_p%` row under the same
+// `cst-s0101a.att-dn1_1` parent — the logical "page" the reader should
+// render as one continuous block instead of one paragraph at a time.
+// Singleton groups (mula / anya / library / Vism mula coarse) return
+// the anchor row only.
+app.get('/api/passage/:id/group', async (c) => {
+  try {
+    const out = await getPassageGroup(c.req.param('id'));
+    if (!out) return c.json({ error: 'not_found' }, 404);
+    return c.json(out);
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }
