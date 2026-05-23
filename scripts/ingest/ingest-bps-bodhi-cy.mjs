@@ -229,13 +229,20 @@ function extractIntroductionAndPreface(frontText) {
 // which is non-trivial. Coarse pass first.
 
 function buildSuttaTranslation(book, parsed) {
-  // Strip the "PART ONE / MŪLAPARIYĀYA SUTTA / The Discourse..." header
-  // by skipping the first "(Introductory)" marker (the first body
-  // section opens with that) — or, more robustly, skip everything
-  // before the first "1. " section start.
+  // Strip the "PART ONE / SUTTA NAME / The Discourse..." centered
+  // header at the top of partOne. The body's first natural section
+  // marker is "1." (Bodhi's paragraph-1). Slice from there IFF the
+  // "1." appears early (within ~5K chars) — finding "1." far into
+  // the text means we're matching content from a different section
+  // (e.g. Part Two's commentary numbering), not the sutta's true
+  // opening. In that case the whole partOne text is kept as-is and
+  // the per-book parser's section-range config is the place to fix
+  // any boundary issue.
   const text = cleanBody(parsed.partOne);
   const firstSection = text.search(/^1\.\s+/m);
-  const body = firstSection >= 0 ? text.slice(firstSection) : text;
+  const body = (firstSection >= 0 && firstSection < 5000)
+    ? text.slice(firstSection)
+    : text;
   return {
     passage_id: book.suttaPassageId,
     language: 'en',

@@ -74,7 +74,23 @@ export async function loadBp209sPages() {
 //   "The All-Embracing Net of Views N" or "N The All-Embracing Net of Views"
 //   "INDEX" / "Index N"
 
-const HEADER_RE = /^(?:[ivxlcdm]+|\d{1,4})?\s*(?:The All[\s-]?Embracing Net of Views|Translator['’]s Preface|Introduction|Texts Used|List of Abbreviations|Part [A-Za-z]+|Notes?|Index|Contents|Appendix \d+|Glossary|Bibliography)\s*(?:[ivxlcdm]+|\d{1,4})?\s*$/i;
+// Match running-header lines that include a page number (either as a
+// leading or trailing token). A bare standalone section opener like
+// "TRANSLATOR'S PREFACE" without a page number SURVIVES cleaning so
+// that extractIntroductionAndPreface can find the boundary. Cleaning
+// only strips running-headers; opener pages keep their heading text
+// (the orchestrator's stripLeadingHeader removes it from the article
+// body separately).
+const HEADER_RE = new RegExp(
+  '^(?:' +
+    // form A: leading page number + section name
+    '(?:[ivxlcdm]+|\\d{1,4})\\s+(?:The All[\\s-]?Embracing Net of Views|Translator[\'’]s Preface|Introduction|Texts Used|List of Abbreviations|Part [A-Za-z]+|Notes?|Index|Contents|Appendix \\d+|Glossary|Bibliography)' +
+    '|' +
+    // form B: section name + trailing page number
+    '(?:The All[\\s-]?Embracing Net of Views|Translator[\'’]s Preface|Introduction|Texts Used|List of Abbreviations|Part [A-Za-z]+|Notes?|Index|Contents|Appendix \\d+|Glossary|Bibliography)\\s+(?:[ivxlcdm]+|\\d{1,4})' +
+  ')\\s*$',
+  'i'
+);
 const BARE_PAGE_RE = /^\d{1,4}\s*$/;
 const ROMAN_PAGE_RE = /^[ivxlcdm]{1,5}\s*$/i;
 
