@@ -120,6 +120,16 @@ function applyBoundary(rows, lastBeforeId) {
   });
 }
 
+// Title-only sutta-marker rows have titles like "1. Mūlapariyāyasuttavaṇṇanā"
+// — they're the parent sutta's heading, not a content subhead. Skip
+// these in alignment so Bodhi's "Introductory Section" lines up with
+// the first real content subhead (Suttanikkhepavaṇṇanā), not the
+// sutta-title placeholder above it.
+// `\b` is ASCII-only in JS regex, so trailing IAST chars like the
+// macron-a in vaṇṇanā never satisfy a word-boundary check. Anchor
+// with end-of-string OR a whitespace lookahead instead.
+const SUTTA_MARKER_RE = /^\d+\.\s+\S+(?:suttavaṇṇanā|suttavaṇnanā|suttavaññanā|vaggavaṇṇanā|paṇṇāsavaṇṇanā|vaggaṭṭhakathā)(?=\s|$)/iu;
+
 export async function fetchCstSubheads(sql, prefix, opts = {}) {
   const rows = await sql`
     SELECT id, citation, title, length(original) AS len, original
@@ -129,7 +139,8 @@ export async function fetchCstSubheads(sql, prefix, opts = {}) {
       AND title = original
     ORDER BY (regexp_match(id, '_p([0-9]+)$'))[1]::int
   `;
-  return applyBoundary(rows, opts.lastSubheadBefore);
+  const bounded = applyBoundary(rows, opts.lastSubheadBefore);
+  return bounded.filter((r) => !SUTTA_MARKER_RE.test(r.title || ''));
 }
 
 export async function fetchCstParagraphs(sql, prefix, opts = {}) {

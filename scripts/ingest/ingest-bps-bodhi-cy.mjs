@@ -311,25 +311,68 @@ function splitPartTwoSubsections(partTwoText) {
   return subsections;
 }
 
-// Proposed translations rows for the commentary side. Until the
-// alignment helper is wired (morning, against fine CST rows), each
-// Bodhi subsection emits ONE row with passage_id='<TODO>' so dry-run
-// JSON shows the structure.
-function buildCommentaryTranslations(book, parsed) {
+// Proposed translations rows for the commentary side. Each Bodhi
+// subsection emits ONE row with the passage_id resolved via the
+// alignment helper. In dry-run mode without a sql connection we
+// emit the <TODO-align> placeholder so the output JSON still shows
+// the structure; in live (or sql-having) mode we query the helper
+// for real cst-*a.att-*_p* anchors.
+async function buildCommentaryTranslations(book, parsed, { sql } = {}) {
   const subsections = splitPartTwoSubsections(parsed.partTwo);
-  return subsections.map((s) => ({
-    passage_id: `<TODO-align:${book.cstCommentaryPrefix}:subsection-${s.n}-${slugify(s.title)}>`,
-    language: 'en',
-    translator: parsed.translator,
-    source: parsed.source,
-    text: cleanBody(s.text),
-    notes: null,
-    copyright: parsed.copyright,
-    license: parsed.license,
-    source_url: parsed.sourceUrl,
-    source_book: parsed.sourceBook,
-    _bodhi_subsection: { n: s.n, title: s.title },
-  }));
+  const bodhiSections = subsections.map((s) => ({ n: s.n, title: s.title }));
+
+  // If no sql, fall back to TODO placeholders (used by older
+  // --dry-run code paths that don't have a DB connection set up).
+  if (!sql) {
+    return subsections.map((s) => ({
+      passage_id: `<TODO-align:${book.cstCommentaryPrefix}:subsection-${s.n}-${slugify(s.title)}>`,
+      language: 'en',
+      translator: parsed.translator,
+      source: parsed.source,
+      text: cleanBody(s.text),
+      notes: null,
+      copyright: parsed.copyright,
+      license: parsed.license,
+      source_url: parsed.sourceUrl,
+      source_book: parsed.sourceBook,
+      _bodhi_subsection: { n: s.n, title: s.title },
+    }));
+  }
+
+  // Live alignment. alignBook returns one pairing per Bodhi subsection
+  // with cst_passage_ids[] anchored to the matching CST subhead(s).
+  // The first id in the array is the anchor we attach the translation
+  // to; if a pairing spans multiple CST subheads, the additional ids
+  // are noted in _bodhi_subsection.cst_anchors for downstream display.
+  const { alignBook } = await import('./bps-align-cst.mjs');
+  const alignment = await alignBook(book.code, bodhiSections, { sql });
+  const byBodhiN = new Map();
+  for (const p of alignment.pairings) byBodhiN.set(p.bodhi_n, p);
+
+  return subsections.map((s) => {
+    const pairing = byBodhiN.get(s.n);
+    const anchor = pairing?.cst_passage_ids?.[0];
+    const passage_id = anchor || `<UNALIGNED:${book.cstCommentaryPrefix}:subsection-${s.n}>`;
+    return {
+      passage_id,
+      language: 'en',
+      translator: parsed.translator,
+      source: parsed.source,
+      text: cleanBody(s.text),
+      notes: null,
+      copyright: parsed.copyright,
+      license: parsed.license,
+      source_url: parsed.sourceUrl,
+      source_book: parsed.sourceBook,
+      _bodhi_subsection: {
+        n: s.n,
+        title: s.title,
+        cst_anchors: pairing?.cst_passage_ids || [],
+        cst_subhead_titles: pairing?.cst_subhead_titles || [],
+        alignment_confidence: pairing?.alignment_confidence || 'unaligned',
+      },
+    };
+  });
 }
 
 function slugify(s) {
@@ -437,7 +480,7 @@ async function ingestBook(book, { sql, dryRun }) {
 
   const article = buildArticle(book, parsed);
   const suttaRow = buildSuttaTranslation(book, parsed);
-  const commentaryRows = buildCommentaryTranslations(book, parsed);
+  const commentaryRows = await buildCommentaryTranslations(book, parsed, { sql });
   const noteMap = parseNotes(parsed.notes);
   const extraArticles = (book.extraArticles || [])
     .map((extra) => buildExtraArticle(book, parsed, extra))
@@ -545,13 +588,20 @@ async function main() {
   console.log(`books to process: ${books.map((b) => b.code).join(', ')}`);
   console.log(`mode: ${isDryRun ? 'dry-run (writes JSON only)' : 'LIVE (writes to DB)'}`);
 
+  // Open a sql connection whenever DATABASE_URL is set, even in
+  // dry-run mode. The alignment helper needs DB access to resolve
+  // <TODO-align> placeholders to real cst-*a.att-*_p* passage_ids;
+  // without sql, dry-run still emits the placeholders. With sql,
+  // dry-run shows the actual resolved IDs so reviewers can spot-
+  // check alignment quality before going live.
   let sql = null;
-  if (!isDryRun) {
-    if (!process.env.DATABASE_URL) {
-      console.error('DATABASE_URL not set. See the header comment for usage.');
-      process.exit(1);
-    }
+  if (process.env.DATABASE_URL) {
     sql = postgres(process.env.DATABASE_URL, { max: 4, idle_timeout: 20 });
+  } else if (!isDryRun) {
+    console.error('DATABASE_URL not set. See the header comment for usage.');
+    process.exit(1);
+  } else {
+    console.log('  (no DATABASE_URL — dry-run will emit <TODO-align> placeholders instead of real CST anchors)');
   }
   for (const book of books) {
     await ingestBook(book, { sql, dryRun: isDryRun });
