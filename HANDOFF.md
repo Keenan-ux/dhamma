@@ -3,16 +3,99 @@
 Live at **https://dhamma.fly.dev/** · GitHub: `Keenan-ux/dhamma` (private)
 Last verified: `dbcheck → passages: 194,710, tables: 12, pgvector: true`
 
-Two large sessions have happened. The LATEST (May 2026, day 2)
-shipped CST per-`<p>` subdivision + BPS Tier 1 + BPS Tier 2 to
-production. The PRIOR session (May 2026, day 1) shipped Meaning
-search quality improvements, the Notes feature, segment-aware
-rendering, and SuttaCentral parallels. Both are recorded below;
-read the latest section first.
+Three sessions have happened. The CURRENT one (May 2026, day 3)
+shipped BPS Tier 4 (BP502s Ñāṇamoli + BP214s Ireland), drafted the
+BPS notification email, backfilled translation embeddings for
+~3,500 rows, and confirmed Tier 3 BP304s is blocked on a truncated
+source PDF. The prior session (day 2) shipped CST per-`<p>`
+subdivision + BPS Tier 1 + Tier 2. The earliest (day 1) shipped
+the Meaning search overhaul, Notes feature, and SC parallels.
+Read newest first.
 
 ---
 
-## What landed this session (BPS Tier 1+2 + CST subdivision)
+## What landed this session (BPS Tier 4 + email + embedding backfill)
+
+This session moved BPS coverage from "Tier 1+2 live, Tier 3 next" to
+"Tier 1+2+4 live, Tier 3 blocked, BPS notification email drafted."
+
+### BPS Tier 4 — Ñāṇamoli BP502s + Ireland BP214s
+
+Tier 4 brings in two short BPS books that don't fit the Tier 2
+sutta-and-commentary template:
+
+- **BP502S** *Mindfulness of Breathing* (Ñāṇamoli, 1964). Part I
+  is the Ānāpānasati Sutta MN 118 translation; Parts II/III/IV are
+  Visuddhimagga commentary extracts, the Paṭisambhidāmagga
+  Ānāpānakathā, and related sutta passages. **1 sutta translation
+  row** (mn118, joins Sujato + Thanissaro as a third translator)
+  + **4 Library articles**.
+- **BP214S** *The Udāna and the Itivuttaka* (Ireland, 1997). Each
+  sutta aligned to its canonical passage_id. **80 ud + 112 iti =
+  192 sutta translation rows** + **1 introduction article**.
+
+Files:
+- `scripts/ingest/bps-bp502s.mjs` and `bps-bp214s.mjs` — per-book
+  PDF parsers. Same Latin-1 substitute family as the Tier 2 books
+  (á→ā, þ→ṭ, ó→ṇ, í→ṃ, ò→ṅ, ì→ī, ú→ū, ð→ḍ), plus BP214S adds
+  ÿ→ḷ and Ó→Ṇ (a per-PDF font quirk).
+- `scripts/ingest/ingest-bps-tier4.mjs` — orchestrator. Handles
+  both single-sutta (BP502s) and multi-sutta (BP214s) books via
+  a unified `built.suttaRows[]` shape. Drop-cap fix re-joins
+  typeset openers like "I NTRODUCTION" that pdf-parse splits.
+
+Itivuttaka splitting handles intra-section numbering — BPS prints
+1-27 in the Ones, then resets to 1-22 in the Twos, 1-50 in the
+Threes, 1-13 in the Fours. The parser tracks chapter offsets and
+maps to absolute iti1-iti112 IDs. Also handles Ireland's "9˜13
+Understanding Greed, etc." range form where one translation
+covers 5 near-identical suttas — replicated across all five
+passage_ids with a shared-note flag.
+
+### BPS Tier 3 — BLOCKED on truncated PDF
+
+The cached `scripts/ingest/.cache/bps/bp304s.pdf` (Bodhi's *A
+Comprehensive Manual of Abhidhamma*) is missing roughly 35% of
+its body content. The PDF physically jumps from printed p55 to
+p76 mid-chapter 1, dropping §§21-32 of chapter 1, §§10-22 of
+chapter 3, §§7-30 of chapter 4, §§3-42 of chapter 5 — about 89
+of 256 § sections total. Both pdf-parse and pdftotext extract
+the same gap, so the source PDF itself is partial, not the
+extractor. Parser scaffolded at `scripts/ingest/bps-bp304s.mjs`
+for the day a complete PDF is acquired.
+
+User direction was to skip BP304s and move forward with Tier 4
+plus comprehensive backlog. Parser kept in place against the day
+a complete PDF surfaces.
+
+### BPS notification email — drafted, NOT sent
+
+`BPS_EMAIL_DRAFT.md` rewritten from a permission-request posture
+to a disclosure-notification posture, matching the ATI email tone
+that already shipped. Lists Tier 1 + Tier 2 + Tier 4 with passage
+counts, four demonstration URLs, an explicit note on the per-card
+attribution discipline, and a closing aside on BP304s being on
+the list once a complete PDF is sourced. Awaits user review and
+manual send.
+
+### Translation embeddings backfill
+
+After Tier 4 landed, the `translations.embedding` column had
+~3,500 NULL rows across nanamoli/bps-direct (2,728), ireland/
+bps-direct (192), bodhi/bps-direct (42), brahmali/sc (420),
+kelly/sc (100), suddhaso/sc (30). These embeddings power the
+3-way RRF Meaning search, so without them English Meaning queries
+miss everything from the BPS commentary translations + a few
+older SC translator ingests.
+
+`scripts/ingest/embed_translations.py` (GPU BGE-M3 fp16, CUDA EP)
+backfilled them all and rebuilt the HNSW index on
+`translations.embedding`. After the pass the table is fully
+embedded.
+
+---
+
+## What landed in the second-most-recent session (BPS Tier 1+2 + CST subdivision)
 
 This session moved from "BPS material isn't ingestable because CST
 commentary rows are monolithic" to "Tier 1 Vism + Tier 2 four Bodhi

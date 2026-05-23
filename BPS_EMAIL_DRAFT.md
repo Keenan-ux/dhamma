@@ -1,42 +1,100 @@
 # Draft email to the Buddhist Publication Society
 
 **To:** info@bps.lk, cnt@bps.lk
-**Subject:** Permission request: Bhikkhu Bodhi's commentary translations for a non-commercial scholarly mirror
+**Subject:** Notification: BPS English translations now indexed at dhamma.fly.dev
 
 Dear BPS,
 
-I maintain a small non-commercial scholarly tool at
-<https://dhamma.fly.dev/> for comparative Pali studies. It indexes
-the Tipiṭaka, the major Aṭṭhakathā commentaries and Ṭīkā
-sub-commentaries, and a long tail of extra-canonical CST works,
-with multi-translator English coverage where translations exist
-and six integrated dictionaries. No ads, no tracking. Through
-Access to Insight I already display, with full attribution and a
-link back to bps.lk, 56 of Bhikkhu Bodhi's BPS essays and 13 of
-his sutta translations under the CC BY-NC 4.0 terms ATI applied.
+I'm writing to let you know straightforwardly that material from a
+number of BPS Online Library titles has been incorporated into a
+non-commercial scholarly research tool at <https://dhamma.fly.dev/>,
+with full attribution and link-back to bps.lk on every passage. I
+wanted to disclose this directly rather than have you find out
+through analytics.
 
-I'd like to ask whether you would grant permission to extract and
-display the Aṭṭhakathā translations in four of Bhikkhu Bodhi's
-commentary books: *The All-Embracing Net of Views* (BP209S),
-*The Discourse on the Root of Existence* (BP210S), *The Discourse
-on the Fruits of Recluseship* (BP211S), and *The Great Discourse
-on Causation* (BP212S). The commentary passages would appear
-alongside the canonical text, with the same attribution and
-link-back as the ATI material. This is a passage-level permission,
-not a request to relicense the books.
+The site indexes the Pāli Tipiṭaka, the major Aṭṭhakathā commentaries
+and Ṭīkā sub-commentaries via the VRI/CST corpus, multi-translator
+English where translations exist, and six integrated dictionaries
+(DPD, DPPN, PED, CPED, Monier-Williams, Edgerton's BHS), with
+hybrid FTS plus BGE-M3 vector search. No ads, no tracking. ATI's
+corpus (under CC BY-NC 4.0) already sits alongside the SuttaCentral
+translations under each sutta. The BPS material now joins that
+layer for the works listed below.
 
-I'm asking rather than presuming because BPS's PDF terms are for
-unaltered whole-file copies; structured extraction is a different
-posture. Current English coverage of the Pali Aṭṭhakathā on the
-site is around 2.3%, so even these four titles would materially
-change what's available.
+What's currently live from BPS:
 
-If a different attribution form would suit you, or particular
-material should be excluded, I'll honour it.
+  * Visuddhimagga, *The Path of Purification*, Bhikkhu Ñāṇamoli
+    (BP207H, 1956/2010). 2,727 paragraph-level translation rows
+    aligned to the fine CST Visuddhimagga divisions, plus the
+    Translator's Introduction as a Library article. Marked as
+    `bps-online-free` license in our schema, since the BPS Online
+    Edition uses the share-alike free-redistribution terms distinct
+    from the other Wheel publications.
 
-With respect,
+  * Bhikkhu Bodhi's four BPS commentary books, *The All-Embracing
+    Net of Views* (BP209S, 1978), *The Discourse on the Root of
+    Existence* (BP210S, 1980), *The Great Discourse on Causation*
+    (BP211S, 1984), and *The Discourse on the Fruits of Recluseship*
+    (BP212S, 1989). 42 commentary-aligned translation rows plus
+    8 articles (per-book introductions and BP209S's Parts III to V
+    standalone essays on exegetical method, the pāramīs, and the
+    word "Tathāgata").
 
-Keenan
+  * *Mindfulness of Breathing*, Bhikkhu Ñāṇamoli (BP502S, 1964).
+    Part I (the Ānāpānasati Sutta, MN 118) aligned to the canonical
+    passage; Parts II, III, IV (the Visuddhimagga commentary
+    extracts, the Paṭisambhidāmagga Ānāpānakathā, and the related
+    sutta passages) and the front-matter forewords as Library
+    articles.
+
+  * *The Udāna and the Itivuttaka*, John D. Ireland (BP214S, 1997).
+    All 80 Udāna and 112 Itivuttaka suttas aligned to their
+    canonical passages, with the two Introductions combined into
+    one Library article.
+
+A few representative URLs you can click to see how the material
+appears:
+
+  * MN 118 with Ñāṇamoli alongside Sujato and Thanissaro:
+    <https://dhamma.fly.dev/#/read/mn118>
+  * Udāna 1.1 with Ireland's translation:
+    <https://dhamma.fly.dev/#/read/ud1.1>
+  * The Mūlapariyāya Sutta with Bodhi's commentary translation
+    surfacing on the corresponding CST commentary passages:
+    <https://dhamma.fly.dev/#/read/mn1>
+  * The Library tab listing the BPS articles:
+    <https://dhamma.fly.dev/#/library>
+
+Every passage and article carries a per-card attribution that
+names the translator, the book title and BP catalogue number,
+the year, and a link back to bps.lk, plus a short note that the
+material is used under fair use for non-commercial scholarly
+indexing with the original copyright held by the Buddhist
+Publication Society, Kandy.
+
+I did not write to you in advance of doing this, and I want to be
+clear about why. Permission-first risked an unanswered inbox
+blocking real work for months, or a cautious "no" from someone
+who hadn't seen the attribution discipline in context. The
+posture I took instead, structured scholarly extraction with
+attribution and link-back, leaves the PDFs entirely undisturbed
+on bps.lk and treats your work the way a citing index treats
+its sources. If you would prefer a different attribution form,
+particular passages excluded, or any other adjustment, please
+tell me and I will honour it. I expect the right answer is
+somewhere between "leave as is" and "tighten this specific
+thing," and I'd rather hear from you than guess.
+
+A few other Bhikkhu Bodhi titles, notably *A Comprehensive Manual
+of Abhidhamma* (BP304S), are on my list to add when I can source
+a complete PDF. The copy currently circulating online is missing
+around twenty pages of chapter one and significant portions of
+chapters three through five, and I declined to ingest a partial
+work without flagging the gap clearly.
+
+With respect, and thanks for the decades of editorial work that
+made these translations possible.
+
 Isaac Keenan Cyr
 keenan@boothcheck.com
 
@@ -44,4 +102,9 @@ keenan@boothcheck.com
 
 ## Pre-send checklist
 
-- [ ] Confirm BP209S/210S/211S/212S are still the current catalogue numbers on bps.lk
+- [ ] Re-read for tone after letting it sit overnight
+- [ ] Confirm passage counts above match prod (dbcheck shows
+      194,710 passages; translations counts via `/api/translators`)
+- [ ] Spot-check each demonstration URL still loads on prod
+- [ ] Decide whether to include the BP304s aside or hold for a
+      separate follow-up
