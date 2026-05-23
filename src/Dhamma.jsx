@@ -9,6 +9,7 @@ import CommentaryView from './CommentaryView.jsx';
 import ExtraCanonicalView from './ExtraCanonicalView.jsx';
 import LibraryView from './LibraryView.jsx';
 import BookmarksView from './BookmarksView.jsx';
+import NotesView from './NotesView.jsx';
 import TagsView from './TagsView.jsx';
 import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
@@ -46,11 +47,24 @@ function longSlug(seg) {
 
 function parseInitialHash() {
   if (typeof window === 'undefined') return {};
-  const raw = window.location.hash.replace(/^#\/?/, '');
+  // Split off the optional query string first so a translator filter
+  // (?translator=thanissaro on /search) doesn't get treated as part of
+  // the path. Only /search uses query params right now; other routes
+  // ignore anything past the `?`.
+  const fullRaw = window.location.hash.replace(/^#\/?/, '');
+  const qIdx = fullRaw.indexOf('?');
+  const raw = qIdx === -1 ? fullRaw : fullRaw.slice(0, qIdx);
+  const queryStr = qIdx === -1 ? '' : fullRaw.slice(qIdx + 1);
+  const query = new URLSearchParams(queryStr);
   const segs = raw.split('/').map((s) => {
     try { return decodeURIComponent(s); } catch { return s; }
   }).filter(Boolean);
-  const out = { tab: 'tipitaka', query: 'sampajāna', searchMode: 'stem', path: [], leaf: null, pin: null };
+  // Default to Meaning. Stem-mode FTS misses cross-language semantic
+  // matches (English query against Pali corpus), and after the gloss-
+  // injected re-embed Meaning is meaningfully better at surfacing the
+  // right passages for most scholar queries. The chosen mode persists
+  // in localStorage (see initialSearchMode below).
+  const out = { tab: 'tipitaka', query: 'sampajāna', searchMode: 'meaning', path: [], leaf: null, pin: null, searchTranslator: null, focusSegment: null };
   if (segs.length === 0) return out;
   const head = segs[0];
   const rest = segs.slice(1);
@@ -64,6 +78,8 @@ function parseInitialHash() {
     out.tab = 'library';
   } else if (head === 'bookmarks') {
     out.tab = 'bookmarks';
+  } else if (head === 'notes') {
+    out.tab = 'notes';
   } else if (head === 'tags') {
     out.tab = 'tags';
   } else if (head === 'about') {
@@ -79,9 +95,13 @@ function parseInitialHash() {
     // the corpus tree loads (pathToLeaf walks ancestors).
     out.tab = 'browse';
     out.leaf = rest.join('/') || null;
+    const fs = query.get('focus');
+    if (fs) out.focusSegment = fs;
   } else if (head === 'search') {
     out.tab = 'search';
     out.query = rest.join('/') || '';
+    const t = query.get('translator');
+    if (t) out.searchTranslator = t;
   } else if (head === 'dict') {
     out.tab = 'dictionary';
     out.query = rest.join('/') || '';
@@ -100,19 +120,33 @@ const INITIAL = parseInitialHash();
 export default function Dhamma() {
   const [tab, setTab] = useState(INITIAL.tab);
   const [query, setQuery] = useState(INITIAL.query);
-  // Default to Stem mode. Exact-token FTS over Pali rarely matches
-  // because the canonical inflections (sampajāno, sampajānakārī, …) are
-  // distinct tokens from the dictionary form (sampajāna). Stem mode adds
-  // cross-canon alias expansion that's almost always what scholars want.
-  const [searchMode, setSearchMode] = useState(INITIAL.searchMode);
+  // searchMode persistence: localStorage wins over the INITIAL default
+  // so users get their last-picked mode back on reload / new tab. The
+  // setter wrapper below mirrors every change back to storage.
+  const [searchMode, setSearchModeRaw] = useState(() => {
+    if (typeof window === 'undefined') return INITIAL.searchMode;
+    try {
+      const saved = window.localStorage.getItem('dhamma:searchMode');
+      if (saved === 'exact' || saved === 'stem' || saved === 'meaning') return saved;
+    } catch { /* localStorage may be unavailable in private mode */ }
+    return INITIAL.searchMode;
+  });
+  const setSearchMode = (mode) => {
+    setSearchModeRaw(mode);
+    try { window.localStorage.setItem('dhamma:searchMode', mode); } catch { /* ignore */ }
+  };
   // Pre-set translator filter — populated when the user clicks a row in
   // the Library "Translators" view, then consumed by SearchView so the
   // landing search is already scoped. Cleared on the next deliberate
   // search-tab visit if not the translator-coverage path.
-  const [searchTranslator, setSearchTranslator] = useState(null);
+  const [searchTranslator, setSearchTranslator] = useState(INITIAL.searchTranslator);
   const [browsePath, setBrowsePath] = useState(INITIAL.path);
   const [browseLeafId, setBrowseLeafId] = useState(INITIAL.leaf);
   const [pinnedLeafId, setPinnedLeafId] = useState(INITIAL.pin);
+  // Segment to scroll-to + highlight when opening a passage from the
+  // Notes index. Cleared the moment the reader honors it so a later
+  // navigation doesn't carry stale focus.
+  const [focusSegment, setFocusSegment] = useState(INITIAL.focusSegment);
   const [readingMode, setReadingMode] = useState(false);
   // Search-context highlight: an array of terms (matched user terms +
   // alias expansions) that the reader applies to the open passage. Set
@@ -167,6 +201,8 @@ export default function Dhamma() {
       if (!window.location.hash.startsWith('#/library/')) hash = '/library';
     } else if (tab === 'bookmarks') {
       hash = '/bookmarks';
+    } else if (tab === 'notes') {
+      hash = '/notes';
     } else if (tab === 'tags') {
       // TagsView manages its own /tags/<type>/<value> deep links.
       if (!window.location.hash.startsWith('#/tags')) hash = '/tags';
@@ -182,6 +218,7 @@ export default function Dhamma() {
       // a path; the corpus frontmatter views are the new entry point)
     } else if (tab === 'search') {
       hash = query ? `/search/${enc(query)}` : '/search';
+      if (searchTranslator) hash += `?translator=${enc(searchTranslator)}`;
     } else if (tab === 'dictionary') {
       hash = query ? `/dict/${enc(query)}` : '/dict';
     } else if (tab === 'concordance') {
@@ -213,7 +250,7 @@ export default function Dhamma() {
       }
       lastWrittenHashRef.current = target;
     }
-  }, [tab, query, searchMode, browsePath, browseLeafId, pinnedLeafId]);
+  }, [tab, query, searchMode, browsePath, browseLeafId, pinnedLeafId, searchTranslator]);
 
   // Browser back / forward (incl. mobile back gesture) — re-parse the
   // hash and replay it into React state. Without this listener, the
@@ -227,6 +264,8 @@ export default function Dhamma() {
       setBrowsePath(parsed.path);
       setBrowseLeafId(parsed.leaf);
       setPinnedLeafId(parsed.pin);
+      setSearchTranslator(parsed.searchTranslator || null);
+      setFocusSegment(parsed.focusSegment || null);
       // Don't push a duplicate — sync the ref so the URL effect
       // doesn't try to re-write what the browser just navigated to.
       lastWrittenHashRef.current = window.location.hash;
@@ -358,6 +397,17 @@ export default function Dhamma() {
                 }}
               />
             )}
+            {tab === 'notes' && (
+              <NotesView
+                onOpenPassage={(id, focusKey) => {
+                  setSearchHighlight({ terms: [], stem: false });
+                  setBrowseLeafId(id);
+                  setBrowsePath([]);
+                  setFocusSegment(focusKey || null);
+                  setTab('browse');
+                }}
+              />
+            )}
             {tab === 'tags' && (
               <TagsView
                 onOpenPassage={(id) => {
@@ -383,6 +433,8 @@ export default function Dhamma() {
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
                 highlightTerms={searchHighlight.terms}
                 highlightStem={searchHighlight.stem}
+                focusSegment={focusSegment}
+                clearFocusSegment={() => setFocusSegment(null)}
               />
             )}
             {tab === 'search' && (

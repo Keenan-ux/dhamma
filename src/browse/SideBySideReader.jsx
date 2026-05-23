@@ -1,16 +1,40 @@
 import { useRef, useState } from 'react';
 import { sanitizeDictHtml } from '../dictHtml.js';
 import { highlightFind, withGlosses } from './highlight.jsx';
+import { filterBodySegments } from './segments.js';
+import useSegmentHover from './useSegmentHover.js';
 
-// Side-by-side parallel reader for passages that have both Pali and an
-// English translation. A draggable divider between the two panes lets
-// the reader give more real estate to whichever side they're focusing
-// on. Each pane keeps the standard Pali / translation typography so the
-// stacked-fallback view above stays consistent.
-export default function SideBySideReader({ pali, english, englishIsHtml, findText, findStem, glossMap }) {
+// Side-by-side parallel reader for passages that have both Pāli and an
+// English translation. A draggable divider lets the reader weight one
+// side over the other.
+//
+// When the passage has `segments` populated (SC bilara editorial
+// segmentation), the reader renders one row per segment with Pāli on
+// the left and English on the right, each row tagged with a
+// data-segment attribute. This unlocks:
+//   - simultaneous Pāli/English highlight on hover (sister-segment lookup)
+//   - notes that anchor to a segment-range (rather than text offsets)
+//
+// When segments is null (CST commentary, library, non-SC), the reader
+// falls back to two big single-string columns as before.
+export default function SideBySideReader({
+  passage,
+  pali,
+  english,
+  englishIsHtml,
+  findText,
+  findStem,
+  glossMap,
+  noteRanges,
+}) {
   const [pct, setPct] = useState(50);
   const containerRef = useRef(null);
   const draggingRef = useRef(false);
+
+  // Wire simultaneous Pāli/English segment-hover highlight: hovering a
+  // segment in either column highlights its paired segment on the
+  // other side. CSS-only via class toggling, no React re-render.
+  useSegmentHover(containerRef);
 
   function onPointerDown(e) {
     draggingRef.current = true;
@@ -24,7 +48,6 @@ export default function SideBySideReader({ pali, english, englishIsHtml, findTex
     if (!rect) return;
     const x = e.clientX - rect.left;
     const next = (x / rect.width) * 100;
-    // Clamp 20–80 so neither pane can be squashed to unreadable.
     setPct(Math.max(20, Math.min(80, next)));
   }
   function onPointerUp(e) {
@@ -34,6 +57,76 @@ export default function SideBySideReader({ pali, english, englishIsHtml, findTex
     document.body.style.userSelect = '';
   }
 
+  // When the passage has segments AND we'll be rendering the English
+  // segments as plain text (not html), use the per-segment grid path.
+  const hasTitle = !!(passage?.title || passage?.title_en);
+  const useSegments = passage?.segments && !englishIsHtml;
+  const keys = useSegments ? filterBodySegments(passage.segments, hasTitle) : [];
+
+  if (useSegments && keys.length > 0) {
+    return (
+      <div ref={containerRef} style={sideBySideWrap}>
+        <div style={{ ...sideBySidePane, flexBasis: `${pct}%` }}>
+          <div style={readingOriginal}>
+            {keys.map((k) => {
+              const seg = passage.segments[k];
+              if (!seg) return null;
+              const noted = segmentNoted(k, noteRanges);
+              const cls = `dhamma-seg dhamma-seg-pali${noted ? ' dhamma-seg-noted' : ''}`;
+              return (
+                <span
+                  key={k}
+                  className={cls}
+                  data-segment={k}
+                  data-passage-id={passage.id}
+                  style={segmentSpan}
+                >
+                  {glossMap
+                    ? withGlosses(seg.pali, glossMap)
+                    : highlightFind(seg.pali, findText, findStem)}
+                  {' '}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+        <div
+          style={sideBySideDivider}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          title="Drag to resize"
+        >
+          <div style={sideBySideGrip} />
+        </div>
+        <div style={{ ...sideBySidePane, flexBasis: `calc(${100 - pct}% - 18px)` }}>
+          <div style={readingTranslation}>
+            {keys.map((k) => {
+              const seg = passage.segments[k];
+              if (!seg) return null;
+              const noted = segmentNoted(k, noteRanges);
+              const cls = `dhamma-seg dhamma-seg-en${noted ? ' dhamma-seg-noted' : ''}`;
+              return (
+                <span
+                  key={k}
+                  className={cls}
+                  data-segment={k}
+                  data-passage-id={passage.id}
+                  style={segmentSpan}
+                >
+                  {highlightFind(seg.english, findText, findStem)}
+                  {' '}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback for non-segmented passages: original single-column-per-side render.
   return (
     <div ref={containerRef} style={sideBySideWrap}>
       <div style={{ ...sideBySidePane, flexBasis: `${pct}%` }}>
@@ -69,13 +162,11 @@ const sideBySideWrap = {
   display: 'flex',
   alignItems: 'stretch',
   margin: '0 0 18px',
-  // Narrow viewports fall through to stacked via flex-wrap: the divider
-  // and pane stay block-level when the viewport can't fit both 320px wide.
 };
 
 const sideBySidePane = {
   flex: '0 0 auto',
-  minWidth: 0,        // critical: allow shrink below content's natural width
+  minWidth: 0,
 };
 
 const sideBySideDivider = {
@@ -103,6 +194,8 @@ const readingOriginal = {
   color: 'var(--bc-text-primary)',
   userSelect: 'text',
   whiteSpace: 'pre-wrap',
+  overflowWrap: 'anywhere',
+  wordBreak: 'break-word',
 };
 
 const readingTranslation = {
@@ -113,4 +206,36 @@ const readingTranslation = {
   color: 'var(--bc-text-secondary)',
   userSelect: 'text',
   whiteSpace: 'pre-wrap',
+  overflowWrap: 'anywhere',
+  wordBreak: 'break-word',
 };
+
+// Per-segment span sits inline within the column so prose still
+// reads as continuous paragraphs. The data attributes + class are
+// what the dual-highlight and notes-anchor logic key off.
+const segmentSpan = {
+  // No display: inline override needed (default for span). The
+  // class on the element drives the highlight CSS in theme.css.
+};
+
+// Numeric-aware compare on dotted segment keys. Inlined here so the
+// noted-segment check doesn't need to import from segments.js.
+function compareSegKeys(a, b) {
+  const ap = a.split('.').map(Number);
+  const bp = b.split('.').map(Number);
+  const len = Math.max(ap.length, bp.length);
+  for (let i = 0; i < len; i++) {
+    const av = Number.isFinite(ap[i]) ? ap[i] : 0;
+    const bv = Number.isFinite(bp[i]) ? bp[i] : 0;
+    if (av !== bv) return av - bv;
+  }
+  return 0;
+}
+
+function segmentNoted(k, ranges) {
+  if (!ranges || ranges.length === 0) return false;
+  for (const r of ranges) {
+    if (compareSegKeys(k, r.startKey) >= 0 && compareSegKeys(k, r.endKey) <= 0) return true;
+  }
+  return false;
+}

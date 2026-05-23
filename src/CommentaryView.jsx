@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import useCorpus from './useCorpus.js';
 import useIsNarrow from './useIsNarrow.js';
+import { isModifiedClick, browseHref } from './linkHelpers.js';
 
 // Classify a commentary work by the piṭaka it sits over. Heuristic on
 // the slug — works because CST + SuttaCentral ingest both follow the
@@ -68,22 +69,28 @@ export default function CommentaryView({ onDrill }) {
 
   function renderWork(work, corpusRoot) {
     return (
-      <li
-        key={work.id}
-        style={{ ...workItem, opacity: isDim(work) ? 0.35 : 1 }}
-        onClick={() => drill(corpusRoot, work.id)}
-        role="button"
-        tabIndex={0}
-      >
-        <span style={workName}>{work.name}</span>
-        {work.subtitle && <span style={workSubtitle}>{work.subtitle}</span>}
-        <span style={workCount}>{fmtCount(work)}</span>
+      <li key={work.id} style={workItemLi}>
+        <a
+          href={browseHref([corpusRoot, work.id])}
+          style={{ ...workItem, opacity: isDim(work) ? 0.35 : 1 }}
+          onClick={(e) => {
+            if (isModifiedClick(e)) return;
+            e.preventDefault();
+            drill(corpusRoot, work.id);
+          }}
+          aria-label={`Open ${work.name}`}
+        >
+          <span style={workName}>{work.name}</span>
+          {work.subtitle && <span style={workSubtitle}>{work.subtitle}</span>}
+          <span style={workCount}>{fmtCount(work)}</span>
+        </a>
       </li>
     );
   }
 
   return (
     <div data-scroll-root="" style={scrollWrap}>
+     <div style={pageColumn}>
       <header style={pageHeader}>
         <div style={rule} />
         <h1 style={pageTitle}>Commentaries</h1>
@@ -111,14 +118,18 @@ export default function CommentaryView({ onDrill }) {
       {/* Visuddhimagga as a featured standalone block. */}
       {visuddhimagga && (
         <div style={featuredBlock}>
-          <h2
-            style={{ ...featuredName, opacity: isDim(visuddhimagga) ? 0.35 : 1 }}
-            onClick={() => drill('pli-commentary', visuddhimagga.id)}
-            role="button"
-            tabIndex={0}
+          <a
+            href={browseHref(['pli-commentary', visuddhimagga.id])}
+            style={{ ...featuredName, ...featuredNameLink, opacity: isDim(visuddhimagga) ? 0.35 : 1 }}
+            onClick={(e) => {
+              if (isModifiedClick(e)) return;
+              e.preventDefault();
+              drill('pli-commentary', visuddhimagga.id);
+            }}
+            aria-label={`Open ${visuddhimagga.name}`}
           >
             {visuddhimagga.name}
-          </h2>
+          </a>
           {visuddhimagga.subtitle && (
             <p style={featuredSubtitle}>{visuddhimagga.subtitle}</p>
           )}
@@ -203,6 +214,7 @@ export default function CommentaryView({ onDrill }) {
           Hinüber chronologies.
         </p>
       </footer>
+     </div>
     </div>
   );
 }
@@ -219,9 +231,27 @@ const scrollWrap = {
   paddingTop: 56,
 };
 
+// pageColumn is the outer hug-left container, sized to the widest
+// inner block (threeCol at 1100). It anchors the whole page to
+// scrollWrap's left edge so the left margin matches Library's tight
+// gap between sidebar and content. Inside this column every sub-block
+// uses `margin: ... auto ...` to self-centre, which puts the title,
+// Visuddhimagga block, section headers, and threeCol all on the same
+// vertical axis regardless of their individual widths.
+const pageColumn = {
+  maxWidth: 1100,
+  margin: 0,
+};
+
+// Layout blocks below all use `margin: ... auto ...` so they share the
+// same horizontal centre, regardless of their individual maxWidths.
+// Without auto, each block hugs scrollWrap's left edge and ends up
+// centred on a different x-axis based on its own width — title at one
+// axis, Visuddhimagga at another, the threeCol at a third. Auto
+// margins put every block on the page's single centred column.
 const pageHeader = {
   maxWidth: 820,
-  margin: '64px 0 0',
+  margin: '64px auto 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -255,7 +285,7 @@ const pageSubtitle = {
 
 const topControls = {
   maxWidth: 820,
-  margin: '24px 0 0',
+  margin: '24px auto 0',
   padding: '0 28px',
   display: 'flex',
   justifyContent: 'center',
@@ -263,7 +293,7 @@ const topControls = {
 
 const featuredBlock = {
   maxWidth: 560,
-  margin: '48px 0 0',
+  margin: '48px auto 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -277,6 +307,14 @@ const featuredName = {
   color: 'var(--bc-text-primary)',
   cursor: 'pointer',
   transition: 'color 120ms ease',
+};
+
+// Visuddhimagga featured-block heading is now an <a>. These keep the
+// heading-like presentation while stripping default link colour and
+// underline.
+const featuredNameLink = {
+  display: 'inline-block',
+  textDecoration: 'none',
 };
 
 const featuredSubtitle = {
@@ -298,7 +336,7 @@ const featuredCount = {
 
 const sectionHeader = {
   maxWidth: 1100,
-  margin: '52px 0 4px',
+  margin: '52px auto 4px',
   padding: '0 20px',
   fontFamily: SERIF,
   fontSize: 18,
@@ -322,7 +360,7 @@ const sectionSubtitle = {
 
 const threeCol = {
   maxWidth: 1100,
-  margin: '0 0',
+  margin: '0 auto',
   padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -366,6 +404,10 @@ const textList = {
   gap: 14,
 };
 
+const workItemLi = {
+  listStyle: 'none',
+};
+
 const workItem = {
   fontFamily: SERIF,
   display: 'flex',
@@ -373,6 +415,8 @@ const workItem = {
   gap: 2,
   alignItems: 'center',
   cursor: 'pointer',
+  color: 'inherit',
+  textDecoration: 'none',
   transition: 'color 120ms ease',
 };
 
@@ -403,7 +447,7 @@ const workCount = {
 
 const miscBlock = {
   maxWidth: 720,
-  margin: '32px 0 0',
+  margin: '32px auto 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -442,7 +486,7 @@ const toggleLabel = {
 
 const footerWrap = {
   maxWidth: 720,
-  margin: '72px 0 56px',
+  margin: '72px auto 56px',
   padding: '0 28px',
   textAlign: 'center',
 };

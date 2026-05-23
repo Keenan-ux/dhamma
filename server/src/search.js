@@ -541,6 +541,7 @@ function shapeResult(p) {
     id: p.id,
     citation: p.citation,
     title: p.title,
+    title_en: p.title_en,
     canon: p.canon,
     work_slug: p.work_slug,
     snippet: makeSnippet(p),
@@ -845,7 +846,7 @@ export async function runSearch(rawParams) {
     // (passage, translator) tuple — the UI groups them by passage and
     // shows a list of matched translators.
     rows = await sql`
-      SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
+      SELECT p.id, p.citation, p.title, p.title_en, p.canon, p.work_slug,
              p.original, t.text AS translation,
              t.translator, t.source AS translator_source, t.copyright AS translator_copyright,
              t.license AS translator_license, t.source_url AS translator_source_url,
@@ -860,7 +861,7 @@ export async function runSearch(rawParams) {
     `;
   } else if (mode === 'exact' || mode === 'stem') {
     rows = await sql`
-      SELECT id, citation, title, canon, work_slug, original, translation,
+      SELECT id, citation, title, title_en, canon, work_slug, original, translation,
              ${ftsRank} AS score,
              ${hlPassage} AS headline
       FROM passages, to_tsquery('simple_unaccent', ${tsquery}) q
@@ -881,7 +882,7 @@ export async function runSearch(rawParams) {
         return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
       }
       rows = await sql`
-        SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
+        SELECT p.id, p.citation, p.title, p.title_en, p.canon, p.work_slug,
                p.original, t.text AS translation,
                t.translator, t.source AS translator_source, t.copyright AS translator_copyright,
                t.license AS translator_license, t.source_url AS translator_source_url,
@@ -900,7 +901,7 @@ export async function runSearch(rawParams) {
     const qVecLit = `[${qVec.join(',')}]`;
     if (!tsquery) {
       rows = await sql`
-        SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
+        SELECT p.id, p.citation, p.title, p.title_en, p.canon, p.work_slug,
                p.original, t.text AS translation,
                t.translator, t.source AS translator_source, t.copyright AS translator_copyright,
                t.license AS translator_license, t.source_url AS translator_source_url,
@@ -934,7 +935,7 @@ export async function runSearch(rawParams) {
           ORDER BY t.embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )
-        SELECT p.id, p.citation, p.title, p.canon, p.work_slug,
+        SELECT p.id, p.citation, p.title, p.title_en, p.canon, p.work_slug,
                p.original, t.text AS translation,
                t.translator, t.source AS translator_source, t.copyright AS translator_copyright,
                t.license AS translator_license, t.source_url AS translator_source_url,
@@ -966,7 +967,7 @@ export async function runSearch(rawParams) {
         return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
       }
       rows = await sql`
-        SELECT id, citation, title, canon, original, translation,
+        SELECT id, citation, title, title_en, canon, original, translation,
                ${ftsRank} AS score
         FROM passages, to_tsquery('simple_unaccent', ${tsquery}) q
         WHERE ${fts} @@ q ${pitakaBare} ${layerBare}
@@ -989,7 +990,7 @@ export async function runSearch(rawParams) {
       // Distance < 0.7 clips long-tail noise (see the three-way RRF
       // block below for the rationale).
       rows = await sql`
-        SELECT id, citation, title, canon, work_slug, original, translation,
+        SELECT id, citation, title, title_en, canon, work_slug, original, translation,
                1.0 / (${RRF_K} + ROW_NUMBER() OVER (ORDER BY embedding <=> ${qVecLit}::vector)) AS score
         FROM passages
         WHERE embedding IS NOT NULL
@@ -1047,7 +1048,7 @@ export async function runSearch(rawParams) {
           ORDER BY MIN(t.embedding <=> ${qVecLit}::vector)
           LIMIT ${FUSION_POOL}
         )
-        SELECT p.id, p.citation, p.title, p.canon, p.work_slug, p.original, p.translation,
+        SELECT p.id, p.citation, p.title, p.title_en, p.canon, p.work_slug, p.original, p.translation,
                -- Length-aware score: dampen very short passages so single-line
                -- Theragāthā / Therīgāthā verses don't dominate the top of broad
                -- thematic queries over substantial sutta passages on the same
@@ -1060,7 +1061,16 @@ export async function runSearch(rawParams) {
                ((COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
                + COALESCE(1.0 / (${RRF_K} + vec_p.rnk), 0)
                + COALESCE(1.0 / (${RRF_K} + vec_t.rnk), 0))
-               * (1.0 - exp(-length(COALESCE(p.original, '') || COALESCE(p.translation, '')) / 800.0))) AS score,
+               * (1.0 - exp(-length(COALESCE(p.original, '') || COALESCE(p.translation, '')) / 800.0))
+               -- Canonicality boost: a 25% multiplier on canonical mula
+               -- passages. Without it, the Visuddhimagga's systematic
+               -- treatment of mettā (Vism §80, ~3K chars of terminology)
+               -- consistently outranks the canonical Karaṇīyamettā Sutta
+               -- (Snp 1.8, ~900 chars) on the query "metta" — accurate
+               -- but not what most scholars are looking for. 1.25 lifts
+               -- the canonical above the commentary without removing
+               -- the commentary from results.
+               * CASE WHEN p.work_role = 'mula' THEN 1.25 ELSE 1.0 END) AS score,
                ${hlPassageRRF} AS headline
         FROM passages p
         LEFT JOIN fts   ON fts.id   = p.id

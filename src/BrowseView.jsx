@@ -18,6 +18,12 @@ export default function BrowseView({
   // types in the in-passage find bar.
   highlightTerms,
   highlightStem,
+  // When the user opens a passage from the Notes index with a focus
+  // key, we pass that down to ReadingPanel so it can scroll-to and
+  // briefly highlight the specific segment. Cleared once consumed so
+  // a later navigation doesn't carry stale focus.
+  focusSegment,
+  clearFocusSegment,
 }) {
   const columnsScrollRef = useRef(null);
   const { shape, loading: corpusLoading } = useCorpus();
@@ -311,6 +317,8 @@ export default function BrowseView({
                 onCompareTerm={onCompareTerm}
                 highlightTerms={highlightTerms}
                 highlightStem={highlightStem}
+                focusSegment={focusSegment}
+                clearFocusSegment={clearFocusSegment}
               />
             )}
           </>

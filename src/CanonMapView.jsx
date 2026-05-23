@@ -13,6 +13,7 @@
 import { useMemo, useState } from 'react';
 import useCorpus from './useCorpus.js';
 import useIsNarrow from './useIsNarrow.js';
+import { isModifiedClick, browseHref } from './linkHelpers.js';
 
 // PTS-style abbreviations for the 18 books of the Khuddaka Nikāya,
 // rendered as a compact inline list under Sutta. Keys are work slugs.
@@ -103,6 +104,14 @@ export default function CanonMapView({ onDrill }) {
   function drill(...ids) {
     onDrill?.(ids);
   }
+  // Anchor-click guard. Plain clicks route via the SPA; modified
+  // clicks (Cmd/Ctrl/Shift/middle) fall through to the browser so the
+  // user can open the drill destination in a new tab.
+  function handleAnchorClick(e, ids) {
+    if (isModifiedClick(e)) return;
+    e.preventDefault();
+    drill(...ids);
+  }
   // When the filter is on, counts show only the translated portion
   // ("4,669 passages with translation") and entries with zero of those
   // are hidden via isHidden — not just dimmed. That matches what a
@@ -120,6 +129,7 @@ export default function CanonMapView({ onDrill }) {
 
   return (
     <div data-scroll-root="" style={scrollWrap}>
+     <div style={pageColumn}>
       <header style={pageHeader}>
         <div style={rule} />
         <h1 style={pageTitle}>Tipiṭaka</h1>
@@ -173,14 +183,13 @@ export default function CanonMapView({ onDrill }) {
         {/* Vinaya */}
         {vinaya && !isHidden(vinaya) && (!isNarrow || activePitaka === 'pli-vinaya') && (
           <section style={column}>
-            <h2
-              style={colHeader}
-              onClick={() => drill(tipitaka.id, vinaya.id)}
-              role="button"
-              tabIndex={0}
+            <a
+              href={browseHref([tipitaka.id, vinaya.id])}
+              style={{ ...colHeader, ...drillLinkReset }}
+              onClick={(e) => handleAnchorClick(e, [tipitaka.id, vinaya.id])}
             >
               Vinaya Piṭaka
-            </h2>
+            </a>
             <p style={colCount}>{fmtCount(vinaya)} passages</p>
             <p style={colKind}>five books</p>
             {/* The 5 books are stored flat under pli-vinaya in our corpus
@@ -190,15 +199,15 @@ export default function CanonMapView({ onDrill }) {
                 the destination is the same Vinaya-wide list either way. */}
             <ul style={textList}>
               {VINAYA_BOOKS.map((name) => (
-                <li
-                  key={name}
-                  style={{ ...textListItem, ...flatBookRow }}
-                  onClick={() => drill(tipitaka.id, vinaya.id)}
-                  role="button"
-                  tabIndex={0}
-                  title="Open Vinaya passages — the five books are not yet separately browsable in the corpus"
-                >
-                  {name}
+                <li key={name} style={flatBookRowLi}>
+                  <a
+                    href={browseHref([tipitaka.id, vinaya.id])}
+                    style={{ ...textListItem, ...flatBookRow, ...drillLinkReset }}
+                    onClick={(e) => handleAnchorClick(e, [tipitaka.id, vinaya.id])}
+                    title="Open Vinaya passages — the five books are not yet separately browsable in the corpus"
+                  >
+                    {name}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -208,27 +217,26 @@ export default function CanonMapView({ onDrill }) {
         {/* Sutta */}
         {sutta && !isHidden(sutta) && (!isNarrow || activePitaka === 'pli-sutta') && (
           <section style={column}>
-            <h2
-              style={colHeader}
-              onClick={() => drill(tipitaka.id, sutta.id)}
-              role="button"
-              tabIndex={0}
+            <a
+              href={browseHref([tipitaka.id, sutta.id])}
+              style={{ ...colHeader, ...drillLinkReset }}
+              onClick={(e) => handleAnchorClick(e, [tipitaka.id, sutta.id])}
             >
               Sutta Piṭaka
-            </h2>
+            </a>
             <p style={colCount}>{fmtCount(sutta)} passages</p>
             <p style={colKind}>five collections</p>
             <ul style={textList}>
               {nikayasOrdered.filter((n) => !isHidden(n)).map((n) => (
-                <li
-                  key={n.id}
-                  style={{ ...textListItem, ...nikayaRow }}
-                  onClick={() => drill(tipitaka.id, sutta.id, n.id)}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <span style={nikayaName}>{shortNikaya(n.name)} Nikāya</span>
-                  <span style={nikayaCount}>{fmtCount(n)}</span>
+                <li key={n.id} style={flatBookRowLi}>
+                  <a
+                    href={browseHref([tipitaka.id, sutta.id, n.id])}
+                    style={{ ...textListItem, ...nikayaRow, ...drillLinkReset }}
+                    onClick={(e) => handleAnchorClick(e, [tipitaka.id, sutta.id, n.id])}
+                  >
+                    <span style={nikayaName}>{shortNikaya(n.name)} Nikāya</span>
+                    <span style={nikayaCount}>{fmtCount(n)}</span>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -239,29 +247,28 @@ export default function CanonMapView({ onDrill }) {
         {/* Abhidhamma */}
         {abhidhamma && !isHidden(abhidhamma) && (!isNarrow || activePitaka === 'pli-abhidhamma') && (
           <section style={column}>
-            <h2
-              style={colHeader}
-              onClick={() => drill(tipitaka.id, abhidhamma.id)}
-              role="button"
-              tabIndex={0}
+            <a
+              href={browseHref([tipitaka.id, abhidhamma.id])}
+              style={{ ...colHeader, ...drillLinkReset }}
+              onClick={(e) => handleAnchorClick(e, [tipitaka.id, abhidhamma.id])}
             >
               Abhidhamma Piṭaka
-            </h2>
+            </a>
             <p style={colCount}>{fmtCount(abhidhamma)} passages</p>
             <p style={colKind}>seven books</p>
             {/* Same situation as Vinaya — the 7 books are flat in the
                 corpus, so each name routes to the same drill destination. */}
             <ul style={textList}>
               {ABHIDHAMMA_BOOKS.map((name) => (
-                <li
-                  key={name}
-                  style={{ ...textListItem, ...flatBookRow }}
-                  onClick={() => drill(tipitaka.id, abhidhamma.id)}
-                  role="button"
-                  tabIndex={0}
-                  title="Open Abhidhamma passages — the seven books are not yet separately browsable in the corpus"
-                >
-                  {name}
+                <li key={name} style={flatBookRowLi}>
+                  <a
+                    href={browseHref([tipitaka.id, abhidhamma.id])}
+                    style={{ ...textListItem, ...flatBookRow, ...drillLinkReset }}
+                    onClick={(e) => handleAnchorClick(e, [tipitaka.id, abhidhamma.id])}
+                    title="Open Abhidhamma passages — the seven books are not yet separately browsable in the corpus"
+                  >
+                    {name}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -289,15 +296,14 @@ export default function CanonMapView({ onDrill }) {
             <div style={khuddakaInline}>
               {visible.map((b, i) => (
                 <span key={b.id} style={khuddakaCell}>
-                  <span
-                    style={khuddakaTag}
-                    onClick={() => drill(tipitaka.id, sutta.id, kn.id, b.id)}
-                    role="button"
-                    tabIndex={0}
+                  <a
+                    href={browseHref([tipitaka.id, sutta.id, kn.id, b.id])}
+                    style={{ ...khuddakaTag, ...drillLinkReset }}
+                    onClick={(e) => handleAnchorClick(e, [tipitaka.id, sutta.id, kn.id, b.id])}
                     title={`${b.name} · ${(b.total || 0).toLocaleString()} passages${translatedOnly ? ` (${(b.translated || 0).toLocaleString()} translated)` : ''}`}
                   >
                     {KHUDDAKA_ABBREV[b.id] || b.name}
-                  </span>
+                  </a>
                   {i < visible.length - 1 && <span style={dotSep}>·</span>}
                 </span>
               ))}
@@ -309,6 +315,7 @@ export default function CanonMapView({ onDrill }) {
       <footer style={footerWrap}>
         <div style={rule} />
       </footer>
+     </div>
     </div>
   );
 }
@@ -325,9 +332,21 @@ const scrollWrap = {
   paddingTop: 56, // clearance for the fixed TopNav
 };
 
+// pageColumn is the outer hug-left container, sized to the widest
+// inner block (threeCol at 1100). It anchors the whole page to
+// scrollWrap's left edge so the left margin matches Library's tight
+// gap between sidebar and content. Inside this column every sub-block
+// uses `margin: ... auto ...` to self-centre, which puts the title,
+// section headers, threeCol, and footer all on the same vertical axis
+// regardless of their individual widths.
+const pageColumn = {
+  maxWidth: 1100,
+  margin: 0,
+};
+
 const pageHeader = {
   maxWidth: 820,
-  margin: '64px 0 0',
+  margin: '64px auto 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -365,7 +384,7 @@ const pageSubtitle = {
 // frontmatter. Houses the translation filter, the most-used setting.
 const topControls = {
   maxWidth: 820,
-  margin: '24px 0 0',
+  margin: '24px auto 0',
   padding: '0 28px',
   display: 'flex',
   justifyContent: 'center',
@@ -373,7 +392,7 @@ const topControls = {
 
 const threeCol = {
   maxWidth: 1100,
-  margin: '32px 0 0',
+  margin: '32px auto 0',
   padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -383,7 +402,7 @@ const threeCol = {
 
 const singleCol = {
   maxWidth: 480,
-  margin: '32px 0 0',
+  margin: '32px auto 0',
   padding: '0 24px',
   display: 'flex',
   flexDirection: 'column',
@@ -393,7 +412,7 @@ const singleCol = {
 
 const pitakaSelector = {
   maxWidth: 480,
-  margin: '24px 0 0',
+  margin: '24px auto 0',
   padding: '0 24px',
   display: 'flex',
   justifyContent: 'center',
@@ -465,6 +484,21 @@ const textListItem = {
   color: 'var(--bc-text-secondary)',
 };
 
+// Drill targets render as <a href> so the browser exposes a real
+// link target on each row. flatBookRowLi wraps each anchor inside
+// the <ul> without a default bullet; drillLinkReset strips the
+// default <a> underline + colour so anchors read identically to the
+// old <h2>/<li> versions.
+const flatBookRowLi = {
+  listStyle: 'none',
+};
+
+const drillLinkReset = {
+  display: 'block',
+  textDecoration: 'none',
+  color: 'inherit',
+};
+
 const nikayaRow = {
   display: 'inline-flex',
   alignItems: 'baseline',
@@ -503,7 +537,7 @@ const nikayaCount = {
 // viewport; they wrap to a couple of lines instead.
 const khuddakaSection = {
   maxWidth: 720,
-  margin: '48px 0 0',
+  margin: '48px auto 0',
   padding: '0 32px',
   textAlign: 'center',
 };
@@ -560,7 +594,7 @@ const dotSep = {
 
 const footerWrap = {
   maxWidth: 580,
-  margin: '72px 0 56px',
+  margin: '72px auto 56px',
   padding: '0 28px',
   textAlign: 'center',
 };

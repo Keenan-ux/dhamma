@@ -1,8 +1,15 @@
+import { isModifiedClick } from '../linkHelpers.js';
+
 // Recursive tree level. Renders rows at this depth; for the row whose id
 // matches path[depth], renders its children indented immediately below.
 // Clicking a row re-uses `onSelect(depth, node)` from the parent: open
 // to drill, click-again on the open row to collapse, click a leaf to
 // load the passage.
+//
+// Leaf rows render as <a href="#/read/…"> so Cmd-click / middle-click /
+// right-click "Open in New Tab" all work. Branch rows stay as
+// <button> because their click toggles an in-page expanded state, not
+// a navigable destination.
 export default function TreeLevel({ items, depth, path, leafId, onSelect }) {
   if (!items?.length) return null;
   return (
@@ -17,28 +24,48 @@ export default function TreeLevel({ items, depth, path, leafId, onSelect }) {
           : (isExpanded || isSelectedLeaf)
             ? 'var(--bc-accent)'
             : 'var(--bc-text-primary)';
+        const rowStyle = {
+          ...row,
+          color: tone,
+          opacity: isStub ? 0.5 : 1,
+          background: (isExpanded || isSelectedLeaf) ? 'rgba(var(--bc-accent-rgb), 0.06)' : 'transparent',
+          cursor: isStub ? 'default' : 'pointer',
+        };
+        const rowInner = (
+          <>
+            <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: 1 }}>
+              <span style={rowName}>{node.name}</span>
+              {node.subtitle && <span style={rowSubtitle}>{node.subtitle}</span>}
+            </span>
+            {!isStub && !isLeaf && (
+              <span style={chev} aria-hidden="true">{isExpanded ? '⌃' : '⌄'}</span>
+            )}
+            {isLeaf && <span style={leafDot} aria-hidden="true">•</span>}
+          </>
+        );
         return (
           <div key={node.id}>
-            <button
-              onClick={() => onSelect(depth, node)}
-              disabled={isStub}
-              style={{
-                ...row,
-                color: tone,
-                opacity: isStub ? 0.5 : 1,
-                background: (isExpanded || isSelectedLeaf) ? 'rgba(var(--bc-accent-rgb), 0.06)' : 'transparent',
-                cursor: isStub ? 'default' : 'pointer',
-              }}
-            >
-              <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: 1 }}>
-                <span style={rowName}>{node.name}</span>
-                {node.subtitle && <span style={rowSubtitle}>{node.subtitle}</span>}
-              </span>
-              {!isStub && !isLeaf && (
-                <span style={chev} aria-hidden="true">{isExpanded ? '⌃' : '⌄'}</span>
-              )}
-              {isLeaf && <span style={leafDot} aria-hidden="true">•</span>}
-            </button>
+            {isLeaf && !isStub ? (
+              <a
+                href={`#/read/${encodeURIComponent(node.passageId)}`}
+                style={{ ...rowStyle, ...rowLinkReset }}
+                onClick={(e) => {
+                  if (isModifiedClick(e)) return;
+                  e.preventDefault();
+                  onSelect(depth, node);
+                }}
+              >
+                {rowInner}
+              </a>
+            ) : (
+              <button
+                onClick={() => onSelect(depth, node)}
+                disabled={isStub}
+                style={rowStyle}
+              >
+                {rowInner}
+              </button>
+            )}
             {isExpanded && node.children?.length > 0 && (
               <TreeLevel
                 items={node.children}
@@ -93,3 +120,11 @@ const rowSubtitle = {
 
 const chev = { color: 'var(--bc-text-tertiary)', fontSize: 14, marginTop: 1, flexShrink: 0 };
 const leafDot = { color: 'var(--bc-accent)', fontSize: 18, lineHeight: 1, marginTop: 4, flexShrink: 0 };
+
+// Reset default link styles so a leaf row rendered as <a> reads the
+// same as a row rendered as <button>.
+const rowLinkReset = {
+  textDecoration: 'none',
+  color: 'inherit',
+  boxSizing: 'border-box',
+};

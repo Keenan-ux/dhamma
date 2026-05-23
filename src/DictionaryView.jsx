@@ -231,7 +231,6 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
       <div style={resultsWrap} ref={resultsRef}>
         <SelectionActions
           containerRef={resultsRef}
-          hide={['lookup']}
           onSearch={onSearchTerm}
           onCompare={onCompareTerm}
         />
