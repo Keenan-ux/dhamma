@@ -89,9 +89,28 @@ miss everything from the BPS commentary translations + a few
 older SC translator ingests.
 
 `scripts/ingest/embed_translations.py` (GPU BGE-M3 fp16, CUDA EP)
-backfilled them all and rebuilt the HNSW index on
-`translations.embedding`. After the pass the table is fully
-embedded.
+backfilled all 3,514 pending rows in 302 seconds (~11.6 rows/s on
+the RTX 5050) and rebuilt the HNSW index on
+`translations.embedding` (now 73 MB). After the pass all 9,346
+translation rows are embedded. Meaning search smoke-tested on
+both Vism content ("path of purification samadhi" → 22 hits) and
+BP214s Ireland Udāna content.
+
+### Reader UX Step 2 — backend ready, frontend pending
+
+`/api/passage/:id/group` added in `server/src/corpus.js` +
+`server/src/index.js`. For a fine CST row like
+`cst-s0101a.att-dn1_1_p047`, the endpoint returns every `_p%`
+sibling row under the same parent div (`cst-s0101a.att-dn1_1`)
+ordered by paragraph-suffix integer. Singleton groups (mula,
+anya, library, Vism mula coarse) return the anchor row only.
+Frontend wire-up still pending — ReadingPanel.jsx needs to fetch
+the group on open and render the concatenated paragraphs.
+
+**Important:** the server change ships only when someone runs
+`flyctl deploy` or merges master → main. The CI workflow at
+`.github/workflows/fly-deploy.yml` triggers on push to `main`,
+not `master`. Prod still serves the pre-Step-2 server build.
 
 ---
 
