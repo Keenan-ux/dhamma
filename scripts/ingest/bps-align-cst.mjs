@@ -40,44 +40,88 @@ import postgres from 'postgres';
 // scope to just the first sutta's portion. DN cy divs are
 // single-sutta, so no boundary is needed for the DN books.
 
+// Each book picks one of two alignment modes:
+//
+//   'subhead'   (default) — pair Bodhi's named subsections to CST
+//                           subhead-rows by sequential order.
+//                           Works for BP210S/211S/212S where Bodhi
+//                           organises Part Two into thematic named
+//                           sections that approximately track
+//                           Buddhaghosa's <p rend="subhead"> labels.
+//
+//   'paragraph' — pair Bodhi's numbered paragraph blocks to CST
+//                 paragraph-rows by sequential PROPORTIONAL
+//                 distribution. Used for BP209S where Bodhi's Part
+//                 Two has only ~9 long numbered blocks each spanning
+//                 ~44 CST paragraphs. Subhead-mode would pair 9
+//                 Bodhi blocks to 18 random subheads, which is
+//                 nonsensical. Paragraph-mode pairs each Bodhi block
+//                 to the first CST paragraph of its proportional
+//                 share (rows 1-44 → block 1, rows 45-88 → block 2,
+//                 etc.).
+
 const BOOK_RANGES = {
   BP209S: {
     target: 'dn1',
     cstIdPrefix: 'cst-s0101a.att-dn1_1',      // DN cy vol 1 sutta 1 = Brahmajāla
     lastSubheadBefore: null,                  // self-contained div
+    mode: 'paragraph',
     cyTitleHint: 'Brahmajālasuttavaṇṇanā',
   },
   BP210S: {
     target: 'mn1',
     cstIdPrefix: 'cst-s0201a.att-mn1_1',      // MN cy vol 1 sutta 1 = Mūlapariyāya
     lastSubheadBefore: 'cst-s0201a.att-mn1_1_p263',  // "2. Sabbāsavasuttavaṇṇanā" = MN 2 cy starts inside the same vagga div
+    mode: 'subhead',
     cyTitleHint: 'Mūlapariyāyasuttavaṇṇanā',
   },
   BP211S: {
     target: 'dn15',
     cstIdPrefix: 'cst-s0102a.att-dn2_2',      // DN cy vol 2 sutta 2 = Mahānidāna
     lastSubheadBefore: null,
+    mode: 'subhead',
     cyTitleHint: 'Mahānidānasuttavaṇṇanā',
   },
   BP212S: {
     target: 'dn2',
     cstIdPrefix: 'cst-s0101a.att-dn1_2',      // DN cy vol 1 sutta 2 = Sāmaññaphala
     lastSubheadBefore: null,
+    mode: 'subhead',
     cyTitleHint: 'Sāmaññaphalasuttavaṇṇanā',
   },
 };
 
-// ─────────────────── Subhead detection ───────────────────
+// ─────────────────── CST row fetching ───────────────────
 //
-// A CST "subhead" row in our fine schema is one where the parser
-// emitted the row's body AS the heading text (since `<p rend="subhead">`
-// elements are short headings). Heuristic: short `original` (< 100
-// chars), matches `title`. Returns rows ordered by their natural CST
-// position (encoded in the integer part of the _pNNN suffix).
+// Two row sets the alignment helper may want:
+//
+//   subhead-rows   short rows where original IS the heading text
+//                  (parser emits these from <p rend="subhead">).
+//                  Used by subhead-mode alignment for books whose
+//                  Bodhi Part Two has named subsections.
+//
+//   paragraph-rows ALL fine paragraph rows under the prefix.
+//                  Used by paragraph-mode alignment (BP209S) where
+//                  Bodhi's numbered blocks distribute across many
+//                  CST paragraphs proportionally.
+//
+// Both sets are bounded by `lastSubheadBefore` when set (to cap
+// scope for multi-sutta vagga divs like MN cy mn1_1).
+
+function applyBoundary(rows, lastBeforeId) {
+  if (!lastBeforeId) return rows;
+  const m = lastBeforeId.match(/_p(\d+)$/);
+  if (!m) return rows;
+  const boundaryIdx = parseInt(m[1], 10);
+  return rows.filter((r) => {
+    const rm = r.id.match(/_p(\d+)$/);
+    if (!rm) return true;
+    return parseInt(rm[1], 10) < boundaryIdx;
+  });
+}
 
 export async function fetchCstSubheads(sql, prefix, opts = {}) {
-  const lastBeforeId = opts.lastSubheadBefore || null;
-  const all = await sql`
+  const rows = await sql`
     SELECT id, citation, title, length(original) AS len, original
     FROM passages
     WHERE id LIKE ${prefix + '_p%'}
@@ -85,17 +129,17 @@ export async function fetchCstSubheads(sql, prefix, opts = {}) {
       AND title = original
     ORDER BY (regexp_match(id, '_p([0-9]+)$'))[1]::int
   `;
-  if (!lastBeforeId) return all;
-  // Trim to entries that come BEFORE the boundary marker by
-  // paragraph index (numerical compare, not lexicographic).
-  const boundaryMatch = lastBeforeId.match(/_p(\d+)$/);
-  if (!boundaryMatch) return all;
-  const boundaryIdx = parseInt(boundaryMatch[1], 10);
-  return all.filter((r) => {
-    const m = r.id.match(/_p(\d+)$/);
-    if (!m) return true;
-    return parseInt(m[1], 10) < boundaryIdx;
-  });
+  return applyBoundary(rows, opts.lastSubheadBefore);
+}
+
+export async function fetchCstParagraphs(sql, prefix, opts = {}) {
+  const rows = await sql`
+    SELECT id, citation, title, length(original) AS len
+    FROM passages
+    WHERE id LIKE ${prefix + '_p%'}
+    ORDER BY (regexp_match(id, '_p([0-9]+)$'))[1]::int
+  `;
+  return applyBoundary(rows, opts.lastSubheadBefore);
 }
 
 // ─────────────────── Sequential pairing ───────────────────
@@ -168,16 +212,18 @@ export function pairSubsections(bodhiSubsections, cstSubheads) {
 export async function alignBook(book, parsedSubsections, { sql }) {
   const cfg = BOOK_RANGES[book];
   if (!cfg) throw new Error(`No alignment config for book ${book}`);
-  const cstSubheads = await fetchCstSubheads(sql, cfg.cstIdPrefix, {
-    lastSubheadBefore: cfg.lastSubheadBefore,
-  });
-  const pairings = pairSubsections(parsedSubsections, cstSubheads);
+  const mode = cfg.mode || 'subhead';
+  const cstRows = mode === 'paragraph'
+    ? await fetchCstParagraphs(sql, cfg.cstIdPrefix, { lastSubheadBefore: cfg.lastSubheadBefore })
+    : await fetchCstSubheads(sql, cfg.cstIdPrefix, { lastSubheadBefore: cfg.lastSubheadBefore });
+  const pairings = pairSubsections(parsedSubsections, cstRows);
   return {
     book,
     target_passage_id: cfg.target,
     cst_id_prefix: cfg.cstIdPrefix,
+    alignment_mode: mode,
     bodhi_subsection_count: parsedSubsections.length,
-    cst_subhead_count: cstSubheads.length,
+    cst_row_count: cstRows.length,
     pairings,
   };
 }
@@ -205,7 +251,7 @@ if (entry && import.meta.url.endsWith('bps-align-cst.mjs')) {
   console.log(`aligning ${bookCode}: ${subsections.length} Bodhi subsections`);
 
   const alignment = await alignBook(bookCode, subsections, { sql });
-  console.log(`CST subheads in scope: ${alignment.cst_subhead_count}`);
+  console.log(`mode: ${alignment.alignment_mode}, CST rows in scope: ${alignment.cst_row_count}`);
   console.log('\nPairing:');
   for (const p of alignment.pairings) {
     const cstSummary = p.cst_passage_ids.length > 0
