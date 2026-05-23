@@ -1070,7 +1070,17 @@ export async function runSearch(rawParams) {
                -- but not what most scholars are looking for. 1.25 lifts
                -- the canonical above the commentary without removing
                -- the commentary from results.
-               * CASE WHEN p.work_role = 'mula' THEN 1.25 ELSE 1.0 END) AS score,
+               --
+               -- Vism is tagged work_role='mula' in the CST work map
+               -- (its file is e0101n.nrf, fallback role'd via the
+               -- explicit prefix mapping) but its content is
+               -- commentary, not canon. Excluding work_slug='pli-vism'
+               -- from the boost keeps Vism §80 in results without
+               -- giving it the canon-level multiplier.
+               * CASE
+                   WHEN p.work_role = 'mula' AND p.work_slug <> 'pli-vism' THEN 1.25
+                   ELSE 1.0
+                 END) AS score,
                ${hlPassageRRF} AS headline
         FROM passages p
         LEFT JOIN fts   ON fts.id   = p.id
