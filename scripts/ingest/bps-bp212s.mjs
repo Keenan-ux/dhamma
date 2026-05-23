@@ -62,7 +62,19 @@ export async function loadBp212sPages() {
 //   "Index NN"
 //   "iv The Discourse on the Fruits of Recluseship"  (roman page + work title)
 
-const HEADER_RE = /^(?:[ivxlcdm]+|\d{1,4})?\s*(?:The Discourse on the Fruits of Recluseship|Part One[\s—-]+Text of the S[aā]ma[ñn]{1,2}aphala Sutta|Part Two[\s—-]+Commentarial Exegesis|Introduction|Translator['’]s Preface|Preface|Notes?|Index|Contents|Texts Used|List of Abbreviations|S[aā]ma[ñn]{1,2}aphala Sutta)\s*\d{0,4}\s*$/i;
+// Require a page number on at least one side so standalone section
+// openers ("TRANSLATOR'S PREFACE", "INTRODUCTION") survive cleaning
+// and remain findable by extractIntroductionAndPreface.
+const HEADER_RE = new RegExp(
+  '^(?:' +
+    // form A: leading page number + section name
+    '(?:[ivxlcdm]+|\\d{1,4})\\s+(?:The Discourse on the Fruits of Recluseship|Part One[\\s—-]+Text of the S[aā]ma[ñn]{1,2}aphala Sutta|Part Two[\\s—-]+Commentarial Exegesis|Introduction|Translator[\'’]s Preface|Preface|Notes?|Index|Contents|Texts Used|List of Abbreviations|S[aā]ma[ñn]{1,2}aphala Sutta)' +
+    '|' +
+    // form B: section name + trailing page number
+    '(?:The Discourse on the Fruits of Recluseship|Part One[\\s—-]+Text of the S[aā]ma[ñn]{1,2}aphala Sutta|Part Two[\\s—-]+Commentarial Exegesis|Introduction|Translator[\'’]s Preface|Preface|Notes?|Index|Contents|Texts Used|List of Abbreviations|S[aā]ma[ñn]{1,2}aphala Sutta)\\s+(?:[ivxlcdm]+|\\d{1,4})' +
+  ')\\s*$',
+  'i'
+);
 const BARE_PAGE_RE = /^\d{1,4}\s*$/;
 const ROMAN_PAGE_RE = /^[ivxlcdm]{1,5}\s*$/i;
 
@@ -102,8 +114,15 @@ function cleanPageBody(body) {
 //                         callouts are in-page or marginal)
 
 const SECTION_RANGES = {
-  front:   { start: 1,   end: 26  },
-  partOne: { start: 27,  end: 62  },
+  // partOne actually opens on PDF p26 (printed page 16, "PART ONE"
+  // centered with the sutta title and opening text). The first
+  // running-header occurrence of "Part One — Text of the Samaññaphala
+  // Sutta 17" appears on PDF p27 — that's printed page 17, the SECOND
+  // page of partOne. Without including p26, the sutta translation
+  // starts mid-paragraph and the buildSuttaTranslation slice picks
+  // up the wrong "1." marker (which is in Part Two's commentary).
+  front:   { start: 1,   end: 25  },
+  partOne: { start: 26,  end: 62  },
   partTwo: { start: 63,  end: 188 },
   notes:   { start: 189, end: 999 },
 };
