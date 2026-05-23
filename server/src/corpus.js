@@ -156,6 +156,35 @@ export async function getPassages(ids) {
   return ids.map((i) => byId.get(i)).filter(Boolean);
 }
 
+// Group + translations fetch. Returns each row's translations
+// indexed by passage_id, for the same group the /group endpoint
+// would return. Used by the reader's multi-translator dropdown
+// when the view is a merged paragraph group: instead of showing
+// only the anchor row's translators, we surface any translator
+// present on ANY group row, then concatenate their per-row text in
+// source order when the user selects them.
+//
+// Returned shape: { anchor: passageId, translations: [{ passage_id,
+// translator, source, text, license, source_book, source_url }] }
+// — rows ordered by group order so the consumer can groupBy
+// translator and join in sequence.
+export async function getPassageGroupTranslations(id) {
+  if (!sql || !id) return null;
+  const groupResult = await getPassageGroup(id);
+  if (!groupResult || !groupResult.group) return null;
+  const ids = groupResult.group.map((r) => r.id);
+  // Preserve group order via a positional join.
+  const trans = await sql`
+    SELECT t.passage_id, t.translator, t.source, t.text, t.license,
+           t.source_book, t.source_url,
+           array_position(${ids}::text[], t.passage_id) AS pos
+    FROM translations t
+    WHERE t.passage_id = ANY(${ids})
+    ORDER BY array_position(${ids}::text[], t.passage_id), t.translator
+  `;
+  return { anchor: id, translations: trans };
+}
+
 // Paragraph-group fetch. Returns the requested passage plus its
 // sibling paragraph rows (same parent div) so the reader can render
 // the whole logical "page" at once instead of one paragraph at a time.
