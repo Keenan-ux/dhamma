@@ -110,37 +110,148 @@ function rendOf(p) {
 
 // ─────────────────── Div-nested mode ───────────────────
 //
-// Walks <body> for <div> children. Each interior <div> becomes a passage
-// if it has direct <head> + <p> children. Wrapper divs (which only
+// Walks <body> for <div> children. Each interior <div> contributes
+// passages from its direct <p> children. Wrapper divs (which only
 // contain other divs) are unwrapped — their <head> is propagated as
 // section context to descendants.
+//
+// Two output modes:
+//
+//   'coarse' (default) — one passage per leaf <div>, joining all its
+//                        <p> children into one bodyText. This is the
+//                        historical chunking; matches what the CST
+//                        ingest produced before the 2026-05 subdivision.
+//
+//   'fine'             — one passage per <p>, with consecutive gatha
+//                        lines (gatha1/2/3/last) grouped as a single
+//                        verse row to keep couplets intact. Subhead <p>
+//                        elements update a "current subhead" context
+//                        that becomes the title of following body rows.
+//                        The leaf div's own <head> still anchors the
+//                        breadcrumb. Used for Aṭṭhakathā + Ṭīkā where
+//                        the original author's paragraph granularity
+//                        is the right unit for search precision,
+//                        translation alignment, and vector embedding.
+//
+// In 'fine' mode each emitted row carries:
+//   section_id   — `${divId}_p${NNN}` (3-digit zero-padded ordinal)
+//   xml_div_id   — leaf div id (parent grouping handle for the reader)
+//   paragraph_index — 1-based ordinal within the leaf div
+//   rend         — first paragraph's rend (or 'gatha' for a verse group)
+//   title        — current subhead text, or leaf div's <head>, or null
+//   breadcrumb   — outer-div headings, like coarse mode
 
-function passagesFromDivs(body) {
+const GATHA_RENDS = new Set(['gatha1', 'gatha2', 'gatha3', 'gathalast']);
+
+function passagesFromDivs(body, mode = 'coarse') {
   const out = [];
+
+  function emitCoarse(div, headText, nextCrumb) {
+    const childPs = elemChildren(div, 'p');
+    if (!childPs.length) return;
+    const bodyText = childPs.map((p) => normalize(extractInlineText(p))).filter(Boolean).join(' ');
+    if (!bodyText) return;
+    out.push({
+      section_id: div.attribs?.id || null,
+      xml_div_id: div.attribs?.id || null,
+      title:      headText || nextCrumb.slice(-1)[0] || null,
+      breadcrumb: nextCrumb.slice(),
+      original:   bodyText,
+    });
+  }
+
+  function emitFine(div, headText, nextCrumb) {
+    const divId = div.attribs?.id || null;
+    const childPs = elemChildren(div, 'p');
+    if (!childPs.length) return;
+
+    // Walk paragraphs in source order, grouping consecutive gathas
+    // and tracking the current subhead context for row titles.
+    let paraIdx = 0;
+    let currentSubhead = null;     // most recent <p rend="subhead"> text
+    let gathaBuffer = [];           // accumulating gatha lines
+    let gathaStartIdx = null;       // ordinal of the first gatha line in buffer
+    const fallbackTitle = headText || nextCrumb.slice(-1)[0] || null;
+
+    function flushGatha() {
+      if (!gathaBuffer.length) return;
+      const original = gathaBuffer.join(' ');
+      const idx = ++paraIdx;
+      out.push({
+        section_id: divId ? `${divId}_p${String(idx).padStart(3, '0')}` : null,
+        xml_div_id: divId,
+        paragraph_index: idx,
+        rend:       'gatha',
+        title:      currentSubhead || fallbackTitle,
+        breadcrumb: nextCrumb.slice(),
+        original,
+      });
+      gathaBuffer = [];
+      gathaStartIdx = null;
+    }
+
+    for (const p of childPs) {
+      const rend = rendOf(p);
+      const text = normalize(extractInlineText(p));
+      if (!text) continue;
+
+      // Subhead paragraphs are section headings inside the leaf div
+      // (Buddhaghosa's own section labels). They become the title of
+      // following body rows AND are emitted as their own row so the
+      // heading shows up in the corpus.
+      if (rend === 'subhead' || rend === 'subsubhead') {
+        flushGatha();
+        currentSubhead = text;
+        const idx = ++paraIdx;
+        out.push({
+          section_id: divId ? `${divId}_p${String(idx).padStart(3, '0')}` : null,
+          xml_div_id: divId,
+          paragraph_index: idx,
+          rend,
+          title:      text,                                // heading IS its own title
+          breadcrumb: nextCrumb.slice(),
+          original:   text,
+        });
+        continue;
+      }
+
+      // Gatha grouping: consecutive gathaN lines collect into one row.
+      // The "last" suffix is a strong group terminator but we also flush
+      // on any non-gatha rend change.
+      if (GATHA_RENDS.has(rend)) {
+        if (!gathaBuffer.length) gathaStartIdx = paraIdx + 1;
+        gathaBuffer.push(text);
+        if (rend === 'gathalast') flushGatha();
+        continue;
+      }
+      // Non-gatha paragraph: flush any pending gatha, then emit this <p>
+      // as its own row.
+      flushGatha();
+      const idx = ++paraIdx;
+      out.push({
+        section_id: divId ? `${divId}_p${String(idx).padStart(3, '0')}` : null,
+        xml_div_id: divId,
+        paragraph_index: idx,
+        rend:       rend || 'bodytext',
+        title:      currentSubhead || fallbackTitle,
+        breadcrumb: nextCrumb.slice(),
+        original:   text,
+      });
+    }
+    flushGatha();
+  }
+
   function walk(div, breadcrumb) {
     const head = elemChildren(div, 'head')[0];
     const headText = head ? normalize(extractInlineText(head)) : null;
     const childDivs = elemChildren(div, 'div');
     const childPs   = elemChildren(div, 'p');
-
     const nextCrumb = headText ? [...breadcrumb, headText] : breadcrumb;
 
     if (childPs.length > 0) {
-      // Leaf-ish div: produce a passage from its direct <p> children
-      // (and any <p> from non-div descendants — usually there are none).
-      const bodyText = childPs.map((p) => normalize(extractInlineText(p))).filter(Boolean).join(' ');
-      if (bodyText) {
-        out.push({
-          section_id: div.attribs?.id || null,
-          xml_div_id: div.attribs?.id || null,
-          title:      headText || nextCrumb.slice(-1)[0] || null,
-          breadcrumb: nextCrumb.slice(),
-          original:   bodyText,
-        });
-      }
+      if (mode === 'fine') emitFine(div, headText, nextCrumb);
+      else                 emitCoarse(div, headText, nextCrumb);
     }
-    // Recurse into child divs (a div can have both <p>s of its own and
-    // sub-<div>s — both cases produce passages).
     for (const c of childDivs) walk(c, nextCrumb);
   }
   for (const topDiv of elemChildren(body, 'div')) walk(topDiv, []);
@@ -150,8 +261,26 @@ function passagesFromDivs(body) {
 // ─────────────────── Flat mode (no <div>) ───────────────────
 //
 // Iterate direct <p> children of <body>. Section-starting rends
-// (subhead|subsubhead|chapter|title|book) open a new passage and become
-// its title. Body-text rends append to the currently open passage.
+// (subhead|subsubhead|chapter|title|book) open a new section and become
+// its title.
+//
+// Two output modes (same shape as passagesFromDivs):
+//
+//   'coarse' (default) — one passage per section. All body <p>s within
+//                        a section concatenate into a single original
+//                        string. section_id is a 1-based section counter.
+//                        Matches historical CST ingest behaviour.
+//
+//   'fine'             — one passage per <p>, with consecutive gatha
+//                        lines (gatha1/2/3/last) grouped as a single
+//                        verse row. Section heading paragraphs emit
+//                        their own heading-row AND set the title
+//                        context for following body rows. section_id
+//                        is `${sectionCounter}_p${paraNNN}`.
+//                        Used for Abhidhamma, Vinaya, Khuddaka, and
+//                        Vism commentaries (the att+tik flat files)
+//                        per the 2026-05 per-paragraph subdivision
+//                        decision in HANDOFF.
 
 // 'title' is context-sensitive: in the preamble (before any content) it's
 // the scholarly short name of the work (e.g., "Aṭṭhasālinī nāma" at the
@@ -160,18 +289,69 @@ function passagesFromDivs(body) {
 const SECTION_START_RENDS = new Set(['chapter', 'subhead', 'subsubhead', 'title']);
 const WORK_HEADER_RENDS   = new Set(['centre', 'nikaya', 'book']);
 
-function passagesFromFlat(body) {
+function passagesFromFlat(body, mode = 'coarse') {
   const out = [];
   let work_name = null;
-  let current = null;       // accumulating passage
   let sectionCounter = 0;
   let breadcrumb = [];      // [book?, chapter?, subhead?]
 
-  function pushCurrent() {
-    if (current && current.original) {
-      out.push(current);
-    }
+  // Coarse-mode accumulator: the in-flight section's joined original.
+  let current = null;
+
+  // Fine-mode state: current section context + paragraph counter inside it.
+  let fineSection = null;     // { id: '1', title: '...', breadcrumb: [...] }
+  let paraIdxInSection = 0;
+  let gathaBuffer = [];
+
+  function pushCurrentCoarse() {
+    if (current && current.original) out.push(current);
     current = null;
+  }
+
+  function ensureFineSection() {
+    // If a body paragraph arrives with no section opened, synthesize
+    // an "intro" section so we don't drop content. Matches the
+    // coarse-mode fallback.
+    if (fineSection) return;
+    sectionCounter++;
+    fineSection = {
+      id:         String(sectionCounter),
+      title:      work_name || null,
+      breadcrumb: breadcrumb.slice(),
+    };
+    paraIdxInSection = 0;
+  }
+
+  function flushGathaFine() {
+    if (!gathaBuffer.length) return;
+    ensureFineSection();
+    paraIdxInSection++;
+    const sectionId = `${fineSection.id}_p${String(paraIdxInSection).padStart(3, '0')}`;
+    out.push({
+      section_id: sectionId,
+      xml_div_id: fineSection.id,
+      paragraph_index: paraIdxInSection,
+      rend:       'gatha',
+      title:      fineSection.title,
+      breadcrumb: fineSection.breadcrumb.slice(),
+      original:   gathaBuffer.join(' '),
+    });
+    gathaBuffer = [];
+  }
+
+  function emitFineBody(rend, text) {
+    ensureFineSection();
+    paraIdxInSection++;
+    const sectionId = `${fineSection.id}_p${String(paraIdxInSection).padStart(3, '0')}`;
+    out.push({
+      section_id: sectionId,
+      xml_div_id: fineSection.id,
+      paragraph_index: paraIdxInSection,
+      rend:       rend || 'bodytext',
+      title:      fineSection.title,
+      breadcrumb: fineSection.breadcrumb.slice(),
+      original:   text,
+    });
   }
 
   for (const child of body.children || []) {
@@ -198,8 +378,9 @@ function passagesFromFlat(body) {
     }
     // Preamble 'title' is the scholarly work name; later 'title' is a
     // section heading. The preamble window ends when the first section
-    // opens (sectionCounter > 0) or any body content arrives (current set).
-    if (rend === 'title' && !current && sectionCounter === 0) {
+    // opens (sectionCounter > 0) or any body content arrives.
+    const inPreamble = mode === 'fine' ? !fineSection : !current;
+    if (rend === 'title' && inPreamble && sectionCounter === 0) {
       work_name = text;       // first preamble title wins
       breadcrumb = [text];
       continue;
@@ -213,28 +394,53 @@ function passagesFromFlat(body) {
       if (!work_name && rend === 'chapter') {
         work_name = text;
       }
-      // New section boundary. Close previous, open a new one with this
-      // text as the title.
-      pushCurrent();
-      sectionCounter++;
-      // Track breadcrumb depth by rend granularity (chapter > subhead > subsubhead).
-      // Simple model: replace the tail of breadcrumb at this level.
+      // New section boundary. Track breadcrumb depth by rend
+      // granularity (chapter > subhead > subsubhead).
       const level = rend === 'chapter' ? 1 : rend === 'subhead' ? 2 : 3;  // title shares 1
       breadcrumb = breadcrumb.slice(0, level).concat([text]);
-      current = {
-        section_id: `${sectionCounter}`,
-        xml_div_id: null,
-        title:      text,
-        breadcrumb: breadcrumb.slice(),
-        original:   '',
-      };
+
+      if (mode === 'fine') {
+        // Flush any pending gatha into the OLD section, then open a
+        // new fineSection AND emit the heading text as its own row.
+        flushGathaFine();
+        sectionCounter++;
+        fineSection = {
+          id:         String(sectionCounter),
+          title:      text,
+          breadcrumb: breadcrumb.slice(),
+        };
+        paraIdxInSection = 0;
+        emitFineBody(rend, text);   // heading is its own paragraph row
+      } else {
+        // Coarse: close previous, open a new accumulating passage.
+        pushCurrentCoarse();
+        sectionCounter++;
+        current = {
+          section_id: `${sectionCounter}`,
+          xml_div_id: null,
+          title:      text,
+          breadcrumb: breadcrumb.slice(),
+          original:   '',
+        };
+      }
       continue;
     }
 
-    // bodytext, gatha1/2/last, indent, etc. — append to current passage.
+    // Body content: bodytext, gathaN, indent, unindented, etc.
+    if (mode === 'fine') {
+      if (GATHA_RENDS.has(rend)) {
+        gathaBuffer.push(text);
+        if (rend === 'gathalast') flushGathaFine();
+        continue;
+      }
+      // Non-gatha body paragraph: flush pending gatha, emit this one.
+      flushGathaFine();
+      emitFineBody(rend, text);
+      continue;
+    }
+
+    // Coarse mode: append to current section's accumulating body.
     if (!current) {
-      // No section opened yet but we have body text. Open an implicit
-      // "intro" passage so we don't drop content.
       sectionCounter++;
       current = {
         section_id: `${sectionCounter}`,
@@ -246,7 +452,9 @@ function passagesFromFlat(body) {
     }
     current.original = current.original ? `${current.original} ${text}` : text;
   }
-  pushCurrent();
+  // Flush any tail content.
+  if (mode === 'fine') flushGathaFine();
+  else                 pushCurrentCoarse();
   return { passages: out, work_name };
 }
 
@@ -255,8 +463,21 @@ function passagesFromFlat(body) {
 // Returns {work_name, passages: [...]}. work_name is the CST-given
 // <p rend="book"> when present (often more verbose than the scholarly
 // short name — caller may prefer the work-map citation_prefix).
+//
+// Options:
+//   mode: 'coarse' | 'fine'
+//     'coarse' (default) — historical chunking, one passage per leaf
+//                          <div>. Flat-mode files always use coarse;
+//                          the flag affects div-nested mode only.
+//     'fine'             — div-nested files emit one passage per <p>,
+//                          gathas grouped, subheads tracked as titles.
+//                          Used for att + tik ingest where the original
+//                          author's paragraph granularity is the right
+//                          unit. Flat mode is unaffected (vinaya,
+//                          abhidhamma, Vism etc. keep their existing
+//                          section chunking until a separate decision).
 
-export async function parseCstFile(filePath) {
+export async function parseCstFile(filePath, { mode = 'coarse' } = {}) {
   const xml = await readCstFile(filePath);
   const dom = await parseTeiDom(xml);
   const body = findFirst(dom, 'body');
@@ -275,7 +496,7 @@ export async function parseCstFile(filePath) {
 
   const hasDivs = elemChildren(body, 'div').length > 0;
   if (hasDivs) {
-    const passages = passagesFromDivs(body);
+    const passages = passagesFromDivs(body, mode);
     // Sutta nikāya div files don't have <p rend="book"> at body level —
     // it lives inside the first <div type="book"><head>. Grab that as
     // a work_name if we missed it.
@@ -286,7 +507,7 @@ export async function parseCstFile(filePath) {
     }
     return { work_name, passages };
   } else {
-    const { passages, work_name: flatName } = passagesFromFlat(body);
+    const { passages, work_name: flatName } = passagesFromFlat(body, mode);
     return { work_name: flatName || work_name, passages };
   }
 }

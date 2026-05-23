@@ -150,17 +150,35 @@ export function passageId(baseFile, sectionLocator) {
 }
 
 // Build the per-passage citation. Examples:
-//   ('DN',   'dn1_5')  → 'DN 5'           (sutta nikāya: 2nd digit run is the canonical sutta number)
-//   ('Sv-a', 'dn1_5')  → 'Sv-a 5'         (commentary keeps the same per-sutta locator)
-//   ('Sv-a', 'dn1_0')  → 'Sv-a 1.intro'   (preamble subsection)
-//   ('Sv-a', 'dn1')    → 'Sv-a vol.1'     (top-level volume wrapper)
-//   ('As',   23)        → 'As §23'         (flat-file counter)
-//   ('Vism', 'chap1')   → 'Vism chap1'     (fallback)
+//   ('DN',   'dn1_5')        → 'DN 5'           (sutta nikāya: 2nd digit run is the canonical sutta number)
+//   ('Sv-a', 'dn1_5')        → 'Sv-a 5'         (commentary keeps the same per-sutta locator)
+//   ('Sv-a', 'dn1_0')        → 'Sv-a 1.intro'   (preamble subsection)
+//   ('Sv-a', 'dn1')          → 'Sv-a vol.1'     (top-level volume wrapper)
+//   ('Sv-a', 'dn1_5_p047')   → 'Sv-a 5 §47'     (paragraph row from fine mode)
+//   ('Sv-a', 'dn1_0_p012')   → 'Sv-a 1.intro §12'
+//   ('As',   23)             → 'As §23'         (flat-file counter)
+//   ('Vism', 'chap1')        → 'Vism chap1'     (fallback)
 export function formatCstCitation(prefix, sectionLocator) {
   if (typeof sectionLocator === 'number') {
     return `${prefix} §${sectionLocator}`;
   }
   const locator = String(sectionLocator);
+
+  // Fine-mode paragraph row: ${parent}_p${NNN} format.
+  //   - If parent is purely numeric (flat-mode section counter, like
+  //     "23"), render as "${prefix} §23.5" — one § with dotted suffix.
+  //   - Otherwise (div-nested locator like "dn1_5"), recurse to format
+  //     the parent and append " §M".
+  const para = locator.match(/^(.+)_p(\d+)$/);
+  if (para) {
+    const parentLocator = para[1];
+    const paraNum = parseInt(para[2], 10);
+    if (/^\d+$/.test(parentLocator)) {
+      return `${prefix} §${parseInt(parentLocator, 10)}.${paraNum}`;
+    }
+    const parentCitation = formatCstCitation(prefix, parentLocator);
+    return `${parentCitation} §${paraNum}`;
+  }
 
   // Sutta-nikāya pattern: dn1_5, mn2_60, sn3_2 — first digit run is
   // volume, second digit run is the position-within-canon (sutta number

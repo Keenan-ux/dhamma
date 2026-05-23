@@ -166,9 +166,19 @@ async function main() {
 
   for (const { filename, work } of files) {
     const filePath = path.join(CST_DIR, filename);
+    // Aṭṭhakathā + Ṭīkā get per-paragraph (fine) chunking by default;
+    // mūla and anya stay coarse. Flags override:
+    //   --coarse    forces coarse everywhere (rollback / comparison)
+    //   --fine      forces fine everywhere (used for Vism Pāli
+    //               subdivision — Vism is tagged role='mula' in CST
+    //               but its content is commentary, so we want fine
+    //               granularity for translation alignment)
+    const fineForRole = work.role === 'attha' || work.role === 'tika';
+    const useFine = !args.coarse && (args.fine || fineForRole);
+    const mode = useFine ? 'fine' : 'coarse';
     let parsed;
     try {
-      parsed = await parseCstFile(filePath);
+      parsed = await parseCstFile(filePath, { mode });
     } catch (err) {
       console.error(`[parse:${filename}] ${err.message}`);
       skippedFiles++;
@@ -186,7 +196,11 @@ async function main() {
     let fileSkipped = 0;
     for (const p of passages.slice(0, maxPerFile)) {
       counter++;
-      const locator = p.xml_div_id || counter;
+      // section_id is the per-row identifier (in fine mode it's
+      // {divId}_p{NNN}; in coarse mode it equals xml_div_id). Fall back
+      // to the counter for files that produce passages with no id at
+      // all (shouldn't happen in current parsers, but cheap belt+braces).
+      const locator = p.section_id || p.xml_div_id || counter;
       const id       = passageId(baseName, locator);
       if (done.has(id)) { fileSkipped++; continue; }
       const citation = formatCstCitation(work.citation_prefix, locator);
