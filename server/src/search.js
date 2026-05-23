@@ -13,6 +13,55 @@ import { embedQuery } from './embed.js';
 import { stemForPrefix } from './paliStem.js';
 
 const RRF_K = 60;
+
+// Primary-text anchor list — well-known canonical suttas that
+// scholars expect to surface near the top for thematic queries.
+// Without this, the canonicality boost (1.25× on mula) lifts mula
+// over commentary but doesn't single out the FAMOUS text on a topic
+// from the long tail of mula passages mentioning it. With the
+// stronger 1.5× multiplier here, snp1.8 (Karaṇīyamettā Sutta) rises
+// above the AN/Iti/Abhidhamma mettā mentions for the query "metta".
+// Kept short and curated rather than auto-derived — additions should
+// be scholar-validated. Compose multiplicatively with the canonicality
+// 1.25× boost (so a primary-text mula passage gets ~1.875× total).
+const PRIMARY_TEXTS = new Set([
+  // Mettā / Brahmavihāras
+  'snp1.8',          // Karaṇīyamettā / Metta Sutta
+  // Satipaṭṭhāna / Ānāpānasati
+  'dn22',            // Mahāsatipaṭṭhāna
+  'mn10',            // Satipaṭṭhāna
+  'mn118',           // Ānāpānasati
+  // First and second discourses; pivotal early teachings
+  'sn56.11',         // Dhammacakkappavattana — First Discourse
+  'sn22.59',         // Anattalakkhaṇa — Second Discourse
+  'mn26',            // Ariyapariyesanā — The Noble Search
+  // Parinibbāna + late discourses
+  'dn16',            // Mahāparinibbāna
+  // Foundational doctrinal suttas
+  'mn1',             // Mūlapariyāya
+  'mn2',             // Sabbāsava
+  'dn15',            // Mahānidāna — paṭiccasamuppāda
+  'dn2',             // Sāmaññaphala
+  'dn1',             // Brahmajāla
+  'mn22',            // Alagaddūpama
+  'mn38',            // Mahātaṇhāsaṅkhaya
+  'mn44',            // Cūḷavedalla
+  'mn140',           // Dhātuvibhaṅga
+  'sn12.2',          // Paṭiccasamuppāda — analysed
+  'sn22.86',         // Anurādha
+  // Mettā / brahmavihāras supplements
+  'an11.16',         // Mettā 11 benefits
+  'iti27',           // Mettābhāvanā
+  // Refuges and ethics
+  'kp1',             // Saraṇattaya — Going for Refuge
+  'kp2',             // Sikkhāpada — 10 precepts
+  'kp9',             // Karaṇīyamettā (Khp version)
+  // Dependent origination + emptiness
+  'sn12.15',         // Kaccānagotta — middle way
+  'sn22.95',         // Pheṇapiṇḍūpama — foam-lump
+  // Verses
+  'dhp1',            // Dhammapada chapter 1
+]);
 // FUSION_POOL is the per-side candidate ceiling that RRF fuses. 200 was
 // the original conservative default; broad queries ("dhamma", "sati") have
 // long-tail relevance that benefits from a wider pool before fusion.
@@ -1080,7 +1129,15 @@ export async function runSearch(rawParams) {
                * CASE
                    WHEN p.work_role = 'mula' AND p.work_slug <> 'pli-vism' THEN 1.25
                    ELSE 1.0
-                 END) AS score,
+                 END
+               -- Primary-text anchor boost: a 1.5× multiplier on top
+               -- of the canonicality boost for the curated ~30 famous
+               -- canonical suttas. Compose multiplicatively, so a
+               -- primary-text mula passage scores ~1.875× a generic
+               -- commentary row at the same RRF position. This pushes
+               -- snp1.8 (Karaṇīyamettā) above the long-tail mettā
+               -- mentions in AN / Iti / Abhidhamma for "metta".
+               * CASE WHEN p.id = ANY(${[...PRIMARY_TEXTS]}::text[]) THEN 1.5 ELSE 1.0 END) AS score,
                ${hlPassageRRF} AS headline
         FROM passages p
         LEFT JOIN fts   ON fts.id   = p.id
