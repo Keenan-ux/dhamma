@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { formatCitation } from './citationFormat.js';
+import { isModifiedClick, passageHref } from './linkHelpers.js';
 
 // CST extra-canonical passages carry raw VRI identifiers as their
 // citation field — strings like "E0806N-NRF §354" that scholars can't
@@ -71,46 +72,71 @@ export default function PassageCard({ passage, highlight, first, onOpen, compact
 
   // Click-to-open. Swallows clicks on nested controls (cite button) and
   // ignores clicks that are part of a text selection (so highlighting a
-  // word for dictionary lookup doesn't also navigate away). Passes the
-  // full passage so the parent can route library hits (slug → article
-  // reader) vs passage hits (id → passage reader).
+  // word for dictionary lookup doesn't also navigate away). Modified
+  // clicks (Cmd/Ctrl/Shift/middle) fall through to the browser so the
+  // user can open the passage in a new tab. Passes the full passage so
+  // the parent can route library hits (slug → article reader) vs
+  // passage hits (id → passage reader).
   function handleCardClick(e) {
     if (!onOpen) return;
     if (e.target.closest('button')) return;
+    if (isModifiedClick(e)) return;
     const sel = window.getSelection();
-    if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) return;
-    onOpen(passage);
-  }
-  function handleCardKey(e) {
-    if (!onOpen) return;
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
       e.preventDefault();
-      onOpen(passage);
+      return;
     }
+    e.preventDefault();
+    onOpen(passage);
   }
 
   const trName = passage.translator ? (TRANSLATOR_LABEL[passage.translator] || passage.translator) : null;
 
+  // When onOpen is provided we render the whole card as an <a> so the
+  // browser exposes a real link target — right-click "Open in New
+  // Tab", Cmd-click, middle-click all work natively. When there's no
+  // onOpen (e.g. a card embedded inside a reader for context), we
+  // fall back to <article> with no link behaviour.
+  const Tag = onOpen ? 'a' : 'article';
+  const linkAttrs = onOpen ? {
+    href: passageHref(passage),
+    onClick: handleCardClick,
+    'aria-label': `Open passage ${passage.citation}`,
+  } : {};
+
   return (
-    <article
+    <Tag
       style={{
         ...entryStyle,
         ...(first ? firstEntryStyle : {}),
         ...(onOpen ? clickableStyle : {}),
+        ...(onOpen ? linkResetStyle : {}),
         ...(onOpen && hovered ? hoverStyle : {}),
       }}
-      onClick={handleCardClick}
-      onKeyDown={handleCardKey}
+      {...linkAttrs}
       onMouseEnter={onOpen ? () => setHovered(true) : undefined}
       onMouseLeave={onOpen ? () => setHovered(false) : undefined}
-      role={onOpen ? 'link' : undefined}
-      tabIndex={onOpen ? 0 : undefined}
-      aria-label={onOpen ? `Open passage ${passage.citation}` : undefined}
     >
       <header style={headerRow}>
         <div style={citationLine}>
           <span style={citation}>{displayCitation(passage.citation, passage.work)}</span>
-          <span style={workLine}>{passage.title}{passage.work ? ` · ${passage.work}` : ''}</span>
+          {/* Title line. Where the Pāli sutta name + English title are
+              populated (SC bilara passages), show "Pāli · English ·
+              Work". For passages without sutta-name metadata (e.g. CST
+              commentary) fall back to whatever's in `title` plus the
+              work label, matching the prior behaviour. */}
+          <span style={workLine}>
+            {(passage.title || passage.title_en) ? (
+              <>
+                {passage.title && <span style={titlePali}>{passage.title}</span>}
+                {passage.title && passage.title_en && <> · </>}
+                {passage.title_en && <span style={titleEn}>{passage.title_en}</span>}
+                {passage.work && <> · {passage.work}</>}
+              </>
+            ) : (
+              <>{passage.title}{passage.work ? ` · ${passage.work}` : ''}</>
+            )}
+          </span>
           {trName && (
             <span style={translatorBadge} title={passage.translator_source === 'ati' ? 'Access to Insight' : 'SuttaCentral'}>
               tr. {trName}
@@ -159,7 +185,7 @@ export default function PassageCard({ passage, highlight, first, onOpen, compact
           </button>
         </span>
       </footer>
-    </article>
+    </Tag>
   );
 }
 
@@ -207,6 +233,15 @@ const firstEntryStyle = {
 // faint accent wash on hover. The wash is restrained — the card is a
 // scholarly entry, not a button. Negative margin pulls the wash a
 // little past the body padding so the hover surface feels intentional.
+// Strip the default <a> appearance so a card rendered as an anchor
+// reads the same as one rendered as <article>. Browsers still honour
+// the href for right-click / Cmd-click / middle-click.
+const linkResetStyle = {
+  textDecoration: 'none',
+  color: 'inherit',
+  display: 'block',
+};
+
 const clickableStyle = {
   cursor: 'pointer',
   borderRadius: 4,
@@ -248,6 +283,18 @@ const workLine = {
   fontSize: 12,
   color: 'var(--bc-text-tertiary)',
   fontFamily: '"Noto Serif", Georgia, serif',
+};
+
+// Pāli sutta name in the card subtitle ("Sukhasutta"). Slightly
+// emphasised against the rest of the meta line.
+const titlePali = {
+  color: 'var(--bc-text-secondary)',
+};
+
+// English title in the card subtitle ("Pleasure"). Italic to mark it
+// as a translator-given rendering rather than a Pāli name.
+const titleEn = {
+  fontStyle: 'italic',
 };
 
 const translatorBadge = {

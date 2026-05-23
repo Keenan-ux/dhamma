@@ -54,3 +54,30 @@ html, body {
 ::-webkit-scrollbar-track { background: var(--bc-bg-base); }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); }
+
+/* Per-segment spans inside the reader. Each gets a sister-highlight
+   when its paired segment on the other column is hovered (driven by
+   JS adding .dhamma-seg-hover to both elements with matching
+   data-segment + data-passage-id). The base styling is invisible so
+   prose still reads continuously. */
+.dhamma-seg {
+  border-radius: 2px;
+  transition: background 100ms ease;
+}
+.dhamma-seg-hover {
+  background: rgba(var(--bc-accent-rgb), 0.10);
+}
+/* Active highlight (e.g. when a note is currently in focus or the
+   user clicked a segment to anchor a quote) — stronger than hover so
+   it's visible from across the reader. */
+.dhamma-seg-active {
+  background: rgba(var(--bc-accent-rgb), 0.18);
+}
+/* Segments that carry one or more notes. Gold left edge in the
+   side-by-side and single-column views; takes precedence over the
+   hover wash. */
+.dhamma-seg-noted {
+  box-shadow: inset 2px 0 0 0 rgba(var(--bc-accent-rgb), 0.55);
+  padding-left: 6px;
+}
+

@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { collectLeaves } from '../data/corpus.js';
 import { SelectionActions } from '../SelectionActions.jsx';
+import { isModifiedClick } from '../linkHelpers.js';
+import useNotes from '../useNotes.js';
 import { passageTranslationsApi, passageParallelsApi, passageTagsApi, glossApi } from '../api.js';
 import { sanitizeDictHtml } from '../dictHtml.js';
 import { formatCitation } from '../citationFormat.js';
@@ -8,6 +10,63 @@ import useBookmarks from '../useBookmarks.js';
 import useIsNarrow from '../useIsNarrow.js';
 import { paliStem } from '../paliStem.js';
 import { escapeRegExp, highlightFind, withGlosses } from './highlight.jsx';
+import { filterBodySegments } from './segments.js';
+
+// Renders one column of a passage segment-by-segment when the passage
+// has bilara segment metadata; otherwise falls back to a single <p>
+// with the joined text. data-segment + data-passage-id on each span
+// powers dual-highlight and notes-anchoring. Segments inside a note's
+// range get a `dhamma-seg-noted` class for the left-edge marker.
+function SegmentColumn({ passage, language, fallback, findText, findStem, glossMap, noteRanges, style }) {
+  const hasTitle = !!(passage?.title || passage?.title_en);
+  const keys = passage?.segments ? filterBodySegments(passage.segments, hasTitle) : [];
+  if (!passage?.segments || keys.length === 0) {
+    return (
+      <p style={style}>
+        {language === 'pali' && glossMap
+          ? withGlosses(fallback, glossMap)
+          : highlightFind(fallback, findText, findStem)}
+      </p>
+    );
+  }
+  return (
+    <div style={style}>
+      {keys.map((k) => {
+        const seg = passage.segments[k];
+        if (!seg) return null;
+        const text = seg[language] || '';
+        if (!text) return null;
+        const noted = isSegmentNoted(k, noteRanges);
+        const cls = [
+          'dhamma-seg',
+          language === 'pali' ? 'dhamma-seg-pali' : 'dhamma-seg-en',
+          noted ? 'dhamma-seg-noted' : '',
+        ].filter(Boolean).join(' ');
+        return (
+          <span
+            key={k}
+            className={cls}
+            data-segment={k}
+            data-passage-id={passage.id}
+          >
+            {language === 'pali' && glossMap
+              ? withGlosses(text, glossMap)
+              : highlightFind(text, findText, findStem)}
+            {' '}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+function isSegmentNoted(k, ranges) {
+  if (!ranges || ranges.length === 0) return false;
+  for (const r of ranges) {
+    if (compareSegKeys(k, r.startKey) >= 0 && compareSegKeys(k, r.endKey) <= 0) return true;
+  }
+  return false;
+}
 import SideBySideReader from './SideBySideReader.jsx';
 
 // Pali diacritic shortcuts for the in-passage find input. Same set
@@ -84,9 +143,36 @@ export default function ReadingPanel({
   highlightStem,  // boolean — whether to apply paliStem matching to
                   // highlightTerms. Comes from the search mode (Stem
                   // and Meaning modes use stem-bridged matching).
+  focusSegment,   // segment key ("1.3") to scroll-to + flash on
+                  // mount. Set when the reader is opened from the
+                  // Notes index. ClearFocusSegment fires once the
+                  // scroll-to runs so a later nav doesn't re-trigger.
+  clearFocusSegment,
 }) {
   const ref = useRef(null);
   const isPinned = pinnedLeafId === leafId;
+
+  // Scroll-to + flash on focusSegment. Runs after the segments are
+  // in the DOM (passage data has loaded and rendering ran). Once the
+  // scroll-to fires, clear the focus so a later in-passage nav
+  // doesn't re-trigger it.
+  useEffect(() => {
+    if (!focusSegment || !passage?.id) return;
+    const root = ref.current;
+    if (!root) return;
+    // querySelector escaping is handled by attribute selector quotes;
+    // segment keys are dotted decimals so they're safe as-is.
+    const target = root.querySelector(`[data-passage-id="${passage.id}"][data-segment="${focusSegment}"]`);
+    if (target) {
+      target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      target.classList.add('dhamma-seg-active');
+      // Drop the flash after a couple of seconds so the segment
+      // returns to normal styling.
+      const t = setTimeout(() => target.classList.remove('dhamma-seg-active'), 2200);
+      clearFocusSegment?.();
+      return () => clearTimeout(t);
+    }
+  }, [focusSegment, passage?.id, clearFocusSegment]);
 
   // Reader sticky chrome — enabled in the standard reader AND in
   // reading-mode (focus). compact (pinned panel) and split-pane
@@ -243,6 +329,14 @@ export default function ReadingPanel({
   const [citeCopied, setCiteCopied] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
   const { has: isBookmarked, toggle: toggleBookmark } = useBookmarks();
+  const { create: createNote, forPassage: notesForPassage } = useNotes();
+  // Notes attached to this passage. Sorted newest-first by useNotes;
+  // we slice down to ranges (for the in-passage markers) + count (for
+  // the header badge). Both are cheap on a per-passage scale.
+  const passageNotes = notesForPassage(passage?.id);
+  const noteRanges = passageNotes
+    .filter((n) => n.startKey && n.endKey)
+    .map((n) => ({ startKey: n.startKey, endKey: n.endKey }));
   const isNarrow = useIsNarrow();
   // Narrow viewports: 7 header icons (bookmark, cite, pin, gloss,
   // reading-mode, SC↗) wrapped awkwardly. Collapse into a "…" menu.
@@ -459,33 +553,52 @@ export default function ReadingPanel({
       {!compact && (
         <nav style={navRow}>
           {prev ? (
-            <button onClick={() => onNavigate?.(prev.id)} style={navBtn}>
+            <a
+              href={`#/read/${encodeURIComponent(prev.id)}`}
+              onClick={(e) => {
+                if (isModifiedClick(e)) return;
+                e.preventDefault();
+                onNavigate?.(prev.id);
+              }}
+              style={{ ...navBtn, ...navBtnLinkReset }}
+            >
               <span style={navArrow}>◀</span>
               <span style={navLabel}>
                 <span style={navName}>{prev.name}</span>
                 {prev.subtitle && <span style={navSubtitle}>{prev.subtitle}</span>}
               </span>
-            </button>
+            </a>
           ) : <span />}
           {next ? (
-            <button onClick={() => onNavigate?.(next.id)} style={{ ...navBtn, textAlign: 'right' }}>
+            <a
+              href={`#/read/${encodeURIComponent(next.id)}`}
+              onClick={(e) => {
+                if (isModifiedClick(e)) return;
+                e.preventDefault();
+                onNavigate?.(next.id);
+              }}
+              style={{ ...navBtn, ...navBtnLinkReset, textAlign: 'right' }}
+            >
               <span style={navLabel}>
                 <span style={navName}>{next.name}</span>
                 {next.subtitle && <span style={navSubtitle}>{next.subtitle}</span>}
               </span>
               <span style={navArrow}>▶</span>
-            </button>
+            </a>
           ) : <span />}
         </nav>
       )}
 
       <header style={readingHeader}>
-        <div style={readingCitationLine}>
-          <span style={readingCitation}>{displayCitation(passage.citation, workLabel)}</span>
-          <span style={readingWork}>
-            {passage.title || workLabel}{passage.title && workLabel ? ` · ${workLabel}` : ''}
-          </span>
-        </div>
+       <div style={readingHeaderRow}>
+        <span style={readingCitation}>
+          {displayCitation(passage.citation, workLabel)}
+          {passageNotes.length > 0 && (
+            <span style={notesCountBadge} title={`${passageNotes.length} note${passageNotes.length === 1 ? '' : 's'} on this passage`}>
+              {passageNotes.length} note{passageNotes.length === 1 ? '' : 's'}
+            </span>
+          )}
+        </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, position: 'relative' }} ref={moreRef}>
           {(() => {
             if (compact) {
@@ -712,6 +825,26 @@ export default function ReadingPanel({
             );
           })()}
         </div>
+       </div>
+        {/* Subtitle row, full-width under the citation + actions. Lives
+            outside readingHeaderRow so the action icons don't claim a
+            phantom right margin that forces the subtitle to wrap when
+            it would otherwise fit on one line. Pāli name first, then
+            English title in italics, then the collection. */}
+        {(passage.title || passage.title_en || workLabel) && (
+          <div style={readingSubtitleRow}>
+            {(passage.title || passage.title_en) ? (
+              <>
+                {passage.title && <span style={readingTitlePali}>{passage.title}</span>}
+                {passage.title && passage.title_en && <span style={readingTitleSep}> · </span>}
+                {passage.title_en && <span style={readingTitleEn}>{passage.title_en}</span>}
+                {workLabel && <> &nbsp;·&nbsp; <span style={readingWorkContext}>{workLabel}</span></>}
+              </>
+            ) : (
+              workLabel
+            )}
+          </div>
+        )}
       </header>
 
       {/* CST mūla volume headers are uddāna (closing mnemonic) entries —
@@ -885,28 +1018,43 @@ export default function ReadingPanel({
 
       {passage.original && translationText && !isNarrow ? (
         <SideBySideReader
+          passage={passage}
           pali={passage.original}
           english={translationText}
           englishIsHtml={translationIsHtml}
           findText={activeHighlight}
           findStem={activeStem}
           glossMap={glossesOn ? glossMap : null}
+          noteRanges={noteRanges}
         />
       ) : (
         <>
           {/* Narrow-viewport: only one column at a time. Wide: stack
               fallback when only one column actually exists. */}
           {passage.original && (!isNarrow || !translationText || mobileColumn === 'pali') && (
-            <p style={readingOriginal}>
-              {glossesOn && glossMap
-                ? withGlosses(passage.original, glossMap)
-                : highlightFind(passage.original, activeHighlight, activeStem)}
-            </p>
+            <SegmentColumn
+              passage={passage}
+              language="pali"
+              fallback={passage.original}
+              findText={activeHighlight}
+              findStem={activeStem}
+              glossMap={glossesOn ? glossMap : null}
+              noteRanges={noteRanges}
+              style={readingOriginal}
+            />
           )}
           {translationText && (!isNarrow || !passage.original || mobileColumn === 'english') && (
             translationIsHtml
               ? <div style={readingTranslation} dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(translationText) }} />
-              : <p style={readingTranslation}>{highlightFind(translationText, activeHighlight, activeStem)}</p>
+              : <SegmentColumn
+                  passage={passage}
+                  language="english"
+                  fallback={translationText}
+                  findText={activeHighlight}
+                  findStem={activeStem}
+                  noteRanges={noteRanges}
+                  style={readingTranslation}
+                />
           )}
         </>
       )}
@@ -983,13 +1131,18 @@ export default function ReadingPanel({
                   <span key={p.parallel_id + i}>
                     {p.parallel_have && p.parallel_citation ? (
                       <span style={parallelsItem}>
-                        <button
-                          onClick={() => onNavigate?.(p.parallel_id)}
+                        <a
+                          href={`#/read/${encodeURIComponent(p.parallel_id)}`}
+                          onClick={(e) => {
+                            if (isModifiedClick(e)) return;
+                            e.preventDefault();
+                            onNavigate?.(p.parallel_id);
+                          }}
                           style={parallelsLinkBtn}
                           title={p.parallel_title || p.parallel_citation}
                         >
                           {p.parallel_citation}
-                        </button>
+                        </a>
                         <button
                           onClick={() => setPinnedLeafId?.(p.parallel_id)}
                           style={parallelsPinBtn}
@@ -1022,9 +1175,56 @@ export default function ReadingPanel({
         containerRef={ref}
         onSearch={onSearchTerm}
         onCompare={onCompareTerm}
+        onNote={({ excerpt, segmentRange, text }) => {
+          // Pull the English half of the segment range out of the
+          // passage's segments map so the note carries both languages
+          // verbatim — useful when the user is reading with Sujato
+          // (segmented) and later browses notes without the reader
+          // open.
+          let excerptEn = '';
+          if (segmentRange && passage.segments) {
+            const startN = segmentRange.startKey;
+            const endN = segmentRange.endKey;
+            const parts = [];
+            for (const k of Object.keys(passage.segments)) {
+              if (compareSegKeys(k, startN) >= 0 && compareSegKeys(k, endN) <= 0) {
+                const en = passage.segments[k]?.english;
+                if (en) parts.push(en);
+              }
+            }
+            excerptEn = parts.join(' ').trim();
+          }
+          createNote({
+            passageId: passage.id,
+            citation: passage.citation,
+            title: passage.title,
+            title_en: passage.title_en,
+            work: workLabel,
+            startKey: segmentRange?.startKey || null,
+            endKey: segmentRange?.endKey || null,
+            excerpt,
+            excerptEn,
+            text,
+          });
+        }}
       />
     </article>
   );
+}
+
+// Numeric-aware compare on dotted segment keys, mirrors the helper in
+// segments.js but inlined here so it stays close to the note-creation
+// call site that uses it for English-range extraction.
+function compareSegKeys(a, b) {
+  const ap = a.split('.').map(Number);
+  const bp = b.split('.').map(Number);
+  const len = Math.max(ap.length, bp.length);
+  for (let i = 0; i < len; i++) {
+    const av = Number.isFinite(ap[i]) ? ap[i] : 0;
+    const bv = Number.isFinite(bp[i]) ? bp[i] : 0;
+    if (av !== bv) return av - bv;
+  }
+  return 0;
 }
 
 const iconAction = {
@@ -1175,7 +1375,18 @@ const cstMulaBannerLink = {
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.45)',
 };
 
+// Header is now a column: row 1 holds citation + action icons, row 2
+// holds the subtitle. Stacking row 2 below the flex row lets it span
+// the full column width so the Pāli name + English title + collection
+// can fit on a single line where they otherwise wouldn't share width
+// with the action icons.
 const readingHeader = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 4,
+};
+
+const readingHeaderRow = {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'flex-start',
@@ -1185,6 +1396,18 @@ const readingHeader = {
   // "Brahmajālasuttaṃ") break inside the citation column via
   // overflowWrap below instead of pushing the icons to a new line.
   flexWrap: 'nowrap',
+};
+
+// Subtitle row sits below the citation+actions row and carries the
+// gold rule + spacing that used to live on readingHeaderRow. Spans the
+// full column width so the title can stretch across without competing
+// with the action icons for space.
+const readingSubtitleRow = {
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  color: 'var(--bc-text-tertiary)',
+  lineHeight: 1.35,
+  marginTop: 4,
   marginBottom: 24,
   paddingBottom: 14,
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
@@ -1216,6 +1439,50 @@ const readingWork = {
   fontSize: 13,
   color: 'var(--bc-text-tertiary)',
   lineHeight: 1.35,
+};
+
+// Pāli sutta title: the scholarly primary name (Mahāsatipaṭṭhānasutta,
+// Sukhasutta, …). Slightly emphasised but not as loud as the citation.
+const readingTitlePali = {
+  color: 'var(--bc-text-secondary)',
+  fontStyle: 'normal',
+};
+
+const readingTitleEn = {
+  fontStyle: 'italic',
+};
+
+const readingTitleSep = {
+  color: 'var(--bc-text-tertiary)',
+  opacity: 0.6,
+};
+
+const readingWorkContext = {
+  fontStyle: 'italic',
+  // Keep the work label together when the subtitle wraps on narrow
+  // viewports. Without nowrap "Saṃyutta Nikāya" can break in the
+  // middle, stranding "Nikāya" on its own line.
+  whiteSpace: 'nowrap',
+};
+
+// "3 notes" chip next to the citation, surfaces personal annotations
+// at a glance without competing with the citation typography.
+const notesCountBadge = {
+  display: 'inline-flex',
+  alignItems: 'baseline',
+  marginLeft: 12,
+  padding: '2px 8px',
+  borderRadius: 999,
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.35)',
+  background: 'rgba(var(--bc-accent-rgb), 0.06)',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.10em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+  fontStyle: 'normal',
+  verticalAlign: 'middle',
 };
 
 const readingTradition = {
@@ -1582,6 +1849,12 @@ const navRow = {
   paddingBottom: 14,
   marginBottom: 18,
   borderBottom: '1px solid rgba(255,255,255,0.05)',
+};
+
+// prev/next nav are anchors so right-click / Cmd-click work; this
+// resets the default link styling so they read like the old buttons.
+const navBtnLinkReset = {
+  textDecoration: 'none',
 };
 
 const navBtn = {

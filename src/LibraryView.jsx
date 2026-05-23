@@ -15,6 +15,7 @@ import { sanitizeDictHtml } from './dictHtml.js';
 import { SelectionActions } from './SelectionActions.jsx';
 import { useRef } from 'react';
 import useIsNarrow from './useIsNarrow.js';
+import { isModifiedClick, libraryHref } from './linkHelpers.js';
 
 // Display names for translator slugs that don't read as a name on their own.
 // Falls back to the slug if unknown. Mirrors PassageCard's map but expanded
@@ -94,10 +95,20 @@ export default function LibraryView({ onSearchTerm, onCompareTerm, onOpenTransla
     return () => ac.abort();
   }, []);
 
-  // Restore the open article from hash when this view mounts directly.
+  // Restore the open article from hash when this view mounts directly,
+  // AND on every subsequent hashchange. The hashchange branch is the
+  // mechanism that powers "click Library in the sidebar while reading
+  // an article → return to the splash": the Sidebar handler pushes the
+  // base hash, and we react to it here by clearing openSlug.
   useEffect(() => {
-    const m = window.location.hash.match(/^#\/library\/(.+)$/);
-    if (m) setOpenSlug(decodeURIComponent(m[1]));
+    function syncFromHash() {
+      const m = window.location.hash.match(/^#\/library\/(.+)$/);
+      const next = m ? decodeURIComponent(m[1]) : null;
+      setOpenSlug((prev) => (prev === next ? prev : next));
+    }
+    syncFromHash();
+    window.addEventListener('hashchange', syncFromHash);
+    return () => window.removeEventListener('hashchange', syncFromHash);
   }, []);
 
   // Sync hash to open article so deep links work.
@@ -209,24 +220,23 @@ export default function LibraryView({ onSearchTerm, onCompareTerm, onOpenTransla
                 const label = TRANSLATOR_LABELS[t.translator] || t.translator;
                 const sourceLabel = t.source === 'ati' ? 'Access to Insight' : 'SuttaCentral';
                 return (
-                  <li
-                    key={`${t.translator}::${t.source}`}
-                    style={articleItem}
-                    onClick={() => onOpenTranslator?.(t.translator)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
+                  <li key={`${t.translator}::${t.source}`} style={articleItemLi}>
+                    <a
+                      href={`#/search?translator=${encodeURIComponent(t.translator)}`}
+                      style={articleItemLink}
+                      onClick={(e) => {
+                        if (isModifiedClick(e)) return;
                         e.preventDefault();
                         onOpenTranslator?.(t.translator);
-                      }
-                    }}
-                  >
-                    <span style={articleTitle}>{label}</span>
-                    <span style={articleAuthor}>{sourceLabel}</span>
-                    <span style={articleMeta}>
-                      {t.passage_count.toLocaleString()} passage{t.passage_count === 1 ? '' : 's'}
-                    </span>
+                      }}
+                      aria-label={`Search ${label}'s translations`}
+                    >
+                      <span style={articleTitle}>{label}</span>
+                      <span style={articleAuthor}>{sourceLabel}</span>
+                      <span style={articleMeta}>
+                        {t.passage_count.toLocaleString()} passage{t.passage_count === 1 ? '' : 's'}
+                      </span>
+                    </a>
                   </li>
                 );
               })}
@@ -235,19 +245,23 @@ export default function LibraryView({ onSearchTerm, onCompareTerm, onOpenTransla
           <>
             <ul style={isNarrow ? articleListNarrow : articleListGrid}>
               {activeList.map((a) => (
-                <li
-                  key={a.slug}
-                  style={articleItem}
-                  onClick={() => setOpenSlug(a.slug)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpenSlug(a.slug); } }}
-                >
-                  <span style={articleTitle}>{a.title}</span>
-                  {a.author && <span style={articleAuthor}>{a.author}</span>}
-                  <span style={articleMeta}>
-                    {a.year || ''}{a.year && a.body_len ? ' · ' : ''}{a.body_len ? `${Math.round(a.body_len / 1000)}K chars` : ''}
-                  </span>
+                <li key={a.slug} style={articleItemLi}>
+                  <a
+                    href={libraryHref(a.slug)}
+                    style={articleItemLink}
+                    onClick={(e) => {
+                      if (isModifiedClick(e)) return;
+                      e.preventDefault();
+                      setOpenSlug(a.slug);
+                    }}
+                    aria-label={`Open article ${a.title}`}
+                  >
+                    <span style={articleTitle}>{a.title}</span>
+                    {a.author && <span style={articleAuthor}>{a.author}</span>}
+                    <span style={articleMeta}>
+                      {a.year || ''}{a.year && a.body_len ? ' · ' : ''}{a.body_len ? `${Math.round(a.body_len / 1000)}K chars` : ''}
+                    </span>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -520,6 +534,28 @@ const articleItem = {
   cursor: 'pointer',
   padding: '4px 0',
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.08)',
+  transition: 'color 100ms ease',
+};
+
+// Cards are <li><a/></li> so the browser sees a real link target on
+// each row. The <li> keeps the bottom rule + flex centring; the <a>
+// inherits the rest and strips the default underline/color.
+const articleItemLi = {
+  listStyle: 'none',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.08)',
+};
+
+const articleItemLink = {
+  fontFamily: SERIF,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  textAlign: 'center',
+  gap: 2,
+  cursor: 'pointer',
+  padding: '4px 0',
+  color: 'inherit',
+  textDecoration: 'none',
   transition: 'color 100ms ease',
 };
 

@@ -138,8 +138,8 @@ export async function runCorpus() {
 export async function getPassage(id) {
   if (!sql || !id) return null;
   const [row] = await sql`
-    SELECT id, work_slug, position, citation, title, canon,
-           original_lang, original, translation, notes
+    SELECT id, work_slug, position, citation, title, title_en, canon,
+           original_lang, original, translation, notes, segments
     FROM passages WHERE id = ${id} LIMIT 1
   `;
   return row || null;
@@ -148,8 +148,8 @@ export async function getPassage(id) {
 export async function getPassages(ids) {
   if (!sql || !ids || ids.length === 0) return [];
   const rows = await sql`
-    SELECT id, work_slug, position, citation, title, canon,
-           original_lang, original, translation, notes
+    SELECT id, work_slug, position, citation, title, title_en, canon,
+           original_lang, original, translation, notes, segments
     FROM passages WHERE id = ANY(${ids})
   `;
   const byId = new Map(rows.map((r) => [r.id, r]));

@@ -8,18 +8,26 @@ const NAV_ITEMS = [
   { key: 'dictionary',  label: 'Dictionary' },
   { key: 'tags',        label: 'Tags' },
   { key: 'bookmarks',   label: 'Bookmarks' },
+  { key: 'notes',       label: 'Notes' },
 ];
 
 // Which nav items belong to the "Corpus" section (browseable canonical
 // material) vs the query tools below.
 const CORPUS_KEYS = new Set(['tipitaka', 'commentary', 'anya', 'library']);
 
-function NavButton({ item, active, onClick }) {
+function NavButton({ item, href, active, onClick }) {
+  // Rendered as <a href> so the browser's "Open in New Tab" / Cmd-click
+  // / middle-click work on sidebar tabs the same way they work on any
+  // other link. onClick still drives SPA routing for plain clicks via
+  // the parent's handler; modified clicks (handled inside the parent)
+  // fall through to the browser.
   return (
-    <button
+    <a
+      href={href}
       onClick={onClick}
       style={{
         ...navBtn,
+        ...navBtnLinkReset,
         color: active ? 'var(--bc-accent)' : 'var(--bc-text-primary)',
         background: active ? 'rgba(var(--bc-accent-rgb), 0.08)' : 'transparent',
         borderLeftColor: active ? 'var(--bc-accent)' : 'transparent',
@@ -27,11 +35,49 @@ function NavButton({ item, active, onClick }) {
       }}
     >
       {item.label}
-    </button>
+    </a>
   );
 }
 
 export default function Sidebar({ tab, setTab, onRandomSutta }) {
+  // Click-handling helper. Re-clicking the currently-active tab should
+  // pop any deep state inside that tab — e.g. an open Library article
+  // or a sutta drilled into from Tipiṭaka — and return to the splash.
+  // Most views observe URL hash changes, so resetting the hash to the
+  // tab's base form is enough to make them snap back. setTab(key) on a
+  // no-op (same tab) doesn't trigger any state change, so we push the
+  // hash explicitly. The view-side hashchange listeners (e.g. in
+  // LibraryView) take it from there.
+  const TAB_BASE_HASH = {
+    tipitaka:    '#/',
+    commentary:  '#/commentary',
+    anya:        '#/anya',
+    library:     '#/library',
+    search:      '#/search',
+    concordance: '#/concordance',
+    dictionary:  '#/dict',
+    tags:        '#/tags',
+    bookmarks:   '#/bookmarks',
+    notes:       '#/notes',
+    about:       '#/about',
+  };
+  function handleNavClick(key, e) {
+    // Modified clicks (Cmd/Ctrl/Shift/middle) let the browser open the
+    // hash href in a new tab — that's what makes the sidebar tabs
+    // right-click-able. Plain clicks fall through to SPA routing.
+    if (e && (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)) return;
+    if (e) e.preventDefault();
+    const isReclick = tab === key;
+    setTab?.(key);
+    if (isReclick) {
+      const base = TAB_BASE_HASH[key];
+      if (base && window.location.hash !== base) {
+        window.history.pushState(null, '', base);
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+      }
+    }
+  }
+
   return (
     <aside className="dhamma-sidebar" style={wrap}>
       <div style={topGroup}>
@@ -42,7 +88,7 @@ export default function Sidebar({ tab, setTab, onRandomSutta }) {
         <Section title="Corpus">
           <nav style={navWrap}>
             {NAV_ITEMS.filter((i) => CORPUS_KEYS.has(i.key)).map((item) => (
-              <NavButton key={item.key} item={item} active={tab === item.key} onClick={() => setTab?.(item.key)} />
+              <NavButton key={item.key} item={item} href={TAB_BASE_HASH[item.key]} active={tab === item.key} onClick={(e) => handleNavClick(item.key, e)} />
             ))}
           </nav>
         </Section>
@@ -51,7 +97,7 @@ export default function Sidebar({ tab, setTab, onRandomSutta }) {
             visual gap between sections is enough separation. */}
         <nav style={{ ...navWrap, marginTop: 8 }}>
           {NAV_ITEMS.filter((i) => !CORPUS_KEYS.has(i.key)).map((item) => (
-            <NavButton key={item.key} item={item} active={tab === item.key} onClick={() => setTab?.(item.key)} />
+            <NavButton key={item.key} item={item} href={TAB_BASE_HASH[item.key]} active={tab === item.key} onClick={(e) => handleNavClick(item.key, e)} />
           ))}
           {/* Random sutta: action, not a tab. Picks a passage with an
               English translation from the Sutta piṭaka and opens it in
@@ -81,10 +127,12 @@ export default function Sidebar({ tab, setTab, onRandomSutta }) {
           page at /about — reachable from this link. Pinned to the
           bottom so it doesn't compete with the corpus + tools nav. */}
       <div style={bottomGroup}>
-        <button
-          onClick={() => setTab?.('about')}
+        <a
+          href={TAB_BASE_HASH.about}
+          onClick={(e) => handleNavClick('about', e)}
           style={{
             ...navBtn,
+            ...navBtnLinkReset,
             color: tab === 'about' ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
             background: tab === 'about' ? 'rgba(var(--bc-accent-rgb), 0.08)' : 'transparent',
             borderLeftColor: tab === 'about' ? 'var(--bc-accent)' : 'transparent',
@@ -96,7 +144,7 @@ export default function Sidebar({ tab, setTab, onRandomSutta }) {
           }}
         >
           About
-        </button>
+        </a>
       </div>
     </aside>
   );
@@ -115,7 +163,12 @@ function Section({ title, children }) {
 }
 
 const wrap = {
-  width: 260,
+  // Sized so the right edge sits ~19px past the TopNav brand
+  // ("Dhamma data") right edge — visually tying the sidebar column
+  // to the wordmark above it. The 145px content width leaves enough
+  // room for "Extra-canonical" (the longest label) plus the nav
+  // button's own padding without wrapping.
+  width: 145,
   flexShrink: 0,
   // Top padding clears the fixed TopNav (56px) plus the original
   // 28px breathing room. Sidebar background extends to the top of
@@ -157,6 +210,15 @@ const navBtn = {
   fontSize: 14,
   letterSpacing: '0.01em',
   transition: 'color 120ms ease, background 120ms ease, border-color 120ms ease',
+};
+
+// When NavButton renders as <a> instead of <button>, strip the default
+// link underline + text colour. boxSizing keeps the 100% width math
+// the same as the old button.
+const navBtnLinkReset = {
+  display: 'block',
+  textDecoration: 'none',
+  boxSizing: 'border-box',
 };
 
 const sectionHeader = {

@@ -8,16 +8,11 @@
 import { useState } from 'react';
 import useCorpus from './useCorpus.js';
 import useIsNarrow from './useIsNarrow.js';
-
-const SORT_OPTIONS = [
-  { key: 'name',  label: 'Alphabetical' },
-  { key: 'count', label: 'By passage count' },
-];
+import { isModifiedClick, browseHref } from './linkHelpers.js';
 
 export default function ExtraCanonicalView({ onDrill }) {
   const { shape, loading } = useCorpus();
   const [translatedOnly, setTranslatedOnly] = useState(false);
-  const [sortKey, setSortKey] = useState('name');
   const isNarrow = useIsNarrow();
 
   const trad = shape?.tree?.find((t) => t.id === 'theravada');
@@ -28,10 +23,7 @@ export default function ExtraCanonicalView({ onDrill }) {
   }
 
   const works = (anya?.children || []).filter((c) => !c.passageId);
-  const sorted = [...works].sort((a, b) => {
-    if (sortKey === 'count') return (b.total || 0) - (a.total || 0);
-    return a.name.localeCompare(b.name);
-  });
+  const sorted = [...works].sort((a, b) => a.name.localeCompare(b.name));
 
   function drill(workId) {
     onDrill?.(['pli-anya', workId]);
@@ -50,6 +42,7 @@ export default function ExtraCanonicalView({ onDrill }) {
 
   return (
     <div data-scroll-root="" style={scrollWrap}>
+     <div style={pageColumn}>
       <header style={pageHeader}>
         <div style={rule} />
         <h1 style={pageTitle}>Extra-canonical</h1>
@@ -73,39 +66,25 @@ export default function ExtraCanonicalView({ onDrill }) {
           />
           <span>Translated only</span>
         </label>
-        <div style={sortRow}>
-          <span style={sortLabel}>Sort</span>
-          {SORT_OPTIONS.map((opt) => {
-            const on = sortKey === opt.key;
-            return (
-              <button
-                key={opt.key}
-                onClick={() => setSortKey(opt.key)}
-                style={{
-                  ...sortBtn,
-                  color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
-                  borderBottomColor: on ? 'var(--bc-accent)' : 'transparent',
-                }}
-              >
-                {opt.label}
-              </button>
-            );
-          })}
-        </div>
       </div>
 
       <ul style={isNarrow ? singleList : grid}>
         {sorted.map((w) => (
-          <li
-            key={w.id}
-            style={{ ...workItem, opacity: isDim(w) ? 0.35 : 1 }}
-            onClick={() => drill(w.id)}
-            role="button"
-            tabIndex={0}
-          >
-            <span style={workName}>{w.name}</span>
-            {w.subtitle && <span style={workSubtitle}>{w.subtitle}</span>}
-            <span style={workCount}>{fmtCount(w)}</span>
+          <li key={w.id} style={workItemLi}>
+            <a
+              href={browseHref(['pli-anya', w.id])}
+              style={{ ...workItem, opacity: isDim(w) ? 0.35 : 1 }}
+              onClick={(e) => {
+                if (isModifiedClick(e)) return;
+                e.preventDefault();
+                drill(w.id);
+              }}
+              aria-label={`Open ${w.name}`}
+            >
+              <span style={workName}>{w.name}</span>
+              {w.subtitle && <span style={workSubtitle}>{w.subtitle}</span>}
+              <span style={workCount}>{fmtCount(w)}</span>
+            </a>
           </li>
         ))}
       </ul>
@@ -119,6 +98,7 @@ export default function ExtraCanonicalView({ onDrill }) {
           paracanonical literature.
         </p>
       </footer>
+     </div>
     </div>
   );
 }
@@ -135,9 +115,21 @@ const scrollWrap = {
   paddingTop: 56,
 };
 
+// pageColumn is the outer hug-left container, sized to the widest
+// inner block (grid at 1100). It anchors the whole page to scrollWrap's
+// left edge so the left margin matches Library's tight gap between
+// sidebar and content. Inside this column every sub-block uses
+// `margin: ... auto ...` to self-centre, which puts the title, the
+// topControls row, and the grid all on the same vertical axis
+// regardless of their individual widths.
+const pageColumn = {
+  maxWidth: 1100,
+  margin: 0,
+};
+
 const pageHeader = {
   maxWidth: 820,
-  margin: '64px 0 0',
+  margin: '64px auto 0',
   padding: '0 28px',
   textAlign: 'center',
 };
@@ -171,13 +163,10 @@ const pageSubtitle = {
 
 const topControls = {
   maxWidth: 1100,
-  margin: '24px 0 0',
+  margin: '24px auto 0',
   padding: '0 20px',
   display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'baseline',
-  gap: 24,
-  flexWrap: 'wrap',
+  justifyContent: 'center',
 };
 
 const toggleLabel = {
@@ -193,36 +182,9 @@ const toggleLabel = {
   cursor: 'pointer',
 };
 
-const sortRow = {
-  display: 'inline-flex',
-  alignItems: 'baseline',
-  gap: 12,
-};
-
-const sortLabel = {
-  fontFamily: SANS,
-  fontSize: 9,
-  fontWeight: 600,
-  letterSpacing: '0.16em',
-  textTransform: 'uppercase',
-  color: 'var(--bc-text-tertiary)',
-};
-
-const sortBtn = {
-  background: 'transparent',
-  border: 'none',
-  borderBottom: '1px solid transparent',
-  padding: '2px 0',
-  fontFamily: 'inherit',
-  fontSize: 12,
-  cursor: 'pointer',
-  fontStyle: 'italic',
-  transition: 'color 120ms ease, border-bottom-color 120ms ease',
-};
-
 const grid = {
   maxWidth: 1100,
-  margin: '40px 0 0',
+  margin: '40px auto 0',
   padding: '0 20px',
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
@@ -233,11 +195,15 @@ const grid = {
 
 const singleList = {
   maxWidth: 480,
-  margin: '32px 0 0',
+  margin: '32px auto 0',
   padding: '0 24px',
   display: 'flex',
   flexDirection: 'column',
   gap: 22,
+  listStyle: 'none',
+};
+
+const workItemLi = {
   listStyle: 'none',
 };
 
@@ -249,6 +215,8 @@ const workItem = {
   alignItems: 'center',
   textAlign: 'center',
   cursor: 'pointer',
+  color: 'inherit',
+  textDecoration: 'none',
   transition: 'color 120ms ease',
 };
 
@@ -279,7 +247,7 @@ const workCount = {
 
 const footerWrap = {
   maxWidth: 720,
-  margin: '72px 0 56px',
+  margin: '72px auto 56px',
   padding: '0 28px',
   textAlign: 'center',
 };

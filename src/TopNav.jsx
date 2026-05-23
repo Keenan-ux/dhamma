@@ -18,6 +18,7 @@ const NAV_ITEMS = [
   { key: 'dictionary',  label: 'Dictionary',      group: 'tools' },
   { key: 'tags',        label: 'Tags',            group: 'tools' },
   { key: 'bookmarks',   label: 'Bookmarks',       group: 'tools' },
+  { key: 'notes',       label: 'Notes',           group: 'tools' },
 ];
 
 export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {

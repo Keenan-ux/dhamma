@@ -15,20 +15,30 @@ import {
   prepareDppnHtml, preparePedHtml, sanitizeDictHtml,
   groupEntriesBySource, SOURCE_LABEL,
 } from './dictHtml.js';
+import { rangeToSegmentRange } from './browse/segments.js';
 
 const HTML_PREPARERS = { dppn: prepareDppnHtml, ped: preparePedHtml };
 const HTML_POPOVER_COLLAPSE_THRESHOLD = 400;
-const MAX_SELECTION_LENGTH = 80;
+// Longest selection the popover will surface. Short for dictionary
+// lookups (single words / short phrases) but generous enough to
+// cover a whole sutta sentence for a Note.
+const MAX_SELECTION_LENGTH = 600;
+// Dictionary action only makes sense for short selections that could
+// be a single headword. Longer selections still get Note / Search /
+// Compare / Copy.
+const DICTIONARY_MAX_LENGTH = 80;
 
 export function SelectionActions({
   containerRef,
   hide = [],
   onSearch,
   onCompare,
+  onNote,
 }) {
   const [sel, setSel] = useState(null);
   const [copied, setCopied] = useState(false);
   const [lookup, setLookup] = useState(null);
+  const [noteDraft, setNoteDraft] = useState(null);
 
   useEffect(() => {
     function onSelChange() {
@@ -43,7 +53,12 @@ export function SelectionActions({
         return;
       }
       const rect = range.getBoundingClientRect();
-      setSel({ text, x: rect.left + rect.width / 2, y: rect.top });
+      // Resolve to a segment range when the selection is inside a
+      // segment-rendered passage; null otherwise (CST, library,
+      // pre-segmented content). The Note editor uses this to decide
+      // whether to record a precise range or a whole-passage note.
+      const segmentRange = rangeToSegmentRange(range);
+      setSel({ text, x: rect.left + rect.width / 2, y: rect.top, segmentRange });
       setCopied(false);
     }
     document.addEventListener('selectionchange', onSelChange);
@@ -81,6 +96,17 @@ export function SelectionActions({
     }
   }
 
+  function doNote() {
+    if (!sel || !onNote) return;
+    const draft = {
+      text: sel.text,
+      pos: { x: sel.x, y: sel.y },
+      segmentRange: sel.segmentRange || null,
+    };
+    setNoteDraft(draft);
+    clearSelection();
+  }
+
   // Close the lookup popover on outside click / Escape.
   useEffect(() => {
     if (!lookup) return;
@@ -100,7 +126,8 @@ export function SelectionActions({
   const showSearch  = !hide.includes('search')  && !!onSearch;
   const showCompare = !hide.includes('compare') && !!onCompare;
   const showCopy    = !hide.includes('copy');
-  const showLookup  = !hide.includes('lookup');
+  const showLookup  = !hide.includes('lookup') && (sel ? sel.text.length <= DICTIONARY_MAX_LENGTH : false);
+  const showNote    = !hide.includes('note')    && !!onNote;
 
   // Interleave separator dots between the visible buttons only — drives
   // off a small array so the markup adapts cleanly to whichever subset
@@ -112,6 +139,11 @@ export function SelectionActions({
   if (showLookup)  items.push(
     <button key="d" onClick={doLookup} style={selBtn} title="Look up in dictionary (DPD + DPPN + PED)">
       Dictionary
+    </button>
+  );
+  if (showNote)    items.push(
+    <button key="n" onClick={doNote} style={selBtn} title="Take a note on this passage">
+      Note
     </button>
   );
 
@@ -131,7 +163,95 @@ export function SelectionActions({
         </div>
       )}
       {lookup && <LookupPanel lookup={lookup} onClose={() => setLookup(null)} />}
+      {noteDraft && (
+        <NoteEditor
+          draft={noteDraft}
+          onSave={(text) => {
+            onNote?.({
+              excerpt: noteDraft.text,
+              segmentRange: noteDraft.segmentRange,
+              text,
+            });
+            setNoteDraft(null);
+          }}
+          onCancel={() => setNoteDraft(null)}
+        />
+      )}
     </>
+  );
+}
+
+// ─────────────────────────────── NoteEditor ───────────────────────────────
+
+function NoteEditor({ draft, onSave, onCancel }) {
+  const [text, setText] = useState('');
+  const taRef = useRef(null);
+
+  useEffect(() => {
+    taRef.current?.focus();
+  }, []);
+
+  // Cmd/Ctrl+Enter saves; Escape cancels. Keeps the editor keyboard-
+  // first since note-taking is a typing workflow.
+  function onKeyDown(e) {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      onCancel?.();
+    } else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      if (text.trim()) onSave?.(text.trim());
+    }
+  }
+
+  // Same positioning approach as LookupPanel: clamp horizontally,
+  // flip above the selection when there's no room below.
+  const { pos, text: excerpt, segmentRange } = draft;
+  const left = Math.max(220, Math.min((pos?.x || 200), (typeof window !== 'undefined' ? window.innerWidth - 220 : 1000)));
+  const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
+  const selY = pos?.y || 60;
+  const spaceBelow = vh - selY;
+  const spaceAbove = selY;
+  const GAP = 14;
+  const flipUp = spaceBelow < 360 && spaceAbove > spaceBelow;
+  const positionStyle = flipUp
+    ? { bottom: vh - selY + GAP, maxHeight: `min(70vh, ${Math.max(200, spaceAbove - GAP - 12)}px)` }
+    : { top: Math.max(60, selY + GAP), maxHeight: `min(70vh, ${Math.max(200, spaceBelow - GAP - 12)}px)` };
+
+  return (
+    <div data-note-editor style={{ ...noteEditorPanel, ...positionStyle, left, transform: 'translateX(-50%)' }}>
+      <header style={noteEditorHeader}>
+        <span style={noteEditorLabel}>
+          New note
+          {segmentRange && (
+            <span style={noteEditorRangeHint}>
+              &nbsp;· segments {segmentRange.startKey}
+              {segmentRange.endKey !== segmentRange.startKey ? `–${segmentRange.endKey}` : ''}
+            </span>
+          )}
+        </span>
+        <button onClick={onCancel} style={lookupClose} aria-label="Close">×</button>
+      </header>
+      <blockquote style={noteEditorExcerpt}>{excerpt}</blockquote>
+      <textarea
+        ref={taRef}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={onKeyDown}
+        placeholder="Note (Cmd/Ctrl+Enter to save, Esc to cancel)"
+        rows={5}
+        style={noteEditorTextarea}
+      />
+      <footer style={noteEditorFooter}>
+        <button onClick={onCancel} style={noteEditorBtn}>Cancel</button>
+        <button
+          onClick={() => { if (text.trim()) onSave?.(text.trim()); }}
+          style={{ ...noteEditorBtn, ...noteEditorBtnPrimary, opacity: text.trim() ? 1 : 0.5 }}
+          disabled={!text.trim()}
+        >
+          Save
+        </button>
+      </footer>
+    </div>
   );
 }
 
@@ -446,4 +566,102 @@ const lookupError = {
   fontSize: 13,
   fontStyle: 'italic',
   color: 'var(--bc-loss-text)',
+};
+
+// NoteEditor panel — visually parallel to LookupPanel but
+// persistent (no outside-click close) and with a textarea + save/
+// cancel footer. Used inline by SelectionActions when the user
+// clicks "Note" on a selection.
+const noteEditorPanel = {
+  position: 'fixed',
+  zIndex: 1200,
+  width: 'min(520px, 92vw)',
+  background: 'var(--bc-bg-elevated)',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.35)',
+  borderRadius: 10,
+  boxShadow: '0 12px 32px rgba(0,0,0,0.55)',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const noteEditorHeader = {
+  display: 'flex',
+  alignItems: 'baseline',
+  justifyContent: 'space-between',
+  padding: '12px 16px 8px',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.20)',
+};
+
+const noteEditorLabel = {
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+};
+
+const noteEditorRangeHint = {
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontWeight: 400,
+  letterSpacing: 'normal',
+  textTransform: 'none',
+  fontSize: 11,
+  color: 'var(--bc-text-tertiary)',
+};
+
+const noteEditorExcerpt = {
+  margin: '12px 16px 0',
+  padding: '8px 12px',
+  borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.45)',
+  background: 'rgba(255,255,255,0.03)',
+  fontSize: 13,
+  fontStyle: 'italic',
+  lineHeight: 1.5,
+  color: 'var(--bc-text-secondary)',
+  maxHeight: 160,
+  overflowY: 'auto',
+};
+
+const noteEditorTextarea = {
+  margin: '12px 16px 0',
+  padding: '10px 12px',
+  background: 'var(--bc-bg-surface)',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.20)',
+  borderRadius: 6,
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 14,
+  lineHeight: 1.55,
+  color: 'var(--bc-text-primary)',
+  resize: 'vertical',
+  minHeight: 100,
+  outline: 'none',
+};
+
+const noteEditorFooter = {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  gap: 8,
+  padding: '12px 16px',
+};
+
+const noteEditorBtn = {
+  padding: '7px 14px',
+  background: 'transparent',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.25)',
+  borderRadius: 6,
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 12,
+  fontWeight: 500,
+  color: 'var(--bc-text-primary)',
+  cursor: 'pointer',
+};
+
+const noteEditorBtnPrimary = {
+  background: 'var(--bc-accent)',
+  borderColor: 'var(--bc-accent)',
+  color: 'var(--bc-accent-text)',
+  fontWeight: 600,
 };
