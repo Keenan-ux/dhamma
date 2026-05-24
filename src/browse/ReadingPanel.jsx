@@ -5,7 +5,7 @@ import { SelectionActions } from '../SelectionActions.jsx';
 import { isModifiedClick } from '../linkHelpers.js';
 import useNotes from '../useNotes.js';
 import useSegmentHover from './useSegmentHover.js';
-import { passageTranslationsApi, passageParallelsApi, passageTagsApi, glossApi, passageGroupApi, passageGroupTranslationsApi } from '../api.js';
+import { passageParallelsApi, passageTagsApi, glossApi, passageGroupApi, passageGroupTranslationsApi } from '../api.js';
 import { paragraphGroupId } from './paragraphGroup.js';
 import { sanitizeDictHtml } from '../dictHtml.js';
 import { formatCitation } from '../citationFormat.js';
@@ -387,60 +387,58 @@ export default function ReadingPanel({
   // dropdown shows a unified "Bodhi" view that spans the whole group.
   const [translations, setTranslations] = useState(null);
   const [selectedTranslator, setSelectedTranslator] = useState(null);
-  const isMergedGroup = passage?._groupSize > 1;
-  const groupAnchor = passage?._groupAnchor || anchorPassage?.id;
+  // Always fetch translations via the group endpoint keyed on the
+  // anchor passage id. The server returns the anchor's own row for
+  // singletons (paragraphGroupId is null) and the per-row rows for
+  // fine paragraph groups. Keying on anchorPassage.id (not the
+  // derived merged passage.id, which is the same anyway) keeps this
+  // effect from re-firing when the group merge resolves, which
+  // would otherwise blank out the active translation for a beat
+  // and make English flicker off mid-load.
   useEffect(() => {
-    const fetchId = isMergedGroup ? groupAnchor : passage?.id;
-    if (!fetchId) return;
+    if (!anchorPassage?.id) return;
     setTranslations(null);
     setSelectedTranslator(null);
     const ac = new AbortController();
-    if (isMergedGroup) {
-      passageGroupTranslationsApi(fetchId, { signal: ac.signal })
-        .then((r) => {
-          // Group per-row rows by translator+source, concatenate
-          // text in source order (the server already returns rows
-          // ordered by group position). One unified row per (
-          // translator, source) pair: this lets a "bodhi" pick
-          // surface all his per-anchor commentary translations
-          // concatenated in reading order.
-          const byKey = new Map();
-          for (const t of r.translations || []) {
-            const key = `${t.translator}::${t.source}`;
-            if (!byKey.has(key)) {
-              byKey.set(key, {
-                translator: t.translator,
-                source: t.source,
-                texts: [],
-                license: t.license,
-                source_book: t.source_book,
-                source_url: t.source_url,
-              });
-            }
-            byKey.get(key).texts.push(t.text);
+    passageGroupTranslationsApi(anchorPassage.id, { signal: ac.signal })
+      .then((r) => {
+        // Group per-row rows by translator+source, concatenate
+        // text in source order (the server already returns rows
+        // ordered by group position). One unified row per (
+        // translator, source) pair: this lets a "bodhi" pick
+        // surface all his per-anchor commentary translations
+        // concatenated in reading order. For singletons the
+        // group is just the anchor so this collapses to the
+        // single-passage shape.
+        const byKey = new Map();
+        for (const t of r.translations || []) {
+          const key = `${t.translator}::${t.source}`;
+          if (!byKey.has(key)) {
+            byKey.set(key, {
+              translator: t.translator,
+              source: t.source,
+              texts: [],
+              license: t.license,
+              source_book: t.source_book,
+              source_url: t.source_url,
+            });
           }
-          const merged = [...byKey.values()].map((g) => ({
-            translator: g.translator,
-            source: g.source,
-            text: g.texts.join('\n\n'),
-            license: g.license,
-            source_book: g.source_book,
-            source_url: g.source_url,
-          }));
-          setTranslations(merged);
-          if (merged.length) setSelectedTranslator(merged[0].translator);
-        })
-        .catch(() => { /* fall through to passage.translation */ });
-    } else {
-      passageTranslationsApi(fetchId, { signal: ac.signal })
-        .then((r) => {
-          setTranslations(r.translations || []);
-          if (r.translations?.length) setSelectedTranslator(r.translations[0].translator);
-        })
-        .catch(() => { /* fall through */ });
-    }
+          byKey.get(key).texts.push(t.text);
+        }
+        const merged = [...byKey.values()].map((g) => ({
+          translator: g.translator,
+          source: g.source,
+          text: g.texts.join('\n\n'),
+          license: g.license,
+          source_book: g.source_book,
+          source_url: g.source_url,
+        }));
+        setTranslations(merged);
+        if (merged.length) setSelectedTranslator(merged[0].translator);
+      })
+      .catch(() => { /* fall through to passage.translation */ });
     return () => ac.abort();
-  }, [passage?.id, isMergedGroup, groupAnchor]);
+  }, [anchorPassage?.id]);
 
   const activeTranslation = translations?.find((t) => t.translator === selectedTranslator);
   const translationText = activeTranslation?.text || passage.translation;
