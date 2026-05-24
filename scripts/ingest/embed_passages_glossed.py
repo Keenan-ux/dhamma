@@ -62,8 +62,11 @@ ap.add_argument("--gloss-version", default=GLOSS_VERSION,
                 help="Tag the meta rows with this version (default 'glossed-v1')")
 ap.add_argument("--no-reindex", action="store_true",
                 help="Skip the REINDEX CONCURRENTLY at the end")
-ap.add_argument("--scope", choices=["all", "cst", "no-translation"], default="all",
-                help="all = every passage; cst = source_edition='cst'; no-translation = passages with no translations.text row")
+ap.add_argument("--scope", choices=["all", "cst", "attha", "tika", "no-translation"], default="all",
+                help="all = every passage; cst = source_edition='cst'; "
+                     "attha = CST aṭṭhakathā + mula (commentary + Vism); "
+                     "tika = CST ṭīkā only (slow, ~5x slower than attha — defer if pressed); "
+                     "no-translation = passages with no translations.text row")
 args = ap.parse_args()
 
 if not os.environ.get("DATABASE_URL"):
@@ -125,6 +128,14 @@ idx.load()
 scope_predicates = {
     "all":             "TRUE",
     "cst":             "p.source_edition = 'cst'",
+    # 'attha' is the high-value CST scope: Aṭṭhakathā + Vism (which
+    # is role='mula' in the schema but is content-wise commentary).
+    # Skip 'tika' here because ṭīkā passages are ~5x slower to gloss
+    # (longer + more grammatical-analytic per word) and contain the
+    # least cross-language search value; defer them to a separate
+    # pass — see TIKA_REEMBED_DEFERRED.md.
+    "attha":           "p.source_edition = 'cst' AND p.work_role IN ('attha', 'mula')",
+    "tika":            "p.source_edition = 'cst' AND p.work_role = 'tika'",
     "no-translation":  "NOT EXISTS (SELECT 1 FROM translations t WHERE t.passage_id = p.id)",
 }
 scope_clause = scope_predicates[args.scope]
