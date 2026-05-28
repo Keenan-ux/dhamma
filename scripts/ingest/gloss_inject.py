@@ -16,10 +16,24 @@ ordered by first appearance of each headword in the source. `stats`
 is a dict with token/headword/unmatched counts for the meta table.
 """
 
+import os
+import pickle
 import re
+import tempfile
 import time
 import psycopg2
 import psycopg2.extras
+
+# Bump when the on-disk pickle layout changes in a way that requires a
+# rebuild (e.g. new fields, schema rework). The cache file embeds this
+# tag so a stale pickle from an older code rev is silently ignored.
+PICKLE_VERSION = 1
+
+# Default cache path. Keep under scripts/ingest/.cache so a `git clean`
+# doesn't nuke it but it stays out of the repo via .gitignore.
+DEFAULT_CACHE_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), ".cache", "gloss_index.pkl"
+)
 
 # Punctuation we strip before tokenizing. Mirrors the JS probe so the
 # Python-side token set matches what I checked at design time.
@@ -62,7 +76,18 @@ class GlossIndex:
         self.entries = {}
         self.loaded = False
 
-    def load(self):
+    def load(self, cache_path=DEFAULT_CACHE_PATH, write_cache=True):
+        """Populate the in-memory indexes.
+
+        If `cache_path` is set and a valid pickle exists there, load
+        from it (~5s). Otherwise pull from the DB (~30 min over the
+        flyctl proxy) and, if `write_cache`, persist the result for
+        next time. The pickle is atomic (write to temp + rename) so a
+        kill mid-write can't leave a corrupt file behind."""
+        if cache_path and self._try_load_cache(cache_path):
+            self.loaded = True
+            return
+
         cur = self.conn.cursor(name="dpd_load", cursor_factory=psycopg2.extras.DictCursor)
         cur.itersize = 20_000
 
@@ -110,6 +135,65 @@ class GlossIndex:
         print(f"[dpd] surfaces={len(self.by_surface)} headwords={len(self.by_headword)} total={t2 - t0:.1f}s", flush=True)
 
         self.loaded = True
+
+        if cache_path and write_cache:
+            self._write_cache(cache_path)
+
+    # ─────────────────── pickle cache ────────────────────
+
+    def _try_load_cache(self, path):
+        """Return True on successful load, False otherwise (so caller
+        falls back to DB). Never raises — a bad cache is a soft miss."""
+        try:
+            if not os.path.exists(path):
+                return False
+            t0 = time.time()
+            with open(path, "rb") as f:
+                blob = pickle.load(f)
+            if not isinstance(blob, dict) or blob.get("version") != PICKLE_VERSION:
+                print(f"[dpd] cache version mismatch at {path}, ignoring", flush=True)
+                return False
+            self.by_surface = blob["by_surface"]
+            self.by_headword = blob["by_headword"]
+            self.entries = blob["entries"]
+            dt = time.time() - t0
+            print(
+                f"[dpd] loaded from cache in {dt:.1f}s  "
+                f"surfaces={len(self.by_surface)} headwords={len(self.by_headword)} entries={len(self.entries)}",
+                flush=True,
+            )
+            return True
+        except Exception as e:
+            print(f"[dpd] cache load failed ({type(e).__name__}: {e}); will rebuild from DB", flush=True)
+            return False
+
+    def _write_cache(self, path):
+        """Atomic write: pickle to a sibling temp file, then rename."""
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            blob = {
+                "version": PICKLE_VERSION,
+                "by_surface": self.by_surface,
+                "by_headword": self.by_headword,
+                "entries": self.entries,
+            }
+            t0 = time.time()
+            # NamedTemporaryFile in the same dir so os.replace is atomic
+            # on the same filesystem (Windows requires this).
+            dirpath = os.path.dirname(path) or "."
+            fd, tmp = tempfile.mkstemp(prefix=".gloss-cache-", suffix=".pkl.tmp", dir=dirpath)
+            try:
+                with os.fdopen(fd, "wb") as f:
+                    pickle.dump(blob, f, protocol=pickle.HIGHEST_PROTOCOL)
+                os.replace(tmp, path)
+                size_mb = os.path.getsize(path) / (1024 * 1024)
+                print(f"[dpd] cache written to {path} ({size_mb:.1f} MB, {time.time() - t0:.1f}s)", flush=True)
+            except Exception:
+                try: os.unlink(tmp)
+                except OSError: pass
+                raise
+        except Exception as e:
+            print(f"[dpd] cache write failed ({type(e).__name__}: {e}); continuing without cache", flush=True)
 
     def gloss_for(self, text):
         """Build the gloss appendix string + diagnostic stats."""

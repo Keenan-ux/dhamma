@@ -21,13 +21,74 @@ must leave alone unless the user explicitly says to stop them. They
 are NOT zombies. Identify them before terminating any Python or
 flyctl process.
 
-1. **Python embed** — `scripts/ingest/embed_passages_glossed.py`
-   running with `--scope=cst --batch=64 --gloss-workers=4
-   --fetch=512`. Re-embedding all CST passages (attha + tika + Vism
-   mula) with DPD English-gloss appendices for cross-language Meaning
-   search. **Background task ID: `b660vy6qm`** (this may change if it
-   crashes and gets restarted — match by command-line in
-   `Get-WmiObject Win32_Process -Filter "name='python.exe'"`).
+1. **Python embed** — `scripts/ingest/embed_passages_glossed.py`.
+   Re-embedding all CST passages (attha + tika + Vism mula) with
+   DPD English-gloss appendices for cross-language Meaning search.
+   The script went through three iterations this session:
+   - PID 99912 (lost to a Claude Code reinstall)
+   - PID 103040 → PID 90460 (the venv shim + actual interpreter)
+     with `--batch=64 --gloss-workers=4 --fetch=512`. Hit 5.27 rows/s,
+     CPU-bound on the gloss build (GIL).
+   - **Current target: relaunch with `--batch=128 --gloss-workers=8
+     --fetch=1024`** after the gloss pool is switched from threads to
+     processes (ProcessPoolExecutor bypasses the GIL on the dict-
+     heavy `gloss_for` path). Code change is in this session; awaits
+     the warm pickle cache (see #4 below) before relaunch.
+
+   **CORRECTED LESSON (2026-05-28).** Earlier this session I bet on
+   bigger batches (`--batch=128`, then 64). Both were WRONG: they were
+   slower (the gloss build is the bottleneck, NOT the GPU — so larger
+   batches just made the GPU wait longer without buying throughput) AND
+   they OOM-crashed on long passages (BGE-M3 attention is O(rows × seq²)
+   on an 8 GB card). Every stall this session — including the one I
+   misdiagnosed as "laptop sleep" — was a CUDA memory error, not sleep.
+   `--batch=16` was both the fastest stable config (~5.4 rows/s) and
+   never OOM'd. The remaining rows are the corpus's LONGEST (the queue
+   is `ORDER BY length(original)` ascending and the short 77 % is done),
+   so the tail is the most OOM-prone part.
+
+   The loop now (a) builds all glosses for a fetch up front so the 8
+   worker processes stay saturated, and (b) sizes each GPU batch by a
+   memory budget — `(rows × max_input_chars²) ≤ --mem-budget` (default
+   85e6, calibrated to the proven-good 16-rows × ~2300c point), capped
+   at `--batch` rows. Long passages auto-shrink the batch; a lone
+   over-budget row runs by itself. This makes OOM structurally
+   impossible, so the run finishes in ONE unattended pass.
+
+   **Relaunch command** (run from `C:\Dev\Dhamma`, with `$env:DATABASE_URL`
+   already exported from the Fly wrapper below):
+
+   ```powershell
+   $logDir = "C:\Dev\Dhamma\scripts\ingest\logs"
+   $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+   $stdout = "$logDir\embed-$stamp.out.log"
+   $stderr = "$logDir\embed-$stamp.err.log"
+   Start-Process `
+     -FilePath "C:\Dev\Dhamma\scripts\ingest\.venv\Scripts\python.exe" `
+     -ArgumentList "scripts/ingest/embed_passages_glossed.py","--scope=cst","--batch=16","--gloss-workers=8","--fetch=256" `
+     -WorkingDirectory "C:\Dev\Dhamma" `
+     -WindowStyle Hidden `
+     -RedirectStandardOutput $stdout -RedirectStandardError $stderr `
+     -PassThru | Select-Object Id
+   ```
+
+   **Live run as of 2026-05-28 18:58 EDT:** PID 11716, log
+   `embed-20260528-185808.out.log`. 37,959 CST rows pending at launch;
+   running clean at ~5 rows/s on ~2200c passages, ETA ~2 hr.
+
+   On Windows the venv launcher (`python.exe`) spawns a separate
+   `python3.13.exe` interpreter that does the actual work — both
+   show up in `Get-WmiObject Win32_Process -Filter "name='python.exe'"`
+   etc. The interpreter PID is the one nvidia-smi credits with GPU
+   memory.
+
+4. **Pickle cache** at `scripts/ingest/.cache/gloss_index.pkl`. Built
+   by `warm_gloss_cache.py` and loaded by `GlossIndex.load()` (in
+   `gloss_inject.py`) in ~5 s instead of ~30 min from Postgres. Both
+   `embed_passages_glossed.py`'s main process and each
+   ProcessPoolExecutor worker hit this cache on startup. If it ever
+   goes stale (DPD source schema change), bump `PICKLE_VERSION` in
+   `gloss_inject.py` and rebuild via `warm_gloss_cache.py`.
 2. **flyctl proxy** — `flyctl proxy 15432:5432 --app dhamma-pg`. The
    `:5432` is critical. See "The proxy port lesson" below.
 3. **Monitor tail** — a `tail -F` watching the embed output. Task ID
@@ -36,14 +97,20 @@ flyctl process.
 
 ### How to check progress WITHOUT killing anything
 
-Read the embed's output file directly:
+Read the embed's log file directly:
 
 ```bash
-tail -15 "C:/Users/isaac/AppData/Local/Temp/claude/C--Dev-Dhamma/6162606f-b15a-442c-9e65-082c5d9bc083/tasks/b660vy6qm.output"
+tail -15 "C:/Dev/Dhamma/scripts/ingest/logs/embed-20260524-212234.out.log"
 ```
 
-(If the task ID has changed, find the latest under that `tasks/`
-directory by mtime.)
+The current ProcessPool run starts each batch with all 8 workers
+loading the pickle in ~0.8s each, then logs `done / pending · rows/s
+· ETA · avg_in=Nc` per ~200 completed rows. Steady-state rate on the
+long-passage tail (avg_in ≈ 1350c, mostly ṭīkā + long aṭṭhakathā) is
+expected ~3-4 rows/s, climbing as worker-spawn time amortizes.
+
+(If a later relaunch creates a newer timestamped log, find the
+latest via `Get-ChildItem C:\Dev\Dhamma\scripts\ingest\logs\embed-*.out.log | Sort-Object LastWriteTime -Descending | Select-Object -First 1`.)
 
 Look for lines like:
 
