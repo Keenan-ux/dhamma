@@ -241,33 +241,42 @@ preference sticks across sessions. Only shows when both columns
 exist and the viewport is wide (narrow has its own tab toggle).
 Icon adapts per state (two-rect / single-rect-P / single-rect-E).
 
-### CST DPD-glossed re-embed — RUNNING IN BACKGROUND
+### CST DPD-glossed re-embed — COMPLETE (2026-05-29)
 
-`scripts/ingest/embed_passages_glossed.py --scope=cst` kicked off
-in the background. Goal: re-embed every CST passage with a DPD
-English-gloss appendix injected after the original Pāli, so vector
-queries in English match commentary content properly (the existing
-embeddings are pure Pāli so cross-language Meaning recall is weak).
+`scripts/ingest/embed_passages_glossed.py --scope=cst` finished.
+Every CST passage now carries a DPD English-gloss appendix in its
+BGE-M3 vector, so English Meaning queries match commentary content
+(the old embeddings were pure Pāli, so cross-language recall was
+weak). Verified: `cst_pending=0`, and all 194,710 corpus passages
+have a `gloss_version='glossed-v1'` meta row. Smoke test passed —
+an English "purification of view" Meaning query returns MN 24
+(Rathavinīta, the seven-purifications sutta), DN 2, DN 33.
 
-Progress: ~58,000 of ~187,000 done (~31%); rate drops from ~14
-rows/s on short Aṭṭhakathā paragraphs to ~2.4 rows/s on the longer
-ṭīkā passages (the DPD-lookup cost scales with passage length).
-Revised ETA from current rate: ~15 hours.
+Two pieces of durable infra came out of this and are committed
+(a32635e, d0ee819):
+  - **Pickle cache** for the DPD GlossIndex
+    (`scripts/ingest/.cache/gloss_index.pkl`, built by
+    `warm_gloss_cache.py`): cuts per-run startup from ~30 min of
+    Postgres reads to ~0.5 s. Bump `PICKLE_VERSION` in
+    `gloss_inject.py` if the DPD source schema changes.
+  - **Memory-budgeted dynamic batching**: each GPU batch is sized so
+    `rows × max_input_chars² ≤ --mem-budget` (default 85e6), capped
+    at `--batch` (16). BGE-M3 attention is O(rows × seq²); the
+    longest passages OOM'd a fixed batch on the 8 GB card. This made
+    OOM structurally impossible and let the pass finish unattended.
+    Lesson learned the hard way: bigger batches were both slower (the
+    DPD gloss build is the bottleneck, not the GPU) and OOM-prone.
 
-Resume-friendly — meta table tracks per-passage
-gloss_version='glossed-v1'. The job deadlocks against in-progress
-`flyctl deploy` (AccessExclusiveLock on passages); restart picks
-up where it left off. Three commits are sitting on master waiting
-to deploy:
+Proven launch config:
+`--scope=cst --batch=16 --gloss-workers=8 --fetch=256`.
 
-  - `search: tag filter from TagsView + URL + active-filter chip`
-  - `reader: desktop column-mode toggle (Pāli / English / Both)`
-  - Plus the corpus tree-ordering fix and primary-text boost from
-    earlier in the session.
-
-Run `flyctl deploy --remote-only --app dhamma` after the gloss
-embed finishes (job tags meta rows once each; resuming is safe but
-deploying mid-run will deadlock).
+HNSW reindex: the post-pass `REINDEX INDEX CONCURRENTLY
+idx_passages_embedding` runs slowly on the 256 MB dhamma-pg instance
+(graph exceeds `maintenance_work_mem` at ~13k tuples → disk-spill
+build path). It is online (CONCURRENTLY), so search stays up, and is
+optional — the index was updated in place during the embed and
+serves queries fine. Run it manually when convenient if not already
+done; it is not a correctness blocker.
 
 ### Tier 5 — Soma + Nyanaponika satipaṭṭhāna texts
 
