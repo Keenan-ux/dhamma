@@ -323,16 +323,18 @@ CREATE TABLE IF NOT EXISTS blurbs (
   created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- HNSW for the vec_blurb ANN lane. Unlike the passages / translations /
--- dictionary HNSW indexes (kept OUT of schema.sql because a non-CONCURRENT
--- build on those large tables would take ACCESS EXCLUSIVE long enough to
--- block a production cold-start), the blurbs table is tiny (~4,000 rows /
--- ~16 MB of vectors), so the IF-NOT-EXISTS build is sub-second. apply-schema
--- runs this while the table is still empty (before the ingest), so the
--- boot-time build is effectively free and the index then fills incrementally
--- as embed-blurbs.mjs populates the column.
-CREATE INDEX IF NOT EXISTS idx_blurbs_embedding
-  ON blurbs USING hnsw (embedding vector_cosine_ops);
+-- NOTE: the vec_blurb HNSW index is deliberately NOT created here. schema.sql
+-- is applied on every production boot (server/src/db.js → applySchema), and a
+-- CREATE INDEX ... hnsw over a POPULATED blurbs table blocks the boot before
+-- the server can listen() — exactly the cold-start hazard the comment above
+-- warns about for passages/translations/dict. (It bit prod once: v161 hung on
+-- boot building this index while dhamma-pg was busy, until rolled back.) For
+-- ~4,000 rows the vec_blurb ANN lane runs fine on a seq scan (<10 ms), so no
+-- index is needed yet. When blurbs grow enough to want HNSW, build it as a
+-- deliberate one-off against an idle instance:
+--   CREATE INDEX CONCURRENTLY idx_blurbs_embedding
+--     ON blurbs USING hnsw (embedding vector_cosine_ops);
+-- Never put an HNSW build back into schema.sql.
 
 -- Messages submitted via the About-page contact form. Plain inbox
 -- table — the maintainer reads via the DB proxy (no email-service
