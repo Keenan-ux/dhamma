@@ -13,22 +13,26 @@ import { tagsApi } from './api.js';
 import useIsNarrow from './useIsNarrow.js';
 
 const TYPE_LABELS = {
-  name:    'Names',
-  subject: 'Subjects',
-  simile:  'Similes',
-  number:  'Numerical lists',
-  title:   'Titles',
+  name:     'Names',
+  subject:  'Subjects',
+  simile:   'Similes',
+  number:   'Numerical lists',
+  title:    'Titles',
+  author:   'Authors',
+  audience: 'Audience',
 };
 
 const TYPE_BLURBS = {
-  name:    'Proper names from across the canon — teachers, disciples, kings, devas, places.',
-  subject: 'Topical index — concepts, doctrines, practices.',
-  simile:  'Similes and metaphors the suttas turn on — ant-hill, lute, raft, archer.',
-  number:  'Numerical doctrine lists — three trainings, four foundations, five aggregates, eight winds.',
-  title:   'Suttas indexed by title.',
+  name:     'Proper names from across the canon — teachers, disciples, kings, devas, places.',
+  subject:  'Topical index — concepts, doctrines, practices.',
+  simile:   'Similes and metaphors the suttas turn on — ant-hill, lute, raft, archer.',
+  number:   'Numerical doctrine lists — three trainings, four foundations, five aggregates, eight winds.',
+  title:    'Suttas indexed by title.',
+  author:   'Translators and authors of record — the passages each rendered or wrote on.',
+  audience: 'Who a canonical text is addressed to — monks, nuns, laypeople, kings, brahmins, devas. Derived from the Pāli vocative of address and canonical structure.',
 };
 
-const TYPE_ORDER = ['name', 'subject', 'simile', 'number', 'title'];
+const TYPE_ORDER = ['name', 'subject', 'simile', 'number', 'title', 'author', 'audience'];
 
 export default function TagsView({ onOpenPassage, onSearchWithTag }) {
   const isNarrow = useIsNarrow();
