@@ -26,7 +26,14 @@ const RRF_K = 60;
 // families like the moon" surfaces SN 16.3 (Candūpama) at ~#3, behind genuine
 // peers like AN 5.111 (Kulūpaka, "On Visiting Families"). Values >=3 start to
 // let blurb-only hits dominate suttas with broader relevance.
-const BLURB_WEIGHT = 2.5;
+// Weight of the vec_blurb RRF lane relative to the body lanes. A/B tested
+// (2026-05-29) at 0.0/1.0/1.5/2.5 over a 6-query precision-vs-aboutness set:
+// 1.0 is the highest weight that keeps the precise canonical text in the
+// top-3 (e.g. MN 24 for "purification of view") while still gaining the
+// blurb lane's thematic recall (family-conduct suttas, DN 15 for dependent
+// origination) and cluster-tightening. 2.5 buried precise matches; 0.0 lost
+// the recall. Overridable via env for future re-tuning without a redeploy.
+const BLURB_WEIGHT = process.env.BLURB_WEIGHT ? Number(process.env.BLURB_WEIGHT) : 1.0;
 
 // Primary-text anchor list — well-known canonical suttas that
 // scholars expect to surface near the top for thematic queries.
