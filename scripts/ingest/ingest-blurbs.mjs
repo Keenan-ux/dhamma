@@ -108,4 +108,42 @@ const [{ total }]   = await sql`SELECT COUNT(*)::int AS total   FROM blurbs`;
 const [{ pending }] = await sql`SELECT COUNT(*)::int AS pending FROM blurbs WHERE embedding IS NULL`;
 console.log(`\n[blurbs] done. ${total} rows in blurbs (${pending} awaiting embedding).`);
 
+// --- Reconcile the live table with schema.sql (passages FK + blurb HNSW).
+// The table was first created bare (no FK, no HNSW) because a REINDEX INDEX
+// CONCURRENTLY idx_passages_embedding was mid-flight: it holds SHARE UPDATE
+// EXCLUSIVE on passages, which conflicts with the FK's SHARE ROW EXCLUSIVE, and
+// building the blurb HNSW during that reindex courts memory pressure on the
+// 256 MB instance. This block is idempotent and only acts when the reindex is
+// NOT running, so it never queues a lock behind the reindex (which would stall
+// production reads on passages). Just re-run this script once the passages
+// reindex has finished to complete the reconcile. schema.sql stays the
+// canonical shape for a fresh DB; the vec_blurb lane works on a seq scan until
+// the HNSW lands.
+const [{ reindexing }] = await sql`
+  SELECT EXISTS (
+    SELECT 1 FROM pg_stat_activity
+    WHERE query LIKE 'REINDEX%idx_passages_embedding%' AND state = 'active'
+  ) AS reindexing`;
+const [{ has_fk }] = await sql`
+  SELECT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'blurbs_passage_id_fkey') AS has_fk`;
+const [{ has_idx }] = await sql`SELECT to_regclass('public.idx_blurbs_embedding') IS NOT NULL AS has_idx`;
+
+if (has_fk && has_idx) {
+  console.log('[blurbs] schema reconciled (FK + HNSW present)');
+} else if (reindexing) {
+  console.log(`[blurbs] reconcile deferred — passages reindex active (fk=${has_fk} hnsw=${has_idx}); re-run after it finishes`);
+} else {
+  if (!has_fk) {
+    await sql`ALTER TABLE blurbs ADD CONSTRAINT blurbs_passage_id_fkey
+              FOREIGN KEY (passage_id) REFERENCES passages(id) ON DELETE CASCADE`;
+    console.log('[blurbs] FK constraint added');
+  }
+  if (!has_idx) {
+    console.log('[blurbs] building HNSW index…');
+    await sql`CREATE INDEX IF NOT EXISTS idx_blurbs_embedding
+              ON blurbs USING hnsw (embedding vector_cosine_ops)`;
+    console.log('[blurbs] HNSW index built');
+  }
+}
+
 await sql.end();
