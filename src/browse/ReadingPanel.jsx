@@ -8,7 +8,7 @@ import useSegmentHover from './useSegmentHover.js';
 import { passageParallelsApi, passageTagsApi, glossApi, passageGroupApi, passageGroupTranslationsApi } from '../api.js';
 import { paragraphGroupId } from './paragraphGroup.js';
 import { sanitizeDictHtml } from '../dictHtml.js';
-import { formatCitation } from '../citationFormat.js';
+import { formatCitation, prettifyVinayaCitation } from '../citationFormat.js';
 import useBookmarks from '../useBookmarks.js';
 import useIsNarrow from '../useIsNarrow.js';
 import { paliStem } from '../paliStem.js';
@@ -127,7 +127,11 @@ const TRANSLATOR_LABEL = {
 // consumer justifies a shared util.
 const CST_PREFIX_RE = /^[A-Z]\d+[A-Z]?-[A-Z]+\s+/;
 function displayCitation(citation, workName) {
-  if (!citation || !workName || !CST_PREFIX_RE.test(citation)) return citation;
+  if (!citation) return citation;
+  // Vinaya UID cleanup first — independent of workName.
+  const vinaya = prettifyVinayaCitation(citation);
+  if (vinaya !== citation) return vinaya;
+  if (!workName || !CST_PREFIX_RE.test(citation)) return citation;
   const rest = citation.replace(CST_PREFIX_RE, '').trim();
   return rest ? `${workName} ${rest}` : workName;
 }

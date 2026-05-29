@@ -4,7 +4,7 @@
 // frames it.
 
 import { useState } from 'react';
-import { formatCitation } from './citationFormat.js';
+import { formatCitation, prettifyVinayaCitation } from './citationFormat.js';
 import { isModifiedClick, passageHref } from './linkHelpers.js';
 
 // CST extra-canonical passages carry raw VRI identifiers as their
@@ -16,6 +16,9 @@ import { isModifiedClick, passageHref } from './linkHelpers.js';
 const CST_PREFIX_RE = /^[A-Z]\d+[A-Z]?-[A-Z]+\s+/;
 function displayCitation(citation, workName) {
   if (!citation) return citation;
+  // Vinaya UID cleanup first — independent of workName.
+  const vinaya = prettifyVinayaCitation(citation);
+  if (vinaya !== citation) return vinaya;
   if (!workName) return citation;
   if (!CST_PREFIX_RE.test(citation)) return citation;
   const rest = citation.replace(CST_PREFIX_RE, '').trim();
