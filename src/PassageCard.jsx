@@ -64,7 +64,7 @@ export default function PassageCard({ passage, highlight, first, onOpen, compact
 
   async function copyCite() {
     try {
-      await navigator.clipboard.writeText(formatCitation(passage));
+      await navigator.clipboard.writeText(formatCitation(passage, { translatorName: trName }));
       setCopied(true);
       setTimeout(() => setCopied(false), 1400);
     } catch {/* ignore */}

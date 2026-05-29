@@ -4,7 +4,7 @@
 // Format:  MN 10.4, Satipaṭṭhāna Sutta, Majjhima Nikāya. Trans. Bhikkhu Sujato.
 //          https://dhamma.fly.dev/p/mn10-4
 
-export function formatCitation(passage, { includeUrl = true } = {}) {
+export function formatCitation(passage, { includeUrl = true, translatorName } = {}) {
   if (!passage) return '';
   const parts = [];
   if (passage.citation) parts.push(passage.citation);
@@ -14,8 +14,14 @@ export function formatCitation(passage, { includeUrl = true } = {}) {
   const main = parts.join(', ') + (parts.length ? '.' : '');
   const lines = [main];
 
-  if (passage.translation && passage.tradition?.toLowerCase().includes('therav')) {
-    lines.push('Trans. Bhikkhu Sujato.');
+  // Translator attribution. Use the display name the caller resolved for
+  // the passage's selected translator. This used to hard-code "Bhikkhu
+  // Sujato" for every Theravāda translation, which mis-attributed every
+  // other translator (Thanissaro, Bodhi, Ireland, Walshe, ...). Only
+  // assert attribution when we actually know who did the translation.
+  const tr = translatorName && String(translatorName).trim();
+  if (passage.translation && tr) {
+    lines.push(`Trans. ${tr}.`);
   }
 
   if (includeUrl && passage.id) {
