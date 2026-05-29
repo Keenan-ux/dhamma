@@ -5,7 +5,40 @@ the master state doc (what's live + how to verify); this file is the
 forward queue (partial + not-started + new ideas). Keep it current as
 items land. Tone: scholarly, plain. No marketing.
 
-Status key: 🟡 partial / in-flight · ⬜ not started · 💡 new idea (unscoped)
+Status key: ✅ landed (verified) · 🟡 partial / in-flight · ⬜ not started · 💡 new idea
+
+> **Doc-staleness warning (2026-05-29).** Independent verification during the
+> 3-chat parallel round found that CLAUDE.md's "Open backlog" and the first
+> draft of this file listed several items as not-started/partial that are in
+> fact already built (bookmarks, side-by-side viewer, citation export, notes,
+> populated `articles.embedding`). The repo is ahead of the prose docs. Trust
+> the live DB + `src/` tree over the narrative. CLAUDE.md "Open backlog"
+> deserves a refresh pass.
+
+---
+
+## ✅ Landed & verified (2026-05-29 parallel round + prior sessions)
+
+Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
+
+- **Blurb retrieval lane** (Chat 1). `blurbs` table = 4,173 rows, all embedded,
+  0 orphans; `vec_blurb` added as the 4th RRF lane in `search.js`. Functional
+  prod smoke pending deploy.
+- **ATI index → `passage_tags`** (Chat 2). Populated: audience 3,815 · name
+  1,780 · title 905 · subject 878 · simile 546 · number 343.
+- **Audience facet + Browse chip filter** (Chat 2). `audience` tag_type derived
+  for 3,567 passages; facet counts from `/api/corpus`; chip row in BrowseView.
+- **Docs section** (Chat 3). `DocsView` renders `articles WHERE category='docs'`
+  + Sidebar entry. *Built; 0 docs authored yet — content is a separate task.*
+- **Vinaya citation formatting** (Chat 3). `PLI-TV-BI-VB-PJ1-4` → clean form.
+- **Translator-attribution fix** (Chat 3, unbriefed). `formatCitation` no longer
+  hardcodes "Trans. Bhikkhu Sujato" for every Theravāda translation.
+- **Library article embedding** — `articles.embedding` is fully populated
+  (407/407). Library Meaning search was already unblocked.
+- **Per-passage bookmarks**, **side-by-side parallel reader**, **per-passage
+  notes**, **citation export button** — all built in prior sessions
+  (BookmarksView/useBookmarks, SideBySideReader, NotesView/useNotes,
+  citationFormat wired into PassageCard + ReadingPanel).
 
 ---
 
@@ -20,26 +53,12 @@ Status key: 🟡 partial / in-flight · ⬜ not started · 💡 new idea (unscop
   `dhamma-pg` RAM bump + higher `maintenance_work_mem`, which restarts the
   prod DB; disproportionate for an optional cleanup. Future re-embeds
   should plan the reindex into a maintenance window.
-- **Library Meaning-mode search.** `articles.embedding` column exists but
-  is unpopulated; library search falls back to FTS. Same BGE-M3 pipeline
-  as passages — one-shot batch over 386 articles.
-- **Citation export.** `citationFormat.js` exists; needs a UI hook (a
-  one-click "copy PTS-format citation" on each passage card).
-- **ATI Library curated indexes → tags.** The 7 `index-*.html` files
-  (similes, names, subjects, titles, number, author, sutta) are tagging
-  metadata. `passage_tags(passage_id, tag_type, tag_value, source)` table
-  already exists; needs the ingest that mines the indexes + a tag-filter
-  UI in Browse. (Composes with the Audience facet idea below — same table.)
-- **Vinaya citation formatting.** Current display `PLI-TV-BI-VB-PJ1-4`;
-  cleaner is `Bhi. Pj. 1-4`. Needs a per-source mapping table.
+- **Docs content.** The Docs *section* ships; the docs themselves
+  ("How search works", "About the corpus", "Dictionary coverage") need
+  authoring + an UPSERT with `category='docs'`.
 
 ## ⬜ Not started
 
-- **Side-by-side parallel passage viewer.** Open two passages in adjacent
-  panes for textual comparison (DN 22 ↔ MN 10). High value for comparative
-  work. Designed, not built.
-- **Per-passage bookmarks.** localStorage-only "mark this passage" + a
-  Bookmarks tab.
 - **Interlinear gloss.** Render each Pāli word with a small English gloss
   above/below using DPD inflections. No AI needed — the gloss data is the
   same DPD inflection table the embed pass uses.
@@ -70,6 +89,11 @@ RRF. We have the equivalent of two of its lanes already (FTS over
 (`vec_t` over `translations.embedding`). The ideas below are the lanes /
 facets worth borrowing. A retrieval lane = (text chunks) → (embedding) →
 (vector index) → (ANN query → ranked list); RRF merges the lanes.
+
+> **Status:** Blurb lane, Audience facet, and Docs/posts **LANDED** in the
+> 2026-05-29 parallel round (see ✅ section above). The detailed write-ups
+> below are retained as the design/build record. **Sentence chunking remains
+> the one unbuilt ABV idea** — it's the big, disk-heavy one.
 
 ### Blurb lane (Effort: M) — highest value, smallest surface
 
