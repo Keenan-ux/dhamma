@@ -466,6 +466,17 @@ if __name__ == "__main__":
         # responsive — it builds a new index alongside the old, then
         # atomic-swaps. Slower than a plain REINDEX but doesn't block reads.
         print("[hnsw] REINDEX CONCURRENTLY idx_passages_embedding…", flush=True)
+        # psycopg2 opens an implicit transaction after the loop's last
+        # commit (any cursor touch starts one), and `set_session` /
+        # autocommit can't be toggled inside an open transaction — that
+        # raised "set_session cannot be used inside a transaction" and
+        # skipped the reindex on the full pass. Roll back the empty txn
+        # first so autocommit can be enabled, which REINDEX CONCURRENTLY
+        # requires (it cannot run inside a transaction block).
+        try:
+            conn.rollback()
+        except Exception:
+            pass
         conn.autocommit = True
         t_idx = time.time()
         try:
