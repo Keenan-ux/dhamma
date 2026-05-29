@@ -769,7 +769,10 @@ export default function ReadingPanel({
               label: citeCopied ? 'Citation copied' : 'Copy citation',
               onClick: async () => {
                 try {
-                  await navigator.clipboard.writeText(formatCitation({ ...passage, work: workLabel, tradition: traditionLabel }));
+                  await navigator.clipboard.writeText(formatCitation(
+                    { ...passage, translation: translationText, work: workLabel, tradition: traditionLabel },
+                    { translatorName: selectedTranslator ? (TRANSLATOR_LABEL[selectedTranslator] || selectedTranslator) : undefined },
+                  ));
                   setCiteCopied(true);
                   setTimeout(() => setCiteCopied(false), 1400);
                 } catch {/* ignore */}
