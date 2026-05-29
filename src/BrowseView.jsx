@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { pathNames, pathToLeaf } from './data/corpus.js';
+import { tagsApi } from './api.js';
 import useCorpus from './useCorpus.js';
 import usePassage from './usePassage.js';
 import useIsNarrow from './useIsNarrow.js';
@@ -53,6 +54,62 @@ export default function BrowseView({
     return trad?.children || [];
   }, [tree]);
 
+  // ── Audience chip filter ────────────────────────────────────────────────
+  // The audience facet (monks / nuns / laypeople / kings / brahmins / devas)
+  // is curated in passage_tags. Clicking a chip narrows the browse tree to
+  // only the branches that contain passages carrying that tag — the tree-side
+  // analogue of collectLeaves restricted to the tag set. State is ephemeral
+  // (not URL-persisted) so it never collides with the #/read deep-link router.
+  const [audienceFacet, setAudienceFacet] = useState([]);     // [{ tag_value, n }]
+  const [activeAudience, setActiveAudience] = useState(null);  // tag_value | null
+  const [activeTagIds, setActiveTagIds] = useState(null);      // Set<passage_id> | null
+  const [tagLoading, setTagLoading] = useState(false);
+
+  // Load the audience facet once. Cheap (≤6 values); failures degrade to no
+  // chip row rather than blocking Browse.
+  useEffect(() => {
+    let alive = true;
+    tagsApi({ type: 'audience' })
+      .then((r) => { if (alive) setAudienceFacet(r.values || []); })
+      .catch(() => { if (alive) setAudienceFacet([]); });
+    return () => { alive = false; };
+  }, []);
+
+  // When a chip is active, fetch its passage-id set so we can prune the tree.
+  useEffect(() => {
+    if (!activeAudience) { setActiveTagIds(null); setTagLoading(false); return; }
+    const ac = new AbortController();
+    let alive = true;
+    setTagLoading(true);
+    tagsApi({ type: 'audience', value: activeAudience, signal: ac.signal })
+      .then((r) => {
+        if (!alive) return;
+        setActiveTagIds(new Set((r.passages || []).map((p) => p.passage_id)));
+        setTagLoading(false);
+      })
+      .catch(() => { if (alive) setTagLoading(false); });
+    return () => { alive = false; ac.abort(); };
+  }, [activeAudience]);
+
+  // Toggle a chip. Activating resets the drill to the root + closes any open
+  // leaf so the filtered tree is shown from the top rather than stranded deep
+  // in a now-pruned branch.
+  function toggleAudience(value) {
+    setLeafId(null);
+    setPath([]);
+    setActiveAudience((cur) => (cur === value ? null : value));
+  }
+
+  // The tree actually rendered: full corpus, or pruned to the active tag set.
+  // pruneTree keeps a leaf iff its passage is in the set, and an interior node
+  // iff it has a surviving descendant. Memoized so the O(tree) walk only runs
+  // when the set changes, not on every render. Navigation handlers keep using
+  // the full `top` (prev/next spans the whole corpus, not the filtered view).
+  const displayTop = useMemo(
+    () => (activeTagIds ? pruneTree(top, activeTagIds) : top),
+    [top, activeTagIds],
+  );
+
   function selectAt(depth, node) {
     if (node.stub) return;
     if (node.passageId) {
@@ -91,7 +148,7 @@ export default function BrowseView({
     if (derived) setPath(derived);
   }, [leafId, top, path.length, setPath]);
 
-  const crumb = pathNames(top, path);
+  const crumb = pathNames(displayTop, path);
 
   // Reading mode: hide breadcrumb / columns / pinned, just the selected
   // passage centered. Same usePassage data used in either layout.
@@ -325,6 +382,40 @@ export default function BrowseView({
         ) : (
           /* No leaf — show the tree drill-down. */
           <>
+            {audienceFacet.length > 0 && (
+              <div style={chipRow}>
+                <span style={chipRowLabel}>Audience</span>
+                {audienceFacet.map((f) => {
+                  const on = activeAudience === f.tag_value;
+                  return (
+                    <button
+                      key={f.tag_value}
+                      onClick={() => toggleAudience(f.tag_value)}
+                      style={{ ...chip, ...(on ? chipActive : null) }}
+                      aria-pressed={on}
+                      title={`Show passages addressed to ${AUDIENCE_LABELS[f.tag_value] || f.tag_value}`}
+                    >
+                      <span>{AUDIENCE_LABELS[f.tag_value] || f.tag_value}</span>
+                      <span style={chipCount}>{f.n}</span>
+                    </button>
+                  );
+                })}
+                {activeAudience && (
+                  <button onClick={() => toggleAudience(activeAudience)} style={chipClear}>
+                    clear ×
+                  </button>
+                )}
+              </div>
+            )}
+
+            {activeAudience && (
+              <p style={filterNote}>
+                {tagLoading
+                  ? 'Filtering the tree…'
+                  : `Tree narrowed to passages addressed to ${AUDIENCE_LABELS[activeAudience] || activeAudience} · ${activeTagIds?.size ?? 0} passages. Other branches hidden.`}
+              </p>
+            )}
+
             {crumb.length > 0 && (
               <nav style={breadcrumb}>
                 <BreadcrumbLink onClick={() => { setPath([]); setLeafId(null); }}>Canon</BreadcrumbLink>
@@ -342,7 +433,7 @@ export default function BrowseView({
             <div style={columnsScroll} ref={columnsScrollRef}>
               <style>{columnAnimCss}</style>
               <TreeLevel
-                items={top}
+                items={displayTop}
                 depth={0}
                 path={path}
                 leafId={leafId}
@@ -350,12 +441,18 @@ export default function BrowseView({
               />
             </div>
 
-            {!corpusLoading && top.length > 0 && (
+            {!corpusLoading && displayTop.length > 0 && (
               <div style={hintRow}>
                 <p style={hint}>
                   Click a heading to expand, click a leaf{' '}
                   <span style={{ color: 'var(--bc-accent)' }}>•</span> to open the passage.
                 </p>
+              </div>
+            )}
+
+            {activeAudience && !tagLoading && displayTop.length === 0 && (
+              <div style={hintRow}>
+                <p style={hint}>No passages in the tree carry this audience tag.</p>
               </div>
             )}
 
@@ -376,6 +473,35 @@ function BreadcrumbLink({ children, onClick }) {
     <button onClick={onClick} style={crumbLink}>{children}</button>
   );
 }
+
+// Prune a corpus tree to only the branches reaching a passage in `idSet`.
+// A leaf survives iff its passage id is in the set; an interior node survives
+// iff at least one descendant survives. Returns a new array (shallow-copies
+// interior nodes so the original tree is untouched and remains shareable).
+function pruneTree(nodes, idSet) {
+  const out = [];
+  for (const n of nodes || []) {
+    if (n.passageId) {
+      if (idSet.has(n.id)) out.push(n);
+    } else if (n.children?.length) {
+      const kids = pruneTree(n.children, idSet);
+      if (kids.length) out.push({ ...n, children: kids });
+    }
+  }
+  return out;
+}
+
+// Display labels for the curated `audience` tag values. The stored values are
+// the lowercase canonical keys (so ?tag=audience:monks works); these are just
+// the human-facing chip text.
+const AUDIENCE_LABELS = {
+  monks: 'Monks',
+  nuns: 'Nuns',
+  laypeople: 'Laypeople',
+  kings: 'Kings',
+  brahmins: 'Brahmins',
+  devas: 'Devas',
+};
 
 const wrap = { maxWidth: 1200, margin: 0, padding: '24px 28px 48px' };
 
@@ -512,6 +638,76 @@ const pinnedClearBtn = {
   textTransform: 'uppercase',
   cursor: 'pointer',
   padding: 0,
+};
+
+// Audience chip filter row — sits above the breadcrumb in tree view.
+const chipRow = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+  flexWrap: 'wrap',
+  marginBottom: 14,
+};
+
+const chipRowLabel = {
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  marginRight: 2,
+};
+
+const chip = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 6,
+  padding: '5px 12px',
+  background: 'transparent',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.28)',
+  borderRadius: 999,
+  cursor: 'pointer',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  color: 'var(--bc-text-primary)',
+  transition: 'background 100ms ease, border-color 100ms ease',
+};
+
+const chipActive = {
+  background: 'rgba(var(--bc-accent-rgb), 0.14)',
+  borderColor: 'var(--bc-accent)',
+  color: 'var(--bc-accent)',
+};
+
+const chipCount = {
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.04em',
+  color: 'var(--bc-text-tertiary)',
+  fontVariantNumeric: 'tabular-nums',
+};
+
+const chipClear = {
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--bc-text-tertiary)',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  cursor: 'pointer',
+  padding: '5px 4px',
+};
+
+const filterNote = {
+  margin: '0 0 14px',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontStyle: 'italic',
+  fontSize: 12,
+  color: 'var(--bc-text-tertiary)',
 };
 
 const breadcrumb = {
