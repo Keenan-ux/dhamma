@@ -1,0 +1,196 @@
+# Dhamma — open backlog
+
+The open-queue register for the Dhamma Ingest Coordinator. `HANDOFF.md` is
+the master state doc (what's live + how to verify); this file is the
+forward queue (partial + not-started + new ideas). Keep it current as
+items land. Tone: scholarly, plain. No marketing.
+
+Status key: 🟡 partial / in-flight · ⬜ not started · 💡 new idea (unscoped)
+
+---
+
+## 🟡 Partial / in-flight
+
+- **HNSW reindex after the gloss re-embed.** `REINDEX INDEX CONCURRENTLY
+  idx_passages_embedding` runs slowly on the 256 MB `dhamma-pg` instance:
+  the graph (~1.9 GB) far exceeds `maintenance_work_mem` (64 MB), so it
+  falls to the disk-spill build path. It is online (CONCURRENTLY), so
+  search stays up on the in-place-updated old index, and it is optional —
+  not a correctness blocker. Only real speed lever is a temporary
+  `dhamma-pg` RAM bump + higher `maintenance_work_mem`, which restarts the
+  prod DB; disproportionate for an optional cleanup. Future re-embeds
+  should plan the reindex into a maintenance window.
+- **Library Meaning-mode search.** `articles.embedding` column exists but
+  is unpopulated; library search falls back to FTS. Same BGE-M3 pipeline
+  as passages — one-shot batch over 386 articles.
+- **Citation export.** `citationFormat.js` exists; needs a UI hook (a
+  one-click "copy PTS-format citation" on each passage card).
+- **ATI Library curated indexes → tags.** The 7 `index-*.html` files
+  (similes, names, subjects, titles, number, author, sutta) are tagging
+  metadata. `passage_tags(passage_id, tag_type, tag_value, source)` table
+  already exists; needs the ingest that mines the indexes + a tag-filter
+  UI in Browse. (Composes with the Audience facet idea below — same table.)
+- **Vinaya citation formatting.** Current display `PLI-TV-BI-VB-PJ1-4`;
+  cleaner is `Bhi. Pj. 1-4`. Needs a per-source mapping table.
+
+## ⬜ Not started
+
+- **Side-by-side parallel passage viewer.** Open two passages in adjacent
+  panes for textual comparison (DN 22 ↔ MN 10). High value for comparative
+  work. Designed, not built.
+- **Per-passage bookmarks.** localStorage-only "mark this passage" + a
+  Bookmarks tab.
+- **Interlinear gloss.** Render each Pāli word with a small English gloss
+  above/below using DPD inflections. No AI needed — the gloss data is the
+  same DPD inflection table the embed pass uses.
+- **Dictionary expansion.** Next per DICTIONARIES.md: CPD, then
+  Buddhadatta. (DPD, DPPN, PED, MW, BHS are done.) CPD blocked on an email
+  reply (`CPD_EMAIL_DRAFT.md`).
+- **Sentence-level snippet upgrade.** `/api/search` currently returns the
+  first ~200 chars. Sentence-level snippets need schema work. See the
+  sentence-chunking idea below — they're the same project.
+- **v3 migration off `@xenova/transformers` v2.** Best done with a full
+  corpus re-embed (so pair it with any future re-embed pass). ORT pin
+  caveat: v3's default onnxruntime 1.21 fails to load on the Win11 dev
+  box (1.17 pinned).
+- **AI-assisted draft translations.** `TRANSLATIONS-AI.md` carries the
+  design. Pilot: DN 1 Aṭṭhakathā vs BP209S gold standard. Needs user
+  decisions on model / UX / storage. Gated by the "no LLM synthesis by
+  default" rule — opt-in, clearly labeled AI-generated.
+- **Email Access to Insight / BCBS** announcing the mirror once everything
+  is ingested and displaying well (CC BY-NC 4.0 preservation).
+
+---
+
+## 💡 New ideas — from abuddhistview.com (ABV)
+
+ABV does vector search of suttas with **three retrieval lanes** fused by
+RRF. We have the equivalent of two of its lanes already (FTS over
+`fts_doc`; vector over `passages.embedding`), plus a third they lack
+(`vec_t` over `translations.embedding`). The ideas below are the lanes /
+facets worth borrowing. A retrieval lane = (text chunks) → (embedding) →
+(vector index) → (ANN query → ranked list); RRF merges the lanes.
+
+### Blurb lane (Effort: M) — highest value, smallest surface
+
+ABV's clever lane: vector search over ~1,600 curated one-paragraph
+**blurbs** (SC bilara summaries of what each sutta is *about*). A blurb is
+short and densely thematic, so its embedding isn't diluted by thousands of
+chars of surrounding narrative. Query "Buddha waves his hand and teaches
+monks how to behave around families" → the SN 16.3 blurb says roughly that
+→ ranks high even when the body-text lanes drown it.
+
+Model-agnostic: BGE-M3 (1024-d) substitutes cleanly for ABV's Voyage
+`voyage-3-large` (also 1024-d) — no schema change to a `blurbs.embedding
+vector(1024)` column, and if we later add SC Chinese parallel blurbs they
+land in the same multilingual space.
+
+Blurbs already on disk: `scripts/ingest/.cache/bilara-data/root/en/blurb/`
+(~1,600 across 73 JSON files).
+
+1. Add table `blurbs(passage_id, blurb, embedding vector(1024))` + HNSW
+   index — `server/sql/schema.sql`.
+2. New ingest script: walk the blurb JSONs, UPSERT keyed on passage_id.
+3. Batch-embed via BGE-M3 (one-shot, ~1,600 items, seconds locally).
+4. Add a fourth `vec_blurb` lane to the RRF fusion in `server/src/search.js`
+   (already fuses FTS + passages.embedding + translations.embedding).
+
+No changes to existing tables. Smallest-surface, highest-signal addition.
+
+### Audience facet (Effort: M) — schema already exists
+
+Filter suttas by intended audience (monks / nuns / laypeople / kings /
+brahmins / devas). `passage_tags(passage_id, tag_type, tag_value, source)`
+already exists, so schema work = zero.
+
+1. Curate the audience mapping (the long pole). Mine: ATI `index-*.html`
+   files (already on disk), sutta intros, DPPN. Insert as
+   `tag_type='audience'`.
+2. Extend `server/src/corpus.js` to return facet counts.
+3. Add a chip-filter row above the tree in `src/BrowseView.jsx`; narrow
+   `collectLeaves` against the tag set.
+
+Unblocks the broader ATI tagging work — similes / names / subjects /
+titles / number all share `passage_tags`.
+
+### Docs / posts section (Effort: S) — pure content + UI
+
+Author short site docs ("How search works", "About the corpus",
+"Dictionary coverage"). The `articles` table already exists with a
+free-form `category`; `/api/library` + `/api/library/:slug` already serve
+it.
+
+1. Author a few markdown docs.
+2. New ingest script UPSERTing them with `category='docs'`.
+3. Sidebar entry in `src/Sidebar.jsx`; render via a `DocsView` filtering
+   `category='docs'`.
+
+No backend or schema work.
+
+### Sentence chunking (Effort: M, disk-heavy) — real cost
+
+Sentence-level retrieval (and sentence-level snippets — same project).
+~5.7M sentence rows × 1024-d ≈ 20 GB; current `dhamma-pg` volume is 15 GB,
+so **volume extension is the prerequisite**.
+
+1. Extend the Fly volume (we went 5→15 GB once; would need ~30 GB).
+2. New table `passage_sentences(passage_id, position, text, embedding)` +
+   HNSW.
+3. Modify `scripts/ingest/embed_passages_glossed.py` to sentence-segment
+   before embedding (regex on `.!?।`).
+4. Full re-embed pass — ballpark a week of background runs at current
+   throughput.
+5. In `search.js`, replace the first-200-char snippet fallback with an ANN
+   subquery into `passage_sentences` for the best-matching sentence.
+
+Note: the CST per-`<p>` subdivision already partly solves this for
+commentary (300–500 char paragraph rows). So the marginal win of
+sentence-level is mostly on Tipiṭaka mūla + ATI Library, not
+Aṭṭhakathā/Ṭīkā. Weigh against the disk + week-of-compute cost.
+
+---
+
+## Design notes / resolved decisions
+
+### Cross-lingual search: we do NOT embed per language
+
+Recurring question: for English (or other-language) queries against Pāli,
+isn't embedding every language wasteful — why not translate the query to
+Pāli, or search translations and map back?
+
+Resolved. The architecture already has two complementary cross-lingual
+mechanisms, and a third (query-translation) is correctly avoided:
+
+1. **One multilingual vector space (BGE-M3).** `passages.embedding`
+   (`vec_p` lane) puts ALL languages into one shared 1024-d space, so a
+   query in any language matches Pāli directly with NO translation step.
+   This is why BGE-M3 was chosen and why we never embed a separate index
+   per query-language. A future Chinese/Sanskrit query needs zero new
+   work on the query side; new-language *corpus* text (e.g. Chinese Āgama
+   parallels) would embed into the same space, not a separate one.
+
+2. **Translation lane already built (`vec_t`).** This IS the "search
+   English, map back to Pāli" idea — already implemented. `translations`
+   has a populated `embedding` column (9,652/9,652 embedded), and
+   `search.js` runs a `vec_t` lane that ANN-searches translation vectors
+   and maps to their passages. Its own comment: it "closes the
+   cross-lingual gap on ~11,609 CST passages" that have translations,
+   where English↔English matching beats bridging through BGE-M3's Pāli.
+
+3. **Why the gloss-injection re-embed was still needed** (not redundant
+   with the above): ~89% of the corpus — commentary + sub-commentary
+   (~173,684 of 194,710 passages) — has NO English translation, so the
+   `vec_t` lane is empty for them. Injecting DPD English glosses into
+   their `passages.embedding` text sharpened `vec_p` specifically for that
+   untranslated bulk. It complements the translation lane; it doesn't
+   duplicate it.
+
+4. **Query-translation (English query → MT to Pāli → search) is the weak
+   option** and was correctly not pursued: Pāli is low-resource, general
+   MT won't reliably produce e.g. "purification of view" → *diṭṭhivisuddhi*
+   — that term mapping is exactly what the DPD + alias table encode, not
+   what an MT generates on the fly.
+
+Net: adding a new query language is free (BGE-M3 handles it); adding a new
+language's *translations* becomes another `vec_t`-style lane; we never
+maintain a per-language embedding of the whole corpus.
