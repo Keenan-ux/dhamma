@@ -14,6 +14,20 @@ import { stemForPrefix } from './paliStem.js';
 
 const RRF_K = 60;
 
+// Weight on the blurb lane's RRF contribution (the fourth Meaning-mode lane,
+// vec_blurb). A blurb is a short, human-curated "aboutness" summary, so a
+// strong blurb match (rank 1-3) is a higher-precision topical signal than an
+// incidental body-text fragment. With four lanes plus length-dampening and the
+// canonicality / primary-text boosts, an unweighted blurb hit (~1/61) is too
+// weak to lift a body-sparse sutta into the top results — which defeats the
+// lane's whole purpose (surface the ABOUT-this sutta even when the body-text
+// lanes drown it). 2.5× lands a blurb-#1 sutta in the top 5 while still letting
+// suttas that match on body AND blurb rank above it — e.g. the query "approach
+// families like the moon" surfaces SN 16.3 (Candūpama) at ~#3, behind genuine
+// peers like AN 5.111 (Kulūpaka, "On Visiting Families"). Values >=3 start to
+// let blurb-only hits dominate suttas with broader relevance.
+const BLURB_WEIGHT = 2.5;
+
 // Primary-text anchor list — well-known canonical suttas that
 // scholars expect to surface near the top for thematic queries.
 // Without this, the canonicality boost (1.25× on mula) lifts mula
@@ -1131,6 +1145,27 @@ export async function runSearch(rawParams) {
           GROUP BY t.passage_id
           ORDER BY MIN(t.embedding <=> ${qVecLit}::vector)
           LIMIT ${FUSION_POOL}
+        ),
+        -- vec_blurb — ANN over the curated SuttaCentral blurbs (one short,
+        -- densely thematic paragraph per sutta saying what it is *about*).
+        -- Mirrors vec_t, but the blurbs table holds one row per passage (PK
+        -- passage_id) so no GROUP BY/MIN is needed. Because a blurb is short
+        -- and on-topic, its vector isn't diluted by thousands of chars of
+        -- surrounding narrative, so an "about this sutta" query (e.g. "how to
+        -- behave around families" → SN 16.3) ranks the right sutta high even
+        -- when the body-text lanes (fts / vec_p) drown it. Same 0.7 distance
+        -- clip as the other vector lanes. ~4k rows: a seq scan is fine while
+        -- the blurb HNSW build is deferred past the passages reindex.
+        vec_blurb AS (
+          SELECT b.passage_id AS id,
+                 ROW_NUMBER() OVER (ORDER BY b.embedding <=> ${qVecLit}::vector) AS rnk
+          FROM blurbs b
+          JOIN passages p ON p.id = b.passage_id
+          WHERE b.embedding IS NOT NULL
+            AND (b.embedding <=> ${qVecLit}::vector) < ${VEC_MAX_DIST}
+            ${pitakaP} ${layerP} ${tagP}
+          ORDER BY b.embedding <=> ${qVecLit}::vector
+          LIMIT ${FUSION_POOL}
         )
         SELECT p.id, p.citation, p.title, p.title_en, p.canon, p.work_slug, p.original, p.translation,
                -- Length-aware score: dampen very short passages so single-line
@@ -1142,10 +1177,20 @@ export async function runSearch(rawParams) {
                -- consistently out-RRF'ing canonical suttas (1000+ chars) on
                -- broad thematic queries like 'metta'. Earlier curve (/300) was
                -- too gentle to flip the ordering.
-               ((COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
+               -- The three BODY-text lanes (fts / vec_p / vec_t) are length-
+               -- dampened so short verse passages don't dominate broad thematic
+               -- queries. The blurb lane is deliberately OUTSIDE the dampener:
+               -- a blurb is an "aboutness" summary, so a sutta whose blurb
+               -- matches should surface on that strength however short its body
+               -- is — that is the whole point of the lane (surface the
+               -- ABOUT-this sutta even when the body-text lanes drown it). The
+               -- blurb term still gets the canonicality / primary-text
+               -- multipliers below.
+               (((COALESCE(1.0 / (${RRF_K} + fts.rnk), 0)
                + COALESCE(1.0 / (${RRF_K} + vec_p.rnk), 0)
                + COALESCE(1.0 / (${RRF_K} + vec_t.rnk), 0))
                * (1.0 - exp(-length(COALESCE(p.original, '') || COALESCE(p.translation, '')) / 800.0))
+               + ${BLURB_WEIGHT} * COALESCE(1.0 / (${RRF_K} + vec_blurb.rnk), 0))
                -- Canonicality boost: a 25% multiplier on canonical mula
                -- passages. Without it, the Visuddhimagga's systematic
                -- treatment of mettā (Vism §80, ~3K chars of terminology)
@@ -1179,10 +1224,11 @@ export async function runSearch(rawParams) {
                * CASE WHEN p.id = ANY(${[...PRIMARY_TEXTS]}::text[]) THEN 2.5 ELSE 1.0 END) AS score,
                ${hlPassageRRF} AS headline
         FROM passages p
-        LEFT JOIN fts   ON fts.id   = p.id
-        LEFT JOIN vec_p ON vec_p.id = p.id
-        LEFT JOIN vec_t ON vec_t.id = p.id
-        WHERE (fts.id IS NOT NULL OR vec_p.id IS NOT NULL OR vec_t.id IS NOT NULL)
+        LEFT JOIN fts       ON fts.id       = p.id
+        LEFT JOIN vec_p     ON vec_p.id     = p.id
+        LEFT JOIN vec_t     ON vec_t.id     = p.id
+        LEFT JOIN vec_blurb ON vec_blurb.id = p.id
+        WHERE (fts.id IS NOT NULL OR vec_p.id IS NOT NULL OR vec_t.id IS NOT NULL OR vec_blurb.id IS NOT NULL)
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
       `;
