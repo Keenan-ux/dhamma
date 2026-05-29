@@ -44,15 +44,27 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
 
 ## 🟡 Partial / in-flight
 
-- **HNSW reindex after the gloss re-embed.** `REINDEX INDEX CONCURRENTLY
-  idx_passages_embedding` runs slowly on the 256 MB `dhamma-pg` instance:
-  the graph (~1.9 GB) far exceeds `maintenance_work_mem` (64 MB), so it
-  falls to the disk-spill build path. It is online (CONCURRENTLY), so
-  search stays up on the in-place-updated old index, and it is optional —
-  not a correctness blocker. Only real speed lever is a temporary
-  `dhamma-pg` RAM bump + higher `maintenance_work_mem`, which restarts the
-  prod DB; disproportionate for an optional cleanup. Future re-embeds
-  should plan the reindex into a maintenance window.
+- **HNSW reindex after the gloss re-embed — NOT done; do NOT casually re-run.**
+  `REINDEX INDEX CONCURRENTLY idx_passages_embedding` on the 256 MB
+  `dhamma-pg` instance ran for **4+ hours** on the disk-spill path (graph
+  ~1.9 GB ≫ `maintenance_work_mem` 64 MB) and **caused a prod outage on
+  2026-05-29**: it held a SHARE UPDATE EXCLUSIVE lock on `passages` that
+  blocked the app's boot-time schema apply (`db.js` runs `CREATE INDEX IF
+  NOT EXISTS` on passages before `listen()`), so every app cold-start hung.
+  Resolution: `pg_terminate_backend` the 3 reindex backends → locks released
+  → app booted; dropped the invalid `idx_passages_embedding_ccnew` artifact.
+  The valid `idx_passages_embedding` is intact and serves search fine (the
+  embed did in-place vector updates; recall is marginally degraded by graph
+  churn but functional). **A reindex is genuinely optional and must be a
+  deliberate maintenance-window op** — temporary `dhamma-pg` RAM bump +
+  higher `maintenance_work_mem`, and NO concurrent `flyctl deploy` (the
+  cold-start lock conflict). Lower priority than it looks.
+- **Blurbs HNSW index — deferred.** `idx_blurbs_embedding` is intentionally
+  NOT built (removed from schema.sql after it hung a boot — see incident
+  above). The `vec_blurb` lane runs on a seq scan (<10 ms for ~4 k rows).
+  Build it as a deliberate `CREATE INDEX CONCURRENTLY` one-off only when
+  blurbs grow enough to need it. **Standing rule: never put an HNSW build
+  in schema.sql** — it is applied on every boot before `listen()`.
 - **Docs content.** The Docs *section* ships; the docs themselves
   ("How search works", "About the corpus", "Dictionary coverage") need
   authoring + an UPSERT with `category='docs'`.
