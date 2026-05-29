@@ -306,6 +306,34 @@ CREATE TABLE IF NOT EXISTS passage_tags (
 CREATE INDEX IF NOT EXISTS idx_pt_passage    ON passage_tags(passage_id);
 CREATE INDEX IF NOT EXISTS idx_pt_type_value ON passage_tags(tag_type, tag_value);
 
+-- Curated SuttaCentral blurbs — one short, densely thematic paragraph per
+-- sutta describing what it is *about*. Sourced from bilara-data
+-- root/en/blurb/. A blurb is a fourth Meaning-mode retrieval lane (vec_blurb
+-- in search.js, RRF-fused alongside FTS + passages.embedding +
+-- translations.embedding): because the blurb is short and on-topic, its
+-- BGE-M3 vector isn't diluted by thousands of chars of surrounding
+-- narrative, so a thematic query ("how to behave around families") surfaces
+-- the ABOUT-this sutta (SN 16.3) even when the body-text lanes drown it.
+-- One blurb per passage, so passage_id is the primary key and the ingest
+-- UPSERTs on it. embedding is filled by scripts/ingest/embed-blurbs.mjs.
+CREATE TABLE IF NOT EXISTS blurbs (
+  passage_id  TEXT PRIMARY KEY REFERENCES passages(id) ON DELETE CASCADE,
+  blurb       TEXT NOT NULL,
+  embedding   vector(1024),
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- HNSW for the vec_blurb ANN lane. Unlike the passages / translations /
+-- dictionary HNSW indexes (kept OUT of schema.sql because a non-CONCURRENT
+-- build on those large tables would take ACCESS EXCLUSIVE long enough to
+-- block a production cold-start), the blurbs table is tiny (~4,000 rows /
+-- ~16 MB of vectors), so the IF-NOT-EXISTS build is sub-second. apply-schema
+-- runs this while the table is still empty (before the ingest), so the
+-- boot-time build is effectively free and the index then fills incrementally
+-- as embed-blurbs.mjs populates the column.
+CREATE INDEX IF NOT EXISTS idx_blurbs_embedding
+  ON blurbs USING hnsw (embedding vector_cosine_ops);
+
 -- Messages submitted via the About-page contact form. Plain inbox
 -- table — the maintainer reads via the DB proxy (no email-service
 -- wiring needed). from_email is optional (some users won't share
