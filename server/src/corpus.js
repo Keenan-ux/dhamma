@@ -13,11 +13,37 @@ import { sql } from './db.js';
 // future use. See CLAUDE.md for the rationale.
 const UDDANA_HEADER_REGEX = '^cst-[a-z0-9]+m\\.mul-(dn|mn|sn|an|kn)[0-9]+$';
 
-export async function runCorpus() {
-  if (!sql) return { traditions: [] };
+// Per-tag_type facet rollup for faceted Browse filtering. Returns
+//   { <tag_type>: [{ value, count }, …], … }
+// where each type's values are ordered by descending passage count. The
+// Browse chip-filter row is the primary consumer (it reads the `audience`
+// list); the other ATI-derived types (simile / name / subject / number /
+// title / author) ride along so any future faceted UI can use them without
+// a second round-trip. Counts are passage_tags rows per (type, value) — one
+// row per tagged passage, so the count is a passage count.
+export async function getTagFacets() {
+  if (!sql) return {};
+  const rows = await sql`
+    SELECT tag_type, tag_value, COUNT(*)::int AS count
+    FROM passage_tags
+    GROUP BY tag_type, tag_value
+    ORDER BY tag_type, count DESC, tag_value
+  `;
+  const facets = {};
+  for (const r of rows) {
+    (facets[r.tag_type] ||= []).push({ value: r.tag_value, count: r.count });
+  }
+  return facets;
+}
 
-  // Run the tree query and the per-work passage list in parallel.
-  const [rows, passageRows] = await Promise.all([
+export async function runCorpus() {
+  if (!sql) return { traditions: [], tagFacets: {} };
+
+  // Run the tree query, the per-work passage list, and the tag facets in
+  // parallel. tagFacets is a sibling key on the response — the `traditions`
+  // tree shape is unchanged, so existing consumers (useCorpus reads only
+  // `traditions`) are unaffected.
+  const [rows, passageRows, tagFacets] = await Promise.all([
     sql`
       SELECT
         t.slug          AS tradition_slug,
@@ -67,6 +93,7 @@ export async function runCorpus() {
                position NULLS LAST,
                id
     `,
+    getTagFacets(),
   ]);
 
   const passagesByWork = new Map();
@@ -142,7 +169,7 @@ export async function runCorpus() {
     t.works.some((w) => (w.total_passage_count || 0) > 0)
   );
 
-  return { traditions: filtered };
+  return { traditions: filtered, tagFacets };
 }
 
 export async function getPassage(id) {
