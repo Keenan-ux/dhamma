@@ -23,6 +23,33 @@
 //   cd scripts/ingest
 //   DATABASE_URL="postgres://dhamma:PASS@localhost:15432/dhamma" \
 //     node ingest-ati-indexes.mjs
+//
+// ── Audit (2026-05-29) ──────────────────────────────────────────────────
+// Coverage of the 7 ATI index-*.html files on disk:
+//   index-similes.html  → simile   (dl) ✓ wired
+//   index-names.html    → name     (dl) ✓ wired
+//   index-subject.html  → subject  (dl) ✓ wired
+//   index-number.html   → number   (dl) ✓ wired
+//   index-title.html    → title    (ul) ✓ wired — resolves sparsely: its
+//                         <li> first-anchor is usually a nikāya *index* page,
+//                         not an individual sutta, so few rows land.
+//   index-author.html   → author   (dl) — same <dl class='index'> shape as the
+//                         other dl files (dt = author, dd = their tipitaka
+//                         translation links). Now wired below.
+//   index-sutta.html    → title    (ul, 'sutta-li') — the master by-sutta
+//                         listing. Unlike index-title, the sutta TITLE is the
+//                         <li>'s plain text (the only anchors are the listen
+//                         icon + per-translator tipitaka links), so the
+//                         first-anchor heuristic fails here; needs a
+//                         text-before-the-translator-bracket extraction. Now
+//                         wired below; folds into the `title` facet so it gains
+//                         real coverage the index-title file alone can't give.
+// Idempotency: DELETE WHERE source='ati' then INSERT … ON CONFLICT DO NOTHING.
+// Baseline counts (source='ati', pre-author/sutta): name 1780 · subject 878 ·
+//   simile 546 · number 343 (title 0). Audience tags are derived separately
+//   (source='derived') by derive-audience-tags.mjs so a re-run here never
+//   wipes them.
+// ────────────────────────────────────────────────────────────────────────
 
 import postgres from 'postgres';
 import fs from 'node:fs';
@@ -30,15 +57,21 @@ import path from 'node:path';
 
 const ATI_ROOT = 'C:/Users/isaac/OneDrive/Desktop/pokemon/accesstoinsight/ati';
 
-// `layout: 'dl'` — <dt>label</dt><dd>...links...</dd>
-// `layout: 'ul'` — <ul class='index'><li><a href>label</a> ... </li>
-//   (only index-title.html uses this)
+// `layout: 'dl'`       — <dt>label</dt><dd>...links...</dd>
+// `layout: 'ul'`       — <ul class='index'><li><a href>label</a> ... </li>
+//   (index-title.html — label is the first anchor's text)
+// `layout: 'sutta-li'` — <ul class='index'><li> Title (Cite) [<a>Translator</a> …] </li>
+//   (index-sutta.html — label is the <li>'s plain text up to the first
+//    translator bracket; the only anchors are the listen icon + per-translator
+//    tipitaka links, so the first-anchor heuristic does NOT work here)
 const INDEXES = [
   { file: 'index-similes.html', tag_type: 'simile',  layout: 'dl' },
   { file: 'index-names.html',   tag_type: 'name',    layout: 'dl' },
   { file: 'index-subject.html', tag_type: 'subject', layout: 'dl' },
   { file: 'index-title.html',   tag_type: 'title',   layout: 'ul' },
   { file: 'index-number.html',  tag_type: 'number',  layout: 'dl' },
+  { file: 'index-author.html',  tag_type: 'author',  layout: 'dl' },
+  { file: 'index-sutta.html',   tag_type: 'title',   layout: 'sutta-li' },
 ];
 
 if (!process.env.DATABASE_URL) {
@@ -133,6 +166,35 @@ async function main() {
         let lm;
         while ((lm = linkRe.exec(m[2])) !== null) {
           yield { label, href: lm[1] };
+        }
+      }
+      return;
+    }
+    if (layout === 'sutta-li') {
+      // index-sutta.html: <ul class='index'> of <li> rows where the visible
+      // text is "Title: Subtitle (Citation) [Translator | Translator]". The
+      // anchors are the listen-icon link + one tipitaka link per translator,
+      // so the label can't come from an anchor — it's the li's own text up to
+      // the first translator bracket. We strip tags (which removes the icon's
+      // alt='[suttareadings.net]' since it lives inside the <img> tag), decode
+      // entities, then cut at the first '[' that opens the translator list.
+      const ulRe = /<ul\s+class=['"]index['"]\s*>([\s\S]*?)<\/ul>/gi;
+      let ulm;
+      while ((ulm = ulRe.exec(html)) !== null) {
+        const liRe = /<li\b[^>]*>([\s\S]*?)<\/li>/gi;
+        let lim;
+        while ((lim = liRe.exec(ulm[1])) !== null) {
+          const liBody = lim[1];
+          // Strip tags FIRST (this drops the listen <img> whose
+          // alt='[suttareadings.net]' would otherwise eat the split), then cut
+          // at the first '[' opening the translator list.
+          const label = cleanLabel(cleanLabel(liBody).split('[')[0]);
+          if (!label) continue;
+          const linkRe = /<a\s+[^>]*href=["']([^"']+)["']/gi;
+          let lm;
+          while ((lm = linkRe.exec(liBody)) !== null) {
+            yield { label, href: lm[1] };
+          }
         }
       }
       return;
