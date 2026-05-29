@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { key: 'tags',        label: 'Tags' },
   { key: 'bookmarks',   label: 'Bookmarks' },
   { key: 'notes',       label: 'Notes' },
+  { key: 'docs',        label: 'Docs' },
 ];
 
 // Which nav items belong to the "Corpus" section (browseable canonical
@@ -59,6 +60,7 @@ export default function Sidebar({ tab, setTab, onRandomSutta }) {
     tags:        '#/tags',
     bookmarks:   '#/bookmarks',
     notes:       '#/notes',
+    docs:        '#/docs',
     about:       '#/about',
   };
   function handleNavClick(key, e) {

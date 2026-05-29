@@ -10,6 +10,7 @@ import ExtraCanonicalView from './ExtraCanonicalView.jsx';
 import LibraryView from './LibraryView.jsx';
 import BookmarksView from './BookmarksView.jsx';
 import NotesView from './NotesView.jsx';
+import DocsView from './DocsView.jsx';
 import TagsView from './TagsView.jsx';
 import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
@@ -80,6 +81,9 @@ function parseInitialHash() {
     out.tab = 'bookmarks';
   } else if (head === 'notes') {
     out.tab = 'notes';
+  } else if (head === 'docs') {
+    // DocsView reads the open-doc slug (#/docs/<slug>) from the hash itself.
+    out.tab = 'docs';
   } else if (head === 'tags') {
     out.tab = 'tags';
   } else if (head === 'about') {
@@ -206,6 +210,9 @@ export default function Dhamma() {
       hash = '/bookmarks';
     } else if (tab === 'notes') {
       hash = '/notes';
+    } else if (tab === 'docs') {
+      // DocsView manages its own /docs/<slug> deep link in-place.
+      if (!window.location.hash.startsWith('#/docs/')) hash = '/docs';
     } else if (tab === 'tags') {
       // TagsView manages its own /tags/<type>/<value> deep links.
       if (!window.location.hash.startsWith('#/tags')) hash = '/tags';
@@ -428,6 +435,12 @@ export default function Dhamma() {
                   setSearchTag(tag);
                   setTab('search');
                 }}
+              />
+            )}
+            {tab === 'docs' && (
+              <DocsView
+                onSearchTerm={(term) => { setQuery(term); setTab('search'); }}
+                onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
               />
             )}
             {tab === 'about' && <AboutView />}
