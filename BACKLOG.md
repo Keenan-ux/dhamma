@@ -69,6 +69,15 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
   ("How search works", "About the corpus", "Dictionary coverage") need
   authoring + an UPSERT with `category='docs'`.
 
+- **Metta / primary-text recall gap (found via the BLURB_WEIGHT A/B).** The
+  query "loving-kindness meditation" does NOT surface Snp 1.8 Karaṇīyamettā
+  in the top 6 at any blurb weight (0.0–2.5), even though Snp 1.8 should carry
+  the 2.5× primary-text boost. Suggests either Snp 1.8 is not in PRIMARY_TEXTS,
+  or the English query "loving-kindness" doesn't reach the Pāli mettā vector
+  without alias help (the FTS lane needs the mettā↔loving-kindness alias; the
+  vector lanes bridge weakly). Investigate: confirm Snp 1.8 ∈ PRIMARY_TEXTS;
+  check whether the metta alias is firing in Meaning mode. Not blurb-related.
+
 ## ⬜ Not started
 
 - **Interlinear gloss.** Render each Pāli word with a small English gloss
