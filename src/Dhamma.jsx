@@ -359,6 +359,7 @@ export default function Dhamma() {
             )}
             {tab === 'tipitaka' && (
               <CanonMapView
+                onRandomSutta={handleRandomSutta}
                 onDrill={(path, leafId) => {
                   setBrowsePath(path);
                   setBrowseLeafId(leafId || null);
