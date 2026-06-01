@@ -63,7 +63,7 @@ function shortNikaya(name) {
   return name.replace(/\s+Nikāya$/u, '');
 }
 
-export default function CanonMapView({ onDrill }) {
+export default function CanonMapView({ onDrill, onRandomSutta }) {
   const { shape, loading } = useCorpus();
   const [translatedOnly, setTranslatedOnly] = useState(false);
   const isNarrow = useIsNarrow();
@@ -150,8 +150,17 @@ export default function CanonMapView({ onDrill }) {
             onChange={(e) => setTranslatedOnly(e.target.checked)}
             style={{ accentColor: 'var(--bc-accent)' }}
           />
-          <span>Translated only</span>
+          <span>Translated</span>
         </label>
+        {onRandomSutta && (
+          <>
+            <span style={controlSep} aria-hidden="true">·</span>
+            <button type="button" onClick={onRandomSutta} style={randomBtn}
+                    aria-label="Open a random sutta" title="Open a random sutta">
+              Random sutta
+            </button>
+          </>
+        )}
       </div>
 
       {/* Narrow viewport: chip selector for piṭaka, then one column. */}
@@ -388,6 +397,8 @@ const topControls = {
   padding: '0 28px',
   display: 'flex',
   justifyContent: 'center',
+  alignItems: 'center',
+  gap: 12,
 };
 
 const threeCol = {
@@ -610,6 +621,28 @@ const toggleLabel = {
   textTransform: 'uppercase',
   color: 'var(--bc-text-secondary)',
   cursor: 'pointer',
+};
+
+// Random-sutta action sits on the same control line as the Translated
+// toggle. Button reset + matched small-caps sans; accent colour marks it
+// as an action rather than a setting.
+const randomBtn = {
+  border: 'none',
+  background: 'none',
+  padding: 0,
+  fontFamily: SANS,
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+  cursor: 'pointer',
+};
+
+const controlSep = {
+  fontFamily: SERIF,
+  fontSize: 12,
+  color: 'var(--bc-text-tertiary)',
 };
 
 const attribution = {
