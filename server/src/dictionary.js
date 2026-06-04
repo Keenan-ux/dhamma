@@ -223,6 +223,15 @@ export async function glossWords(words) {
   ));
   if (lowered.length === 0) return {};
 
+  // Lemma disambiguation. A surface form is often an inflection of several
+  // DPD entries (homographs + DPD's fine-grained numbered senses). Ordering
+  // by source alone picked an arbitrary sense — e.g. "majjhima" landed on
+  // sense 9 "(gram) 2nd person" instead of sense 1 "middle", and "nikāya"
+  // on a stray entry instead of "collection". Rank: (1) source (DPD richest),
+  // (2) prefer the entry whose own lemma IS the surface (a base-form word)
+  // over an oblique inflection of a different lemma, (3) DPD's primary sense
+  // first — the sense number is the integer in source_id ("majjhima 1"),
+  // and DPD numbers senses with the core meaning first, (4) id for stability.
   const rows = await sql`
     SELECT DISTINCT ON (di.surface_lower)
            di.surface_lower AS surface,
@@ -233,7 +242,10 @@ export async function glossWords(words) {
     JOIN dictionary_entries de ON de.id = di.entry_id
     WHERE di.surface_lower = ANY(${lowered})
     ORDER BY di.surface_lower,
-      CASE de.source WHEN 'dpd' THEN 1 WHEN 'ped' THEN 2 WHEN 'dppn' THEN 3 ELSE 9 END
+      CASE de.source WHEN 'dpd' THEN 1 WHEN 'ped' THEN 2 WHEN 'dppn' THEN 3 ELSE 9 END,
+      (de.headword_lower = di.surface_lower) DESC,
+      COALESCE(NULLIF(substring(de.source_id FROM '[0-9]+'), '')::int, 999),
+      de.id
   `;
   const glosses = {};
   for (const r of rows) {
