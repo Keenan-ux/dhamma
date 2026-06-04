@@ -14,6 +14,7 @@ import useIsNarrow from '../useIsNarrow.js';
 import { paliStem } from '../paliStem.js';
 import { escapeRegExp, highlightFind, withGlosses } from './highlight.jsx';
 import { filterBodySegments } from './segments.js';
+import InterlinearGloss from '../InterlinearGloss.jsx';
 
 // Renders one column of a passage segment-by-segment when the passage
 // has bilara segment metadata; otherwise falls back to a single <p>
@@ -521,6 +522,12 @@ export default function ReadingPanel({
   // visual noise; toggled in the reader header.
   const [glossesOn, setGlossesOn] = useState(false);
   const [glossMap, setGlossMap] = useState(null);
+  // Interlinear mode — distinct from the lighter hover-tooltip gloss
+  // above. When on, the Pāli column renders word-by-word with the DPD
+  // gloss stacked beneath each word (InterlinearGloss component). Off
+  // by default; the two gloss modes are mutually exclusive (turning one
+  // on clears the other) since both annotate the same Pāli column.
+  const [interlinearOn, setInterlinearOn] = useState(false);
   useEffect(() => {
     if (!glossesOn || !passage.original) { setGlossMap(null); return; }
     // Tokenize: any Unicode letter run (covers Pali diacritics)
@@ -853,12 +860,38 @@ export default function ReadingPanel({
                 key: 'gloss',
                 label: glossesOn ? 'Hide word glosses' : 'Show word glosses (DPD)',
                 active: glossesOn,
-                onClick: () => setGlossesOn((v) => !v),
+                onClick: () => setGlossesOn((v) => {
+                  const next = !v;
+                  if (next) setInterlinearOn(false); // mutually exclusive
+                  return next;
+                }),
                 icon: (
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/>
                     <path d="M12 4v16"/>
                     <path d="M8 20h8"/>
+                  </svg>
+                ),
+              });
+              // Interlinear mode — stacked Pāli + DPD gloss per word.
+              // Heavier than the hover gloss, so it's a separate toggle.
+              actions.push({
+                key: 'interlinear',
+                label: interlinearOn ? 'Hide interlinear gloss' : 'Interlinear gloss (DPD)',
+                active: interlinearOn,
+                onClick: () => setInterlinearOn((v) => {
+                  const next = !v;
+                  if (next) setGlossesOn(false); // mutually exclusive
+                  return next;
+                }),
+                icon: (
+                  // Two stacked lines (word over gloss) inside a frame —
+                  // reads as "text with annotation beneath".
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="8" x2="20" y2="8"/>
+                    <line x1="7" y1="13" x2="17" y2="13"/>
+                    <line x1="4" y1="18" x2="20" y2="18"/>
+                    <line x1="7" y1="22" x2="17" y2="22" opacity="0.5"/>
                   </svg>
                 ),
               });
@@ -1196,7 +1229,38 @@ export default function ReadingPanel({
         </div>
       )}
 
-      {passage.original && translationText && !isNarrow && columnMode === 'both' ? (
+      {/* Interlinear mode short-circuit. When on (and there's Pāli to
+          gloss), the Pāli column renders word-by-word with a DPD gloss
+          stacked beneath each word. The side-by-side / SegmentColumn
+          machinery below assumes inline prose, so interlinear can't
+          slot into it cleanly — instead we render the interlinear Pāli
+          block, then the English column underneath when both exist and
+          the viewport / column mode would normally show it. Hidden in
+          the English-only column mode. */}
+      {interlinearOn && passage.original && (
+        !isNarrow ? columnMode !== 'english' : mobileColumn !== 'english'
+      ) ? (
+        <>
+          <InterlinearGloss text={passage.original} style={readingOriginal} />
+          {translationText && (
+            !isNarrow
+              ? (columnMode === 'english' || columnMode === 'both')
+              : mobileColumn === 'english'
+          ) && (
+            translationIsHtml
+              ? <div style={readingTranslation} dangerouslySetInnerHTML={{ __html: sanitizeDictHtml(translationText) }} />
+              : <SegmentColumn
+                  passage={passage}
+                  language="english"
+                  fallback={translationText}
+                  findText={activeHighlight}
+                  findStem={activeStem}
+                  noteRanges={noteRanges}
+                  style={readingTranslation}
+                />
+          )}
+        </>
+      ) : passage.original && translationText && !isNarrow && columnMode === 'both' ? (
         <SideBySideReader
           passage={passage}
           pali={passage.original}

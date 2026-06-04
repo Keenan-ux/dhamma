@@ -19,7 +19,7 @@ import { aliasesReady } from './aliases.js';
 import { runSearch } from './search.js';
 import { runCorpus, getPassage, getPassages, getPassageGroup, getPassageGroupTranslations } from './corpus.js';
 import { runCompareStats } from './compareStats.js';
-import { runLookup } from './dictionary.js';
+import { runLookup, glossWords } from './dictionary.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -301,39 +301,27 @@ app.post('/api/contact', async (c) => {
 
 app.post('/api/gloss', async (c) => {
   // Batch word-gloss lookup for interlinear / hover glosses. Body:
-  // { words: ["sampajāno", "bhikkhave", ...] }.
-  // Returns: { glosses: { word: { headword, def } } } — only entries
-  // for words we actually found a lemma for. Definitions trimmed to
-  // first sentence / ~120 chars so tooltips stay readable.
+  // { words: ["sampajāno", "bhikkhave", ...] } — or { text: "..." } to
+  // let the server tokenise (lowercase, keep Pāli/Latin letter runs).
+  // Returns: { glosses: { word: { headword, def, source } } } — only
+  // entries for words we resolved a lemma for; unmatched words are
+  // absent so the caller renders the bare Pāli. Resolution + def
+  // trimming live in dictionary.js#glossWords (shared with any future
+  // interlinear pre-render pass).
   try {
-    const { sql } = await import('./db.js');
     if (!sql) return c.json({ glosses: {} });
     const body = await c.req.json().catch(() => ({}));
-    const words = Array.isArray(body.words) ? body.words.slice(0, 200) : [];
-    if (words.length === 0) return c.json({ glosses: {} });
-
-    const lowered = Array.from(new Set(words.map((w) => String(w).toLowerCase())));
-    // Walk inflections → dictionary_entries. Prefer DPD (richest), then
-    // PED, then DPPN. SELECT DISTINCT ON squashes to one row per surface
-    // form picking the best source.
-    const rows = await sql`
-      SELECT DISTINCT ON (di.surface_lower)
-             di.surface_lower AS surface,
-             de.lemma         AS headword,
-             de.definition    AS def,
-             de.source        AS source
-      FROM dictionary_inflections di
-      JOIN dictionary_entries de ON de.id = di.entry_id
-      WHERE di.surface_lower = ANY(${lowered})
-      ORDER BY di.surface_lower,
-        CASE de.source WHEN 'dpd' THEN 1 WHEN 'ped' THEN 2 WHEN 'dppn' THEN 3 ELSE 9 END
-    `;
-    const glosses = {};
-    for (const r of rows) {
-      const def = (r.def || '').replace(/\s+/g, ' ').trim();
-      const short = def.length > 120 ? def.slice(0, 117).trim() + '…' : def;
-      glosses[r.surface] = { headword: r.headword, def: short, source: r.source };
+    let words;
+    if (Array.isArray(body.words)) {
+      words = body.words;
+    } else if (typeof body.text === 'string') {
+      // Server-side tokenisation for the { text } form: any Unicode
+      // letter run (covers Pāli diacritics), lowercased + de-duped.
+      words = body.text.toLowerCase().match(/\p{L}+/gu) || [];
+    } else {
+      words = [];
     }
+    const glosses = await glossWords(words);
     return c.json({ glosses });
   } catch (err) {
     return c.json({ error: err.message }, 500);
