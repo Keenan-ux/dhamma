@@ -192,6 +192,58 @@ async function paliCascadeFallback(q, source, language) {
   return { entries: [], matched_via: null };
 }
 
+// Batch surface-form → short-gloss resolver, shared by /api/gloss
+// (both the lightweight hover-tooltip gloss and the interlinear
+// reader). Given a list of Pāli word surface forms, walk the DPD
+// inflection table to the owning dictionary entry and return one
+// short gloss per resolved surface:
+//
+//   { surface: { headword, def, source } }
+//
+// Resolution order per surface form: prefer DPD (richest, has the
+// inflection table), then PED, then DPPN. SELECT DISTINCT ON squashes
+// to a single best row per surface. `def` is the entry's first short
+// meaning, normalised and trimmed to ~120 chars so the gloss fits a
+// small interlinear line / tooltip. Unmatched surfaces are simply
+// absent from the map, so callers render the bare word with no gloss.
+//
+// This is the same surface→inflection→entry pattern runLookup uses in
+// stem mode (step 1 of paliCascadeFallback) and the ingest gloss
+// injection — factored out here so the endpoint stays thin and a
+// future interlinear pre-render pass can reuse it.
+const GLOSS_MAX_WORDS = 200;
+const GLOSS_DEF_MAX = 120;
+
+export async function glossWords(words) {
+  if (!sql) return {};
+  const list = Array.isArray(words) ? words : [];
+  if (list.length === 0) return {};
+  const lowered = Array.from(new Set(
+    list.slice(0, GLOSS_MAX_WORDS).map((w) => String(w || '').toLowerCase()).filter(Boolean)
+  ));
+  if (lowered.length === 0) return {};
+
+  const rows = await sql`
+    SELECT DISTINCT ON (di.surface_lower)
+           di.surface_lower AS surface,
+           de.lemma         AS headword,
+           de.definition    AS def,
+           de.source        AS source
+    FROM dictionary_inflections di
+    JOIN dictionary_entries de ON de.id = di.entry_id
+    WHERE di.surface_lower = ANY(${lowered})
+    ORDER BY di.surface_lower,
+      CASE de.source WHEN 'dpd' THEN 1 WHEN 'ped' THEN 2 WHEN 'dppn' THEN 3 ELSE 9 END
+  `;
+  const glosses = {};
+  for (const r of rows) {
+    const def = (r.def || '').replace(/\s+/g, ' ').trim();
+    const short = def.length > GLOSS_DEF_MAX ? def.slice(0, GLOSS_DEF_MAX - 3).trim() + '…' : def;
+    glosses[r.surface] = { headword: r.headword, def: short, source: r.source };
+  }
+  return glosses;
+}
+
 // Step-strength order — used to pick a single top-level matched_via
 // label when multiple sources each found via different paths.
 const MATCH_PRIORITY = ['headword', 'inflection', 'stem-prefix', 'prefix', 'compound', 'english-reverse'];
