@@ -57,7 +57,7 @@ export default function DocsView({ onSearchTerm, onCompareTerm }) {
         <div style={rule} />
         <h1 style={pageTitle}>Docs</h1>
         <p style={pageSubtitle}>
-          Notes on how this tool works — search, the corpus, the dictionaries.
+          Notes on how this tool works: search, the corpus, the dictionaries.
         </p>
         <div style={rule} />
       </header>

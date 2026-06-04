@@ -35,6 +35,11 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
   hardcodes "Trans. Bhikkhu Sujato" for every Theravāda translation.
 - **Library article embedding** — `articles.embedding` is fully populated
   (407/407). Library Meaning search was already unblocked.
+- **v3 transformers migration** — ALREADY DONE. Both package.json files are on
+  `@huggingface/transformers ^3` (with the onnxruntime-node 1.17 override);
+  embed.js / embed-articles.mjs / embed-blurbs.mjs use the v3 `dtype: 'q8'`
+  API. The library flip is complete and did NOT require a re-embed (only a
+  model swap would). Found during the 2026-05-29 agent run.
 - **Per-passage bookmarks**, **side-by-side parallel reader**, **per-passage
   notes**, **citation export button** — all built in prior sessions
   (BookmarksView/useBookmarks, SideBySideReader, NotesView/useNotes,
@@ -92,10 +97,6 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
 - **Sentence-level snippet upgrade.** `/api/search` currently returns the
   first ~200 chars. Sentence-level snippets need schema work. See the
   sentence-chunking idea below — they're the same project.
-- **v3 migration off `@xenova/transformers` v2.** Best done with a full
-  corpus re-embed (so pair it with any future re-embed pass). ORT pin
-  caveat: v3's default onnxruntime 1.21 fails to load on the Win11 dev
-  box (1.17 pinned).
 - **AI-assisted draft translations.** `TRANSLATIONS-AI.md` carries the
   design. Pilot: DN 1 Aṭṭhakathā vs BP209S gold standard. Needs user
   decisions on model / UX / storage. Gated by the "no LLM synthesis by
