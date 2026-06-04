@@ -128,36 +128,46 @@ filter clauses.
 
 ### Open backlog
 
-Most of the previously-listed open items shipped. What remains:
+[BACKLOG.md](BACKLOG.md) is the current source of truth for the open
+queue. The summary below tracks it; if the two ever diverge, trust
+BACKLOG.md and the live DB.
 
-- **ATI Library curated indexes** — the 7 `index-*.html` files (similes,
-  names, subjects, titles, number, author, sutta) are tagging metadata,
-  not standalone articles. TIER_ATI §7 calls for `passage_tags(passage_id,
-  tag_type, tag_value)` keyed off these indexes + a tag-filter UI in
-  Browse. Designed, not built.
-- **Library Meaning-mode search** — `articles.embedding` column exists
-  but isn't populated; library search falls back to FTS until embed pass
-  runs. Same BGE-M3 pipeline as passages.
-- **Side-by-side parallel passage viewer** — open two passages in
-  adjacent panes for textual comparison (DN 22 ↔ MN 10). High-value for
-  scholarly comparative work, designed but not built.
-- **Per-passage bookmarks** — localStorage-only "mark this passage" with
-  a Bookmarks tab.
+Most of the previously-listed open items shipped. **Landed since the
+last CLAUDE.md refresh** (do NOT re-open these): ATI curated-index
+tagging into `passage_tags` (audience, name, title, subject, simile,
+number) + the Browse tag-filter chips; the audience facet; Library
+Meaning-mode search (`articles.embedding` fully populated, 407/407);
+the side-by-side parallel passage reader; per-passage bookmarks; the
+citation-export button; per-passage notes; the blurb retrieval lane
+(`vec_blurb`, the 4th RRF lane); the Docs section (the `DocsView` +
+Sidebar entry ship, though no docs are authored yet); and Vinaya
+citation formatting (`PLI-TV-BI-VB-PJ1-4` → clean form). The metta /
+primary-text recall gap is also resolved (the mettā↔loving-kindness
+alias fires and `snp1.8` carries the primary-text boost; the
+BLURB_WEIGHT 2.5→1.0 tune surfaced it).
+
+What remains genuinely open:
+
+- **Docs content** — the Docs section ships but no docs are authored.
+  Write "How search works", "About the corpus", "Dictionary coverage"
+  and UPSERT them with `category='docs'`.
 - **Interlinear gloss** — render each Pali word with a small English
-  gloss above/below using DPD inflections. Possible without AI.
-- **Citation export** — one-click "copy PTS-format citation" on each
-  passage card. `citationFormat.js` exists; needs UI hook.
+  gloss above/below using DPD inflections. Possible without AI; the
+  gloss data is the same DPD inflection table the embed pass uses.
 - **Dictionary expansion** — DPPN + PED + MW + BHS done (MW + BHS are
   the Sanskrit pair: 193,890 classical + 17,839 Buddhist Hybrid
   entries from the Cologne digitization, queryable via `?language=san`).
-  Next per the roadmap in [DICTIONARIES.md](DICTIONARIES.md): CPD,
-  then Buddhadatta.
+  Next per the roadmap in [DICTIONARIES.md](DICTIONARIES.md): CPD
+  (blocked on an email reply, see `CPD_EMAIL_DRAFT.md`), then
+  Buddhadatta.
 - **Sentence-level snippet upgrade** ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md))
+  — disk-heavy; pairs with the sentence-chunking lane in BACKLOG.md.
 - **v3 migration from `@xenova/transformers` v2** ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md))
-  — best done with a corpus re-embed
-- **Citation formatting for Vinaya IDs** — current display is
-  `PLI-TV-BI-VB-PJ1-4`. Cleaner would be `Bhi. Pj. 1-4`; needs a
-  per-source mapping table
+  — best done with a corpus re-embed.
+- **AI-assisted draft translations** — `TRANSLATIONS-AI.md` carries the
+  design; gated by the "no LLM synthesis by default" rule (opt-in,
+  clearly labeled AI-generated). Needs user decisions on model / UX /
+  storage.
 - **Email Access to Insight** announcing the mirror once everything's
   ingested and displaying nicely. Send to BCBS; ATI is winding down due
   to maintainer attrition and they may want to know we're preserving

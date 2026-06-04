@@ -39,6 +39,18 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
   notes**, **citation export button** — all built in prior sessions
   (BookmarksView/useBookmarks, SideBySideReader, NotesView/useNotes,
   citationFormat wired into PassageCard + ReadingPanel).
+- **Metta / primary-text recall gap — RESOLVED (verified 2026-06-04, live DB).**
+  The earlier note (found during the BLURB_WEIGHT A/B at weight 2.5) said the
+  query "loving-kindness meditation" never surfaced Snp 1.8 Karaṇīyamettā in
+  the top 6. Re-verified against the live DB with the landed code: both root
+  causes were already covered. `snp1.8` IS in `PRIMARY_TEXTS` (carries the 2.5×
+  boost), and the mettā↔loving-kindness alias IS present in `seed-aliases.sql`
+  and fires in Meaning mode (the embedding-query expansion adds the full mettā
+  synonym set). The fix was the BLURB_WEIGHT 2.5→1.0 tune (commit 661eec9):
+  the 2.5 weight was burying the primary text under blurb-only hits. Current
+  top-6 for "loving-kindness meditation": kp9, **snp1.8 (#2)**, iti27, sn47.30,
+  ud3.5, sn10.4. For plain "loving-kindness": iti27, kp9, **snp1.8 (#3)**,
+  an4.32, iti22, sn20.4. No code change needed.
 
 ---
 
@@ -68,15 +80,6 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
 - **Docs content.** The Docs *section* ships; the docs themselves
   ("How search works", "About the corpus", "Dictionary coverage") need
   authoring + an UPSERT with `category='docs'`.
-
-- **Metta / primary-text recall gap (found via the BLURB_WEIGHT A/B).** The
-  query "loving-kindness meditation" does NOT surface Snp 1.8 Karaṇīyamettā
-  in the top 6 at any blurb weight (0.0–2.5), even though Snp 1.8 should carry
-  the 2.5× primary-text boost. Suggests either Snp 1.8 is not in PRIMARY_TEXTS,
-  or the English query "loving-kindness" doesn't reach the Pāli mettā vector
-  without alias help (the FTS lane needs the mettā↔loving-kindness alias; the
-  vector lanes bridge weakly). Investigate: confirm Snp 1.8 ∈ PRIMARY_TEXTS;
-  check whether the metta alias is firing in Meaning mode. Not blurb-related.
 
 ## ⬜ Not started
 
