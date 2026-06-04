@@ -136,8 +136,13 @@ app.get('/api/library', async (c) => {
           SELECT slug, title, author, category, year, source_url,
                  LENGTH(body) AS body_len
           FROM articles
-          WHERE source = 'ati'
-            AND (${category}::TEXT IS NULL OR category = ${category})
+          -- No source filter when a category/author is given: this branch
+          -- serves both the ATI Library (its categories are all source='ati')
+          -- and DocsView (category='docs', source='dhamma'). Categories do
+          -- not collide across sources, so category alone is unambiguous.
+          -- The default (no-category) list and byCategory below stay
+          -- source='ati' so the Library tab's own list/nav is unaffected.
+          WHERE (${category}::TEXT IS NULL OR category = ${category})
             AND (${author}::TEXT   IS NULL OR author   = ${author})
           ORDER BY category, author NULLS LAST, title
           LIMIT ${limit}
