@@ -1509,7 +1509,7 @@ const iconAction = {
   width: 30,
   height: 30,
   background: 'transparent',
-  border: '1px solid rgba(255,255,255,0.08)',
+  border: '1px solid rgba(var(--bc-border-rgb),0.08)',
   color: 'var(--bc-text-tertiary)',
   borderRadius: 6,
   cursor: 'pointer',
@@ -1881,7 +1881,7 @@ const readingTranslation = {
 const readingFooter = {
   marginTop: 20,
   paddingTop: 14,
-  borderTop: '1px solid rgba(255,255,255,0.05)',
+  borderTop: '1px solid rgba(var(--bc-border-rgb),0.05)',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'baseline',
@@ -2123,7 +2123,7 @@ const navRow = {
   gap: 16,
   paddingBottom: 14,
   marginBottom: 18,
-  borderBottom: '1px solid rgba(255,255,255,0.05)',
+  borderBottom: '1px solid rgba(var(--bc-border-rgb),0.05)',
 };
 
 // prev/next nav are anchors so right-click / Cmd-click work; this

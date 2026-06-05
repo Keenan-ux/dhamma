@@ -509,7 +509,7 @@ const readingModeWrap = { maxWidth: 720, margin: '0 auto', padding: '40px 28px 6
 
 const exitReadingBtn = {
   background: 'transparent',
-  border: '1px solid rgba(255,255,255,0.10)',
+  border: '1px solid rgba(var(--bc-border-rgb),0.10)',
   color: 'var(--bc-text-tertiary)',
   fontFamily: 'Outfit, system-ui, sans-serif',
   fontSize: 11,

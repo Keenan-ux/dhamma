@@ -193,6 +193,7 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
           style={input}
           spellCheck={false}
           autoComplete="off"
+          aria-label="Search the dictionary"
         />
         {term && (
           <button onClick={() => setTerm('')} style={clearBtn} aria-label="Clear">×</button>
@@ -427,7 +428,7 @@ const meta = {
 const errMsg = {
   margin: 0,
   fontSize: 13,
-  color: '#f08080',
+  color: 'var(--bc-loss-text)',
 };
 
 const resultHeader = {

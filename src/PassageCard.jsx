@@ -104,7 +104,7 @@ export default function PassageCard({ passage, highlight, first, onOpen, compact
   const linkAttrs = onOpen ? {
     href: passageHref(passage),
     onClick: handleCardClick,
-    'aria-label': `Open passage ${passage.citation}`,
+    'aria-label': `Open passage ${passage.citation || passage.title || passage.id}`,
   } : {};
 
   return (
