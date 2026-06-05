@@ -62,10 +62,22 @@ Per RE-EMBED-PLAN.md Phases 5-6, NOT yet done:
    USING hnsw (embedding vector_cosine_ops);`. Never put it in schema.sql.
    (If sentences are only used for per-passage snippets, the index can be
    deferred like the blurbs HNSW — a per-passage scan is cheap.)
-2. **Wire the snippet upgrade** in `server/src/search.js`: replace the
-   first-200-char fallback (`makeSnippet`) with a scoped ANN subquery
-   returning the best-matching sentence per result passage.
+2. **Snippet upgrade: DONE in code, AWAITING DEPLOY** (commit bf0472a).
+   `attachSentenceSnippets` in `server/src/search.js` replaces the
+   first-200-char fallback with the best-matching sentence per passage
+   (scoped per-passage ANN over `idx_psent_passage`, no global HNSW
+   needed; graceful fallback for not-yet-embedded passages). Verified
+   live. Goes live when the deploy freeze lifts (after the embed + step 1).
 3. Scale `dhamma-pg` back to 256 MB; revert any `dhamma` machine pinning.
+
+**Also committed but NOT deployed (held under the freeze, deploys in the
+same window):** the `server/src/dictionary.js` gloss `(gram)`-sense
+down-rank (commit bf0472a). Note: the agent that wrote it had a broken
+regex (JS `sql\`\`` template cooked the backslashes away, making the
+down-rank a silent no-op); it was fixed with doubled backslashes and
+re-verified through the real JS path. This is independent of the sentence
+work but held because no `flyctl deploy` may run while the embed writes
+`passage_sentences`.
 
 ## Follow-ons (not started)
 
