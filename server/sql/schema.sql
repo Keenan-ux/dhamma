@@ -354,3 +354,32 @@ CREATE TABLE IF NOT EXISTS contact_messages (
 CREATE INDEX IF NOT EXISTS idx_contact_created ON contact_messages(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_contact_status  ON contact_messages(status);
 CREATE INDEX IF NOT EXISTS idx_contact_iphash  ON contact_messages(ip_hash, created_at);
+
+-- Sentence-level chunks of passages, for sentence-precise Meaning snippets
+-- (replacing the first-200-char fallback) and an optional future
+-- vec_sentence retrieval lane. Populated additively by the segment pass
+-- (scripts/ingest/segment_sentences.mjs) and embedded by
+-- scripts/ingest/embed_sentences.py. `field` discriminates the Pāli
+-- 'original' from an English 'translation' so snippets can surface the
+-- matched sentence on either side (cross-language matching is the whole
+-- game, per the gloss re-embed). Resume cursor is `embedding IS NULL`,
+-- mirroring embed-articles.mjs / embed-blurbs.mjs.
+CREATE TABLE IF NOT EXISTS passage_sentences (
+  passage_id  TEXT NOT NULL REFERENCES passages(id) ON DELETE CASCADE,
+  position    INT  NOT NULL,                       -- 0-based ordinal within (passage, field)
+  field       TEXT NOT NULL DEFAULT 'original',    -- 'original' | 'translation'
+  text        TEXT NOT NULL,
+  embedding   vector(1024),
+  PRIMARY KEY (passage_id, field, position)
+);
+CREATE INDEX IF NOT EXISTS idx_psent_passage ON passage_sentences(passage_id);
+
+-- The vec_sentence HNSW index is deliberately NOT created here. schema.sql
+-- is applied on every server boot (server/src/db.js -> applySchema) before
+-- listen(); a CREATE INDEX ... hnsw over a multi-million-row table would
+-- block every cold-start for minutes-to-hours. This is the same hazard,
+-- at larger scale, that took prod down on 2026-05-29 (the blurbs HNSW build
+-- on boot). Build it ONCE, by hand, in a maintenance window:
+--   CREATE INDEX CONCURRENTLY idx_psent_embedding
+--     ON passage_sentences USING hnsw (embedding vector_cosine_ops);
+-- Never put an HNSW build in schema.sql.
