@@ -17,6 +17,33 @@ Status key: ✅ landed (verified) · 🟡 partial / in-flight · ⬜ not started
 
 ---
 
+## ▶ Next maintenance window (when the translation-sentence embed completes)
+
+The translation-sentence GPU embed (field='translation', 221,073 rows) is
+running; deploys are frozen until it finishes. Several fixes are committed on
+master since the last deploy (a11y, LIKE-escaping, layer echo, hashchange,
+Buddhist framing, theme tokens, corpus resilience) plus the snippet wiring.
+When the embed completes, in order:
+1. Confirm embed done: `passage_sentences` field='translation' pending=0.
+2. QA the translation sentences against the segmenter ASCII-ellipsis fix;
+   re-segment any garbage passages (only after the embed, never during).
+3. Merge the sutta→commentary feature branch (from the build agent).
+4. Optional but high-value: the compare-stats single-CTE perf refactor —
+   write + TEST it now (local server against prod DB is safe once the embed
+   is done; its boot applySchema no longer conflicts), then include it.
+5. `npm run build` + `node --check` the edited server files.
+6. `flyctl deploy --remote-only --app dhamma` (CI is on `main` not `master`).
+7. Smoke-test: translation-side sentence snippets; the new commentary
+   endpoint (`curl /api/passage/dn1/commentary`); the LIKE fixes
+   (`compare-stats?q=%25` -> 0); gloss `(gram)`; light-theme hairlines; the
+   a11y skip link / focus ring; dbcheck.
+8. **`git push origin master`** (operator authorized the push for when the
+   GPU/proxy is free).
+9. Teardown: dhamma-pg stays 256 MB; stop the `flyctl proxy 15432` and the
+   dhamma-dev preview server if no further local work is queued.
+
+---
+
 ## ✅ Landed & verified (2026-05-29 parallel round + prior sessions)
 
 Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
