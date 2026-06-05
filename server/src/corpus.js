@@ -219,21 +219,47 @@ export async function getPassage(id) {
 //     distinguishes CST's "Brahmajālasuttaṃ" from SC's
 //     "Brahmajālasutta"), then follow that sibling's key.
 //
+// MN/SN/AN — THE TITLE-BRIDGE FALLBACK.
+//   The key-bridge above fails for SC per-sutta ids in MN/SN/AN because
+//   their commentary is NOT keyed per-sutta. The whole Papañcasūdanī
+//   vol.1 lives under ONE locator (`mn1_1`); each per-sutta commentary
+//   block is distinguished only by its <div>'s TITLE, of the form
+//
+//     "10. Satipaṭṭhānasuttavaṇṇanā"        (MN, AN — per sutta)
+//     "1-2. Avijjāsuttādivaṇṇanā"           (SN peyyāla group: "…etc.")
+//
+//   The CST mūla rows for those nikāyas are vagga-level, so the SC sutta
+//   ("Satipaṭṭhānasutta") has no per-sutta CST mūla title twin and the
+//   key-bridge returns nothing. We then fall back to matching commentary
+//   rows in pli-{nik}-attha / pli-{nik}-tika whose normalised title
+//   STARTS WITH the sutta's normalised title and ENDS in "vaṇṇanā" — the
+//   sutta's own commentary heading. Including the sutta name's "sutta"
+//   token in the prefix anchors the match: "satipaṭṭhānasutta" won't
+//   prefix-match an unrelated "satipaṭṭhānakathāvaṇṇanā", but DOES catch
+//   SN's grouped "…suttādivaṇṇanā". We group by (parent_div, normalised
+//   title) — one entry per physical commentary SECTION, pointing at its
+//   lowest-ordinal paragraph (the section's first <p>, which the reader's
+//   group-fetch expands forward into the whole block).
+//
 // LIMITATIONS (documented for the UI + callers):
 //   - DN commentary is per-sutta, so DN suttas (CST or SC ids) resolve
-//     to that sutta's own Sv-a + Sv-pṭ section. The SC title-bridge is
-//     100% on DN's 34 suttas (verified, no collisions).
-//   - MN/SN/AN commentary is chunked per-VAGGA, not per-sutta. The CST
-//     mūla rows for those nikāyas are also vagga-level, so reading a
-//     CST mūla vagga resolves to that vagga's commentary. SC mūla ids
-//     are per-individual-sutta and have no vagga-level title twin, so
-//     the title-bridge generally returns empty for MN/SN/AN SC ids —
-//     they fall through to [] rather than guessing.
+//     to that sutta's own Sv-a + Sv-pṭ section via the key-bridge. The SC
+//     title-bridge is 100% on DN's 34 suttas (verified, no collisions).
+//   - MN/AN: the per-sutta title-bridge resolves SC ids (mn10, an3.61)
+//     to that sutta's own Ps-a / Mp-a (+ -pṭ) heading. A handful of
+//     suttas whose CST aṭṭhakathā is folded into a neighbour's heading
+//     (e.g. mn152 has a ṭīkā heading but no standalone aṭṭhakathā one)
+//     resolve their ṭīkā only — partial coverage, not empty.
+//   - SN reuses sutta names across saṃyuttas (several "Ādittasutta"s,
+//     "Avijjāsutta"s, …). The SC id alone can't disambiguate which
+//     saṃyutta by title, so for those the title-bridge returns ALL
+//     matching commentary headings (one per saṃyutta) rather than
+//     guessing one — the scholar picks. Unique SN names resolve cleanly.
 //   - Vism/Vinaya/Abhidhamma mūla aren't in the sutta nikāyas, so they
 //     return [] here (their commentary lives under different slugs with
 //     a different alignment and isn't a sutta→commentary jump).
 //   - Passages that are themselves commentary/sub-commentary/anya, or
-//     have no resolvable mūla key, return empty arrays (not an error).
+//     have no resolvable mūla key/title, return empty arrays (not error).
 
 const SUTTA_NIKAYA_SLUGS = new Set(['pli-dn', 'pli-mn', 'pli-sn', 'pli-an', 'pli-kn']);
 
@@ -248,6 +274,32 @@ function keyFromCstMula(id) {
   const key = m[1].replace(/_p\d+$/, '');
   const nik = (key.match(/^([a-z]+)\d/) || [])[1] || null;
   return nik ? { nik, key } : null;
+}
+
+// Split a flat list of CST commentary rows (each carrying work_role
+// 'attha' | 'tika') into the reader's { attha, tika } layer arrays,
+// capped at perLayer. Shared by the key-bridge and the title-bridge so
+// both emit the identical entry shape the reader already renders.
+function splitCommentaryLayers(rows, id, perLayer) {
+  const layerEntry = (r) => ({
+    id: r.id,
+    citation: r.citation,
+    title: r.title,
+    work_slug: r.work_slug,
+    layer: r.work_role,            // 'attha' | 'tika'
+    snippet: r.snippet || null,
+  });
+  const attha = [];
+  const tika = [];
+  for (const r of rows) {
+    if (r.work_role === 'tika') tika.push(layerEntry(r));
+    else attha.push(layerEntry(r));
+  }
+  return {
+    passage_id: id,
+    attha: attha.slice(0, perLayer),
+    tika: tika.slice(0, perLayer),
+  };
 }
 
 export async function getCommentaryFor(id, { perLayer = 60 } = {}) {
@@ -304,57 +356,99 @@ export async function getCommentaryFor(id, { perLayer = 60 } = {}) {
     `;
     if (sib?.id) resolved = keyFromCstMula(sib.id);
   }
-  if (!resolved) return empty;
 
-  const { nik, key } = resolved;
+  // ── Key-bridge: locator-equality match (DN, any CST mūla id) ──
+  if (resolved) {
+    const { nik, key } = resolved;
+    const atthaSlug = `pli-${nik}-attha`;
+    const tikaSlug  = `pli-${nik}-tika`;
+    // LIKE pattern: rows whose locator equals the key OR begins with
+    // `key_` (sub-sections + paragraph rows). The literal `_` after the
+    // key is what keeps `dn1_1` from matching `dn1_10`. `\` is the LIKE
+    // escape so the `_`s in the key are treated literally.
+    const keyLike = key.replace(/([\\%_])/g, '\\$1') + '\\_%';
+
+    // One row per parent <div> (paragraph suffix stripped), pointing at
+    // that section's lowest-ordinal paragraph — the natural entry point
+    // the reader's group-fetch will expand. DISTINCT ON keeps the row
+    // count proportional to commentary SECTIONS, not paragraphs.
+    const rows = await sql`
+      SELECT DISTINCT ON (parent_div)
+        id, citation, title, work_slug, work_role,
+        LEFT(regexp_replace(coalesce(original, ''), '\\s+', ' ', 'g'), 220) AS snippet
+      FROM (
+        SELECT id, citation, title, work_slug, work_role, original,
+               regexp_replace(id, '_p[0-9]+$', '') AS parent_div,
+               regexp_replace(id, '^cst-s[0-9]+[mat]\\.(mul|att|tik)-', '') AS locator,
+               coalesce((regexp_match(id, '_p([0-9]+)$'))[1]::int, 0) AS para_ord
+        FROM passages
+        WHERE work_slug IN (${atthaSlug}, ${tikaSlug})
+      ) c
+      WHERE c.locator = ${key} OR c.locator LIKE ${keyLike} ESCAPE '\\'
+      ORDER BY parent_div, para_ord
+    `;
+    if (rows.length > 0) return splitCommentaryLayers(rows, id, perLayer);
+    // The key resolved but no commentary rows carry it — fall through to
+    // the title-bridge below before giving up.
+  }
+
+  // ── Title-bridge fallback: per-sutta heading match (MN/SN/AN SC ids) ──
+  //
+  // Only SuttaCentral mūla ids reach here without a key-bridge hit. The
+  // nikāya comes from the SC id's leading letters (mn10→mn, sn12.1→sn,
+  // an3.61→an). DN/KN SC ids already resolved via the key-bridge; if one
+  // ever fell through, this same heading match applies harmlessly.
+  const nik = (id.match(/^([a-z]+)\d/) || [])[1];
+  if (!nik) return empty;
   const atthaSlug = `pli-${nik}-attha`;
   const tikaSlug  = `pli-${nik}-tika`;
-  // LIKE pattern: rows whose locator equals the key OR begins with
-  // `key_` (sub-sections + paragraph rows). The literal `_` after the
-  // key is what keeps `dn1_1` from matching `dn1_10`. `\` is the LIKE
-  // escape so the `_`s in the key are treated literally.
-  const keyLike = key.replace(/([\\%_])/g, '\\$1') + '\\_%';
 
-  // One row per parent <div> (paragraph suffix stripped), pointing at
-  // that section's lowest-ordinal paragraph — the natural entry point
-  // the reader's group-fetch will expand. DISTINCT ON keeps the row
-  // count proportional to commentary SECTIONS, not paragraphs.
-  const rows = await sql`
-    SELECT DISTINCT ON (parent_div)
+  // Match commentary <div> headings whose normalised title starts with
+  // the sutta's normalised title and ends in "vaṇṇanā". Normalisation
+  // mirrors the key-bridge's CST-mūla bridge (lower, strip a leading
+  // "N." / "N-M." ordinal, fold diacritics, drop trailing -ṃ) so the SC
+  // sutta title "Satipaṭṭhānasutta" lines up with the commentary heading
+  // "10. Satipaṭṭhānasuttavaṇṇanā". DISTINCT ON (parent_div, title_norm)
+  // keeps one entry per physical commentary SECTION (so SN's repeated
+  // names across saṃyuttas all survive), each pointing at the section's
+  // lowest-ordinal paragraph. The folded `title_norm`/`k` are ASCII
+  // letters only (the translate() collapses diacritics), so they carry
+  // no LIKE metacharacters — the `t.k || '%'` prefix match is literal.
+  const titleRows = await sql`
+    SELECT DISTINCT ON (parent_div, title_norm)
       id, citation, title, work_slug, work_role,
       LEFT(regexp_replace(coalesce(original, ''), '\\s+', ' ', 'g'), 220) AS snippet
     FROM (
       SELECT id, citation, title, work_slug, work_role, original,
              regexp_replace(id, '_p[0-9]+$', '') AS parent_div,
-             regexp_replace(id, '^cst-s[0-9]+[mat]\\.(mul|att|tik)-', '') AS locator,
-             coalesce((regexp_match(id, '_p([0-9]+)$'))[1]::int, 0) AS para_ord
+             coalesce((regexp_match(id, '_p([0-9]+)$'))[1]::int, 0) AS para_ord,
+             regexp_replace(
+               translate(
+                 lower(regexp_replace(coalesce(title, ''), '^\\s*[0-9]+(-[0-9]+)?\\.?\\s*', '')),
+                 'āīūēōṃṁṅñṇṭḍḷḥ', 'aiueommnnntdlh'
+               ),
+               'm+$', ''
+             ) AS title_norm
       FROM passages
       WHERE work_slug IN (${atthaSlug}, ${tikaSlug})
-    ) c
-    WHERE c.locator = ${key} OR c.locator LIKE ${keyLike} ESCAPE '\\'
-    ORDER BY parent_div, para_ord
+    ) c,
+    (
+      SELECT regexp_replace(
+               translate(
+                 lower(regexp_replace(${mula.title || ''}, '^\\s*[0-9]+(-[0-9]+)?\\.?\\s*', '')),
+                 'āīūēōṃṁṅñṇṭḍḷḥ', 'aiueommnnntdlh'
+               ),
+               'm+$', ''
+             ) AS k
+    ) t
+    WHERE length(t.k) > 0
+      AND c.title_norm LIKE t.k || '%'
+      AND c.title_norm LIKE '%vannana'
+    ORDER BY parent_div, title_norm, para_ord
   `;
+  if (titleRows.length > 0) return splitCommentaryLayers(titleRows, id, perLayer);
 
-  const layerEntry = (r) => ({
-    id: r.id,
-    citation: r.citation,
-    title: r.title,
-    work_slug: r.work_slug,
-    layer: r.work_role,            // 'attha' | 'tika'
-    snippet: r.snippet || null,
-  });
-
-  const attha = [];
-  const tika = [];
-  for (const r of rows) {
-    if (r.work_role === 'tika') tika.push(layerEntry(r));
-    else attha.push(layerEntry(r));
-  }
-  return {
-    passage_id: id,
-    attha: attha.slice(0, perLayer),
-    tika: tika.slice(0, perLayer),
-  };
+  return empty;
 }
 
 export async function getPassages(ids) {
