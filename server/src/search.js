@@ -604,15 +604,90 @@ function refineSnippet(rawHeadline) {
 }
 
 function makeSnippet(p) {
-  // Prefer the FTS-aware fragment when the SQL returned one — that's a
+  // Prefer the FTS-aware fragment when the SQL returned one. That is a
   // sentence-aware window around the matched token (see refineSnippet).
-  // Fall back to first ~200 chars when there was no FTS match (vector-only
-  // Meaning hits or empty queries).
   const refined = refineSnippet(p.headline);
   if (refined) return refined;
+  // No FTS headline. This is a vector-only Meaning hit. If the
+  // sentence-snippet pass attached the best-matching sentence for this
+  // passage (the closest passage_sentences row to the query vector), use
+  // it. It is a far better preview than blind truncation. attachSentence
+  // Snippets sets p.sentence_snippet only for passages that already have
+  // embedded sentences, so this is naturally skipped while the embed job
+  // is mid-run.
+  if (p.sentence_snippet) {
+    const s = String(p.sentence_snippet).trim();
+    if (s) {
+      if (s.length <= SNIPPET_MAX) return s;
+      return s.slice(0, SNIPPET_MAX).trimEnd() + '…';
+    }
+  }
+  // Last resort: first ~200 chars (also covers empty queries and any
+  // passage whose sentences are not embedded yet).
   const text = p.translation || p.original || '';
   if (text.length <= SNIPPET_LEN) return text;
   return text.slice(0, SNIPPET_LEN).trimEnd() + '…';
+}
+
+// Sentence-level snippet upgrade for Meaning-mode results.
+//
+// A vector-only Meaning hit (matched by ANN, not FTS) has no ts_headline,
+// so makeSnippet would otherwise fall back to the first ~200 chars of the
+// passage. That blind truncation usually misses the part of the passage
+// that actually drove the semantic match. Instead, for those rows, find
+// the single best-matching SENTENCE per passage by ANN distance to the
+// ALREADY-COMPUTED query vector and surface that as the snippet.
+//
+// One batched query for the whole result page. We key on the result
+// passage ids and use DISTINCT ON (passage_id) ordered by per-passage
+// embedding distance, so the planner uses the per-passage btree index
+// (idx_psent_passage) and scans only the handful of sentence rows for
+// each id. No global HNSW index is required and there is no per-result
+// embed call (the query vector is already in hand as qVecLit).
+//
+// Passages whose sentences are not embedded yet (the embed job is filling
+// passage_sentences.embedding in passage_id order) simply produce no row
+// here, so makeSnippet falls back to the existing 200-char snippet for
+// them. embedding IS NOT NULL enforces that.
+//
+// Mutates rows in place, setting r.sentence_snippet on each row that got
+// a sentence. Only rows with no FTS headline are candidates, so a passage
+// that already has a good FTS-aware fragment is left untouched.
+async function attachSentenceSnippets(rows, qVecLit) {
+  if (!qVecLit || !Array.isArray(rows) || rows.length === 0) return;
+  // Only vector-only hits need this. A row with a headline already has a
+  // sentence-aware FTS fragment, so we skip it (and avoid scanning its
+  // sentences for nothing).
+  const ids = [];
+  const byId = new Map();
+  for (const r of rows) {
+    if (r && r.id && !r.headline) {
+      ids.push(r.id);
+      byId.set(r.id, r);
+    }
+  }
+  if (ids.length === 0) return;
+  let best;
+  try {
+    best = await sql`
+      SELECT DISTINCT ON (s.passage_id)
+             s.passage_id AS id, s.text
+      FROM passage_sentences s
+      WHERE s.passage_id = ANY(${ids}::text[])
+        AND s.embedding IS NOT NULL
+      ORDER BY s.passage_id, s.embedding <=> ${qVecLit}::vector
+    `;
+  } catch (err) {
+    // The sentence-snippet upgrade is best-effort. If the table or its
+    // data is not present (e.g. an environment mid-migration), keep the
+    // existing 200-char fallback rather than failing the whole search.
+    console.warn(`[search] sentence-snippet pass skipped: ${err.message}`);
+    return;
+  }
+  for (const b of best) {
+    const r = byId.get(b.id);
+    if (r && b.text) r.sentence_snippet = b.text;
+  }
 }
 
 function shapeResult(p) {
@@ -831,6 +906,12 @@ export async function runSearch(rawParams) {
            END`;
   let rows;
   let warning;
+  // Query-vector literal for the default-scope Meaning path, hoisted so the
+  // shared tail return can run the sentence-snippet pass (attachSentence
+  // Snippets) over the result page. Stays null for every other path, which
+  // is the guard that keeps the sentence pass scoped to passage-level
+  // Meaning results.
+  let meaningQVecLit = null;
 
   // Library scope: search ATI articles instead of passages. Exact/Stem
   // use FTS only. Meaning runs vector ANN over articles.embedding and
@@ -1087,6 +1168,9 @@ export async function runSearch(rawParams) {
       };
     }
     const qVecLit = `[${qVec.join(',')}]`;
+    // Expose the query vector to the shared tail return so the sentence-
+    // snippet pass can run over this page's vector-only hits.
+    meaningQVecLit = qVecLit;
 
     if (!tsquery) {
       // Vector-only: no parseable FTS terms.
@@ -1240,6 +1324,17 @@ export async function runSearch(rawParams) {
         LIMIT ${limit} ${offsetFrag}
       `;
     }
+  }
+
+  // Sentence-snippet upgrade: for default-scope Meaning results that fell
+  // back to a vector-only hit (no FTS headline), replace the would-be
+  // 200-char snippet with the best-matching sentence for the passage. One
+  // batched query keyed on the result ids; no-op for any passage without
+  // embedded sentences yet. Only the default-scope Meaning path sets
+  // meaningQVecLit, so this is skipped for Exact/Stem, translation, and
+  // library results.
+  if (meaningQVecLit) {
+    await attachSentenceSnippets(rows, meaningQVecLit);
   }
 
   return {

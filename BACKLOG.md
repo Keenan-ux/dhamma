@@ -93,9 +93,11 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
   in schema.sql** — it is applied on every boot before `listen()`.
 ## ⬜ Not started
 
-- **Gloss morphological disambiguation.** `glossWords` in
-  `server/src/dictionary.js` now ranks candidates by DPD source, then
-  lemma-form match, then DPD primary sense (lowest `source_id` number). That
+- **Gloss morphological disambiguation (residual).** `glossWords` in
+  `server/src/dictionary.js` ranks candidates by DPD source, lemma-form
+  match, a down-rank of `(gram)`-prefixed senses (landed 2026-06-04: 461
+  surfaces moved off a metalinguistic gloss, e.g. apaccaya to "causeless",
+  manti to "minister"), then DPD primary sense. That
   nails base-form words (majjhima to "middle", maggo to "path", bhikkhave to
   "monks") but a surface that is a grammatical homograph with NO lemma-form
   match still gets the primary sense regardless of context, e.g. `sato`
