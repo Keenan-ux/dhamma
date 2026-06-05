@@ -100,6 +100,15 @@ export default function CommentaryView({ onDrill }) {
             <> &nbsp;·&nbsp; {totalTranslated.toLocaleString()} translated</>
           )}
         </p>
+        <p style={{
+          margin: '6px auto 0', maxWidth: 560, padding: '0 24px',
+          fontFamily: '"Noto Serif", Georgia, serif', fontStyle: 'italic',
+          fontSize: 12, lineHeight: 1.5, color: 'var(--bc-text-tertiary)',
+        }}>
+          These texts are largely in Pāli; English coverage is partial. Read
+          them with Meaning search, which retrieves the Pāli from an English
+          query, or with the per-word DPD gloss in the reader.
+        </p>
         <div style={rule} />
       </header>
 
