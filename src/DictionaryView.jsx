@@ -90,6 +90,11 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
   const [term, setTerm] = useState(initialTerm);
   const [debounced, setDebounced] = useState(initialTerm.trim());
   const [mode, setMode] = useState('stem');
+  // Lookup language. 'pli' by default (DPD/PED/DPPN/CPED); flips to 'san'
+  // only when the user clicks a Sanskrit cross-canon cognate, which reaches
+  // the Monier-Williams + Edgerton BHS dictionaries. Typing a fresh term
+  // resets it to 'pli' so a manual query never silently stays in Sanskrit.
+  const [language, setLanguage] = useState('pli');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadingMs, setLoadingMs] = useState(0);
@@ -121,11 +126,11 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
 
     (async () => {
       try {
-        const r = await lookupApi({ term: debounced, mode, signal: ac.signal });
+        const r = await lookupApi({ term: debounced, mode, language, signal: ac.signal });
         // Auto-bridge: Stem mode with 0 results → silently fall back to
         // Meaning so the user gets something useful instead of a dead end.
         if (mode === 'stem' && (r.entries?.length ?? 0) === 0) {
-          const bridged = await lookupApi({ term: debounced, mode: 'meaning', signal: ac.signal });
+          const bridged = await lookupApi({ term: debounced, mode: 'meaning', language, signal: ac.signal });
           if (!ac.signal.aborted) {
             setResult(bridged);
             setBridgedFromStem(true);
@@ -145,9 +150,10 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
     })();
 
     return () => { ac.abort(); clearInterval(tick); };
-  }, [debounced, mode]);
+  }, [debounced, mode, language]);
 
   function insertChar(ch) {
+    setLanguage('pli'); // a manual edit is a fresh Pali query
     const el = inputRef.current;
     if (!el) { setTerm((t) => t + ch); return; }
     const start = el.selectionStart ?? term.length;
@@ -161,8 +167,20 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
     });
   }
 
+  // Click a cross-canon cognate. A Sanskrit (Latin-script) cognate runs a
+  // language=san lookup so the user lands on Monier-Williams / Edgerton BHS;
+  // CJK / Devanagari cognates aren't backed by a dictionary yet, so they're
+  // rendered as plain tagged labels (not passed here).
+  function crossLookup(cognateTerm) {
+    setLanguage('san');
+    setMode('stem'); // exact-headword match resolves under stem
+    setTerm(cognateTerm);
+    inputRef.current?.focus();
+  }
+
   const entries = result?.entries || [];
   const matchedVia = result?.matched_via;
+  const cognates = result?.cognates || [];
   const groups = groupEntriesBySource(entries);
 
   return (
@@ -184,7 +202,7 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
           ref={inputRef}
           type="text"
           value={term}
-          onChange={(e) => setTerm(e.target.value)}
+          onChange={(e) => { setLanguage('pli'); setTerm(e.target.value); }}
           placeholder={
             mode === 'meaning'
               ? 'Describe a meaning (e.g. impermanence, the chief disciple)'
@@ -196,7 +214,7 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
           aria-label="Search the dictionary"
         />
         {term && (
-          <button onClick={() => setTerm('')} style={clearBtn} aria-label="Clear">×</button>
+          <button onClick={() => { setLanguage('pli'); setTerm(''); }} style={clearBtn} aria-label="Clear">×</button>
         )}
       </div>
 
@@ -291,10 +309,38 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
           </p>
         )}
 
+        {!loading && !error && debounced && cognates.length > 0 && (
+          <div style={cognateRow}>
+            <span style={cognateLabel}>Cross-canon equivalents</span>
+            <span style={cognateList}>
+              {cognates.map((c) => (
+                c.script === 'latin' ? (
+                  <button
+                    key={c.term}
+                    onClick={() => crossLookup(c.term)}
+                    style={cognateChipLink}
+                    title={`Look up ${c.term} in the Sanskrit dictionaries (Monier-Williams, Edgerton BHS)`}
+                  >
+                    {c.term}
+                    <span style={cognateChipTag}>Skt</span>
+                  </button>
+                ) : (
+                  <span key={c.term} style={cognateChipPlain} title="Cross-canon equivalent">
+                    {c.term}
+                  </span>
+                )
+              ))}
+            </span>
+          </div>
+        )}
+
         {!loading && !error && entries.length > 0 && (
           <>
             <div style={resultHeader}>
               <span style={resultHeaderTerm}>{debounced}</span>
+              {language === 'san' && (
+                <span style={resultHeaderArrow}>· Sanskrit lexicons</span>
+              )}
               {matchedVia === 'inflection' && entries[0].lemma && entries[0].lemma !== debounced && (
                 <span style={resultHeaderArrow}>→ {entries[0].lemma}</span>
               )}
@@ -460,6 +506,73 @@ const resultHeaderCount = {
   letterSpacing: '0.1em',
   textTransform: 'uppercase',
   color: 'var(--bc-text-tertiary)',
+};
+
+// Cross-canon equivalents line — a quiet row above the source groups.
+const cognateRow = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'baseline',
+  gap: '6px 10px',
+  padding: '6px 0 12px',
+  marginBottom: 4,
+};
+
+const cognateLabel = {
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  flexShrink: 0,
+};
+
+const cognateList = {
+  display: 'inline-flex',
+  flexWrap: 'wrap',
+  alignItems: 'baseline',
+  gap: 8,
+};
+
+// Clickable Sanskrit cognate — a quiet underline-on-hover chip in the
+// accent colour, not a button-chrome pill (matches the typeset register).
+const cognateChipLink = {
+  display: 'inline-flex',
+  alignItems: 'baseline',
+  gap: 5,
+  padding: 0,
+  background: 'transparent',
+  border: 'none',
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 15,
+  fontStyle: 'italic',
+  color: 'var(--bc-accent)',
+  cursor: 'pointer',
+  textDecoration: 'underline',
+  textUnderlineOffset: 3,
+  textDecorationColor: 'rgba(var(--bc-accent-rgb), 0.45)',
+};
+
+const cognateChipTag = {
+  fontSize: 9,
+  fontStyle: 'normal',
+  fontWeight: 700,
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.28)',
+  borderRadius: 3,
+  padding: '0 3px',
+  lineHeight: 1.5,
+};
+
+// Non-Latin cognate (CJK / Devanagari) — plain, no link (no dictionary
+// backs it yet). Rendered slightly muted so the eye lands on the clickable
+// Sanskrit form first.
+const cognateChipPlain = {
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 15,
+  color: 'var(--bc-text-secondary)',
 };
 
 const entry = {
