@@ -106,6 +106,27 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
   (use DPD's grammar field, or score senses against the surrounding sentence).
   Affects both the interlinear gloss and the hover-tooltip gloss. Low priority,
   no AI required.
+  - **Investigated 2026-06-04 (read-only): no safe field-only fix; defer to
+    context-scoring on top of the sentence work.** Two corrections to the
+    framing above: (1) `sato` is NOT a "no lemma-form match" case. DPD ships a
+    declined-form stub `lemma='sato'` ("prp masc gen sg of santa, when being")
+    that actively WINS tie-break (2); the bug is "a narrow oblique-participle
+    stub wins as a lemma-form," not "no lemma exists." DPD has 1,763 such
+    declined-form stubs; 2,337 surfaces are currently glossed by one, 1,586 of
+    those with a non-stub alternative. (2) The obvious fix (demote stubs below
+    non-stub candidates) REGRESSES: of the 1,586 flips, most are declensional
+    pronouns/nouns where the stub was the correct precise gloss (`passato` →
+    "side; rib", `tuyhaṃ` "for you" → "you", `mayi` "in me" → "I", `imasmā`
+    "from this" → "this"). Only ~86 land on a participle. So a field-only
+    tie-break cannot work; the discriminator is context, not a field. DPD's
+    `pos` and `grammar` are 100% populated but at the entry/lemma grain, not
+    the surface grain, so they cannot say which reading a given occurrence is.
+    A curated override `Map` (e.g. `sato` → sati "mindful") is mechanically
+    clean but each key is a scholar judgment with downside (a blanket `sato`
+    override is wrong in genitive-absolute constructions). The real fix is
+    sentence-context scoring, which wants the surrounding sentence already in
+    hand: do it ON TOP OF the `passage_sentences` infrastructure now landing,
+    not as a standalone change.
 - **Dictionary expansion.** Next per DICTIONARIES.md: CPD, then
   Buddhadatta. (DPD, DPPN, PED, MW, BHS are done.) CPD blocked on an email
   reply (`CPD_EMAIL_DRAFT.md`).
