@@ -29,7 +29,7 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
 - **Audience facet + Browse chip filter** (Chat 2). `audience` tag_type derived
   for 3,567 passages; facet counts from `/api/corpus`; chip row in BrowseView.
 - **Docs section** (Chat 3). `DocsView` renders `articles WHERE category='docs'`
-  + Sidebar entry. *Built; 0 docs authored yet — content is a separate task.*
+  + Sidebar entry. 4 docs authored and ingested 2026-06-04 (see "Docs content").
 - **Vinaya citation formatting** (Chat 3). `PLI-TV-BI-VB-PJ1-4` → clean form.
 - **Translator-attribution fix** (Chat 3, unbriefed). `formatCitation` no longer
   hardcodes "Trans. Bhikkhu Sujato" for every Theravāda translation.
@@ -56,6 +56,15 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
   top-6 for "loving-kindness meditation": kp9, **snp1.8 (#2)**, iti27, sn47.30,
   ud3.5, sn10.4. For plain "loving-kindness": iti27, kp9, **snp1.8 (#3)**,
   an4.32, iti22, sn20.4. No code change needed.
+- **Interlinear gloss (reader)** — 2026-06-04. Toggle in the reader (⋯ menu)
+  renders each Pāli word over its DPD gloss; `/api/gloss` + `glossWords`
+  resolve surface to inflection to entry. Lemma disambiguation tuned to
+  primary-sense-first. The residual homograph case is tracked under "Gloss
+  morphological disambiguation" below.
+- **Docs content** — 2026-06-04. Four docs authored + ingested
+  (`category='docs'`): How search works, About the corpus, Dictionary
+  coverage, Sources and licenses. The `/api/library` list handler was also
+  fixed to serve non-ATI categories so the Docs tab populates.
 
 ---
 
@@ -82,15 +91,19 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
   Build it as a deliberate `CREATE INDEX CONCURRENTLY` one-off only when
   blurbs grow enough to need it. **Standing rule: never put an HNSW build
   in schema.sql** — it is applied on every boot before `listen()`.
-- **Docs content.** The Docs *section* ships; the docs themselves
-  ("How search works", "About the corpus", "Dictionary coverage") need
-  authoring + an UPSERT with `category='docs'`.
-
 ## ⬜ Not started
 
-- **Interlinear gloss.** Render each Pāli word with a small English gloss
-  above/below using DPD inflections. No AI needed — the gloss data is the
-  same DPD inflection table the embed pass uses.
+- **Gloss morphological disambiguation.** `glossWords` in
+  `server/src/dictionary.js` now ranks candidates by DPD source, then
+  lemma-form match, then DPD primary sense (lowest `source_id` number). That
+  nails base-form words (majjhima to "middle", maggo to "path", bhikkhave to
+  "monks") but a surface that is a grammatical homograph with NO lemma-form
+  match still gets the primary sense regardless of context, e.g. `sato`
+  (genitive of sant "being" vs sati "mindfulness") glosses as "when being".
+  Fixing this needs POS / morphology-aware or context-aware disambiguation
+  (use DPD's grammar field, or score senses against the surrounding sentence).
+  Affects both the interlinear gloss and the hover-tooltip gloss. Low priority,
+  no AI required.
 - **Dictionary expansion.** Next per DICTIONARIES.md: CPD, then
   Buddhadatta. (DPD, DPPN, PED, MW, BHS are done.) CPD blocked on an email
   reply (`CPD_EMAIL_DRAFT.md`).
