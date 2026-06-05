@@ -675,8 +675,14 @@ async function attachSentenceSnippets(rows, qVecLit) {
       FROM passage_sentences s
       WHERE s.passage_id = ANY(${ids}::text[])
         AND s.embedding IS NOT NULL
-      ORDER BY s.passage_id, s.embedding <=> ${qVecLit}::vector
+      ORDER BY s.passage_id, (s.field = 'translation') DESC, s.embedding <=> ${qVecLit}::vector
     `;
+    // Prefer the closest English translation sentence for the snippet (the
+    // (s.field = 'translation') DESC key), since most queries are English and
+    // a readable English preview beats a Pali one. BGE-M3 cosine does not
+    // reliably favour same-language, so without this an English query often
+    // got a Pali sentence. Untranslated passages (commentary/ṭīkā) have no
+    // translation rows, so they fall back to the closest Pali original.
   } catch (err) {
     // The sentence-snippet upgrade is best-effort. If the table or its
     // data is not present (e.g. an environment mid-migration), keep the
