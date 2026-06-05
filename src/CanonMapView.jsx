@@ -64,7 +64,7 @@ function shortNikaya(name) {
 }
 
 export default function CanonMapView({ onDrill, onRandomSutta }) {
-  const { shape, loading } = useCorpus();
+  const { shape, loading, error, retry } = useCorpus();
   const [translatedOnly, setTranslatedOnly] = useState(false);
   const isNarrow = useIsNarrow();
   // On narrow viewports, the three-column grid would force horizontal
@@ -77,6 +77,17 @@ export default function CanonMapView({ onDrill, onRandomSutta }) {
     const trad = shape?.tree?.find((t) => t.id === 'theravada');
     return trad?.children?.find((w) => w.id === 'pli-tipitaka') || null;
   }, [shape]);
+
+  if (error && !tipitaka) {
+    return (
+      <div style={loadingWrap}>
+        <div style={{ textAlign: 'center' }}>
+          <p style={loadingHint}>The canon could not be loaded.</p>
+          <button type="button" onClick={retry} style={retryBtn}>Try again</button>
+        </div>
+      </div>
+    );
+  }
 
   if (loading || !tipitaka) {
     return (
@@ -668,4 +679,19 @@ const loadingHint = {
   fontStyle: 'italic',
   fontSize: 13,
   color: 'var(--bc-text-tertiary)',
+};
+
+const retryBtn = {
+  marginTop: 14,
+  padding: '8px 18px',
+  background: 'transparent',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.40)',
+  borderRadius: 6,
+  fontFamily: SANS,
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-accent)',
+  cursor: 'pointer',
 };
