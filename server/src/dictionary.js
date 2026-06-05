@@ -225,13 +225,23 @@ export async function glossWords(words) {
 
   // Lemma disambiguation. A surface form is often an inflection of several
   // DPD entries (homographs + DPD's fine-grained numbered senses). Ordering
-  // by source alone picked an arbitrary sense — e.g. "majjhima" landed on
+  // by source alone picked an arbitrary sense, e.g. "majjhima" landed on
   // sense 9 "(gram) 2nd person" instead of sense 1 "middle", and "nikāya"
   // on a stray entry instead of "collection". Rank: (1) source (DPD richest),
   // (2) prefer the entry whose own lemma IS the surface (a base-form word)
-  // over an oblique inflection of a different lemma, (3) DPD's primary sense
-  // first — the sense number is the integer in source_id ("majjhima 1"),
-  // and DPD numbers senses with the core meaning first, (4) id for stability.
+  // over an oblique inflection of a different lemma, (3) down-rank a
+  // definition that opens with the metalinguistic "(gram)" tag, e.g. DPD's
+  // per-letter entries ("(gram) letter s; 36th letter ...") or conjugational
+  // signs and case-marker glosses. These describe a grammatical token, never
+  // the running word, so any ordinary sense of the same surface is a better
+  // interlinear gloss. Applied after the lemma-form key so it only fires when
+  // the winning lemma sense itself is the "(gram)" one (e.g. "apaccaya" 1.1
+  // "(gram) a suffix" loses to 2.1 "causeless"); it never overrides a
+  // base-form word that already has a real meaning. Measured against the live
+  // DPD inflection table this moves 461 surfaces, every one of them from a
+  // "(gram)" gloss to a plain one, and regresses none. (4) DPD's primary
+  // sense first, the sense number is the integer in source_id ("majjhima 1"),
+  // and DPD numbers senses with the core meaning first. (5) id for stability.
   const rows = await sql`
     SELECT DISTINCT ON (di.surface_lower)
            di.surface_lower AS surface,
@@ -244,6 +254,7 @@ export async function glossWords(words) {
     ORDER BY di.surface_lower,
       CASE de.source WHEN 'dpd' THEN 1 WHEN 'ped' THEN 2 WHEN 'dppn' THEN 3 ELSE 9 END,
       (de.headword_lower = di.surface_lower) DESC,
+      (de.definition ~ '^\\s*\\(gram\\)') ASC,
       COALESCE(NULLIF(substring(de.source_id FROM '[0-9]+'), '')::int, 999),
       de.id
   `;

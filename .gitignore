@@ -35,6 +35,7 @@ server/data/
 /scripts/ingest/abt.tar.zst
 /scripts/ingest/CPED.csv
 /scripts/ingest/.cache/
+/scripts/ingest/logs/
 
 # Xenova v2 vs v3 smoke-test scratch (~250 MB of node_modules
 # across two runner subdirs). The driver scripts themselves are
