@@ -57,7 +57,7 @@ const btn = {
   height: 36,
   borderRadius: 6,
   background: 'var(--bc-bg-surface)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  border: '1px solid rgba(var(--bc-border-rgb),0.08)',
   color: 'var(--bc-text-secondary)',
   cursor: 'pointer',
   transition: 'border-color 120ms ease, color 120ms ease',

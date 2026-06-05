@@ -18,6 +18,13 @@
   --bc-accent-rgb:       253, 194, 78;
 
   --bc-loss-text:        #FF5000;
+  --bc-loss-text-rgb:    255, 80, 0;
+
+  /* Theme-adaptive hairline / inset base: white in dark, black in light,
+     so faint rgba(var(--bc-border-rgb), α) borders and surface tints stay
+     visible in BOTH themes (a literal rgba(255,255,255,α) vanishes on the
+     light parchment). Mirrors the scrollbar-thumb idiom below. */
+  --bc-border-rgb:       255, 255, 255;
 }
 
 [data-theme="light"] {
@@ -36,6 +43,8 @@
   --bc-accent-rgb:       139, 105, 20;
 
   --bc-loss-text:        #D32F2F;
+  --bc-loss-text-rgb:    211, 47, 47;
+  --bc-border-rgb:       0, 0, 0;
 }
 
 html, body {

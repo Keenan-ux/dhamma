@@ -320,6 +320,7 @@ export default function SearchView({
             onBlur={handleInputBlur}
             onClick={() => history.length && setHistoryOpen(true)}
             placeholder='Search — e.g. sampajāna, -bhikkhu, "clear comprehension"'
+            aria-label="Search the corpus"
             style={input}
             spellCheck={false}
             autoFocus
@@ -759,7 +760,7 @@ const historyMenu = {
   right: 0,
   zIndex: 50,
   background: 'var(--bc-bg-elevated)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  border: '1px solid rgba(var(--bc-border-rgb),0.08)',
   borderRadius: 8,
   padding: 6,
   boxShadow: '0 6px 20px rgba(0,0,0,0.4)',
@@ -861,7 +862,7 @@ const inlineLink = {
 const code = {
   fontFamily: 'JetBrains Mono, monospace',
   fontSize: 12,
-  background: 'rgba(255,255,255,0.05)',
+  background: 'rgba(var(--bc-border-rgb),0.05)',
   padding: '1px 5px',
   borderRadius: 3,
   color: 'var(--bc-text-secondary)',

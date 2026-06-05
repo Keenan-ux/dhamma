@@ -442,7 +442,7 @@ const lookupBody = { padding: '8px 16px 12px' };
 
 const lookupEntry = {
   padding: '10px 0',
-  borderBottom: '1px solid rgba(255,255,255,0.05)',
+  borderBottom: '1px solid rgba(var(--bc-border-rgb),0.05)',
 };
 
 const lookupEntryHeader = {
@@ -505,7 +505,7 @@ const lookupExample = {
   margin: '8px 0 4px',
   padding: '6px 10px',
   borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.40)',
-  background: 'rgba(255,255,255,0.03)',
+  background: 'rgba(var(--bc-border-rgb),0.03)',
   fontSize: 12,
   fontStyle: 'italic',
   color: 'var(--bc-text-secondary)',
@@ -616,7 +616,7 @@ const noteEditorExcerpt = {
   margin: '12px 16px 0',
   padding: '8px 12px',
   borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.45)',
-  background: 'rgba(255,255,255,0.03)',
+  background: 'rgba(var(--bc-border-rgb),0.03)',
   fontSize: 13,
   fontStyle: 'italic',
   lineHeight: 1.5,

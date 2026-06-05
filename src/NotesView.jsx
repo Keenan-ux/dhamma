@@ -292,7 +292,7 @@ const noteExcerpt = {
   margin: 0,
   padding: '6px 10px',
   borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.40)',
-  background: 'rgba(255,255,255,0.02)',
+  background: 'rgba(var(--bc-border-rgb),0.02)',
   fontFamily: SERIF,
   fontStyle: 'italic',
   fontSize: 13,

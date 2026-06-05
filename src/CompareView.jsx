@@ -51,7 +51,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
     return (
       <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={wrap}>
-          <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
+          <h1 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h1>
           <p style={meta}>Loading…</p>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
     return (
       <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={wrap}>
-          <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
+          <h1 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h1>
           <p style={{ ...meta, color: 'var(--bc-loss-text)' }}>Failed: {error.message}</p>
         </div>
       </div>
@@ -73,7 +73,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
     return (
       <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={wrap}>
-          <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
+          <h1 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h1>
           <p style={meta}>No occurrences in the corpus. Try a different inflection or term.</p>
         </div>
       </div>
@@ -91,7 +91,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
          count: f.count,
        }));
   const maxFreq = Math.max(1, ...freqRows.map((f) => f.count));
-  const sampleCount = stats.passages.length;
+  const sampleCount = stats.passages?.length ?? 0;
   const showingSampleNote = stats.matchingPassageCount > sampleCount;
   const freqLabel = stats.frequencyByPitaka ? 'Frequency by piṭaka' : 'Frequency by tradition';
 
@@ -104,7 +104,7 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
           onCompare={onCompareTerm}
         />
         <div style={{ marginBottom: 28 }}>
-          <h2 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h2>
+          <h1 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h1>
           <p style={meta}>
             {stats.totalOccurrences.toLocaleString()} occurrences across{' '}
             {stats.matchingPassageCount.toLocaleString()}{' '}
@@ -239,7 +239,7 @@ const neighborGrid = {
   columnGap: 28,
 };
 
-const freqBarTrack = { height: 4, background: 'rgba(255,255,255,0.04)', borderRadius: 0, overflow: 'hidden' };
+const freqBarTrack = { height: 4, background: 'rgba(var(--bc-border-rgb),0.04)', borderRadius: 0, overflow: 'hidden' };
 const freqBarFill = { height: '100%', background: 'var(--bc-accent)' };
 const freqCount = { fontSize: 12, color: 'var(--bc-text-tertiary)', fontVariantNumeric: 'tabular-nums', minWidth: 24, textAlign: 'right' };
 
@@ -267,7 +267,7 @@ const kwicCite = {
   fontSize: 12,
   whiteSpace: 'nowrap',
   verticalAlign: 'top',
-  borderBottom: '1px solid rgba(255,255,255,0.04)',
+  borderBottom: '1px solid rgba(var(--bc-border-rgb),0.04)',
 };
 
 const kwicBefore = {
@@ -277,7 +277,7 @@ const kwicBefore = {
   fontFamily: '"Noto Serif", Georgia, serif',
   whiteSpace: 'nowrap',
   verticalAlign: 'top',
-  borderBottom: '1px solid rgba(255,255,255,0.04)',
+  borderBottom: '1px solid rgba(var(--bc-border-rgb),0.04)',
 };
 
 const kwicMatch = {
@@ -298,7 +298,7 @@ const kwicAfter = {
   fontFamily: '"Noto Serif", Georgia, serif',
   whiteSpace: 'nowrap',
   verticalAlign: 'top',
-  borderBottom: '1px solid rgba(255,255,255,0.04)',
+  borderBottom: '1px solid rgba(var(--bc-border-rgb),0.04)',
 };
 
 const neighborRow = {
@@ -308,5 +308,5 @@ const neighborRow = {
   padding: '6px 0',
   fontSize: 14,
   color: 'var(--bc-text-secondary)',
-  borderBottom: '1px solid rgba(255,255,255,0.03)',
+  borderBottom: '1px solid rgba(var(--bc-border-rgb),0.03)',
 };
