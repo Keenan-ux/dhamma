@@ -90,6 +90,72 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
 
 ---
 
+## ⬜ Deferred from the 2026-06-05 audit (found + scoped, not yet applied)
+
+The 2026-06-05 read-only audit (a11y / perf / ingest fan-out + scholar
+stress-test) produced more than was applied this session. The HIGH-severity
+a11y (contrast, focus-visible, reduced-motion, skip link, settings-menu
+Escape/dialog), both ingest bugs, the LIKE-injection fixes, theme-adaptive
+borders, the corpus-resilience fix, the `layer` echo, the hashchange
+listener, and the Buddhist framing pass all LANDED (commits this session).
+These remain:
+
+- **Perf: `/api/compare-stats` full-corpus scan (~10-16s).** HIGH. It scans
+  all 194,710 rows (REPLACE/LENGTH occurrence math + un-indexed LIKE) and
+  runs the scan 3x per request (freq, passages, count). Two fixes, both
+  deferred because they need testing/DB-ops not safe to rush mid-embed:
+  (a) fold the 3 queries into one CTE that scans once into a `matched` set,
+  then derives freq + top-N + count from it (code-only, ~3x win, but an
+  untested SQL rewrite, so verify with a local server against prod DB AFTER
+  the translation embed finishes, before deploying); (b) a `pg_trgm` GIN
+  index on `lower(original)`/`lower(translation)` to prefilter the LIKE, as a
+  deliberate maintenance-window `CREATE INDEX CONCURRENTLY` (RAM-bumped, NOT
+  schema.sql, same caution as the HNSW). Do (a) first; (b) only if still slow.
+- **Perf: reader request fan-out.** MED. `usePassage` fetches
+  `/api/passage/:id` while `ReadingPanel` also fetches `/group` (which already
+  includes the anchor row), and `/group` + `/group-translations` re-run the
+  sibling query. Drop the redundant `/passage` call (use the `/group` anchor;
+  skip `/group` for singletons), and fetch only ids in
+  `getPassageGroupTranslations`. Frontend-only; verify on the dev server.
+- **a11y MED/LOW remaining** (HIGH items already landed): `aria-pressed` on
+  the single-select toggle groups (DictionaryView Match, SearchView filter +
+  translator chips); `role=group`/`toolbar` on the aria-labelled diacritic
+  rows / Match row / translator-chip rows; full ARIA tab semantics
+  (tabpanel + aria-controls + roving tabindex/arrow keys) on the two
+  tablists (CanonMapView piṭaka selector, ReadingPanel mobile column toggle)
+  OR convert them to an aria-pressed button group; `role=dialog` + Escape +
+  focus management on NoteEditor + LookupPanel; Escape + arrow-nav on the
+  ReadingPanel overflow menu; `role=toolbar` + Escape on the selection
+  popover; `role=tree`/`treeitem` + aria-expanded on TreeLevel;
+  `aria-hidden` on decorative icon SVGs. All low-risk, none blocking.
+- **Gloss context-disambiguation (approach b) — DESIGN done, build deferred.**
+  The audit confirmed the prior conclusion: a static field cannot fix the
+  `sato` homograph; only sentence context can. Key finding:
+  `dictionary_entries.embedding` is ALREADY populated, so the only new embed
+  at request time is the surrounding sentence (passage_sentences already has
+  it). Design: extend `glossWords(words, { sentences })`; with no context it
+  is byte-identical to today (no regression). With context, pull top-K
+  candidates per surface and pick argmax of cosine(sentence_vec,
+  candidate.embedding), gated by a margin so confident base forms never flip.
+  Recommendation: do NOT add request-time embedding to the interactive
+  interlinear toggle (the ~101s cold-start would brick it). The correct, fast
+  version is a PRECOMPUTE table `passage_gloss(passage_id, position, surface,
+  entry_id)` filled by a batch GPU pass (modeled on embed_sentences.py),
+  served with zero request-time embed. That is a later maintenance-window op
+  (cannot run now: the GPU is busy) and is low-priority polish. A cheap
+  heuristic-only opt-in tier (token overlap + grammar-field cues, gated) is
+  the only piece shippable cheaply if wanted sooner.
+- **QA the translation sentences after the embed.** The segmenter ASCII-
+  ellipsis hardening landed AFTER the 221,073 translation sentences were
+  segmented with the old splitter. English translations rarely contain the
+  spaceless `...pe...` pattern, so impact is likely nil, but once the
+  translation embed completes, spot-check `passage_sentences WHERE
+  field='translation'` for letterless/garbage fragments; if any, delete +
+  re-segment those passages with the fixed splitter (only after the embed,
+  never while it writes).
+
+---
+
 ## 🟡 Partial / in-flight
 
 - **HNSW reindex after the gloss re-embed — NOT done; do NOT casually re-run.**
