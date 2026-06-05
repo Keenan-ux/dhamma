@@ -45,6 +45,7 @@
 import { sql } from './db.js';
 import { stemForPrefix, foldDiacritics } from './paliStem.js';
 import { embedQuery } from './embed.js';
+import { aliasesFor } from './aliases.js';
 
 const MAX_PER_SOURCE = 10;
 const MAX_TERM_LEN = 60;
@@ -278,6 +279,93 @@ export async function glossWords(words) {
 // label when multiple sources each found via different paths.
 const MATCH_PRIORITY = ['headword', 'inflection', 'stem-prefix', 'prefix', 'compound', 'english-reverse'];
 
+// Cross-canon cognates for the queried Pāli term, derived from the
+// scholar-curated alias table (the same authority overlay /api/search
+// expands with). aliasesFor() returns a row's equivalents bidirectionally,
+// so a lookup of "dhamma" yields ['dharma', '法'] and a lookup of "dharma"
+// yields ['dhamma', '法'] (canonical + siblings). We split each equivalent
+// into a clickable cognate the reader can cross-look-up:
+//
+//   { term, script }   script ∈ 'latin' | 'cjk' | 'devanagari'
+//
+// 'latin' cognates are the Sanskrit forms (dharma, smṛti, nirvāṇa, …).
+// The frontend wires these to a language=san lookup so one click lands
+// the scholar on Monier-Williams / Edgerton BHS. CJK + Devanagari
+// cognates render as plain tagged chips (no dictionary backs them yet).
+//
+// We deliberately DROP:
+//   - the queried term itself and its diacritic-fold variant (a self-link
+//     is noise; folding catches "dhamma" vs a row that lists "dhamma"),
+//   - the alias row's own diacritic-fold ASCII pairs (smṛti/smrti,
+//     metta/mettā) — we keep the diacritic-bearing scholarly form and
+//     hide the bare-ASCII duplicate so the line shows one chip per cognate,
+//   - multi-word English glosses (loving-kindness, mindfulness, …): those
+//     are translations, not cognates, and a language=san lookup of them
+//     returns nothing — the English-gloss bridge already lives in Stem mode.
+//
+// Cheap: aliasesFor() is an in-memory Map read, no DB hit.
+const CJK_RE = /[　-鿿豈-﫿]/;          // CJK ideographs + compat
+const DEVANAGARI_RE = /[ऀ-ॿ]/;                // Devanāgarī block
+const INDIC_DIACRITIC_RE = /[āīūēōṃṁṅñṇṭḍḷḥṛśṣ]/i;       // scholarly transliteration marks
+
+// A handful of clean-ASCII Sanskrit cognates that carry no diacritic and
+// have no diacritic twin in their alias row, so the heuristic in
+// cognatesFor() can't infer them. Small, explicit, scholar-checkable.
+const SANSKRIT_HINTS = new Set(['dharma', 'karma', 'sangha', 'samgha', 'nirvana', 'samsara', 'marga', 'skandha']);
+
+export function cognatesFor(term) {
+  const q = normalize(clean(String(term || '')));
+  if (!q) return [];
+  const qFolded = foldDiacritics(q);
+
+  const equivalents = aliasesFor(q);
+  if (!equivalents || equivalents.length === 0) return [];
+
+  // Classify each equivalent, drop the self-term + multi-word English
+  // glosses, and dedupe ASCII/diacritic pairs that fold to the same form
+  // (smrti vs the diacritic form). seenFolded seeds with the query fold
+  // so the queried term never links to itself.
+  const out = [];
+  const seenFolded = new Set([qFolded]);
+
+  for (const raw of equivalents) {
+    const e = String(raw || '').trim();
+    if (!e) continue;
+
+    let script;
+    if (CJK_RE.test(e)) script = 'cjk';
+    else if (DEVANAGARI_RE.test(e)) script = 'devanagari';
+    else if (/^[a-zā-ɏḀ-ỿ'\-]+$/i.test(e) && !e.includes(' ')) script = 'latin';
+    else continue; // multi-word English gloss or anything unclassifiable
+
+    if (script === 'latin') {
+      // A bare-ASCII Latin token is usually an English gloss (wisdom,
+      // action, path), not a Sanskrit cognate. We keep it only if it
+      // qualifies as Sanskrit below (diacritic form, an ASCII fold of a
+      // diacritic sibling, or a SANSKRIT_HINTS clean-ASCII form like dharma).
+      const folded = foldDiacritics(e.toLowerCase());
+      if (folded === qFolded) continue;            // self / fold-variant of query
+      if (seenFolded.has(folded)) continue;        // ASCII twin of a kept form
+      const hasDiacriticTwin = equivalents.some((o) => {
+        const os = String(o || '').trim();
+        return os !== e && !os.includes(' ') &&
+          INDIC_DIACRITIC_RE.test(os) &&
+          foldDiacritics(os.toLowerCase()) === folded;
+      });
+      const isSanskrit =
+        INDIC_DIACRITIC_RE.test(e) ||
+        hasDiacriticTwin ||
+        SANSKRIT_HINTS.has(e.toLowerCase());
+      if (!isSanskrit) continue;
+      seenFolded.add(folded);
+      out.push({ term: e, script });
+    } else {
+      out.push({ term: e, script });
+    }
+  }
+  return out;
+}
+
 export async function runLookup({ term, source, language = 'pli', mode }) {
   const t0 = Date.now();
   if (!sql) return { term, entries: [], took_ms: 0 };
@@ -285,6 +373,13 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
   const raw = clean(String(term || ''));
   const q = normalize(raw);
   if (!q) return { term: raw, entries: [], took_ms: 0 };
+
+  // Cross-canon cognates from the alias table (Sanskrit + CJK siblings).
+  // Independent of which mode/source runs below — the reader uses these
+  // to offer a one-click cross-lookup (a Sanskrit cognate jumps to
+  // language=san, i.e. Monier-Williams / Edgerton BHS). Cheap in-memory
+  // read; attached to every populated return below.
+  const cognates = cognatesFor(q);
 
   // Default to lexical (dpd) + proper-name (dppn) + PTS lexicon (ped)
   // + Monier-Williams Sanskrit (mw). MW only matches when language='san'
@@ -313,7 +408,7 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
     let qVec;
     try { qVec = await embedQuery(q); }
     catch (err) {
-      return { term: raw, normalized: q, matched_via: null, entries: [], took_ms: Date.now() - t0, error: 'embed-failed' };
+      return { term: raw, normalized: q, matched_via: null, entries: [], cognates, took_ms: Date.now() - t0, error: 'embed-failed' };
     }
     const qVecLit = `[${qVec.join(',')}]`;
     const perSource = await Promise.all(sources.map((s) => sql`
@@ -331,6 +426,7 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
       normalized: q,
       matched_via: 'meaning',
       entries: meaningEntries.map(projectEntry),
+      cognates,
       took_ms: Date.now() - t0,
     };
   }
@@ -361,6 +457,7 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
       normalized: q,
       matched_via: 'headword',
       entries: headwordEntries.map(projectEntry),
+      cognates,
       took_ms: Date.now() - t0,
     };
   }
@@ -372,6 +469,7 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
       normalized: q,
       matched_via: null,
       entries: [],
+      cognates,
       took_ms: Date.now() - t0,
     };
   }
@@ -399,6 +497,7 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
         normalized: q,
         matched_via: 'english-reverse',
         entries: englishEntries.map(projectEntry),
+        cognates,
         took_ms: Date.now() - t0,
       };
     }
@@ -421,6 +520,7 @@ export async function runLookup({ term, source, language = 'pli', mode }) {
     normalized: q,
     matched_via: matchedVia,
     entries: entries.map(projectEntry),
+    cognates,
     took_ms: Date.now() - t0,
   };
 }

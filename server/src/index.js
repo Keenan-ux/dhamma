@@ -514,6 +514,10 @@ app.get('/api/compare-stats', async (c) => {
 
 app.get('/api/lookup', async (c) => {
   try {
+    // runLookup derives cross-canon cognates from the in-memory alias
+    // map; make sure it's loaded (idempotent — returns the cached ready
+    // promise, already awaited at boot). Mirrors /api/search.
+    await aliasesReady();
     const out = await runLookup({
       term:     c.req.query('term'),
       source:   c.req.query('source') || undefined,
