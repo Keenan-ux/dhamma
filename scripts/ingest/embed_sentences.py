@@ -121,7 +121,12 @@ def main():
         for attempt in range(20):
             try:
                 conn = open_db()
-                cur = conn.cursor(); fetch_cur = conn.cursor(); upd_cur = conn.cursor()
+                cur = conn.cursor()
+                # fetch_cur MUST be a DictCursor: reads below use string keys
+                # (row["passage_id"], row["text"]). A plain cursor here would
+                # return tuples and raise TypeError on the first reconnect.
+                fetch_cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+                upd_cur = conn.cursor()
                 print(f"[db] reconnected (attempt {attempt+1}).", flush=True)
                 return
             except Exception as e:

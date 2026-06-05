@@ -51,6 +51,13 @@ def split_sentences(text):
     s = re.sub(r"\s+", " ", str(text)).strip()
     if not s:
         return []
+    # Normalise runs of 3+ ASCII dots to a spaced unicode ellipsis. A
+    # spaceless "...pe..." (ASCII peyyala, or an English omission ellipsis)
+    # would otherwise split on every dot and shatter into letterless
+    # fragments; the unicode ellipsis is not a terminator, so it stays put.
+    s = re.sub(r"\s+", " ", re.sub(r"\.{3,}", " … ", s)).strip()
+    if not s:
+        return []
 
     parts = _SPLIT_RE.split(s)  # [chunk, term, chunk, term, ..., chunk]
     raw = []
@@ -106,6 +113,9 @@ if __name__ == "__main__":
          2),
         ("peyyala ellipsis stays one",
          "Idha bhikkhu kāye kāyānupassī viharati …pe… sabbe dhammā anattāti.",
+         1),
+        ("ascii triple-dot peyyala stays one",
+         "Idha bhikkhu kāye kāyānupassī viharati ...pe... sabbe dhammā anattāti.",
          1),
         ("pe. abbreviation does not split",
          "Cattāro satipaṭṭhānā pe. ariyo aṭṭhaṅgiko maggo.",
