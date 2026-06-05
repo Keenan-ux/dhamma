@@ -72,6 +72,14 @@ export function passageParallelsApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}/parallels`, opts);
 }
 
+// Sutta → commentary jump. For a canonical mūla sutta, returns its CST
+// Aṭṭhakathā (attha) + Ṭīkā (tika) sections grouped by layer, each
+// { id, citation, title, work_slug, layer, snippet }. Empty arrays
+// when there's no commentary or the passage is itself commentary.
+export function passageCommentaryApi(id, opts) {
+  return get(`/api/passage/${encodeURIComponent(id)}/commentary`, opts);
+}
+
 export function passageTagsApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}/tags`, opts);
 }

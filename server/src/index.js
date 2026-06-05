@@ -17,7 +17,7 @@ import { applySchema, health as dbHealth, sql } from './db.js';
 import { embedReady } from './embed.js';
 import { aliasesReady } from './aliases.js';
 import { runSearch } from './search.js';
-import { runCorpus, getPassage, getPassages, getPassageGroup, getPassageGroupTranslations } from './corpus.js';
+import { runCorpus, getPassage, getPassages, getPassageGroup, getPassageGroupTranslations, getCommentaryFor } from './corpus.js';
 import { runCompareStats } from './compareStats.js';
 import { runLookup, glossWords } from './dictionary.js';
 
@@ -408,6 +408,21 @@ app.get('/api/passage/:id/parallels', async (c) => {
       ORDER BY pp.parallel_have DESC, pp.relation_type, pp.parallel_id
     `;
     return c.json({ passage_id: id, parallels: rows });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+// Sutta → commentary jump. For a canonical mūla sutta, returns its CST
+// Aṭṭhakathā + Ṭīkā sections grouped by layer — the reader's
+// "Commentary" section, mirroring /parallels. Each entry is one
+// commentary section pointing at its first paragraph row, which the
+// reader's group-fetch then expands. Returns empty arrays (not an
+// error) when the passage has no commentary or is itself commentary.
+// See getCommentaryFor in corpus.js for the id-alignment + limitations.
+app.get('/api/passage/:id/commentary', async (c) => {
+  try {
+    return c.json(await getCommentaryFor(c.req.param('id')));
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }
