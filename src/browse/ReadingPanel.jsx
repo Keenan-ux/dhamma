@@ -5,7 +5,7 @@ import { SelectionActions } from '../SelectionActions.jsx';
 import { isModifiedClick } from '../linkHelpers.js';
 import useNotes from '../useNotes.js';
 import useSegmentHover from './useSegmentHover.js';
-import { passageParallelsApi, passageTagsApi, glossApi, passageGroupApi, passageGroupTranslationsApi } from '../api.js';
+import { passageParallelsApi, passageTagsApi, glossApi, passageGroupApi, passageGroupTranslationsApi, passageCommentaryApi } from '../api.js';
 import { paragraphGroupId } from './paragraphGroup.js';
 import { sanitizeDictHtml } from '../dictHtml.js';
 import { formatCitation, prettifyVinayaCitation } from '../citationFormat.js';
@@ -455,6 +455,13 @@ export default function ReadingPanel({
   // as plain text. Grouped by relation type so the scholar can scan
   // direct parallels vs. mentions vs. retells separately.
   const [parallels, setParallels] = useState(null);
+  // Sutta → commentary jump. For a canonical mūla sutta, the server
+  // returns its CST Aṭṭhakathā + Ṭīkā sections; we render a "Commentary"
+  // section mirroring "Parallels", with each entry opening that
+  // commentary passage in the reader. Empty arrays come back when the
+  // passage has no commentary or is itself commentary, so the section
+  // hides automatically.
+  const [commentary, setCommentary] = useState(null);
   const [citeCopied, setCiteCopied] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
   const { has: isBookmarked, toggle: toggleBookmark } = useBookmarks();
@@ -517,6 +524,19 @@ export default function ReadingPanel({
     return () => ac.abort();
   }, [passage?.id]);
 
+  // Commentary fetch — keyed on the anchor passage id (the mūla sutta
+  // being read). The server returns empty arrays for non-mūla / no-
+  // commentary passages, so the section self-hides.
+  useEffect(() => {
+    if (!passage?.id) { setCommentary(null); return; }
+    setCommentary(null);
+    const ac = new AbortController();
+    passageCommentaryApi(passage.id, { signal: ac.signal })
+      .then((r) => setCommentary(r))
+      .catch(() => setCommentary({ attha: [], tika: [] }));
+    return () => ac.abort();
+  }, [passage?.id]);
+
   // Interlinear glosses — Pali words become hoverable, tooltip shows
   // the DPD/PED headword + short definition. Off by default to avoid
   // visual noise; toggled in the reader header.
@@ -573,6 +593,17 @@ export default function ReadingPanel({
     }
     return m;
   }, [parallels]);
+
+  // Commentary layers, in display order: aṭṭhakathā first, then ṭīkā.
+  // Each is [label, list]; empty layers are dropped so the section only
+  // renders the layers that actually have entries.
+  const commentaryLayers = useMemo(() => {
+    if (!commentary) return [];
+    const out = [];
+    if (commentary.attha?.length) out.push(['aṭṭhakathā', commentary.attha]);
+    if (commentary.tika?.length) out.push(['ṭīkā', commentary.tika]);
+    return out;
+  }, [commentary]);
 
   // In-passage find. Two modes:
   //   exact (default) — literal substring, case-insensitive
@@ -1382,6 +1413,49 @@ export default function ReadingPanel({
                   <span key={t.tag_value + i}>
                     <span style={tagChip} title={`${type}: ${t.tag_value}`}>{t.tag_value}</span>
                     {i < list.length - 1 && <span style={tagsSep}>·</span>}
+                  </span>
+                ))}
+              </span>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {commentaryLayers.length > 0 && !compact && (
+        <section style={parallelsSection}>
+          <h3 style={parallelsHeader}>Commentary</h3>
+          <p style={parallelsHint}>
+            Aṭṭhakathā · ṭīkā for this sutta. Click to open · pin ⤒ to read alongside
+          </p>
+          {commentaryLayers.map(([layer, list]) => (
+            <div key={layer} style={parallelsTypeRow}>
+              <span style={parallelsTypeLabel}>{layer}</span>
+              <span style={parallelsList}>
+                {list.map((cm, i) => (
+                  <span key={cm.id + i}>
+                    <span style={parallelsItem}>
+                      <a
+                        href={`#/read/${encodeURIComponent(cm.id)}`}
+                        onClick={(e) => {
+                          if (isModifiedClick(e)) return;
+                          e.preventDefault();
+                          onNavigate?.(cm.id);
+                        }}
+                        style={parallelsLinkBtn}
+                        title={cm.snippet || cm.title || cm.citation}
+                      >
+                        {cm.title || cm.citation}
+                      </a>
+                      <button
+                        onClick={() => setPinnedLeafId?.(cm.id)}
+                        style={parallelsPinBtn}
+                        title={`Pin ${cm.citation} above to read alongside`}
+                        aria-label={`Pin ${cm.citation} for side-by-side`}
+                      >
+                        ⤒
+                      </button>
+                    </span>
+                    {i < list.length - 1 && <span style={parallelsSep}>·</span>}
                   </span>
                 ))}
               </span>

@@ -182,6 +182,181 @@ export async function getPassage(id) {
   return row || null;
 }
 
+// ─────────────────── Sutta → commentary jump ───────────────────
+//
+// Given a canonical mūla sutta passage, return its CST Aṭṭhakathā
+// (commentary) + Ṭīkā (sub-commentary) sections — the reader's
+// "Commentary" section, mirroring the "Parallels" section.
+//
+// THE ALIGNMENT.  CST commentary rows carry a structural locator key
+// embedded in their id, shared verbatim with the mūla edition:
+//
+//   mūla   cst-s0101m.mul-dn1_3      key = dn1_3  (DN vol.1, position 3)
+//   attha  cst-s0101a.att-dn1_3_p047 key = dn1_3
+//   tīkā   cst-s0101t.tik-dn1_3_p012 key = dn1_3
+//
+// The file prefix differs by ONE letter+suffix (m.mul → a.att / t.tik)
+// and the volume number + locator key are identical across layers.
+// The key's leading letters give the nikāya (dn/mn/sn/an/kn), which
+// maps to the commentary work_slugs pli-{nik}-attha / pli-{nik}-tika.
+// So commentary for a mūla key is:
+//
+//   work_slug IN (pli-{nik}-attha, pli-{nik}-tika)
+//   AND <locator after file prefix> = key OR LIKE key || '_%'
+//
+// The fine (per-<p>) commentary rows number in the hundreds per
+// section, so we collapse them to one entry per parent <div> (the
+// `_pNNN` paragraph suffix stripped) and point at that section's first
+// paragraph — the reader's group-fetch then expands it into the full
+// continuous block, exactly like opening any other fine CST row.
+//
+// TWO MŪLA EDITIONS.
+//   - CST mūla ids (cst-…m.mul-{key}) carry the key directly → exact.
+//   - SuttaCentral mūla ids (dn1, mn10, dn22) use global sutta numbers
+//     with no locator key. We bridge them to their CST mūla sibling in
+//     the same work_slug by normalised title match (strip a leading
+//     "N. ", fold diacritics, drop the trailing anusvāra/-ṃ that
+//     distinguishes CST's "Brahmajālasuttaṃ" from SC's
+//     "Brahmajālasutta"), then follow that sibling's key.
+//
+// LIMITATIONS (documented for the UI + callers):
+//   - DN commentary is per-sutta, so DN suttas (CST or SC ids) resolve
+//     to that sutta's own Sv-a + Sv-pṭ section. The SC title-bridge is
+//     100% on DN's 34 suttas (verified, no collisions).
+//   - MN/SN/AN commentary is chunked per-VAGGA, not per-sutta. The CST
+//     mūla rows for those nikāyas are also vagga-level, so reading a
+//     CST mūla vagga resolves to that vagga's commentary. SC mūla ids
+//     are per-individual-sutta and have no vagga-level title twin, so
+//     the title-bridge generally returns empty for MN/SN/AN SC ids —
+//     they fall through to [] rather than guessing.
+//   - Vism/Vinaya/Abhidhamma mūla aren't in the sutta nikāyas, so they
+//     return [] here (their commentary lives under different slugs with
+//     a different alignment and isn't a sutta→commentary jump).
+//   - Passages that are themselves commentary/sub-commentary/anya, or
+//     have no resolvable mūla key, return empty arrays (not an error).
+
+const SUTTA_NIKAYA_SLUGS = new Set(['pli-dn', 'pli-mn', 'pli-sn', 'pli-an', 'pli-kn']);
+
+// Pull the (nikāya, key) from a CST mūla id's locator. The key is the
+// full structural locator (dn1_3); the nikāya is its leading letters.
+function keyFromCstMula(id) {
+  const m = id.match(/^cst-s\d+[mat]\.(?:mul|att|tik)-(.+)$/);
+  if (!m) return null;
+  // Drop any paragraph suffix so an SC-reader landing on a fine row
+  // still resolves to the section key. Mūla rows are coarse (no _pNNN)
+  // but be defensive.
+  const key = m[1].replace(/_p\d+$/, '');
+  const nik = (key.match(/^([a-z]+)\d/) || [])[1] || null;
+  return nik ? { nik, key } : null;
+}
+
+export async function getCommentaryFor(id, { perLayer = 60 } = {}) {
+  const empty = { passage_id: id, attha: [], tika: [] };
+  if (!sql || !id) return empty;
+
+  const mula = await getPassage(id);
+  if (!mula) return empty;
+
+  // Only canonical sutta-nikāya mūla rows get a sutta→commentary jump.
+  // Commentary / sub-commentary / extra-canonical rows return empty so
+  // the section never shows while already reading commentary.
+  if (!SUTTA_NIKAYA_SLUGS.has(mula.work_slug)) return empty;
+
+  // Resolve the structural locator key + nikāya.
+  let resolved = null;
+  if (id.startsWith('cst-')) {
+    resolved = keyFromCstMula(id);
+  } else {
+    // SuttaCentral mūla id — bridge to the CST mūla sibling in the same
+    // work_slug by normalised title, then take its key. Normalisation
+    // (lower, fold diacritics, strip leading "N. ", drop trailing -ṃ)
+    // is applied symmetrically to both titles in SQL so we compare like
+    // for like. LIMIT 1: DN's 34 suttas are collision-free under this
+    // normalisation; if a future nikāya ever collides we take the first
+    // deterministically rather than fanning out.
+    const [sib] = await sql`
+      WITH norm AS (
+        SELECT id,
+               regexp_replace(
+                 translate(
+                   lower(regexp_replace(coalesce(title, ''), '^\\s*[0-9]+\\.?\\s*', '')),
+                   'āīūēōṃṁṅñṇṭḍḷḥ', 'aiueommnnntdlh'
+                 ),
+                 'm+$', ''
+               ) AS k
+        FROM passages
+        WHERE source_edition = 'cst' AND work_role = 'mula'
+          AND work_slug = ${mula.work_slug}
+      ),
+      target AS (
+        SELECT regexp_replace(
+                 translate(
+                   lower(regexp_replace(${mula.title || ''}, '^\\s*[0-9]+\\.?\\s*', '')),
+                   'āīūēōṃṁṅñṇṭḍḷḥ', 'aiueommnnntdlh'
+                 ),
+                 'm+$', ''
+               ) AS k
+      )
+      SELECT n.id
+      FROM norm n, target t
+      WHERE n.k = t.k AND length(t.k) > 0
+      LIMIT 1
+    `;
+    if (sib?.id) resolved = keyFromCstMula(sib.id);
+  }
+  if (!resolved) return empty;
+
+  const { nik, key } = resolved;
+  const atthaSlug = `pli-${nik}-attha`;
+  const tikaSlug  = `pli-${nik}-tika`;
+  // LIKE pattern: rows whose locator equals the key OR begins with
+  // `key_` (sub-sections + paragraph rows). The literal `_` after the
+  // key is what keeps `dn1_1` from matching `dn1_10`. `\` is the LIKE
+  // escape so the `_`s in the key are treated literally.
+  const keyLike = key.replace(/([\\%_])/g, '\\$1') + '\\_%';
+
+  // One row per parent <div> (paragraph suffix stripped), pointing at
+  // that section's lowest-ordinal paragraph — the natural entry point
+  // the reader's group-fetch will expand. DISTINCT ON keeps the row
+  // count proportional to commentary SECTIONS, not paragraphs.
+  const rows = await sql`
+    SELECT DISTINCT ON (parent_div)
+      id, citation, title, work_slug, work_role,
+      LEFT(regexp_replace(coalesce(original, ''), '\\s+', ' ', 'g'), 220) AS snippet
+    FROM (
+      SELECT id, citation, title, work_slug, work_role, original,
+             regexp_replace(id, '_p[0-9]+$', '') AS parent_div,
+             regexp_replace(id, '^cst-s[0-9]+[mat]\\.(mul|att|tik)-', '') AS locator,
+             coalesce((regexp_match(id, '_p([0-9]+)$'))[1]::int, 0) AS para_ord
+      FROM passages
+      WHERE work_slug IN (${atthaSlug}, ${tikaSlug})
+    ) c
+    WHERE c.locator = ${key} OR c.locator LIKE ${keyLike} ESCAPE '\\'
+    ORDER BY parent_div, para_ord
+  `;
+
+  const layerEntry = (r) => ({
+    id: r.id,
+    citation: r.citation,
+    title: r.title,
+    work_slug: r.work_slug,
+    layer: r.work_role,            // 'attha' | 'tika'
+    snippet: r.snippet || null,
+  });
+
+  const attha = [];
+  const tika = [];
+  for (const r of rows) {
+    if (r.work_role === 'tika') tika.push(layerEntry(r));
+    else attha.push(layerEntry(r));
+  }
+  return {
+    passage_id: id,
+    attha: attha.slice(0, perLayer),
+    tika: tika.slice(0, perLayer),
+  };
+}
+
 export async function getPassages(ids) {
   if (!sql || !ids || ids.length === 0) return [];
   const rows = await sql`
