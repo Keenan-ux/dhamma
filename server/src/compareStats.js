@@ -30,7 +30,8 @@ export async function runCompareStats(rawParams) {
     return {
       query: q, limit, took_ms: 0,
       totalOccurrences: 0,
-      frequencyByTradition: [],
+      matchingPassageCount: 0,
+      frequencyByPitaka: [],
       passages: [],
     };
   }
@@ -41,6 +42,12 @@ export async function runCompareStats(rawParams) {
   // and the aggregate is dramatically undercounted vs what Search returns.
   // Mirrors the prefix-stem logic in search.js / termToTsquery.
   const probe = stemForPrefix(q.toLowerCase());
+  // Escape LIKE metacharacters so a user '%' or '_' matches literally rather
+  // than acting as a wildcard (a bare '%' otherwise makes whereExpr match
+  // every passage and forces a multi-second full-table scan). The REPLACE /
+  // LENGTH occurrence math uses the raw probe (literal substring); only the
+  // LIKE needs the escaped form. Mirrors getPassageGroup in corpus.js.
+  const probeLike = probe.replace(/([\\%_])/g, '\\$1');
 
   // Length-diff trick: count substring occurrences case-insensitively.
   // Works on any text including CJK. GREATEST guards against zero-length.
@@ -57,8 +64,8 @@ export async function runCompareStats(rawParams) {
   `;
 
   const whereExpr = sql`
-    (LOWER(COALESCE(p.original,''))    LIKE '%' || ${probe} || '%'
-     OR LOWER(COALESCE(p.translation,'')) LIKE '%' || ${probe} || '%')
+    (LOWER(COALESCE(p.original,''))    LIKE '%' || ${probeLike} || '%' ESCAPE '\\'
+     OR LOWER(COALESCE(p.translation,'')) LIKE '%' || ${probeLike} || '%' ESCAPE '\\')
   `;
 
   // Frequency by piṭaka: a recursive CTE walks each passage's work up to
