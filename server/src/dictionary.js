@@ -77,6 +77,13 @@ const ENTRY_FIELDS = sql`
   sanskrit, construction, root, example, notes
 `;
 
+// Escape LIKE metacharacters (% _ \) in user input so a typed '%' or '_'
+// matches literally instead of acting as a wildcard (otherwise "s%t" returns
+// spurious prefix hits instead of a clean no-match). Append the trailing '%'
+// AFTER escaping, and pair every LIKE with ESCAPE '\'. Mirrors getPassageGroup
+// in corpus.js. Step 1 (equality) and step 4 (POSITION) need no escaping.
+const escapeLike = (s) => String(s).replace(/([\\%_])/g, '\\$1');
+
 function projectEntry(e) {
   return {
     id: e.id, source: e.source, source_id: e.source_id,
@@ -128,9 +135,9 @@ async function paliCascadeFallback(q, source, language) {
       entries = await sql`
         SELECT ${ENTRY_FIELDS}
         FROM dictionary_entries
-        WHERE (headword_lower LIKE ${stem + '%'}
-            OR lemma_lower LIKE ${stem + '%'}
-            OR headword_folded LIKE ${stemFolded + '%'})
+        WHERE (headword_lower LIKE ${escapeLike(stem) + '%'} ESCAPE '\\'
+            OR lemma_lower LIKE ${escapeLike(stem) + '%'} ESCAPE '\\'
+            OR headword_folded LIKE ${escapeLike(stemFolded) + '%'} ESCAPE '\\')
           AND source = ${source} AND language = ${language}
         ORDER BY LENGTH(COALESCE(headword_lower, lemma_lower)), headword_lower
         LIMIT ${MAX_PER_SOURCE}
@@ -146,9 +153,9 @@ async function paliCascadeFallback(q, source, language) {
     entries = await sql`
       SELECT ${ENTRY_FIELDS}
       FROM dictionary_entries
-      WHERE (headword_lower LIKE ${q + '%'}
-          OR lemma_lower LIKE ${q + '%'}
-          OR headword_folded LIKE ${qFolded + '%'})
+      WHERE (headword_lower LIKE ${escapeLike(q) + '%'} ESCAPE '\\'
+          OR lemma_lower LIKE ${escapeLike(q) + '%'} ESCAPE '\\'
+          OR headword_folded LIKE ${escapeLike(qFolded) + '%'} ESCAPE '\\')
         AND source = ${source} AND language = ${language}
       ORDER BY LENGTH(COALESCE(headword_lower, lemma_lower)), headword_lower
       LIMIT ${MAX_PER_SOURCE}
