@@ -335,6 +335,7 @@ export default function Dhamma() {
         fontFamily: 'Outfit, system-ui, sans-serif',
       }}
     >
+      <a href="#main-content" className="skip-link">Skip to content</a>
       {!readingMode && (
         <TopNav
           tab={effectiveTab}
@@ -361,7 +362,7 @@ export default function Dhamma() {
           {/* Narrow viewports get navigation from the TopNav slide-in
               panel — saves horizontal/vertical real estate and matches
               the in-app Settings affordance. */}
-          <main style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden' }}>
+          <main id="main-content" tabIndex={-1} style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden', outline: 'none' }}>
             {corpusError && (
               <div style={errorBanner}>
                 Couldn’t load the corpus index. Search and browse may be unavailable.

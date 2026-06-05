@@ -35,7 +35,10 @@
 
   --bc-text-primary:     #202124;
   --bc-text-secondary:   #5F6368;
-  --bc-text-tertiary:    #80868B;
+  /* Darkened from #80868B (3.3:1, failed WCAG AA for normal text) to clear
+     4.5:1 on both bg-base and bg-surface while staying lighter than
+     secondary, preserving the quiet-text hierarchy. */
+  --bc-text-tertiary:    #646A6F;
   --bc-text-heading:     #202124;
 
   --bc-accent:           #8B6914;
@@ -63,6 +66,45 @@ html, body {
 ::-webkit-scrollbar-track { background: var(--bc-bg-base); }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); }
+
+/* Keyboard focus indicator. Several inputs and buttons set outline:none
+   inline, so a stylesheet rule needs !important to restore a visible ring
+   for keyboard users. :focus-visible keeps mouse/touch focus clean. */
+:focus-visible {
+  outline: 2px solid var(--bc-accent) !important;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Respect the OS reduced-motion preference: neutralise the ~40 transitions,
+   the TreeLevel column slide, and the TopNav panel transforms. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Skip-to-content link: off-screen until keyboard focus, then it slides
+   into the top-left so a keyboard user can jump past the nav chrome. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 2000;
+  padding: 10px 16px;
+  background: var(--bc-bg-elevated);
+  color: var(--bc-accent);
+  border: 1px solid var(--bc-accent);
+  border-radius: 6px;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { left: 8px; }
 
 /* Per-segment spans inside the reader. Each gets a sister-highlight
    when its paired segment on the other column is hovered (driven by

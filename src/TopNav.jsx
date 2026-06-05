@@ -50,6 +50,17 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
     setPanelVisible(false);
   }, [open, isMobile]);
 
+  // Escape closes the menu (desktop dropdown + mobile slide-in) and restores
+  // focus to the trigger, so a keyboard user is never trapped inside it.
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e) {
+      if (e.key === 'Escape') { setOpen(false); btnRef.current?.focus(); }
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
+
   // Desktop click-outside-to-close (mobile uses backdrop).
   useEffect(() => {
     if (!open || isMobile) return;
@@ -243,7 +254,7 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
         </button>
 
         {open && !isMobile && (
-          <div ref={dropdownRef}>{panelContent}</div>
+          <div ref={dropdownRef} role="dialog" aria-modal="true" aria-label="Settings menu">{panelContent}</div>
         )}
 
         {open && isMobile && createPortal(
@@ -256,7 +267,7 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
               onClick={() => setOpen(false)}
               onTouchEnd={(e) => { e.preventDefault(); setOpen(false); }}
             />
-            {panelContent}
+            <div role="dialog" aria-modal="true" aria-label="Settings menu" style={{ display: 'contents' }}>{panelContent}</div>
           </>,
           document.body
         )}
