@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Search the Pāli Buddhist canon — Tipiṭaka, commentaries, sub-commentaries — with cross-canon Sanskrit dictionary lookup.",
+  "description": "Search the Pāli canon, its commentaries and sub-commentaries, with cross-canon Sanskrit dictionary lookup.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
