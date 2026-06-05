@@ -183,6 +183,42 @@ These remain:
 
 ---
 
+## ⬜ Bodhi stress-test deferrals (2026-06-05)
+
+From the read-only Bodhi-persona stress test. The high-value features it
+drove (sutta→commentary jump incl. MN/SN/AN, Pāli→Sanskrit cognate
+cross-link, commentary Pāli-only note) were built this session; these
+remain:
+
+- **Stem-mode diacritic conflation.** HIGH for term-precise scholars.
+  `anattā` in Stem (layer=tika) returns 1,301 hits and ranks `Āṇattikathā`
+  (āṇatti, a different word) #1, because simple_unaccent folds ā/ṇ and
+  prefix-stems `anatt:*`. Fix needs a diacritic-sensitive ranking signal: a
+  secondary tsvector that preserves diacritics (schema + reindex) to boost
+  exact-grapheme matches, or a post-filter demote, or a "diacritic-exact"
+  refinement chip in SearchView. Non-trivial; weigh the recall tradeoff.
+- **Long commentary reading.** HIGH UX. `/api/passage/:id/group` merges an
+  ENTIRE division into one render (Ps-a mn1_1 = 1,278 rows / 636 KB; Sv-a
+  dn1_1 = 394 rows / 198 KB), and prev/next jumps across whole volumes. Fix:
+  sub-paginate within a group (windowed render + a §N section index using the
+  per-row citations), or finer prev/next. Matters more now that the
+  sutta→commentary jump lands scholars on these long blocks.
+- **Exact + Title returns 0 for a bare sutta name.** MED. Pāli titles are
+  compound tokens, so "Satipaṭṭhāna" in Exact+Title yields 0 while
+  "Satipaṭṭhānasutta" hits. Fix: prefix/stem-match the Title scope in Exact
+  mode, or show the Stem count when Exact+Title is empty.
+- **Cold-start UX.** MED. First Meaning query after a wake is ~13-14s
+  (BGE-M3 ONNX load). Add a keepalive ping or a "warming…" UI state so the
+  first commentary Meaning query doesn't read as broken.
+- **Commentary English entry points.** Commentary is ~3-4% translated.
+  Prioritize the interlinear DPD gloss for the att/tik tier (the only
+  reading aid for non-fluent readers there) and author a Docs page on the
+  English→Pāli-commentary Meaning path (Docs currently unauthored). The
+  concordance pg_trgm + single-CTE perf fix is already in the
+  Next-maintenance-window checklist above.
+
+---
+
 ## 🟡 Partial / in-flight
 
 - **HNSW reindex after the gloss re-embed — NOT done; do NOT casually re-run.**
