@@ -21,6 +21,28 @@ Status key: ✅ landed (verified) · 🟡 partial / in-flight · ⬜ not started
 
 Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
 
+### 2026-06-05 (sentence embed complete + scholar stress-test, deployed)
+- **Sentence-snippet upgrade live** (see the detailed entry under the former
+  "Not started" list). 507,777 mula sentences embedded; vector-only Meaning
+  hits now show a sentence-precise snippet.
+- **Scholar stress-test audit fixes** (branch `audit-fixes-2026-06-05`,
+  merged to master, deployed + smoke-tested):
+  - LIKE-metacharacter escaping in `/api/compare-stats` + `/api/lookup`. A
+    bare `%` had matched all 194,710 passages (a ~15s scan); `s%t` returned
+    spurious dictionary hits. Verified live: `compare-stats?q=%` now returns
+    0, `lookup?term=s%t` returns a clean no-match, normal queries unchanged.
+  - Theme-adaptive `--bc-border-rgb` / `--bc-loss-text-rgb` tokens replacing
+    ~20 `rgba(255,255,255,a)` borders that were invisible on the light
+    parchment, plus two literal error colors. Dark mode byte-identical.
+  - `useCorpus` resilience: a single `/api/corpus` timeout no longer caches
+    the rejection forever and bricks the SPA on "Loading the canon…"; adds a
+    retry() + an honest error state in CanonMapView.
+  - Search-input aria-labels, Concordance title h2 to h1, PassageCard
+    aria-label fallback, CompareView null guard.
+- **Gloss `(gram)` down-rank live** (commit bf0472a): `apaccaya` to
+  "causeless", `manti` to "minister". The `sato` homograph is the known
+  residual (no field-only fix; see the gloss-disambiguation note below).
+
 - **Blurb retrieval lane** (Chat 1). `blurbs` table = 4,173 rows, all embedded,
   0 orphans; `vec_blurb` added as the 4th RRF lane in `search.js`. Functional
   prod smoke pending deploy.
@@ -130,9 +152,16 @@ Verified by build (green, 74 modules), live DB queries, and FK-integrity checks:
 - **Dictionary expansion.** Next per DICTIONARIES.md: CPD, then
   Buddhadatta. (DPD, DPPN, PED, MW, BHS are done.) CPD blocked on an email
   reply (`CPD_EMAIL_DRAFT.md`).
-- **Sentence-level snippet upgrade.** `/api/search` currently returns the
-  first ~200 chars. Sentence-level snippets need schema work. See the
-  sentence-chunking idea below — they're the same project.
+- **Sentence-level snippet upgrade. ✅ LANDED + DEPLOYED 2026-06-05.**
+  `passage_sentences` holds 507,777 mula `original` sentences, all embedded
+  (BGE-M3 GPU pass, ~5.6h, 25 rows/s). `attachSentenceSnippets` in
+  search.js replaces the first-200-char fallback for vector-only Meaning
+  hits with the best-matching sentence per passage (per-passage ANN over
+  `idx_psent_passage`; no global HNSW, deferred like the blurbs index since
+  the snippet scan is per-passage). Verified live: MN 38 / SN 12.15 now
+  show sentence-precise snippets instead of the generic opener. Follow-ons:
+  the `field='translation'` half (English-side snippets), then the
+  full-corpus scope decision. See RE-EMBED-PLAN.md.
 - **AI-assisted draft translations.** `TRANSLATIONS-AI.md` carries the
   design. Pilot: DN 1 Aṭṭhakathā vs BP209S gold standard. Needs user
   decisions on model / UX / storage. Gated by the "no LLM synthesis by
@@ -153,8 +182,10 @@ facets worth borrowing. A retrieval lane = (text chunks) → (embedding) →
 
 > **Status:** Blurb lane, Audience facet, and Docs/posts **LANDED** in the
 > 2026-05-29 parallel round (see ✅ section above). The detailed write-ups
-> below are retained as the design/build record. **Sentence chunking remains
-> the one unbuilt ABV idea** — it's the big, disk-heavy one.
+> below are retained as the design/build record. **Sentence chunking LANDED
+> 2026-06-05** for the mula `original` lane (507,777 sentences embedded,
+> snippet upgrade deployed). The `field='translation'` half and full-corpus
+> scope (A) remain as follow-ons.
 
 ### Blurb lane (Effort: M) — highest value, smallest surface
 
