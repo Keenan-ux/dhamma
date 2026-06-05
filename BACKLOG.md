@@ -134,17 +134,26 @@ borders, the corpus-resilience fix, the `layer` echo, the hashchange
 listener, and the Buddhist framing pass all LANDED (commits this session).
 These remain:
 
-- **Perf: `/api/compare-stats` full-corpus scan (~10-16s).** HIGH. It scans
-  all 194,710 rows (REPLACE/LENGTH occurrence math + un-indexed LIKE) and
-  runs the scan 3x per request (freq, passages, count). Two fixes, both
-  deferred because they need testing/DB-ops not safe to rush mid-embed:
-  (a) fold the 3 queries into one CTE that scans once into a `matched` set,
-  then derives freq + top-N + count from it (code-only, ~3x win, but an
-  untested SQL rewrite, so verify with a local server against prod DB AFTER
-  the translation embed finishes, before deploying); (b) a `pg_trgm` GIN
-  index on `lower(original)`/`lower(translation)` to prefilter the LIKE, as a
-  deliberate maintenance-window `CREATE INDEX CONCURRENTLY` (RAM-bumped, NOT
-  schema.sql, same caution as the HNSW). Do (a) first; (b) only if still slow.
+- **Perf: `/api/compare-stats` full-corpus scan. ✅ LANDED + DEPLOYED
+  2026-06-05 (72f2239 + f3a4bd4).** Both fixes shipped, verified live:
+  (a) the 3 queries (freq / passages / count) folded into one
+  `MATERIALIZED matched` CTE that scans once — byte-identical results vs
+  prod across sati / anattā / dhamma / nibbāna / viññāṇa + the q=% /
+  no-match / empty edge cases, ~2-2.7x faster on broad terms; (b) two
+  `pg_trgm` GIN indexes built `CONCURRENTLY` matching the exact
+  `lower(coalesce(original,''))` / `lower(coalesce(translation,''))`
+  predicates (both branches needed for a BitmapOr) — `idx_passages_original_trgm`
+  (84 MB) + `idx_passages_translation_trgm` (7.6 MB), NOT in schema.sql,
+  built via `server/scripts/build-concordance-trgm.mjs` (session
+  maintenance_work_mem=384MB, parallelism off, ANALYZE after; no deploy
+  during the build). Planner confirmed using BitmapOr over both. Net live:
+  selective terms ~10x faster (diṭṭhivisuddhi 673ms, paṭiccasamuppāda 694ms
+  vs ~10-12s); broad terms ~2.5x (sati 4.4s) — the broad-term floor is the
+  occurrence math (REPLACE/LENGTH) reading ~25k matched rows' text, not the
+  filter, so further wins there would need precomputed counts (not pursued;
+  diminishing return). Also folded the query input to NFC in `normalize()`:
+  a scholar pasting a decomposed (NFD) Pāli term matched nothing
+  (NFD "viññāṇa" → 0 vs 5,505 NFC rows); now equal. Verified live.
 - **Perf: reader request fan-out.** MED. `usePassage` fetches
   `/api/passage/:id` while `ReadingPanel` also fetches `/group` (which already
   includes the anchor row), and `/group` + `/group-translations` re-run the
