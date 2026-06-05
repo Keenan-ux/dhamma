@@ -16,8 +16,15 @@ const MAX_LIMIT = 100;
 const DEFAULT_LIMIT = 50;
 
 function normalize({ q, limit }) {
+  // Fold to NFC. The corpus `original`/`translation` is stored NFC, but a
+  // scholar pasting a Pāli term from a decomposed source (macOS input, some
+  // PDFs/IMEs emit NFD: base letter + combining diacritic) would otherwise
+  // never match — e.g. an NFD "viññāṇa" returned 0 against 5,505 NFC rows.
+  // normalize('NFC') is idempotent for already-NFC input, so this only ever
+  // helps.
+  const raw = typeof q === 'string' ? q.trim() : '';
   return {
-    q: typeof q === 'string' ? q.trim() : '',
+    q: raw.normalize('NFC'),
     limit: Math.max(1, Math.min(MAX_LIMIT, Number(limit) || DEFAULT_LIMIT)),
   };
 }
@@ -68,66 +75,89 @@ export async function runCompareStats(rawParams) {
      OR LOWER(COALESCE(p.translation,'')) LIKE '%' || ${probeLike} || '%' ESCAPE '\\')
   `;
 
+  // Single-scan refactor. Previously freq / passages / count ran as three
+  // separate statements, so the un-indexed LIKE scan + REPLACE/LENGTH
+  // occurrence math executed 3x over all ~194k rows (~10-16s). Now one
+  // MATERIALIZED `matched` CTE scans the corpus once (computing the
+  // occurrence count per matching row), and the three result shapes are
+  // derived from that small set as json_agg sub-selects in a single
+  // round-trip. `matched` is referenced 3x so Postgres materializes it
+  // anyway; MATERIALIZED makes the single-scan guarantee explicit.
+  //
   // Frequency by piṭaka: a recursive CTE walks each passage's work up to
   // its child-of-pli-tipitaka ancestor (Vinaya / Sutta / Abhidhamma).
   // Passages whose work has no Tipiṭaka ancestor (commentaries, extra-
   // canonical) bucket under work_root for clarity rather than being
   // dropped.
-  const [freqRows, passageRows, countRows] = await Promise.all([
-    sql`
-      WITH RECURSIVE pitaka_map AS (
-        SELECT slug, name, slug AS root_slug, name AS root_name
-        FROM works
-        WHERE parent_slug = 'pli-tipitaka'
-        UNION ALL
-        SELECT w.slug, w.name, pm.root_slug, pm.root_name
-        FROM works w
-        JOIN pitaka_map pm ON w.parent_slug = pm.slug
-      ),
-      other_roots AS (
-        SELECT slug, name, slug AS root_slug, name AS root_name
-        FROM works
-        WHERE parent_slug IS NULL
-          AND tradition_slug = 'theravada'
-          AND slug != 'pli-tipitaka'
-        UNION ALL
-        SELECT w.slug, w.name, ot.root_slug, ot.root_name
-        FROM works w
-        JOIN other_roots ot ON w.parent_slug = ot.slug
-      ),
-      all_roots AS (
-        SELECT * FROM pitaka_map
-        UNION ALL
-        SELECT * FROM other_roots
-      )
-      SELECT
-        ar.root_slug AS root_slug,
-        ar.root_name AS root_name,
-        SUM(${occurrenceExpr})::int AS count
-      FROM passages p
-      LEFT JOIN all_roots ar ON ar.slug = p.work_slug
-      WHERE ${whereExpr}
-      GROUP BY ar.root_slug, ar.root_name
-      ORDER BY count DESC
-    `,
-    sql`
+  const [agg] = await sql`
+    WITH RECURSIVE pitaka_map AS (
+      SELECT slug, name, slug AS root_slug, name AS root_name
+      FROM works
+      WHERE parent_slug = 'pli-tipitaka'
+      UNION ALL
+      SELECT w.slug, w.name, pm.root_slug, pm.root_name
+      FROM works w
+      JOIN pitaka_map pm ON w.parent_slug = pm.slug
+    ),
+    other_roots AS (
+      SELECT slug, name, slug AS root_slug, name AS root_name
+      FROM works
+      WHERE parent_slug IS NULL
+        AND tradition_slug = 'theravada'
+        AND slug != 'pli-tipitaka'
+      UNION ALL
+      SELECT w.slug, w.name, ot.root_slug, ot.root_name
+      FROM works w
+      JOIN other_roots ot ON w.parent_slug = ot.slug
+    ),
+    all_roots AS (
+      SELECT * FROM pitaka_map
+      UNION ALL
+      SELECT * FROM other_roots
+    ),
+    matched AS MATERIALIZED (
       SELECT
         p.id, p.citation, p.title, p.canon, p.work_slug,
         p.original, p.translation,
-        t.name AS tradition,
-        ${occurrenceExpr} AS occurrence_count
+        ${occurrenceExpr} AS occ
       FROM passages p
-      JOIN works w ON w.slug = p.work_slug
-      JOIN traditions t ON t.slug = w.tradition_slug
       WHERE ${whereExpr}
-      ORDER BY occurrence_count DESC, p.id
-      LIMIT ${limit}
-    `,
-    sql`SELECT COUNT(*)::int AS n FROM passages p WHERE ${whereExpr}`,
-  ]);
+    )
+    SELECT
+      (
+        SELECT COALESCE(json_agg(f ORDER BY f.count DESC), '[]'::json)
+        FROM (
+          SELECT
+            ar.root_slug AS root_slug,
+            ar.root_name AS root_name,
+            SUM(m.occ)::int AS count
+          FROM matched m
+          LEFT JOIN all_roots ar ON ar.slug = m.work_slug
+          GROUP BY ar.root_slug, ar.root_name
+        ) f
+      ) AS freq,
+      (
+        SELECT COALESCE(json_agg(pp), '[]'::json)
+        FROM (
+          SELECT
+            m.id, m.citation, m.title, m.canon, m.work_slug,
+            m.original, m.translation,
+            t.name AS tradition,
+            m.occ AS occurrence_count
+          FROM matched m
+          JOIN works w ON w.slug = m.work_slug
+          JOIN traditions t ON t.slug = w.tradition_slug
+          ORDER BY m.occ DESC, m.id
+          LIMIT ${limit}
+        ) pp
+      ) AS passages,
+      (SELECT COUNT(*)::int FROM matched) AS count
+  `;
 
+  const freqRows = agg?.freq ?? [];
+  const passageRows = agg?.passages ?? [];
   const totalOccurrences = freqRows.reduce((s, r) => s + Number(r.count), 0);
-  const matchingPassageCount = Number(countRows[0]?.n) || 0;
+  const matchingPassageCount = Number(agg?.count) || 0;
 
   return {
     query: q,
