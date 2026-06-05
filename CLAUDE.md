@@ -160,8 +160,11 @@ What remains genuinely open:
   Next per the roadmap in [DICTIONARIES.md](DICTIONARIES.md): CPD
   (blocked on an email reply, see `CPD_EMAIL_DRAFT.md`), then
   Buddhadatta.
-- **Sentence-level snippet upgrade** ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md))
-  — disk-heavy; pairs with the sentence-chunking lane in BACKLOG.md.
+- **Sentence-level snippet upgrade. LANDED + deployed 2026-06-05**
+  ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md)).
+  507,777 mula sentences embedded in `passage_sentences`; vector-only
+  Meaning hits now show the best-matching sentence. The `field='translation'`
+  half and full-corpus scope remain follow-ons (see BACKLOG.md).
 - **v3 migration from `@xenova/transformers` v2** ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md))
   — best done with a corpus re-embed.
 - **AI-assisted draft translations** — `TRANSLATIONS-AI.md` carries the
