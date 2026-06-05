@@ -7,7 +7,7 @@
 //   - traditions: list of tradition name strings (for sidebar filter)
 //   - traditionByWorkSlug: Map for deriving a passage's tradition from its work
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { corpusApi } from './api.js';
 
 let _cachedShape = null;
@@ -78,9 +78,21 @@ export default function useCorpus() {
   const [shape, setShape] = useState(_cachedShape);
   const [loading, setLoading] = useState(!_cachedShape);
   const [error, setError] = useState(null);
+  // Bumped by retry() to re-run the fetch after a transient failure, so a
+  // timed-out /api/corpus (cold start, network blip) can recover without a
+  // full page reload.
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    if (_cachedShape) return;
+    if (_cachedShape) { setShape(_cachedShape); setLoading(false); setError(null); return; }
+    let alive = true;
+    setLoading(true);
+    setError(null);
+    // One in-flight request shared across all hook instances. A failed
+    // request clears _pending (in the catch) so a later mount or retry()
+    // re-fetches instead of replaying the cached rejection forever — the
+    // bug where a single corpus-load timeout left the whole SPA stuck on
+    // "Loading…" until a hard reload.
     if (!_pending) {
       _pending = corpusApi()
         .then((server) => {
@@ -88,12 +100,18 @@ export default function useCorpus() {
           return _cachedShape;
         });
     }
-    let alive = true;
     _pending
       .then((r) => { if (alive) { setShape(r); setLoading(false); } })
-      .catch((err) => { if (alive) { setError(err); setLoading(false); } });
+      .catch((err) => {
+        _pending = null;
+        if (alive) { setError(err); setLoading(false); }
+      });
     return () => { alive = false; };
+  }, [attempt]);
+
+  const retry = useCallback(() => {
+    if (!_cachedShape) setAttempt((n) => n + 1);
   }, []);
 
-  return { shape, loading, error };
+  return { shape, loading, error, retry };
 }
