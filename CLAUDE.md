@@ -15,6 +15,22 @@ coverage, SuttaCentral parallels, and an ATI Library tab. Most
 "core scope" work is now landed — see the backlog further down for
 what's open.
 
+**Latest (2026-06-05, deployed + pushed @ origin/master 36b23b8):** three
+scholar features shipped on top of the above, plus a wave of audit / a11y /
+LIKE-injection / corpus-resilience fixes —
+1. **Sutta → commentary jump.** The reader links a mūla sutta to its CST
+   Aṭṭhakathā + Ṭīkā (`/api/passage/:id/commentary`); DN + CST-ids by a
+   shared locator key, MN/SN/AN SuttaCentral-ids by a title-bridge to the
+   `…vaṇṇanā` section.
+2. **Pāli → Sanskrit cognate cross-link.** A Pāli dictionary lookup surfaces
+   cognates (dhamma → dharma · 法); the Skt chip jumps to Monier-Williams +
+   Edgerton BHS via `?language=san`.
+3. **English-side Meaning snippets.** The `field='translation'` sentence half
+   is embedded (221,073 rows); vector-only Meaning hits now show the closest
+   English sentence (Pāli for untranslated commentary).
+**BACKLOG.md is the source of truth** for what landed and the open queue (the
+open items are under "Bodhi stress-test deferrals" + the audit deferrals).
+
 **What's live as of this handoff:**
 - **Pali corpus: ~191,000 passages** across the live Theravāda canon
   - **Major shift this session**: CST Aṭṭhakathā + Ṭīkā subdivided from
@@ -72,14 +88,21 @@ what's open.
 
 ```bash
 curl -s https://dhamma.fly.dev/api/dbcheck
-# expect: passages: ~191000, tables: 12, pgvector: true
+# expect: passages: 194710, tables: 14, pgvector: true, postgres 16.14
 ```
 
 Dictionaries — try
 `curl -s "https://dhamma.fly.dev/api/lookup?term=dhamma"`;
-expect entries from `dpd` + `dppn` + `ped` with `matched_via: 'headword'`.
+expect entries from `dpd` + `dppn` + `ped` with `matched_via: 'headword'`,
+plus `cognates: [{dharma, latin}, {法, cjk}]` (the cross-canon cross-link).
 For the Sanskrit (MW) side: `curl -s "https://dhamma.fly.dev/api/lookup?term=dharma&language=san"`
-should return MW entries (`source: 'mw'`).
+should return MW + BHS entries (`source: 'mw'`/`'bhs'`).
+
+Sutta → commentary jump — try
+`curl -s "https://dhamma.fly.dev/api/passage/mn10/commentary"`; expect
+non-empty `attha` + `tika`, the attha entry titled
+"10. Satipaṭṭhānasuttavaṇṇanā" (Ps-a 1 §958). `dn1` / `sn12.1` / `an3.61`
+also resolve.
 
 Library — try
 `curl -s "https://dhamma.fly.dev/api/library"`;
