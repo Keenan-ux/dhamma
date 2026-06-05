@@ -17,30 +17,37 @@ Status key: ✅ landed (verified) · 🟡 partial / in-flight · ⬜ not started
 
 ---
 
-## ▶ Next maintenance window (when the translation-sentence embed completes)
+## ✅ Landed 2026-06-05 (Bodhi stress-test session — deployed + pushed)
 
-The translation-sentence GPU embed (field='translation', 221,073 rows) is
-running; deploys are frozen until it finishes. Several fixes are committed on
-master since the last deploy (a11y, LIKE-escaping, layer echo, hashchange,
-Buddhist framing, theme tokens, corpus resilience) plus the snippet wiring.
-When the embed completes, in order:
-1. Confirm embed done: `passage_sentences` field='translation' pending=0.
-2. QA the translation sentences against the segmenter ASCII-ellipsis fix;
-   re-segment any garbage passages (only after the embed, never during).
-3. Merge the sutta→commentary feature branch (from the build agent).
-4. Optional but high-value: the compare-stats single-CTE perf refactor —
-   write + TEST it now (local server against prod DB is safe once the embed
-   is done; its boot applySchema no longer conflicts), then include it.
-5. `npm run build` + `node --check` the edited server files.
-6. `flyctl deploy --remote-only --app dhamma` (CI is on `main` not `master`).
-7. Smoke-test: translation-side sentence snippets; the new commentary
-   endpoint (`curl /api/passage/dn1/commentary`); the LIKE fixes
-   (`compare-stats?q=%25` -> 0); gloss `(gram)`; light-theme hairlines; the
-   a11y skip link / focus ring; dbcheck.
-8. **`git push origin master`** (operator authorized the push for when the
-   GPU/proxy is free).
-9. Teardown: dhamma-pg stays 256 MB; stop the `flyctl proxy 15432` and the
-   dhamma-dev preview server if no further local work is queued.
+Window executed: translation-sentence embed completed (221,073 rows), all
+session work deployed to prod and pushed to origin/master (2e51d98). Verified
+live by smoke test.
+
+- **English-side Meaning snippets.** The translation half of the
+  sentence-chunking work shipped: 221,073 mula `translation` sentences
+  embedded, and `attachSentenceSnippets` prefers the closest English sentence
+  (`field='translation'` DESC), so English Meaning queries now show an English
+  snippet (MN 38 for "dependent origination" went from an off-topic Pali
+  sentence to "…consciousness is dependently originated…"). Untranslated
+  commentary falls back to the closest Pali original.
+- **Sutta → commentary jump.** The reader's "Commentary" section links a mula
+  sutta to its CST Aṭṭhakathā + Ṭīkā (`/api/passage/:id/commentary`). DN +
+  CST-id via a shared structural locator key; MN/SN/AN SuttaCentral ids via a
+  title-bridge to the `…vaṇṇanā` section. Verified live: dn1, mn10
+  (Satipaṭṭhāna → Ps-a §958), sn12.1, an3.61. (SN name reuse returns multiple
+  candidates; a few suttas resolve ṭīkā only.)
+- **Pāli → Sanskrit cognate cross-link.** A Pāli lookup surfaces cross-canon
+  cognates (dhamma → dharma · 法); clicking the Sanskrit chip runs a
+  language=san lookup into Monier-Williams + Edgerton BHS. Closes the
+  "Sanskrit is siloed" gap.
+- **Commentary "Pāli only" note** on the Commentaries frontmatter.
+- Earlier-window fixes (also deployed): mula sentence-snippet upgrade,
+  LIKE-injection fixes, theme-adaptive borders, a11y (contrast, focus-visible,
+  reduced-motion, skip link, settings-menu Escape/dialog), corpus resilience,
+  `layer` echo, hashchange listener, Buddhist framing, ingest reconnect +
+  segmenter fixes.
+
+Still open: the Bodhi stress-test deferrals + audit deferrals below.
 
 ---
 
