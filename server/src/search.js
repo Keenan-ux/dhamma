@@ -932,7 +932,7 @@ export async function runSearch(rawParams) {
 
     if (mode !== 'meaning') {
       if (!tsquery) {
-        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, hasMore: false, total: 0 };
+        return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0, results: [], expanded, hasMore: false, total: 0 };
       }
       rows = await sql`
         SELECT slug AS id, title, author, category, year, source_url,
@@ -945,7 +945,7 @@ export async function runSearch(rawParams) {
         LIMIT ${limit} ${offsetFrag}
       `;
       return {
-        query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
+        query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0,
         results: rows.map(shapeLibrary),
         expanded,
         hasMore: rows.length === limit,
@@ -961,7 +961,7 @@ export async function runSearch(rawParams) {
     catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
-        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
+        return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
       }
       rows = await sql`
         SELECT slug AS id, title, author, category, year, source_url,
@@ -973,7 +973,7 @@ export async function runSearch(rawParams) {
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
       `;
-      return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
+      return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0,
                results: rows.map(shapeLibrary), expanded, warning, hasMore: rows.length === limit,
                total: await totalPromise };
     }
@@ -1021,7 +1021,7 @@ export async function runSearch(rawParams) {
         LIMIT ${limit} ${offsetFrag}
       `;
     }
-    return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
+    return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0,
              results: rows.map(shapeLibrary), expanded, hasMore: rows.length === limit,
              total: await totalPromise };
   }
@@ -1065,7 +1065,7 @@ export async function runSearch(rawParams) {
     catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
-        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
+        return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
       }
       rows = await sql`
         SELECT p.id, p.citation, p.title, p.title_en, p.canon, p.work_slug,
@@ -1080,7 +1080,7 @@ export async function runSearch(rawParams) {
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
       `;
-      return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
+      return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0,
                results: rows.map(shapeResult), expanded, warning, hasMore: rows.length === limit,
                total: await totalPromise };
     }
@@ -1137,7 +1137,7 @@ export async function runSearch(rawParams) {
         LIMIT ${limit} ${offsetFrag}
       `;
     }
-    return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
+    return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0,
              results: rows.map(shapeResult), expanded, hasMore: rows.length === limit,
              total: await totalPromise };
   } else {
@@ -1150,7 +1150,7 @@ export async function runSearch(rawParams) {
     } catch (err) {
       warning = `embed_failed:${err.message}`;
       if (!tsquery) {
-        return { query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
+        return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0, results: [], expanded, warning, hasMore: false, total: 0 };
       }
       rows = await sql`
         SELECT id, citation, title, title_en, canon, original, translation,
@@ -1161,7 +1161,7 @@ export async function runSearch(rawParams) {
         LIMIT ${limit} ${offsetFrag}
       `;
       return {
-        query: q, mode, field, limit, offset, pitaka, took_ms: Date.now() - t0,
+        query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0,
         results: rows.map(shapeResult), expanded, warning,
         hasMore: rows.length === limit,
         total: await totalPromise,
@@ -1338,7 +1338,7 @@ export async function runSearch(rawParams) {
   }
 
   return {
-    query: q, mode, field, limit, offset, pitaka,
+    query: q, mode, field, limit, offset, pitaka, layer,
     took_ms: Date.now() - t0,
     results: rows.map(shapeResult),
     expanded,

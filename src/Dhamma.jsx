@@ -165,10 +165,11 @@ export default function Dhamma() {
   // not uddāna, in sutta piṭaka). Single handler shared by Sidebar
   // (desktop) and TopNav slide-in panel (mobile).
   //
-  // Setting window.location.hash alone wouldn't update React state —
-  // the router is one-way (state → hash) with no hashchange listener.
-  // Update state via the same path Bookmarks/Tags use to open a
-  // passage; the URL-writing useEffect picks the hash up after.
+  // Update React state directly via the same path Bookmarks/Tags use to
+  // open a passage (the URL-writing useEffect picks the hash up after),
+  // rather than only setting window.location.hash. The router is mainly
+  // one-way (state → hash); a hashchange listener also re-syncs state from
+  // an external or manual URL edit.
   const handleRandomSutta = async () => {
     try {
       const { id } = await randomPassageApi({ scope: 'sutta' });
@@ -284,8 +285,17 @@ export default function Dhamma() {
       // doesn't try to re-write what the browser just navigated to.
       lastWrittenHashRef.current = window.location.hash;
     }
+    // popstate covers back/forward; hashchange covers a manual address-bar
+    // hash edit (and the location.hash-based library links), neither of
+    // which the app's own pushState navigation fires. onPop is idempotent
+    // (re-parse + setState to match the URL) and syncs lastWrittenHashRef,
+    // so the URL-writing effect will not re-push: no feedback loop.
     window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
+    window.addEventListener('hashchange', onPop);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      window.removeEventListener('hashchange', onPop);
+    };
   }, []);
 
   const { shape, error: corpusError } = useCorpus();
