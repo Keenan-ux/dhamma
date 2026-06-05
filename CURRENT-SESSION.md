@@ -108,6 +108,38 @@ re-verified through the real JS path. This is independent of the sentence
 work but held because no `flyctl deploy` may run while the embed writes
 `passage_sentences`.
 
+## ALSO ships this window: branch `audit-fixes-2026-06-05`
+
+A scholar stress-test of the live site (2026-06-05) produced these fixes,
+committed on branch `audit-fixes-2026-06-05` (off master, so it already
+contains the snippet wiring + gloss fix). **At the window: `git checkout
+master && git merge audit-fixes-2026-06-05` BEFORE the deploy**, so one
+coherent state ships. All verified locally (vite build green, dev-server
+light/dark token check, escapeLike unit test); the two server fixes are
+verifiable only against prod, so smoke-test them after deploy.
+
+- `search: escape LIKE metacharacters in compare-stats + lookup` — a bare
+  `%`/`_` was a wildcard (Concordance `q=%` matched all 194,710 passages,
+  a ~15s scan; dictionary `s%t` returned spurious hits). **Window smoke:**
+  `curl -s "https://dhamma.fly.dev/api/compare-stats?q=%25"` should now
+  report `matchingPassageCount: 0`, not 194710.
+- `ui: theme-adaptive hairlines + loss-text tokens, a11y + robustness` —
+  new `--bc-border-rgb` / `--bc-loss-text-rgb` tokens; ~20 `rgba(255,255,
+  255,a)` borders that were invisible on the light parchment now adapt;
+  dark mode byte-identical. Plus search-input aria-labels, Concordance
+  h2->h1, PassageCard aria fallback, CompareView null guard. **Window
+  smoke:** toggle light mode, confirm reader/nav hairlines are visible.
+- `corpus: recover from a transient /api/corpus failure` — `useCorpus`
+  cached a rejected fetch forever, bricking the whole SPA on a single
+  corpus-load timeout (stuck on "Loading the canon…"). Now clears the
+  cached rejection + a retry() + an honest error state in CanonMapView.
+
+Set aside (need your eye, not blockers): the left sidebar stays a static
+145px on a 375px phone (possibly intentional; screenshots unavailable to
+judge). DN frontmatter count was investigated and is NOT a bug (DN total
+68, renders correctly). Skipped as low-value/churn: `layer` echo on
+`/api/search`, a global `hashchange` listener.
+
 ## Follow-ons (not started)
 
 - The `field='translation'` half: re-run `segment_sentences.py --field
