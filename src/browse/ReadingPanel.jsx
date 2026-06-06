@@ -852,7 +852,10 @@ export default function ReadingPanel({
       )}
 
       <header style={readingHeader}>
-       <div style={readingHeaderRow}>
+       {/* Identity row: citation + the full title. The title is never
+           truncated; the toolbar (find + action icons) sits on the line
+           below, so a long Pāli/commentary title keeps its own width. */}
+       <div style={citationTitleRow}>
         <span style={readingCitation}>
           {displayCitation(passage.citation, workLabel)}
           {passageNotes.length > 0 && (
@@ -861,6 +864,61 @@ export default function ReadingPanel({
             </span>
           )}
         </span>
+        {(passage.title || passage.title_en || workLabel) && (
+          <span style={citationTitleText}>
+            {(passage.title || passage.title_en) ? (
+              <>
+                {passage.title && <span style={readingTitlePali}>{passage.title}</span>}
+                {passage.title && passage.title_en && <span style={readingTitleSep}> · </span>}
+                {passage.title_en && <span style={readingTitleEn}>{passage.title_en}</span>}
+                {workLabel && <> &nbsp;·&nbsp; <span style={readingWorkContext}>{workLabel}</span></>}
+              </>
+            ) : workLabel}
+          </span>
+        )}
+       </div>
+       {/* Toolbar row: find-in-passage on the left, action icons on the
+           right, one line. Find collapses to a <span/> placeholder in
+           compact panes; the icon block (unchanged) returns null there. */}
+       <div style={readingHeaderRow}>
+        {!compact ? (
+          <div style={findRowInline}>
+            <input
+              ref={findInputRef}
+              type="search"
+              value={findText}
+              onChange={(e) => setFindText(e.target.value)}
+              onFocus={handleFindFocus}
+              onBlur={handleFindBlur}
+              placeholder={
+                !userTypedFind && Array.isArray(highlightTerms) && highlightTerms.length > 0
+                  ? `Highlighting ${highlightTerms.slice(0, 3).join(', ')}${highlightTerms.length > 3 ? '…' : ''} — type to override`
+                  : 'Find in passage…'
+              }
+              style={findInput}
+              spellCheck={false}
+              aria-label="Find in passage"
+            />
+            <button
+              onClick={() => setFindStem((v) => !v)}
+              style={{
+                ...findStemBtn,
+                color: findStem ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                borderColor: findStem ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.18)',
+              }}
+              title={findStem ? 'Stem mode (sati → satiyā, satimā…). Click for literal.' : 'Switch to stem mode — Pali inflection bridging.'}
+              aria-pressed={findStem}
+            >
+              Stem
+            </button>
+            {activeHighlight && (
+              <span style={findCount}>
+                {matchCount.toLocaleString()} {matchCount === 1 ? 'match' : 'matches'}
+                {isLongGroup && !showAll ? ' on this page' : ''}
+              </span>
+            )}
+          </div>
+        ) : <span />}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, position: 'relative' }} ref={moreRef}>
           {(() => {
             if (compact) {
@@ -1151,23 +1209,24 @@ export default function ReadingPanel({
           })()}
         </div>
        </div>
-        {/* Subtitle row, full-width under the citation + actions. Lives
-            outside readingHeaderRow so the action icons don't claim a
-            phantom right margin that forces the subtitle to wrap when
-            it would otherwise fit on one line. Pāli name first, then
-            English title in italics, then the collection. */}
-        {(passage.title || passage.title_en || workLabel) && (
-          <div style={readingSubtitleRow}>
-            {(passage.title || passage.title_en) ? (
-              <>
-                {passage.title && <span style={readingTitlePali}>{passage.title}</span>}
-                {passage.title && passage.title_en && <span style={readingTitleSep}> · </span>}
-                {passage.title_en && <span style={readingTitleEn}>{passage.title_en}</span>}
-                {workLabel && <> &nbsp;·&nbsp; <span style={readingWorkContext}>{workLabel}</span></>}
-              </>
-            ) : (
-              workLabel
-            )}
+        {/* Diacritic inserter, shown under the toolbar while the find field
+            is focused (it cannot sit inside the flex toolbar row). */}
+        {!compact && findFocused && (
+          <div style={findDiacriticsRow} aria-label="Insert Pali diacritic">
+            {FIND_DIACRITICS.map((ch) => (
+              <button
+                key={ch}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  if (findBlurTimerRef.current) clearTimeout(findBlurTimerRef.current);
+                }}
+                onClick={() => insertFindChar(ch)}
+                style={findDiacriticBtn}
+                title={`Insert ${ch}`}
+              >
+                {ch}
+              </button>
+            ))}
           </div>
         )}
       </header>
@@ -1250,64 +1309,8 @@ export default function ReadingPanel({
         </div>
       )}
 
-      {!compact && (
-        <>
-          <div style={findRow}>
-            <input
-              ref={findInputRef}
-              type="search"
-              value={findText}
-              onChange={(e) => setFindText(e.target.value)}
-              onFocus={handleFindFocus}
-              onBlur={handleFindBlur}
-              placeholder={
-                !userTypedFind && Array.isArray(highlightTerms) && highlightTerms.length > 0
-                  ? `Highlighting ${highlightTerms.slice(0, 3).join(', ')}${highlightTerms.length > 3 ? '…' : ''} — type to override`
-                  : 'Find in passage…'
-              }
-              style={findInput}
-              spellCheck={false}
-              aria-label="Find in passage"
-            />
-            <button
-              onClick={() => setFindStem((v) => !v)}
-              style={{
-                ...findStemBtn,
-                color: findStem ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
-                borderColor: findStem ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.18)',
-              }}
-              title={findStem ? 'Stem mode (sati → satiyā, satimā…). Click for literal.' : 'Switch to stem mode — Pali inflection bridging.'}
-              aria-pressed={findStem}
-            >
-              Stem
-            </button>
-            {activeHighlight && (
-              <span style={findCount}>
-                {matchCount.toLocaleString()} {matchCount === 1 ? 'match' : 'matches'}
-                {isLongGroup && !showAll ? ' on this page' : ''}
-              </span>
-            )}
-          </div>
-          {findFocused && (
-            <div style={findDiacriticsRow} aria-label="Insert Pali diacritic">
-              {FIND_DIACRITICS.map((ch) => (
-                <button
-                  key={ch}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    if (findBlurTimerRef.current) clearTimeout(findBlurTimerRef.current);
-                  }}
-                  onClick={() => insertFindChar(ch)}
-                  style={findDiacriticBtn}
-                  title={`Insert ${ch}`}
-                >
-                  {ch}
-                </button>
-              ))}
-            </div>
-          )}
-        </>
-      )}
+      {/* find-in-passage now lives in the header toolbar row (with the
+          action icons); its diacritic popover renders inside the header. */}
       </div>
 
       {/* Mobile column selector — picks Pali or English instead of the
@@ -1864,19 +1867,52 @@ const cstMulaBannerLink = {
 const readingHeader = {
   display: 'flex',
   flexDirection: 'column',
-  gap: 4,
+  gap: 8,
+  // The header divider (the thin gold rule) now sits under the whole
+  // chrome — identity row + toolbar — instead of under the old subtitle.
+  paddingBottom: 12,
+  marginBottom: 18,
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
 };
 
+// Identity row: the big citation and the full title share a baseline and
+// wrap together when narrow. minWidth:0 + overflowWrap let long Pāli /
+// commentary titles break instead of forcing horizontal overflow; the
+// title is never clipped.
+const citationTitleRow = {
+  display: 'flex',
+  alignItems: 'baseline',
+  flexWrap: 'wrap',
+  gap: '2px 12px',
+  minWidth: 0,
+};
+
+const citationTitleText = {
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  color: 'var(--bc-text-tertiary)',
+  lineHeight: 1.35,
+  overflowWrap: 'anywhere',
+  minWidth: 0,
+};
+
+// Toolbar row: find-in-passage (left, grows) + the action icons (right).
 const readingHeaderRow = {
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   gap: 12,
-  // No flex-wrap: the right-side icons stay inline with the
-  // citation on every viewport. Long Pali subtitles (e.g.
-  // "Brahmajālasuttaṃ") break inside the citation column via
-  // overflowWrap below instead of pushing the icons to a new line.
   flexWrap: 'nowrap',
+};
+
+// Find-in-passage as it sits inline in the toolbar (no standalone bottom
+// rule/margin; the header divider below handles separation).
+const findRowInline = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 12,
+  flex: '1 1 auto',
+  minWidth: 0,
 };
 
 // Subtitle row sits below the citation+actions row and carries the
