@@ -64,12 +64,26 @@ deployed** (deploy is manual: `flyctl deploy --remote-only --app dhamma`).
   (Match / scope / Piṭaka / Layer), DictionaryView Match, ReadingPanel
   translator chips. Pure ARIA, no behavior change.
 
-Deferred this coordinator session (still open, see BACKLOG): the rest of
-the audit "reader request fan-out" (frontend half — drop the cached, cheap
-`/passage` call; the expensive server half landed in `01849d8`), the fuller
-a11y tablist/dialog/tree semantics + decorative-SVG `aria-hidden` sweep, and
-"commentary English entry points" (interlinear-for-att/tik emphasis + a Docs
-page on the English→Pāli-commentary path). These are low-priority polish.
+Then, circling back to the deferrals (committed; the frontend items deployed,
+the doc is live via the DB):
+
+- **Concordance diacritic hint (`d3d7d64`).** An all-ASCII concordance query
+  that returns 0 (e.g. "adinava") now suggests the marked Pāli form rather
+  than a bare "no occurrences"; the concordance stays precision-first (no
+  silent folding). `src/CompareView.jsx`. Verified live.
+- **a11y overlays (`57b4752`).** `role=dialog` + accessible name on NoteEditor
+  + LookupPanel; Escape-to-close on the reader overflow menu.
+- **Docs page "Reading the commentaries in English"** (slug
+  `docs-reading-commentary-english`, ingested via `scripts/ingest/ingest-docs.mjs`,
+  live on prod). Covers the interlinear gloss, word lookup, the English→Pāli
+  Meaning path, and where commentary translations exist. NOT embedded yet
+  (GPU busy), so it is browsable but not yet in Library Meaning search; embed
+  it on the next GPU pass.
+
+Still deferred (see BACKLOG): the audit "reader request fan-out" frontend half
+(drop the cached, cheap `/passage` call; the expensive server half landed in
+`01849d8`), and the fuller a11y tablist/tree semantics + decorative-SVG
+`aria-hidden` sweep. Low-priority polish.
 
 ---
 
