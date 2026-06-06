@@ -1,7 +1,7 @@
 # Dhamma data — handoff to next session
 
 Live at **https://dhamma.fly.dev/** · GitHub: `Keenan-ux/dhamma` (private)
-Last verified: `dbcheck → passages: 194,710, tables: 12, pgvector: true`
+Last verified: `dbcheck → passages: 194,710, tables: 14, pgvector: true` (2026-06-06)
 
 Three sessions have happened. The CURRENT one (May 2026, day 3)
 shipped BPS Tier 3 (BP304s Bodhi Abhidhamma — complete PDF sourced
@@ -16,6 +16,32 @@ CST DPD-glossed re-embed in background (~3 hour job, resume-friendly).
 The prior session (day 2) shipped CST per-`<p>` subdivision + BPS
 Tier 1 + Tier 2. The earliest (day 1) shipped the Meaning search
 overhaul, Notes feature, and SC parallels. Read newest first.
+
+---
+
+## What landed 2026-06-06 (coordinator: long-commentary pagination)
+
+Committed (`01849d8`) on master, **NOT yet deployed** (deploy is manual:
+`flyctl deploy --remote-only --app dhamma`).
+
+- **Long-commentary pagination + section index.** A sutta→commentary jump
+  could land on an entire CST division merged into one render — worst real
+  cases Ps-a mn1_1 (1,278 rows / 528 KB), its ṭīkā (1,148 / 673 KB), and a
+  single-title Khuddaka giant `cst-s0514a3.att-8` (2,799 rows).
+  `/api/passage/:id/group` now returns one windowed page (default 100) plus
+  `{ total, offset, window, anchorIndex, sections }`; `ReadingPanel` renders
+  only that window with a navigator above the body: a Section dropdown (a
+  real table of contents from subhead titles, or synthetic paragraph-range
+  buckets for single-title giants), a "Paragraphs a–b of N" status with
+  Prev/Next paging, and Show all (`window=all`) to restore the whole-group
+  render + whole-group find. The window starts at the anchor row, so a jump
+  lands where the reader expects. Singletons and short groups self-hide the
+  navigator (the common case is unchanged). `getPassageGroupTranslations`
+  now resolves the group through an ids-only `getGroupMeta` helper, which
+  also closes the server half of the audit "reader request fan-out" item.
+  Files: `server/src/corpus.js`, `server/src/index.js`, `src/api.js`,
+  `src/browse/ReadingPanel.jsx`. Verified on a local server vs the prod DB
+  and in the browser. See BACKLOG.md.
 
 ---
 
