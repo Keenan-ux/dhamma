@@ -477,23 +477,90 @@ export async function getPassages(ids) {
   return ids.map((i) => byId.get(i)).filter(Boolean);
 }
 
-// Group + translations fetch. Returns each row's translations
-// indexed by passage_id, for the same group the /group endpoint
-// would return. Used by the reader's multi-translator dropdown
-// when the view is a merged paragraph group: instead of showing
-// only the anchor row's translators, we surface any translator
-// present on ANY group row, then concatenate their per-row text in
-// source order when the user selects them.
+// Default paragraphs per window, the ceiling on an explicit numeric
+// `window` request, and the cap above which a section index collapses to
+// empty (a pathological title-per-row group would otherwise return
+// thousands of TOC entries; the reader pages instead). `window=all`
+// bypasses GROUP_WINDOW_MAX — it's the reader's "Show all" escape hatch,
+// which also restores whole-group find.
+const GROUP_PAGE_DEFAULT = 100;
+const GROUP_WINDOW_MAX = 4096;
+const SECTION_INDEX_MAX = 600;
+
+// Lightweight group metadata: the ordered paragraph rows of a group
+// carrying only id/title/citation, no body text. Shared by the windowed
+// /group fetch (which needs total size + the section index without
+// pulling ~600 KB of Pāli) and by group-translations (which needs every
+// id in the group, but none of the text).
+//
+// Returns { prefix, rows: [{ id, title, citation }, …] } in CST source
+// order. For a singleton id (no `_p\d+$` suffix, or no siblings) rows
+// holds the single anchor id with title/citation null.
+async function getGroupMeta(id) {
+  if (!sql || !id) return null;
+  const m = id.match(/^(.+)_p\d+$/);
+  if (!m) return { prefix: null, rows: [{ id, title: null, citation: null }] };
+  const prefix = m[1];
+  const likePattern = prefix + '\\_p%';
+  // Postgres LIKE: `_` is a single-char wildcard, so escape it as `\_`.
+  // ORDER BY the integer paragraph suffix so order is CST source order,
+  // not alphabetical (otherwise _p10 sorts before _p2).
+  const rows = await sql`
+    SELECT id, title, citation
+    FROM passages
+    WHERE id LIKE ${likePattern} ESCAPE '\\'
+    ORDER BY (regexp_match(id, '_p([0-9]+)$'))[1]::int
+  `;
+  if (rows.length === 0) {
+    return { prefix, rows: [{ id, title: null, citation: null }] };
+  }
+  return { prefix, rows };
+}
+
+// Build a section index from a group's ordered metadata rows. A section
+// is a run of paragraphs sharing the same title — the CST
+// `<p rend="subhead">` the per-<p> subdivision propagated as title
+// context. Each entry is { id, title, citation, index }, where index is
+// the 0-based position in the group of the section's first row, so the
+// reader can jump its window straight to it.
+//
+// Multi-title commentary (Ps-a mn1_1 = 73 sections, An-ṭ an4 = 137) gets
+// a real table of contents. Single-title giants (KN-a §8 = 2,799 rows,
+// 1 title) collapse to one entry; the reader falls back to synthetic
+// paragraph-range buckets there.
+function buildSections(metaRows) {
+  const out = [];
+  let prev = Symbol('none');
+  for (let i = 0; i < metaRows.length; i++) {
+    const t = metaRows[i].title || '';
+    if (t !== prev) {
+      out.push({
+        id: metaRows[i].id,
+        title: metaRows[i].title || null,
+        citation: metaRows[i].citation || null,
+        index: i,
+      });
+      prev = t;
+    }
+  }
+  return out.length > SECTION_INDEX_MAX ? [] : out;
+}
+
+// Group + translations fetch. Returns each row's translations indexed by
+// passage_id, for the WHOLE group (not just the visible window) so the
+// reader's multi-translator dropdown surfaces any translator present on
+// ANY group row, then concatenates their per-row text in source order.
+// Uses getGroupMeta so it pulls only ids, never the group's body text.
 //
 // Returned shape: { anchor: passageId, translations: [{ passage_id,
-// translator, source, text, license, source_book, source_url }] }
-// — rows ordered by group order so the consumer can groupBy
-// translator and join in sequence.
+// translator, source, text, license, source_book, source_url }] } —
+// rows ordered by group order so the consumer can groupBy translator
+// and join in sequence.
 export async function getPassageGroupTranslations(id) {
   if (!sql || !id) return null;
-  const groupResult = await getPassageGroup(id);
-  if (!groupResult || !groupResult.group) return null;
-  const ids = groupResult.group.map((r) => r.id);
+  const meta = await getGroupMeta(id);
+  if (!meta || meta.rows.length === 0) return null;
+  const ids = meta.rows.map((r) => r.id);
   // Preserve group order via a positional join.
   const trans = await sql`
     SELECT t.passage_id, t.translator, t.source, t.text, t.license,
@@ -506,46 +573,85 @@ export async function getPassageGroupTranslations(id) {
   return { anchor: id, translations: trans };
 }
 
-// Paragraph-group fetch. Returns the requested passage plus its
-// sibling paragraph rows (same parent div) so the reader can render
-// the whole logical "page" at once instead of one paragraph at a time.
+// Paragraph-group fetch, windowed. Returns a slice of the requested
+// passage's sibling paragraph rows (same parent div) plus the metadata
+// the reader needs to navigate the rest, so a sutta→commentary jump that
+// lands on a 2,799-row division no longer renders the whole thing at
+// once.
 //
-// Group identity for a fine paragraph row `cst-{file}-{div}_p{NNN}`
-// is the prefix `cst-{file}-{div}` — everything before `_p\d+$`.
-// Rows without a `_p\d+$` suffix are singleton groups (canonical mula,
-// extra-canonical, Vism mula etc. — already monolithic).
+// Group identity for a fine row `cst-{file}-{div}_p{NNN}` is the prefix
+// `cst-{file}-{div}` — everything before `_p\d+$`. Rows without that
+// suffix are singleton groups (canonical mula, extra-canonical, Vism
+// mula coarse, etc.) and return the anchor row only, with the navigator
+// fields zeroed so the reader's section navigator self-hides.
 //
-// Returned shape: { anchor: passageId, group: [row, …] } where the
-// rows are ordered by their paragraph-suffix integer (position-aware
-// for fine rows; for singleton groups the group array has one entry).
-export async function getPassageGroup(id) {
+// opts.window: paragraphs to return (default GROUP_PAGE_DEFAULT; an
+//   explicit number is clamped to GROUP_WINDOW_MAX; 'all' returns the
+//   whole group — the reader's "Show all").
+// opts.cursor: 0-based row index to start the window at. Omitted means
+//   start at the anchor row (so a deep link / commentary jump lands
+//   where the reader expects, not at paragraph 1).
+//
+// Returned shape: { anchor, group: [row, …], total, offset, window,
+//   anchorIndex, sections: [{ id, title, citation, index }, …] }.
+export async function getPassageGroup(id, opts = {}) {
   if (!sql || !id) return null;
-  const m = id.match(/^(.+)_p\d+$/);
-  if (!m) {
-    // Singleton group — just return the single row.
-    const row = await getPassage(id);
+  const meta = await getGroupMeta(id);
+  if (!meta) return null;
+  const metaRows = meta.rows;
+
+  // Singleton: legacy shape plus zeroed pagination so the reader's
+  // navigator self-hides and merged-passage logic is a no-op.
+  if (metaRows.length <= 1) {
+    const row = await getPassage(metaRows[0]?.id || id);
     if (!row) return null;
-    return { anchor: id, group: [row] };
+    return { anchor: id, group: [row], total: 1, offset: 0,
+             window: 1, anchorIndex: 0, sections: [] };
   }
-  const prefix = m[1];
-  const likePattern = prefix + '\\_p%';
-  // Postgres LIKE: `_` is a single-char wildcard, so we escape it as `\_`
-  // and pass `ESCAPE '\'` to keep the regexp_match ordering deterministic.
-  // ORDER BY the integer paragraph suffix so display order matches the
-  // CST source order, not alphabetical (otherwise _p10 sorts before _p2).
+
+  const ids = metaRows.map((r) => r.id);
+  const total = ids.length;
+  const anchorIndex = Math.max(0, ids.indexOf(id));
+
+  // Window size: default page, an explicit numeric (clamped), or the
+  // whole group for window=all (Show-all / whole-group find).
+  let windowSize = GROUP_PAGE_DEFAULT;
+  const rawWindow = opts.window;
+  if (rawWindow === 'all') {
+    windowSize = total;
+  } else if (rawWindow != null && rawWindow !== '') {
+    const n = parseInt(rawWindow, 10);
+    if (Number.isFinite(n) && n > 0) windowSize = Math.min(n, GROUP_WINDOW_MAX);
+  }
+  windowSize = Math.min(windowSize, total);
+
+  // Window start: explicit cursor, else the anchor row. Clamp so a full
+  // window still fits at the tail of the group.
+  let start = anchorIndex;
+  if (opts.cursor != null && opts.cursor !== '') {
+    const c = parseInt(opts.cursor, 10);
+    if (Number.isFinite(c)) start = c;
+  }
+  start = Math.max(0, Math.min(start, total - windowSize));
+
+  const windowIds = ids.slice(start, start + windowSize);
   const rows = await sql`
     SELECT id, work_slug, position, citation, title, title_en, canon,
            original_lang, original, translation, notes, segments
     FROM passages
-    WHERE id LIKE ${likePattern} ESCAPE '\\'
-    ORDER BY (regexp_match(id, '_p([0-9]+)$'))[1]::int
+    WHERE id = ANY(${windowIds})
   `;
-  if (rows.length === 0) {
-    // Anchor row exists but no siblings under the LIKE prefix —
-    // fall back to singleton group with the anchor only.
-    const row = await getPassage(id);
-    if (!row) return null;
-    return { anchor: id, group: [row] };
-  }
-  return { anchor: id, group: rows };
+  // ANY() does not preserve order; restore CST source order from windowIds.
+  const byId = new Map(rows.map((r) => [r.id, r]));
+  const group = windowIds.map((wid) => byId.get(wid)).filter(Boolean);
+
+  return {
+    anchor: id,
+    group,
+    total,
+    offset: start,
+    window: windowSize,
+    anchorIndex,
+    sections: buildSections(metaRows),
+  };
 }
