@@ -499,7 +499,15 @@ export function buildTsquery(parsed, { expandAliases = false } = {}) {
 // (multiplicative), never a hard partition, so a legitimate alias-only match
 // is demoted but not buried. Tunable via DIACRITIC_BOOST for re-tuning
 // without a redeploy.
-const DIACRITIC_BOOST = process.env.DIACRITIC_BOOST ? Number(process.env.DIACRITIC_BOOST) : 1.6;
+//
+// Default 4.0, set empirically: at the original 1.6 the boost was too weak to
+// reorder anything (Āṇattikathāvaṇṇanā still ranked #1 for `anattā` in
+// layer=tika). The exact/folded ordering flips just above 1.6 and is stable
+// from ~2.5 through 8 (genuine Anattalakkhaṇasuttavaṇṇanā surfaces, the
+// folded-only Āṇatti drops out of the top results); 4.0 sits ~2× over that
+// threshold for headroom on false-friends with larger base-rank gaps, without
+// the over-demotion of legitimate alias matches that very high values cause.
+const DIACRITIC_BOOST = process.env.DIACRITIC_BOOST ? Number(process.env.DIACRITIC_BOOST) : 4.0;
 // True when s contains any non-ASCII char (a Pāli diacritic). A plain
 // charCode scan — avoids embedding control-char ranges in a regex literal.
 function hasDiacritic(s) {
