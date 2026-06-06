@@ -9,7 +9,7 @@
 // so deep links survive reload and re-clicking the sidebar tab returns to the
 // index. Mirrors DocsView / LibraryView hash handling.
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { isModifiedClick } from './linkHelpers.js';
 /* eslint-disable react-hooks/exhaustive-deps */
 
@@ -19,6 +19,7 @@ const ENTRIES = [
     title: 'Every Instance of Awakening in the Pāli Canon and Commentary',
     subtitle: 'A census of 2,214 awakening events, classified by what precipitated them.',
     data: '/research/awakening-events.json',
+    beings: '/research/awakening-beings.json',
   },
 ];
 
@@ -98,19 +99,37 @@ const LAYER_KEYS = ['mula', 'attha', 'tika', 'anya'];
 
 function AwakeningStudy({ entry, onBack }) {
   const [data, setData] = useState(null);
+  const [beings, setBeings] = useState(null);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState({});
   const sectionRefs = useRef({});
 
   useEffect(() => {
-    setData(null); setError(null);
+    setData(null); setBeings(null); setError(null);
     const ac = new AbortController();
     fetch(entry.data, { signal: ac.signal })
       .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then(setData)
       .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    // The being-classification overlay (deduped individuals + collective
+    // taxonomy) is a separate static file; load it best-effort so the study
+    // still renders if it is absent.
+    if (entry.beings) {
+      fetch(entry.beings, { signal: ac.signal })
+        .then((r) => (r.ok ? r.json() : null))
+        .then(setBeings)
+        .catch(() => {});
+    }
     return () => ac.abort();
-  }, [entry.data]);
+  }, [entry.data, entry.beings]);
+
+  // id -> event index, so the individual / collective lists can resolve an
+  // event id back to its citation, layer, and evidence.
+  const eventsById = useMemo(() => {
+    const m = {};
+    if (data) for (const b of data.buckets) for (const e of b.events) m[e.id] = e;
+    return m;
+  }, [data]);
 
   useEffect(() => {
     function onKey(e) { if (e.key === 'Escape') onBack?.(); }
@@ -262,6 +281,123 @@ function AwakeningStudy({ entry, onBack }) {
                 only {fmt(colTotals.mula)} ({pct(colTotals.mula, data.totals.events)}) are in the canon itself.
               </p>
 
+              {/* A third lens: who attains, not what occasions it. Built from
+                  the being-classification overlay (deduped named individuals +
+                  a collective taxonomy). Self-hides until the overlay loads. */}
+              {beings && beings.individuals && beings.individuals.length > 0 && (
+                <>
+                  <h2 style={h2}>Table 3. Who awakens: named individuals</h2>
+                  <p style={tableCaption}>
+                    A third lens, not what occasions awakening but who attains it. Every named
+                    person across the events, deduplicated (spelling and title variants merged,
+                    multi-person passages split) and counted by how many awakening events name
+                    them. Non-human beings (devas, nāgas, and the like) are tagged.{' '}
+                    {fmt((beings.individuals || []).length)} distinct individuals; the
+                    most-narrated lead. Click a name for its cited events.
+                  </p>
+                  {beings.individuals.filter((p) => (p.count || 0) >= 2).map((p) => {
+                    const key = 'ind:' + p.name;
+                    return (
+                      <section key={key} style={bucketSection}>
+                        <button style={bucketHeader} aria-expanded={!!open[key]} onClick={() => setOpen((o) => ({ ...o, [key]: !o[key] }))}>
+                          <span aria-hidden="true" style={{ width: 16, display: 'inline-block' }}>{open[key] ? '▾' : '▸'}</span>
+                          <span style={bucketTitle}>
+                            {p.name}
+                            {p.type && p.type !== 'human' && <span style={typeTag}>{p.type}</span>}
+                          </span>
+                          <span style={bucketCount}>{fmt(p.count)}</span>
+                        </button>
+                        {open[key] && (
+                          <ol style={evList}>
+                            {(p.events || []).map((id) => {
+                              const e = eventsById[id];
+                              if (!e) return null;
+                              return (
+                                <li key={id} style={evRow}>
+                                  <a href={`#/read/${encodeURIComponent(id)}`} style={evCite} title={`Open ${e.citation} in the reader`}>{e.citation}</a>
+                                  <span style={evLayer} title={LAYER[e.layer]?.full || e.layer}>{LAYER[e.layer]?.label || e.layer}</span>
+                                  {e.being && <span style={evBeing}>{e.being}</span>}
+                                  {e.evidence && <span style={evEvidence}>{e.evidence}</span>}
+                                </li>
+                              );
+                            })}
+                          </ol>
+                        )}
+                      </section>
+                    );
+                  })}
+                  {(() => {
+                    const ones = beings.individuals.filter((p) => (p.count || 0) < 2);
+                    if (!ones.length) return null;
+                    const key = 'ind:__ones__';
+                    return (
+                      <section key={key} style={bucketSection}>
+                        <button style={bucketHeader} aria-expanded={!!open[key]} onClick={() => setOpen((o) => ({ ...o, [key]: !o[key] }))}>
+                          <span aria-hidden="true" style={{ width: 16, display: 'inline-block' }}>{open[key] ? '▾' : '▸'}</span>
+                          <span style={bucketTitle}>Individuals named in a single event</span>
+                          <span style={bucketCount}>{fmt(ones.length)}</span>
+                        </button>
+                        {open[key] && (
+                          <ol style={evList}>
+                            {ones.map((p) => {
+                              const e = eventsById[(p.events || [])[0]];
+                              return (
+                                <li key={p.name} style={evRow}>
+                                  <span style={evBeing}>{p.name}{p.type && p.type !== 'human' && <span style={typeTag}>{p.type}</span>}</span>
+                                  {e && <a href={`#/read/${encodeURIComponent(e.id)}`} style={evCite} title={`Open ${e.citation} in the reader`}>{e.citation}</a>}
+                                  {e && <span style={evLayer} title={LAYER[e.layer]?.full || e.layer}>{LAYER[e.layer]?.label || e.layer}</span>}
+                                </li>
+                              );
+                            })}
+                          </ol>
+                        )}
+                      </section>
+                    );
+                  })()}
+                </>
+              )}
+
+              {beings && beings.collectives && beings.collectives.length > 0 && (
+                <>
+                  <h2 style={h2}>Table 4. Collective and anonymous awakenings</h2>
+                  <p style={tableCaption}>
+                    Events whose subject is a group or an unnamed person, classified by kind.
+                    Click a class for its events; each row keeps the original description (a
+                    number, an order, an assembly).
+                  </p>
+                  {beings.collectives.map((c) => {
+                    const key = 'col:' + c.class;
+                    return (
+                      <section key={key} style={bucketSection}>
+                        <button style={bucketHeader} aria-expanded={!!open[key]} onClick={() => setOpen((o) => ({ ...o, [key]: !o[key] }))}>
+                          <span aria-hidden="true" style={{ width: 16, display: 'inline-block' }}>{open[key] ? '▾' : '▸'}</span>
+                          <span style={bucketTitle}>{c.class}</span>
+                          <span style={bucketCount}>{fmt(c.count)}</span>
+                        </button>
+                        {open[key] && (
+                          <>
+                            {c.blurb && <p style={bucketBlurb}>{c.blurb}</p>}
+                            <ol style={evList}>
+                              {(c.events || []).map((id) => {
+                                const e = eventsById[id];
+                                if (!e) return null;
+                                return (
+                                  <li key={id} style={evRow}>
+                                    <a href={`#/read/${encodeURIComponent(id)}`} style={evCite} title={`Open ${e.citation} in the reader`}>{e.citation}</a>
+                                    <span style={evLayer} title={LAYER[e.layer]?.full || e.layer}>{LAYER[e.layer]?.label || e.layer}</span>
+                                    {e.being && <span style={evBeing}>{e.being}</span>}
+                                  </li>
+                                );
+                              })}
+                            </ol>
+                          </>
+                        )}
+                      </section>
+                    );
+                  })}
+                </>
+              )}
+
               {/* Complete cited lists, one section per circumstance */}
               <h2 style={h2}>Complete cited list</h2>
               <p style={tableCaption}>
@@ -364,6 +500,7 @@ const tdNum = { textAlign: 'right', padding: '7px 10px', color: 'var(--bc-text-p
 const tdNumStrong = { ...tdNum, fontWeight: 600 };
 const catLink = { background: 'transparent', border: 'none', padding: 0, margin: 0, font: 'inherit', color: 'var(--bc-accent)', cursor: 'pointer', textAlign: 'left', textDecoration: 'underline', textDecorationColor: 'rgba(var(--bc-accent-rgb), 0.4)', textUnderlineOffset: 3 };
 const tinyNote = { fontSize: 11, fontStyle: 'italic', color: 'var(--bc-text-tertiary)' };
+const typeTag = { marginLeft: 8, fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--bc-text-tertiary)', border: '1px solid rgba(var(--bc-accent-rgb), 0.2)', borderRadius: 4, padding: '1px 5px', fontWeight: 400, verticalAlign: 'middle' };
 
 const bucketSection = { scrollMarginTop: 64, borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.12)' };
 const bucketHeader = { display: 'flex', alignItems: 'baseline', gap: 10, width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', padding: '12px 2px', fontFamily: SERIF, color: 'var(--bc-text-primary)', textAlign: 'left' };
