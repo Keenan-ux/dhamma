@@ -206,13 +206,25 @@ drove (sutta→commentary jump incl. MN/SN/AN, Pāli→Sanskrit cognate
 cross-link, commentary Pāli-only note) were built this session; these
 remain:
 
-- **Stem-mode diacritic conflation.** HIGH for term-precise scholars.
-  `anattā` in Stem (layer=tika) returns 1,301 hits and ranks `Āṇattikathā`
+- **Stem-mode diacritic conflation. ✅ LANDED + DEPLOYED 2026-06-06
+  (4ba3ce7).** `anattā` in Stem (layer=tika) ranked `Āṇattikathāvaṇṇanā`
   (āṇatti, a different word) #1, because simple_unaccent folds ā/ṇ and
-  prefix-stems `anatt:*`. Fix needs a diacritic-sensitive ranking signal: a
-  secondary tsvector that preserves diacritics (schema + reindex) to boost
-  exact-grapheme matches, or a post-filter demote, or a "diacritic-exact"
-  refinement chip in SearchView. Non-trivial; weigh the recall tradeoff.
+  prefix-stems `anatt:*`. Fixed with a diacritic-exact ranking BOOST (no
+  schema/reindex): the Exact/Stem passages branch multiplies the FTS score
+  (×DIACRITIC_BOOST=1.6, env-tunable) of rows whose RAW diacritic-preserving
+  text contains the exact-grapheme stem at a WORD BOUNDARY (`~ '\m<stem>'`).
+  Word-boundary, not substring — `anatt` is a substring of unrelated
+  compounds like `dassanatthaṃ` (dassana+atthaṃ), and a substring boost
+  re-promoted the āṇatti passage via that coincidence; `\m` only matches a
+  token that starts with the stem. Gated to diacritic-bearing query terms,
+  so ASCII queries (`sati`, `dhamma`) keep byte-identical ranking (verified
+  local==prod). Soft/multiplicative so alias-only matches (anātman/無我/
+  not-self) are demoted, not buried. Live: `anattā` stem/tika moved
+  Āṇattikathāvaṇṇanā #1→#4, genuine anattā passages now lead; recall
+  unchanged (1,301 hits). Residual (accepted): `\m anatt` still matches the
+  morphologically-adjacent `anatthaṃ` (harm), which shares the literal
+  prefix — separating those would need 6-char stem precision that breaks
+  the anatto/anattā inflection recall, so deferred.
 - **Long commentary reading.** HIGH UX. `/api/passage/:id/group` merges an
   ENTIRE division into one render (Ps-a mn1_1 = 1,278 rows / 636 KB; Sv-a
   dn1_1 = 394 rows / 198 KB), and prev/next jumps across whole volumes. Fix:
@@ -232,6 +244,70 @@ remain:
   English→Pāli-commentary Meaning path (Docs currently unauthored). The
   concordance pg_trgm + single-CTE perf fix is already in the
   Next-maintenance-window checklist above.
+
+---
+
+## Scholar stress-test (2026-06-06 — Therīgāthā "trigger→insight" query)
+
+From a read-only scholar query (Dhammā Therī Thīg 1.17: is "awakening on a
+mundane trigger" a real Theravāda topos or a translation artifact? — answer:
+canonical, recurrent, `atha cittaṁ vimucci me` cluster across Therī-/Thera-gāthā).
+The dictionary + Pāli phrase search carried the inquiry. Three candidate gaps
+were filed; deep verification (local server vs prod DB over the flyctl proxy)
+**reduced three claims to one real bug + one real sub-bug + two retractions.**
+
+> **Methodology caution that mattered here.** Two of the three originally-filed
+> "bugs" were *test-harness artifacts*: the Windows Git-Bash shell silently
+> strips Pāli diacritics from `printf`/`curl --data-urlencode` payloads, so
+> `q=ādīnava` reached the API as ASCII `adinava` and legitimately matched
+> nothing. **Verify Unicode-bearing API claims with a harness that can't mangle
+> bytes** (Node `fetch` + `encodeURIComponent`, or hardcoded `%`-escapes) — not
+> shell-built curl on Windows — before filing a "returns 0" bug.
+
+### ✅ Landed 2026-06-06
+
+- **Commentary jump now covers Therīgāthā / Theragāthā.** `/api/passage/
+  thig1.17/commentary` was empty even though Thīg-a is in the corpus
+  (`pli-kn-attha`). Two causes in [`getCommentaryFor`](server/src/corpus.js:305):
+  the `SUTTA_NIKAYA_SLUGS` guard lacked `pli-thig`/`pli-thag`; and the
+  title-bridge derived the commentary slug from the SC id's leading letters
+  (`thig`→`pli-thig-attha`) but Thīg-a/Thag-a live under `pli-kn-attha`/`-tika`.
+  Fix: added the two slugs to the guard + remap `nik` `thig`/`thag`→`kn`. The
+  existing heading prefix-match then resolves per-verse. Verified: thig1.17 →
+  "17. Dhammātherīgāthāvaṇṇanā", thig5.10 → Paṭācārā, thag1.1 → Subhūti; DN/MN
+  unregressed; commentary rows still return empty. (Shared verse-names return
+  multiple candidates, like the documented SN behaviour.)
+- **Niggahīta fold in `/api/compare-stats`.** ṁ (U+1E41, SuttaCentral) and ṃ
+  (U+1E43, CST) are the same grapheme, but the concordance gave different
+  counts for the same word (`arahattaṁ` → 119 vs `arahattaṃ` → 7,454) — two
+  layered causes: (1) the `paliStem` suffix table is dot-below only, so a
+  dot-above query never strips its `…aṃ` ending → narrower probe; (2) literal
+  substring matching never folded the two forms. Fix in
+  [compareStats.js](server/src/compareStats.js): fold query niggahīta to
+  dot-below *before* stemming, then OR both forms at match time (can't fold the
+  indexed column without losing the pg_trgm GIN index). Verified: `arahattaṁ` ≡
+  `arahattaṃ` → 7,454/4,502; non-niggahīta terms and phrase counts unchanged.
+
+### Retracted (not bugs)
+
+- ~~"compare-stats silently returns 0 for valid terms (`ādīnava`,
+  `satipaṭṭhāna`, …)"~~ — **false alarm** (shell diacritic-stripping). Properly
+  encoded, prod returns `ādīnava` 4,138/1,812, `satipaṭṭhāna` 3,077/1,333.
+- ~~"no phrase-frequency primitive / multi-word → 0"~~ — **false.** compare-stats
+  already counts contiguous phrases: `"atha cittaṁ vimucci me"` → 3,
+  `"vimucci me"` → 50. The "39 vs 3" inconsistency was the same shell artifact.
+
+### Still open (small)
+
+- **Diacritic-free input returns 0 with no hint.** LOW. `adinava` /
+  `satipatthana` (no diacritics — common, since typing ā/ṭ/ṇ is hard) match
+  nothing in the concordance, because folding macrons/retroflexes would
+  conflate distinct words (the known `anattā`/`āṇatti` precision tension), so
+  the concordance correctly does *not* fold them. But a bare 0 reads as
+  "absent." Right fix is a UI hint ("no matches — try with diacritics, e.g.
+  ādīnava") or an opt-in folded retry, not silent folding. The dictionary
+  lookup (recall-oriented) already folds via `foldDiacritics`; the concordance
+  (precision-oriented) deliberately doesn't — document the asymmetry.
 
 ---
 
