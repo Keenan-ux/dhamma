@@ -33,3 +33,11 @@ export async function embedQuery(text) {
   const out = await _pipe(q, { pooling: 'mean', normalize: true });
   return Array.from(out.data);
 }
+
+// Lightweight, non-blocking view of the model state for /api/warm. The
+// first Meaning query after a machine wake loads the ONNX model (tens of
+// seconds to ~100s on shared CPU); the SPA pings /api/warm so that load
+// overlaps the user's typing and the reader can show a "warming" note.
+export function embedWarmState() {
+  return { warm: _pipe != null, warming: _readyPromise != null && _pipe == null };
+}

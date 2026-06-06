@@ -45,6 +45,13 @@ export function passageGroupTranslationsApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}/group-translations`, opts);
 }
 
+// Warm the server's BGE-M3 embedding model. Returns { warm, warming }.
+// Fire-and-forget on the Search view so the first Meaning query after an
+// idle period does not stall on the ~tens-of-seconds model load.
+export function warmApi(opts) {
+  return get('/api/warm', opts);
+}
+
 export function randomPassageApi({ scope, signal } = {}) {
   const qs = scope ? `?scope=${encodeURIComponent(scope)}` : '';
   return get(`/api/random-passage${qs}`, { signal });
