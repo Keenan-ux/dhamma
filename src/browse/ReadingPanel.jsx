@@ -86,6 +86,11 @@ import SideBySideReader from './SideBySideReader.jsx';
 // the main SearchView offers.
 const FIND_DIACRITICS = ['ā', 'ī', 'ū', 'ē', 'ō', 'ṃ', 'ṅ', 'ñ', 'ṇ', 'ṭ', 'ḍ', 'ḷ', 'ḥ', 'ṛ'];
 
+// Paragraph-range bucket size for the section dropdown when a long group
+// has no subhead structure (single-title giants like KN-a §8 = 2,799
+// rows). Matches the server's default page so a bucket is one page.
+const GROUP_BUCKET = 100;
+
 const TRANSLATOR_LABEL = {
   sujato: 'Bhante Sujato',
   thanissaro: 'Thanissaro Bhikkhu',
@@ -181,17 +186,29 @@ export default function ReadingPanel({
   // Singleton groups (canonical mula, anya, library, Vism coarse)
   // pass through unchanged: the merged passage equals the anchor.
   const [group, setGroup] = useState(null);
+  // Which window of a long paragraph group is visible. `anchorId` ties
+  // the view to a passage so it resets to defaults when the reader opens
+  // a different one (no stale cursor carried across). window undefined =>
+  // the server's default page; 'all' => the whole group (Show all).
+  // cursor undefined => start at the anchor row.
+  const [groupView, setGroupView] = useState({ anchorId: null, window: undefined, cursor: undefined });
+  const view = groupView.anchorId === anchorPassage?.id
+    ? groupView
+    : { window: undefined, cursor: undefined };
+  const setView = (next) => setGroupView({ anchorId: anchorPassage?.id, ...next });
+
   useEffect(() => {
     if (!anchorPassage?.id) { setGroup(null); return; }
     // Skip the fetch for singleton ids — saves a network round-trip
     // for the 9/10 cases where there's nothing to merge.
     if (!paragraphGroupId(anchorPassage.id)) { setGroup(null); return; }
-    let alive = true;
-    passageGroupApi(anchorPassage.id)
-      .then((r) => { if (alive) setGroup(r); })
-      .catch(() => { if (alive) setGroup(null); });
-    return () => { alive = false; };
-  }, [anchorPassage?.id]);
+    const ac = new AbortController();
+    passageGroupApi(anchorPassage.id, { window: view.window, cursor: view.cursor, signal: ac.signal })
+      .then((r) => setGroup(r))
+      .catch((e) => { if (e.name !== 'AbortError') setGroup(null); });
+    return () => ac.abort();
+    // view.window / view.cursor drive re-fetch on page / section / show-all.
+  }, [anchorPassage?.id, view.window, view.cursor]);
 
   const passage = useMemo(() => {
     if (!anchorPassage) return anchorPassage;
@@ -216,6 +233,70 @@ export default function ReadingPanel({
       _groupAnchor: anchorPassage.id,
     };
   }, [anchorPassage, group]);
+
+  // ── Long-commentary navigation ─────────────────────────────────────
+  // A merged paragraph group can run to thousands of rows (the worst is
+  // ~2,800). The server returns one windowed page plus { total, offset,
+  // sections } so the reader pages through and jumps to sections without
+  // rendering the whole division. Short groups (<= one page) come back
+  // whole and the navigator below self-hides.
+  const groupTotal = group?.total ?? 0;
+  const groupOffset = group?.offset ?? 0;
+  const groupShown = group?.group?.length ?? 0;
+  const groupSections = group?.sections ?? [];
+  const showAll = view.window === 'all';
+  const isLongGroup = groupTotal > 0 && (groupTotal > groupShown || showAll);
+
+  // Dropdown targets: real subhead sections when the group has them (a
+  // true table of contents), else synthetic paragraph-range buckets for
+  // single-title giants so the reader can still leap far in one step.
+  const groupNavOptions = useMemo(() => {
+    if (groupSections.length > 1) {
+      return groupSections.map((s) => ({
+        index: s.index,
+        label: s.title
+          ? (s.citation ? `${s.title} · ${s.citation}` : s.title)
+          : `Paragraph ${s.index + 1}`,
+      }));
+    }
+    if (groupTotal > GROUP_BUCKET) {
+      const out = [];
+      for (let i = 0; i < groupTotal; i += GROUP_BUCKET) {
+        out.push({ index: i, label: `Paragraphs ${i + 1}–${Math.min(groupTotal, i + GROUP_BUCKET)}` });
+      }
+      return out;
+    }
+    return [];
+  }, [groupSections, groupTotal]);
+
+  // The option the current window sits in (greatest start index <= offset).
+  const groupNavCurrent = useMemo(() => {
+    let cur = groupNavOptions[0]?.index ?? 0;
+    for (const o of groupNavOptions) { if (o.index <= groupOffset) cur = o.index; else break; }
+    return cur;
+  }, [groupNavOptions, groupOffset]);
+
+  // Jump to a section / bucket: always lands on a default page at that
+  // index (so it also collapses Show-all back to a page there).
+  const goToGroupIndex = (idx) => setView({ cursor: idx });
+  const groupPrevPage = () => setView({ cursor: Math.max(0, groupOffset - groupShown) });
+  const groupNextPage = () => setView({ cursor: groupOffset + groupShown });
+  const toggleGroupShowAll = () => setView(showAll ? { cursor: groupOffset } : { window: 'all', cursor: 0 });
+
+  // Scroll the reader back to the top when the window moves by a user
+  // action (paging / section jump / show-all) — but not on the initial
+  // open of a passage, which keeps the caller's scroll position.
+  const groupNavRef = useRef({ anchor: null, offset: null });
+  useEffect(() => {
+    if (!group) { groupNavRef.current = { anchor: null, offset: null }; return; }
+    const a = anchorPassage?.id;
+    const prev = groupNavRef.current;
+    const userMoved = prev.anchor === a && prev.offset != null && prev.offset !== group.offset;
+    groupNavRef.current = { anchor: a, offset: group.offset };
+    if (userMoved && ref.current) {
+      ref.current.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  }, [group, anchorPassage?.id]);
 
   // Dual-highlight at the reader root: covers the side-by-side path,
   // the stacked single-column path on narrow viewports, AND the case
@@ -1202,6 +1283,7 @@ export default function ReadingPanel({
             {activeHighlight && (
               <span style={findCount}>
                 {matchCount.toLocaleString()} {matchCount === 1 ? 'match' : 'matches'}
+                {isLongGroup && !showAll ? ' on this page' : ''}
               </span>
             )}
           </div>
@@ -1256,6 +1338,55 @@ export default function ReadingPanel({
             }}
           >
             English
+          </button>
+        </div>
+      )}
+
+      {/* Long-commentary navigator: section table-of-contents + paging
+          + show-all. Self-hides for singletons and any group that fits
+          in a single page (most do). */}
+      {!compact && isLongGroup && (
+        <div style={groupNavRow} role="group" aria-label="Commentary section navigation">
+          {groupNavOptions.length > 1 && (
+            <label style={groupNavSelectWrap}>
+              <span style={groupNavLabel}>{groupSections.length > 1 ? 'Section' : 'Jump to'}</span>
+              <select
+                value={groupNavCurrent}
+                onChange={(e) => goToGroupIndex(parseInt(e.target.value, 10))}
+                style={groupNavSelect}
+                aria-label="Jump to section"
+              >
+                {groupNavOptions.map((o) => (
+                  <option key={o.index} value={o.index}>{o.label}</option>
+                ))}
+              </select>
+            </label>
+          )}
+          <span style={groupNavStatus}>
+            {showAll
+              ? `All ${groupTotal.toLocaleString()} paragraphs`
+              : `Paragraphs ${(groupOffset + 1).toLocaleString()}–${(groupOffset + groupShown).toLocaleString()} of ${groupTotal.toLocaleString()}`}
+          </span>
+          {!showAll && (
+            <span style={groupNavPager}>
+              <button
+                type="button"
+                onClick={groupPrevPage}
+                disabled={groupOffset <= 0}
+                style={{ ...groupNavBtn, opacity: groupOffset <= 0 ? 0.35 : 1, cursor: groupOffset <= 0 ? 'default' : 'pointer' }}
+                aria-label="Previous paragraphs"
+              >‹ Prev</button>
+              <button
+                type="button"
+                onClick={groupNextPage}
+                disabled={groupOffset + groupShown >= groupTotal}
+                style={{ ...groupNavBtn, opacity: groupOffset + groupShown >= groupTotal ? 0.35 : 1, cursor: groupOffset + groupShown >= groupTotal ? 'default' : 'pointer' }}
+                aria-label="Next paragraphs"
+              >Next ›</button>
+            </span>
+          )}
+          <button type="button" onClick={toggleGroupShowAll} style={groupNavTextBtn}>
+            {showAll ? 'Show in pages' : `Show all ${groupTotal.toLocaleString()}`}
           </button>
         </div>
       )}
@@ -1919,6 +2050,88 @@ const findDiacriticBtn = {
   cursor: 'pointer',
   borderRadius: 4,
   transition: 'border-color 100ms ease, color 100ms ease',
+};
+
+const groupNavRow = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  gap: 12,
+  marginBottom: 18,
+  paddingBottom: 12,
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+};
+
+const groupNavSelectWrap = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+};
+
+const groupNavLabel = {
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+};
+
+const groupNavSelect = {
+  maxWidth: 320,
+  padding: '5px 8px',
+  background: 'transparent',
+  color: 'var(--bc-text-primary)',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.25)',
+  borderRadius: 6,
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 13,
+  cursor: 'pointer',
+};
+
+const groupNavStatus = {
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
+  color: 'var(--bc-text-tertiary)',
+  fontVariantNumeric: 'tabular-nums',
+};
+
+const groupNavPager = {
+  display: 'inline-flex',
+  gap: 6,
+};
+
+const groupNavBtn = {
+  padding: '4px 10px',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
+  background: 'transparent',
+  color: 'var(--bc-accent)',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.25)',
+  borderRadius: 999,
+  cursor: 'pointer',
+  transition: 'color 120ms ease, border-color 120ms ease',
+};
+
+const groupNavTextBtn = {
+  marginLeft: 'auto',
+  padding: '4px 2px',
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
+  background: 'transparent',
+  color: 'var(--bc-text-secondary)',
+  border: 'none',
+  borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.3)',
+  cursor: 'pointer',
 };
 
 const columnSwitchRow = {

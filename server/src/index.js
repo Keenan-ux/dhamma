@@ -56,15 +56,20 @@ app.get('/api/passage/:id', async (c) => {
   }
 });
 
-// Sibling-paragraph fetch. For a fine CST row like
-// `cst-s0101a.att-dn1_1_p047`, returns every `_p%` row under the same
-// `cst-s0101a.att-dn1_1` parent — the logical "page" the reader should
-// render as one continuous block instead of one paragraph at a time.
+// Sibling-paragraph fetch, windowed. For a fine CST row like
+// `cst-s0101a.att-dn1_1_p047`, returns a window of the `_p%` rows under
+// the same `cst-s0101a.att-dn1_1` parent — a slice of the logical "page"
+// plus the total/offset/sections the reader needs to navigate the rest,
+// so a jump onto a 2,799-row division doesn't render it all at once.
+// `?window=N` sets the page size (or `all`); `?cursor=N` the start row.
 // Singleton groups (mula / anya / library / Vism mula coarse) return
-// the anchor row only.
+// the anchor row only, with the navigator fields zeroed.
 app.get('/api/passage/:id/group', async (c) => {
   try {
-    const out = await getPassageGroup(c.req.param('id'));
+    const out = await getPassageGroup(c.req.param('id'), {
+      window: c.req.query('window'),
+      cursor: c.req.query('cursor'),
+    });
     if (!out) return c.json({ error: 'not_found' }, 404);
     return c.json(out);
   } catch (err) {

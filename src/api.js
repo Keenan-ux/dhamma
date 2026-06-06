@@ -22,13 +22,20 @@ export function passageApi(id, opts) {
   return get(`/api/passage/${encodeURIComponent(id)}`, opts);
 }
 
-// Fetches the passage plus its sibling paragraph rows. For fine CST
-// rows (id ends in `_pNNN`), the response includes every paragraph
-// under the same parent div so the reader can render the whole
-// logical "page" at once. Singleton groups (canonical mula, library
-// articles, Vism coarse) return just the anchor row.
-export function passageGroupApi(id, opts) {
-  return get(`/api/passage/${encodeURIComponent(id)}/group`, opts);
+// Fetches a window of the passage's sibling paragraph rows. For fine
+// CST rows (id ends in `_pNNN`), the response is a slice of the
+// paragraphs under the same parent div plus { total, offset, window,
+// anchorIndex, sections } so the reader can page through and jump to
+// sections without loading the whole division. `window` is a page size
+// or 'all'; `cursor` is the 0-based start row. Singleton groups
+// (canonical mula, library articles, Vism coarse) return just the
+// anchor row with the navigator fields zeroed.
+export function passageGroupApi(id, { window, cursor, signal } = {}) {
+  const qs = new URLSearchParams();
+  if (window != null) qs.set('window', String(window));
+  if (cursor != null) qs.set('cursor', String(cursor));
+  const suffix = qs.toString() ? `?${qs.toString()}` : '';
+  return get(`/api/passage/${encodeURIComponent(id)}/group${suffix}`, { signal });
 }
 
 // Bulk translations across the paragraph group. Used by the reader's
