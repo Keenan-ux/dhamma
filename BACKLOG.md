@@ -163,17 +163,19 @@ These remain:
   already includes the anchor row) — drop the redundant `/passage` call (use
   the `/group` anchor; skip `/group` for singletons). Verify on the dev
   server.
-- **a11y MED/LOW remaining** (HIGH items already landed): `aria-pressed` on
-  the single-select toggle groups (DictionaryView Match, SearchView filter +
-  translator chips); `role=group`/`toolbar` on the aria-labelled diacritic
-  rows / Match row / translator-chip rows; full ARIA tab semantics
-  (tabpanel + aria-controls + roving tabindex/arrow keys) on the two
-  tablists (CanonMapView piṭaka selector, ReadingPanel mobile column toggle)
-  OR convert them to an aria-pressed button group; `role=dialog` + Escape +
-  focus management on NoteEditor + LookupPanel; Escape + arrow-nav on the
-  ReadingPanel overflow menu; `role=toolbar` + Escape on the selection
-  popover; `role=tree`/`treeitem` + aria-expanded on TreeLevel;
-  `aria-hidden` on decorative icon SVGs. All low-risk, none blocking.
+- **a11y MED/LOW remaining** (HIGH items already landed). 🟡 PARTIAL.
+  **Landed 2026-06-06 (4e01f84):** `aria-pressed` + `role=group` (with an
+  accessible name) on the single-select toggle groups — SearchView
+  `FilterRow` (Match / Search-in scope / Piṭaka / Layer), DictionaryView
+  Match-mode row, and the ReadingPanel translator chips. **Still open:** full
+  ARIA tab semantics (tabpanel + aria-controls + roving tabindex/arrow keys)
+  on the two tablists (CanonMapView piṭaka selector, ReadingPanel mobile
+  column toggle) OR convert them to an aria-pressed button group;
+  `role=dialog` + Escape + focus management on NoteEditor + LookupPanel;
+  Escape + arrow-nav on the ReadingPanel overflow menu; `role=toolbar` +
+  Escape on the selection popover; `role=tree`/`treeitem` + aria-expanded on
+  TreeLevel; `aria-hidden` on decorative icon SVGs. All low-risk, none
+  blocking.
 - **Gloss context-disambiguation (approach b) — DESIGN done, build deferred.**
   The audit confirmed the prior conclusion: a static field cannot fix the
   `sato` homograph; only sentence context can. Key finding:
