@@ -350,6 +350,15 @@ were filed; deep verification (local server vs prod DB over the flyctl proxy)
   (two tables, clickable circumstances → complete cited lists → passage
   reader). Dataset bundled at `public/research/awakening-events.json`,
   recovered from the workflow agents' journaled output.
+  - **"Who awakens" dimension added 2026-06-06 (`8bd3eeb`).** A 33-agent
+    workflow classified all 1,640 distinct `being` strings into 678 deduped
+    named individuals (variants merged, multi-person split, non-humans typed)
+    and 10 collective classes by kind, bundled at
+    `public/research/awakening-beings.json`. ResearchView gains Table 3
+    (individuals: Ānanda 28, Aññā Koṇḍañña 24, Sāriputta 22, Vakkali 12, …)
+    and Table 4 (collectives: Mixed assembly 311, Unspecified single 200,
+    Monks 149, Stock figure 82, Devas 62, …). Best-effort grouping over
+    prose; a few boundary cases remain.
 - **Router deep-link fix (latent, found while wiring Research).** Dhamma's
   URL-writer stripped the hash to bare pathname when a self-managed view
   (library/docs/tags/research) left `hash=''` to mean "leave my deep link
