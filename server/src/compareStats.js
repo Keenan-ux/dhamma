@@ -48,32 +48,46 @@ export async function runCompareStats(rawParams) {
   // in the corpus (final 'a' vs 'o' breaks the literal substring match)
   // and the aggregate is dramatically undercounted vs what Search returns.
   // Mirrors the prefix-stem logic in search.js / termToTsquery.
-  const probe = stemForPrefix(q.toLowerCase());
-  // Escape LIKE metacharacters so a user '%' or '_' matches literally rather
-  // than acting as a wildcard (a bare '%' otherwise makes whereExpr match
-  // every passage and forces a multi-second full-table scan). The REPLACE /
-  // LENGTH occurrence math uses the raw probe (literal substring); only the
-  // LIKE needs the escaped form. Mirrors getPassageGroup in corpus.js.
-  const probeLike = probe.replace(/([\\%_])/g, '\\$1');
+  // Niggahīta unification. ṁ (U+1E41, SuttaCentral convention) and ṃ (U+1E43,
+  // CST/VRI convention) are the SAME grapheme in different editions — never
+  // two different words. This bites in two places, so we handle both:
+  //
+  //  1. STEMMING. The suffix table (paliStem ENDINGS) is written with the
+  //     dot-below ṃ, so a dot-above query like "arahattaṁ" never strips its
+  //     "…aṃ" ending and under-matches (2,615 vs 7,454). Fold the query's
+  //     niggahīta to dot-below BEFORE stemming so either spelling stems to the
+  //     same broad prefix ("arahatt").
+  //  2. MATCHING. The corpus itself mixes both conventions, so a literal
+  //     substring match must look for BOTH forms of the (possibly
+  //     niggahīta-bearing) probe and sum the counts. We can't fold the indexed
+  //     column — translate() disables the pg_trgm GIN index → full-table scan,
+  //     undoing the perf work — so we OR the two probe forms instead.
+  //
+  // For a probe with no niggahīta the two forms coincide → a single variant.
+  const probe = stemForPrefix(q.toLowerCase().replace(/ṁ/g, 'ṃ'));
+  const below = probe;                    // already dot-below (canonical)
+  const above = probe.replace(/ṃ/g, 'ṁ');
+  const variants = below === above ? [below] : [below, above];
 
-  // Length-diff trick: count substring occurrences case-insensitively.
-  // Works on any text including CJK. GREATEST guards against zero-length.
-  const occurrenceExpr = sql`
-    (
-      (LENGTH(LOWER(COALESCE(p.original,'')))
-       - LENGTH(REPLACE(LOWER(COALESCE(p.original,'')), ${probe}, '')))
-      / GREATEST(LENGTH(${probe}), 1)
-    +
-      (LENGTH(LOWER(COALESCE(p.translation,'')))
-       - LENGTH(REPLACE(LOWER(COALESCE(p.translation,'')), ${probe}, '')))
-      / GREATEST(LENGTH(${probe}), 1)
-    )::int
-  `;
-
-  const whereExpr = sql`
-    (LOWER(COALESCE(p.original,''))    LIKE '%' || ${probeLike} || '%' ESCAPE '\\'
-     OR LOWER(COALESCE(p.translation,'')) LIKE '%' || ${probeLike} || '%' ESCAPE '\\')
-  `;
+  // Per-(column, variant) occurrence count via the length-diff trick: works on
+  // any text including CJK, GREATEST guards against zero-length. Summed across
+  // both columns and every niggahīta variant. A row containing both spellings
+  // contributes both — correct, they are distinct occurrences.
+  const cols = [sql`LOWER(COALESCE(p.original,''))`, sql`LOWER(COALESCE(p.translation,''))`];
+  const occTerms = [];
+  const likeTerms = [];
+  for (const v of variants) {
+    // Escape LIKE metacharacters so a user '%'/'_' matches literally rather
+    // than acting as a wildcard (a bare '%' would match every row and force a
+    // multi-second scan). REPLACE/LENGTH use the raw literal; only LIKE escapes.
+    const vLike = v.replace(/([\\%_])/g, '\\$1');
+    for (const col of cols) {
+      occTerms.push(sql`(LENGTH(${col}) - LENGTH(REPLACE(${col}, ${v}, ''))) / GREATEST(LENGTH(${v}), 1)`);
+      likeTerms.push(sql`${col} LIKE '%' || ${vLike} || '%' ESCAPE '\\'`);
+    }
+  }
+  const occurrenceExpr = sql`(${occTerms.reduce((a, t) => sql`${a} + ${t}`)})::int`;
+  const whereExpr = sql`(${likeTerms.reduce((a, t) => sql`${a} OR ${t}`)})`;
 
   // Single-scan refactor. Previously freq / passages / count ran as three
   // separate statements, so the un-indexed LIKE scan + REPLACE/LENGTH
