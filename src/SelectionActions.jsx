@@ -218,7 +218,7 @@ function NoteEditor({ draft, onSave, onCancel }) {
     : { top: Math.max(60, selY + GAP), maxHeight: `min(70vh, ${Math.max(200, spaceBelow - GAP - 12)}px)` };
 
   return (
-    <div data-note-editor style={{ ...noteEditorPanel, ...positionStyle, left, transform: 'translateX(-50%)' }}>
+    <div data-note-editor role="dialog" aria-label="New note" style={{ ...noteEditorPanel, ...positionStyle, left, transform: 'translateX(-50%)' }}>
       <header style={noteEditorHeader}>
         <span style={noteEditorLabel}>
           New note
@@ -277,7 +277,7 @@ function LookupPanel({ lookup, onClose }) {
     : { top: Math.max(60, selY + GAP), maxHeight: `min(70vh, ${Math.max(120, spaceBelow - GAP - MARGIN)}px)` };
 
   return (
-    <div data-lookup-panel style={{ ...lookupPanel, ...positionStyle, left, transform: 'translateX(-50%)' }}>
+    <div data-lookup-panel role="dialog" aria-label={`Dictionary lookup: ${term}`} style={{ ...lookupPanel, ...positionStyle, left, transform: 'translateX(-50%)' }}>
       <header style={lookupHeader}>
         <span style={lookupTerm}>{term}</span>
         {matchedVia === 'inflection' && entries?.length > 0 && (
