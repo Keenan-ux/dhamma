@@ -154,12 +154,15 @@ These remain:
   diminishing return). Also folded the query input to NFC in `normalize()`:
   a scholar pasting a decomposed (NFD) Pāli term matched nothing
   (NFD "viññāṇa" → 0 vs 5,505 NFC rows); now equal. Verified live.
-- **Perf: reader request fan-out.** MED. `usePassage` fetches
-  `/api/passage/:id` while `ReadingPanel` also fetches `/group` (which already
-  includes the anchor row), and `/group` + `/group-translations` re-run the
-  sibling query. Drop the redundant `/passage` call (use the `/group` anchor;
-  skip `/group` for singletons), and fetch only ids in
-  `getPassageGroupTranslations`. Frontend-only; verify on the dev server.
+- **Perf: reader request fan-out.** MED, 🟡 PARTIAL. The server half landed
+  with the pagination work (01849d8): `getPassageGroupTranslations` now
+  resolves the group through an ids-only `getGroupMeta` helper instead of
+  re-pulling full row text, so `/group-translations` no longer re-reads the
+  whole division's body. Still open (frontend-only): `usePassage` fetches
+  `/api/passage/:id` while `ReadingPanel` also fetches `/group` (which
+  already includes the anchor row) — drop the redundant `/passage` call (use
+  the `/group` anchor; skip `/group` for singletons). Verify on the dev
+  server.
 - **a11y MED/LOW remaining** (HIGH items already landed): `aria-pressed` on
   the single-select toggle groups (DictionaryView Match, SearchView filter +
   translator chips); `role=group`/`toolbar` on the aria-labelled diacritic
@@ -225,12 +228,27 @@ remain:
   morphologically-adjacent `anatthaṃ` (harm), which shares the literal
   prefix — separating those would need 6-char stem precision that breaks
   the anatto/anattā inflection recall, so deferred.
-- **Long commentary reading.** HIGH UX. `/api/passage/:id/group` merges an
-  ENTIRE division into one render (Ps-a mn1_1 = 1,278 rows / 636 KB; Sv-a
-  dn1_1 = 394 rows / 198 KB), and prev/next jumps across whole volumes. Fix:
-  sub-paginate within a group (windowed render + a §N section index using the
-  per-row citations), or finer prev/next. Matters more now that the
-  sutta→commentary jump lands scholars on these long blocks.
+- **Long commentary reading. ✅ LANDED 2026-06-06 (01849d8; committed, NOT
+  yet deployed).** `/api/passage/:id/group` was merging an ENTIRE division
+  into one render. Worst real cases measured against prod: Ps-a mn1_1 =
+  1,278 rows / 528 KB, its ṭīkā = 1,148 / 673 KB, and a single-title
+  Khuddaka giant `cst-s0514a3.att-8` = 2,799 rows (bigger than the 636 KB
+  first estimated; 27 groups exceed 500 rows, 321 exceed 100). Now the
+  endpoint returns one windowed page (default 100) plus
+  `{ total, offset, window, anchorIndex, sections }`, and `ReadingPanel`
+  renders only that window with a navigator above the body: a **Section
+  dropdown** (a real table of contents from the subhead titles + citations —
+  73 sections for mn1_1, 98 for the ṭīkā) or **synthetic paragraph-range
+  buckets** for single-title giants (28 for the 2,799-row one); a
+  "Paragraphs a–b of N" status with **Prev/Next paging**; and **Show all**
+  (`window=all`) to restore the whole-group render + whole-group find (the
+  find count gains an "on this page" qualifier while paged). The window
+  starts at the anchor row, so a sutta→commentary jump or deep link lands
+  where the reader expects, not at paragraph 1. Singletons and groups that
+  fit a single page return whole and the navigator self-hides (the common
+  case is byte-unchanged). Verified on a local server vs the prod DB and in
+  the browser: windowing, section jump, paging, show-all, and the negative
+  cases (90-row group + mn118 singleton hide the navigator).
 - **Exact + Title returns 0 for a bare sutta name.** MED. Pāli titles are
   compound tokens, so "Satipaṭṭhāna" in Exact+Title yields 0 while
   "Satipaṭṭhānasutta" hits. Fix: prefix/stem-match the Title scope in Exact
