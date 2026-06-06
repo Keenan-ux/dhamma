@@ -478,6 +478,70 @@ export function buildTsquery(parsed, { expandAliases = false } = {}) {
   return { tsquery, expanded: ctx.expanded };
 }
 
+// Diacritic-exact ranking boost (Exact/Stem passages search).
+//
+// FTS matches against a `simple_unaccent` tsvector, which folds Pāli
+// diacritics (ā→a, ṇ→n, ṃ→m, …). So a stem query `anattā` (prefix `anatt:*`)
+// also matches `āṇatti` — a different Vinaya word that folds to `anatti` —
+// and ts_rank can rank that folded-only hit ABOVE the true `anattā`
+// (not-self) passages (observed live: Āṇattikathāvaṇṇanā ranked #1 for
+// `anattā` in layer=tika). The fix is a ranking signal, not a recall change:
+// multiply the score of rows whose RAW (diacritic-preserving) text contains
+// the exact-grapheme stem, so exact matches outrank folded-only ones while
+// folded + alias hits (anātman / 無我 / not-self) still appear below.
+//
+// `āṇatti` = ā-ṇ-a-t-t-i contains no literal `anatt` substring (the ṇ breaks
+// the run), so the exact-substring test cleanly separates the two words.
+//
+// Gated to fire only when a query term actually carries a diacritic: an
+// all-ASCII query (`sati`, `anatta`) signals the user isn't asking for
+// diacritic precision, so its ranking stays byte-identical to before. Soft
+// (multiplicative), never a hard partition, so a legitimate alias-only match
+// is demoted but not buried. Tunable via DIACRITIC_BOOST for re-tuning
+// without a redeploy.
+const DIACRITIC_BOOST = process.env.DIACRITIC_BOOST ? Number(process.env.DIACRITIC_BOOST) : 1.6;
+// True when s contains any non-ASCII char (a Pāli diacritic). A plain
+// charCode scan — avoids embedding control-char ranges in a regex literal.
+function hasDiacritic(s) {
+  for (let i = 0; i < s.length; i++) if (s.charCodeAt(i) > 127) return true;
+  return false;
+}
+
+function diacriticExactStems(parsed) {
+  const stems = new Set();
+  for (const term of parsed.include) {
+    if (!hasDiacritic(term)) continue;
+    const stem = stemForPrefix(String(term).toLowerCase().normalize('NFC'));
+    if (stem && stem.length >= 3) stems.add(stem);
+  }
+  return [...stems];
+}
+
+// SQL fragment that multiplies the FTS score for diacritic-exact matches.
+// Returns sql`1.0` (a no-op) when no query term carries a diacritic, so the
+// generated SQL and ranking are unchanged for ASCII queries. Column refs are
+// unqualified to match the bare-passages exact/stem branch.
+function diacriticBoostFragment(parsed) {
+  const stems = diacriticExactStems(parsed);
+  if (stems.length === 0) return sql`1.0`;
+  // Match the exact stem only at a WORD BOUNDARY (\m = start-of-word), not as
+  // a bare substring. A substring test over-fires inside unrelated compounds:
+  // `anatt` is a literal substring of `dassanatthaṃ` (dassana+atthaṃ, "for the
+  // purpose of showing"), which boosted an āṇatti passage to #1. `\manatt`
+  // only matches a token that STARTS with the stem (anattā, anattalakkhaṇaṃ,
+  // anattasaññā), so mid-compound coincidences are excluded while the genuine
+  // inflectional family is still caught. Operates on raw (diacritic-preserving)
+  // lowercased text, so āṇatti (ā-ṇ-…) never matches `anatt`.
+  const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  let cond = null;
+  for (const s of stems) {
+    const re = `\\m${escRe(s)}`;
+    const frag = sql`(lower(coalesce(original,'')) ~ ${re} OR lower(coalesce(title,'')) ~ ${re})`;
+    cond = cond ? sql`${cond} OR ${frag}` : frag;
+  }
+  return sql`CASE WHEN (${cond}) THEN ${DIACRITIC_BOOST}::float8 ELSE 1.0 END`;
+}
+
 function ftsFragment(field) {
   switch (field) {
     case 'citation':    return sql`to_tsvector('simple_unaccent', coalesce(citation, ''))`;
@@ -1052,9 +1116,14 @@ export async function runSearch(rawParams) {
       LIMIT ${limit} ${offsetFrag}
     `;
   } else if (mode === 'exact' || mode === 'stem') {
+    // Diacritic-exact boost: when a query term carries a diacritic, multiply
+    // the FTS score of rows whose RAW text contains the exact-grapheme stem,
+    // so anattā outranks the simple_unaccent-folded āṇatti. No-op (×1.0) for
+    // all-ASCII queries — see diacriticBoostFragment.
+    const diaBoost = diacriticBoostFragment(parsed);
     rows = await sql`
       SELECT id, citation, title, title_en, canon, work_slug, original, translation,
-             ${ftsRank} AS score,
+             (${ftsRank}) * ${diaBoost} AS score,
              ${hlPassage} AS headline
       FROM passages, to_tsquery('simple_unaccent', ${tsquery}) q
       WHERE ${fts} @@ q ${pitakaBare} ${layerBare} ${tagBare}
