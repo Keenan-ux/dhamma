@@ -287,6 +287,30 @@ were filed; deep verification (local server vs prod DB over the flyctl proxy)
   dot-below *before* stemming, then OR both forms at match time (can't fold the
   indexed column without losing the pg_trgm GIN index). Verified: `arahattaṁ` ≡
   `arahattaṃ` → 7,454/4,502; non-niggahīta terms and phrase counts unchanged.
+- **Diacritic-exact search boost retuned 1.6 → 4.0.** The prior-session
+  `DIACRITIC_BOOST` default in [search.js](server/src/search.js) was too weak
+  to reorder anything (Āṇattikathāvaṇṇanā still ranked #1 for `anattā` in
+  layer=tika). Measured against prod: the exact/folded ordering flips just
+  above 1.6 and is stable from ~2.5 through 8; 4.0 gives ~2× headroom without
+  over-demoting alias-only matches. Verified live: genuine
+  Anattalakkhaṇasuttavaṇṇanā now surfaces, Āṇatti drops out of the top.
+- **Awakening census + Research tab (the `/#/research/awakening` study).** A
+  114-agent classification pass (90% inter-rater agreement on a 520-passage
+  re-check) over the 4,023 attainment-marker passages → 2,214 awakening events
+  classified by precipitating circumstance and split canon vs commentary.
+  Headline: hearing the Dhamma ≈ 61% of stated-occasion events, formal
+  striving ≈ 28%, discrete external trigger ≈ 7%; ~80% of all narrated events
+  are commentarial. New **Research** sidebar + mobile-menu tab
+  ([ResearchView.jsx](src/ResearchView.jsx)) renders the full cited document
+  (two tables, clickable circumstances → complete cited lists → passage
+  reader). Dataset bundled at `public/research/awakening-events.json`,
+  recovered from the workflow agents' journaled output.
+- **Router deep-link fix (latent, found while wiring Research).** Dhamma's
+  URL-writer stripped the hash to bare pathname when a self-managed view
+  (library/docs/tags/research) left `hash=''` to mean "leave my deep link
+  alone", breaking cold-load deep links + the back stack for those views. It
+  now bails instead of stripping. Also restored the TopNav mobile-menu mirror
+  (it had drifted, missing Docs + Research).
 
 ### Retracted (not bugs)
 
