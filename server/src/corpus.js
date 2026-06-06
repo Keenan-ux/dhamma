@@ -261,7 +261,11 @@ export async function getPassage(id) {
 //   - Passages that are themselves commentary/sub-commentary/anya, or
 //     have no resolvable mūla key/title, return empty arrays (not error).
 
-const SUTTA_NIKAYA_SLUGS = new Set(['pli-dn', 'pli-mn', 'pli-sn', 'pli-an', 'pli-kn']);
+// Mūla work_slugs eligible for a sutta→commentary jump. Includes the
+// Khuddaka verse-collections pli-thig / pli-thag (Therī-/Theragāthā): their
+// CST commentary lives under pli-kn-attha / pli-kn-tika and is reached via
+// the title-bridge below (the `nik` remap maps thig/thag → kn).
+const SUTTA_NIKAYA_SLUGS = new Set(['pli-dn', 'pli-mn', 'pli-sn', 'pli-an', 'pli-kn', 'pli-thig', 'pli-thag']);
 
 // Pull the (nikāya, key) from a CST mūla id's locator. The key is the
 // full structural locator (dn1_3); the nikāya is its leading letters.
@@ -398,8 +402,19 @@ export async function getCommentaryFor(id, { perLayer = 60 } = {}) {
   // nikāya comes from the SC id's leading letters (mn10→mn, sn12.1→sn,
   // an3.61→an). DN/KN SC ids already resolved via the key-bridge; if one
   // ever fell through, this same heading match applies harmlessly.
-  const nik = (id.match(/^([a-z]+)\d/) || [])[1];
+  let nik = (id.match(/^([a-z]+)\d/) || [])[1];
   if (!nik) return empty;
+  // Therīgāthā / Theragāthā (thig1.17, thag1.1) are Khuddaka verse-collections.
+  // Their CST commentary (Dhammapāla's Paramatthadīpanī) is filed under
+  // pli-kn-attha / pli-kn-tika as per-verse "{Name}therīgāthāvaṇṇanā" /
+  // "{Name}theragāthāvaṇṇanā" sections — there is no pli-thig/pli-thag
+  // commentary slug. Remap the nikāya so the heading prefix-match below
+  // (mula title "Dhammātherīgāthā" → heading "Dhammātherīgāthāvaṇṇanā")
+  // searches the right slugs. The "therīgāthā"/"theragāthā" infix in the
+  // prefix makes collisions with other Khuddaka commentaries (Dhp-a, Ja-a…)
+  // effectively impossible; shared verse-names return multiple candidates,
+  // consistent with the documented SN behaviour.
+  if (nik === 'thig' || nik === 'thag') nik = 'kn';
   const atthaSlug = `pli-${nik}-attha`;
   const tikaSlug  = `pli-${nik}-tika`;
 
