@@ -264,9 +264,18 @@ remain:
   "Mūlapariyāya"→mn1, "Ānāpānassati"→mn118 lead; Exact+All byte-unchanged.
   (DN 22 stays a Stem/All find: its title "Mahāsatipaṭṭhānasutta" starts
   with mahā-, which a start-of-token prefix can't reach.)
-- **Cold-start UX.** MED. First Meaning query after a wake is ~13-14s
-  (BGE-M3 ONNX load). Add a keepalive ping or a "warming…" UI state so the
-  first commentary Meaning query doesn't read as broken.
+- **Cold-start UX. ✅ LANDED 2026-06-06 (afd6343; committed, NOT yet
+  deployed).** First Meaning query after a wake waits on the BGE-M3 ONNX
+  load (the model is fired at boot but not awaited before `listen`, so on
+  prod's shared CPU it is ~tens of seconds to ~100s). New `GET /api/warm`
+  kicks off `embedReady()` and returns `{ warm, warming }` immediately (and
+  wakes an auto-stopped machine); `SearchView` pings it once on mount + polls
+  until warm, so the load overlaps the user's typing; while a Meaning query
+  loads on a still-cold model the status line reads "Warming the semantic
+  index…" instead of "Searching…". One-shot ping (no steady interval) so it
+  doesn't fight auto-stop. Verified the endpoint + the Search-mount ping
+  locally (dev box loads the model in ~3.7s, so the warming note itself only
+  shows on prod's slower CPU).
 - **Commentary English entry points.** Commentary is ~3-4% translated.
   Prioritize the interlinear DPD gloss for the att/tik tier (the only
   reading aid for non-fluent readers there) and author a Docs page on the
