@@ -55,3 +55,4 @@ __pycache__/
 # in scripts/ingest/ are committed; the probe-* scripts are local
 # scratch only.
 /scripts/ingest/probe-*.mjs
+tmp/
