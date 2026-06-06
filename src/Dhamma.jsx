@@ -11,6 +11,7 @@ import LibraryView from './LibraryView.jsx';
 import BookmarksView from './BookmarksView.jsx';
 import NotesView from './NotesView.jsx';
 import DocsView from './DocsView.jsx';
+import ResearchView from './ResearchView.jsx';
 import TagsView from './TagsView.jsx';
 import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
@@ -86,6 +87,9 @@ function parseInitialHash() {
     out.tab = 'docs';
   } else if (head === 'tags') {
     out.tab = 'tags';
+  } else if (head === 'research') {
+    // ResearchView reads the open-entry slug (#/research/<slug>) from the hash.
+    out.tab = 'research';
   } else if (head === 'about') {
     out.tab = 'about';
   } else if (head === 'browse') {
@@ -217,6 +221,9 @@ export default function Dhamma() {
     } else if (tab === 'tags') {
       // TagsView manages its own /tags/<type>/<value> deep links.
       if (!window.location.hash.startsWith('#/tags')) hash = '/tags';
+    } else if (tab === 'research') {
+      // ResearchView manages its own /research/<slug> deep link in-place.
+      if (!window.location.hash.startsWith('#/research/')) hash = '/research';
     } else if (tab === 'about') {
       hash = '/about';
     } else if (tab === 'browse') {
@@ -238,6 +245,12 @@ export default function Dhamma() {
     } else if (tab === 'concordance') {
       hash = query ? `/concordance/${enc(query)}` : '/concordance';
     }
+    // Self-managed sub-path views (library / docs / tags / research) set
+    // `hash = ''` when their own deep link already owns the URL, meaning
+    // "leave the current hash alone." Falling through would write bare
+    // pathname and strip that deep link — breaking cold-load and the back
+    // stack for those views (the bug that hid the #/research/<slug> article).
+    if (!hash) { lastWrittenHashRef.current = window.location.hash; return; }
     const target = hash ? `#${hash}` : window.location.pathname;
     const next = hash ? `${window.location.pathname}#${hash}` : window.location.pathname;
     const current = `${window.location.pathname}${window.location.hash}`;
@@ -455,6 +468,7 @@ export default function Dhamma() {
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
               />
             )}
+            {tab === 'research' && <ResearchView />}
             {tab === 'about' && <AboutView />}
             {tab === 'browse' && (
               <BrowseView
