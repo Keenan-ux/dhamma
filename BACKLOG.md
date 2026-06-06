@@ -249,10 +249,21 @@ remain:
   case is byte-unchanged). Verified on a local server vs the prod DB and in
   the browser: windowing, section jump, paging, show-all, and the negative
   cases (90-row group + mn118 singleton hide the navigator).
-- **Exact + Title returns 0 for a bare sutta name.** MED. Pāli titles are
-  compound tokens, so "Satipaṭṭhāna" in Exact+Title yields 0 while
-  "Satipaṭṭhānasutta" hits. Fix: prefix/stem-match the Title scope in Exact
-  mode, or show the Stem count when Exact+Title is empty.
+- **Exact + Title returns 0 for a bare sutta name. ✅ LANDED 2026-06-06
+  (cd3ae22; committed, NOT yet deployed).** Pāli titles are compound tokens,
+  so "Satipaṭṭhāna" in Exact+Title yielded 0 while "Satipaṭṭhānasutta" hit.
+  Fix: `buildTsquery` now takes a per-scope `prefix` override, and the Title
+  scope prefix-matches even in Exact mode (aliases stay off, so it is still
+  "exact" — no smṛti/念 expansion). Prefix alone flooded the top with
+  commentary `…vaṇṇanā` paragraph-rows (they prefix-match too) above the one
+  mula sutta — a pre-existing Stem+Title problem, since Exact/Stem rank by
+  raw `ts_rank` with no canonicality awareness — so the Title scope now also
+  multiplies the score ×6 for mula rows (excluding Vism). Verified local vs
+  prod: "Satipaṭṭhāna" 0→77 with mula on page 1 (an4.274, mn10, …);
+  "Satipaṭṭhānasutta" leads with the three Satipaṭṭhāna suttas;
+  "Mūlapariyāya"→mn1, "Ānāpānassati"→mn118 lead; Exact+All byte-unchanged.
+  (DN 22 stays a Stem/All find: its title "Mahāsatipaṭṭhānasutta" starts
+  with mahā-, which a start-of-token prefix can't reach.)
 - **Cold-start UX.** MED. First Meaning query after a wake is ~13-14s
   (BGE-M3 ONNX load). Add a keepalive ping or a "warming…" UI state so the
   first commentary Meaning query doesn't read as broken.

@@ -19,10 +19,10 @@ overhaul, Notes feature, and SC parallels. Read newest first.
 
 ---
 
-## What landed 2026-06-06 (coordinator: long-commentary pagination)
+## What landed 2026-06-06 (coordinator session)
 
-Committed (`01849d8`) on master, **NOT yet deployed** (deploy is manual:
-`flyctl deploy --remote-only --app dhamma`).
+Committed on master (`01849d8` + docs `dd52dcd`, then `cd3ae22`), **NOT yet
+deployed** (deploy is manual: `flyctl deploy --remote-only --app dhamma`).
 
 - **Long-commentary pagination + section index.** A sutta→commentary jump
   could land on an entire CST division merged into one render — worst real
@@ -42,6 +42,15 @@ Committed (`01849d8`) on master, **NOT yet deployed** (deploy is manual:
   Files: `server/src/corpus.js`, `server/src/index.js`, `src/api.js`,
   `src/browse/ReadingPanel.jsx`. Verified on a local server vs the prod DB
   and in the browser. See BACKLOG.md.
+
+- **Exact+Title now finds bare sutta names (`cd3ae22`).** "Satipaṭṭhāna" in
+  Exact+Title returned 0 because Pāli titles are compound tokens
+  ("satipaṭṭhānasutta"). `buildTsquery` gained a per-scope `prefix` override;
+  the Title scope prefix-matches even in Exact mode (aliases still off), and
+  the Title scope multiplies the score ×6 for mula rows so the canonical
+  sutta leads instead of the commentary `…vaṇṇanā` paragraph-rows. 0→77 for
+  "Satipaṭṭhāna" (mn10 etc. on page 1); "Mūlapariyāya"→mn1,
+  "Ānāpānassati"→mn118. Non-title Exact paths unchanged. `server/src/search.js`.
 
 ---
 
