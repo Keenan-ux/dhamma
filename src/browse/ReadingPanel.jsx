@@ -564,11 +564,14 @@ export default function ReadingPanel({
     const onDown = (e) => {
       if (moreRef.current && !moreRef.current.contains(e.target)) setMoreOpen(false);
     };
+    const onKey = (e) => { if (e.key === 'Escape') setMoreOpen(false); };
     document.addEventListener('mousedown', onDown);
     document.addEventListener('touchstart', onDown);
+    document.addEventListener('keydown', onKey);
     return () => {
       document.removeEventListener('mousedown', onDown);
       document.removeEventListener('touchstart', onDown);
+      document.removeEventListener('keydown', onKey);
     };
   }, [moreOpen]);
   // Close the menu when the passage changes (navigating prev/next).
