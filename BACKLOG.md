@@ -167,15 +167,17 @@ These remain:
   **Landed 2026-06-06 (4e01f84):** `aria-pressed` + `role=group` (with an
   accessible name) on the single-select toggle groups — SearchView
   `FilterRow` (Match / Search-in scope / Piṭaka / Layer), DictionaryView
-  Match-mode row, and the ReadingPanel translator chips. **Still open:** full
-  ARIA tab semantics (tabpanel + aria-controls + roving tabindex/arrow keys)
-  on the two tablists (CanonMapView piṭaka selector, ReadingPanel mobile
-  column toggle) OR convert them to an aria-pressed button group;
-  `role=dialog` + Escape + focus management on NoteEditor + LookupPanel;
-  Escape + arrow-nav on the ReadingPanel overflow menu; `role=toolbar` +
-  Escape on the selection popover; `role=tree`/`treeitem` + aria-expanded on
-  TreeLevel; `aria-hidden` on decorative icon SVGs. All low-risk, none
-  blocking.
+  Match-mode row, and the ReadingPanel translator chips.
+  **Landed 2026-06-06 (57b4752):** `role=dialog` + accessible name on
+  NoteEditor + LookupPanel (both already autofocus + close on Escape);
+  Escape-to-close on the ReadingPanel overflow menu (it already closed on
+  outside click). **Still open:** full ARIA tab semantics (tabpanel +
+  aria-controls + roving tabindex/arrow keys) on the two tablists
+  (CanonMapView piṭaka selector, ReadingPanel mobile column toggle) OR
+  convert them to an aria-pressed button group; arrow-key roving on the
+  overflow menu; `role=toolbar` + Escape on the selection popover;
+  `role=tree`/`treeitem` + aria-expanded on TreeLevel; `aria-hidden` on
+  decorative icon SVGs. All low-risk, none blocking.
 - **Gloss context-disambiguation (approach b) — DESIGN done, build deferred.**
   The audit confirmed the prior conclusion: a static field cannot fix the
   `sato` homograph; only sentence context can. Key finding:
@@ -278,12 +280,15 @@ remain:
   doesn't fight auto-stop. Verified the endpoint + the Search-mount ping
   locally (dev box loads the model in ~3.7s, so the warming note itself only
   shows on prod's slower CPU).
-- **Commentary English entry points.** Commentary is ~3-4% translated.
-  Prioritize the interlinear DPD gloss for the att/tik tier (the only
-  reading aid for non-fluent readers there) and author a Docs page on the
-  English→Pāli-commentary Meaning path (Docs currently unauthored). The
-  concordance pg_trgm + single-CTE perf fix is already in the
-  Next-maintenance-window checklist above.
+- **Commentary English entry points. ✅ LANDED 2026-06-06.** Commentary is
+  ~3-4% translated. The interlinear DPD gloss (landed 2026-06-04) is the
+  reading aid for the att/tik tier and already works there. A Docs page,
+  "Reading the commentaries in English" (slug `docs-reading-commentary-english`,
+  added to `scripts/ingest/ingest-docs.mjs`, ingested + live on prod),
+  documents the interlinear gloss, word lookup, the English→Pāli Meaning
+  path, and where commentary translations exist. Follow-up: the doc is not
+  embedded yet (GPU busy), so it is browsable but not in Library Meaning
+  search until the next embed pass.
 
 ---
 

@@ -153,6 +153,30 @@ Monier-Williams Sanskrit-English Dictionary 1899 and Edgerton's Buddhist Hybrid 
 <p>The prose of these Docs pages is original to the project and is offered under CC BY 4.0.</p>
 `.trim(),
   },
+  {
+    slug: 'docs-reading-commentary-english',
+    title: 'Reading the commentaries in English',
+    summary:
+      'Most of the commentary is untranslated Pāli. How to read it with the interlinear gloss and word lookup, how to reach it from an English query, and where translations of the commentary do exist.',
+    body: `
+<p>Most of this corpus is commentary, the Aṭṭhakathā and the Ṭīkā, and most of it has never been translated into English. Only a few percent of the commentarial text carries a translation. This page describes how to read the untranslated commentary, how to find it from an English query, and where the translations that do exist can be found.</p>
+
+<p><strong>Interlinear gloss</strong></p>
+<p>The reader's overflow menu offers an interlinear toggle. With it on, each Pāli word in a passage is shown above a short English gloss drawn from the Digital Pali Dictionary, with inflected forms resolved to their headword. This is the primary reading aid for the commentary, where a continuous translation is usually not available. It does not produce fluent English, but it lets a reader with some Pāli follow the sense of a passage word by word.</p>
+
+<p><strong>Word lookup</strong></p>
+<p>Selecting any word in the reader opens its dictionary entries, with inflected forms resolved to their headword and compounds decomposed into their parts. For a proper name, the Dictionary of Pali Proper Names supplies the person, place, or work behind it. See <i>Dictionary coverage</i> for how a lookup resolves.</p>
+
+<p><strong>Finding commentary by meaning, in English</strong></p>
+<p>Meaning mode can reach Pāli commentary from an English query. Two mechanisms make this work. The passage embeddings carry an appendix of DPD English glosses for each Pāli word, so the semantic vector of an untranslated commentary passage is sharpened toward its English sense. And the alias overlay rewrites an English query into its Pāli equivalents before the search runs, so a search for <i>loving-kindness</i> reaches <i>mettā</i>. Where a commentary passage does carry an English translation, that translation is embedded as well, and a separate retrieval lane matches the English query against it directly. See <i>How search works</i> for the full ranking.</p>
+
+<p><strong>Where the commentary is translated</strong></p>
+<p>Some commentarial works are available in English in the reader, shown through the translator switcher on the passage. Ñāṇamoli Thera's translation of the Visuddhimagga is aligned paragraph by paragraph to the Pāli. Bhikkhu Bodhi's translations of four commentaries, on the Brahmajāla, the Mūlapariyāya, the Mahānidāna, and the Sāmaññaphala suttas, are aligned to their sections. Where more than one translator covers a passage, the switcher lists each, with the source and license shown beneath.</p>
+
+<p><strong>A note on use</strong></p>
+<p>The interlinear gloss and the dictionary are aids to reading the Pāli, not a substitute for it. A gloss gives a leading sense of a word, which is not always the sense the commentator intends, and it cannot by itself resolve a grammatical homograph from context. Read them as a scaffold for the Pāli, and weigh the dictionary senses against one another where they differ.</p>
+`.trim(),
+  },
 ];
 
 async function main() {
