@@ -19,6 +19,38 @@ overhaul, Notes feature, and SC parallels. Read newest first.
 
 ---
 
+## What landed 2026-06-06 (scholar query: awakening census + Research tab)
+
+Driven by a real scholarly query (is "awakening on a mundane trigger" a
+genuine Theravāda topos, or a translation artifact?). All shipped,
+deployed, and verified live:
+
+- **Research tab + first study, "Every Instance of Awakening."** New
+  sidebar AND mobile-menu (TopNav) tab. A self-contained document at
+  `/#/research/awakening` classifying every awakening-marker passage in
+  the corpus (2,214 events out of 4,023 marker passages) by precipitating
+  circumstance, with a canon-vs-commentary table and complete cited lists
+  that link into the passage reader. Data: `public/research/awakening-
+  events.json`, recovered from a 114-agent classification census (90%
+  inter-rater agreement). Headline: hearing the Dhamma ≈ 61% of
+  stated-occasion events, formal striving ≈ 28%, discrete external trigger
+  ≈ 7%; ~80% of narrated awakenings are commentarial, not canonical.
+- **Therīgāthā/Theragāthā commentary jump.** `getCommentaryFor` now
+  resolves thig*/thag* verses to their `pli-kn-attha/-tika` vaṇṇanā.
+- **Concordance niggahīta fold.** `/api/compare-stats` unifies ṁ/ṃ, so
+  `arahattaṁ` ≡ `arahattaṃ` (was 119 vs 7,454).
+- **Diacritic-exact search boost retuned** 1.6 → 4.0 (1.6 was a no-op;
+  Āṇattikathā no longer outranks anattā in layer=tika).
+- **Router deep-link fix.** Dhamma's URL writer no longer strips the hash
+  for self-managed views (library/docs/tags/research), fixing cold-load
+  deep links and the back stack; restored the TopNav mobile-menu mirror
+  (was missing Docs + Research).
+
+See BACKLOG.md "Scholar stress-test (2026-06-06)" for method notes and
+two retracted false-alarms (a Windows-shell diacritic-stripping artifact).
+
+---
+
 ## What landed this session (BPS Tier 4 + email + embedding backfill)
 
 This session moved BPS coverage from "Tier 1+2 live, Tier 3 next" to
