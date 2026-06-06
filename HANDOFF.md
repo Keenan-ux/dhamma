@@ -52,6 +52,13 @@ deployed** (deploy is manual: `flyctl deploy --remote-only --app dhamma`).
   "Satipaṭṭhāna" (mn10 etc. on page 1); "Mūlapariyāya"→mn1,
   "Ānāpānassati"→mn118. Non-title Exact paths unchanged. `server/src/search.js`.
 
+- **Cold-start "warming" UX (`afd6343`).** New `GET /api/warm` kicks off the
+  BGE-M3 model load and returns `{ warm, warming }` immediately (and wakes an
+  auto-stopped machine); `SearchView` pings it on mount + polls until warm,
+  and shows "Warming the semantic index…" instead of "Searching…" while a
+  Meaning query waits on a cold model. `server/src/embed.js`,
+  `server/src/index.js`, `src/api.js`, `src/SearchView.jsx`.
+
 ---
 
 ## What landed 2026-06-06 (scholar query: awakening census + Research tab)
