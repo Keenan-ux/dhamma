@@ -468,11 +468,12 @@ function nodeToTsquery(node, ctx) {
   return null;
 }
 
-export function buildTsquery(parsed, { expandAliases = false } = {}) {
-  // In stem/meaning modes (expandAliases=true), use tsquery prefix matching
-  // on each token so 'sampajāna' also catches 'sampajāno', 'sampajānaṃ',
-  // 'sampajānakārī', etc. Exact mode preserves literal-token semantics.
-  const prefix = expandAliases;
+export function buildTsquery(parsed, { expandAliases = false, prefix = expandAliases } = {}) {
+  // In stem/meaning modes (expandAliases=true) we prefix-match each token so
+  // 'sampajāna' also catches 'sampajāno', 'sampajānaṃ', 'sampajānakārī', etc.
+  // Exact mode is otherwise literal-token, but a caller can force `prefix` on
+  // for a specific scope (the Title scope does — Pāli titles are compound, so
+  // a bare name never matches the literal token).
   const ctx = { prefix, expandAliases, expanded: [] };
   const tsquery = nodeToTsquery(parsed.tree, ctx) || '';
   return { tsquery, expanded: ctx.expanded };
@@ -885,7 +886,12 @@ export async function runSearch(rawParams) {
 
   const parsed = parseQuery(q);
   const expandAliases = mode !== 'exact';
-  const { tsquery, expanded } = buildTsquery(parsed, { expandAliases });
+  // Pāli sutta titles are compound tokens ("satipaṭṭhānasutta"), so an Exact
+  // title query for a bare name ("Satipaṭṭhāna") matches nothing. Prefix-match
+  // the Title scope even in Exact mode so a sutta name finds its sutta; aliases
+  // stay off, so it is still "exact" (no smṛti / 念 expansion).
+  const prefix = expandAliases || field === 'title';
+  const { tsquery, expanded } = buildTsquery(parsed, { expandAliases, prefix });
 
   if (!tsquery && mode !== 'meaning') {
     return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: Date.now() - t0, results: [], expanded, hasMore: false, total: 0 };
@@ -1129,9 +1135,18 @@ export async function runSearch(rawParams) {
     // so anattā outranks the simple_unaccent-folded āṇatti. No-op (×1.0) for
     // all-ASCII queries — see diacriticBoostFragment.
     const diaBoost = diacriticBoostFragment(parsed);
+    // Title scope: a bare sutta name prefix-matches both the mula title
+    // ("Satipaṭṭhānasutta") and its commentary vaṇṇanā titles
+    // ("Satipaṭṭhānasuttavaṇṇanā"), and the many per-paragraph commentary
+    // rows would otherwise bury the one mula sutta. Boost mula (excluding
+    // Vism, which is tagged mula but is commentary-like) so the canonical
+    // sutta leads. Non-title scopes get ×1.0 (no ranking change).
+    const titleBoost = field === 'title'
+      ? sql`(CASE WHEN work_role = 'mula' AND work_slug <> 'pli-vism' THEN 6.0 ELSE 1.0 END)`
+      : sql`1.0`;
     rows = await sql`
       SELECT id, citation, title, title_en, canon, work_slug, original, translation,
-             (${ftsRank}) * ${diaBoost} AS score,
+             (${ftsRank}) * ${diaBoost} * ${titleBoost} AS score,
              ${hlPassage} AS headline
       FROM passages, to_tsquery('simple_unaccent', ${tsquery}) q
       WHERE ${fts} @@ q ${pitakaBare} ${layerBare} ${tagBare}
