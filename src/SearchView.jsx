@@ -6,6 +6,7 @@ import useCorpus from './useCorpus.js';
 import useIsNarrow from './useIsNarrow.js';
 import PassageCard from './PassageCard.jsx';
 import { SelectionActions } from './SelectionActions.jsx';
+import { warmApi } from './api.js';
 
 const DIACRITICS = ['ā', 'ī', 'ū', 'ē', 'ō', 'ṃ', 'ṅ', 'ñ', 'ṇ', 'ṭ', 'ḍ', 'ṛ', 'ḷ', 'ṣ', 'ś'];
 
@@ -220,6 +221,28 @@ export default function SearchView({
     q: q.trim(), mode, field: effectiveField, limit: perPage, nosnippet,
     pitaka: pitakaParam, layer: layerParam, translator: translatorParam, tag: tagParam,
   });
+
+  // Cold-start warm-up. The first Meaning query after a machine wake loads
+  // the BGE-M3 ONNX model (tens of seconds to ~100s on shared CPU). Ping
+  // /api/warm when the Search view mounts so that load overlaps the user's
+  // typing; poll until warm so the "warming" note can clear. One-shot
+  // sequence (no steady interval) so we don't fight the machine's auto-stop.
+  // embedWarm: null = unknown, false = cold, true = ready.
+  const [embedWarm, setEmbedWarm] = useState(null);
+  useEffect(() => {
+    let alive = true, timer = null, tries = 0;
+    const ping = () => {
+      warmApi()
+        .then((s) => {
+          if (!alive) return;
+          setEmbedWarm(!!s.warm);
+          if (!s.warm && tries++ < 45) timer = setTimeout(ping, 4000);
+        })
+        .catch(() => { if (alive && tries++ < 8) timer = setTimeout(ping, 4000); });
+    };
+    ping();
+    return () => { alive = false; if (timer) clearTimeout(timer); };
+  }, []);
 
   // Visible-tradition filter is a display concern only — the server returns
   // the cross-corpus result, and we hide rows whose tradition the user has
@@ -448,7 +471,11 @@ export default function SearchView({
         )}
 
         {parsed.raw && loading && (
-          <p style={meta}>Searching…</p>
+          <p style={meta}>
+            {mode === 'meaning' && embedWarm === false
+              ? 'Warming the semantic index. The first meaning search after an idle period can take up to a minute while the model loads.'
+              : 'Searching…'}
+          </p>
         )}
 
         {parsed.raw && error && (

@@ -14,7 +14,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { applySchema, health as dbHealth, sql } from './db.js';
-import { embedReady } from './embed.js';
+import { embedReady, embedWarmState } from './embed.js';
 import { aliasesReady } from './aliases.js';
 import { runSearch } from './search.js';
 import { runCorpus, getPassage, getPassages, getPassageGroup, getPassageGroupTranslations, getCommentaryFor } from './corpus.js';
@@ -32,6 +32,17 @@ const STATIC_DIR = process.env.STATIC_DIR || path.resolve(ROOT, 'dist');
 const app = new Hono();
 
 app.get('/api/healthz', (c) => c.json({ ok: true, ts: Date.now() }));
+
+// Warm the BGE-M3 embedding model. The first Meaning query after a machine
+// wake loads the ONNX model (tens of seconds to ~100s on shared CPU). The
+// SPA pings this when the Search view mounts so the load overlaps the
+// user's typing instead of stalling their first query; the request also
+// wakes an auto-stopped machine. Kicks off the load if not started and
+// returns the current state immediately (does NOT block on the full load).
+app.get('/api/warm', (c) => {
+  if (!embedWarmState().warm) embedReady().catch(() => { /* best-effort */ });
+  return c.json(embedWarmState());
+});
 
 app.get('/api/dbcheck', async (c) => {
   const h = await dbHealth();
