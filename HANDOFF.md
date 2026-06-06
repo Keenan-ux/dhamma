@@ -59,6 +59,18 @@ deployed** (deploy is manual: `flyctl deploy --remote-only --app dhamma`).
   Meaning query waits on a cold model. `server/src/embed.js`,
   `server/src/index.js`, `src/api.js`, `src/SearchView.jsx`.
 
+- **a11y: aria-pressed on single-select toggle groups (`4e01f84`).**
+  `role=group` + accessible name + `aria-pressed` on SearchView `FilterRow`
+  (Match / scope / Piṭaka / Layer), DictionaryView Match, ReadingPanel
+  translator chips. Pure ARIA, no behavior change.
+
+Deferred this coordinator session (still open, see BACKLOG): the rest of
+the audit "reader request fan-out" (frontend half — drop the cached, cheap
+`/passage` call; the expensive server half landed in `01849d8`), the fuller
+a11y tablist/dialog/tree semantics + decorative-SVG `aria-hidden` sweep, and
+"commentary English entry points" (interlinear-for-att/tik emphasis + a Docs
+page on the English→Pāli-commentary path). These are low-priority polish.
+
 ---
 
 ## What landed 2026-06-06 (scholar query: awakening census + Research tab)
