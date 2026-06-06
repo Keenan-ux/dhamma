@@ -1222,13 +1222,14 @@ export default function ReadingPanel({
       })()}
 
       {translations && translations.length > 1 && (
-        <div style={translatorChipRow} aria-label="Choose translator">
+        <div style={translatorChipRow} role="group" aria-label="Choose translator">
           {translations.map((t) => {
             const on = t.translator === selectedTranslator;
             return (
               <button
                 key={t.translator + ':' + t.source}
                 onClick={() => setSelectedTranslator(t.translator)}
+                aria-pressed={on}
                 style={{
                   ...translatorChip,
                   color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
