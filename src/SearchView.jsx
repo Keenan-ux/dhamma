@@ -699,7 +699,7 @@ export default function SearchView({
 
 function FilterRow({ label, options, active, onChange }) {
   return (
-    <div style={filterRow}>
+    <div style={filterRow} role="group" aria-label={label}>
       <span style={filterLabel}>{label}</span>
       {options.map((opt) => {
         const on = active === opt.key;
@@ -708,6 +708,7 @@ function FilterRow({ label, options, active, onChange }) {
             key={opt.key}
             onClick={() => onChange?.(opt.key)}
             title={opt.hint}
+            aria-pressed={on}
             style={{
               ...filterBtn,
               color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',

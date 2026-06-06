@@ -226,7 +226,7 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
         ))}
       </div>
 
-      <div style={modeRow} aria-label="Match mode">
+      <div style={modeRow} role="group" aria-label="Match mode">
         <span style={modeLabel}>Match</span>
         {MODES.map((opt) => {
           const on = mode === opt.key;
@@ -235,6 +235,7 @@ export default function DictionaryView({ initialTerm = '', onSearchTerm, onCompa
               key={opt.key}
               onClick={() => setMode(opt.key)}
               title={opt.hint}
+              aria-pressed={on}
               style={{
                 ...modeBtn,
                 color: on ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
