@@ -80,6 +80,20 @@ the doc is live via the DB):
   (GPU busy), so it is browsable but not yet in Library Meaning search; embed
   it on the next GPU pass.
 
+- **Awakening census: "who awakens" dimension (`8bd3eeb`).** A 33-agent
+  classification workflow over all 1,640 distinct `being` strings (classify ->
+  reconcile names + collective taxonomy -> adversarial verify) produced
+  `public/research/awakening-beings.json`: 678 deduped named individuals
+  (variants merged, multi-person split, non-humans typed) and 10 collective
+  classes by kind. ResearchView gains Table 3 (individuals, e.g. Ānanda 28,
+  Aññā Koṇḍañña 24, Vakkali 12) and Table 4 (collectives: Mixed assembly 311,
+  Unspecified single 200, Monks 149, …), expandable to cited events. The
+  workflow script is at `…/workflows/scripts/classify-awakening-beings-*.js`;
+  the assembly was a throwaway (`tmp-beings/`, removed). Best-effort grouping
+  over prose; verify merged Pukkusāti/Pakkusāti + Kuṇḍadhāna/Koṇḍadhāna and
+  fixed a nymph miscategory. To re-derive: re-run the workflow, then an
+  assemble step folds cls + maps into the JSON.
+
 Still deferred (see BACKLOG): the audit "reader request fan-out" frontend half
 (drop the cached, cheap `/passage` call; the expensive server half landed in
 `01849d8`), and the fuller a11y tablist/tree semantics + decorative-SVG
