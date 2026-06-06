@@ -333,73 +333,64 @@ export default function ReadingPanel({
   // skip the sticky pattern because they don't have the room.
   const stickyEnabled = !(compact || inSplitPane);
 
-  // Scroll-driven fade is applied via direct DOM writes, not React
-  // state. Earlier attempts used a useState-backed `headerProgress`
-  // that re-rendered this whole component (~1700 lines of JSX) on
-  // every animation frame during scroll — that was hogging the main
-  // thread enough on mobile to back-pressure scroll input, which
-  // read as stutter and as scroll that wouldn't advance.
+  // Auto-hiding reader chrome. While reading (scrolling down) the sticky
+  // header slides up out of the way so it never ghosts over or covers the
+  // text; a deliberate up-scroll brings it back. Applied via direct DOM
+  // writes on a rAF-throttled scroll listener, NOT React state — an earlier
+  // useState-backed `headerProgress` re-rendered this ~1700-line component
+  // every animation frame and stuttered scroll on mobile.
   //
-  // Ref-based approach: keep the sticky element fully opaque in JSX,
-  // attach a single scroll listener inside a useEffect, and on each
-  // (rAF-throttled) frame write opacity + pointer-events to the
-  // sticky's DOM node via stickyRef. No re-renders happen during
-  // scroll. Same ratchet behaviour as before (lock once collapsed,
-  // re-expand only when scrollTop drops below 80).
+  // Why transform, not opacity: the bar is position:sticky, so its box stays
+  // pinned at the top. Fading it only makes the text scroll THROUGH a ghosted
+  // bar (the old behaviour, and the bug being fixed). translateY(-100%) moves
+  // the bar fully off the top edge, so that strip shows the text instead of
+  // covering it. Revealing is direction- AND distance-gated: it returns only
+  // after the user scrolls up a meaningful amount (accUp > UP_REVEAL), so
+  // momentum jitter or a one-line nudge does not flash it back; near the very
+  // top it is always shown. accUp/accDown reset on each direction change, so
+  // only *sustained* up-scroll counts as intentional.
   const stickyRef = useRef(null);
   useEffect(() => {
     if (!stickyEnabled) return;
-    const COLLAPSE_HEIGHT = 220;
-    const RE_EXPAND_ZONE = 80;
+    const TOP_ALWAYS_SHOW = 24;   // within this of the top: always visible
+    const HIDE_AFTER = 72;        // don't begin hiding until scrolled past this
+    const DOWN_HIDE = 10;         // committed down-scroll (px) that hides it
+    const UP_REVEAL = 56;         // accumulated up-scroll (px) that reveals it
     let scrollEl = null;
     let rafId = 0;
-    let collapsed = false;
-    let lastProgress = 0;
+    let lastY = 0;
+    let accUp = 0;
+    let accDown = 0;
+    let shown = true;
 
-    function applyProgress(p) {
+    function applyShown(s) {
       const el = stickyRef.current;
       if (!el) return;
-      if (p >= 1) {
-        el.style.opacity = '0';
-        el.style.pointerEvents = 'none';
-      } else {
-        el.style.opacity = String(1 - p * 0.95);
-        el.style.pointerEvents = 'auto';
-      }
+      el.style.transform = s ? 'translateY(0)' : 'translateY(-100%)';
+      el.style.pointerEvents = s ? 'auto' : 'none';
+    }
+    function setShown(s) {
+      if (s === shown) return;
+      shown = s;
+      applyShown(s);
     }
 
     function compute() {
       rafId = 0;
       if (!scrollEl) return;
       const y = scrollEl.scrollTop;
-      // Adapt collapse range to the actual scrollable height of
-      // this passage. On long pages (>= COLLAPSE_HEIGHT of slack)
-      // use the standard 220 px curve. On shorter pages, scale the
-      // curve to finish at the bottom of available scroll so the
-      // chrome can fully collapse before runway runs out. On pages
-      // with essentially no scroll (< 50 px slack) skip collapse
-      // entirely — the user can already see everything.
+      const dy = y - lastY;
+      lastY = y;
       const maxScroll = scrollEl.scrollHeight - scrollEl.clientHeight;
-      let p;
-      if (maxScroll < 50) {
-        p = 0;
-      } else {
-        const effectiveCollapse = Math.min(COLLAPSE_HEIGHT, Math.max(60, maxScroll - 8));
-        const effectiveReExpand = Math.min(RE_EXPAND_ZONE, effectiveCollapse * 0.35);
-        if (!collapsed) {
-          p = Math.min(1, y / effectiveCollapse);
-          if (p >= 0.98) { p = 1; collapsed = true; }
-        } else if (y < effectiveReExpand) {
-          collapsed = false;
-          p = Math.min(1, y / effectiveCollapse);
-        } else {
-          p = 1;
-        }
+      // Nothing meaningful to scroll, or sitting at the top: always show.
+      if (maxScroll < 50 || y <= TOP_ALWAYS_SHOW) { accUp = 0; accDown = 0; setShown(true); return; }
+      if (dy > 0) {            // scrolling down -> get out of the way
+        accDown += dy; accUp = 0;
+        if (y > HIDE_AFTER && accDown > DOWN_HIDE) setShown(false);
+      } else if (dy < 0) {     // scrolling up -> reveal only on intent
+        accUp += -dy; accDown = 0;
+        if (accUp > UP_REVEAL) setShown(true);
       }
-      if (p < 0.02) p = 0;
-      if (p === lastProgress) return;
-      lastProgress = p;
-      applyProgress(p);
     }
 
     function onScroll() {
@@ -414,9 +405,10 @@ export default function ReadingPanel({
       scrollEl = el;
       if (scrollEl) {
         scrollEl.addEventListener('scroll', onScroll, { passive: true });
-        collapsed = false;
-        lastProgress = 0;
-        applyProgress(0);
+        lastY = scrollEl.scrollTop;
+        accUp = 0; accDown = 0;
+        shown = false;         // force the first applyShown to run
+        setShown(true);
       }
     }
 
@@ -789,9 +781,14 @@ export default function ReadingPanel({
     paddingBottom: 4,
     background: 'var(--bc-bg-base)',
     borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
-    // opacity + pointer-events initialised here; the useEffect
-    // overwrites them on every rAF-throttled scroll frame.
-    opacity: 1,
+    // Auto-hide via transform (not opacity): the useEffect writes
+    // translateY(0 | -100%) + pointer-events on each rAF-throttled scroll
+    // frame. Transform keeps the bar opaque and slides it off the top strip
+    // instead of ghosting it over the text. willChange/transition keep the
+    // slide GPU-composited and smooth without re-rendering React.
+    transform: 'translateY(0)',
+    transition: 'transform 180ms ease',
+    willChange: 'transform',
     pointerEvents: 'auto',
   } : undefined;
 
