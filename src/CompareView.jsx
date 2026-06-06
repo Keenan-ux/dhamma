@@ -70,11 +70,21 @@ export default function CompareView({ term, onSearchTerm, onCompareTerm }) {
   }
 
   if (!stats || stats.matchingPassageCount === 0) {
+    // A query of plain ASCII letters is often a Pāli term typed without its
+    // diacritics. The concordance is deliberately diacritic-sensitive (folding
+    // ā/ṭ/ṃ would conflate distinct words, e.g. anattā vs āṇatti), so a bare 0
+    // reads as "absent" when the term may be present under its marked form.
+    // Nudge toward it; the dictionary lookup folds, the concordance does not.
+    const looksDediacritized = /[a-z]/i.test(t) && [...t].every((c) => c.charCodeAt(0) < 128);
     return (
       <div data-scroll-root="" style={{ position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 }}>
         <div style={wrap}>
           <h1 style={h1}>Concordance &nbsp;·&nbsp; <em style={{ color: 'var(--bc-accent)' }}>{t}</em></h1>
-          <p style={meta}>No occurrences in the corpus. Try a different inflection or term.</p>
+          <p style={meta}>
+            {looksDediacritized
+              ? 'No occurrences. The concordance is diacritic-sensitive; if you typed plain letters, try the marked Pāli form (for example ādīnava, satipaṭṭhāna).'
+              : 'No occurrences in the corpus. Try a different inflection or term.'}
+          </p>
         </div>
       </div>
     );
