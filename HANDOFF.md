@@ -2,6 +2,7 @@
 
 Live at **https://dhamma.fly.dev/** · GitHub: `Keenan-ux/dhamma` (private)
 Last verified: `dbcheck → passages: 194,710, tables: 14, pgvector: true` (2026-06-06)
+origin/master @ `5de98d9`, fully deployed to prod (dbcheck 200 post-deploy).
 
 Three sessions have happened. The CURRENT one (May 2026, day 3)
 shipped BPS Tier 3 (BP304s Bodhi Abhidhamma — complete PDF sourced
@@ -21,8 +22,9 @@ overhaul, Notes feature, and SC parallels. Read newest first.
 
 ## What landed 2026-06-06 (coordinator session)
 
-Committed on master (`01849d8` + docs `dd52dcd`, then `cd3ae22`), **NOT yet
-deployed** (deploy is manual: `flyctl deploy --remote-only --app dhamma`).
+Committed on master (`01849d8` + docs `dd52dcd`, then `cd3ae22`) and since
+**deployed** (these are ancestors of the deployed `5de98d9`; deploy is manual:
+`flyctl deploy --remote-only --app dhamma`).
 
 - **Long-commentary pagination + section index.** A sutta→commentary jump
   could land on an entire CST division merged into one render — worst real
