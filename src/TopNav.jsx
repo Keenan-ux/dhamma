@@ -145,7 +145,7 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
         <div style={panelHeader}>
           <span style={panelHeaderLabel}>Menu</span>
           <button onClick={() => setOpen(false)} aria-label="Close" style={closeBtn}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" focusable="false">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -185,7 +185,7 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
         {/* Install as App */}
         {!installed && installPrompt && (
           <button onClick={handleInstall} style={installCta}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 8 }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 8 }} aria-hidden="true" focusable="false">
               <path d="M12 5v14M5 12l7 7 7-7" />
               <path d="M4 19h16" />
             </svg>
@@ -247,7 +247,7 @@ export default function TopNav({ tab, setTab, onRandomSutta, onHome }) {
           style={settingsBtn}
           aria-label="Settings"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginRight: 6 }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginRight: 6 }} aria-hidden="true" focusable="false">
             <line x1="4" y1="7" x2="20" y2="7" />
             <line x1="4" y1="12" x2="20" y2="12" />
             <line x1="4" y1="17" x2="20" y2="17" />
