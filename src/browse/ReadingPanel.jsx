@@ -551,6 +551,7 @@ export default function ReadingPanel({
   // reading-mode, SC↗) wrapped awkwardly. Collapse into a "…" menu.
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef(null);
+  const moreMenuRef = useRef(null);
   useEffect(() => {
     if (!moreOpen) return;
     const onDown = (e) => {
@@ -566,6 +567,40 @@ export default function ReadingPanel({
       document.removeEventListener('keydown', onKey);
     };
   }, [moreOpen]);
+  // WAI-ARIA menu-button pattern: when the overflow menu opens, move
+  // focus to its first item; arrow/Home/End rove between items; Escape
+  // (handled below) returns focus to the trigger.
+  useEffect(() => {
+    if (!moreOpen) return;
+    moreMenuRef.current?.querySelector('[role="menuitem"]')?.focus();
+  }, [moreOpen]);
+  const onMenuKeyDown = (e) => {
+    const items = [...(moreMenuRef.current?.querySelectorAll('[role="menuitem"]') || [])];
+    if (!items.length) return;
+    const idx = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      items[idx >= items.length - 1 ? 0 : idx + 1].focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      items[idx <= 0 ? items.length - 1 : idx - 1].focus();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      items[0].focus();
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      items[items.length - 1].focus();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      setMoreOpen(false);
+      // The trigger button node is re-created when the menu unmounts, so a
+      // held ref goes stale (disconnected) — re-query the live node from the
+      // stable container after the commit so focus is not dropped on <body>.
+      setTimeout(() => moreRef.current?.querySelector('button[aria-label="Passage actions"]')?.focus(), 0);
+    } else if (e.key === 'Tab') {
+      setMoreOpen(false);
+    }
+  };
   // Close the menu when the passage changes (navigating prev/next).
   useEffect(() => { setMoreOpen(false); }, [passage?.id]);
   // Narrow viewports: user picks one column at a time. Default to
@@ -1176,10 +1211,11 @@ export default function ReadingPanel({
                   </button>
                 )}
                 {moreOpen && (
-                  <div role="menu" style={overflowMenu}>
+                  <div ref={moreMenuRef} role="menu" aria-label="Passage actions" aria-orientation="vertical" onKeyDown={onMenuKeyDown} style={overflowMenu}>
                     {overflow.map((a) => {
                       const common = {
                         role: 'menuitem',
+                        tabIndex: -1,
                         style: { ...overflowItem, ...(a.active ? overflowItemActive : null) },
                       };
                       if (a.href) {
