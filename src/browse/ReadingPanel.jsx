@@ -940,9 +940,9 @@ export default function ReadingPanel({
               active: isBookmarked(leafId),
               onClick: () => toggleBookmark({ id: leafId, citation: passage.citation, title: passage.title, work: workLabel }),
               icon: isBookmarked(leafId) ? (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6 2h12a1 1 0 0 1 1 1v19l-7-4-7 4V3a1 1 0 0 1 1-1z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" focusable="false"><path d="M6 2h12a1 1 0 0 1 1 1v19l-7-4-7 4V3a1 1 0 0 1 1-1z"/></svg>
               ) : (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-4-7 4V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M19 21l-7-4-7 4V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1z"/></svg>
               ),
             });
             actions.push({
@@ -959,9 +959,9 @@ export default function ReadingPanel({
                 } catch {/* ignore */}
               },
               icon: citeCopied ? (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg>
               ) : (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
               ),
             });
             // Share: on devices with the Web Share API (most mobile +
@@ -999,13 +999,13 @@ export default function ReadingPanel({
                 } catch {/* user cancelled / clipboard blocked */}
               },
               icon: shareCopied ? (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg>
               ) : (
                 // Share-node glyph: three connected dots (source +
                 // two destinations) with line links between. Reads
                 // as "share" across iOS, Android, and desktop muscle
                 // memory better than the arrow-out-of-box variant.
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                   <circle cx="18" cy="5" r="3" />
                   <circle cx="6" cy="12" r="3" />
                   <circle cx="18" cy="19" r="3" />
@@ -1021,7 +1021,7 @@ export default function ReadingPanel({
                 active: isPinned,
                 onClick: () => setPinnedLeafId?.(isPinned ? null : leafId),
                 icon: (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill={isPinned ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4l4 4-6 6v6l-2 2-4-4v-4l-6-6 4-4z"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill={isPinned ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M16 4l4 4-6 6v6l-2 2-4-4v-4l-6-6 4-4z"/></svg>
                 ),
               });
             }
@@ -1036,7 +1036,7 @@ export default function ReadingPanel({
                   return next;
                 }),
                 icon: (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                     <path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/>
                     <path d="M12 4v16"/>
                     <path d="M8 20h8"/>
@@ -1057,7 +1057,7 @@ export default function ReadingPanel({
                 icon: (
                   // Two stacked lines (word over gloss) inside a frame —
                   // reads as "text with annotation beneath".
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                     <line x1="4" y1="8" x2="20" y2="8"/>
                     <line x1="7" y1="13" x2="17" y2="13"/>
                     <line x1="4" y1="18" x2="20" y2="18"/>
@@ -1081,19 +1081,19 @@ export default function ReadingPanel({
                 onClick: () => setColumnMode(nextMode),
                 icon: columnMode === 'both' ? (
                   // Two columns side by side
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                     <rect x="3" y="4" width="7" height="16" rx="1"/>
                     <rect x="14" y="4" width="7" height="16" rx="1"/>
                   </svg>
                 ) : columnMode === 'pali' ? (
                   // Single column with a small "P" marker
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                     <rect x="6" y="4" width="12" height="16" rx="1"/>
                     <text x="12" y="15" textAnchor="middle" fontSize="9" stroke="none" fill="currentColor" fontFamily="serif">P</text>
                   </svg>
                 ) : (
                   // Single column with a small "E" marker
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                     <rect x="6" y="4" width="12" height="16" rx="1"/>
                     <text x="12" y="15" textAnchor="middle" fontSize="9" stroke="none" fill="currentColor" fontFamily="serif">E</text>
                   </svg>
@@ -1106,7 +1106,7 @@ export default function ReadingPanel({
                 label: 'Reading mode (focus)',
                 onClick: () => setReadingMode?.(true),
                 icon: (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                     <path d="M3 7V3h4M21 7V3h-4M3 17v4h4M21 17v4h-4" />
                   </svg>
                 ),
@@ -1172,7 +1172,7 @@ export default function ReadingPanel({
                     aria-haspopup="menu"
                     aria-expanded={moreOpen}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
                   </button>
                 )}
                 {moreOpen && (
