@@ -61,6 +61,7 @@ export default function TreeLevel({ items, depth, path, leafId, onSelect }) {
               <button
                 onClick={() => onSelect(depth, node)}
                 disabled={isStub}
+                aria-expanded={(!isLeaf && !isStub) ? isExpanded : undefined}
                 style={rowStyle}
               >
                 {rowInner}

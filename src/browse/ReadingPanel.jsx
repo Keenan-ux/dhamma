@@ -1316,10 +1316,9 @@ export default function ReadingPanel({
       {/* Mobile column selector — picks Pali or English instead of the
           cramped side-by-side. Only renders when both columns exist. */}
       {!compact && isNarrow && passage.original && translationText && (
-        <div style={columnSwitchRow} role="tablist">
+        <div style={columnSwitchRow} role="group" aria-label="Reading column">
           <button
-            role="tab"
-            aria-selected={mobileColumn === 'pali'}
+            aria-pressed={mobileColumn === 'pali'}
             onClick={() => setMobileColumn('pali')}
             style={{
               ...columnSwitchBtn,
@@ -1331,8 +1330,7 @@ export default function ReadingPanel({
             Pali
           </button>
           <button
-            role="tab"
-            aria-selected={mobileColumn === 'english'}
+            aria-pressed={mobileColumn === 'english'}
             onClick={() => setMobileColumn('english')}
             style={{
               ...columnSwitchBtn,

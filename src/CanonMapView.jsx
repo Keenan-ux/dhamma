@@ -176,14 +176,13 @@ export default function CanonMapView({ onDrill, onRandomSutta }) {
 
       {/* Narrow viewport: chip selector for piṭaka, then one column. */}
       {isNarrow && (
-        <div style={pitakaSelector} role="tablist">
+        <div style={pitakaSelector} role="group" aria-label="Select piṭaka">
           {[vinaya, sutta, abhidhamma].filter(Boolean).map((p) => {
             const on = activePitaka === p.id;
             return (
               <button
                 key={p.id}
-                role="tab"
-                aria-selected={on}
+                aria-pressed={on}
                 onClick={() => setActivePitaka(p.id)}
                 style={{
                   ...pitakaChip,
