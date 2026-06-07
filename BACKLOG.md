@@ -181,21 +181,37 @@ These remain:
   already includes the anchor row) — drop the redundant `/passage` call (use
   the `/group` anchor; skip `/group` for singletons). Verify on the dev
   server.
-- **a11y MED/LOW remaining** (HIGH items already landed). 🟡 PARTIAL.
-  **Landed 2026-06-06 (4e01f84):** `aria-pressed` + `role=group` (with an
-  accessible name) on the single-select toggle groups — SearchView
-  `FilterRow` (Match / Search-in scope / Piṭaka / Layer), DictionaryView
-  Match-mode row, and the ReadingPanel translator chips.
-  **Landed 2026-06-06 (57b4752):** `role=dialog` + accessible name on
-  NoteEditor + LookupPanel (both already autofocus + close on Escape);
-  Escape-to-close on the ReadingPanel overflow menu (it already closed on
-  outside click). **Still open:** full ARIA tab semantics (tabpanel +
-  aria-controls + roving tabindex/arrow keys) on the two tablists
-  (CanonMapView piṭaka selector, ReadingPanel mobile column toggle) OR
-  convert them to an aria-pressed button group; arrow-key roving on the
-  overflow menu; `role=toolbar` + Escape on the selection popover;
-  `role=tree`/`treeitem` + aria-expanded on TreeLevel; `aria-hidden` on
-  decorative icon SVGs. All low-risk, none blocking.
+- **a11y MED/LOW remaining** (HIGH items already landed). ✅ LANDED
+  2026-06-06 (the fuller sweep).
+  **Landed earlier 2026-06-06 (4e01f84):** `aria-pressed` + `role=group` on
+  the single-select toggle groups — SearchView `FilterRow`, DictionaryView
+  Match-mode row, ReadingPanel translator chips.
+  **Landed earlier 2026-06-06 (57b4752):** `role=dialog` + accessible name on
+  NoteEditor + LookupPanel; Escape-to-close on the ReadingPanel overflow menu.
+  **Landed this session:**
+  - `aria-hidden` + `focusable=false` on every decorative icon SVG (`481843a`)
+    — ThemeToggle, TopNav, all 14 ReadingPanel action icons; each sits in a
+    control that already carries its own accessible name.
+  - The two incomplete "tablists" converted to `aria-pressed` button groups
+    (`c9290e5`) — CanonMapView piṭaka selector ("Select piṭaka") + ReadingPanel
+    mobile column toggle ("Reading column"). Full ARIA tabs were rejected: the
+    widgets have no tabpanel/aria-controls/roving infra, and a partial tab
+    pattern misleads AT.
+  - TreeLevel branch buttons gained `aria-expanded` (`c9290e5`) — the honest
+    disclosure semantic; a true `role=tree` was rejected (it obligates the full
+    roving/arrow-key keyboard model the widget doesn't implement).
+  - Selection popover: `role=toolbar` + `aria-label` + Escape-to-dismiss
+    (`42f2074`).
+  - Reader overflow menu: full WAI-ARIA menu keyboard model (`2c5ab9c`) —
+    focus-first-on-open, Arrow/Home/End roving (tabIndex=-1), Tab/Escape close,
+    Escape returns focus to the trigger (re-queried from the stable container
+    since the trigger node is re-created on menu unmount). Open-focus + roving +
+    close verified; the Escape focus-return couldn't be exercised in the
+    backgrounded preview (rAF paused → auto-hide header churns the subtree) —
+    eyeball on a real tab.
+  **Still open (LOW):** roving/arrow-key tab semantics are now moot (converted
+  to button groups); remaining nice-to-haves are arrow-key roving on the
+  TopNav settings dropdown (a menu) if desired — not pursued, low value.
 - **Gloss context-disambiguation (approach b) — DESIGN done, build deferred.**
   The audit confirmed the prior conclusion: a static field cannot fix the
   `sato` homograph; only sentence context can. Key finding:
