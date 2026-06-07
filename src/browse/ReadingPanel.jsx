@@ -2383,7 +2383,12 @@ const parallelsTypeLabel = {
 };
 
 const parallelsList = {
-  display: 'inline',
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'baseline',
+  rowGap: 4,
+  flex: '1 1 auto',
+  minWidth: 0,
   fontFamily: '"Noto Serif", Georgia, serif',
   fontSize: 13,
   lineHeight: 1.8,
