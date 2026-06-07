@@ -94,10 +94,25 @@ the doc is live via the DB):
   fixed a nymph miscategory. To re-derive: re-run the workflow, then an
   assemble step folds cls + maps into the JSON.
 
+- **Reader header: auto-hide (`51e9e25`) + consolidation (`6c6f24d`).** The
+  sticky reader chrome now translates off the top edge on scroll-down (no
+  more opacity-fade ghosting over the text) and returns on a deliberate
+  up-scroll (direction + ~56px sustained delta; near-top always shows). The
+  header was also consolidated to two rows: an identity row (citation + the
+  full, never-truncated title) and a toolbar row (find-in-passage + the
+  action icons on one line; diacritic popover drops below on focus). All in
+  `src/browse/ReadingPanel.jsx`. Verified desktop + mobile (DOM/layout);
+  the auto-hide live scroll feel was NOT exercised in-harness (the preview
+  tab is backgrounded, which pauses rAF) — eyeball it on a real tab and
+  tune the four constants (TOP_ALWAYS_SHOW / HIDE_AFTER / DOWN_HIDE /
+  UP_REVEAL) if needed.
+
 Still deferred (see BACKLOG): the audit "reader request fan-out" frontend half
 (drop the cached, cheap `/passage` call; the expensive server half landed in
-`01849d8`), and the fuller a11y tablist/tree semantics + decorative-SVG
-`aria-hidden` sweep. Low-priority polish.
+`01849d8`); the fuller a11y tablist/tree semantics + decorative-SVG
+`aria-hidden` sweep; the mobile **parallels-list overflow** (a non-wrapping
+`·`-separated SC parallels row, pre-existing, needs a flex-wrap); and an
+eyeball + tune of the auto-hide scroll feel. Low-priority polish.
 
 ---
 

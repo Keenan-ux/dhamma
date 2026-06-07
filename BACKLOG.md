@@ -154,6 +154,21 @@ These remain:
   diminishing return). Also folded the query input to NFC in `normalize()`:
   a scholar pasting a decomposed (NFD) Pāli term matched nothing
   (NFD "viññāṇa" → 0 vs 5,505 NFC rows); now equal. Verified live.
+- **Reader header UX. ✅ LANDED + DEPLOYED 2026-06-06.** (a) Auto-hide
+  (`51e9e25`): the sticky reader chrome translates off the top edge on
+  scroll-down (was fading opacity in place, which ghosted the text scrolling
+  under it) and returns on a deliberate up-scroll (direction + ~56px
+  sustained; near-top always shows). (b) Consolidation (`6c6f24d`): header is
+  now two rows — identity (citation + full, never-truncated title) and a
+  toolbar (find-in-passage + action icons on one line; diacritic popover
+  drops below on focus). `src/browse/ReadingPanel.jsx`. Title-between-prev/next
+  was ruled out: ~38% of titles exceed 25 chars (longest 90-125), so it would
+  truncate a large share. Two small follow-ups: (i) the mobile **parallels
+  list** is a non-wrapping `·`-separated row that overflows the column
+  (pre-existing; needs flex-wrap); (ii) eyeball + tune the auto-hide scroll
+  feel on a real tab (constants TOP_ALWAYS_SHOW / HIDE_AFTER / DOWN_HIDE /
+  UP_REVEAL) — the rAF-gated motion can't be exercised in a backgrounded
+  preview tab.
 - **Perf: reader request fan-out.** MED, 🟡 PARTIAL. The server half landed
   with the pagination work (01849d8): `getPassageGroupTranslations` now
   resolves the group through an ids-only `getGroupMeta` helper instead of
