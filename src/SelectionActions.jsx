@@ -70,6 +70,15 @@ export function SelectionActions({
     window.getSelection()?.removeAllRanges();
   }
 
+  // Escape dismisses the selection popover (parallels the lookup panel +
+  // note editor, so a keyboard user can always back out of the bar).
+  useEffect(() => {
+    if (!sel) return;
+    function onKey(e) { if (e.key === 'Escape') clearSelection(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [sel]);
+
   function doSearch() { if (sel?.text) onSearch?.(sel.text); clearSelection(); }
   function doCompare() { if (sel?.text) onCompare?.(sel.text); clearSelection(); }
   async function doCopy() {
@@ -152,6 +161,8 @@ export function SelectionActions({
       {sel && items.length > 0 && (
         <div
           data-sel-popover
+          role="toolbar"
+          aria-label="Selection actions"
           style={{
             ...selPopover,
             top: Math.max(8, sel.y - 50),
