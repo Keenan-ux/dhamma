@@ -109,11 +109,16 @@ the doc is live via the DB):
 
 The mobile **parallels-list overflow** landed `ebb2759` (the `·`-separated SC
 parallels + Commentary rows now wrap via a flex-wrap `parallelsList`; verified
-at 375px). Still deferred (see BACKLOG): the audit "reader request fan-out"
-frontend half (drop the cached, cheap `/passage` call; the expensive server
-half landed in `01849d8`); the fuller a11y tablist/tree semantics +
-decorative-SVG `aria-hidden` sweep; and an eyeball + tune of the auto-hide
-scroll feel. Low-priority polish.
+at 375px). The **fuller a11y sweep** also landed (`481843a`, `c9290e5`,
+`42f2074`, `2c5ab9c`): decorative-SVG `aria-hidden`; the two partial tablists
+converted to `aria-pressed` button groups; TreeLevel branch `aria-expanded`
+(disclosure, not a partial tree); selection popover `role=toolbar` + Escape;
+and the reader overflow menu's full WAI-ARIA keyboard model (open-focus, arrow
+roving, Escape/Tab close). Still deferred (see BACKLOG): the audit "reader
+request fan-out" frontend half (drop the cached, cheap `/passage` call; the
+expensive server half landed in `01849d8`); and an eyeball + tune of the
+auto-hide scroll feel (and the overflow menu's Escape focus-return) on a real,
+non-backgrounded tab. Low-priority polish.
 
 ---
 
