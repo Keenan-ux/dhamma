@@ -107,12 +107,13 @@ the doc is live via the DB):
   tune the four constants (TOP_ALWAYS_SHOW / HIDE_AFTER / DOWN_HIDE /
   UP_REVEAL) if needed.
 
-Still deferred (see BACKLOG): the audit "reader request fan-out" frontend half
-(drop the cached, cheap `/passage` call; the expensive server half landed in
-`01849d8`); the fuller a11y tablist/tree semantics + decorative-SVG
-`aria-hidden` sweep; the mobile **parallels-list overflow** (a non-wrapping
-`·`-separated SC parallels row, pre-existing, needs a flex-wrap); and an
-eyeball + tune of the auto-hide scroll feel. Low-priority polish.
+The mobile **parallels-list overflow** landed `ebb2759` (the `·`-separated SC
+parallels + Commentary rows now wrap via a flex-wrap `parallelsList`; verified
+at 375px). Still deferred (see BACKLOG): the audit "reader request fan-out"
+frontend half (drop the cached, cheap `/passage` call; the expensive server
+half landed in `01849d8`); the fuller a11y tablist/tree semantics +
+decorative-SVG `aria-hidden` sweep; and an eyeball + tune of the auto-hide
+scroll feel. Low-priority polish.
 
 ---
 

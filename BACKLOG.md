@@ -163,12 +163,15 @@ These remain:
   toolbar (find-in-passage + action icons on one line; diacritic popover
   drops below on focus). `src/browse/ReadingPanel.jsx`. Title-between-prev/next
   was ruled out: ~38% of titles exceed 25 chars (longest 90-125), so it would
-  truncate a large share. Two small follow-ups: (i) the mobile **parallels
-  list** is a non-wrapping `·`-separated row that overflows the column
-  (pre-existing; needs flex-wrap); (ii) eyeball + tune the auto-hide scroll
-  feel on a real tab (constants TOP_ALWAYS_SHOW / HIDE_AFTER / DOWN_HIDE /
-  UP_REVEAL) — the rAF-gated motion can't be exercised in a backgrounded
-  preview tab.
+  truncate a large share. Follow-ups: (i) the mobile **parallels list**
+  overflow — ✅ LANDED 2026-06-06 (`ebb2759`): `parallelsList` is now a
+  wrapping flex container (flex-wrap + rowGap + flex 1 1 auto + minWidth 0),
+  so the `·`-separated SC parallels and Commentary rows wrap as item+separator
+  units instead of overflowing. Verified at 375px (zero horizontal overflow,
+  lists wrap to multiple rows). (ii) eyeball + tune the auto-hide scroll feel
+  on a real tab (constants TOP_ALWAYS_SHOW / HIDE_AFTER / DOWN_HIDE /
+  UP_REVEAL) — still open; the rAF-gated motion can't be exercised in a
+  backgrounded preview tab.
 - **Perf: reader request fan-out.** MED, 🟡 PARTIAL. The server half landed
   with the pagination work (01849d8): `getPassageGroupTranslations` now
   resolves the group through an ids-only `getGroupMeta` helper instead of
