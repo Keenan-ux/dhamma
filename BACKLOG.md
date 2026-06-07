@@ -409,17 +409,19 @@ were filed; deep verification (local server vs prod DB over the flyctl proxy)
   already counts contiguous phrases: `"atha cittaṁ vimucci me"` → 3,
   `"vimucci me"` → 50. The "39 vs 3" inconsistency was the same shell artifact.
 
-### Still open (small)
+### Resolved (small)
 
-- **Diacritic-free input returns 0 with no hint.** LOW. `adinava` /
-  `satipatthana` (no diacritics — common, since typing ā/ṭ/ṇ is hard) match
-  nothing in the concordance, because folding macrons/retroflexes would
-  conflate distinct words (the known `anattā`/`āṇatti` precision tension), so
-  the concordance correctly does *not* fold them. But a bare 0 reads as
-  "absent." Right fix is a UI hint ("no matches — try with diacritics, e.g.
-  ādīnava") or an opt-in folded retry, not silent folding. The dictionary
-  lookup (recall-oriented) already folds via `foldDiacritics`; the concordance
-  (precision-oriented) deliberately doesn't — document the asymmetry.
+- **Diacritic-free input returns 0 with no hint. ✅ LANDED (`d3d7d64`).**
+  `adinava` / `satipatthana` (no diacritics — common, since typing ā/ṭ/ṇ is
+  hard) match nothing in the concordance, because folding macrons/retroflexes
+  would conflate distinct words (the known `anattā`/`āṇatti` precision
+  tension), so the concordance correctly does *not* fold them. The zero-result
+  state now shows a hint ([CompareView.jsx:85](src/CompareView.jsx:85)): "No
+  occurrences. The concordance is diacritic-sensitive; if you typed plain
+  letters, try the marked Pāli form (for example ādīnava, satipaṭṭhāna)." The
+  dictionary lookup (recall-oriented) folds via `foldDiacritics`; the
+  concordance (precision-oriented) deliberately doesn't — the hint documents
+  the asymmetry to the user instead of silently folding.
 
 ---
 
