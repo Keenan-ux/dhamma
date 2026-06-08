@@ -169,14 +169,24 @@ primary-text recall gap is also resolved (the mettā↔loving-kindness
 alias fires and `snp1.8` carries the primary-text boost; the
 BLURB_WEIGHT 2.5→1.0 tune surfaced it).
 
+**Reconciled 2026-06-08 (do NOT re-open — verified against live code/DB):**
+the three items this section used to list as open all landed.
+- **Docs content — DONE.** Five docs authored + ingested (`category='docs'`):
+  How search works, About the corpus, Dictionary coverage, Sources and
+  licenses (2026-06-04), plus Reading the commentaries in English (the prior
+  coordinator session). `scripts/ingest/ingest-docs.mjs` carries all five.
+- **Interlinear gloss — DONE (2026-06-04).** Reader ⋯-menu toggle renders each
+  Pāli word over its DPD gloss; `/api/gloss` + `glossWords` resolve surface →
+  inflection → entry. Residual `sato`-style homograph disambiguation is the
+  only open tail (needs sentence context; see BACKLOG.md "Gloss morphological
+  disambiguation").
+- **v3 transformers migration — DONE.** `server/package.json` is on
+  `@huggingface/transformers ^3` (with the onnxruntime-node 1.17 override);
+  embed.js uses the v3 `dtype` API. The library flip did NOT need a re-embed
+  (only a model swap would). The `xenova-v2-pinned` memory note is superseded.
+
 What remains genuinely open:
 
-- **Docs content** — the Docs section ships but no docs are authored.
-  Write "How search works", "About the corpus", "Dictionary coverage"
-  and UPSERT them with `category='docs'`.
-- **Interlinear gloss** — render each Pali word with a small English
-  gloss above/below using DPD inflections. Possible without AI; the
-  gloss data is the same DPD inflection table the embed pass uses.
 - **Dictionary expansion** — DPPN + PED + MW + BHS done (MW + BHS are
   the Sanskrit pair: 193,890 classical + 17,839 Buddhist Hybrid
   entries from the Cologne digitization, queryable via `?language=san`).
@@ -187,9 +197,8 @@ What remains genuinely open:
   ([snippet-sentence-upgrade memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/snippet-sentence-upgrade.md)).
   507,777 mula sentences embedded in `passage_sentences`; vector-only
   Meaning hits now show the best-matching sentence. The `field='translation'`
-  half and full-corpus scope remain follow-ons (see BACKLOG.md).
-- **v3 migration from `@xenova/transformers` v2** ([xenova-v2-pinned memory note](C:/Users/isaac/.claude/projects/C--Dev-Dhamma/memory/xenova-v2-pinned.md))
-  — best done with a corpus re-embed.
+  half also landed (221,073 English sentences embedded). Only the full-corpus
+  scope decision remains a follow-on (see BACKLOG.md).
 - **AI-assisted draft translations** — `TRANSLATIONS-AI.md` carries the
   design; gated by the "no LLM synthesis by default" rule (opt-in,
   clearly labeled AI-generated). Needs user decisions on model / UX /
