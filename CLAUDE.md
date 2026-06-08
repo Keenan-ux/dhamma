@@ -122,8 +122,11 @@ study-guide: 16, noncanon: 2, glossary: 1`.
 
 ### Useful background processes still potentially alive
 
-- `flyctl proxy 15432 --app dhamma-pg` (local Postgres proxy) — needed for
-  any further local-to-prod-DB work.
+- `flyctl proxy 15432:5432 --app dhamma-pg` (local Postgres proxy) — needed
+  for any further local-to-prod-DB work. NOTE the explicit `:5432` — Postgres
+  on dhamma-pg listens on 5432, so the bare `flyctl proxy 15432` form (which
+  maps local 15432 → remote **15432**) connects to nothing and the first query
+  dies with ECONNRESET. Always use `15432:5432`.
   - Check: `Get-NetTCPConnection -LocalPort 15432 -ErrorAction SilentlyContinue`
 
 ### CST mūla volume-header passages (uddāna mnemonics)
