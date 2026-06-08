@@ -229,14 +229,15 @@ These remain:
   (cannot run now: the GPU is busy) and is low-priority polish. A cheap
   heuristic-only opt-in tier (token overlap + grammar-field cues, gated) is
   the only piece shippable cheaply if wanted sooner.
-- **QA the translation sentences after the embed.** The segmenter ASCII-
-  ellipsis hardening landed AFTER the 221,073 translation sentences were
-  segmented with the old splitter. English translations rarely contain the
-  spaceless `...pe...` pattern, so impact is likely nil, but once the
-  translation embed completes, spot-check `passage_sentences WHERE
-  field='translation'` for letterless/garbage fragments; if any, delete +
-  re-segment those passages with the fixed splitter (only after the embed,
-  never while it writes).
+- **QA the translation sentences after the embed. ✅ DONE 2026-06-08 — nil
+  impact, no remediation needed.** Read-only spot-check over all 221,073
+  `passage_sentences WHERE field='translation'` rows on the prod DB (via the
+  dhamma-pg proxy): **0 letterless** rows (no garbage from the old splitter),
+  and only **5 "tiny" (≤2-char) rows** (0.0023%) — all benign Roman-numeral /
+  list markers (`v.`, `x.`, `I.`) from CST mula rows, not the spaceless
+  `...pe...` artifact the hardening targeted. Confirms the predicted nil
+  impact; no delete + re-segment warranted (and re-segmenting 5 benign markers
+  would needlessly burn a GPU re-embed). Item closed.
 
 ---
 
