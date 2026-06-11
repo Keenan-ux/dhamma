@@ -105,6 +105,11 @@ function parseInitialHash() {
     out.leaf = rest.join('/') || null;
     const fs = query.get('focus');
     if (fs) out.focusSegment = fs;
+    // Pinned companion passage (?pin=<id>) — the split-pane / pinned-
+    // panel state is part of the view, so back/forward and shared links
+    // restore it.
+    const pin = query.get('pin');
+    if (pin) out.pin = pin;
   } else if (head === 'search') {
     out.tab = 'search';
     out.query = rest.join('/') || '';
@@ -229,6 +234,9 @@ export default function Dhamma() {
     } else if (tab === 'browse') {
       if (browseLeafId) {
         hash = `/read/${enc(browseLeafId)}`;
+        // Carry the pinned companion in the URL so pinning is a real
+        // navigation (back unpins) and deep links restore the split.
+        if (pinnedLeafId) hash += `?pin=${enc(pinnedLeafId)}`;
       } else if (browsePath.length > 0) {
         hash = `/browse/${browsePath.map(shortSlug).map(enc).join('/')}`;
       }
@@ -256,20 +264,30 @@ export default function Dhamma() {
     const current = `${window.location.pathname}${window.location.hash}`;
     if (next !== current) {
       // Distinguish "meaningful navigation" (deserves a back-stack
-      // entry) from "in-place state shift" (shouldn't). The heuristic
-      // compares the route head (#/<head>/…) between the previously-
-      // written hash and the new one: if the head changed, or the head
-      // is /read or /library and the trailing slug changed, push. Pure
-      // /search/<query> keystrokes only change the query suffix → replace.
+      // entry) from "in-place state shift" (shouldn't):
+      //   · any route-head change (#/<head>/…) is a navigation;
+      //   · a same-head PATH change is a navigation on every route
+      //     except /search, whose path is the live query string —
+      //     keystrokes must not stack back entries;
+      //   · on /read, PINNING a companion passage (?pin=) is a
+      //     navigation — back should unpin, not skip the whole reading
+      //     session. Unpinning is an in-place revert → replace.
+      // Query-param-only changes other than gaining/changing a pin
+      // (search filters, ?focus consumption) replace in place.
       const lastHash = lastWrittenHashRef.current || '';
-      const headOf = (h) => (h.replace(/^#\/?/, '').split('/')[0] || '');
-      const slugOf = (h) => h.replace(/^#\/?/, '').split('/').slice(1).join('/');
-      const newHead = headOf(target);
-      const oldHead = headOf(lastHash);
+      const pathOf = (h) => h.replace(/^#\/?/, '').split('?')[0];
+      const pinOf = (h) => {
+        const i = h.indexOf('?');
+        return i === -1 ? '' : (new URLSearchParams(h.slice(i + 1)).get('pin') || '');
+      };
+      const newPath = pathOf(target);
+      const oldPath = pathOf(lastHash);
+      const newHead = newPath.split('/')[0] || '';
+      const oldHead = oldPath.split('/')[0] || '';
       const isMeaningful =
         newHead !== oldHead ||
-        ((newHead === 'read' || newHead === 'library' || newHead === 'browse') &&
-          slugOf(target) !== slugOf(lastHash));
+        (newHead !== 'search' && newPath !== oldPath) ||
+        (newHead === 'read' && pinOf(target) !== pinOf(lastHash) && pinOf(target) !== '');
       if (isMeaningful) {
         window.history.pushState(null, '', target);
       } else {
@@ -286,8 +304,14 @@ export default function Dhamma() {
     function onPop() {
       const parsed = parseInitialHash();
       setTab(parsed.tab);
-      setQuery(parsed.query);
-      setSearchMode(parsed.searchMode);
+      // Only routes that encode a query in the hash may restore it —
+      // popping to e.g. /tipitaka must not reset the user's last search
+      // to the parse-time default. Same for searchMode: the hash never
+      // encodes it, so re-applying the parsed default on every back
+      // press would clobber the user's persisted exact/stem choice.
+      if (parsed.tab === 'search' || parsed.tab === 'dictionary' || parsed.tab === 'concordance') {
+        setQuery(parsed.query);
+      }
       setBrowsePath(parsed.path);
       setBrowseLeafId(parsed.leaf);
       setPinnedLeafId(parsed.pin);

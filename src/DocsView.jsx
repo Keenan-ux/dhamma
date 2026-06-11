@@ -15,7 +15,13 @@ import { isModifiedClick } from './linkHelpers.js';
 export default function DocsView({ onSearchTerm, onCompareTerm }) {
   const [articles, setArticles] = useState(null); // null = loading
   const [error, setError] = useState(null);
-  const [openSlug, setOpenSlug] = useState(null);
+  // Initialized straight from the hash so a cold load on #/docs/<slug>
+  // never passes through a null state (which would let the hash-writing
+  // effect below momentarily clobber the deep link).
+  const [openSlug, setOpenSlug] = useState(() => {
+    const m = window.location.hash.match(/^#\/docs\/(.+)$/);
+    return m ? decodeURIComponent(m[1]) : null;
+  });
 
   // The open doc is tracked in the hash (#/docs/<slug>) so deep links
   // survive reload and the "re-click Docs in the sidebar → return to the
@@ -31,11 +37,19 @@ export default function DocsView({ onSearchTerm, onCompareTerm }) {
     return () => window.removeEventListener('hashchange', syncFromHash);
   }, []);
 
+  // Opening a doc (or jumping doc → doc) is a real navigation, so it
+  // PUSHES — back closes the doc instead of exiting the Docs tab.
+  // Closing / normalizing replaces in place.
+  const prevOpenSlugRef = useRef(openSlug);
   useEffect(() => {
-    if (openSlug) {
-      window.history.replaceState(null, '', `#/docs/${encodeURIComponent(openSlug)}`);
+    const prev = prevOpenSlugRef.current;
+    prevOpenSlugRef.current = openSlug;
+    const want = openSlug ? `#/docs/${encodeURIComponent(openSlug)}` : '#/docs';
+    if (window.location.hash === want) return;
+    if (openSlug && openSlug !== prev) {
+      window.history.pushState(null, '', want);
     } else {
-      window.history.replaceState(null, '', '#/docs');
+      window.history.replaceState(null, '', want);
     }
   }, [openSlug]);
 

@@ -24,7 +24,12 @@ const ENTRIES = [
 ];
 
 export default function ResearchView() {
-  const [openSlug, setOpenSlug] = useState(null);
+  // Initialized straight from the hash so a cold load on
+  // #/research/<slug> starts on the entry, not the index.
+  const [openSlug, setOpenSlug] = useState(() => {
+    const m = window.location.hash.match(/^#\/research\/(.+)$/);
+    return m ? decodeURIComponent(m[1]) : null;
+  });
 
   useEffect(() => {
     function syncFromHash() {
@@ -37,15 +42,24 @@ export default function ResearchView() {
     return () => window.removeEventListener('hashchange', syncFromHash);
   }, []);
 
-  // Mirror an OPEN entry into the hash. This only ever asserts the slug when
-  // one is open, so it is idempotent under StrictMode's double-invoke and
-  // never clobbers a deep-linked slug while openSlug is transiently null. The
-  // back-to-index reset is handled in onBack; Dhamma's writer leaves a
-  // non-empty research sub-path alone (see Dhamma URL-writing effect).
+  // Mirror an OPEN entry into the hash. Opening an entry is a real
+  // navigation, so it PUSHES — back returns to the research index
+  // instead of exiting the tab. This only ever asserts the slug when
+  // one is open, so it never clobbers a deep-linked slug while openSlug
+  // is transiently null. The back-to-index reset is handled in onBack;
+  // Dhamma's writer leaves a non-empty research sub-path alone.
+  const prevOpenSlugRef = useRef(openSlug);
   useEffect(() => {
+    const prev = prevOpenSlugRef.current;
+    prevOpenSlugRef.current = openSlug;
     if (!openSlug) return;
     const want = `#/research/${encodeURIComponent(openSlug)}`;
-    if (window.location.hash !== want) window.history.replaceState(null, '', want);
+    if (window.location.hash === want) return;
+    if (openSlug !== prev) {
+      window.history.pushState(null, '', want);
+    } else {
+      window.history.replaceState(null, '', want);
+    }
   }, [openSlug]);
 
   const entry = openSlug ? ENTRIES.find((e) => e.slug === openSlug) : null;
