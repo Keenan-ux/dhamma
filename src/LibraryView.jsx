@@ -82,7 +82,13 @@ export default function LibraryView({ onSearchTerm, onCompareTerm, onOpenTransla
   const [listing, setListing] = useState(null); // { articles, byCategory }
   const [translators, setTranslators] = useState(null); // [{translator, source, passage_count, ...}]
   const [activeCategory, setActiveCategory] = useState('study-guide');
-  const [openSlug, setOpenSlug] = useState(null);
+  // Initialized straight from the hash so a cold load on
+  // #/library/<slug> never passes through a null state (which would let
+  // the hash-writing effect below momentarily clobber the deep link).
+  const [openSlug, setOpenSlug] = useState(() => {
+    const m = window.location.hash.match(/^#\/library\/(.+)$/);
+    return m ? decodeURIComponent(m[1]) : null;
+  });
 
   // Fetch the translator-coverage index once on mount. ~16 rows, cheap;
   // the count surfaces in the category chip ("Translators · 16") even
@@ -111,12 +117,20 @@ export default function LibraryView({ onSearchTerm, onCompareTerm, onOpenTransla
     return () => window.removeEventListener('hashchange', syncFromHash);
   }, []);
 
-  // Sync hash to open article so deep links work.
+  // Sync hash to open article so deep links work. Opening an article
+  // (or jumping article → article) is a real navigation, so it PUSHES —
+  // the browser back button then closes the article instead of exiting
+  // the Library tab entirely. Closing / normalizing replaces in place.
+  const prevOpenSlugRef = useRef(openSlug);
   useEffect(() => {
-    if (openSlug) {
-      window.history.replaceState(null, '', `#/library/${encodeURIComponent(openSlug)}`);
+    const prev = prevOpenSlugRef.current;
+    prevOpenSlugRef.current = openSlug;
+    const want = openSlug ? `#/library/${encodeURIComponent(openSlug)}` : '#/library';
+    if (window.location.hash === want) return;
+    if (openSlug && openSlug !== prev) {
+      window.history.pushState(null, '', want);
     } else {
-      window.history.replaceState(null, '', '#/library');
+      window.history.replaceState(null, '', want);
     }
   }, [openSlug]);
 

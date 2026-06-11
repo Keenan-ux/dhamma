@@ -8,7 +8,7 @@
 //
 // Hash routing keeps drill state shareable: /tags/<type>/<value>.
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { tagsApi } from './api.js';
 import useIsNarrow from './useIsNarrow.js';
 
@@ -38,32 +38,57 @@ export default function TagsView({ onOpenPassage, onSearchWithTag }) {
   const isNarrow = useIsNarrow();
   // summary[type] = count of distinct values
   const [summary, setSummary] = useState(null);
-  // activeType: the chip we're viewing values for
-  const [activeType, setActiveType] = useState(null);
+  // activeType: the chip we're viewing values for. Initialized straight
+  // from the hash so a cold load on #/tags/<type>/<value> never passes
+  // through a null state (which would let the hash-writing effect below
+  // push a spurious entry on mount).
+  const parseTagsHash = () => {
+    const m = window.location.hash.match(/^#\/tags(?:\/([^/]+)(?:\/(.+))?)?$/);
+    return {
+      type: m && m[1] ? decodeURIComponent(m[1]) : null,
+      value: m && m[2] ? decodeURIComponent(m[2]) : null,
+    };
+  };
+  const [activeType, setActiveType] = useState(() => parseTagsHash().type);
   // values for activeType: [{ tag_value, n }]
   const [values, setValues] = useState(null);
   // activeValue: when picked, we show passages
-  const [activeValue, setActiveValue] = useState(null);
+  const [activeValue, setActiveValue] = useState(() => parseTagsHash().value);
   // passages for active (type, value): [{ passage_id, citation, title, work_slug }]
   const [passages, setPassages] = useState(null);
 
-  // Restore from hash. Shape: #/tags/<type>/<value>
+  // Re-sync from hash on every hashchange (browser back/forward inside
+  // the drill, sidebar re-click to base #/tags). Shape: #/tags/<type>/<value>
   useEffect(() => {
-    const m = window.location.hash.match(/^#\/tags(?:\/([^/]+)(?:\/(.+))?)?$/);
-    if (m) {
-      if (m[1]) setActiveType(decodeURIComponent(m[1]));
-      if (m[2]) setActiveValue(decodeURIComponent(m[2]));
+    function syncFromHash() {
+      if (!window.location.hash.startsWith('#/tags')) return;
+      const { type, value } = parseTagsHash();
+      setActiveType((prev) => (prev === type ? prev : type));
+      setActiveValue((prev) => (prev === value ? prev : value));
     }
+    window.addEventListener('hashchange', syncFromHash);
+    return () => window.removeEventListener('hashchange', syncFromHash);
   }, []);
 
   // Reflect drill state in the hash so deep links survive reload.
+  // Drilling deeper (or sideways to a sibling type/value) is a real
+  // navigation, so it PUSHES — back walks out of the drill one level at
+  // a time instead of exiting the Tags tab. Backing out in-app replaces.
+  const prevTagsHashRef = useRef(null);
   useEffect(() => {
     let h = '#/tags';
     if (activeType) {
       h += '/' + encodeURIComponent(activeType);
       if (activeValue) h += '/' + encodeURIComponent(activeValue);
     }
-    if (window.location.hash !== h) window.history.replaceState(null, '', h);
+    const prev = prevTagsHashRef.current;
+    prevTagsHashRef.current = h;
+    if (window.location.hash === h) return;
+    if (prev !== null && !prev.startsWith(h)) {
+      window.history.pushState(null, '', h);
+    } else {
+      window.history.replaceState(null, '', h);
+    }
   }, [activeType, activeValue]);
 
   // Load the type summary once.
