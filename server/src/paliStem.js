@@ -20,9 +20,16 @@ const ENDINGS = [
 
 const MIN_STEM_LENGTH = 3;
 
+// The corpus (SuttaCentral bilara, CST) writes anusvara as ṁ (U+1E41);
+// the ENDINGS table and most query input use ṃ (U+1E43). Normalize to ṃ
+// so both word forms land in one shape before suffix stripping.
+function normalizeAnusvara(s) {
+  return s.replace(/ṁ/g, 'ṃ');
+}
+
 export function paliStem(word) {
   if (!word) return '';
-  const w = String(word).toLowerCase();
+  const w = normalizeAnusvara(String(word).toLowerCase());
   for (const e of ENDINGS) {
     if (w.length - e.length >= MIN_STEM_LENGTH && w.endsWith(e)) {
       return w.slice(0, -e.length);
