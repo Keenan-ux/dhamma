@@ -25,6 +25,7 @@ export default function SideBySideReader({
   findStem,
   glossMap,
   noteRanges,
+  selectedSeg,
 }) {
   const [pct, setPct] = useState(50);
   const containerRef = useRef(null);
@@ -73,7 +74,7 @@ export default function SideBySideReader({
         const seg = passage.segments[k];
         if (!seg || !seg.pali) return null;
         const noted = segmentNoted(k, noteRanges);
-        const cls = `dhamma-seg dhamma-seg-pali${noted ? ' dhamma-seg-noted' : ''}`;
+        const cls = `dhamma-seg dhamma-seg-pali${noted ? ' dhamma-seg-noted' : ''}${k === selectedSeg ? ' dhamma-seg-active' : ''}`;
         return (
           <span
             key={k}
@@ -110,7 +111,7 @@ export default function SideBySideReader({
         const seg = passage.segments[k];
         if (!seg || !seg.english) return null;
         const noted = segmentNoted(k, noteRanges);
-        const cls = `dhamma-seg dhamma-seg-en${noted ? ' dhamma-seg-noted' : ''}`;
+        const cls = `dhamma-seg dhamma-seg-en${noted ? ' dhamma-seg-noted' : ''}${k === selectedSeg ? ' dhamma-seg-active' : ''}`;
         return (
           <span
             key={k}
