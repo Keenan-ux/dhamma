@@ -91,6 +91,14 @@ import SideBySideReader from './SideBySideReader.jsx';
 // the main SearchView offers.
 const FIND_DIACRITICS = ['ā', 'ī', 'ū', 'ē', 'ō', 'ṃ', 'ṅ', 'ñ', 'ṇ', 'ṭ', 'ḍ', 'ḷ', 'ḥ', 'ṛ'];
 
+// In-passage find match modes, shown in the custom mode dropdown.
+const FIND_MODES = [
+  { key: 'auto',  label: 'Auto',  desc: 'literal, then stem' },
+  { key: 'exact', label: 'Exact', desc: 'literal only' },
+  { key: 'stem',  label: 'Stem',  desc: 'inflection bridging' },
+];
+const FIND_MODE_LABEL = { auto: 'Auto', exact: 'Exact', stem: 'Stem' };
+
 // Paragraph-range bucket size for the section dropdown when a long group
 // has no subhead structure (single-title giants like KN-a §8 = 2,799
 // rows). Matches the server's default page so a bucket is one page.
@@ -757,7 +765,27 @@ export default function ReadingPanel({
   const [findFocused, setFindFocused] = useState(false);
   const findInputRef = useRef(null);
   const findBlurTimerRef = useRef(null);
-  useEffect(() => { setFindText(''); setFindMode('auto'); }, [passage?.id]);
+  // Custom match-mode dropdown (replaces the native <select>, which
+  // couldn't be themed to the reader's typeset chrome). Own open state +
+  // outside-click / Escape handling, mirroring the overflow "…" menu.
+  const [findModeOpen, setFindModeOpen] = useState(false);
+  const findModeRef = useRef(null);
+  useEffect(() => {
+    if (!findModeOpen) return;
+    const onDown = (e) => {
+      if (findModeRef.current && !findModeRef.current.contains(e.target)) setFindModeOpen(false);
+    };
+    const onKey = (e) => { if (e.key === 'Escape') setFindModeOpen(false); };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('touchstart', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('touchstart', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [findModeOpen]);
+  useEffect(() => { setFindText(''); setFindMode('auto'); setFindModeOpen(false); }, [passage?.id]);
   function handleFindFocus() {
     if (findBlurTimerRef.current) clearTimeout(findBlurTimerRef.current);
     setFindFocused(true);
@@ -976,22 +1004,43 @@ export default function ReadingPanel({
               spellCheck={false}
               aria-label="Find in passage"
             />
-            <span style={findModeWrap}>
-              <select
-                value={findMode}
-                onChange={(e) => setFindMode(e.target.value)}
+            <span style={findModeWrap} ref={findModeRef}>
+              <button
+                type="button"
+                onClick={() => setFindModeOpen((v) => !v)}
                 style={{
-                  ...findModeSelect,
+                  ...findModeTrigger,
                   color: findMode !== 'auto' ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                  borderColor: findMode !== 'auto' ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.18)',
                 }}
                 title="Match mode. Auto tries the literal term, then falls through to stem matching (sati → satiyā, satimā…) when nothing matches."
                 aria-label="Find match mode"
+                aria-haspopup="menu"
+                aria-expanded={findModeOpen}
               >
-                <option value="auto">Auto</option>
-                <option value="exact">Exact</option>
-                <option value="stem">Stem</option>
-              </select>
-              <span style={findModeChevron} aria-hidden="true">▾</span>
+                <span>{FIND_MODE_LABEL[findMode]}</span>
+                <svg style={findModeTriangle} width="7" height="5" viewBox="0 0 7 5" aria-hidden="true" focusable="false"><path d="M0.5 0.5 L3.5 4 L6.5 0.5" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </button>
+              {findModeOpen && (
+                <div role="menu" aria-label="Find match mode" style={findModeMenu}>
+                  {FIND_MODES.map((m) => {
+                    const on = m.key === findMode;
+                    return (
+                      <button
+                        key={m.key}
+                        type="button"
+                        role="menuitemradio"
+                        aria-checked={on}
+                        onClick={() => { setFindMode(m.key); setFindModeOpen(false); }}
+                        style={{ ...findModeItem, ...(on ? findModeItemActive : null) }}
+                      >
+                        <span style={findModeItemLabel}>{m.label}</span>
+                        <span style={findModeItemDesc}>{m.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </span>
             {activeHighlight && (
               <span style={findCount}>
@@ -2143,35 +2192,81 @@ const findCount = {
   fontVariantNumeric: 'tabular-nums',
 };
 
-// Compact match-mode selector (Auto / Exact / Stem). A native <select>
-// with the chrome stripped, plus a hand-drawn chevron so it reads as a
-// quiet control rather than a form widget.
+// Custom match-mode selector (Auto / Exact / Stem). A pill trigger that
+// opens a small typeset popover — matches the reader's chrome instead of
+// rendering the OS's native <select> dropdown.
 const findModeWrap = {
   position: 'relative',
   display: 'inline-flex',
   alignItems: 'center',
   flexShrink: 0,
 };
-const findModeSelect = {
-  appearance: 'none',
-  WebkitAppearance: 'none',
-  padding: '4px 16px 4px 8px',
+const findModeTrigger = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 5,
+  padding: '4px 9px',
   fontFamily: 'Outfit, system-ui, sans-serif',
   fontSize: 10,
   fontWeight: 600,
   letterSpacing: '0.14em',
   textTransform: 'uppercase',
   background: 'transparent',
-  border: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
+  border: '1px solid',
   borderRadius: 999,
   cursor: 'pointer',
+  whiteSpace: 'nowrap',
   transition: 'color 120ms ease, border-color 120ms ease',
 };
-const findModeChevron = {
+const findModeTriangle = {
+  flexShrink: 0,
+  opacity: 0.7,
+};
+const findModeMenu = {
   position: 'absolute',
-  right: 6,
-  pointerEvents: 'none',
-  fontSize: 8,
+  top: '100%',
+  right: 0,
+  marginTop: 6,
+  minWidth: 150,
+  maxWidth: 'calc(100vw - 32px)',
+  background: 'var(--bc-bg-elevated, var(--bc-bg))',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.22)',
+  borderRadius: 8,
+  boxShadow: '0 6px 24px rgba(0,0,0,0.28)',
+  zIndex: 30,
+  padding: 4,
+  display: 'flex',
+  flexDirection: 'column',
+};
+const findModeItem = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: 1,
+  width: '100%',
+  padding: '7px 10px',
+  background: 'transparent',
+  border: 'none',
+  borderRadius: 6,
+  color: 'var(--bc-text-secondary)',
+  textAlign: 'left',
+  cursor: 'pointer',
+};
+const findModeItemActive = {
+  color: 'var(--bc-accent)',
+  background: 'rgba(var(--bc-accent-rgb), 0.08)',
+};
+const findModeItemLabel = {
+  fontFamily: 'Outfit, system-ui, sans-serif',
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+};
+const findModeItemDesc = {
+  fontFamily: '"Noto Serif", Georgia, serif',
+  fontSize: 11,
+  fontStyle: 'italic',
   color: 'var(--bc-text-tertiary)',
 };
 
