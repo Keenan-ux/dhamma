@@ -21,7 +21,7 @@ import InterlinearGloss from '../InterlinearGloss.jsx';
 // with the joined text. data-segment + data-passage-id on each span
 // powers dual-highlight and notes-anchoring. Segments inside a note's
 // range get a `dhamma-seg-noted` class for the left-edge marker.
-function SegmentColumn({ passage, language, fallback, findText, findStem, glossMap, noteRanges, style }) {
+function SegmentColumn({ passage, language, fallback, findText, findStem, glossMap, noteRanges, selectedSeg, style }) {
   const hasTitle = !!(passage?.title || passage?.title_en);
   const keys = passage?.segments ? filterBodySegments(passage.segments, hasTitle) : [];
   if (!passage?.segments || keys.length === 0) {
@@ -54,6 +54,11 @@ function SegmentColumn({ passage, language, fallback, findText, findStem, glossM
           'dhamma-seg',
           language === 'pali' ? 'dhamma-seg-pali' : 'dhamma-seg-en',
           noted ? 'dhamma-seg-noted' : '',
+          // Persistent tap-selection. React-rendered (unlike the
+          // DOM-class hover wash) so it survives the Pali ⇄ English
+          // column switch on mobile — the same sentence stays lit in
+          // the other language.
+          k === selectedSeg ? 'dhamma-seg-active' : '',
         ].filter(Boolean).join(' ');
         return (
           <span
@@ -305,6 +310,27 @@ export default function ReadingPanel({
   // segment markers). The hook is scoped to `ref` so two readers
   // mounted simultaneously (pinned + active) don't cross-talk.
   useSegmentHover(ref);
+
+  // Persistent segment selection: tapping/clicking a sentence keeps it
+  // highlighted until tapped again (or the passage changes). Unlike the
+  // hover wash above — which is raw DOM classes and dies on re-render —
+  // this is React state threaded into SegmentColumn, so the selection
+  // survives the mobile Pali ⇄ English switch: tap a sentence, flip the
+  // language tab, and the same sentence is lit in the other column.
+  const [selectedSeg, setSelectedSeg] = useState(null);
+  useEffect(() => { setSelectedSeg(null); }, [passage?.id]);
+  function handleSegmentClick(e) {
+    // Don't hijack interactive elements or modified clicks; don't kill
+    // a text-selection in progress (the selection-popover flow).
+    if (isModifiedClick(e)) return;
+    if (e.target.closest?.('a, button, input, select, textarea')) return;
+    const sel = window.getSelection?.();
+    if (sel && !sel.isCollapsed) return;
+    const seg = e.target.closest?.('[data-segment][data-passage-id]');
+    if (!seg || seg.getAttribute('data-passage-id') !== passage?.id) return;
+    const k = seg.getAttribute('data-segment');
+    setSelectedSeg((cur) => (cur === k ? null : k));
+  }
 
   // Scroll-to + flash on focusSegment. Runs after the segments are
   // in the DOM (passage data has loaded and rendering ran). Once the
@@ -716,18 +742,22 @@ export default function ReadingPanel({
     return out;
   }, [commentary]);
 
-  // In-passage find. Two modes:
-  //   exact (default) — literal substring, case-insensitive
-  //   stem            — Pali inflection bridging via paliStem(),
-  //                     so "sati" catches "satiyā", "satimā", etc.
+  // In-passage find. Matching modes:
+  //   auto (default)  — literal substring first; when that yields zero
+  //                     matches, falls through to stem matching so a
+  //                     bare "sati" still lights up "satiyā", "satimā".
+  //   exact           — literal substring only, case-insensitive
+  //   stem            — Pali inflection bridging via paliStem()
+  // (No Meaning mode here — semantic match needs server-side vectors;
+  // in-passage find is purely lexical.)
   // Highlights apply to Pali (always) and plain-text translation;
   // ATI HTML translations bypass to avoid regex-on-HTML breakage.
   const [findText, setFindText] = useState('');
-  const [findStem, setFindStem] = useState(false);
+  const [findMode, setFindMode] = useState('auto'); // 'auto' | 'exact' | 'stem'
   const [findFocused, setFindFocused] = useState(false);
   const findInputRef = useRef(null);
   const findBlurTimerRef = useRef(null);
-  useEffect(() => { setFindText(''); setFindStem(false); }, [passage?.id]);
+  useEffect(() => { setFindText(''); setFindMode('auto'); }, [passage?.id]);
   function handleFindFocus() {
     if (findBlurTimerRef.current) clearTimeout(findBlurTimerRef.current);
     setFindFocused(true);
@@ -759,31 +789,43 @@ export default function ReadingPanel({
   const activeHighlight = userTypedFind
     ? findStripped
     : (Array.isArray(highlightTerms) && highlightTerms.length > 0 ? highlightTerms : null);
-  const activeStem = userTypedFind ? findStem : !!highlightStem;
-  const matchCount = useMemo(() => {
-    if (!activeHighlight) return 0;
+  // Count matches both ways so auto mode can fall through: exact count
+  // first; the stem count is only computed when it could matter (stem
+  // mode selected, or auto with zero exact hits).
+  const { exactCount, stemCount } = useMemo(() => {
+    if (!activeHighlight) return { exactCount: 0, stemCount: 0 };
     const terms = Array.isArray(activeHighlight) ? activeHighlight : [activeHighlight];
-    if (activeStem) {
+    const exactRe = new RegExp(terms.map(escapeRegExp).join('|'), 'giu');
+    let exact = 0;
+    if (passage.original) exact += (passage.original.match(exactRe) || []).length;
+    if (translationText && !translationIsHtml) exact += (translationText.match(exactRe) || []).length;
+    // Stem count needed when: stem mode picked; auto with no exact hit;
+    // or the search-context highlight (no typed term) is stem-flagged.
+    const needStem = findMode === 'stem' || (findMode === 'auto' && exact === 0) ||
+      (!userTypedFind && !!highlightStem);
+    let stem = 0;
+    if (needStem) {
       const stems = new Set(terms.map((t) => paliStem(String(t).toLowerCase())).filter(Boolean));
-      if (stems.size === 0) return 0;
-      let count = 0;
-      const re = /\p{L}+/giu;
-      if (passage.original) {
-        const ws = passage.original.match(re) || [];
-        for (const w of ws) if (stems.has(paliStem(w.toLowerCase()))) count++;
+      if (stems.size > 0) {
+        const wordRe = /\p{L}+/giu;
+        if (passage.original) {
+          const ws = passage.original.match(wordRe) || [];
+          for (const w of ws) if (stems.has(paliStem(w.toLowerCase()))) stem++;
+        }
+        if (translationText && !translationIsHtml) {
+          const ws = translationText.match(wordRe) || [];
+          for (const w of ws) if (stems.has(paliStem(w.toLowerCase()))) stem++;
+        }
       }
-      if (translationText && !translationIsHtml) {
-        const ws = translationText.match(re) || [];
-        for (const w of ws) if (stems.has(paliStem(w.toLowerCase()))) count++;
-      }
-      return count;
     }
-    const re = new RegExp(terms.map(escapeRegExp).join('|'), 'giu');
-    let count = 0;
-    if (passage.original) count += (passage.original.match(re) || []).length;
-    if (translationText && !translationIsHtml) count += (translationText.match(re) || []).length;
-    return count;
-  }, [activeHighlight, activeStem, passage.original, translationText, translationIsHtml]);
+    return { exactCount: exact, stemCount: stem };
+  }, [activeHighlight, findMode, userTypedFind, highlightStem, passage.original, translationText, translationIsHtml]);
+  // Auto fell through: the typed term has no literal hit but stems do.
+  const autoStemmed = userTypedFind && findMode === 'auto' && exactCount === 0 && stemCount > 0;
+  const activeStem = userTypedFind
+    ? (findMode === 'stem' || autoStemmed)
+    : !!highlightStem;
+  const matchCount = activeStem ? stemCount : exactCount;
 
   // When both Pali + English exist, drop the single-column reading-width
   // cap so the parallel reader can span the full available content area.
@@ -828,7 +870,7 @@ export default function ReadingPanel({
   } : undefined;
 
   return (
-    <article ref={ref} style={articleStyle}>
+    <article ref={ref} style={articleStyle} onClick={handleSegmentClick}>
       <div ref={stickyRef} style={stickyWrapStyle}>
         {/* Back affordance. In the standard reader this exits to the
             canon drill; in reading-mode (focus) it exits the focus
@@ -934,21 +976,27 @@ export default function ReadingPanel({
               spellCheck={false}
               aria-label="Find in passage"
             />
-            <button
-              onClick={() => setFindStem((v) => !v)}
-              style={{
-                ...findStemBtn,
-                color: findStem ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
-                borderColor: findStem ? 'var(--bc-accent)' : 'rgba(var(--bc-accent-rgb), 0.18)',
-              }}
-              title={findStem ? 'Stem mode (sati → satiyā, satimā…). Click for literal.' : 'Switch to stem mode — Pali inflection bridging.'}
-              aria-pressed={findStem}
-            >
-              Stem
-            </button>
+            <span style={findModeWrap}>
+              <select
+                value={findMode}
+                onChange={(e) => setFindMode(e.target.value)}
+                style={{
+                  ...findModeSelect,
+                  color: findMode !== 'auto' ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+                }}
+                title="Match mode. Auto tries the literal term, then falls through to stem matching (sati → satiyā, satimā…) when nothing matches."
+                aria-label="Find match mode"
+              >
+                <option value="auto">Auto</option>
+                <option value="exact">Exact</option>
+                <option value="stem">Stem</option>
+              </select>
+              <span style={findModeChevron} aria-hidden="true">▾</span>
+            </span>
             {activeHighlight && (
               <span style={findCount}>
                 {matchCount.toLocaleString()} {matchCount === 1 ? 'match' : 'matches'}
+                {autoStemmed ? ' · stem' : ''}
                 {isLongGroup && !showAll ? ' on this page' : ''}
               </span>
             )}
@@ -1456,6 +1504,7 @@ export default function ReadingPanel({
                   findText={activeHighlight}
                   findStem={activeStem}
                   noteRanges={noteRanges}
+                  selectedSeg={selectedSeg}
                   style={readingTranslation}
                 />
           )}
@@ -1470,6 +1519,7 @@ export default function ReadingPanel({
           findStem={activeStem}
           glossMap={glossesOn ? glossMap : null}
           noteRanges={noteRanges}
+                  selectedSeg={selectedSeg}
         />
       ) : (
         <>
@@ -1492,6 +1542,7 @@ export default function ReadingPanel({
               findStem={activeStem}
               glossMap={glossesOn ? glossMap : null}
               noteRanges={noteRanges}
+                  selectedSeg={selectedSeg}
               style={readingOriginal}
             />
           )}
@@ -1509,6 +1560,7 @@ export default function ReadingPanel({
                   findText={activeHighlight}
                   findStem={activeStem}
                   noteRanges={noteRanges}
+                  selectedSeg={selectedSeg}
                   style={readingTranslation}
                 />
           )}
@@ -2065,6 +2117,11 @@ const findRow = {
 
 const findInput = {
   flex: '0 1 280px',
+  // Let the input absorb all the shrink on narrow viewports — without
+  // this, inputs refuse to shrink below their intrinsic min-content and
+  // the row's tail (mode select, match count) collides with the action
+  // icons block to its right.
+  minWidth: 48,
   padding: '6px 0',
   border: 'none',
   borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.25)',
@@ -2076,6 +2133,7 @@ const findInput = {
 };
 
 const findCount = {
+  whiteSpace: 'nowrap',
   fontFamily: 'Outfit, system-ui, sans-serif',
   fontSize: 10,
   fontWeight: 600,
@@ -2085,18 +2143,36 @@ const findCount = {
   fontVariantNumeric: 'tabular-nums',
 };
 
-const findStemBtn = {
-  padding: '4px 10px',
+// Compact match-mode selector (Auto / Exact / Stem). A native <select>
+// with the chrome stripped, plus a hand-drawn chevron so it reads as a
+// quiet control rather than a form widget.
+const findModeWrap = {
+  position: 'relative',
+  display: 'inline-flex',
+  alignItems: 'center',
+  flexShrink: 0,
+};
+const findModeSelect = {
+  appearance: 'none',
+  WebkitAppearance: 'none',
+  padding: '4px 16px 4px 8px',
   fontFamily: 'Outfit, system-ui, sans-serif',
   fontSize: 10,
   fontWeight: 600,
   letterSpacing: '0.14em',
   textTransform: 'uppercase',
   background: 'transparent',
-  border: '1px solid',
+  border: '1px solid rgba(var(--bc-accent-rgb), 0.18)',
   borderRadius: 999,
   cursor: 'pointer',
   transition: 'color 120ms ease, border-color 120ms ease',
+};
+const findModeChevron = {
+  position: 'absolute',
+  right: 6,
+  pointerEvents: 'none',
+  fontSize: 8,
+  color: 'var(--bc-text-tertiary)',
 };
 
 const findDiacriticsRow = {
