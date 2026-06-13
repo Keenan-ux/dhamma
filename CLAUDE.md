@@ -256,6 +256,13 @@ Dockerfile · fly.toml
 
 The `aliases` table (sati ↔ smṛti ↔ 念, dhamma ↔ dharma ↔ 法, etc.) is the scholar-asserted authority overlay that vector distance approximates — **it stays even though vectors work**, because cross-canon term equivalence is a curated fact, not an inferred similarity.
 
+## Design standard
+
+The shared, app-agnostic design cores — interaction-flow (how decisions are paced) and the measurable visual standard (type/space/color/contrast floors, tier-graded) — live in `~/.claude/standards/` and are imported here so they are always in context. They are the generalized half; Dhamma keeps its own house-style + application (the academic-typesetting hard rules below, the `--bc-*` tokens, the no-card reading aesthetic). Edit a core there and every project that imports it updates; never copy or fork a core.
+
+@~/.claude/standards/FLOW-DESIGN.md
+@~/.claude/standards/VISUAL-DESIGN.md
+
 ## Hard rules
 
 - **No Tailwind.** Inline styles with `var(--bc-*)` only. Never hardcode hex.
