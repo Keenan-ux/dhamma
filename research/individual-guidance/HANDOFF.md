@@ -146,4 +146,76 @@ bump to v1.2.
   ("a 114-agent pass" → "an automated pass over the corpus"); that one-line change was already in the
   working tree and is included in commit `3db9b1f`.
 
+---
+
+## Phase 5 (2026-06-14): three-tier axis + heart-base study
+
+The follow-up addendum (`HADAYA-INSIGHT-STAGES.md` + `abhidhamma-digest.txt`) flagged that the
+canon-vs-commentary split was two-tier where it should be three: the **Abhidhamma is the third basket,
+canonical**, and most "commentary" structures are the commentary systematizing the Abhidhamma. Phase 5
+applied that, live, and rendered the heart-base addendum as its own study. Commit `f7d2ec8` (code+data);
+deployed `flyctl deploy -a dhamma`.
+
+### 5a — dataset v1.2
+A serial patch (no fan-out) added a per-instance `tier` and a per-cell `warrant_tier`, derived by
+id/layer rule: `commentary` = layer attha/tika or a Vism `cst-e0…` id; `para-canon` = ne/pe/ps/cnd/nd
+ids; `abhidhamma` = `cst-abh…mul…`; else `sutta`. Recomputed `by_tier`, `criterion_x_tier`,
+`mode_x_tier`. Result: sutta 27, abhidhamma 1 (the Puggalapaññatti four-types, reclassified out of
+"mula"), para-canon 4, commentary 23. The headline contrast sharpened: defilement 9 + situation 3 all
+sutta, temperament 15 all commentary, capacity spread across all four tiers. **H0/H1 unchanged at 8/7**;
+the four former "mūla" warrant cells re-split to **sutta 4 / abhidhamma 0** (their warrants are the
+Meghiya antidote formula and the DN survey, all sutta), the four para-canon cells unchanged. The
+warrant-tier story is: the carita *roots* are Abhidhamma (akusalamūla), but the antidote-*pairing*
+warrants are sutta, so no ledger cell rests on the Abhidhamma directly. `meta.version` → 1.2.
+
+### 5b — IndividualGuidanceStudy renderer
+Tables switched from `layer` (LAYER_KEYS) to `tier` (TIER_KEYS / TIER_COL); the ledger reads
+`warrant_tier` via a `WTIER` map and `tierBadge` now styles sutta/abhidhamma/para-canon/none. Added the
+three-tier methods note and the carita-sharpening paragraph; retuned the §C and table captions to the
+three-tier framing.
+
+### 5c — HeartBaseStudy
+New sibling `ENTRIES` study + `HeartBaseStudy` component + `public/research/heart-base-and-insight.json`
+(the §2 three-tier table data; the paper prose is inline, as in study 1). All 33 of its citation ids
+were verified to resolve on prod before authoring. The component renders the table + the paper
+(heart-base, bhavaṅga, insight-stages with the experiential-vs-map clarification, carita, modern
+practice with the Goenka long-course correction flagged as attributed/unverifiable, the close, and a
+limits-and-sources section).
+
+### 5e — editorial passes
+Separate de-AI copy-edit + 3-persona adversarial peer review on the Phase-5 deltas only (the two new
+IndividualGuidanceStudy paragraphs + the whole heart-base study). All four returned accept (two
+must-fixes, several should-fixes), all applied:
+- **must-fix (editor):** the ānāpānasati fourth-tetrad verb "contemplates" → "watches" (the brief forbids
+  calling canonical practice "contemplation").
+- **must-fix (med-studies):** the heart-blood diagnostic was cited to Vism III §46, which carries the
+  object-suitability matrix but no heart-blood vocabulary; re-cited to Vibh-a §70.58 (the row the main
+  study already uses) in both the heart-base prose and the JSON.
+- **should-fix:** scoped the abstract's "every structure" claim (two structures, the roots and the
+  analytical categories, are already in the suttas); hedged the carita-as-kamma claim to the §817
+  occurrence rather than an exhaustive Abhidhamma-wide sense survey; flagged the para-canonical bridge as
+  the study's analytic grouping of Khuddaka works, not a native corpus tier; sourced the Pa-Auk practice
+  claim (Knowing and Seeing) and made the long-course inference conditional ("if accurate"); narrowed the
+  AN 1.49-52 label to AN 1.49-50 to match the linked row; added the half-handful-of-blood physicalization
+  cite (Abh-pṭ §135); dropped "robust" (inflated diction) and "verbatim".
+
+### Verification (Phase 5)
+- `esbuild` parse clean; both JSONs valid; `npm run build` clean (474 KB).
+- Hard gates: zero em-dash characters in the authored prose (the only `—` in `ResearchView.jsx` are two
+  pre-existing code comments; the heart-base JSON has none; the `individual-guidance.json` em-dashes are
+  all in verbatim evidence quotes and audited v1.0 coding fields rendered as the appendix data dump, the
+  same arrangement Phase 4 shipped and the editor accepted; the two v1.1 cnd19 warrants I had authored
+  were cleaned of em-dashes). No process leak.
+- Local render (vite dev, temporary `import.meta.env.DEV` gate-bypass, **reverted**, `git diff
+  src/Dhamma.jsx` empty): both studies render, no console errors. Individual-guidance shows
+  Sutta/Abhi./Para-c./Comm. columns and the defilement row all-Sutta (9); heart-base shows all 9
+  sections, the §2 table, 46 citations, the "watches" fix, the Vibh-a §70.58 heart-blood cite, the
+  Pa-Auk source, the "if accurate" hedge.
+
+### Residual (carried; would be v1.3)
+Same tool-load gaps as before (verbatim Vism III object-rows; maraṇassati→named-person; MN 119
+kāyagatāsati; Mettasutta tree-deva nidāna), plus the heart-base limits' three partial rows (manual-layer
+citta-vīthi vocabulary; the dhātu/paṭiccasamuppāda half of the Vibhaṅga categories; the Paṭisambhidāmagga
+classification), confirmed in direction with per-row verbatim pending.
+
 See also: `[[dhamma-research-standard]]`, `[[dhamma-auth-research-tab]]`, `[[dhamma-concurrency-wedge]]`.
