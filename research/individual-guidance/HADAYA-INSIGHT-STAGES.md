@@ -1,141 +1,196 @@
-# Addendum — The heart-base, bhavaṅga, and the stages of insight: canon vs commentary vs modern practice
+# Addendum — The heart-base, bhavaṅga, and the stages of insight: a three-tier reading (Sutta / Abhidhamma / Commentary)
 
-**Scope.** A focused sub-study answering: is the **heart** (hadaya-vatthu) the seat of mind in the
-Buddha's teaching; is **bhavaṅga** (the life-continuum); and is the **staged progress-of-insight**
-(especially **bhaṅga-ñāṇa**, the knowledge of dissolution) the Buddha's, or a later systematization? It
-also places S.N. Goenka / U Ba Khin / Pa-Auk practice on that map. This folds into the *individual-
-guidance* study's **group E** (sequence/progression is largely a commentarial addition) and adds the
-heart-base focus.
+**Scope.** Is the **heart** (hadaya-vatthu) the seat of mind in the Buddha's teaching; is **bhavaṅga**
+(the life-continuum); and is the staged **progress-of-insight** (esp. **bhaṅga-ñāṇa**) the Buddha's, or a
+later systematization? With S.N. Goenka / U Ba Khin / Pa-Auk practice placed on that map. This folds into
+the *individual-guidance* study (it sharpens **group E** — sequence is largely a later addition — and adds
+a dedicated heart-base section), and it **upgrades the study's axis from two tiers to three** (see §9).
 
-**Status / provenance.** The modern-practice layer was produced by a verified web pass (sourced below).
-The canonical-layer verdict rests on **direct SQL layer-counts** against the live corpus
-(`dhamma-pg`, snapshot 194,710 passages, 2026-06-14) — run by hand after the agent corpus-facets hit the
-account spend limit. The counts are reproducible; per-passage verbatim quotation of every commentarial
-row is a light follow-up. Pronunciation: **hadaya vatthu** ≈ "HÁ-da-ya VÁT-thu" (`/ˈha.da.ja ˈʋat.tʰu/`;
-all short *a*'s; *tth* = a held, aspirated dental *t*, not English "th").
+**Provenance.** Corpus claims are verbatim-grounded by direct fetch (snapshot 194,710 passages,
+2026-06-14); ids given for audit. The Abhidhamma-status and modern-practice material is web-sourced
+(attributed). Pronunciation: **hadaya vatthu** ≈ "HÁ-da-ya VÁT-thu" (`/ˈha.da.ja ˈʋat.tʰu/`; all short
+*a*'s; *tth* = a held, aspirated dental *t*, not English "th").
 
 ---
 
-## 1. The layered verdict (SQL-grounded)
+## 1. Two methodological corrections that frame everything
 
-Occurrences of each term by layer (`ILIKE` on the Pāli `original`; "mula by work" disambiguates the
-mula-role rows, since the Visuddhimagga is a commentary that carries a mula work-role):
+**(a) The axis is THREE tiers, not two.** "Canon" in Theravāda is not just the suttas: the **Abhidhamma
+Piṭaka is the third basket, canonical**. And most of what a flat *canon-vs-commentary* split would dump
+into "commentary" is in fact the commentary **systematizing the Abhidhamma**. So the real axis is:
 
-| Term | Sutta Nikāyas (DN/MN/SN/AN) | Abhidhamma | Para-canonical | Commentary (attha) | Sub-comm. (ṭīkā) |
-|---|---|---|---|---|---|
-| **hadaya-vatthu** (heart = mind-seat) | **0** | 0 | Mil 1, Kn 1 | 50 | 158 + Vism 15 |
-| **hadaya-rūpa** (heart-materiality) | **0** | 0 | 0 | 18 | 10 + Vism 3 |
-| **bhavaṅga** (life-continuum) | **0** | **38** (Paṭṭhāna etc.) | Ne 2, Mil 1 | 213 | 476 + Vism 44 |
-| **pabhassara** (luminous mind — the seed) | **AN 9, SN 6, MN 4** + Kn 11 | 0 | — | 80 | 91 |
-| **bhaṅgānupassanā** (dissolution-knowledge) | **0** | 0 | **Paṭis 2** | 31 | 41 + Vism 19 |
-| **udayabbayānupassanā** (rise-fall knowledge) | **0** | 0 | **Paṭis 2** | 21 | 43 + Vism 8 |
-| **vipassan-upakkilesa** (imperfections of insight) | **0** | 0 | 0 | 12 | 17 + Vism 4 |
+> **Sutta** (the four Nikāyas, earliest stratum) → **Abhidhamma** (the seven books — canonical but second)
+> → *(para-canonical bridge: Paṭisambhidāmagga, Nettippakaraṇa, Peṭakopadesa — Khuddaka analytical)* →
+> **Commentary** (Aṭṭhakathā + Ṭīkā + Visuddhimagga).
 
-The pattern is uniform: the **technical vocabulary of the heart-base, the life-continuum, and the named
-insight-stages is absent from the discourses**. It lives in the Abhidhamma (for bhavaṅga), the para-
-canonical Paṭisambhidāmagga (for the named ñāṇas), and above all the Visuddhimagga and the sub-commentaries.
+A two-tier scheme mislabels the load-bearing middle: the mind-base, bhavaṅga, the three roots, and the
+khandha/āyatana/dhātu categories are all **canonical-Abhidhamma yet absent from the suttas** — a flat
+split either credits them to the suttas or wrongly calls them commentarial inventions. **Meta-note on the
+Abhidhamma's own status:** tradition holds it Buddhavacana (preached in Tāvatiṃsa, transmitted via
+Sāriputta) — but *that origin-account is itself commentarial* (Buddhaghosa's Aṭṭhasālinī, not the suttas),
+so the very story that sacralizes the Abhidhamma sits a tier above the canon it explains. Critical
+scholarship (Frauwallner, Cousins, Gethin, Ronkin) dates the seven books later than the Nikāyas, growing
+out of the suttas' *mātikā* (doctrinal lists). Either way: the **suttas are the earliest stratum and the
+Abhidhamma is the first systematizing layer** — canonical, but second. `[scholarship]`
 
-## 2. The heart-base (hadaya-vatthu)
+**(b) Experiential vs descriptive — and why "contemplation" was the wrong word.** The Buddha's register is
+relentlessly *to-be-lived*: **ehipassiko** (come and see), **paccattaṃ veditabbo viññūhi** (to be
+experienced individually by the wise), **sandiṭṭhiko** (visible here-and-now), **anupassanā** (continuous
+direct watching), **bhāvanā** (cultivation), **yathābhūta-ñāṇadassana** (knowing-and-seeing as it is),
+**sacchikaroti** (to realize directly). So the canon is a path to *walk*, not a doctrine to *ponder*. The
+clean separation is **two distinct axes**, not one:
+- **Axis 1 — experiential vs intellectual.** The Buddha's instructions are first-person, to-be-realized.
+  (On this axis the canon is experiential through and through — your reading is right.)
+- **Axis 2 — the territory vs the map.** Separately: *what you do* (the experiential practice, the
+  Buddha's) versus *a third-person description of the milestones that doing passes through* (the named
+  ñāṇa-stages, the commentary's). bhaṅga-the-lived-dissolution is territory; "bhaṅga-ñāṇa, the 5th
+  knowledge" is cartography. Both are *about* experience — so the distinction is not "experience vs ponder"
+  but **the path the Buddha gave you to walk vs the route-map the commentary drew over it.** The danger
+  the Buddha and Goenka both flag is the same: mistaking a landmark (a pleasant bhaṅga) for the destination.
 
-- **Suttas — the heart is an organ, never the mind's seat.** In the discourses *hadaya* appears in the
-  body-parts contemplation (the 31/32 koṭṭhāsa: `…hadayaṃ yakanaṃ…`, DN 22 / MN 10 / Khp 3) and as a
-  metaphor for the inner person. The Buddha **never** names a physical base for mind-consciousness
-  (manoviññāṇa). `[canon]`
-- **Abhidhamma — a base is posited but left unnamed.** The Paṭṭhāna's dependence clause —
-  `yaṃ rūpaṃ nissāya manodhātu ca manoviññāṇadhātu ca vattanti, taṃ rūpaṃ…` ("that materiality in
-  dependence on which the mind-element and mind-consciousness-element occur") — asserts a material base
-  but **pointedly does not say "the heart."** (`manodhātu ca manoviññāṇadhātu` confirmed in
-  `pli-abhidhamma` mula.) `[abhi]`
-- **Commentary — the base is *identified as* the heart.** The Aṭṭhasālinī, the Visuddhimagga (XIV), and
-  the ṭīkās fill the Paṭṭhāna's blank with *hadaya-vatthu* / *hadaya-rūpa*, and the late manual
-  Abhidhammattha-saṅgaha lists it among the six bases. This is where "the heart is the seat of mind"
-  becomes doctrine. `[comm]`
+## 2. The three-tier table (verbatim-grounded)
 
-**So:** the heart-as-mind-seat is a **commentarial identification of an Abhidhamma placeholder** — not
-the Buddha's statement. Your instinct ("the heart is integral *commentarially*") is exactly right, and
-the layer where it becomes integral is the Aṭṭhakathā/Ṭīkā, not the suttas.
+| Structure | Sutta | Abhidhamma | Para-canon | Commentary (the surplus) |
+|---|---|---|---|---|
+| **mind-base** (manoviññāṇa-vatthu) | silent (only *pabhassara*, AN 1.49–52) | **anonymous** material base, `yaṁ rūpaṁ` (Paṭṭhāna 1.1); un-named vatthu (Dhammasaṅgaṇī §584) | — | **names it the heart** (hadaya-vatthu) + physicalizes it |
+| **bhavaṅga** (life-continuum) | absent (*pabhassara* seed) | **present as a bare term** (Paṭṭhāna, anantara-paccaya) | — | the full **citta-vīthi**; bhavaṅga seated on the heart |
+| **carita** (temperament) | absent (6-fold) | absent as temperament; the word means **kamma** (Vibhaṅga §817); roots rāga/dosa/moha = akusalamūla | **3-fold** root-carita + remedy (Netti, Peṭaka) | the **6-fold personality typology** + affinity theory + the carita→object matrix + heart-blood diagnostics |
+| **three roots** (rāga/dosa/moha) | present | **canonical** (Dhammasaṅgaṇī, Vibhaṅga) | — | (no structural add) |
+| **named insight-ñāṇas** (udayabbaya, bhaṅga…) | not as a graded ladder | **absent** (negative controls = 0) | **first defined** (Paṭisambhidāmagga) | systematizes + refines (e.g. momentary-vs-continuity) |
+| **seven purifications** (satta visuddhi) | **PRESENT verbatim** (MN 24) | not the source | — | populates + stages the bare list |
+| **analytical categories** (khandha/āyatana/dhātu/PS) | present | **canonical source** (Vibhaṅga vb1/vb2/vb3/vb6) | — | deploys as the "ground" insight dissects |
 
-## 3. Bhavaṅga (the life-continuum)
+## 3. The heart-base (hadaya-vatthu) — the cleanest case
 
-- **Absent from the discourses** (0 in the four Nikāyas). It is an **Abhidhamma** construct (38 mula
-  hits in `pli-abhidhamma`, the Paṭṭhāna) built out into the full cognitive-series (*citta-vīthi*)
-  doctrine by the **commentary** (Visuddhimagga XIV; ṭīkā 476). `[abhi]/[comm]`
-- The **canonical seed** is the **luminous mind**: `pabhassaramidaṃ, bhikkhave, cittaṃ, tañca kho
-  āgantukehi upakkilesehi upakkiliṭṭhaṃ` (AN 1.49–52) — corpus-confirmed in `pli-an`. The commentary
-  reads that luminous mind *as* the bhavaṅga; the sutta itself does not. `[canon seed → comm gloss]`
+The commentary **fills an Abhidhamma blank and openly admits it.**
+- **Sutta:** the heart is only an *organ* (the body-parts list, DN 22 / MN 10 / Khp 3) and a metaphor;
+  no seat of mind. `[sutta]`
+- **Abhidhamma:** the Paṭṭhāna posits a material support for the two mind-elements but **leaves it
+  unnamed** — `Yaṁ rūpaṁ nissāya manodhātu ca manoviññāṇadhātu ca vattanti, taṁ rūpaṁ… nissayapaccayena
+  paccayo` (`patthana1.1`); the Dhammasaṅgaṇī Rūpa-kaṇḍa gives the five sense-consciousnesses a vatthu but
+  leaves manoviññāṇa's base indeterminate (`cst-abh01m.mul-078`, ≈ dha.sa.584). `[abhi]`
+- **Commentary:** the Pañcappakaraṇa-aṭṭhakathā substitutes the heart — `Ettha ca rūpanti
+  hadayavatthumattameva adhippetaṃ` ("here, by 'rūpa', only the heart-base is meant"; `cst-abh03a.att-370_p002`)
+  — and the ṭīkās justify it `āgamato yuttito ca` ("from scripture and reason"), **quoting the Paṭṭhāna
+  clause as their āgama `(paṭṭhā. 1.1.8)` and noting the Dhammasaṅgaṇī `(dha.sa. 584)` never stated it.**
+  They even physicalize it: `tañca hadayakosabbhantare aḍḍhapasatamattaṃ lohitaṃ nissāya pavattati` — it
+  runs *dependent on the half-handful of blood inside the heart-chamber* (your heart-blood thread, exactly).
+  `hadayavatthu` = **0 hits in the canonical Abhidhamma**, 230 across the corpus — all commentary/ṭīkā/manual. `[comm]`
 
-## 4. The stages of insight (incl. bhaṅga-ñāṇa) vs the Buddha's teaching
+So the heart-as-mind-seat is a **self-aware commentarial naming of an Abhidhamma placeholder.** The *base*
+is Abhidhamma-canonical; only the *heart-identification* (and its physiology) is the commentary's.
 
-- **What the canon gives is a coarse cascade, not a fine-grained ladder.** The discourses describe
-  insight as: see rise-and-fall (`samudaya-vaya-dhammānupassī`, DN 22) → `anicca → nibbidā → virāga →
-  vimutti` (the stock release-sequence, e.g. `nibbindaṃ virajjati, virāgā vimuccati`, SN 22.59) → and in
-  the ānāpānasati fourth tetrad `aniccānupassī, virāgānupassī, nirodhānupassī, paṭinissaggānupassī`
-  (MN 118). Dissolution-contemplation (*vaya/bhaṅga*) is present **in seed** here. `[canon]`
-- **The skeleton the system hangs on IS canonical.** The **seven purifications** (*satta visuddhi*) are
-  the Buddha's, in **MN 24 Rathavinīta** (the relay-chariots): purification of virtue, mind, view,
-  overcoming doubt, knowledge-and-vision of path/not-path, of the way, and of knowledge-and-vision. The
-  Visuddhimagga is literally organized around these seven. `[canon]`
-- **But the fine-grained ñāṇas are not.** The named **sixteen progress-of-insight knowledges** —
-  *udayabbaya → **bhaṅga** → bhaya → ādīnava → nibbidā → muñcitukamyatā → paṭisaṅkhā → saṅkhārupekkhā →
-  anuloma → …* — and the **ten imperfections of insight** (*vipassanupakkilesa*) are **para-canonical +
-  commentarial**: `bhaṅgānupassanā` and `udayabbayānupassanā` occur only in the **Paṭisambhidāmagga**
-  (the Ñāṇakathā) and the **Visuddhimagga** (XX–XXI), never in the Nikāyas; `vipassanupakkilesa` is
-  Visuddhimagga-only. `[para-canon + comm]`
+## 4. Bhavaṅga (life-continuum)
 
-**So bhaṅga-ñāṇa specifically:** the *contemplation* of dissolution is canonical in seed (vaya-anupassanā);
-**bhaṅga as a discrete, numbered insight-STAGE** (the formal 5th knowledge) is the Paṭisambhidāmagga's and
-the Visuddhimagga's. The modern "you will pass through dissolution" map is the commentary's ladder, not the
-Buddha's cascade.
+- **Sutta:** absent; nearest analogue the luminous mind `Pabhassaramidaṁ, bhikkhave, cittaṁ…` (AN 1.49–52,
+  `an1.41-50`) — a moral-purity metaphor, **no base, no mechanism**. `[sutta]`
+- **Abhidhamma:** **present as a bare term** — the Paṭṭhāna uses bhavaṅga as a real relatum in the
+  anantara-/samanantara-paccaya (`patthana2.1` etc.: `sahetukaṁ bhavaṅgaṁ āvajjanāya anantarapaccayena
+  paccayo`), but only as a discrete cognitive state, with no series and no heart. `[abhi]`
+- **Commentary:** builds the full **citta-vīthi** (bhavaṅga-calana → āvajjana → the cognitive series →
+  return to bhavaṅga) and ties bhavaṅga to the heart-base as an object-less life-continuum (`cst-abh01t.tik-69_p013`).
+  `[comm]`
 
-## 5. The modern-practice layer (web-sourced) — and a correction to the composite framing
+So bhavaṅga is **Abhidhamma-canonical, a commentarial *elaboration* — not a pure invention.** The
+commentary's genuine surplus is the *process model* and the *heart-seat*, not the term's existence.
 
-- **Goenka's *bhaṅga* is a sensation-stage, explicitly *not* the goal.** In the Day-7 discourse the gross,
-  solidified sensations "dissolve into subtle vibrations" and one feels a pleasant *free flow*; Goenka
-  warns this is **the central trap** — "the danger… is that one takes this pleasurable sensory experience
-  as the goal." The aim is equanimity toward *all* sensation; craving the pleasant free-flow just builds
-  new saṅkhāras. Goenka/U Ba Khin centre on **vedanā** (bodily sensation). `[modern]`
-  — *The Discourse Summaries*, S.N. Goenka (VRI); vipassana.cool, "Sensations Explained."
-- **The heart-base + bhavaṅga as explicit objects are Pa-Auk Sayadaw's, not Goenka's.** In Pa-Auk's
-  Abhidhamma method, after jhāna and four-elements rūpa-analysis, the meditator discerns the **bright/
-  luminous bhavaṅga (the mind-door) in dependence on the heart-base (hadaya-vatthu)** and analyses the
-  mind-door cognitive process there to discern mentality (*nāma*): "the mind-door (bhavaṅga) is mentality…
-  it depends on the materiality that is the heart-base." `[modern]`
-  — *Knowing and Seeing*, Ven. Pa-Auk Tawya Sayadaw.
-- **U Ba Khin works in an Abhidhamma frame but the object is sensation, not the heart-base.** His
-  *Essentials of Buddha Dhamma in Meditative Practice* grounds practice in *kalāpas* yet makes the object
-  tactile bodily sensation; it contains **no** instruction to discern the bhavaṅga at the heart-base. `[modern]`
+## 5. The stages of insight (incl. bhaṅga-ñāṇa) — the experiential path vs the descriptive ladder
+
+- **What the canon gives is the experiential path, coarse-grained:** observe rise-and-fall
+  (`samudaya-vaya-dhammānupassī`, DN 22) → `anicca → nibbidā → virāga → vimutti` (SN 22.59); the
+  ānāpānasati fourth tetrad `aniccānupassī, virāgānupassī, nirodhānupassī, paṭinissaggānupassī` (MN 118).
+  These are instructions to *live*, not stations to *recognize*. `[sutta]`
+- **The skeleton is sutta:** the **seven purifications** (sīla / citta / diṭṭhi / kaṅkhāvitaraṇa /
+  maggāmagga-ñāṇadassana / paṭipadā-ñāṇadassana / ñāṇadassana) are enumerated verbatim in **MN 24**
+  (`mn24`). The Visuddhimagga is built on them. `[sutta]`
+- **The analytical "ground" is Abhidhamma:** the khandha / āyatana / dhātu / paṭiccasamuppāda dissection
+  the insight operates on is the **Vibhaṅga** (`vb1/vb2/vb3/vb6`). `[abhi]`
+- **The named graded ladder is NOT canonical:** `bhaṅgānupassanā`, `udayabbaya`, `sammasana`,
+  `saṅkhārupekkhā` return **0 across the seven Abhidhamma books** (negative controls). They are **first
+  defined in the para-canonical Paṭisambhidāmagga** (`ps1.1`, with its own niddesa headers), then
+  systematized and refined by the **Visuddhimagga** (e.g. the Vism-mahāṭīkā's momentary-vs-continuity
+  reading of udayabbaya, absent from the bare Paṭis). `[para + comm]`
+
+**So bhaṅga-ñāṇa, precisely:** the *experiential observation of dissolution* (vaya-anupassanā) is canonical
+and meant to be walked; **numbering it as a fixed station (the 5th knowledge) is the para-canonical +
+commentarial map of that walking.** The Visuddhimagga insight-system is a **weave** of a sutta skeleton
+(MN 24) + Abhidhamma categories (Vibhaṅga) + a para-canonical staging (Paṭis) — assembled, populated, and
+graded by the commentary. The commentary even **states the weave** (Abh-ṭ: two purifications as root, five
+as body, operating on the khandha-āyatana-dhātu-paṭiccasamuppāda *bhūmi*; `cst-abh08t.nrf-100_p024`).
+
+## 6. The carita scheme — sharpened across the tiers
+
+- **Roots (rāga/dosa/moha):** **Abhidhamma-canonical** — the three *akusalamūla* (Dhammasaṅgaṇī `ds2.3.1`;
+  Vibhaṅga `cst-abh02m.mul-226`). `[abhi]`
+- **The Abhidhamma's own "carita" means kamma, not temperament:** Vibhaṅga Ñāṇavibhaṅga §817 —
+  `Katamañca sattānaṃ caritaṃ? Puññābhisaṅkhāro, apuññābhisaṅkhāro, āneñjābhisaṅkhāro` (meritorious /
+  demeritorious / imperturbable formations). The temperament sense is a **commentarial re-coinage** of the
+  word. `[abhi]`
+- **The bridge:** the para-canon (Nettippakaraṇa `ne6`, Sāsanapaṭṭhāna `cst-s0519m.mul-kn19_6`) already
+  carries a **three-fold** rāga/dosa/moha-carita with the asubha/mettā/paṭiccasamuppāda remedy matrix —
+  the carita-as-remedy-target idea is **pre-commentarial**, but only on the three roots. `[para]`
+- **The commentarial surplus:** the **six-fold personality typology** (adding saddhā/buddhi/vitakka), the
+  affinity theory (rāga↔saddhā etc., Vism III), the carita→object/dwelling/robe/food/posture/kammaṭṭhāna
+  suitability matrix, and the **heart-blood-colour / gait / eating diagnostics** — first set in the
+  Aṭṭhakathā (`cst-s0201a.att-mn1_3_p261`), fixed as a `chabbidha caritasaṅgaha` in the ṭīkā, systematized
+  in Vism III. `[comm]`
+
+So the main study's "carita = H1" sharpens to: **roots Abhidhamma · three-fold remedy-carita para-canon ·
+six-fold temperament-typing commentary** (with even the word's temperament-sense a commentarial coinage).
+
+## 7. The modern-practice layer — with the Goenka correction
+
+- **Goenka's *bhaṅga* is a sensation-stage, explicitly *not* the goal** (Day-7 discourse: gross sensations
+  "dissolve into subtle vibrations," a pleasant free-flow; *the central trap is taking it as the goal*).
+  Centres on vedanā. `[modern]`
+- **The heart-base / bhavaṅga apparatus is real in practice — and is taught in Goenka's confidential
+  long-course discourses, not only in Pa-Auk.** Earlier I drew a "Pa-Auk, not Goenka" line; that was an
+  artifact of the **public** record only (the 10-day discourses + U Ba Khin's published *Essentials*
+  centre on vedanā and don't surface the heart-base). A long-course practitioner [the operator] reports
+  that the *hadaya-vatthu / bhavaṅga* work **is** taught in the non-public long-course discourses. I cannot
+  independently verify confidential material, so this is recorded as **attributed practitioner testimony,
+  not a publicly-verifiable citation** — but it should stand, and it **strengthens** the thesis: the modern
+  method (Goenka included) operationalizes the *full* Abhidhamma-and-commentary apparatus, not just the
+  sensation-sweep. Pa-Auk teaches the same heart-base/bhavaṅga discernment explicitly in its *published*
+  materials (*Knowing and Seeing*); Goenka in the long-course arc. `[modern, attributed]`
 - **Historical key:** the whole apparatus (the sixteen ñāṇas, citta-vīthi, bhavaṅga, hadaya-vatthu) is the
-  Visuddhimagga/commentarial system **revived for mass lay practice by Ledi Sayadaw** and built out by the
-  20th-century Burmese vipassanā movement (Mahāsi, Mogok, Pa-Auk, U Ba Khin → Goenka). `[scholarship]`
-  — Erik Braun, *The Birth of Insight* (Ledi Sayadaw).
+  Visuddhimagga/Abhidhamma system **revived for mass lay practice by Ledi Sayadaw** and built out by the
+  20th-c. Burmese movement (Mahāsi, Mogok, Pa-Auk, U Ba Khin → Goenka). — Erik Braun, *The Birth of
+  Insight*. `[scholarship]`
 
-**Correction.** The composite you described — *"enter bhaṅga and enter hadaya-vatthu to remain at
-bhavaṅga"* — does not describe a single method. It welds **Goenka's bhaṅga** (a sensation dissolution-
-stage) onto **Pa-Auk's nāma-discernment** (bhavaṅga discerned at the heart-base). The *hadaya-vatthu /
-bhavaṅga* half is Pa-Auk-style Abhidhamma practice; it is **not** part of the core Goenka sensation-sweep.
-Both, however, run on the *same commentarial chassis* — which is the point for this study.
+## 8. How the heart is "integral" — to which tier
 
-## 6. How the heart is "integral" — and to what
+- **Suttas:** not integral as a mind-seat at all (heart = organ + metaphor); the physical base of mind is
+  left unstated.
+- **Abhidhamma:** a material base for mind is *posited but unnamed*; bhavaṅga exists as a bare term.
+- **Commentary + modern Abhidhamma-revival practice (Pa-Auk explicitly; Goenka in the long courses):** the
+  heart becomes integral — *named* hadaya-vatthu, made the seat of the bhavaṅga, physicalized in the
+  heart's blood, and in practice an object of discernment. Your encounter with it in long-course
+  instruction is real, and it is **a commentarial-to-modern achievement layered on an Abhidhamma
+  placeholder and a sutta silence.**
 
-- **In the suttas:** not integral as a mind-seat at all (heart = organ + metaphor); the Buddha leaves the
-  physical base of mind unstated.
-- **In the Abhidhamma:** a material base for mind is posited but unnamed.
-- **In the commentary (Vism, ṭīkā) and the modern Abhidhamma-revival lineages (esp. Pa-Auk):** the heart
-  becomes integral — named as *hadaya-vatthu*, made the seat of the bhavaṅga, and in Pa-Auk an explicit
-  meditation object. The integration you've encountered in long-course / Abhidhamma instruction is real,
-  and it is **a commentarial-to-modern achievement layered on a canonical silence.**
+## 9. Amendments to the main individual-guidance study
 
-## 7. Connection to the main study (group E) + limits
+1. **The criterion×layer contrast should be THREE-tier (sutta / abhidhamma / commentary), not two.** The
+   flat split mislabels the Abhidhamma middle (mind-base, bhavaṅga, three roots, analytical categories are
+   canonical-Abhidhamma yet non-sutta). The renderer's "canon vs commentary" column should split canon into
+   *sutta* and *abhidhamma*.
+2. **The carita H1 sharpens** to "roots Abhidhamma · 3-fold remedy-carita para-canon · 6-fold typing
+   commentary" (§6). The H0/H1 *count* is unchanged (the temperament-typing is still the innovation), but
+   the *warrant tier* is now precise.
+3. **Bhavaṅga + the mind-base reclassify** from "commentarial" to "Abhidhamma-canonical, commentarially
+   *elaborated*" — the true commentarial adds are the heart-NAME and the citta-vīthi, not the existence of
+   the base or of bhavaṅga.
+4. **Authority framing:** treat Abhidhamma-canonicity as *canonical-but-second*; its Buddhavacana claim
+   rests on a commentarial origin-account (Aṭṭhasālinī's Tāvatiṃsa narrative), so it must not collapse into
+   the sutta tier.
 
-This strengthens **group E**'s pre-registered finding — *sequence/progression is largely a commentarial
-addition*: the canon gives the seven-purification skeleton (MN 24) and the coarse `anicca → nibbidā →
-virāga → vimutti` cascade; the *graduated ladder* of named insight-knowledges (with bhaṅga as a fixed
-station) is the Paṭisambhidāmagga + Visuddhimagga, and the heart-base/bhavaṅga machinery that modern
-methods navigate is commentarial/Abhidhamma. It also adds a self-contained **heart-base section** for the
-paper.
+## 10. Honest limits
 
-**Limits (honest):** the canonical-layer claims here rest on SQL layer-counts + well-attested loci
-(MN 24, SN 22.59, AN 1.49–52 pabhassara — the last corpus-confirmed), not yet on a per-row verbatim
-fetch of every commentarial occurrence (the agent corpus-facets were cut off by the account spend limit).
-The counts are reproducible and the direction is unambiguous; quoting representative Aṭṭhasālinī/Vism rows
-verbatim is the remaining polish before this is merged into the paper.
+The "not in the Abhidhamma" verdicts rest on **negative controls** (zero-result searches across the seven
+books) — robust here but method-sensitive to spelling/stemming. The Abhidhamma-status datings and the
+Tāvatiṃsa origin-account are **secondary/scholarly**, not corpus-verified. The Goenka long-course claim is
+**attributed practitioner testimony** (confidential material, not independently verifiable). A few rows
+(the Abhidhammattha-saṅgaha citta-vīthi vocabulary; the dhātu/paṭiccasamuppāda Vibhaṅga half; the Paṭis
+classification) are verdict=partial — the direction is unambiguous, the per-row verbatim is the remaining
+polish before this merges into the paper.
