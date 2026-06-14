@@ -475,6 +475,12 @@ app.get('/api/compare', async (c) => {
 
 app.get('/api/search', async (c) => {
   try {
+    // Stem/Meaning modes expand the query through the in-memory alias map,
+    // which loads in the background at boot (start()). A search can race that
+    // load on a freshly-woken machine, so await it lazily here (idempotent —
+    // returns the cached ready promise) to guarantee alias expansion is never
+    // silently skipped. Mirrors /api/lookup.
+    await aliasesReady();
     const out = await runSearch({
       q: c.req.query('q'),
       mode: c.req.query('mode'),
@@ -572,25 +578,36 @@ if (fs.existsSync(STATIC_DIR)) {
   });
 }
 
-async function start() {
-  try {
-    await applySchema();
-  } catch (err) {
-    console.error('[boot] schema apply failed:', err.message);
-  }
-  // Aliases must be loaded before /api/search can expand terms. Cheap (~15
-  // rows); await it so the first search doesn't race the cache fill.
-  try {
-    await aliasesReady();
-  } catch (err) {
-    console.error('[boot] aliases load failed:', err.message);
-  }
-  // Model load is heavier (~3-5s). Kick off in background; first /api/search
-  // in Meaning mode awaits the same ready promise.
-  embedReady().catch((err) => console.error('[boot] embed init failed:', err.message));
+function start() {
+  // Bind the port FIRST, before any DB-dependent work. applySchema() and
+  // aliasesReady() both need dhamma-pg; if a crash left a stale lock there,
+  // awaiting either before serve() would block the port bind indefinitely (a
+  // CREATE … IF NOT EXISTS parks on the lock, and Postgres lock waits never
+  // time out), Fly would log "instance refused connection … 0.0.0.0:8080" and
+  // cordon the machine — hard-down until someone restarts dhamma-pg. Binding
+  // first means the machine always answers health checks; the DB-dependent
+  // boot work runs in the background and is allowed to fail without taking the
+  // port down.
   serve({ fetch: app.fetch, port: PORT }, (info) => {
     console.log(`dhamma server listening on :${info.port}`);
   });
+
+  // Schema apply is idempotent and a metadata-only no-op on an already-
+  // provisioned DB (the normal case), so serving before it finishes is safe.
+  // db.js gives the connection a lock_timeout, so a stale lock makes this throw
+  // fast (logged) instead of hanging forever. A brand-new empty DB is the only
+  // case that would briefly 500 on data endpoints until this resolves.
+  applySchema().catch((err) => console.error('[boot] schema apply failed:', err.message));
+
+  // Aliases (cross-canon term expansion for Stem/Meaning search). Kicked off
+  // here so the common case is warm by the first query; /api/search and
+  // /api/lookup both await aliasesReady() lazily, so a query that races this
+  // background load still expands aliases correctly once it resolves.
+  aliasesReady().catch((err) => console.error('[boot] aliases load failed:', err.message));
+
+  // Embedding model load is heavier (~3-5s warm, ~101s cold on shared CPU).
+  // Background; the first Meaning-mode /api/search awaits the same ready promise.
+  embedReady().catch((err) => console.error('[boot] embed init failed:', err.message));
 }
 
 start();

@@ -17,10 +17,29 @@ export const sql = process.env.DATABASE_URL
       max: 5,
       idle_timeout: 30,
       connect_timeout: 10,
+      // Per-session statement guards, applied to every pooled connection as
+      // startup parameters. lock_timeout is the load-bearing one: Postgres
+      // lock waits never time out by default, so a stale lock left by a
+      // crashed/idle-in-transaction session in dhamma-pg would make
+      // applySchema() (CREATE … IF NOT EXISTS) park on the lock forever at
+      // boot — the port would never bind and Fly would cordon the machine
+      // until someone restarted dhamma-pg. 10s makes a stale lock fail FAST
+      // and loudly instead. statement_timeout is a generous backstop for any
+      // other hang; the server is read-only (ingest uses its own client) so
+      // nothing legitimate runs near 120s. Both are pure safety — normal reads
+      // take only ACCESS SHARE locks, never wait, and finish in well under a
+      // second. Tunable via env without a redeploy.
+      connection: {
+        lock_timeout: process.env.PG_LOCK_TIMEOUT_MS || '10000',
+        statement_timeout: process.env.PG_STATEMENT_TIMEOUT_MS || '120000',
+      },
     })
   : null;
 
-// Idempotent schema apply + seeds. Safe on every boot.
+// Idempotent schema apply + seeds. Safe on every boot. Runs on the shared
+// `sql` pool, which carries a lock_timeout (see above), so a stale lock in
+// dhamma-pg makes this throw fast rather than hang the boot. start() binds the
+// port BEFORE awaiting this and treats a failure here as non-fatal.
 export async function applySchema() {
   if (!sql) return;
   await sql.unsafe(fs.readFileSync(SCHEMA_PATH, 'utf8'));
