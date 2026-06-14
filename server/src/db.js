@@ -36,20 +36,58 @@ export const sql = process.env.DATABASE_URL
     })
   : null;
 
+// Transient connection failures worth retrying at boot. When the app boots
+// cold, dhamma-pg may still be waking: the FIRST connection intermittently
+// times out (CONNECT_TIMEOUT) or is reset (ECONNRESET) while later
+// request-path connections succeed. These are the only errors withDbRetry
+// retries — a SQL/lock error (a bad migration, a stale lock) must fail loudly
+// and immediately, not be hidden behind five slow retries.
+const RETRYABLE_CONN_ERR = /CONNECT_TIMEOUT|ECONNRESET|ECONNREFUSED|ETIMEDOUT|ENETUNREACH|EHOSTUNREACH|EPIPE|Connection terminated|terminating connection/i;
+
+function isRetryableConnError(err) {
+  return RETRYABLE_CONN_ERR.test(`${err?.code || ''} ${err?.message || ''}`);
+}
+
+// Run a DB op, retrying ONLY on transient connection errors with exponential
+// backoff (1s → 2s → 4s → 8s by default). Used at boot for applySchema() and
+// the alias load, where the app and dhamma-pg can both be cold and the first
+// connection times out while later ones succeed. Non-connection errors (and
+// the final attempt's failure) propagate unchanged so callers see the real
+// cause. Each retry is logged so a flaky cold boot is visible in flyctl logs.
+export async function withDbRetry(label, fn, { attempts = 5, baseMs = 1000 } = {}) {
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      if (!isRetryableConnError(err) || i === attempts - 1) throw err;
+      const delay = baseMs * 2 ** i;
+      console.warn(`[db] ${label}: attempt ${i + 1}/${attempts} failed (${err.code || err.message}); retrying in ${delay}ms`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+}
+
 // Idempotent schema apply + seeds. Safe on every boot. Runs on the shared
 // `sql` pool, which carries a lock_timeout (see above), so a stale lock in
 // dhamma-pg makes this throw fast rather than hang the boot. start() binds the
 // port BEFORE awaiting this and treats a failure here as non-fatal.
+//
+// Each statement is wrapped in withDbRetry so a cold-boot connect timeout
+// (dhamma-pg still waking) retries instead of silently skipping the migration
+// — the residual of the F5 boot-resilience work, where a timed-out boot left
+// new tables (auth: users/magic_tokens/user_collections) uncreated until
+// someone applied them manually. The first statement bears the brunt of the
+// retry; once a connection is established it's pooled, so the rest run warm.
 export async function applySchema() {
   if (!sql) return;
-  await sql.unsafe(fs.readFileSync(SCHEMA_PATH, 'utf8'));
+  await withDbRetry('applySchema', () => sql.unsafe(fs.readFileSync(SCHEMA_PATH, 'utf8')));
   console.log('[db] schema applied');
   if (fs.existsSync(SEED_ALIASES_PATH)) {
-    await sql.unsafe(fs.readFileSync(SEED_ALIASES_PATH, 'utf8'));
+    await withDbRetry('seed-aliases', () => sql.unsafe(fs.readFileSync(SEED_ALIASES_PATH, 'utf8')));
     console.log('[db] aliases seeded');
   }
   if (fs.existsSync(SEED_STUBS_PATH)) {
-    await sql.unsafe(fs.readFileSync(SEED_STUBS_PATH, 'utf8'));
+    await withDbRetry('seed-stubs', () => sql.unsafe(fs.readFileSync(SEED_STUBS_PATH, 'utf8')));
     console.log('[db] stubs seeded');
   }
 }

@@ -13,7 +13,7 @@
 // embedding-side query expansion both depend on this bidirectional
 // lookup to bridge English ↔ Pāli vocabulary differences.
 
-import { sql } from './db.js';
+import { sql, withDbRetry } from './db.js';
 
 let _byTerm = null;
 let _byEquiv = null;
@@ -37,7 +37,11 @@ export function aliasesReady() {
         _byEquiv = new Map();
         return;
       }
-      const rows = await sql`SELECT term, equivalents FROM aliases`;
+      // Retry transient connect timeouts: at a cold boot dhamma-pg may still
+      // be waking, and a failed load here used to leave alias expansion
+      // silently disabled until the next restart (Stem/Meaning OR-expansion
+      // does nothing without this map).
+      const rows = await withDbRetry('aliases load', () => sql`SELECT term, equivalents FROM aliases`);
       _byTerm = new Map();
       _byEquiv = new Map();
       for (const r of rows) {
@@ -48,7 +52,16 @@ export function aliasesReady() {
         }
       }
       console.log(`[aliases] loaded ${_byTerm.size} entries`);
-    })();
+    })().catch((err) => {
+      // Don't memoize a rejected promise. If the load ultimately fails (all
+      // retries exhausted at boot), reset so the NEXT caller — the lazy
+      // `await aliasesReady()` in /api/search and /api/lookup — re-attempts a
+      // fresh load instead of inheriting a permanently-failed cache that keeps
+      // alias expansion off until a restart. Re-throw so this attempt's
+      // awaiter still sees the failure.
+      _readyPromise = null;
+      throw err;
+    });
   }
   return _readyPromise;
 }
