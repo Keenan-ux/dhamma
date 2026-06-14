@@ -17,6 +17,8 @@ import DictionaryView from './DictionaryView.jsx';
 import useIsNarrow from './useIsNarrow.js';
 import useCorpus from './useCorpus.js';
 import AboutView from './AboutView.jsx';
+import SignInView from './SignInView.jsx';
+import { useAuth } from './useAuth.jsx';
 import { randomPassageApi } from './api.js';
 
 // Path-style hash routing. Keeps URLs short and human-readable.
@@ -92,6 +94,8 @@ function parseInitialHash() {
     out.tab = 'research';
   } else if (head === 'about') {
     out.tab = 'about';
+  } else if (head === 'signin') {
+    out.tab = 'signin';
   } else if (head === 'browse') {
     // Browse is the leaf-drill fallback until slice 2's cascading typeset
     // pages replace it. Sidebar no longer links here, but URL
@@ -193,6 +197,9 @@ export default function Dhamma() {
     }
   };
   const isNarrow = useIsNarrow();
+  // Optional auth: only used to gate the admin Research tab. The app is fully
+  // usable signed-out; isAdmin is false until an admin email signs in.
+  const { isAdmin } = useAuth();
 
   // Mirror enough state into the URL hash that refresh / shared link
   // restores the same view. Uses pushState for *meaningful* navigations
@@ -231,6 +238,8 @@ export default function Dhamma() {
       if (!window.location.hash.startsWith('#/research/')) hash = '/research';
     } else if (tab === 'about') {
       hash = '/about';
+    } else if (tab === 'signin') {
+      hash = '/signin';
     } else if (tab === 'browse') {
       if (browseLeafId) {
         hash = `/read/${enc(browseLeafId)}`;
@@ -492,7 +501,26 @@ export default function Dhamma() {
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
               />
             )}
-            {tab === 'research' && <ResearchView />}
+            {tab === 'research' && (isAdmin ? (
+              <ResearchView />
+            ) : (
+              <div style={{ position: 'absolute', inset: 0, paddingTop: 56, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ maxWidth: 420, textAlign: 'center', padding: 28, fontFamily: '"Noto Serif", Georgia, serif' }}>
+                  <div style={{ height: 1, background: 'rgba(var(--bc-accent-rgb), 0.32)', marginBottom: 20 }} />
+                  <p style={{ fontSize: 15, lineHeight: 1.7, color: 'var(--bc-text-secondary)', margin: '0 0 18px' }}>
+                    Research is in progress and visible to administrators only.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setTab('signin')}
+                    style={{ background: 'transparent', border: '1px solid var(--bc-accent)', borderRadius: 4, padding: '9px 22px', cursor: 'pointer', color: 'var(--bc-text-primary)', fontFamily: 'inherit', fontSize: 14, letterSpacing: '0.02em' }}
+                  >
+                    Sign in
+                  </button>
+                </div>
+              </div>
+            ))}
+            {tab === 'signin' && <SignInView />}
             {tab === 'about' && <AboutView />}
             {tab === 'browse' && (
               <BrowseView

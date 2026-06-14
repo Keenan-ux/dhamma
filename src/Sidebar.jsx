@@ -1,3 +1,5 @@
+import { useAuth } from './useAuth.jsx';
+
 const NAV_ITEMS = [
   { key: 'tipitaka',    label: 'Tipiṭaka' },
   { key: 'commentary',  label: 'Commentaries' },
@@ -42,6 +44,8 @@ function NavButton({ item, href, active, onClick }) {
 }
 
 export default function Sidebar({ tab, setTab, onRandomSutta }) {
+  // Optional auth — gates the admin Research tab and powers the sign-in row.
+  const { user, isAdmin } = useAuth();
   // Click-handling helper. Re-clicking the currently-active tab should
   // pop any deep state inside that tab — e.g. an open Library article
   // or a sutta drilled into from Tipiṭaka — and return to the splash.
@@ -63,6 +67,7 @@ export default function Sidebar({ tab, setTab, onRandomSutta }) {
     notes:       '#/notes',
     docs:        '#/docs',
     research:    '#/research',
+    signin:      '#/signin',
     about:       '#/about',
   };
   function handleNavClick(key, e) {
@@ -100,7 +105,7 @@ export default function Sidebar({ tab, setTab, onRandomSutta }) {
         {/* Tools: query-style operations on the corpus. No header — the
             visual gap between sections is enough separation. */}
         <nav style={{ ...navWrap, marginTop: 8 }}>
-          {NAV_ITEMS.filter((i) => !CORPUS_KEYS.has(i.key)).map((item) => (
+          {NAV_ITEMS.filter((i) => !CORPUS_KEYS.has(i.key) && (i.key !== 'research' || isAdmin)).map((item) => (
             <NavButton key={item.key} item={item} href={TAB_BASE_HASH[item.key]} active={tab === item.key} onClick={(e) => handleNavClick(item.key, e)} />
           ))}
           {/* Random sutta: action, not a tab. Picks a passage with an
@@ -131,6 +136,28 @@ export default function Sidebar({ tab, setTab, onRandomSutta }) {
           page at /about — reachable from this link. Pinned to the
           bottom so it doesn't compete with the corpus + tools nav. */}
       <div style={bottomGroup}>
+        <a
+          href={TAB_BASE_HASH.signin}
+          onClick={(e) => handleNavClick('signin', e)}
+          title={user ? user.email : 'Sign in to save bookmarks and notes'}
+          style={{
+            ...navBtn,
+            ...navBtnLinkReset,
+            color: tab === 'signin' ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)',
+            background: tab === 'signin' ? 'rgba(var(--bc-accent-rgb), 0.08)' : 'transparent',
+            borderLeftColor: tab === 'signin' ? 'var(--bc-accent)' : 'transparent',
+            fontWeight: tab === 'signin' ? 600 : 500,
+            fontSize: 12,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            fontFamily: 'Outfit, system-ui, sans-serif',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {user ? (isAdmin ? 'Account · admin' : 'Account') : 'Sign in'}
+        </a>
         <a
           href={TAB_BASE_HASH.about}
           onClick={(e) => handleNavClick('about', e)}

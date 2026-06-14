@@ -383,3 +383,47 @@ CREATE INDEX IF NOT EXISTS idx_psent_passage ON passage_sentences(passage_id);
 --   CREATE INDEX CONCURRENTLY idx_psent_embedding
 --     ON passage_sentences USING hnsw (embedding vector_cosine_ops);
 -- Never put an HNSW build in schema.sql.
+
+-- ============================================================
+-- Auth + per-user data (magic-link sign-in; see server/src/auth.js).
+-- Additive and idempotent. Dhamma stays a PUBLIC tool: these tables power
+-- OPTIONAL sign-in (persistent bookmarks/notes) and the admin-gated Research
+-- tab. No existing public route requires auth. All metadata-only CREATEs, so
+-- they're a cheap no-op on the already-provisioned production DB.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS users (
+  id            BIGSERIAL   PRIMARY KEY,
+  email         TEXT        UNIQUE NOT NULL,
+  display_name  TEXT,
+  is_admin      BOOLEAN     NOT NULL DEFAULT FALSE,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  last_login_at TIMESTAMPTZ
+);
+
+-- One-time magic-link tokens. Only the SHA-256 hash is stored; the raw token
+-- lives only in the emailed link. Single-use (used_at) + TTL (expires_at).
+CREATE TABLE IF NOT EXISTS magic_tokens (
+  token_hash  TEXT        PRIMARY KEY,
+  email       TEXT        NOT NULL,
+  expires_at  TIMESTAMPTZ NOT NULL,
+  used_at     TIMESTAMPTZ,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_magic_tokens_email ON magic_tokens (email, created_at);
+
+-- Per-user collections (bookmarks, notes) stored as JSONB documents. The
+-- frontend hooks (useBookmarks/useNotes) already own the list shape, so the
+-- server just persists the whole list per (user, kind) — a future server-backed
+-- sync drops in without remodeling every field. One row per (user_id, kind).
+CREATE TABLE IF NOT EXISTS user_collections (
+  user_id    BIGINT      NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  kind       TEXT        NOT NULL,           -- 'bookmarks' | 'notes'
+  items      JSONB       NOT NULL DEFAULT '[]'::jsonb,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (user_id, kind)
+);
+
+-- Research articles reuse the existing `articles` table with
+-- category = 'research' and source = 'research' (distinct from the public ATI
+-- Library, which filters source = 'ati'), so they never leak into public
+-- Library browse/search. They're served only by /api/research (requireAdmin).

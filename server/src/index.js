@@ -20,6 +20,11 @@ import { runSearch } from './search.js';
 import { runCorpus, getPassage, getPassages, getPassageGroup, getPassageGroupTranslations, getCommentaryFor } from './corpus.js';
 import { runCompareStats } from './compareStats.js';
 import { runLookup, glossWords } from './dictionary.js';
+import {
+  requestLink, verifyLink, clearSession, currentUser, publicUser,
+  requireAuth, requireAdmin, authConfigured,
+} from './auth.js';
+import { emailEnabled } from './email.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -569,6 +574,69 @@ for (const prefix of HASH_REDIRECT_PREFIXES) {
 }
 
 // Static SPA
+// ---- Auth (magic-link sign-in) + per-user data + admin Research --------
+// Additive: Dhamma stays a public tool. Only /api/user/* (requireAuth) and
+// /api/research (requireAdmin) require a session; everything above is open.
+// See server/src/auth.js. Registered before the static catch-all below.
+app.post('/api/auth/request', (c) => requestLink(c));
+app.get('/api/auth/verify', (c) => verifyLink(c));
+app.post('/api/auth/logout', (c) => { clearSession(c); return c.json({ ok: true }); });
+
+// Current session. Returns { user: null } (200) when signed out so the public
+// SPA boots without an error; the sign-in UI reads `user` + `features`.
+app.get('/api/me', async (c) => {
+  try {
+    const user = await currentUser(c);
+    return c.json({ user: publicUser(user), features: { auth: authConfigured(), email: emailEnabled } });
+  } catch (err) {
+    return c.json({ user: null, features: { auth: false, email: false }, error: err.message });
+  }
+});
+
+// Per-user collections: bookmarks + notes, persisted as JSONB documents
+// (the client hooks own the list shape; the server stores the whole list).
+const USER_KINDS = new Set(['bookmarks', 'notes']);
+app.get('/api/user/:kind', requireAuth, async (c) => {
+  const kind = c.req.param('kind');
+  if (!USER_KINDS.has(kind)) return c.json({ error: 'unknown collection' }, 400);
+  const user = c.get('user');
+  const [row] = await sql`SELECT items, updated_at FROM user_collections WHERE user_id = ${user.id} AND kind = ${kind}`;
+  return c.json({ items: row?.items || [], updatedAt: row?.updated_at || null });
+});
+app.put('/api/user/:kind', requireAuth, async (c) => {
+  const kind = c.req.param('kind');
+  if (!USER_KINDS.has(kind)) return c.json({ error: 'unknown collection' }, 400);
+  const user = c.get('user');
+  const body = await c.req.json().catch(() => ({}));
+  const items = Array.isArray(body.items) ? body.items : null;
+  if (!items) return c.json({ error: 'items must be an array' }, 400);
+  if (items.length > 5000) return c.json({ error: 'too many items (max 5000)' }, 413);
+  const json = JSON.stringify(items);
+  if (json.length > 4_000_000) return c.json({ error: 'collection too large' }, 413);
+  await sql`
+    INSERT INTO user_collections (user_id, kind, items, updated_at)
+    VALUES (${user.id}, ${kind}, ${json}::jsonb, now())
+    ON CONFLICT (user_id, kind) DO UPDATE SET items = ${json}::jsonb, updated_at = now()`;
+  return c.json({ ok: true, count: items.length });
+});
+
+// Admin-gated Research: long-form studies compiled into the tool, stored as
+// articles (category='research'), visible only to admins while still WIP.
+app.get('/api/research', requireAdmin, async (c) => {
+  const rows = await sql`
+    SELECT slug, title, author, summary, year, created_at
+    FROM articles WHERE category = 'research'
+    ORDER BY created_at DESC, title`;
+  return c.json({ entries: rows });
+});
+app.get('/api/research/:slug', requireAdmin, async (c) => {
+  const [row] = await sql`
+    SELECT slug, title, author, summary, body, year, created_at
+    FROM articles WHERE category = 'research' AND slug = ${c.req.param('slug')}`;
+  if (!row) return c.json({ error: 'not_found' }, 404);
+  return c.json(row);
+});
+
 if (fs.existsSync(STATIC_DIR)) {
   app.use('/*', serveStatic({ root: path.relative(process.cwd(), STATIC_DIR) || '.' }));
   app.notFound((c) => {

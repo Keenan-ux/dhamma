@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Dhamma from './Dhamma.jsx';
+import { AuthProvider } from './useAuth.jsx';
 import './theme.css';
 
 if ('serviceWorker' in navigator) {
@@ -11,6 +12,8 @@ if ('serviceWorker' in navigator) {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Dhamma />
+    <AuthProvider>
+      <Dhamma />
+    </AuthProvider>
   </React.StrictMode>
 );

@@ -62,11 +62,32 @@ export default function ResearchView() {
     }
   }, [openSlug]);
 
+  // Article-based research (admin-only, from /api/research) — the compiled
+  // markdown studies. Listed alongside the bespoke static studies below. This
+  // view only renders for admins (Dhamma.jsx gates it), so the fetch is safe.
+  const [apiEntries, setApiEntries] = useState([]);
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/research', { credentials: 'same-origin' })
+      .then((r) => (r.ok ? r.json() : { entries: [] }))
+      .then((d) => { if (!cancelled) setApiEntries(Array.isArray(d.entries) ? d.entries : []); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
   const entry = openSlug ? ENTRIES.find((e) => e.slug === openSlug) : null;
   if (entry) {
     return (
       <AwakeningStudy
         entry={entry}
+        onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', '#/research'); }}
+      />
+    );
+  }
+  if (openSlug && !entry) {
+    return (
+      <ArticleStudy
+        slug={openSlug}
         onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', '#/research'); }}
       />
     );
@@ -98,10 +119,86 @@ export default function ResearchView() {
             </a>
           </li>
         ))}
+        {apiEntries.map((e) => (
+          <li key={e.slug} style={itemRow}>
+            <a
+              href={`#/research/${encodeURIComponent(e.slug)}`}
+              onClick={(ev) => { if (isModifiedClick(ev)) return; ev.preventDefault(); setOpenSlug(e.slug); }}
+              style={itemLink}
+              aria-label={`Open ${e.title}`}
+            >
+              <span style={itemTitle}>{e.title}</span>
+              {e.summary && <span style={itemAuthor}>{e.summary}</span>}
+            </a>
+          </li>
+        ))}
       </ul>
     </div>
   );
 }
+
+// A compiled markdown study (category='research') rendered from /api/research.
+// Body is server-built sanitized HTML; we style it via the scoped class below.
+function ArticleStudy({ slug, onBack }) {
+  const [art, setArt] = useState(null);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    setArt(null); setError(null);
+    const ac = new AbortController();
+    fetch(`/api/research/${encodeURIComponent(slug)}`, { credentials: 'same-origin', signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(r.status === 404 ? 'Not found.' : `HTTP ${r.status}`); return r.json(); })
+      .then(setArt)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [slug]);
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <style>{RESEARCH_CSS}</style>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label="Back to Research (Esc)">
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to Research</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+        {!art && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+        {art && (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{art.title}</h1>
+              {art.summary && <p style={articleHeaderAuthor}>{art.summary}</p>}
+            </header>
+            <div style={articleBody} className="research-article" dangerouslySetInnerHTML={{ __html: art.body || '' }} />
+          </>
+        )}
+      </article>
+    </div>
+  );
+}
+
+const RESEARCH_CSS = `
+.research-article h1, .research-article h2, .research-article h3, .research-article h4 { font-family: "Noto Serif", Georgia, serif; color: var(--bc-text-primary); margin: 26px 0 10px; line-height: 1.3; }
+.research-article h2 { font-size: 19px; font-weight: 600; }
+.research-article h3 { font-size: 16px; font-weight: 600; }
+.research-article h4 { font-size: 14.5px; font-weight: 600; }
+.research-article p { margin: 0 0 14px; }
+.research-article ul, .research-article ol { margin: 0 0 14px; padding-left: 26px; }
+.research-article li { margin: 4px 0; }
+.research-article code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 0.86em; background: rgba(var(--bc-accent-rgb),0.10); padding: 1px 4px; border-radius: 3px; }
+.research-article pre { background: rgba(var(--bc-accent-rgb),0.07); padding: 12px 14px; border-radius: 6px; overflow-x: auto; }
+.research-article pre code { background: none; padding: 0; }
+.research-article table { border-collapse: collapse; width: 100%; margin: 8px 0 16px; font-size: 13px; }
+.research-article th, .research-article td { border: 1px solid rgba(var(--bc-accent-rgb),0.18); padding: 6px 9px; text-align: left; vertical-align: top; }
+.research-article th { background: rgba(var(--bc-accent-rgb),0.06); font-weight: 600; }
+.research-article blockquote { border-left: 2px solid rgba(var(--bc-accent-rgb),0.30); padding-left: 14px; margin: 0 0 14px; color: var(--bc-text-secondary); font-style: italic; }
+.research-article a { color: var(--bc-accent); }
+.research-article hr { border: none; border-top: 1px solid rgba(var(--bc-accent-rgb),0.18); margin: 22px 0; }
+`;
 
 const LAYER = {
   mula: { label: 'Canon', full: 'Tipiṭaka (mūla)' },
