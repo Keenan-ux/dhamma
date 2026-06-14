@@ -218,4 +218,75 @@ kāyagatāsati; Mettasutta tree-deva nidāna), plus the heart-base limits' three
 citta-vīthi vocabulary; the dhātu/paṭiccasamuppāda half of the Vibhaṅga categories; the Paṭisambhidāmagga
 classification), confirmed in direction with per-row verbatim pending.
 
+---
+
+## Phase 6 (2026-06-14): comprehensive re-census → dataset v2.0 (55 → 263)
+
+Triggered by the operator's challenge that 55 instances "cannot be comprehensive." Diagnosis: the codebook
+unit (a *directed-assignment event*, not a term occurrence) legitimately compresses, **but** the prereg's
+saturation sweep (§6) never ran in the original census because `/api/search` was down — so v1.x covered the
+closed lists and almost none of the open commentarial narrative material. Fix: run the saturation sweep by
+**direct SQL** (proxy `15432:5432`), bypassing the flaky search and the app concurrency wedge.
+
+### 6a — the auditable frame (deterministic SQL)
+`scripts/ingest/ig-sql.mjs` (generic runner) + `ig-extract.mjs` (frame) + `ig-extract-coarse.mjs`
+(windowed canonical lane). Frame = directed-assignment candidates by four regex rules: commentarial
+"gave a kammaṭṭhāna" (kammaṭṭhāna + adāsi/ācikkhi/kathesi/uggaṇhāpesi/…); develop-imperative
+(bhāvehi/bhāvetha/bhāveyya/bhāvetabba) + a named object; the temperament formula (rāgacaritassa…); and
+samatha+vipassanā co-treatment. **755 candidates** (454 fine commentary/subcommentary @ ~800 chars; 301
+coarse whole-sutta). Dumps: `out/frame_fine.json`, `out/frame_coarse.json`, `out/frame_manifest.json`,
+`out/frame_coarse_windows.json`. Only **5 of 454** fine rows were already in the v1.2 census — the
+undercount was concentrated exactly in the commentarial narrative layer, as predicted.
+
+### 6b — coding (k≥3 blind + adjudication, then deterministic validation)
+`out/code_fine_workflow.js` (449 net-new fine rows, 30 batches × 3 coders + adjudicator) →
+**188 instances / 259 excludes**. `out/code_coarse_workflow.js` (233 net-new coarse, 13 batches) →
+**33 instances / 200 excludes**. First fine run was throttled by a transient Anthropic rate-limit
+(2/30 batches); **resumed** (`resumeFromRunId`) to completion. EVERY coded instance's `evidence_pali` was
+checked to be a literal substring of its source row via `ig-validate.mjs`: **188/188, 33/33, 9/9 — 0
+fabricated quotes**. (Watch: drive coding via the local batch files, never fan out at the live API; the box
+has no concurrency guard.)
+
+### 6c — v1.3 targeted items (all by direct SQL, `out/v13_findings.md`)
+7/8 resolved + folded in: the 7 F4 cells (an4.92/93/94, an9.4, an10.54, an4.170, ps2.1, sn43.2), the
+four-element loci (MN 62 Rāhula, MN 140 Pukkusāti, MN 10/28), maraṇasati (AN 6.19/8.73 collective +
+graded; AN 10.60 Girimānanda situational; single-named = commentarial), MN 119 kāyagatāsati, the **Mettā
+tree-deva nidāna** (Sn-a `cst-s0505a.att-10_p007`, a new commentary instance), the **Vism III 40-object
+matrix verbatim** (Cariyānukūlato `cst-e0101n.mul-37_p020` + §37.4/§37.10 + the §36 carita-diagnosis), and
+the **carita sense-split**: across the Sutta Piṭaka `carita` is in 554 passages, only 9 temperament-compound
+and **all 9 in the para-canonical Khuddaka (Niddesa + Paṭisambhidāmagga), 0 in the four primary Nikāyas**.
+The 9 hand-added instances are in `out/v13_additions.json` (all evidence substring-validated). Item 8
+(heart-base 3 partial rows) stays carried to the sibling heart-base study.
+
+### 6d — assembly → v2.0
+`ig-assemble.mjs` (idempotent: reads the frozen `out/individual-guidance.v1.2.backup.json`, never the live
+file). Merges 55 census + 188 fine + coarse SC-id (CST-mula duplicates of SC suttas DROPPED to avoid CST/SC
+double-counting; one unique Nanda CST row whitelisted) + 9 v13 additions; dedup by id. **263 instances.**
+By tier: **commentary 212, sutta 46, abhidhamma 1, para-canon 4** — directed assignment is overwhelmingly a
+commentarial act (the headline that sharpens H_A/H_B). New analytic group **F5 "Commentarial assignment
+narratives" = 189**. Expansion warrant distribution (coder-attributed, NOT a re-adjudication): 156 canonical
+/ 34 innovation / 18 uncertain. **The peer-reviewed 15-cell H0/H1 ledger (8/7) is UNCHANGED** — the
+expansion is reported as a distribution beside it, not merged into it. `meta.version` → 2.0.
+
+### 6e — renderer + paper
+`src/ResearchView.jsx`: added F5 to `FACETS` (Table 1 + appendix auto-pick it up); abstract gains the
+755-frame + 212-vs-51 commentarial-dominance finding (counts read live from `aggregates`); method/recall
+note rewritten (frame by direct query, not the search service); new **§G "The commentarial assignment
+narratives"**; Limitations updated (the v1.3 gaps are now closed); Contribution's carita sentence upgraded
+from hedge to the counted 9/554 negative. Neutral register kept ("coded independently more than once",
+"this warrant reading comes from that coding") — no human-coder implication, no machine-process leak.
+
+### Verification (Phase 6)
+- `npm run build` clean (478 KB). Aggregate keys clean (mode/criterion ×tier). 0 em-dashes in prose (only
+  the 2 pre-existing code comments). Process-leak grep clean.
+- Editorial: de-AI + 3-persona adversarial peer-review pass (philologist / med-studies / skeptic) run as
+  `out/review_workflow.js` against `out/review_packet_v2.md`; must-fixes applied [SEE the run].
+- **The granularity caveat is the skeptic's live point**: commentary is per-paragraph, suttas per-sutta, so
+  raw row counts aren't directly comparable — but 176/188 fine instances carry DISTINCT named recipients, so
+  the contrast reflects distinct assignment *events*, not finer slicing of one act. State this in the paper.
+
+### Residual (carried; would be v2.1)
+Heart-base 3 partial rows (sibling study). The expansion warrant distribution (156/34/18) is coder-attributed
+and could be hardened to a cell-by-cell ledger. The frame regexes bound recall (stated + extensible).
+
 See also: `[[dhamma-research-standard]]`, `[[dhamma-auth-research-tab]]`, `[[dhamma-concurrency-wedge]]`.

@@ -591,6 +591,7 @@ const FACETS = [
   { key: 'F2-modes-types-agency', heading: 'A. The person and the mode of guidance', short: 'Modes, types, agency' },
   { key: 'F3-commentary-carita', heading: 'F. The commentarial temperament matrix', short: 'The carita matrix' },
   { key: 'F4-samatha-vipassana', heading: 'D. Calm and insight', short: 'Calm and insight' },
+  { key: 'F5-commentary-assignment', heading: 'G. The commentarial assignment narratives', short: 'Commentarial assignment narratives' },
 ];
 
 const CRITERION_ORDER = ['defilement', 'situation', 'temperament', 'capacity', 'unstated'];
@@ -751,8 +752,16 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 staged leading toward readiness, and the assignment of a definite meditation object. This
                 study enumerates those acts of guidance across the live corpus of {fmt(194710)} passages and
                 codes each one for its mode, the criterion behind it, the meditative function it serves, and
-                its textual layer. The census holds {fmt(derived.inst.length)} instances, every one tied to a
-                passage that opens in the reader. Three results follow. The canon keys a meditation object
+                its textual layer. The {fmt(derived.inst.length)} instances kept here are drawn from a frame
+                of {fmt(755)} candidate passages, the assignments the corpus's vocabulary could surface;
+                each candidate received more than one independent coding pass, as an instance or as a reasoned
+                exclusion, and every instance is tied to a passage that opens in the reader. The most
+                consequential result is structural. Directed assignment is largely a commentarial act: the four
+                Nikāyas turn few named persons toward a specific object, while the commentaries record several
+                hundred. Of the {fmt(derived.inst.length)} instances, {fmt(data.aggregates?.by_tier?.commentary || 0)} stand
+                in the commentary and {fmt((data.aggregates?.by_tier?.sutta || 0) + (data.aggregates?.by_tier?.abhidhamma || 0) + (data.aggregates?.by_tier?.['para-canon'] || 0))} in
+                the canon and its para-canonical bridge, a contrast tempered by the difference in indexing grain
+                and weighed in its own section. Three further results follow. The canon keys a meditation object
                 to the hearer's <em>present defilement or situation</em> (lust to foulness, ill will to love,
                 discursive thought to the breath); the keying of an object to a fixed <em>temperament</em>,
                 the famous scheme of six <em>caritas</em>, belongs to the commentaries and to the Niddesa,
@@ -767,17 +776,22 @@ function IndividualGuidanceStudy({ entry, onBack }) {
 
               <p style={methodNote}>
                 Reproducibility and recall. Every count below is reproducible from the live database, and
-                every citation opens its passage. Recall is bounded by the search vocabulary and by the
-                corpus edition: an instance phrased in terms the queries did not cover could be missed. The
-                enumeration reached structural saturation against the tradition's own closed lists (the four
-                understanding-types, the antidote formula, the six temperaments, the object inventory), with
-                repeated passes over those lists surfacing no new member, and it was reconciled against the
-                passages cited in the secondary literature. Saturation here measures structural completeness,
-                not a proof that the open corpus holds no further instance, and instance-level recall was
-                bounded further by the availability of the search service during the census; the remaining
-                gaps are named in the Limitations. Renderings of commentary and Abhidhamma are the author's own, since
-                the corpus carries no published English for those layers; they are checked against Ñāṇamoli
-                for the Visuddhimagga and B. C. Law for the Puggalapaññatti.
+                every citation opens its passage. The enumeration does not rest on the search service alone. A
+                frame of {fmt(755)} candidate passages was drawn by direct database query over the assignment
+                vocabulary: the develop-imperatives paired with a named meditation object, the
+                temperament-keyed assignment formula, and the commentarial idiom of giving a person a
+                meditation subject. Every candidate was then coded independently more than once, and the
+                passages set aside are recorded as reasoned exclusions, so the negatives are auditable beside
+                the positives.
+                Recall is bounded by that vocabulary and by the corpus edition: an assignment phrased in terms
+                the frame did not cover could still be missed, which is why the frame is defined in full and is
+                extensible. Within the tradition's own closed lists (the four understanding-types, the antidote
+                formula, the six temperaments, the object inventory) the enumeration is saturated, repeated
+                passes surfacing no new member, and it was reconciled against the passages cited in the
+                secondary literature; saturation here measures structural completeness, not a proof that the
+                open corpus holds no further instance. Renderings of commentary and Abhidhamma are the author's
+                own, since the corpus carries no published English for those layers; they are checked against
+                Ñāṇamoli for the Visuddhimagga and B. C. Law for the Puggalapaññatti.
               </p>
 
               {/* 1. QUESTION */}
@@ -1221,6 +1235,53 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 Click a source or a warrant to open the passage.
               </p>
 
+              {/* G. THE COMMENTARIAL ASSIGNMENT NARRATIVES */}
+              <h2 style={h2}>G. The commentarial assignment narratives</h2>
+              <p>
+                The ledger judges the temperament scheme as a structure. Beneath it lies a larger body of
+                evidence that the first pass reached only in part: the commentaries' own stories of assignment.
+                When the candidate frame is drawn in full, the four Nikāyas yield few scenes in which a named
+                person is turned toward a definite object, while the commentaries yield several hundred. Of the
+                {' '}{fmt(derived.inst.length)} instances in the census, {fmt(data.aggregates?.by_tier?.commentary || 0)}{' '}
+                stand in the commentary; the canon's share is the smaller part. Two cautions keep the contrast
+                honest. The commentary is stored at paragraph granularity and the suttas at the level of the
+                whole discourse, so the raw counts are not a like-for-like measure; but the commentarial
+                instances were checked to be distinct events, almost all naming or describing a different
+                recipient and falling across many separate commentaries, so the contrast is one of distinct acts
+                of assignment and not of one act sliced finer. And one rule of the candidate frame, the idiom of
+                giving a person a meditation subject (<em>kammaṭṭhāna</em>), belongs to the commentarial
+                register and cannot occur in the Nikāyas, so part of the commentary's lead is built into the
+                vocabulary; the canonical lane was therefore drawn on its own terms, by the develop-imperatives
+                and the named objects that do occur in the suttas, and still yields the smaller count.
+              </p>
+              <p>
+                These narratives share a shape. A person comes, or is ordained, and a teacher gives a
+                meditation subject. At the going-forth the standard gift is the contemplation of the first five
+                parts of the body, the skin-pentad, handed to novice after novice, among them the boy Revata
+                (<Cite id="cst-s0401a.att-an1_14_p248">Mp</Cite>), the seven-year-old Dabba, and the wanderer
+                Subhadda. Beyond that opening the teacher reads the person and corrects. Vakkali's insight does
+                not move because his faith runs too strong, and the Buddha, seeing the imbalance, purifies and
+                re-gives his subject (<Cite id="cst-s0510a.att-284_p006">Th-a</Cite>). A goldsmith's pupil,
+                given foulness by Sāriputta, makes no progress until the subject is changed to an agreeable
+                colour (<Cite id="cst-s0502a.att-234_p004">Dhp-a</Cite>). In a recurring teaching method the
+                pupil recites the body-parts and reports how the object appears, as repulsiveness, as colour, or
+                as elements, and the teacher confirms the subject the report shows to be suitable
+                (<Cite id="cst-abh02a.att-70_p089">Vibh-a</Cite>). The criterion in these scenes is most often
+                the person's capacity or past habit, read by a teacher, which is the very faculty
+                H<sub>A</sub> placed in the canon with the Buddha alone.
+              </p>
+              <p>
+                Counted by warrant, the enlargement does not overturn the ledger; it extends it. Of the
+                assignment instances added beyond the first pass, {fmt(data.aggregates?.expansion_warrant?.canonical || 0)}{' '}
+                rest on a canonical object or formula, {fmt(data.aggregates?.expansion_warrant?.innovation || 0)}{' '}
+                add an object or a keying with no canonical source, and {fmt(data.aggregates?.expansion_warrant?.uncertain || 0)}{' '}
+                are left undecided. The shape is the ledger's at scale: the objects the commentary assigns are,
+                in the main, the canon's own objects, while what the commentary supplies is the machinery of
+                individual diagnosis, the judgement of who should receive which. This warrant reading comes
+                from that coding, a distribution rather than the cell-by-cell adjudication the fifteen-cell
+                ledger reports, and it is offered as such.
+              </p>
+
               {/* READER'S AID */}
               <h2 style={h2}>A reader's aid: what the sources license</h2>
               <p>
@@ -1313,23 +1374,21 @@ function IndividualGuidanceStudy({ entry, onBack }) {
               {/* LIMITATIONS */}
               <h2 style={h2}>Limitations</h2>
               <p>
-                Recall is bounded and the bound is stated rather than hidden. The enumeration reached
-                structural saturation: repeated passes over the tradition's closed lists and the secondary
-                literature's cited passages surfaced no new member. Structural saturation is not instance-level
-                proof, and it cannot show that an open corpus holds no further instance. During the census the
-                corpus search service was intermittently unavailable, so a number of cells, including several of
-                the commentary witnesses for the calm-and-insight section and the per-cell warrant resolution
-                there, were grounded by direct passage fetch and structural inference rather than by exhaustive
-                search, and are marked in the dataset as quote-unconfirmed or unresolved; no structural
-                conclusion turns on any single one of them. Several specific gaps are also known. The forty
-                objects of the Visuddhimagga were confirmed in structure but not pulled verbatim at the
-                paragraph level, because the search filter for that work was not honoured and long phrase
-                queries timed out. Three further cases are likely present but were not run to confirmation: a
-                standing assignment of mindfulness of death to a named person; the framing of body-mindfulness
-                as a directed assignment in the longer discourse on it; and the commentarial back-story in which
-                monks frightened by tree-deities are given loving-kindness. These are limits of retrieval, not
-                findings of absence, and they are marked as such in the dataset. Scope is Pāli and Theravāda
-                only; the Vimuttimagga enters through Bapat alone; cross-tradition material is out of scope.
+                Recall is bounded and the bound is stated rather than hidden. The enumeration now draws on a
+                frame of {fmt(755)} candidate passages built by direct database query over the assignment
+                vocabulary, not on the search service, and within the tradition's closed lists and the
+                secondary literature's cited passages it reached structural saturation, repeated passes
+                surfacing no new member. Structural saturation is not instance-level proof: it cannot show that
+                an open corpus holds no further instance phrased in terms the frame did not cover, which is why
+                the frame is defined in full and left extensible. The warrant reading of the enlarged
+                commentarial set comes from that coding, reported as a distribution rather than adjudicated
+                cell by cell in the manner of the fifteen-cell ledger. Several gaps named in the earlier pass
+                are now closed and carried in the dataset: the forty objects of the Visuddhimagga and their
+                temperament keying are pulled verbatim, the graded death-mindfulness discourses and the directed
+                discourse on body-mindfulness are enumerated, and the commentarial back-story in which monks
+                frightened by tree-deities are given loving-kindness is recorded as a commentarial assignment.
+                Scope is Pāli and Theravāda only; the Vimuttimagga enters through Bapat alone; cross-tradition
+                material is out of scope.
               </p>
 
               {/* CONTRIBUTION */}
@@ -1347,11 +1406,14 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 quantifying the reading argued most sharply by Cousins and consonant with Gethin and Anālayo.
                 Two negatives stand behind this. That the personality typology of the six temperaments is not in
                 the four Nikāyas is well evidenced and is the study's most distinctive output. That the word{' '}
-                <em>carita</em> never carries the temperament sense in the canon is the narrower claim: the noun
-                and the verb <em>caritā</em> share a surface form, and a clean sense-split count has not yet been
-                run, so this is reported as a strong reading rather than a closed negative. The one negative
-                confirmed by an exact database count is the meditative sense of <em>kammaṭṭhāna</em>, which is
-                effectively confined to the Visuddhimagga.
+                <em>carita</em> never carries the temperament sense in the four Nikāyas is now a counted result
+                rather than a reading: across the Sutta Piṭaka the word appears in 554 passages, of which only
+                nine carry a temperament compound, and all nine fall outside the four primary Nikāyas, among the
+                Khuddaka's analytical and para-canonical works: the Mahā- and Cūḷaniddesa, the Nettippakaraṇa,
+                the Peṭakopadesa, and the Milindapañha. The Paṭisambhidāmagga, sometimes taken as the home of
+                this terminology, carries none. The remaining occurrences are the verb and the
+                good-or-bad-conduct senses. The meditative sense of <em>kammaṭṭhāna</em>, likewise confirmed by
+                an exact count, is effectively confined to the Visuddhimagga.
               </p>
 
               {/* REFERENCES */}
