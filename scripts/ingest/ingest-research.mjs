@@ -28,8 +28,9 @@ const DOCS = [
   { slug: 'tooling-and-process', file: 'research/TOOLING-AND-PROCESS.md',
     title: 'Improving Dhamma as a Research Instrument',
     summary: 'Targeted and generalized, measurable improvements to the corpus tool and the research process, with an evaluation-harness proposal.' },
-  // Meditation-objects study lands here once its findings doc is written:
-  // { slug: 'meditation-objects-findings', file: 'research/meditation-objects/FINDINGS.md', title: '…', summary: '…' },
+  { slug: 'meditation-objects-findings', file: 'research/meditation-objects/FINDINGS.md',
+    title: 'Classes of Individuals, Object-Matching, and the "40 Kammaṭṭhāna"',
+    summary: 'Did the Buddha classify persons (neyya etc.) and match objects to individuals, and are the 40 kammaṭṭhāna his enumeration or Buddhaghosa’s? Verified study with the real count.' },
 ];
 
 function esc(s) {
