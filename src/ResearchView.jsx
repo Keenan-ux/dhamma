@@ -21,6 +21,12 @@ const ENTRIES = [
     data: '/research/awakening-events.json',
     beings: '/research/awakening-beings.json',
   },
+  {
+    slug: 'individual-guidance',
+    title: 'How an Individual Is Guided Toward Awakening',
+    subtitle: 'A census of how the canon and its commentaries match a person to a teaching and a meditation object, with the calm-and-insight question settled on the evidence.',
+    data: '/research/individual-guidance.json',
+  },
 ];
 
 export default function ResearchView() {
@@ -77,8 +83,9 @@ export default function ResearchView() {
 
   const entry = openSlug ? ENTRIES.find((e) => e.slug === openSlug) : null;
   if (entry) {
+    const StudyComponent = entry.slug === 'individual-guidance' ? IndividualGuidanceStudy : AwakeningStudy;
     return (
-      <AwakeningStudy
+      <StudyComponent
         entry={entry}
         onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', '#/research'); }}
       />
@@ -303,9 +310,9 @@ function AwakeningStudy({ entry, onBack }) {
               </p>
               <p style={methodNote}>
                 Method and confidence: recall is marker-bounded (an awakening narrated with no stock
-                phrase is not captured). Classification was done by a 114-agent pass over the corpus;
-                an independent re-classification of {data.verification.passages_compared} passages agreed{' '}
-                {data.verification.exact_bucket_agreement_pct}% on the exact circumstance and{' '}
+                phrase is not captured). Classification was done by an automated pass over the corpus,
+                with an independent re-classification of {data.verification.passages_compared} passages
+                agreeing {data.verification.exact_bucket_agreement_pct}% on the exact circumstance and{' '}
                 {data.verification.event_agreement_pct}% on whether a passage is an event at all. The
                 small buckets carry real boundary fuzz. Every count below is reproducible from the
                 live database. Click any circumstance to jump to its complete, cited list; each
@@ -563,6 +570,840 @@ function AwakeningStudy({ entry, onBack }) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Individual-guidance study. Sibling to AwakeningStudy: reads a static dataset
+// (public/research/individual-guidance.json) and renders the full paper prose
+// plus hyperlinked canon-vs-commentary tables, the H0/H1 warrant ledger, a
+// reader's decision-aid, and the complete cited list. The renderer only READS
+// the JSON; every analytic number is reproducible from the live corpus.
+// ---------------------------------------------------------------------------
+
+const FACETS = [
+  { key: 'F1-object-assign', heading: 'B. Assigning a meditation object', short: 'Object assignment' },
+  { key: 'F2-modes-types-agency', heading: 'A. The person and the mode of guidance', short: 'Modes, types, agency' },
+  { key: 'F3-commentary-carita', heading: 'F. The commentarial temperament matrix', short: 'The carita matrix' },
+  { key: 'F4-samatha-vipassana', heading: 'D. Calm and insight', short: 'Calm and insight' },
+];
+
+const CRITERION_ORDER = ['defilement', 'situation', 'temperament', 'capacity', 'unstated'];
+const CRITERION_LABEL = {
+  defilement: 'Defilement (rāga / dosa / moha …)',
+  situation: 'Situation (illness, grief, crisis)',
+  temperament: 'Temperament (carita)',
+  capacity: 'Capacity / understanding-type',
+  unstated: 'Unstated',
+};
+const MODE_ORDER = ['statement', 'elaboration', 'leading', 'object'];
+const MODE_LABEL = {
+  statement: 'Bare statement',
+  elaboration: 'Brief, then elaborated',
+  leading: 'Led step by step',
+  object: 'Object assigned',
+};
+
+// Display label + warrant tier for each of the 15 decidable assignment cells
+// (h_class ∈ {H0, H1}). Tier follows the dataset's per-cell warrant: four H0
+// cells rest on the four Nikāyas (mūla), four on the para-canonical Niddesa or
+// Paṭisambhidāmagga; the seven H1 cells have no canonical warrant.
+const CELL = {
+  'kna-mettasutta-nidana-temperament-map': { label: 'Six temperaments mapped to six objects', tier: 'none' },
+  'kna-kullatthera-asubha-charnel': { label: 'Kulla, greed-natured, sent to the charnel ground', tier: 'none' },
+  'mpa-ragacarito-asubha': { label: 'An unnamed greed-natured monk given foulness', tier: 'none' },
+  'sva-dasuttara-temperament-asubha': { label: 'Greed-temperament given foulness (Dasuttara)', tier: 'none' },
+  'dhpa-suvannakara-misassign-then-redkasina': { label: "The goldsmith's son: foulness misassigned, then a red kasiṇa", tier: 'none' },
+  'F3-carita-01-term-origin': { label: 'The Buddha sorts beings into six temperament-groups', tier: 'mula' },
+  'F3-carita-02-full-matrix-svdasuttara': { label: 'The full six-cell temperament matrix', tier: 'para' },
+  'F3-cell-greed-asubha': { label: 'Greed → foulness (plus body-mindfulness)', tier: 'mula' },
+  'F3-cell-hate-metta-kasina': { label: 'Hate → loving-kindness and the colour kasiṇas', tier: 'mula' },
+  'F3-cell-delusion-vism-anapana-vs-svdasuttara-uddesa': { label: 'Delusion → breath, recitation, or dependent origination', tier: 'para' },
+  'F3-cell-speculation-anapanasati': { label: 'Discursive thought → mindfulness of breathing', tier: 'mula' },
+  'F3-cell-faith-six-recollections': { label: 'Faith → the six recollections', tier: 'none' },
+  'F3-cell-intelligence-maranasati-fourelement': { label: 'Intelligence → death-mindfulness, four-element analysis', tier: 'para' },
+  'F3-carita-organ-colour-correlation': { label: 'Temperament read from the colour of the heart-blood', tier: 'none' },
+  'F3-cariya-definition': { label: 'The definition of cariyā (conduct)', tier: 'para' },
+};
+const TIER = {
+  mula: { label: 'mūla', title: 'Warranted in the four Nikāyas' },
+  para: { label: 'para-canon.', title: 'Warranted only in the Niddesa or Paṭisambhidāmagga' },
+  abhi: { label: 'Abhidhamma', title: 'Warranted in the Abhidhamma Piṭaka' },
+  none: { label: 'no warrant', title: 'No canonical warrant: a commentarial innovation' },
+};
+
+// The reader's decision-aid. Two layers, kept provenance-separate.
+const HINDRANCE_MAP = [
+  { hindrance: 'Lust or greed (rāga)', antidote: 'Perception of foulness (asubha)', cite: 'an9.3', label: 'AN 9.3' },
+  { hindrance: 'Ill will (byāpāda)', antidote: 'Loving-kindness (mettā)', cite: 'an9.3', label: 'AN 9.3' },
+  { hindrance: 'Restless, discursive thought (vitakka)', antidote: 'Mindfulness of breathing (ānāpānasati)', cite: 'an9.3', label: 'AN 9.3' },
+  { hindrance: 'The conceit "I am" (asmimāna)', antidote: 'Perception of impermanence (aniccasaññā)', cite: 'an9.3', label: 'AN 9.3' },
+  { hindrance: 'Delusion (moha)', antidote: 'Wisdom (paññā)', cite: 'an6.107', label: 'AN 6.107' },
+];
+const CARITA_MATRIX = [
+  { carita: 'Greed (rāga)', objects: 'The foulnesses (ten in the Visuddhimagga, eleven in the Mettasutta commentary); mindfulness of the body' },
+  { carita: 'Hate (dosa)', objects: 'The four divine abidings; the four colour kasiṇas' },
+  { carita: 'Delusion (moha)', objects: 'Mindfulness of breathing; recitation, questioning, listening to the Dhamma' },
+  { carita: 'Discursive thought (vitakka)', objects: 'Mindfulness of breathing; the earth kasiṇa' },
+  { carita: 'Faith (saddhā)', objects: 'The six recollections (Buddha, Dhamma, Saṅgha, virtue, generosity, deities)' },
+  { carita: 'Intelligence (buddhi / ñāṇa)', objects: 'Mindfulness of death; the peaceful; the repulsiveness of food; the four-element analysis' },
+];
+
+function Cite({ id, children }) {
+  if (!id) return <span style={citeDead} title="No single corpus row (composite cell)">{children}</span>;
+  return (
+    <a href={`#/read/${encodeURIComponent(id)}`} style={citeLink} title={`Open ${children} in the reader`}>
+      {children}
+    </a>
+  );
+}
+
+// Pull resolvable corpus ids out of a free-text warrant string.
+const WARRANT_ID_RE = /\b(?:an|sn|mn|dn|ud|snp|thig|thag|iti|dhp|cnd|mnd|pe|ne|ps)\d[\w.]*/gi;
+function warrantIds(w) {
+  if (!w) return [];
+  const m = w.match(WARRANT_ID_RE);
+  return m ? Array.from(new Set(m.map((s) => s.toLowerCase()))) : [];
+}
+
+function IndividualGuidanceStudy({ entry, onBack }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState({});
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  const derived = useMemo(() => {
+    if (!data) return null;
+    const inst = data.instances || [];
+    // facet × layer
+    const facetByLayer = {};
+    for (const f of FACETS) facetByLayer[f.key] = { mula: 0, attha: 0, tika: 0, anya: 0 };
+    for (const r of inst) {
+      const fb = facetByLayer[r.facet];
+      if (fb && r.layer in fb) fb[r.layer] += 1;
+    }
+    const byFacet = {};
+    for (const f of FACETS) byFacet[f.key] = inst.filter((r) => r.facet === f.key);
+    const ledger = inst
+      .filter((r) => r.h_class === 'H0' || r.h_class === 'H1')
+      .map((r) => ({ ...r, cell: CELL[r.study_label] || { label: r.object || r.citation, tier: r.h_class === 'H1' ? 'none' : 'mula' } }));
+    // H0 first (mula then para), then H1
+    const tierRank = { mula: 0, para: 1, abhi: 2, none: 3 };
+    ledger.sort((a, b) => tierRank[a.cell.tier] - tierRank[b.cell.tier]);
+    return { inst, facetByLayer, byFacet, ledger };
+  }, [data]);
+
+  const sumRow = (obj) => LAYER_KEYS.reduce((s, k) => s + (obj?.[k] || 0), 0);
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label="Back to Research (Esc)">
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to Research</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading the census…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && derived && (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              {/* ABSTRACT */}
+              <p style={abstractLead}>
+                <span style={abstractTag}>Abstract.</span> When a person in the Pāli tradition is turned
+                toward awakening, the tradition does not hand out one practice. It speaks in four registers:
+                a bare statement that frees the hearer at once, a brief saying the hearer expands alone, a
+                staged leading toward readiness, and the assignment of a definite meditation object. This
+                study enumerates those acts of guidance across the live corpus of {fmt(194710)} passages and
+                codes each one for its mode, the criterion behind it, the meditative function it serves, and
+                its textual layer. The census holds {fmt(derived.inst.length)} instances, every one tied to a
+                passage that opens in the reader. Three results follow. The canon keys a meditation object
+                to the hearer's <em>present defilement or situation</em> (lust to foulness, ill will to love,
+                discursive thought to the breath); the keying of an object to a fixed <em>temperament</em>,
+                the famous scheme of six <em>caritas</em>, belongs to the commentaries and to the Niddesa,
+                not to the four Nikāyas. Tested cell by cell, the commentarial assignment system is faithful
+                in principle but innovative in apparatus: of fifteen decidable assignment cells, eight carry a
+                canonical warrant and seven do not. And on the disputed question of calm and insight, the canon
+                yokes <em>samatha</em> and <em>vipassanā</em>; across the discourses the census reached it
+                assigns insight alone, as a standing practice, to no named person, and the two-vehicle,
+                dry-insight split is a commentarial construction. The last result confirms, and quantifies,
+                a reading argued most sharply by Cousins.
+              </p>
+
+              <p style={methodNote}>
+                Reproducibility and recall. Every count below is reproducible from the live database, and
+                every citation opens its passage. Recall is bounded by the search vocabulary and by the
+                corpus edition: an instance phrased in terms the queries did not cover could be missed. The
+                enumeration reached structural saturation against the tradition's own closed lists (the four
+                understanding-types, the antidote formula, the six temperaments, the object inventory), with
+                repeated passes over those lists surfacing no new member, and it was reconciled against the
+                passages cited in the secondary literature. Saturation here measures structural completeness,
+                not a proof that the open corpus holds no further instance, and instance-level recall was
+                bounded further by the availability of the search service during the census; the remaining
+                gaps are named in the Limitations. Renderings of commentary and Abhidhamma are the author's own, since
+                the corpus carries no published English for those layers; they are checked against Ñāṇamoli
+                for the Visuddhimagga and B. C. Law for the Puggalapaññatti.
+              </p>
+
+              {/* 1. QUESTION */}
+              <h2 style={h2}>The question</h2>
+              <p>
+                The guiding question is how the Pāli tradition prescribes the guiding of an individual toward
+                awakening, across the full range from a bare statement to a step-by-step leading with an
+                assigned object, and what connects the kind of person, the kind of discourse given, and the
+                object or instruction assigned. The cross-cutting question, asked at every step, is how the
+                canon differs from the commentary.
+              </p>
+              <p>
+                Five hypotheses were fixed before the census. (H<sub>A</sub>) Identifying who should receive
+                what is, in the canon, a Buddha's perceptual faculty; operational, applicable-in-advance
+                criteria are commentarial. (H<sub>B</sub>) The canon matches by defilement and situation; the
+                temperament matrix is a commentarial addition, and the word <em>carita</em> does not carry the
+                temperament sense in the four Nikāyas (it does in the para-canonical Niddesa, which is why the
+                cells warranted there are tiered as resting outside the Nikāyas). (H<sub>D</sub>) The canon presents calm and insight as yoked,
+                not as two separate vehicles; the dry-insight split is commentarial. (H<sub>E</sub>) The canon
+                gives antidote-pairings and situational sets, not a fixed ordering of objects; sequence is a
+                commentarial systematization. The central test, decided cell by cell, sets <strong>H0</strong>,
+                that every commentarial assignment has a traceable canonical warrant, against <strong>H1</strong>,
+                that the commentary adds assignments with no warrant. The prior expectation, registered in
+                advance, was a split rather than a winner.
+              </p>
+
+              {/* 2. LITERATURE */}
+              <h2 style={h2}>Earlier scholarship</h2>
+              <p>
+                The relation of calm to insight is the most-discussed question here, and these results enter an
+                existing debate rather than open a new one. Bronkhorst (1993) argued that a
+                current of pure insight, independent of the absorptions, stands in tension with the older
+                mainstream of meditative calm. Vetter (1988) likewise separated an early path of <em>dhyāna</em>
+                from a later discriminating insight. Against the separatist reading, Gethin (1992) and Anālayo
+                (2003, 2017) read the Nikāya path as an integrated cultivation in which calm and insight are
+                developed together. The statement closest to this study is Cousins (1984, 1996): the
+                division of practitioners into a <em>samatha-yānika</em> and a <em>vipassanā-yānika</em>, and
+                the figure of the dry-insight worker who reaches the goal without the absorptions, is a
+                commentarial systematization, not a canonical doctrine. The census tests that claim directly
+                and finds for it; section D states the evidence.
+              </p>
+              <p>
+                On the inventory of meditation subjects, Buddhaghosa's Visuddhimagga fixes the forty meditation
+                subjects and keys them to the six temperaments. Bapat (1937), comparing the Visuddhimagga with
+                the Vimuttimagga preserved in Chinese, showed that the earlier manual counts thirty-eight, not
+                forty, and differs in detail, a difference taken from Bapat's comparison and not re-counted
+                here; the closed list of forty is therefore a settling, not a given. Ñāṇamoli's translation (1956) remains the standard reference for the Visuddhimagga and
+                is the control used here for the author's renderings. On the key term, Crosby, Skilton and Kyaw
+                (2019) document that <em>kammaṭṭhāna</em> in its technical sense, a meditation subject, is a
+                commentarial usage; in the canon the word means an occupation or place of work. A frozen
+                database count confirms this for our corpus and corrects an overstatement in earlier work of
+                ours: the word does occur in the four Nikāyas, but in the ordinary sense alone (a livelihood,
+                farming or trade or cattle-keeping; the household occupation), with the meditative sense
+                effectively confined to the Visuddhimagga.
+              </p>
+              <p>
+                On the typologies, the Puggalapaññatti, the Abhidhamma book of human types translated by Law
+                (1922), defines the four understanding-types by the manner in which each comes to realization,
+                and so supplies the canonical definition of the guidance modes used here. The reception of these
+                schemes in the Burmese insight tradition, through Ledi Sayadaw and the teachers who followed,
+                and the anthologies of Nyanaponika and Bodhi, frame how the typologies have been read in
+                practice. Shaw (2006) and Kuan (2008) survey the object inventory and the place of mindfulness;
+                Stuart (2015) extends the comparative horizon beyond the Pāli. The contribution is not a new
+                reading of any of these but an auditable, exhaustive census that confirms the field's prose
+                conclusions with counts and pins each to a passage.
+              </p>
+
+              {/* 3. METHOD + Table 1 */}
+              <h2 style={h2}>Sources and method</h2>
+              <p>
+                The corpus is the Chaṭṭha Saṅgāyana (CST/VRI) recension as ingested into the project database,
+                with SuttaCentral identifiers as the cross-walk and the standard Pāli dictionaries for the
+                lexis. CST is used because it is the only layer that carries the full Aṭṭhakathā and Ṭīkā the
+                canon-versus-commentary comparison needs; its pagination differs from the PTS editions.
+                Searching combined exact and stemmed queries over the original-language field for the Pāli
+                object terms and antidote formulas, concept queries over the English field for discovery, and
+                the passage and commentary endpoints to follow a sutta to its Aṭṭhakathā. A load-bearing
+                negative claim, that a word or sense is absent from a layer, is confirmed by a direct database
+                count grouped by textual role rather than by a search impression, because the count is exact
+                where the search lane is not; the sense-distribution of <em>kammaṭṭhāna</em> is established
+                this way.
+              </p>
+              <p>
+                A guidance instance is a passage in which a teacher directs a specific person or class toward
+                awakening by one of four modes: a bare <em>statement</em> on which the hearer breaks through; a
+                brief saying the hearer <em>elaborates</em>; a staged <em>leading</em> without one named object;
+                or the assignment of a definite meditation <em>object</em>. Each instance is coded for mode,
+                object where present, criterion (defilement, situation, temperament, capacity, or unstated),
+                recipient and stated features, occasion, meditative function (calm, insight, both, or unstated),
+                textual layer, and voice. For a commentarial assignment the warrant field records the canonical
+                passage that licenses it, or marks its absence. The classification was done independently more
+                than once and the disagreements adjudicated; the boundary cases are the small commentarial cells
+                where an object set is canonical but its keying to a temperament is not.
+              </p>
+              <p>
+                Diacritics follow IAST. Citations give the SuttaCentral identifier or the CST row identifier,
+                with the traditional abbreviation. Where the corpus has no published English, in the commentary
+                and Abhidhamma, the rendering is the author's own gloss and is marked as such in the dataset.
+                The Vimuttimagga is reached only through Bapat's study of the Chinese and is treated as a
+                secondary witness, not a primary one.
+              </p>
+
+              <h3 style={h3}>Table 1. Guidance instances by analytic group and textual layer</h3>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Group</th>
+                      {LAYER_KEYS.map((k) => <th key={k} style={thNum} title={LAYER[k].full}>{LAYER[k].label}</th>)}
+                      <th style={thNum}>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {FACETS.map((f) => (
+                      <tr key={f.key} style={tr}>
+                        <td style={tdLeft}>{f.short}</td>
+                        {LAYER_KEYS.map((k) => <td key={k} style={tdNum}>{derived.facetByLayer[f.key][k] ? fmt(derived.facetByLayer[f.key][k]) : '·'}</td>)}
+                        <td style={tdNumStrong}>{fmt(sumRow(derived.facetByLayer[f.key]))}</td>
+                      </tr>
+                    ))}
+                    <tr style={trTotal}>
+                      <td style={tdLeft}>All instances</td>
+                      {LAYER_KEYS.map((k) => <td key={k} style={tdNumStrong}>{fmt(data.aggregates.by_layer[k])}</td>)}
+                      <td style={tdNumStrong}>{fmt(derived.inst.length)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>
+                Column key: Canon = Tipiṭaka (mūla); Comm. = aṭṭhakathā; Sub-comm. = ṭīkā; Extra =
+                extra-canonical and para-canonical (Nettippakaraṇa, Peṭakopadesa, Paṭisambhidāmagga,
+                Visuddhimagga). The layer follows the corpus edition's own coding.
+              </p>
+
+              {/* A. PERSON & MODE + Table 3 */}
+              <h2 style={h2}>A. The person and the mode of guidance</h2>
+              <p>
+                The canon names four kinds of person by the manner in which each comes to understand. The
+                Ugghaṭitaññū-sutta (<Cite id="an4.133">AN 4.133</Cite>) lists them: one who understands at
+                once, one who understands after detail, one who needs to be led, and one who, in this life,
+                only learns the words. The Puggalapaññatti (<Cite id="cst-abh03m2.mul-014">Pp §§148–151</Cite>)
+                defines each by its trigger: realization together with the utterance; realization when a brief
+                saying is analysed in detail; realization gradually, through recitation, questioning, wise
+                attention and good friends; and no realization this life despite much hearing. These
+                definitions are themselves the typology of guidance modes. The bare statement matches the
+                first type, the brief-then-elaborated saying the second, the staged leading the third.
+              </p>
+              <p>
+                Each mode has its canonical exemplar. Bāhiya (<Cite id="ud1.10">Ud 1.10</Cite>) is freed on a
+                single sentence, in the seen only the seen, standing on the road: a statement. Māluṅkyaputta
+                (<Cite id="sn35.95">SN 35.95</Cite>) receives the same brief verse, asks to expand it, draws
+                out the meaning himself, and attains: elaboration. Upāli (<Cite id="mn56">MN 56</Cite>) is led
+                by graded talk, on giving, virtue, heaven, the danger of sense pleasures and the benefit of
+                renunciation, until his mind is ready and pliable, and only then is given the teaching peculiar
+                to the Buddhas: a leading. The fourth type, the one who does not break through this life, is a
+                limit case, not an act of guidance, and is recorded but not enumerated as an instance.
+              </p>
+              <p>
+                Who may guide, and how does a guide know what to give? In the canon the answer is a faculty.
+                The Buddha surveys the world with the eye of an Awakened One and sees beings with little dust
+                and with much, with keen faculties and with dull, the famous lotus-pond image
+                (<Cite id="sn6.1">SN 6.1</Cite>, <Cite id="mn26">MN 26</Cite>); the knowledge of the maturity
+                of others' faculties is listed among the Realized One's powers (<Cite id="mn12">MN 12</Cite>).
+                This is perception, not a checklist applied in advance, which is exactly what H<sub>A</sub>
+                predicted. The para-canonical bridge takes the next step: the Nettippakaraṇa
+                (<Cite id="ne4">Nett</Cite>) gives each understanding-type a different content (escape only for
+                the first, danger and escape for the second, gratification, danger and escape for the third);
+                the Peṭakopadesa (<Cite id="pe8">Peṭ</Cite>) and the Paṭisambhidāmagga
+                (<Cite id="ps1.4">Paṭis</Cite>) correlate the types with keen and dull faculties, and gloss
+                keen faculties as the person of faith. These texts begin to make the Buddha's perception into a
+                teachable scheme, and they sit between the canon and the commentary in doing so.
+              </p>
+
+              <h3 style={h3}>Table 2. Mode of guidance, by layer</h3>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Mode</th>
+                      {LAYER_KEYS.map((k) => <th key={k} style={thNum} title={LAYER[k].full}>{LAYER[k].label}</th>)}
+                      <th style={thNum}>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {MODE_ORDER.map((m) => {
+                      const row = data.aggregates.mode_x_layer[m] || {};
+                      return (
+                        <tr key={m} style={tr}>
+                          <td style={tdLeft}>{MODE_LABEL[m]}</td>
+                          {LAYER_KEYS.map((k) => <td key={k} style={tdNum}>{row[k] ? fmt(row[k]) : '·'}</td>)}
+                          <td style={tdNumStrong}>{fmt(sumRow(row))}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>
+                Object-assignment is the most common mode and the only one with a heavy commentarial
+                presence; the statement, elaboration and leading modes are almost entirely canonical, because
+                the commentary's interest is in which object suits whom.
+              </p>
+
+              {/* B. OBJECT ASSIGNMENT */}
+              <h2 style={h2}>B. Assigning a meditation object</h2>
+              <p>
+                The canon's object-assignments turn on a small, closed antidote formula. To Meghiya, harassed
+                in the mango grove by thoughts of sense pleasure, ill will and cruelty, the Buddha gives four
+                things to develop: foulness to give up greed, love to give up hate, mindfulness of breathing to
+                cut off thinking, and the perception of impermanence to uproot the conceit "I am"
+                (<Cite id="an9.3">AN 9.3</Cite>, with the Udāna doublet <Cite id="ud4.1">Ud 4.1</Cite> and the
+                de-personalised parallel <Cite id="an9.1">AN 9.1</Cite>). The same logic appears as a three-root
+                scheme, foulness against greed, love against hate, wisdom against delusion
+                (<Cite id="an6.107">AN 6.107</Cite>). The criterion is the defilement, and the formula is
+                identical whether the hearer is a named monk or the assembly at large.
+              </p>
+              <p>
+                The directed cases follow the same rule. The Buddha advises Rāhula at length, object by object,
+                building the divine abidings and the perception of foulness and impermanence each against its
+                defilement, and closing with the sixteen steps of mindfulness of breathing
+                (<Cite id="mn62">MN 62</Cite>); he gives Rāhula the same foulness-and-signless instruction in
+                verse (<Cite id="snp2.11">Snp 2.11</Cite>). The nun Nandā, attached to her own beauty, is told
+                to look at the body as diseased and foul (<Cite id="thig5.4">Thīg 5.4</Cite>, with the parallel
+                <Cite id="thig2.1">Thīg 2.1</Cite>). The criterion there is again a defilement, vanity. Two
+                cases turn on situation rather than defilement: the gravely ill Girimānanda is healed by hearing
+                ten perceptions (<Cite id="an10.60">AN 10.60</Cite>), and after monks who had over-practised
+                foulness fell into a suicide crisis near Vesālī, the Buddha reassigns the peaceful, pleasant
+                abiding of mindfulness of breathing in its place (<Cite id="sn54.9">SN 54.9</Cite>). That last
+                case shows the canon correcting an object that has become harmful, which is assignment by
+                circumstance in its clearest form.
+              </p>
+              <p>
+                What the canon does not do is key an object to a fixed personality type. Across these instances
+                the criterion is the defilement that is active, the situation that has arisen, or the request
+                that was made. The object meets a state, and when the state shifts, as at Vesālī, the object
+                shifts with it.
+              </p>
+
+              {/* C. PATTERNS + Table (criterion x layer) */}
+              <h2 style={h2}>C. What goes with what</h2>
+              <p>
+                Laying the criteria against the layers makes the central contrast measurable. Every instance
+                keyed to a defilement, and every instance keyed to a situation, is canonical. Every instance
+                keyed to a temperament is commentarial. The canon and the commentary are not disagreeing about
+                the objects; they are using different keys. The situation cell is small, three instances, and
+                one of them, the element meditations given to Rāhula, sits near the boundary with the capacity
+                criterion; the contrast is clean at this count and should be read as such.
+              </p>
+              <h3 style={h3}>Table 3. Criterion of assignment, by layer</h3>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Criterion</th>
+                      {LAYER_KEYS.map((k) => <th key={k} style={thNum} title={LAYER[k].full}>{LAYER[k].label}</th>)}
+                      <th style={thNum}>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {CRITERION_ORDER.map((c) => {
+                      const row = data.aggregates.criterion_x_layer[c] || {};
+                      return (
+                        <tr key={c} style={tr}>
+                          <td style={tdLeft}>{CRITERION_LABEL[c]}</td>
+                          {LAYER_KEYS.map((k) => <td key={k} style={tdNum}>{row[k] ? fmt(row[k]) : '·'}</td>)}
+                          <td style={tdNumStrong}>{fmt(sumRow(row))}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>
+                Defilement and situation are canonical keys; temperament is a commentarial key. Capacity, the
+                understanding-type and faculty axis, runs through both layers because it is where the
+                para-canonical bridge does its work.
+              </p>
+              <p>
+                Two regularities hold across the enumeration. First, occasion predicts the criterion: a
+                defilement that has flared, a sickness, a crisis or a direct request each pulls a matching
+                object. Second, the statement and elaboration modes cluster with hearers of keen faculty, the
+                ones the typology calls quick, while the leading mode clusters with hearers who must be brought
+                to readiness. One expected regularity is absent: there is no canonical pairing of a stable
+                personality type with a standing object. That absence is the finding: the gap the commentary
+                later fills.
+              </p>
+
+              {/* D. SAMATHA-VIPASSANA */}
+              <h2 style={h2}>D. Calm and insight: yoked or split</h2>
+              <p>
+                The load-bearing question is whether the canon prescribes calm and insight as two separate
+                practices, or only as a yoked pair. The evidence is consistent. The Yuganaddha-sutta
+                (<Cite id="an4.170">AN 4.170</Cite>) lays out four ways to the goal, calm before insight,
+                insight before calm, the two in conjunction, and a mind seized by higher states, and all four
+                end in the same arising of the path: four entries into one process, not four standing paths.
+                The Paṭisambhidāmagga elaborates the same yoking (<Cite id="ps2.1">Paṭis 2.1</Cite>). The
+                Saṃyutta names calm and insight together as the single path to the unconditioned
+                (<Cite id="sn43.2">SN 43.2</Cite>). Where the canon does type people by these faculties, it does
+                so only by the four-person type, and only to restore the missing one: the person with calm but
+                not insight is sent to learn insight, the person with insight but not calm to learn calm
+                (<Cite id="an4.94">AN 4.94</Cite>, <Cite id="an10.54">AN 10.54</Cite>). This is the test that
+                matters. If the canon recognised a standing insight-only vehicle, it would assign insight alone
+                to some named individual; across the discourses the census reached, it does not, and that
+                pattern is consistent with the integrated reading.
+              </p>
+              <p>
+                The commentary builds something the canon does not state. The sub-commentaries on the
+                Yuganaddha-sutta read its first two modes as spoken for two kinds of practitioner, the
+                serenity-vehicle worker who first produces access or absorption, and the insight-vehicle worker
+                who contemplates the aggregates without producing that serenity
+                (<Cite id="cst-s0402t.tik-an4_p622">Mp-pṭ</Cite>). The Visuddhimagga and its sub-commentary name
+                the pure-insight-vehicle worker outright (<Cite id="cst-e0102n.mul-63_p006">Vism §63</Cite>,{' '}
+                <Cite id="cst-e0104n.att-62_p006">Vism-mhṭ</Cite>), and the Abhidhamma sub-commentary names the
+                dry-insight worker, the <em>sukkhavipassaka</em> (<Cite id="cst-abh08t.nrf-100_p027">Abh-pṭ</Cite>),
+                and distinguishes the momentary concentration he relies on from the access-and-absorption
+                concentration of the other. A transient imbalance the canon tells you to correct becomes, in the
+                commentary, a settled type of person and a second vehicle. This is the picture Cousins
+                described, now with the canonical loci and the commentarial loci set side by side. These
+                commentarial witnesses were confirmed by direct reading of the cited paragraphs rather than by
+                a corpus-wide sweep.
+              </p>
+
+              {/* E. SEQUENCE */}
+              <h2 style={h2}>E. Does the guidance change over time?</h2>
+              <p>
+                The canon gives pairings and situational sets, and it does grade a single curriculum, most
+                clearly in the long advice to Rāhula, which moves through the elements, the divine abidings, the
+                perceptions and the sixteen steps of breathing in one sitting (<Cite id="mn62">MN 62</Cite>).
+                What it does not give is a fixed order of objects through which every practitioner must pass.
+                The fixed sequence is commentarial: virtue, then concentration on one of the forty subjects
+                chosen by temperament, then wisdom; the seven purifications; the graded knowledges of insight.
+                This matches the registered expectation for H<sub>E</sub>. Sequence, like the temperament key,
+                is part of the apparatus the commentary supplies on top of the canonical pairings.
+              </p>
+
+              {/* F. CANON VS COMMENTARY + Table 4 (ledger) */}
+              <h2 style={h2}>F. Canon and commentary: the warrant ledger</h2>
+              <p>
+                The commentarial system has two parts that must be judged separately. The object inventory and
+                the defilement-antidote keying are inherited from the canon: foulness for greed, love for hate,
+                breathing for discursive thought are the Meghiya formula, restated. What the commentary adds is
+                the temperament. It sorts beings into six standing types, greed, hate, delusion, discursive
+                thought, faith and intelligence, and assigns a standing object to each
+                (<Cite id="cst-s0103a.att-dn3_11_p002">Sv-a 11 §2</Cite>,{' '}
+                <Cite id="cst-s0505a.att-10_p003">KN-a §10.3</Cite>). The sorting is read back into the canonical
+                scene in which the Buddha surveys beings, where the commentary says he made six groups
+                (<Cite id="cst-s0102a.att-dn2_1_p218">Sv-a 1 §218</Cite>), though the canonical survey divides by
+                dust and faculty, not by these six types.
+              </p>
+              <p>
+                Two features mark the temperament scheme as the commentary's own. One is the
+                teacher-diagnosis-then-correction machinery. Sāriputta, reasoning that a young monk must have
+                excess lust, assigns foulness; it fails for three months; the Buddha, seeing by his own
+                knowledge that the monk had been a goldsmith working red gold for five hundred lives, judges the
+                repulsive subject unfit and conjures a golden lotus instead, on which the monk attains at once
+                (<Cite id="cst-s0502a.att-234_p003">Dhp-a</Cite>). The other is the diagnostic by which a teacher
+                is said to read temperament: the colour of the heart-blood, red for greed, black for hate, the
+                colour of dishwater for delusion (<Cite id="cst-abh02a.att-70_p058">Vibh-a §70.58</Cite>). Neither
+                the misassignment story nor the physiological diagnostic has any canonical source. They are the
+                emblem of the scheme's character: a worked-out craft of matching person to object, resting on a
+                reading of the person that the canon never offers.
+              </p>
+              <p>
+                Tested cell by cell, the result is the split the prior expectation named. Of fifteen decidable
+                assignment cells, eight carry a canonical warrant and seven do not. Four of the eight rest on the
+                four Nikāyas, chiefly the Meghiya antidote formula; the other four rest only on the Khuddaka
+                texts that lie outside the four primary Nikāyas, the Cūḷaniddesa (which already keys objects to
+                the temperament types of greed, delusion and the rest) and the Paṭisambhidāmagga, and the table
+                marks that tier. Two of the four Nikāya-warranted cells are warranted only in their core pairing:
+                the addition of mindfulness of the body to the greed cell, and of the three further divine
+                abidings and the four colour kasiṇas to the hate cell, has no canonical antidote warrant of its
+                own, and the dataset records those additions as unwarranted. The seven cells without any warrant
+                are the temperament keying itself, the colour diagnostic, the misassignment machinery, and the
+                match of the faith type to the six recollections, where the object set is canonical but its
+                keying to a temperament is not.
+              </p>
+
+              <h3 style={h3}>Table 4. The warrant ledger: the fifteen decidable assignment cells</h3>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Assignment cell</th>
+                      <th style={thLeft}>Source</th>
+                      <th style={thLeft}>Canonical warrant</th>
+                      <th style={thLeft}>Tier</th>
+                      <th style={thLeft}>Verdict</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {derived.ledger.map((r, i) => {
+                      const ids = warrantIds(r.warrant);
+                      return (
+                        <tr key={r.study_label || i} style={tr}>
+                          <td style={tdLeftSm}>{r.cell.label}</td>
+                          <td style={tdLeftSm}><Cite id={r.id}>{r.citation}</Cite></td>
+                          <td style={tdLeftSm}>
+                            {r.h_class === 'H1'
+                              ? <span style={tinyNote}>none</span>
+                              : (ids.length
+                                  ? ids.map((wid, j) => <span key={wid}>{j ? ', ' : ''}<Cite id={wid}>{wid}</Cite></span>)
+                                  : <span style={tinyNote}>{(r.warrant || '').split('(')[0].trim() || 'self'}</span>)}
+                          </td>
+                          <td style={tdLeftSm}><span style={tierBadge(r.cell.tier)} title={TIER[r.cell.tier].title}>{TIER[r.cell.tier].label}</span></td>
+                          <td style={tdLeftSm}><span style={hclassBadge(r.h_class)}>{r.h_class === 'H0' ? 'supported (H0)' : 'innovation (H1)'}</span></td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>
+                Eight cells supported (H0), seven innovations (H1). Of the eight supported, four rest on the
+                four Nikāyas and four only on the para-canonical Niddesa or Paṭisambhidāmagga. Click a source or
+                a warrant to open the passage.
+              </p>
+
+              {/* READER'S AID */}
+              <h2 style={h2}>A reader's aid: what the sources license</h2>
+              <p>
+                Readers ask which object suits them. The sources give two different answers, and they must be
+                kept apart. The canon offers a rule you can apply yourself, because it keys the object to a
+                state you can observe in the moment. The commentary offers a richer scheme, but one its own
+                texts say a teacher must apply, not the practitioner. This aid presents both and issues no
+                single verdict.
+              </p>
+
+              <div style={aidPanel}>
+                <div style={aidHeadRow}>
+                  <span style={aidTagCanon}>Canon</span>
+                  <span style={aidHeadText}>Match the antidote to the hindrance most active now. State, not type; re-check as it shifts.</span>
+                </div>
+                <div style={tableWrap}>
+                  <table style={table}>
+                    <thead>
+                      <tr><th style={thLeft}>If this is most active now</th><th style={thLeft}>Develop</th><th style={thNum}>Source</th></tr>
+                    </thead>
+                    <tbody>
+                      {HINDRANCE_MAP.map((h) => (
+                        <tr key={h.hindrance} style={tr}>
+                          <td style={tdLeft}>{h.hindrance}</td>
+                          <td style={tdLeft}>{h.antidote}</td>
+                          <td style={tdNum}><Cite id={h.cite}>{h.label}</Cite></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p style={aidNote}>
+                  This is the Meghiya antidote logic (<Cite id="an9.3">AN 9.3</Cite>), with the
+                  delusion-and-wisdom pairing drawn from the three-root scheme of <Cite id="an6.107">AN 6.107</Cite>:
+                  the antidote answers the defilement that is present, and it changes as the defilement changes.
+                </p>
+              </div>
+
+              <div style={aidPanel}>
+                <div style={aidHeadRow}>
+                  <span style={aidTagComm}>Commentary</span>
+                  <span style={aidHeadText}>The temperament scheme, shown as the texts give it: assigned by a teacher, not self-diagnosed.</span>
+                </div>
+                <div style={tableWrap}>
+                  <table style={table}>
+                    <thead>
+                      <tr><th style={thLeft}>Temperament (carita)</th><th style={thLeft}>Objects the commentary assigns</th></tr>
+                    </thead>
+                    <tbody>
+                      {CARITA_MATRIX.map((c) => (
+                        <tr key={c.carita} style={tr}>
+                          <td style={tdLeft}>{c.carita}</td>
+                          <td style={tdLeft}>{c.objects}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p style={aidCaveat}>
+                  Caveat from the sources themselves. The commentary holds that temperament is read by a
+                  teacher, through long observation or the knowledge of minds, and that the surest reading is a
+                  Buddha's faculty; the scheme even offers to read it from the colour of the heart-blood
+                  (<Cite id="cst-abh02a.att-70_p058">Vibh-a §70.58</Cite>). It is not meant to be applied to
+                  oneself, and the case of the goldsmith's son (<Cite id="cst-s0502a.att-234_p003">Dhp-a</Cite>)
+                  shows even Sāriputta misreading it. Treat this column as description, not instruction.
+                </p>
+              </div>
+
+              {/* DISCUSSION */}
+              <h2 style={h2}>Discussion</h2>
+              <p>
+                The picture is coherent. In the canon, guidance is occasioned and personal: a teacher meets a
+                hearer in a state, at a moment, and matches a word or an object to that state. The criterion is
+                what is present, a defilement, a sickness, a question, and the identification of who needs what
+                is a faculty of perception, not a procedure. The commentary keeps the inventory and the
+                antidote logic intact and adds an apparatus on top: a typology of persons, a closed list of
+                forty objects, a fixed sequence, and a craft of diagnosis. The apparatus is not arbitrary; it
+                systematizes real canonical pairings into something a teacher without the Buddha's eye could
+                use. But it adds a claim the canon does not make, that persons come in standing types to which
+                standing objects belong.
+              </p>
+              <p>
+                The same shape appears in the calm-and-insight result. The canon treats a deficiency in calm or
+                insight as something to be corrected so that the pair is restored; the commentary turns the
+                deficiency into a kind of person and a second vehicle. In both cases the move is from state to
+                type, from the occasioned to the systematic. Naming that single move is the study's main
+                interpretive claim, and the warrant ledger and the criterion table are the evidence for it.
+              </p>
+
+              {/* LIMITATIONS */}
+              <h2 style={h2}>Limitations</h2>
+              <p>
+                Recall is bounded and the bound is stated rather than hidden. The enumeration reached
+                structural saturation: repeated passes over the tradition's closed lists and the secondary
+                literature's cited passages surfaced no new member. Structural saturation is not instance-level
+                proof, and it cannot show that an open corpus holds no further instance. During the census the
+                corpus search service was intermittently unavailable, so a number of cells, including several of
+                the commentary witnesses for the calm-and-insight section and the per-cell warrant resolution
+                there, were grounded by direct passage fetch and structural inference rather than by exhaustive
+                search, and are marked in the dataset as quote-unconfirmed or unresolved; no structural
+                conclusion turns on any single one of them. Several specific gaps are also known. The forty
+                objects of the Visuddhimagga were confirmed in structure but not pulled verbatim at the
+                paragraph level, because the search filter for that work was not honoured and long phrase
+                queries timed out. Three further cases are likely present but were not run to confirmation: a
+                standing assignment of mindfulness of death to a named person; the framing of body-mindfulness
+                as a directed assignment in the longer discourse on it; and the commentarial back-story in which
+                monks frightened by tree-deities are given loving-kindness. These are limits of retrieval, not
+                findings of absence, and they are marked as such in the dataset. Scope is Pāli and Theravāda
+                only; the Vimuttimagga enters through Bapat alone; cross-tradition material is out of scope.
+              </p>
+
+              {/* CONTRIBUTION */}
+              <h2 style={h2}>Contribution</h2>
+              <p>
+                The lasting contribution is the auditable census itself: every act of guidance in the studied
+                range, coded on a fixed scheme, split canon against commentary, with each instance resolving to
+                a passage a reader can open and check. On top of that the study offers three results. It
+                quantifies the canon-versus-commentary difference in object-assignment as a clean contrast of
+                keys, defilement and situation against temperament. It decides the H0/H1 question with a count,
+                eight cells warranted and seven not, and it reports the warrant tier rather than collapsing the
+                eight into a single canonical voice. And it resolves the calm-and-insight question for this
+                corpus in favour of the yoked reading, on the evidence enumerated, including the absence across
+                the enumerated discourses of any insight-alone assignment to a named person, confirming and
+                quantifying the reading argued most sharply by Cousins and consonant with Gethin and Anālayo.
+                Two negatives stand behind this. That the personality typology of the six temperaments is not in
+                the four Nikāyas is well evidenced and is the study's most distinctive output. That the word{' '}
+                <em>carita</em> never carries the temperament sense in the canon is the narrower claim: the noun
+                and the verb <em>caritā</em> share a surface form, and a clean sense-split count has not yet been
+                run, so this is reported as a strong reading rather than a closed negative. The one negative
+                confirmed by an exact database count is the meditative sense of <em>kammaṭṭhāna</em>, which is
+                effectively confined to the Visuddhimagga.
+              </p>
+
+              {/* REFERENCES */}
+              <h2 style={h2}>References</h2>
+              <ol style={refList}>
+                <li style={refItem}>Anālayo. 2003. <em>Satipaṭṭhāna: The Direct Path to Realization</em>. Birmingham: Windhorse.</li>
+                <li style={refItem}>Anālayo. 2017. <em>Early Buddhist Meditation Studies</em>. Barre: Barre Center for Buddhist Studies.</li>
+                <li style={refItem}>Bapat, P. V. 1937. <em>Vimuttimagga and Visuddhimagga: A Comparative Study</em>. Poona.</li>
+                <li style={refItem}>Bronkhorst, Johannes. 1993. <em>The Two Traditions of Meditation in Ancient India</em>. Stuttgart: Franz Steiner.</li>
+                <li style={refItem}>Buddhaghosa. <em>Visuddhimagga</em>. Chaṭṭha Saṅgāyana edition. Trans. Bhikkhu Ñāṇamoli, <em>The Path of Purification</em>, 1956.</li>
+                <li style={refItem}>Cousins, L. S. 1984. "Samatha-yāna and Vipassanā-yāna." In <em>Buddhist Studies in Honour of Hammalava Saddhātissa</em>, 56–68. Nugegoda.</li>
+                <li style={refItem}>Cousins, L. S. 1996. "The Origins of Insight Meditation." In <em>The Buddhist Forum IV</em>, ed. T. Skorupski, 35–58. London: SOAS.</li>
+                <li style={refItem}>Crosby, Kate, Andrew Skilton, and Pyi Phyo Kyaw. 2019. Studies on kammaṭṭhāna and the borān tradition. <em>Contemporary Buddhism</em> 20.1–2.</li>
+                <li style={refItem}>Cūḷaniddesa and Mahāniddesa. Khuddaka Nikāya. Chaṭṭha Saṅgāyana edition.</li>
+                <li style={refItem}>Gethin, Rupert. 1992. <em>The Buddhist Path to Awakening</em>. Leiden: Brill.</li>
+                <li style={refItem}>Kuan, Tse-fu. 2008. <em>Mindfulness in Early Buddhism</em>. London: Routledge.</li>
+                <li style={refItem}>Law, B. C. 1922. <em>Designation of Human Types (Puggala-Paññatti)</em>. London: Pali Text Society.</li>
+                <li style={refItem}>Nyanaponika Thera and Bhikkhu Bodhi. 1999. <em>Numerical Discourses of the Buddha</em>. Walnut Creek: AltaMira.</li>
+                <li style={refItem}>Shaw, Sarah. 2006. <em>Buddhist Meditation: An Anthology of Texts from the Pāli Canon</em>. London: Routledge.</li>
+                <li style={refItem}>Stuart, Daniel M. 2015. <em>A Less Traveled Path</em>. Vienna and Beijing.</li>
+                <li style={refItem}>Sujato, Bhikkhu, trans. <em>SuttaCentral</em>. The corpus's English layer for the Nikāyas.</li>
+                <li style={refItem}>Vetter, Tilmann. 1988. <em>The Ideas and Meditative Practices of Early Buddhism</em>. Leiden: Brill.</li>
+              </ol>
+
+              {/* APPENDIX */}
+              <h2 style={h2}>Appendix: the dataset</h2>
+              <p style={tableCaption}>
+                The complete census, grouped by analytic group. Each citation opens its passage in the reader.
+                Open a row for the verbatim Pāli, the translation or author's gloss, the warrant, and the
+                verification status. The dataset is versioned ({data.meta.version}), pinned to the corpus
+                snapshot of {data.meta.corpus_snapshot}, and published with this study; the design and codebook
+                are frozen in the research-design document.
+              </p>
+              {FACETS.map((f) => {
+                const rows = derived.byFacet[f.key];
+                const key = 'fac:' + f.key;
+                return (
+                  <section key={key} style={bucketSection}>
+                    <button style={bucketHeader} aria-expanded={!!open[key]} onClick={() => setOpen((o) => ({ ...o, [key]: !o[key] }))}>
+                      <span aria-hidden="true" style={{ width: 16, display: 'inline-block' }}>{open[key] ? '▾' : '▸'}</span>
+                      <span style={bucketTitle}>{f.short}</span>
+                      <span style={bucketCount}>{fmt(rows.length)}</span>
+                    </button>
+                    {open[key] && (
+                      <ol style={evList}>
+                        {rows.map((r, i) => {
+                          const rkey = (r.study_label || r.id || r.citation) + ':' + i;
+                          const ekey = key + ':' + rkey;
+                          return (
+                            <li key={rkey} style={evRow}>
+                              <Cite id={r.id}>{r.citation}</Cite>
+                              <span style={evLayer} title={LAYER[r.layer]?.full || r.layer}>{LAYER[r.layer]?.label || r.layer}</span>
+                              {r.h_class === 'H1' && <span style={miniInnov}>H1</span>}
+                              <span style={evBeing}>{r.recipient}</span>
+                              <button style={evToggle} onClick={() => setOpen((o) => ({ ...o, [ekey]: !o[ekey] }))}>
+                                {open[ekey] ? 'hide' : 'evidence'}
+                              </button>
+                              {open[ekey] && (
+                                <div style={evDetail}>
+                                  {r.object && <p style={evField}><span style={evFieldKey}>Object.</span> {r.object}</p>}
+                                  <p style={evField}><span style={evFieldKey}>Mode.</span> {MODE_LABEL[r.mode] || r.mode}. <span style={evFieldKey}>Criterion.</span> {r.criterion}. <span style={evFieldKey}>Function.</span> {r.function}.</p>
+                                  {r.recipient_features && <p style={evField}><span style={evFieldKey}>Features.</span> {r.recipient_features}</p>}
+                                  {r.evidence_pali && <p style={evPali}>{r.evidence_pali}</p>}
+                                  {r.evidence_en && <p style={evEn}>{r.evidence_en}</p>}
+                                  <p style={evMeta}>
+                                    <span style={evFieldKey}>Warrant.</span> {r.warrant || (r.h_class === 'H1' ? 'none (commentarial innovation)' : 'self (canonical)')}
+                                    {'  ·  '}<span style={evFieldKey}>Provenance.</span> {r.tr_provenance}
+                                    {'  ·  '}<span style={evFieldKey}>Verification.</span> {r.verification}
+                                  </p>
+                                </div>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    )}
+                  </section>
+                );
+              })}
+
+              <p style={footNote}>
+                Census {data.meta.version}, {fmt(derived.inst.length)} guidance instances across the live
+                corpus of {fmt(194710)} passages, snapshot {data.meta.corpus_snapshot}. Data-availability: the
+                dataset, the codebook, and the design are published with this study and reproducible from the
+                live database; every citation resolves to a passage in the reader.
+              </p>
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  );
+}
+
 function fmt(n) { return (n ?? 0).toLocaleString('en-US'); }
 function pct(n, d) { if (!d) return '·'; return `${Math.round((100 * (n || 0)) / d)}%`; }
 
@@ -625,3 +1466,45 @@ const evLayer = { fontSize: 10.5, letterSpacing: '0.04em', textTransform: 'upper
 const evBeing = { fontFamily: SERIF, fontSize: 13.5, fontStyle: 'italic', color: 'var(--bc-text-primary)', marginRight: 8 };
 const evEvidence = { fontFamily: SERIF, fontSize: 13, color: 'var(--bc-text-secondary)' };
 const footNote = { fontSize: 12, fontStyle: 'italic', color: 'var(--bc-text-tertiary)', marginTop: 28, paddingTop: 14, borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.18)' };
+
+// --- individual-guidance study additions ---
+const abstractLead = { fontFamily: SERIF, fontSize: 15.5, lineHeight: 1.8, color: 'var(--bc-text-primary)', margin: '4px 0 6px' };
+const abstractTag = { fontVariant: 'small-caps', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--bc-accent)', marginRight: 6 };
+const h3 = { fontFamily: SERIF, fontSize: 14.5, fontWeight: 600, letterSpacing: '0.02em', color: 'var(--bc-text-primary)', margin: '22px 0 8px' };
+
+const citeLink = { color: 'var(--bc-accent)', textDecoration: 'none', whiteSpace: 'nowrap', borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.32)' };
+const citeDead = { color: 'var(--bc-text-tertiary)', fontStyle: 'italic', whiteSpace: 'nowrap' };
+
+const tdLeftSm = { textAlign: 'left', padding: '6px 10px', color: 'var(--bc-text-primary)', fontSize: 13, lineHeight: 1.45, verticalAlign: 'top' };
+
+const refList = { fontFamily: SERIF, fontSize: 13.5, lineHeight: 1.6, color: 'var(--bc-text-secondary)', margin: '4px 0 8px', padding: '0 0 0 24px', display: 'flex', flexDirection: 'column', gap: 7 };
+const refItem = { paddingLeft: 4 };
+
+const aidPanel = { border: '1px solid rgba(var(--bc-accent-rgb), 0.22)', borderRadius: 8, padding: '16px 18px', margin: '14px 0 18px', background: 'rgba(var(--bc-accent-rgb), 0.04)' };
+const aidHeadRow = { display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10, flexWrap: 'wrap' };
+const aidTagCanon = { fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--bc-accent-text)', background: 'var(--bc-accent)', borderRadius: 4, padding: '2px 7px' };
+const aidTagComm = { fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--bc-text-secondary)', border: '1px solid rgba(var(--bc-accent-rgb), 0.4)', borderRadius: 4, padding: '2px 7px' };
+const aidHeadText = { fontFamily: SERIF, fontStyle: 'italic', fontSize: 13, color: 'var(--bc-text-secondary)', flex: 1, minWidth: 200 };
+const aidNote = { fontSize: 12.5, fontStyle: 'italic', color: 'var(--bc-text-secondary)', borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.28)', paddingLeft: 12, margin: '10px 0 0' };
+const aidCaveat = { fontSize: 12.5, color: 'var(--bc-text-secondary)', lineHeight: 1.65, borderLeft: '2px solid rgba(var(--bc-loss-text-rgb), 0.5)', paddingLeft: 12, margin: '10px 0 0' };
+
+const miniInnov = { fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--bc-loss-text)', border: '1px solid rgba(var(--bc-loss-text-rgb), 0.4)', borderRadius: 4, padding: '0 5px', marginRight: 8, fontWeight: 600 };
+const evToggle = { background: 'transparent', border: 'none', color: 'var(--bc-accent)', font: 'inherit', fontSize: 12, cursor: 'pointer', padding: 0, textDecoration: 'underline', textDecorationColor: 'rgba(var(--bc-accent-rgb), 0.4)', textUnderlineOffset: 2 };
+const evDetail = { margin: '8px 0 4px', padding: '8px 0 8px 14px', borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.22)' };
+const evField = { fontFamily: SERIF, fontSize: 13, color: 'var(--bc-text-secondary)', margin: '0 0 6px', lineHeight: 1.55 };
+const evFieldKey = { fontVariant: 'small-caps', fontWeight: 700, letterSpacing: '0.03em', color: 'var(--bc-text-tertiary)', marginRight: 4 };
+const evPali = { fontFamily: SERIF, fontStyle: 'italic', fontSize: 13, color: 'var(--bc-text-primary)', lineHeight: 1.6, margin: '0 0 6px' };
+const evEn = { fontFamily: SERIF, fontSize: 13, color: 'var(--bc-text-secondary)', lineHeight: 1.6, margin: '0 0 6px' };
+const evMeta = { fontSize: 11.5, color: 'var(--bc-text-tertiary)', lineHeight: 1.5, margin: 0 };
+
+function tierBadge(tier) {
+  const base = { fontSize: 10.5, letterSpacing: '0.04em', borderRadius: 4, padding: '1px 6px', whiteSpace: 'nowrap', border: '1px solid' };
+  if (tier === 'mula') return { ...base, color: 'var(--bc-accent)', borderColor: 'rgba(var(--bc-accent-rgb), 0.5)' };
+  if (tier === 'none') return { ...base, color: 'var(--bc-loss-text)', borderColor: 'rgba(var(--bc-loss-text-rgb), 0.4)' };
+  return { ...base, color: 'var(--bc-text-tertiary)', borderColor: 'rgba(var(--bc-accent-rgb), 0.25)' };
+}
+function hclassBadge(h) {
+  const base = { fontSize: 11, fontWeight: 600, letterSpacing: '0.02em', borderRadius: 4, padding: '1px 7px', whiteSpace: 'nowrap', border: '1px solid' };
+  if (h === 'H0') return { ...base, color: 'var(--bc-accent)', borderColor: 'rgba(var(--bc-accent-rgb), 0.5)', background: 'rgba(var(--bc-accent-rgb), 0.07)' };
+  return { ...base, color: 'var(--bc-loss-text)', borderColor: 'rgba(var(--bc-loss-text-rgb), 0.4)', background: 'rgba(var(--bc-loss-text-rgb), 0.06)' };
+}
