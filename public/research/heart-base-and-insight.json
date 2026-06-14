@@ -1,0 +1,75 @@
+{
+ "meta": {
+  "title": "The Heart-Base, Bhavaṅga, and the Stages of Insight",
+  "subtitle": "A three-tier reading (Sutta / Abhidhamma / Commentary) of where the seat of mind, the life-continuum, and the insight-ladder come from.",
+  "version": "1.0",
+  "corpus_snapshot": "194710 passages (2026-06-14)",
+  "generated": null,
+  "note": "Companion to the individual-guidance census. Corpus claims are verbatim-grounded by direct fetch; every id resolves to a real corpus row. Abhidhamma-status and modern-practice material is secondary or attributed, marked as such."
+ },
+ "rows": [
+  {
+   "structure": "Mind-base (manoviññāṇa-vatthu)",
+   "cells": {
+    "sutta": { "text": "Silent on any material seat of mind; the nearest seed is the luminous mind (pabhassara).", "cites": [{ "id": "an1.41-50", "label": "AN 1.49–50" }] },
+    "abhidhamma": { "text": "An anonymous material base, \"yaṁ rūpaṁ\" (Paṭṭhāna); the mind-element's own base left indeterminate (Dhammasaṅgaṇī).", "cites": [{ "id": "patthana1.1", "label": "Paṭṭhāna 1.1" }, { "id": "cst-abh01m.mul-078", "label": "Dhs §584" }] },
+    "para-canon": { "text": "·", "cites": [] },
+    "commentary": { "text": "Names it the heart-base (hadaya-vatthu) and locates it in the heart's blood.", "cites": [{ "id": "cst-abh03a.att-370_p002", "label": "Pañca-a §370" }, { "id": "cst-e0104n.att-16_p024", "label": "Vism-mhṭ §16" }] }
+   }
+  },
+  {
+   "structure": "Bhavaṅga (life-continuum)",
+   "cells": {
+    "sutta": { "text": "Absent; nearest analogue is again the luminous mind.", "cites": [{ "id": "an1.41-50", "label": "AN 1.49–50" }] },
+    "abhidhamma": { "text": "Present as a bare term, a real relatum in the Paṭṭhāna's conditional relations.", "cites": [{ "id": "patthana2.1", "label": "Paṭṭhāna 2.1" }] },
+    "para-canon": { "text": "·", "cites": [] },
+    "commentary": { "text": "Builds the full cognitive series (citta-vīthi) and seats bhavaṅga on the heart.", "cites": [{ "id": "cst-abh01t.tik-69_p013", "label": "Abh-pṭ §69" }] }
+   }
+  },
+  {
+   "structure": "Carita (temperament)",
+   "cells": {
+    "sutta": { "text": "Absent in six-fold form.", "cites": [] },
+    "abhidhamma": { "text": "Not a temperament; the word means kamma (Vibhaṅga §817). The three roots are the akusalamūla.", "cites": [{ "id": "cst-abh02m.mul-149", "label": "Vibh §817" }, { "id": "cst-abh02m.mul-226", "label": "Vibh §226" }] },
+    "para-canon": { "text": "A three-fold root-carita with the foulness / love / dependent-origination remedy matrix.", "cites": [{ "id": "ne6", "label": "Nett §13" }, { "id": "cst-s0519m.mul-kn19_6", "label": "Sāsanap." }] },
+    "commentary": { "text": "The six-fold personality typology, the affinity theory, the carita→object matrix (Vism III §46), the heart-blood diagnostics (Vibh-a §70.58).", "cites": [{ "id": "cst-s0201a.att-mn1_3_p261", "label": "Ps-a 3 §261" }, { "id": "cst-e0101n.mul-36_p031", "label": "Vism III §46" }, { "id": "cst-abh02a.att-70_p058", "label": "Vibh-a §70.58" }] }
+   }
+  },
+  {
+   "structure": "Three roots (rāga / dosa / moha)",
+   "cells": {
+    "sutta": { "text": "Present.", "cites": [] },
+    "abhidhamma": { "text": "Canonical: the three unwholesome roots (akusalamūla).", "cites": [{ "id": "ds2.3.1", "label": "Dhs 2.3.1" }, { "id": "cst-abh02m.mul-226", "label": "Vibh §226" }] },
+    "para-canon": { "text": "·", "cites": [] },
+    "commentary": { "text": "No structural addition to the roots themselves.", "cites": [] }
+   }
+  },
+  {
+   "structure": "Named insight-ñāṇas (udayabbaya, bhaṅga …)",
+   "cells": {
+    "sutta": { "text": "Not as a named graded ladder.", "cites": [] },
+    "abhidhamma": { "text": "Absent: zero hits across the seven books (negative controls).", "cites": [] },
+    "para-canon": { "text": "First defined, with their own niddesa sections.", "cites": [{ "id": "ps1.1", "label": "Paṭis 1.1" }] },
+    "commentary": { "text": "Systematized and refined (e.g. the momentary-vs-continuity reading of rise-and-fall).", "cites": [{ "id": "cst-e0101n.mul-53_p011", "label": "Vism §53" }, { "id": "cst-e0104n.att-76_p012", "label": "Vism-mhṭ §76" }] }
+   }
+  },
+  {
+   "structure": "Seven purifications (satta visuddhi)",
+   "cells": {
+    "sutta": { "text": "All seven enumerated.", "cites": [{ "id": "mn24", "label": "MN 24" }] },
+    "abhidhamma": { "text": "Not the source of the skeleton.", "cites": [] },
+    "para-canon": { "text": "·", "cites": [] },
+    "commentary": { "text": "Populates and stages the bare list into the graded path.", "cites": [{ "id": "cst-abh08t.nrf-100_p024", "label": "Abh-pṭ §100" }] }
+   }
+  },
+  {
+   "structure": "Analytical categories (khandha / āyatana / dhātu / paṭiccasamuppāda)",
+   "cells": {
+    "sutta": { "text": "Present.", "cites": [] },
+    "abhidhamma": { "text": "Canonical source: the Vibhaṅga's analytical chapters.", "cites": [{ "id": "vb1", "label": "Vibh 1" }, { "id": "vb2", "label": "Vibh 2" }, { "id": "vb6", "label": "Vibh 6" }] },
+    "para-canon": { "text": "·", "cites": [] },
+    "commentary": { "text": "Deployed as the ground (bhūmi) the insight ladder dissects.", "cites": [] }
+   }
+  }
+ ]
+}

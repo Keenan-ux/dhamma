@@ -3,8 +3,8 @@
   "title": "How an Individual Is Guided — assignment census v1.0",
   "generated": null,
   "corpus_snapshot": "194710 passages (2026-06-14)",
-  "version": "1.1",
-  "version_note": "v1.1 (2026-06-14): normalized the warrant column for two H0 commentarial cells (delusion- and intelligence-temperament) to the para-canonical Cuḷaniddesa (cnd19) carita-matrix, which was verified live to carry mohacaritassa / vitakkacaritassa / ñaṇacaritassa / uddese / vipassananimittaṁ. No h_class changed, so the 8 H0 / 7 H1 split over the 15 decidable assignment cells is unchanged.",
+  "version": "1.2",
+  "version_note": "v1.2 (2026-06-14): three-tier axis. Added a per-instance `tier` (sutta / abhidhamma / para-canon / commentary) and a per-cell `warrant_tier` for the 15 decidable assignment cells; recomputed aggregates (by_tier, criterion_x_tier, mode_x_tier). The four understanding-types (cst-abh03m2.mul-014) are Puggalapaññatti = abhidhamma, not sutta. The H0/H1 count is unchanged (8/7); the four former 'mūla' warrant cells re-split to sutta (4) + abhidhamma (0), the four para-canonical cells unchanged. Earlier v1.1 note retained below.",
   "design": "research/individual-guidance/RESEARCH-DESIGN.md",
   "h0_h1": {
    "decidable_cells": 15,
@@ -88,6 +88,53 @@
     "mula": 1,
     "attha": 1
    }
+  },
+  "by_tier": {
+   "sutta": 27,
+   "abhidhamma": 1,
+   "para-canon": 4,
+   "commentary": 23
+  },
+  "criterion_x_tier": {
+   "defilement": {
+    "sutta": 9
+   },
+   "capacity": {
+    "sutta": 14,
+    "commentary": 7,
+    "abhidhamma": 1,
+    "para-canon": 4
+   },
+   "situation": {
+    "sutta": 3
+   },
+   "temperament": {
+    "commentary": 15
+   },
+   "unstated": {
+    "sutta": 1,
+    "commentary": 1
+   }
+  },
+  "mode_x_tier": {
+   "object": {
+    "sutta": 13,
+    "commentary": 16
+   },
+   "statement": {
+    "sutta": 3,
+    "abhidhamma": 1,
+    "para-canon": 1
+   },
+   "leading": {
+    "sutta": 10,
+    "para-canon": 3,
+    "commentary": 5
+   },
+   "elaboration": {
+    "sutta": 1,
+    "commentary": 2
+   }
   }
  },
  "instances": [
@@ -112,7 +159,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "ud4.1",
@@ -135,7 +183,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "an9.1",
@@ -158,7 +207,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "mn62",
@@ -181,7 +231,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "mn62",
@@ -204,7 +255,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "mn62",
@@ -227,7 +279,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "mn62",
@@ -250,7 +303,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "an10.60",
@@ -273,7 +327,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "an6.107",
@@ -296,7 +351,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "sn54.9",
@@ -319,7 +375,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "snp2.11",
@@ -342,7 +399,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "thig5.4",
@@ -365,7 +423,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "thig2.1",
@@ -388,7 +447,8 @@
    "facet": "F1-object-assign",
    "census_verdict": "partial",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "cst-s0505a.att-10_p003",
@@ -411,7 +471,9 @@
    "facet": "F1-object-assign",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary",
+   "warrant_tier": "none"
   },
   {
    "id": "cst-s0508a2.att-31_p002",
@@ -434,7 +496,9 @@
    "facet": "F1-object-assign",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary",
+   "warrant_tier": "none"
   },
   {
    "id": "cst-s0401a.att-an1_2_p030",
@@ -457,7 +521,9 @@
    "facet": "F1-object-assign",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "exists-quote-unconfirmed"
+   "verification": "exists-quote-unconfirmed",
+   "tier": "commentary",
+   "warrant_tier": "none"
   },
   {
    "id": "cst-s0103a.att-dn3_11_p002",
@@ -480,7 +546,9 @@
    "facet": "F1-object-assign",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary",
+   "warrant_tier": "none"
   },
   {
    "id": "cst-s0502a.att-234_p003",
@@ -503,7 +571,9 @@
    "facet": "F1-object-assign",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "exists-quote-unconfirmed"
+   "verification": "exists-quote-unconfirmed",
+   "tier": "commentary",
+   "warrant_tier": "none"
   },
   {
    "id": "an4.133",
@@ -525,7 +595,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "cst-abh03m2.mul-014",
@@ -547,7 +618,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "exists-quote-unconfirmed"
+   "verification": "exists-quote-unconfirmed",
+   "tier": "abhidhamma"
   },
   {
    "id": "an3.22",
@@ -569,7 +641,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "exists-quote-unconfirmed"
+   "verification": "exists-quote-unconfirmed",
+   "tier": "sutta"
   },
   {
    "id": "sn6.1",
@@ -591,7 +664,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "partial",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "mn26",
@@ -613,7 +687,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "partial",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "mn12",
@@ -635,7 +710,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "partial",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "ud1.10",
@@ -657,7 +733,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "sn35.95",
@@ -679,7 +756,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "exists-quote-unconfirmed"
+   "verification": "exists-quote-unconfirmed",
+   "tier": "sutta"
   },
   {
    "id": "mn56",
@@ -701,7 +779,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "ne4",
@@ -723,7 +802,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "para-canon"
   },
   {
    "id": "pe8",
@@ -745,7 +825,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "para-canon"
   },
   {
    "id": "ps1.4",
@@ -767,7 +848,8 @@
    "facet": "F2-modes-types-agency",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "para-canon"
   },
   {
    "id": "cst-s0102a.att-dn2_1_p218",
@@ -790,7 +872,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary",
+   "warrant_tier": "sutta"
   },
   {
    "id": "cst-s0103a.att-dn3_11_p002",
@@ -813,7 +897,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary",
+   "warrant_tier": "para-canon"
   },
   {
    "id": "cst-s0519a.att-11_p026",
@@ -836,7 +922,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "exists-quote-unconfirmed"
+   "verification": "exists-quote-unconfirmed",
+   "tier": "commentary",
+   "warrant_tier": "sutta"
   },
   {
    "id": "cst-s0401a.att-an1_18_p087",
@@ -859,7 +947,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "exists-quote-unconfirmed"
+   "verification": "exists-quote-unconfirmed",
+   "tier": "commentary",
+   "warrant_tier": "sutta"
   },
   {
    "id": null,
@@ -874,7 +964,7 @@
    "recipient_features": "delusion-dominant; sluggish, needs guidance/discussion",
    "occasion": "object-assignment by temperament; the three sources DISAGREE on the object, exposing curation",
    "function": "samatha",
-   "warrant": "cnd19 (Cuḷaniddesa Mogharajamaṇavapucchaniddesa — the para-canonical carita-matrix; mohacaritassa → uddesa/recitation, verified live)",
+   "warrant": "cnd19 (Cuḷaniddesa Mogharajamaṇavapucchaniddesa, the para-canonical carita-matrix; mohacaritassa to uddesa/recitation, verified live)",
    "h_class": "H0",
    "evidence_pali": "parittaṃ vitakkacaritavasena āgataṃ, appamāṇaṃ mohacaritavasena [Mp-a, kasiṇa-extent] ;; mohacaritassa uddeso paripucchā ... idaṃ tuyhaṃ sappāyanti ācikkhati [Sv-a] ;; rāgadosamohacaritānaṃ yathākkamaṃ asubha-mettā-paccayākārakathā ... sappāyā [Nett-a]",
    "evidence_en": "author-gloss: (Mp-a) the limited (kasiṇa) is given by way of the speculation-temperament, the measureless by way of the delusion-temperament; (Sv-a) for the delusion-temperament person, recitation and questioning... 'this is suitable for you'; (Nett-a) for greed-, hate-, delusion-temperaments respectively, the talk of foulness, loving-kindness, and dependent-origination is suitable.",
@@ -882,7 +972,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "unresolved"
+   "verification": "unresolved",
+   "tier": "commentary",
+   "warrant_tier": "para-canon"
   },
   {
    "id": "cst-s0103a.att-dn3_11_p002",
@@ -905,7 +997,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "exists-quote-unconfirmed"
+   "verification": "exists-quote-unconfirmed",
+   "tier": "commentary",
+   "warrant_tier": "sutta"
   },
   {
    "id": "an6.10",
@@ -928,7 +1022,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "partial",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary",
+   "warrant_tier": "none"
   },
   {
    "id": "cst-s0103a.att-dn3_11_p002",
@@ -943,7 +1039,7 @@
    "recipient_features": "of keen understanding; given subtle/deep objects",
    "occasion": "object-assignment by temperament-fit",
    "function": "both",
-   "warrant": "cnd19 (Cuḷaniddesa carita-matrix — ñaṇacaritassa → vipassana-nimitta, verified live; the canonical object loci AN 6.19 / MN 10 remain unverified under load)",
+   "warrant": "cnd19 (Cuḷaniddesa carita-matrix, ñaṇacaritassa to vipassana-nimitta, verified live; the canonical object loci AN 6.19 / MN 10 remain unverified under load)",
    "h_class": "H0",
    "evidence_pali": "Ñāṇacaritassa aniccatādipaṭisaṃyutte gambhīre suttante katheti [Sv-a]",
    "evidence_en": "author-gloss (Sv-a): 'to the knowledge-temperament person he expounds deep discourses connected with impermanence and the like.'",
@@ -951,7 +1047,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "supported",
    "confidence": "medium",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary",
+   "warrant_tier": "para-canon"
   },
   {
    "id": "cst-abh02a.att-70_p058",
@@ -974,7 +1072,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary",
+   "warrant_tier": "none"
   },
   {
    "id": "cst-s0517a.att-34_p002",
@@ -997,7 +1097,9 @@
    "facet": "F3-commentary-carita",
    "census_verdict": "partial",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary",
+   "warrant_tier": "para-canon"
   },
   {
    "id": "an4.170",
@@ -1020,7 +1122,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "an4.4.2",
@@ -1043,7 +1146,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "partial",
    "confidence": "high",
-   "verification": "unresolved"
+   "verification": "unresolved",
+   "tier": "sutta"
   },
   {
    "id": "ps2.1",
@@ -1066,7 +1170,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "para-canon"
   },
   {
    "id": "an4.94",
@@ -1089,7 +1194,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "an10.54",
@@ -1112,7 +1218,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "sn43.2",
@@ -1135,7 +1242,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "cst-s0402m1.mul-an2_7",
@@ -1158,7 +1266,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "sutta"
   },
   {
    "id": "cst-s0402t.tik-an4_p622",
@@ -1181,7 +1290,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary"
   },
   {
    "id": "cst-s0402a.att-an4_4_2_p019",
@@ -1204,7 +1314,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "supported",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary"
   },
   {
    "id": "cst-e0102n.mul-63_p006",
@@ -1227,7 +1338,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary"
   },
   {
    "id": "cst-e0104n.att-62_p006",
@@ -1250,7 +1362,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary"
   },
   {
    "id": "cst-abh08t.nrf-100_p027",
@@ -1273,7 +1386,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary"
   },
   {
    "id": "cst-e0103n.att-3_p027",
@@ -1296,7 +1410,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary"
   },
   {
    "id": "cst-abh09t.nrf-251_p017",
@@ -1319,7 +1434,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "not_found",
    "confidence": "medium",
-   "verification": "verified"
+   "verification": "verified",
+   "tier": "commentary"
   },
   {
    "id": "cst-s0508a2.att-66_p035",
@@ -1342,7 +1458,8 @@
    "facet": "F4-samatha-vipassana",
    "census_verdict": "not_found",
    "confidence": "high",
-   "verification": "exists-quote-unconfirmed"
+   "verification": "exists-quote-unconfirmed",
+   "tier": "commentary"
   }
  ]
 }

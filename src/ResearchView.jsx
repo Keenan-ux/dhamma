@@ -27,6 +27,12 @@ const ENTRIES = [
     subtitle: 'A census of how the canon and its commentaries match a person to a teaching and a meditation object, with the calm-and-insight question settled on the evidence.',
     data: '/research/individual-guidance.json',
   },
+  {
+    slug: 'heart-base-and-insight',
+    title: 'The Heart-Base, Bhavaṅga, and the Stages of Insight',
+    subtitle: 'A three-tier reading of where the seat of mind, the life-continuum, and the insight-ladder come from: sutta silence, an Abhidhamma placeholder, and a commentarial naming.',
+    data: '/research/heart-base-and-insight.json',
+  },
 ];
 
 export default function ResearchView() {
@@ -83,7 +89,9 @@ export default function ResearchView() {
 
   const entry = openSlug ? ENTRIES.find((e) => e.slug === openSlug) : null;
   if (entry) {
-    const StudyComponent = entry.slug === 'individual-guidance' ? IndividualGuidanceStudy : AwakeningStudy;
+    const StudyComponent = entry.slug === 'individual-guidance' ? IndividualGuidanceStudy
+      : entry.slug === 'heart-base-and-insight' ? HeartBaseStudy
+      : AwakeningStudy;
     return (
       <StudyComponent
         entry={entry}
@@ -601,31 +609,39 @@ const MODE_LABEL = {
   object: 'Object assigned',
 };
 
-// Display label + warrant tier for each of the 15 decidable assignment cells
-// (h_class ∈ {H0, H1}). Tier follows the dataset's per-cell warrant: four H0
-// cells rest on the four Nikāyas (mūla), four on the para-canonical Niddesa or
-// Paṭisambhidāmagga; the seven H1 cells have no canonical warrant.
+// Display label for each of the 15 decidable assignment cells (h_class ∈ {H0, H1}).
 const CELL = {
-  'kna-mettasutta-nidana-temperament-map': { label: 'Six temperaments mapped to six objects', tier: 'none' },
-  'kna-kullatthera-asubha-charnel': { label: 'Kulla, greed-natured, sent to the charnel ground', tier: 'none' },
-  'mpa-ragacarito-asubha': { label: 'An unnamed greed-natured monk given foulness', tier: 'none' },
-  'sva-dasuttara-temperament-asubha': { label: 'Greed-temperament given foulness (Dasuttara)', tier: 'none' },
-  'dhpa-suvannakara-misassign-then-redkasina': { label: "The goldsmith's son: foulness misassigned, then a red kasiṇa", tier: 'none' },
-  'F3-carita-01-term-origin': { label: 'The Buddha sorts beings into six temperament-groups', tier: 'mula' },
-  'F3-carita-02-full-matrix-svdasuttara': { label: 'The full six-cell temperament matrix', tier: 'para' },
-  'F3-cell-greed-asubha': { label: 'Greed → foulness (plus body-mindfulness)', tier: 'mula' },
-  'F3-cell-hate-metta-kasina': { label: 'Hate → loving-kindness and the colour kasiṇas', tier: 'mula' },
-  'F3-cell-delusion-vism-anapana-vs-svdasuttara-uddesa': { label: 'Delusion → breath, recitation, or dependent origination', tier: 'para' },
-  'F3-cell-speculation-anapanasati': { label: 'Discursive thought → mindfulness of breathing', tier: 'mula' },
-  'F3-cell-faith-six-recollections': { label: 'Faith → the six recollections', tier: 'none' },
-  'F3-cell-intelligence-maranasati-fourelement': { label: 'Intelligence → death-mindfulness, four-element analysis', tier: 'para' },
-  'F3-carita-organ-colour-correlation': { label: 'Temperament read from the colour of the heart-blood', tier: 'none' },
-  'F3-cariya-definition': { label: 'The definition of cariyā (conduct)', tier: 'para' },
+  'kna-mettasutta-nidana-temperament-map': 'Six temperaments mapped to six objects',
+  'kna-kullatthera-asubha-charnel': 'Kulla, greed-natured, sent to the charnel ground',
+  'mpa-ragacarito-asubha': 'An unnamed greed-natured monk given foulness',
+  'sva-dasuttara-temperament-asubha': 'Greed-temperament given foulness (Dasuttara)',
+  'dhpa-suvannakara-misassign-then-redkasina': "The goldsmith's son: foulness misassigned, then a red kasiṇa",
+  'F3-carita-01-term-origin': 'The Buddha sorts beings into six temperament-groups',
+  'F3-carita-02-full-matrix-svdasuttara': 'The full six-cell temperament matrix',
+  'F3-cell-greed-asubha': 'Greed → foulness (plus body-mindfulness)',
+  'F3-cell-hate-metta-kasina': 'Hate → loving-kindness and the colour kasiṇas',
+  'F3-cell-delusion-vism-anapana-vs-svdasuttara-uddesa': 'Delusion → breath, recitation, or dependent origination',
+  'F3-cell-speculation-anapanasati': 'Discursive thought → mindfulness of breathing',
+  'F3-cell-faith-six-recollections': 'Faith → the six recollections',
+  'F3-cell-intelligence-maranasati-fourelement': 'Intelligence → death-mindfulness, four-element analysis',
+  'F3-carita-organ-colour-correlation': 'Temperament read from the colour of the heart-blood',
+  'F3-cariya-definition': 'The definition of cariyā (conduct)',
 };
-const TIER = {
-  mula: { label: 'mūla', title: 'Warranted in the four Nikāyas' },
-  para: { label: 'para-canon.', title: 'Warranted only in the Niddesa or Paṭisambhidāmagga' },
-  abhi: { label: 'Abhidhamma', title: 'Warranted in the Abhidhamma Piṭaka' },
+
+// The three-tier axis (Sutta / Abhidhamma / Commentary) plus the para-canonical
+// Khuddaka bridge, used for the cross-tab table columns and the appendix badge.
+const TIER_KEYS = ['sutta', 'abhidhamma', 'para-canon', 'commentary'];
+const TIER_COL = {
+  sutta: { label: 'Sutta', full: 'Sutta Piṭaka (four Nikāyas + prose Khuddaka)' },
+  abhidhamma: { label: 'Abhi.', full: 'Abhidhamma Piṭaka (the seven books)' },
+  'para-canon': { label: 'Para-c.', full: 'Para-canonical Khuddaka: Niddesa, Paṭisambhidāmagga, Nettippakaraṇa, Peṭakopadesa' },
+  commentary: { label: 'Comm.', full: 'Commentary: aṭṭhakathā, ṭīkā, Visuddhimagga' },
+};
+// Warrant-tier badge labels for the H0/H1 ledger (read from each cell's warrant_tier).
+const WTIER = {
+  sutta: { label: 'sutta', title: 'Warranted in the Sutta Piṭaka (four Nikāyas + prose Khuddaka)' },
+  abhidhamma: { label: 'abhidhamma', title: 'Warranted in the Abhidhamma Piṭaka' },
+  'para-canon': { label: 'para-canon', title: 'Warranted only in the para-canonical Khuddaka (Niddesa, Paṭisambhidāmagga)' },
   none: { label: 'no warrant', title: 'No canonical warrant: a commentarial innovation' },
 };
 
@@ -687,25 +703,25 @@ function IndividualGuidanceStudy({ entry, onBack }) {
   const derived = useMemo(() => {
     if (!data) return null;
     const inst = data.instances || [];
-    // facet × layer
-    const facetByLayer = {};
-    for (const f of FACETS) facetByLayer[f.key] = { mula: 0, attha: 0, tika: 0, anya: 0 };
+    // facet × tier
+    const facetByTier = {};
+    for (const f of FACETS) facetByTier[f.key] = { sutta: 0, abhidhamma: 0, 'para-canon': 0, commentary: 0 };
     for (const r of inst) {
-      const fb = facetByLayer[r.facet];
-      if (fb && r.layer in fb) fb[r.layer] += 1;
+      const fb = facetByTier[r.facet];
+      if (fb && r.tier in fb) fb[r.tier] += 1;
     }
     const byFacet = {};
     for (const f of FACETS) byFacet[f.key] = inst.filter((r) => r.facet === f.key);
     const ledger = inst
       .filter((r) => r.h_class === 'H0' || r.h_class === 'H1')
-      .map((r) => ({ ...r, cell: CELL[r.study_label] || { label: r.object || r.citation, tier: r.h_class === 'H1' ? 'none' : 'mula' } }));
-    // H0 first (mula then para), then H1
-    const tierRank = { mula: 0, para: 1, abhi: 2, none: 3 };
-    ledger.sort((a, b) => tierRank[a.cell.tier] - tierRank[b.cell.tier]);
-    return { inst, facetByLayer, byFacet, ledger };
+      .map((r) => ({ ...r, cellLabel: CELL[r.study_label] || r.object || r.citation }));
+    // H0 by warrant tier (sutta, abhidhamma, para-canon), then H1 (no warrant)
+    const wRank = { sutta: 0, abhidhamma: 1, 'para-canon': 2, none: 3 };
+    ledger.sort((a, b) => (wRank[a.warrant_tier] ?? 9) - (wRank[b.warrant_tier] ?? 9));
+    return { inst, facetByTier, byFacet, ledger };
   }, [data]);
 
-  const sumRow = (obj) => LAYER_KEYS.reduce((s, k) => s + (obj?.[k] || 0), 0);
+  const sumTier = (obj) => TIER_KEYS.reduce((s, k) => s + (obj?.[k] || 0), 0);
 
   return (
     <div data-scroll-root="" style={scrollWrap}>
@@ -863,14 +879,25 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 The Vimuttimagga is reached only through Bapat's study of the Chinese and is treated as a
                 secondary witness, not a primary one.
               </p>
+              <p>
+                The contrast axis has three tiers, not two. The Theravāda canon is not only the suttas: the
+                Abhidhamma is the third basket, canonical, and much of what a flat canon-versus-commentary
+                split would file as commentary is in fact the commentary systematizing the Abhidhamma. Each
+                instance is placed on a four-way scale: Sutta, Abhidhamma, the para-canonical Khuddaka bridge
+                (Nettippakaraṇa, Peṭakopadesa, Paṭisambhidāmagga, Niddesa), and Commentary. The Abhidhamma is
+                canonical but second: its claim to be the word of the Buddha rests on a commentarial
+                origin-account, the Aṭṭhasālinī's narrative of its preaching in the Tāvatiṃsa heaven, so it is
+                not collapsed into the sutta tier. The four understanding-types, often read as a sutta
+                typology, are in fact from the Puggalapaññatti, an Abhidhamma book, and are placed there.
+              </p>
 
-              <h3 style={h3}>Table 1. Guidance instances by analytic group and textual layer</h3>
+              <h3 style={h3}>Table 1. Guidance instances by analytic group and tier</h3>
               <div style={tableWrap}>
                 <table style={table}>
                   <thead>
                     <tr>
                       <th style={thLeft}>Group</th>
-                      {LAYER_KEYS.map((k) => <th key={k} style={thNum} title={LAYER[k].full}>{LAYER[k].label}</th>)}
+                      {TIER_KEYS.map((k) => <th key={k} style={thNum} title={TIER_COL[k].full}>{TIER_COL[k].label}</th>)}
                       <th style={thNum}>Total</th>
                     </tr>
                   </thead>
@@ -878,22 +905,23 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                     {FACETS.map((f) => (
                       <tr key={f.key} style={tr}>
                         <td style={tdLeft}>{f.short}</td>
-                        {LAYER_KEYS.map((k) => <td key={k} style={tdNum}>{derived.facetByLayer[f.key][k] ? fmt(derived.facetByLayer[f.key][k]) : '·'}</td>)}
-                        <td style={tdNumStrong}>{fmt(sumRow(derived.facetByLayer[f.key]))}</td>
+                        {TIER_KEYS.map((k) => <td key={k} style={tdNum}>{derived.facetByTier[f.key][k] ? fmt(derived.facetByTier[f.key][k]) : '·'}</td>)}
+                        <td style={tdNumStrong}>{fmt(sumTier(derived.facetByTier[f.key]))}</td>
                       </tr>
                     ))}
                     <tr style={trTotal}>
                       <td style={tdLeft}>All instances</td>
-                      {LAYER_KEYS.map((k) => <td key={k} style={tdNumStrong}>{fmt(data.aggregates.by_layer[k])}</td>)}
+                      {TIER_KEYS.map((k) => <td key={k} style={tdNumStrong}>{fmt(data.aggregates.by_tier[k])}</td>)}
                       <td style={tdNumStrong}>{fmt(derived.inst.length)}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <p style={tableCaption}>
-                Column key: Canon = Tipiṭaka (mūla); Comm. = aṭṭhakathā; Sub-comm. = ṭīkā; Extra =
-                extra-canonical and para-canonical (Nettippakaraṇa, Peṭakopadesa, Paṭisambhidāmagga,
-                Visuddhimagga). The layer follows the corpus edition's own coding.
+                Column key, the three-tier axis. Sutta = the four Nikāyas and the prose Khuddaka; Abhi. =
+                the Abhidhamma Piṭaka, the seven books, canonical but second; Para-c. = the para-canonical
+                Khuddaka analytical works (Nettippakaraṇa, Peṭakopadesa, Paṭisambhidāmagga, Niddesa); Comm. =
+                aṭṭhakathā, ṭīkā, and the Visuddhimagga.
               </p>
 
               {/* A. PERSON & MODE + Table 3 */}
@@ -935,24 +963,24 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 teachable scheme, and they sit between the canon and the commentary in doing so.
               </p>
 
-              <h3 style={h3}>Table 2. Mode of guidance, by layer</h3>
+              <h3 style={h3}>Table 2. Mode of guidance, by tier</h3>
               <div style={tableWrap}>
                 <table style={table}>
                   <thead>
                     <tr>
                       <th style={thLeft}>Mode</th>
-                      {LAYER_KEYS.map((k) => <th key={k} style={thNum} title={LAYER[k].full}>{LAYER[k].label}</th>)}
+                      {TIER_KEYS.map((k) => <th key={k} style={thNum} title={TIER_COL[k].full}>{TIER_COL[k].label}</th>)}
                       <th style={thNum}>Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     {MODE_ORDER.map((m) => {
-                      const row = data.aggregates.mode_x_layer[m] || {};
+                      const row = data.aggregates.mode_x_tier[m] || {};
                       return (
                         <tr key={m} style={tr}>
                           <td style={tdLeft}>{MODE_LABEL[m]}</td>
-                          {LAYER_KEYS.map((k) => <td key={k} style={tdNum}>{row[k] ? fmt(row[k]) : '·'}</td>)}
-                          <td style={tdNumStrong}>{fmt(sumRow(row))}</td>
+                          {TIER_KEYS.map((k) => <td key={k} style={tdNum}>{row[k] ? fmt(row[k]) : '·'}</td>)}
+                          <td style={tdNumStrong}>{fmt(sumTier(row))}</td>
                         </tr>
                       );
                     })}
@@ -961,8 +989,8 @@ function IndividualGuidanceStudy({ entry, onBack }) {
               </div>
               <p style={tableCaption}>
                 Object-assignment is the most common mode and the only one with a heavy commentarial
-                presence; the statement, elaboration and leading modes are almost entirely canonical, because
-                the commentary's interest is in which object suits whom.
+                presence; the statement, elaboration and leading modes sit almost entirely in the suttas,
+                because the commentary's interest is in which object suits whom.
               </p>
 
               {/* B. OBJECT ASSIGNMENT */}
@@ -1003,31 +1031,32 @@ function IndividualGuidanceStudy({ entry, onBack }) {
               {/* C. PATTERNS + Table (criterion x layer) */}
               <h2 style={h2}>C. What goes with what</h2>
               <p>
-                Laying the criteria against the layers makes the central contrast measurable. Every instance
-                keyed to a defilement, and every instance keyed to a situation, is canonical. Every instance
-                keyed to a temperament is commentarial. The canon and the commentary are not disagreeing about
-                the objects; they are using different keys. The situation cell is small, three instances, and
-                one of them, the element meditations given to Rāhula, sits near the boundary with the capacity
-                criterion; the contrast is clean at this count and should be read as such.
+                Laying the criteria against the tiers makes the central contrast measurable. Every instance
+                keyed to a defilement, and every instance keyed to a situation, is in the suttas. Every
+                instance keyed to a temperament is in the commentary. The suttas and the commentary are not
+                disagreeing about the objects; they are using different keys. The situation cell is small,
+                three instances, and one of them, the element meditations given to Rāhula, sits near the
+                boundary with the capacity criterion; the contrast is clean at this count and should be read
+                as such.
               </p>
-              <h3 style={h3}>Table 3. Criterion of assignment, by layer</h3>
+              <h3 style={h3}>Table 3. Criterion of assignment, by tier</h3>
               <div style={tableWrap}>
                 <table style={table}>
                   <thead>
                     <tr>
                       <th style={thLeft}>Criterion</th>
-                      {LAYER_KEYS.map((k) => <th key={k} style={thNum} title={LAYER[k].full}>{LAYER[k].label}</th>)}
+                      {TIER_KEYS.map((k) => <th key={k} style={thNum} title={TIER_COL[k].full}>{TIER_COL[k].label}</th>)}
                       <th style={thNum}>Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     {CRITERION_ORDER.map((c) => {
-                      const row = data.aggregates.criterion_x_layer[c] || {};
+                      const row = data.aggregates.criterion_x_tier[c] || {};
                       return (
                         <tr key={c} style={tr}>
                           <td style={tdLeft}>{CRITERION_LABEL[c]}</td>
-                          {LAYER_KEYS.map((k) => <td key={k} style={tdNum}>{row[k] ? fmt(row[k]) : '·'}</td>)}
-                          <td style={tdNumStrong}>{fmt(sumRow(row))}</td>
+                          {TIER_KEYS.map((k) => <td key={k} style={tdNum}>{row[k] ? fmt(row[k]) : '·'}</td>)}
+                          <td style={tdNumStrong}>{fmt(sumTier(row))}</td>
                         </tr>
                       );
                     })}
@@ -1035,9 +1064,10 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 </table>
               </div>
               <p style={tableCaption}>
-                Defilement and situation are canonical keys; temperament is a commentarial key. Capacity, the
-                understanding-type and faculty axis, runs through both layers because it is where the
-                para-canonical bridge does its work.
+                Defilement and situation are sutta keys; temperament is a commentarial key, though the roots it
+                is built on are Abhidhamma (see the carita sharpening in section F). Capacity, the
+                understanding-type and faculty axis, runs across all four tiers: it is the one criterion the
+                Abhidhamma (the Puggalapaññatti understanding-types) and the para-canonical bridge also carry.
               </p>
               <p>
                 Two regularities hold across the enumeration. First, occasion predicts the criterion: a
@@ -1138,6 +1168,17 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 match of the faith type to the six recollections, where the object set is canonical but its
                 keying to a temperament is not.
               </p>
+              <p>
+                The temperament finding sharpens across the tiers. The three roots the scheme is built on,
+                greed, hate and delusion, are Abhidhamma: they are the three unwholesome roots of the
+                Dhammasaṅgaṇī and the Vibhaṅga. A three-fold remedy-carita, greed to foulness, hate to love,
+                delusion to dependent origination, is already in the para-canonical Nettippakaraṇa and
+                Peṭakopadesa, but only on those three roots. The six-fold personality typology, the addition of
+                faith, intelligence and discursive thought, the affinity theory, and the object-suitability and
+                heart-blood diagnostics, is the commentary's. Where the Abhidhamma does use the word{' '}
+                <em>carita</em> (Vibhaṅga §817), it means kamma, the three kinds of formation, not temperament;
+                the temperament sense is a commentarial re-coinage.
+              </p>
 
               <h3 style={h3}>Table 4. The warrant ledger: the fifteen decidable assignment cells</h3>
               <div style={tableWrap}>
@@ -1156,7 +1197,7 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                       const ids = warrantIds(r.warrant);
                       return (
                         <tr key={r.study_label || i} style={tr}>
-                          <td style={tdLeftSm}>{r.cell.label}</td>
+                          <td style={tdLeftSm}>{r.cellLabel}</td>
                           <td style={tdLeftSm}><Cite id={r.id}>{r.citation}</Cite></td>
                           <td style={tdLeftSm}>
                             {r.h_class === 'H1'
@@ -1165,7 +1206,7 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                                   ? ids.map((wid, j) => <span key={wid}>{j ? ', ' : ''}<Cite id={wid}>{wid}</Cite></span>)
                                   : <span style={tinyNote}>{(r.warrant || '').split('(')[0].trim() || 'self'}</span>)}
                           </td>
-                          <td style={tdLeftSm}><span style={tierBadge(r.cell.tier)} title={TIER[r.cell.tier].title}>{TIER[r.cell.tier].label}</span></td>
+                          <td style={tdLeftSm}><span style={tierBadge(r.warrant_tier)} title={WTIER[r.warrant_tier].title}>{WTIER[r.warrant_tier].label}</span></td>
                           <td style={tdLeftSm}><span style={hclassBadge(r.h_class)}>{r.h_class === 'H0' ? 'supported (H0)' : 'innovation (H1)'}</span></td>
                         </tr>
                       );
@@ -1175,8 +1216,9 @@ function IndividualGuidanceStudy({ entry, onBack }) {
               </div>
               <p style={tableCaption}>
                 Eight cells supported (H0), seven innovations (H1). Of the eight supported, four rest on the
-                four Nikāyas and four only on the para-canonical Niddesa or Paṭisambhidāmagga. Click a source or
-                a warrant to open the passage.
+                suttas and four only on the para-canonical Khuddaka, the Cūḷaniddesa and the Paṭisambhidāmagga;
+                none rests on the Abhidhamma directly, though the roots the scheme is built on are Abhidhamma.
+                Click a source or a warrant to open the passage.
               </p>
 
               {/* READER'S AID */}
@@ -1361,7 +1403,7 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                           return (
                             <li key={rkey} style={evRow}>
                               <Cite id={r.id}>{r.citation}</Cite>
-                              <span style={evLayer} title={LAYER[r.layer]?.full || r.layer}>{LAYER[r.layer]?.label || r.layer}</span>
+                              <span style={evLayer} title={TIER_COL[r.tier]?.full || r.tier}>{TIER_COL[r.tier]?.label || r.tier}</span>
                               {r.h_class === 'H1' && <span style={miniInnov}>H1</span>}
                               <span style={evBeing}>{r.recipient}</span>
                               <button style={evToggle} onClick={() => setOpen((o) => ({ ...o, [ekey]: !o[ekey] }))}>
@@ -1395,6 +1437,291 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 corpus of {fmt(194710)} passages, snapshot {data.meta.corpus_snapshot}. Data-availability: the
                 dataset, the codebook, and the design are published with this study and reproducible from the
                 live database; every citation resolves to a passage in the reader.
+              </p>
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Heart-base study. Companion to IndividualGuidanceStudy: a three-tier reading
+// (Sutta / Abhidhamma / Commentary) of the seat of mind, bhavaṅga, and the
+// insight-ladder. Reads public/research/heart-base-and-insight.json for the
+// three-tier table; the paper prose lives inline. Admin-gated via Dhamma.jsx.
+// ---------------------------------------------------------------------------
+
+function TierCell({ cell }) {
+  if (!cell || (!cell.text && (!cell.cites || !cell.cites.length))) return <td style={tdLeftSm}>·</td>;
+  return (
+    <td style={tdLeftSm}>
+      {cell.text}
+      {cell.cites && cell.cites.length > 0 && (
+        <span style={{ display: 'block', marginTop: 4 }}>
+          {cell.cites.map((c, i) => (
+            <span key={c.id}>{i ? ' · ' : ''}<Cite id={c.id}>{c.label}</Cite></span>
+          ))}
+        </span>
+      )}
+    </td>
+  );
+}
+
+function HeartBaseStudy({ entry, onBack }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label="Back to Research (Esc)">
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to Research</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Abstract.</span> Is the heart the seat of mind in the Buddha's
+                teaching? Is bhavaṅga, the life-continuum? Is the staged progress-of-insight, with its named
+                knowledges, the Buddha's, or a later systematization? This companion to the guidance census
+                answers all three on a three-tier reading. The seat of mind is the cleanest case: the suttas
+                are silent, the Abhidhamma posits a material base but leaves it un-named, and the commentary
+                names it the heart and locates it in the heart's blood. The same shape repeats for the
+                life-continuum and for the named insight-ladder: in each, the suttas give the lived practice,
+                the Abhidhamma supplies the analytical parts, and the commentary names the organ and assembles
+                the machine. For two other structures, the three roots and the analytical categories, the
+                suttas already carry the material and the Abhidhamma systematizes rather than originates it.
+              </p>
+              <p style={methodNote}>
+                Every corpus claim is grounded in a passage that opens in the reader. The not-in-the-Abhidhamma
+                verdicts rest on negative controls, searches that return nothing across the seven books, which
+                are reliable here but sensitive to spelling. The dating and the origin-account of the Abhidhamma
+                are secondary scholarship, not corpus-verified. The modern-practice testimony is attributed and
+                flagged as not independently verifiable. Renderings of commentary and Abhidhamma are the
+                author's own, checked against Ñāṇamoli.
+              </p>
+
+              <h2 style={h2}>Two things that frame everything</h2>
+              <p>
+                First, the contrast has three tiers, not two. The Theravāda canon is not only the suttas: the
+                Abhidhamma is the third basket, canonical, and most of what a flat split would call commentary
+                is the commentary systematizing the Abhidhamma. The seat of mind, the life-continuum, the three
+                roots and the analytical categories are all canonical-Abhidhamma yet absent from the suttas; a
+                two-tier scheme either credits them to the suttas or wrongly calls them commentarial inventions.
+                The Abhidhamma is canonical but second: the account that makes it the word of the Buddha, its
+                preaching in the Tāvatiṃsa heaven, is itself commentarial, so the story that sacralizes the
+                Abhidhamma sits a tier above the canon it explains. Critical scholarship dates the seven books
+                later than the Nikāyas, growing out of the suttas' doctrinal lists. Either way the suttas are the
+                earliest stratum and the Abhidhamma is the first systematizing layer. The para-canonical
+                Khuddaka bridge named here, the Niddesa and the Paṭisambhidāmagga and the rest, is this study's
+                analytic grouping of works the corpus files under the Sutta basket, not a separately dated stratum.
+              </p>
+              <p>
+                Second, the Buddha's register is to be lived, not pondered: come and see, to be experienced by
+                the wise, visible here and now, continuous watching, cultivation, knowing-and-seeing as it is.
+                The canon is a path to walk. The named knowledges are a description of the milestones that
+                walking passes through. The distinction that matters is not experience against thinking, since
+                both the lived dissolution and the named dissolution-knowledge are about experience. It is the
+                path the Buddha gave you to walk against the route-map the commentary drew over it. Keeping the
+                two apart is what the three-tier reading makes possible.
+              </p>
+
+              <h2 style={h2}>The three-tier table</h2>
+              <p style={tableCaption}>
+                Each structure scored against the four tiers. Every cell's citations open the passage in the
+                reader. Column key as in the guidance census: Sutta = the four Nikāyas and prose Khuddaka;
+                Abhi. = the Abhidhamma Piṭaka; Para-c. = the para-canonical Khuddaka analytical works
+                (Nettippakaraṇa, Peṭakopadesa, Paṭisambhidāmagga, Niddesa); Comm. = aṭṭhakathā, ṭīkā, and the
+                Visuddhimagga.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Structure</th>
+                      {TIER_KEYS.map((k) => <th key={k} style={thLeft} title={TIER_COL[k].full}>{TIER_COL[k].label}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.rows.map((r) => (
+                      <tr key={r.structure} style={tr}>
+                        <td style={tdLeftSm}><strong>{r.structure}</strong></td>
+                        {TIER_KEYS.map((k) => <TierCell key={k} cell={r.cells[k]} />)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 style={h2}>The heart-base (hadaya-vatthu)</h2>
+              <p>
+                The seat of mind is the cleanest case, because the commentary fills an Abhidhamma blank and says
+                so. In the suttas the heart is only an organ in the body-parts list and a figure of speech; it
+                is never the seat of thought. The Paṭṭhāna posits a material support for the two mind-elements
+                but leaves it un-named (<Cite id="patthana1.1">Paṭṭhāna 1.1</Cite>):
+              </p>
+              <p style={evPaliBlock}>
+                Yaṁ rūpaṁ nissāya manodhātu ca manoviññāṇadhātu ca vattanti, taṁ rūpaṁ … nissayapaccayena
+                paccayo.
+              </p>
+              <p style={evEnBlock}>
+                The matter dependent on which the mind-element and the mind-consciousness-element occur, that
+                matter is a condition, by way of support, for them. (author's gloss)
+              </p>
+              <p>
+                The Dhammasaṅgaṇī likewise gives each sense-consciousness a base but leaves the
+                mind-consciousness base indeterminate (<Cite id="cst-abh01m.mul-078">Dhs §584</Cite>). The
+                commentary substitutes the heart (<Cite id="cst-abh03a.att-370_p002">Pañca-a §370</Cite>):
+              </p>
+              <p style={evPaliBlock}>Ettha ca rūpanti hadayavatthumattameva adhippetaṁ.</p>
+              <p style={evEnBlock}>And here, by "matter", only the heart-base is meant. (author's gloss)</p>
+              <p>
+                The sub-commentary defends the move "from scripture and reason"
+                (<Cite id="cst-e0104n.att-16_p024">Vism-mhṭ §16</Cite>), quoting the Paṭṭhāna clause as its
+                scripture and noting that the Dhammasaṅgaṇī never stated it. It even physicalizes the base,
+                running on the half-handful of blood inside the heart-chamber
+                (<Cite id="cst-abh07t.nrf-135_p014">Abh-pṭ §135</Cite>). The word <em>hadaya-vatthu</em>
+                does not occur in the canonical Abhidhamma at all. So the heart-as-seat-of-mind is a self-aware
+                commentarial naming of an Abhidhamma placeholder: the base is canonical Abhidhamma; only the
+                heart-identification and its physiology are the commentary's.
+              </p>
+
+              <h2 style={h2}>Bhavaṅga (the life-continuum)</h2>
+              <p>
+                Bhavaṅga follows the same pattern, one degree milder. The suttas have no life-continuum; the
+                nearest analogue is the luminous mind (<Cite id="an1.41-50">AN 1.49–50</Cite>), a figure of
+                moral purity with no base and no mechanism. The Paṭṭhāna uses bhavaṅga as a real term, a
+                discrete state in the conditional relations (<Cite id="patthana2.1">Paṭṭhāna 2.1</Cite>), but
+                with no series and no seat. The commentary builds the full cognitive process, the citta-vīthi,
+                in which bhavaṅga vibrates, is arrested, gives way to the cognitive series and returns, and it
+                ties bhavaṅga to the heart-base as an object-less life-continuum
+                (<Cite id="cst-abh01t.tik-69_p013">Abh-pṭ §69</Cite>). So bhavaṅga is Abhidhamma-canonical and
+                commentarially elaborated, not invented: the commentary's genuine surplus is the process model
+                and the heart-seat, not the existence of the term.
+              </p>
+
+              <h2 style={h2}>The stages of insight</h2>
+              <p>
+                The staged progress-of-insight is a weave of three differently-sourced strata. What the suttas
+                give is the experiential path, coarse-grained: watch rise-and-fall, then impermanence,
+                disenchantment, fading, release; the fourth tetrad of mindfulness of breathing watches
+                impermanence, fading, cessation, and letting go. These are instructions to live, not stations
+                to recognize. The skeleton of the path, the seven purifications, is sutta: MN 24
+                (<Cite id="mn24">MN 24</Cite>) enumerates all seven, and the Visuddhimagga is built on them. The
+                analytical ground the insight works on, the aggregates, sense-bases, elements and dependent
+                origination, is Abhidhamma, the Vibhaṅga's chapters (<Cite id="vb1">Vibh 1</Cite>,{' '}
+                <Cite id="vb2">Vibh 2</Cite>, <Cite id="vb6">Vibh 6</Cite>). But the named graded ladder,
+                rise-and-fall knowledge, dissolution knowledge, comprehension, equanimity about formations,
+                returns nothing across the seven Abhidhamma books; it is first defined in the para-canonical
+                Paṭisambhidāmagga (<Cite id="ps1.1">Paṭis 1.1</Cite>), then systematized and refined by the
+                Visuddhimagga (<Cite id="cst-e0101n.mul-53_p011">Vism §53</Cite>), which even adds a
+                momentary-versus-continuity reading the bare Paṭisambhidāmagga does not spell out
+                (<Cite id="cst-e0104n.att-76_p012">Vism-mhṭ §76</Cite>).
+              </p>
+              <p>
+                So the precise case of dissolution-knowledge is this: the observation of dissolution is
+                canonical and meant to be walked; numbering it as a fixed station, the fifth knowledge, is the
+                para-canonical and commentarial map of that walking. The Visuddhimagga's insight-system is a
+                weave of a sutta skeleton, Abhidhamma categories, and a para-canonical staging, assembled,
+                populated and graded by the commentary, which even states the weave: two purifications as root,
+                five as body, operating on the aggregates, sense-bases, elements and dependent origination as
+                their ground (<Cite id="cst-abh08t.nrf-100_p024">Abh-pṭ §100</Cite>). The danger the texts flag,
+                and that modern teachers flag, is the same: mistaking a landmark, a pleasant dissolution, for
+                the destination.
+              </p>
+
+              <h2 style={h2}>The carita scheme across the tiers</h2>
+              <p>
+                The temperament scheme sharpens across the tiers as it does in the guidance census. The
+                three roots are Abhidhamma, the three unwholesome roots of the Dhammasaṅgaṇī and the Vibhaṅga
+                (<Cite id="cst-abh02m.mul-226">Vibh §226</Cite>). A three-fold root-carita with a remedy matrix,
+                greed to foulness, hate to love, delusion to dependent origination, is already para-canonical, in
+                the Nettippakaraṇa and Peṭakopadesa (<Cite id="ne6">Nett §13</Cite>), but only on those three
+                roots. The six-fold personality typology, the affinity theory, the object-suitability matrix
+                (<Cite id="cst-e0101n.mul-36_p031">Vism III §46</Cite>) and the heart-blood diagnostics
+                (<Cite id="cst-abh02a.att-70_p058">Vibh-a §70.58</Cite>) are the commentary's, first set in the
+                Aṭṭhakathā (<Cite id="cst-s0201a.att-mn1_3_p261">Ps-a 3 §261</Cite>). Where the Abhidhamma does
+                use the word <em>carita</em> (<Cite id="cst-abh02m.mul-149">Vibh §817</Cite>), it means kamma,
+                the three kinds of formation, not temperament; the temperament sense is a commentarial re-coinage.
+              </p>
+
+              <h2 style={h2}>Modern practice</h2>
+              <p>
+                In modern lay practice this apparatus is alive. In Goenka's teaching, dissolution (bhaṅga) is a
+                sensation-stage, the dissolving of gross sensation into a subtle free-flow, and it is explicitly
+                not the goal; the central caution is against taking it as the goal. The heart-base and bhavaṅga
+                discernment is taught in the modern Abhidhamma-revival lineages too. Pa-Auk teaches it
+                explicitly in its published materials (Pa-Auk Sayadaw, <em>Knowing and Seeing</em>). For
+                Goenka the public record, the ten-day discourses and U Ba Khin's published <em>Essentials</em>,
+                centres on feeling and does not surface the heart-base; a long-course practitioner reports that
+                the heart-base and bhavaṅga work is taught in the non-public long-course discourses. That report
+                cannot be independently verified and is recorded as attributed practitioner testimony, not a
+                citation. If accurate, it strengthens rather than weakens the reading, since it would mean the
+                modern method operationalizes the full Abhidhamma-and-commentary apparatus, not only the
+                sensation-sweep.
+                Historically the whole apparatus, the sixteen knowledges, the cognitive process, bhavaṅga and
+                the heart-base, is the Visuddhimagga and Abhidhamma system revived for mass lay practice by Ledi
+                Sayadaw and built out by the twentieth-century Burmese teachers (Erik Braun, <em>The Birth of
+                Insight</em>).
+              </p>
+
+              <h2 style={h2}>How the heart is integral, and to which tier</h2>
+              <p>
+                The heart is integral, but to a tier. In the suttas it is not the seat of mind at all; the
+                physical base of mind is left unstated. In the Abhidhamma a material base is posited but
+                unnamed, and bhavaṅga exists as a bare term. In the commentary, and in the modern
+                Abhidhamma-revival practice that teaches it, the heart becomes integral: named, made the seat of
+                the life-continuum, located in the heart's blood, and in practice an object of discernment.
+                Encountering it in long-course instruction is real; it is a commentarial-to-modern achievement
+                layered on an Abhidhamma placeholder and a sutta silence.
+              </p>
+
+              <h2 style={h2}>Limits and sources</h2>
+              <p>
+                The not-in-the-Abhidhamma verdicts rest on negative controls, searches that return nothing
+                across the seven books; reliable here but sensitive to spelling and stemming. The dating of the
+                Abhidhamma and the account of its origin are secondary and scholarly, not corpus-verified. The
+                long-course claim is attributed testimony about confidential material. A few rows, the
+                cognitive-process vocabulary of the late manual layer, the dependent-origination half of the
+                Vibhaṅga categories, and the Paṭisambhidāmagga classification, are confirmed in direction, with
+                the per-row verbatim still to come. Sources for the secondary claims: Frauwallner,
+                <em> Studies in Abhidharma Literature</em>; Cousins, <em>Abhidhamma Studies III</em>; Gethin,
+                <em> The Foundations of Buddhism</em>; Ronkin, <em>Early Buddhist Metaphysics</em>; Braun,
+                <em> The Birth of Insight</em>; Pa-Auk Sayadaw, <em>Knowing and Seeing</em>.
+              </p>
+
+              <p style={footNote}>
+                Companion to the individual-guidance census, version {data.meta.version}, snapshot{' '}
+                {data.meta.corpus_snapshot}. Every corpus citation resolves to a passage in the reader.
               </p>
             </div>
           </>
@@ -1496,10 +1823,13 @@ const evFieldKey = { fontVariant: 'small-caps', fontWeight: 700, letterSpacing: 
 const evPali = { fontFamily: SERIF, fontStyle: 'italic', fontSize: 13, color: 'var(--bc-text-primary)', lineHeight: 1.6, margin: '0 0 6px' };
 const evEn = { fontFamily: SERIF, fontSize: 13, color: 'var(--bc-text-secondary)', lineHeight: 1.6, margin: '0 0 6px' };
 const evMeta = { fontSize: 11.5, color: 'var(--bc-text-tertiary)', lineHeight: 1.5, margin: 0 };
+const evPaliBlock = { fontFamily: SERIF, fontStyle: 'italic', fontSize: 14, color: 'var(--bc-text-primary)', lineHeight: 1.7, margin: '0 0 6px', paddingLeft: 16, borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.3)' };
+const evEnBlock = { fontFamily: SERIF, fontSize: 13.5, color: 'var(--bc-text-secondary)', lineHeight: 1.7, margin: '0 0 14px', paddingLeft: 16 };
 
 function tierBadge(tier) {
   const base = { fontSize: 10.5, letterSpacing: '0.04em', borderRadius: 4, padding: '1px 6px', whiteSpace: 'nowrap', border: '1px solid' };
-  if (tier === 'mula') return { ...base, color: 'var(--bc-accent)', borderColor: 'rgba(var(--bc-accent-rgb), 0.5)' };
+  if (tier === 'sutta') return { ...base, color: 'var(--bc-accent)', borderColor: 'rgba(var(--bc-accent-rgb), 0.6)', fontWeight: 600 };
+  if (tier === 'abhidhamma') return { ...base, color: 'var(--bc-accent)', borderColor: 'rgba(var(--bc-accent-rgb), 0.5)', borderStyle: 'dashed' };
   if (tier === 'none') return { ...base, color: 'var(--bc-loss-text)', borderColor: 'rgba(var(--bc-loss-text-rgb), 0.4)' };
   return { ...base, color: 'var(--bc-text-tertiary)', borderColor: 'rgba(var(--bc-accent-rgb), 0.25)' };
 }
