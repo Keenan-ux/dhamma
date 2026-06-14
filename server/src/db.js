@@ -33,6 +33,19 @@ export const sql = process.env.DATABASE_URL
         lock_timeout: process.env.PG_LOCK_TIMEOUT_MS || '10000',
         statement_timeout: process.env.PG_STATEMENT_TIMEOUT_MS || '120000',
       },
+      // applySchema() re-runs the whole schema every boot. On an already-
+      // provisioned DB (the normal case) every CREATE … IF NOT EXISTS emits a
+      // "relation … already exists, skipping" NOTICE — ~300 lines in a tight
+      // burst. That noise drowns the boot log AND bursts Fly's log shipper hard
+      // enough to drop the very next line ("[db] schema applied"), making a
+      // healthy boot look like it never finished the migration. Swallow those
+      // benign idempotent-DDL notices; surface anything else (a genuinely
+      // unexpected notice still wants eyes). Server-only — ingest uses its own
+      // client — and notices are informational, so nothing functional changes.
+      onnotice: (notice) => {
+        if (/already exists, skipping/i.test(notice?.message || '')) return;
+        console.warn(`[pg notice] ${notice?.severity || 'NOTICE'}: ${notice?.message}`);
+      },
     })
   : null;
 
