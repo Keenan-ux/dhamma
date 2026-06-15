@@ -192,5 +192,9 @@ books) — robust here but method-sensitive to spelling/stemming. The Abhidhamma
 Tāvatiṃsa origin-account are **secondary/scholarly**, not corpus-verified. The Goenka long-course claim is
 **attributed practitioner testimony** (confidential material, not independently verifiable). A few rows
 (the Abhidhammattha-saṅgaha citta-vīthi vocabulary; the dhātu/paṭiccasamuppāda Vibhaṅga half; the Paṭis
-classification) are verdict=partial — the direction is unambiguous, the per-row verbatim is the remaining
-polish before this merges into the paper.
+classification) were verdict=partial — **RESOLVED 2026-06-15 with per-row verbatim (heart-base → v1.1):**
+the citta-vīthi via the Atthasālinī As §79 (`cst-abh01a.att-79_p015`, "bhavaṅge āvaṭṭite vīthicittāni
+uppajjanti"); the Vibhaṅga analytical set completed with the Dhātuvibhaṅga (`vb3`, alongside vb1/vb2/vb6);
+the Paṭisambhidāmagga Ñāṇakathā (`ps1.1`) confirmed to name the udayabbaya/bhaṅga ñāṇas. All cite ids
+resolve. The Abhidhammattha-saṅgaha manual itself is not in the corpus, so the citta-vīthi is grounded via
+the Aṭṭhakathā that codifies it, not the late manual.

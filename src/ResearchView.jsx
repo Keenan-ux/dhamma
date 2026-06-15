@@ -1911,10 +1911,12 @@ function HeartBaseStudy({ entry, onBack }) {
                 The not-in-the-Abhidhamma verdicts rest on negative controls, searches that return nothing
                 across the seven books; reliable here but sensitive to spelling and stemming. The dating of the
                 Abhidhamma and the account of its origin are secondary and scholarly, not corpus-verified. The
-                long-course claim is attributed testimony about confidential material. A few rows, the
-                cognitive-process vocabulary of the late manual layer, the dependent-origination half of the
-                Vibhaṅga categories, and the Paṭisambhidāmagga classification, are confirmed in direction, with
-                the per-row verbatim still to come. Sources for the secondary claims: Frauwallner,
+                long-course claim is attributed testimony about confidential material. Three rows an earlier
+                pass left partial are now grounded per row in the table above: the cognitive-process vocabulary
+                in the Atthasālinī, where the life-continuum, once turned, gives rise to the cognitive-process
+                cittas; the element chapter completing the Vibhaṅga's analytical set; and the
+                Paṭisambhidāmagga's Ñāṇakathā, which names the insight-ñāṇas. Sources for the secondary claims:
+                Frauwallner,
                 <em> Studies in Abhidharma Literature</em>; Cousins, <em>Abhidhamma Studies III</em>; Gethin,
                 <em> The Foundations of Buddhism</em>; Ronkin, <em>Early Buddhist Metaphysics</em>; Braun,
                 <em> The Birth of Insight</em>; Pa-Auk Sayadaw, <em>Knowing and Seeing</em>.
