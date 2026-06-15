@@ -857,7 +857,12 @@ export default function ReadingPanel({
 
   // When both Pali + English exist, drop the single-column reading-width
   // cap so the parallel reader can span the full available content area.
-  const hasParallel = !!(passage.original && passage.translation);
+  // Parallel (two-column) layout whenever there's an original AND a translation
+  // actually being shown. Key on translationText (which covers translations-table
+  // rows, incl. private admin drafts) — NOT the legacy passage.translation
+  // column, which is null for passages translated only via the translations
+  // table, and would otherwise force the narrow single-column width on them.
+  const hasParallel = !!(passage.original && translationText);
   const articleStyle = compact
     ? { ...reading, padding: '12px 0 8px', maxWidth: hasParallel ? '100%' : reading.maxWidth }
     : { ...reading, maxWidth: hasParallel ? '100%' : reading.maxWidth };
@@ -1653,6 +1658,18 @@ export default function ReadingPanel({
               <a href={t.source_url} target="_blank" rel="noopener noreferrer" style={attribLink}>
                 {licenseLabel} · bps.lk
               </a>
+              {t.notes && <span style={attribNotes}> · {t.notes}</span>}
+            </div>
+          );
+        }
+        // In-house auditable translation — the project's own rendering,
+        // admin-gated. No external licence or back-link (it isn't ATI, BPS,
+        // or SuttaCentral); being private, it is only ever rendered for its
+        // owner, so the "visible only to you" note is always accurate here.
+        if (t && t.source === 'dhamma') {
+          return (
+            <div style={attribFooter}>
+              <span style={attribNotes}>in-house draft, visible only to you</span>
               {t.notes && <span style={attribNotes}> · {t.notes}</span>}
             </div>
           );
