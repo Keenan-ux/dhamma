@@ -38,6 +38,14 @@ the *audit discipline*, and the *writing standard*.
    the search lane is flaky and over/under-matches (it has been wrong before; see the `kammaṭṭhāna` case).
 5. **Drive the API serially and gently.** The box has no concurrency guard; fan-out crashes it. Within
    any agent, one request at a time; prefer `exact`/`stem` (FTS) over `meaning`; use `meaning` sparingly.
+6. **A study is a living document, not an append log — the reader meets one paper, not a changelog.**
+   Every change (an instance added, a count corrected, a section written, a phase landed) ends with the
+   **Coherence pass** (editorial pass 4) before it commits or deploys. Two structural rules keep the job
+   small: **counts are data-bound and stated once** (render every number from the dataset; never hardcode
+   a count the data could drift from; give each headline fact ONE canonical home and reference it
+   elsewhere), and **amend in place, then renumber** (the whole document is the edit unit — weave the new
+   material into the arc, write its transitions, fix the section/table numbering and the abstract's
+   roadmap; never bolt a phase onto the end).
 
 ## Method (run in this order)
 
@@ -80,7 +88,12 @@ Citation apparatus: SuttaCentral id (primary) + PTS vol.page + CST row-id; flag 
 diacritics; **translation provenance** — where the corpus has no English (commentary, Abhidhamma) the
 rendering is the author's own gloss, marked as such and checked against the standard published translation.
 
-## Editorial passes (run all three, in order, before shipping the paper)
+## Editorial passes (run all four, in order, before shipping OR re-shipping the paper)
+
+> The first three are the de-AI / peer-review / process-scrub passes for the prose. The fourth, the
+> **Coherence pass, runs after ANY change, not only the first write** — it is the gate that keeps an
+> expanding study from going patchy.
+
 
 1. **De-AI copy edit — a SEPARATE pass, not inline.** Hand the draft to a dedicated editor agent with
    `EDITOR-CHECKLIST.md`. It strips em-dashes and the standard AI tells and returns clean prose.
@@ -95,6 +108,15 @@ rendering is the author's own gloss, marked as such and checked against the stan
    section (corpus, edition, query log, codebook, IAA). *Rule: methods = the reproducible WHAT (required);
    orchestration = the internal HOW (excluded).* Grep the final paper for `agent|workflow|box|prompt|LLM`
    and remove leaks.
+4. **Coherence pass — whole-document, MANDATORY after every change (not just the first write).** Hand the
+   WHOLE rendered study to a dedicated coherence-editor persona with `COHERENCE-CHECKLIST.md`, and run the
+   deterministic `<topic>-consistency` check on the dataset. It reads the artifact end to end as a
+   first-time reader and reports every seam: numbers that disagree across prose and tables, a fact stated
+   (and drifting) in three places, skipped section letters, "three results" when there are four, a section
+   bolted on without a transition, terminology drift, a dangling cross-reference, an honesty tag dropped.
+   **Gate: the deterministic check passes and every must-fix seam is applied before the change commits or
+   deploys.** This is the pass that keeps the study reading as one paper as it grows; skipping it is how
+   a study goes patchy.
 
 ## Two artifacts per study (keep them separate)
 
