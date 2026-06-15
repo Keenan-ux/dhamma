@@ -668,15 +668,15 @@ function CopyCode({ text, label }) {
   if (!text) return label ? <span style={tinyNote}>{label}</span> : null;
   const copy = () => {
     try { navigator.clipboard?.writeText(text); } catch (e) { /* clipboard unavailable */ }
-    setDone(true); setTimeout(() => setDone(false), 1200);
+    setDone(true); setTimeout(() => setDone(false), 1300);
   };
   return (
-    <span style={copyWrap}>
-      <code style={codeInline}>{text}</code>
-      <button type="button" style={copyBtn} onClick={copy} title="Copy this query" aria-label="Copy query">
-        {done ? '✓ copied' : 'copy'}
-      </button>
-    </span>
+    <code role="button" tabIndex={0} style={done ? codeCopied : codeCopyable}
+      onClick={copy}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copy(); } }}
+      title="Click to copy this query">
+      {text}{done ? <span style={copiedTag}>✓ copied</span> : null}
+    </code>
   );
 }
 
@@ -744,6 +744,8 @@ function IndividualGuidanceStudy({ entry, onBack }) {
 
   // Drill-down: every count cell opens the full hyperlinked list of instances behind it.
   const inst = derived?.inst || [];
+  const frameN = data?.meta?.query_log?.frame_union ?? 755; // candidate-frame size, data-bound
+  const expAdded = data?.aggregates?.expansion_added ?? 0;
   const toggleDrill = (key, title, items) =>
     setDrill((d) => (d && d.key === key ? null : { key, title, items }));
   const cell = (key, title, items, strong) =>
@@ -764,7 +766,7 @@ function IndividualGuidanceStudy({ entry, onBack }) {
         <ol style={drillOl}>
           {drill.items.map((r, i) => (
             <li key={(r.id || 'na') + ':' + i} style={drillLi}>
-              <Cite id={r.id}>{r.citation || r.id || '—'}</Cite>
+              <Cite id={r.id}>{r.citation || r.id || '·'}</Cite>
               {r.recipient ? <span style={drillMeta}> · {r.recipient}</span> : null}
               {r.object && !/^unspecified|^unstated/i.test(r.object) ? <span style={drillObj}> · {r.object}</span> : null}
             </li>
@@ -802,7 +804,7 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 study enumerates those acts of guidance across the live corpus of {fmt(194710)} passages and
                 codes each one for its mode, the criterion behind it, the meditative function it serves, and
                 its textual layer. The {fmt(derived.inst.length)} instances kept here are drawn from a frame
-                of {fmt(755)} candidate passages, the assignments the corpus's vocabulary could surface;
+                of {fmt(frameN)} candidate passages, the assignments the corpus's vocabulary could surface;
                 each candidate received more than one independent coding pass, as an instance or as a reasoned
                 exclusion, and every instance is tied to a passage that opens in the reader. The most
                 consequential result is structural. Directed assignment is largely a commentarial act: the four
@@ -813,8 +815,8 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 and weighed in its own section. Three further results follow. The canon keys a meditation object
                 to the hearer's <em>present defilement or situation</em> (lust to foulness, ill will to love,
                 discursive thought to the breath); the keying of an object to a fixed <em>temperament</em>,
-                the famous scheme of six <em>caritas</em>, belongs to the commentaries and to the Niddesa,
-                not to the four Nikāyas. Tested cell by cell, the commentarial assignment system is faithful
+                the famous scheme of six <em>caritas</em>, belongs to the commentaries and to the
+                para-canonical Niddesa, not to the four Nikāyas. Tested cell by cell, the commentarial assignment system is faithful
                 in principle but innovative in apparatus: of fifteen decidable assignment cells, eight carry a
                 canonical warrant and seven do not. And on the disputed question of calm and insight, the canon
                 yokes <em>samatha</em> and <em>vipassanā</em>; across the discourses the census reached it
@@ -826,7 +828,7 @@ function IndividualGuidanceStudy({ entry, onBack }) {
               <p style={methodNote}>
                 Reproducibility and recall. Every count below is reproducible from the live database, and
                 every citation opens its passage. The enumeration does not rest on the search service alone. A
-                frame of {fmt(755)} candidate passages was drawn by direct database query over the assignment
+                frame of {fmt(frameN)} candidate passages was drawn by direct database query over the assignment
                 vocabulary: the develop-imperatives paired with a named meditation object, the
                 temperament-keyed assignment formula, and the commentarial idiom of giving a person a
                 meditation subject. Every candidate was then coded independently more than once, and the
@@ -853,7 +855,9 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 canon differs from the commentary.
               </p>
               <p>
-                Five hypotheses were fixed before the census. (H<sub>A</sub>) Identifying who should receive
+                Five hypotheses were fixed before the census. Four take their letters from the sub-questions
+                they test, so the sequence skips the descriptive sub-questions that carry no hypothesis.
+                (H<sub>A</sub>) Identifying who should receive
                 what is, in the canon, a Buddha's perceptual faculty; operational, applicable-in-advance
                 criteria are commentarial. (H<sub>B</sub>) The canon matches by defilement and situation; the
                 temperament matrix is a commentarial addition, and the word <em>carita</em> does not carry the
@@ -861,7 +865,8 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 cells warranted there are tiered as resting outside the Nikāyas). (H<sub>D</sub>) The canon presents calm and insight as yoked,
                 not as two separate vehicles; the dry-insight split is commentarial. (H<sub>E</sub>) The canon
                 gives antidote-pairings and situational sets, not a fixed ordering of objects; sequence is a
-                commentarial systematization. The central test, decided cell by cell, sets <strong>H0</strong>,
+                commentarial systematization. The fifth, the central cross-cutting test, is decided cell by
+                cell: it sets <strong>H0</strong>,
                 that every commentarial assignment has a traceable canonical warrant, against <strong>H1</strong>,
                 that the commentary adds assignments with no warrant. The prior expectation, registered in
                 advance, was a split rather than a winner.
@@ -1284,13 +1289,12 @@ function IndividualGuidanceStudy({ entry, onBack }) {
               {/* G. THE COMMENTARIAL ASSIGNMENT NARRATIVES */}
               <h2 style={h2}>G. The commentarial assignment narratives</h2>
               <p>
-                The ledger judges the temperament scheme as a structure. Beneath it lies a larger body of
-                evidence that the first pass reached only in part: the commentaries' own stories of assignment.
-                When the candidate frame is drawn in full, the four Nikāyas yield few scenes in which a named
-                person is turned toward a definite object, while the commentaries yield several hundred. Of the
-                {' '}{fmt(derived.inst.length)} instances in the census, {fmt(data.aggregates?.by_tier?.commentary || 0)}{' '}
-                stand in the commentary; the canon's share is the smaller part. Two cautions keep the contrast
-                honest. The commentary is stored at paragraph granularity and the suttas at the level of the
+                The structural finding the abstract names belongs here. Beneath the fifteen-cell ledger lies
+                the larger body the first pass reached only in part: the commentaries' own stories of
+                assignment. Drawn in full, the frame shows the four Nikāyas turning few named persons toward a
+                definite object while the commentaries record several hundred, which is the commentary-to-canon
+                split of Table 1. Two cautions keep that contrast honest. The commentary is stored at paragraph
+                granularity and the suttas at the level of the
                 whole discourse, so the raw counts are not a like-for-like measure; but the commentarial
                 instances were checked to be distinct events, almost all naming or describing a different
                 recipient and falling across many separate commentaries, so the contrast is one of distinct acts
@@ -1447,21 +1451,19 @@ function IndividualGuidanceStudy({ entry, onBack }) {
               {/* LIMITATIONS */}
               <h2 style={h2}>Limitations</h2>
               <p>
-                Recall is bounded and the bound is stated rather than hidden. The enumeration now draws on a
-                frame of {fmt(755)} candidate passages built by direct database query over the assignment
-                vocabulary, not on the search service, and within the tradition's closed lists and the
-                secondary literature's cited passages it reached structural saturation, repeated passes
-                surfacing no new member. Structural saturation is not instance-level proof: it cannot show that
-                an open corpus holds no further instance phrased in terms the frame did not cover, which is why
-                the frame is defined in full and left extensible. The warrant reading of the enlarged
-                commentarial set comes from that coding, reported as a distribution rather than adjudicated
-                cell by cell in the manner of the fifteen-cell ledger. Several gaps named in the earlier pass
-                are now closed and carried in the dataset: the forty objects of the Visuddhimagga and their
-                temperament keying are pulled verbatim, the graded death-mindfulness discourses and the directed
-                discourse on body-mindfulness are enumerated, and the commentarial back-story in which monks
-                frightened by tree-deities are given loving-kindness is recorded as a commentarial assignment.
-                Scope is Pāli and Theravāda only; the Vimuttimagga enters through Bapat alone; cross-tradition
-                material is out of scope.
+                Recall is bounded, and the bound is stated rather than hidden. As the method sets out, the
+                enumeration rests on a candidate frame built by direct database query rather than on the search
+                service; within the tradition's closed lists and the secondary literature it is saturated, but
+                that saturation is structural, not a proof that the open corpus holds no further instance
+                phrased in terms the frame did not cover. Two limits are particular to this version. The warrant
+                reading of the enlarged commentarial set is the coding's, reported as a distribution and not
+                adjudicated cell by cell in the manner of the fifteen-cell ledger. And several gaps named in the
+                earlier pass are now closed and carried in the dataset: the forty objects of the Visuddhimagga
+                and their temperament keying are pulled verbatim, the graded death-mindfulness discourses and
+                the directed discourse on body-mindfulness are enumerated, and the commentarial back-story in
+                which monks frightened by tree-deities are given loving-kindness is recorded as a commentarial
+                assignment. Scope is Pāli and Theravāda only; the Vimuttimagga enters through Bapat alone;
+                cross-tradition material is out of scope.
               </p>
 
               {/* CONTRIBUTION */}
@@ -1982,9 +1984,10 @@ const drillMeta = { color: 'var(--bc-text-tertiary)', fontStyle: 'italic' };
 const drillObj = { color: 'var(--bc-accent)' };
 const codeInline = { fontFamily: 'ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace', fontSize: 11.5, color: 'var(--bc-text-secondary)', background: 'rgba(var(--bc-accent-rgb), 0.06)', padding: '1px 4px', borderRadius: 3, wordBreak: 'break-word', whiteSpace: 'normal' };
 const idList = { listStyle: 'none', margin: '4px 0 12px', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2px 18px' };
-// Copy-pastable query rows in the reproducibility appendix.
-const copyWrap = { display: 'inline-flex', alignItems: 'flex-start', gap: 6, maxWidth: '100%' };
-const copyBtn = { flex: '0 0 auto', background: 'rgba(var(--bc-accent-rgb), 0.10)', border: '1px solid rgba(var(--bc-accent-rgb), 0.28)', color: 'var(--bc-accent)', fontSize: 10.5, letterSpacing: '0.04em', textTransform: 'uppercase', borderRadius: 4, padding: '2px 7px', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', alignSelf: 'center' };
+// Copy-pastable query rows in the reproducibility appendix: the whole code box is the button.
+const codeCopyable = { display: 'block', position: 'relative', fontFamily: 'ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace', fontSize: 11.5, lineHeight: 1.55, color: 'var(--bc-text-secondary)', background: 'rgba(var(--bc-accent-rgb), 0.06)', border: '1px solid rgba(var(--bc-accent-rgb), 0.18)', borderRadius: 4, padding: '8px 10px', cursor: 'pointer', whiteSpace: 'pre-wrap', wordBreak: 'break-word' };
+const codeCopied = { ...codeCopyable, background: 'rgba(var(--bc-accent-rgb), 0.14)', borderColor: 'rgba(var(--bc-accent-rgb), 0.45)' };
+const copiedTag = { marginLeft: 8, fontFamily: SERIF, fontSize: 11, fontStyle: 'italic', color: 'var(--bc-accent)' };
 const qRow = { margin: '0 0 10px' };
 const qHead = { display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap', marginBottom: 3 };
 const qLabel = { fontFamily: SERIF, fontSize: 13, color: 'var(--bc-text-primary)' };
