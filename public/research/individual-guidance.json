@@ -16,35 +16,90 @@
   "verification_note": "Every instance grounded to a real passage id, fetched live. verification ∈ {verified (quote confirmed in the fetched passage), exists (passage fetched, quote not auto-matched, e.g. folded-diacritic or cross-row), exists-quote-unconfirmed, unresolved}.",
   "residual_gaps": "Tool-load (not absence): verbatim Vism III object-rows not pulled at the leaf level (the work= search filter is unhonored); maraṇassati→named-person and MN 119 kāyagatāsati-as-directed-assignment unrun; the Mettasutta tree-deva nidāna unchased. See RESEARCH-DESIGN §6 + the census synthesis.",
   "query_log": {
-   "engine": "PostgreSQL ~* (case-insensitive regex) over passages.original, run by direct SQL through the dhamma-pg proxy; the search service was not used for the frame.",
-   "meditation_object_vocabulary": "asubh | mettā|mettaṃ|mettaṁ | ānāpān | kasiṇ | aniccasaññ | maraṇasati|maraṇassati | kāyagatā | paṭikūl | dhātumanasikār | buddhānussati|dhammānussati|saṅghānussati|cāgānussati|sīlānussati|devatānussati | catunnaṃ dhātūnaṃ|catunnaṁ dhātūnaṁ",
+   "engine": "PostgreSQL ~* (case-insensitive regex) over passages.original, run by direct SQL through the dhamma-pg proxy; the search service was not used for the frame. Every sql field below is a complete, runnable statement.",
+   "note": "The four FRAME RULES define the candidate set: their deduplicated union is the 755 candidate passages, which were coded down to the 263 instances + 459 reasoned exclusions. Each rule is a single multi-term regex (the object rule alone carries about twenty terms). The other tables here are not part of building the census: the MEASUREMENT queries are the per-layer footprint counts that diagnosed the undercount the re-census corrects, and the TARGETED queries resolved specific cells and loci. Most individual canonical instances were then confirmed by direct fetch of the cited passage (reachable from every citation link), not by further search.",
+   "meditation_object_vocabulary": "asubh|mettā|mettaṃ|mettaṁ|ānāpān|kasiṇ|aniccasaññ|maraṇasati|maraṇassati|kāyagatā|paṭikūl|dhātumanasikār|buddhānussati|dhammānussati|saṅghānussati|cāgānussati|sīlānussati|devatānussati|catunnaṃ dhātūnaṃ|catunnaṁ dhātūnaṁ",
    "frame_rules": [
     {
-     "rule": "assignment narrative (commentary + sub-commentary + extra-canonical)",
-     "predicate": "original ~* 'kammaṭṭhān' AND original ~* 'adāsi|ācikkhi|kathesi|uggaṇhāpesi|uggaṇhi|ārocesi'",
+     "rule": "Assignment narrative (commentary + sub-commentary + extra-canonical): a teacher gives a person a meditation subject",
+     "sql": "SELECT count(*) FROM passages WHERE (work_slug LIKE '%-attha' OR work_slug = 'pli-vism' OR work_slug LIKE '%-tika' OR work_slug LIKE 'pli-cst-%') AND original ~* 'kammaṭṭhān' AND original ~* 'adāsi|ācikkhi|kathesi|uggaṇhāpesi|uggaṇhi|ārocesi';",
      "candidates": 268
     },
     {
-     "rule": "develop/attend directive + a meditation object",
-     "predicate": "( original ~* 'bhāvehi|bhāvetha|bhāveyyāsi|bhāveyyātha|bhāvetabb' OR original ~* 'manasi karohi|manasi karotha' ) AND original ~* (object vocabulary above)",
+     "rule": "Develop/attend directive paired with a named meditation object (any layer)",
+     "sql": "SELECT count(*) FROM passages WHERE ( original ~* 'bhāvehi|bhāvetha|bhāveyyāsi|bhāveyyātha|bhāvetabb' OR original ~* 'manasi karohi|manasi karotha' ) AND original ~* 'asubh|mettā|mettaṃ|mettaṁ|ānāpān|kasiṇ|aniccasaññ|maraṇasati|maraṇassati|kāyagatā|paṭikūl|dhātumanasikār|buddhānussati|dhammānussati|saṅghānussati|cāgānussati|sīlānussati|devatānussati|catunnaṃ dhātūnaṃ|catunnaṁ dhātūnaṁ';",
      "candidates": 330
     },
     {
-     "rule": "temperament-keyed assignment formula",
-     "predicate": "original ~* 'rāgacaritassa|dosacaritassa|mohacaritassa|vitakkacaritassa|saddhācaritassa|buddhicaritassa|ñāṇacaritassa'",
+     "rule": "Temperament-keyed assignment formula (any layer)",
+     "sql": "SELECT count(*) FROM passages WHERE original ~* 'rāgacaritassa|dosacaritassa|mohacaritassa|vitakkacaritassa|saddhācaritassa|buddhicaritassa|ñāṇacaritassa';",
      "candidates": 79
     },
     {
-     "rule": "calm + insight co-treatment (sutta + para-canon + abhidhamma)",
-     "predicate": "original ~* 'samath' AND original ~* 'vipassan'",
+     "rule": "Calm and insight co-treatment (sutta + para-canon + abhidhamma)",
+     "sql": "SELECT count(*) FROM passages WHERE (work_slug NOT LIKE '%-attha' AND work_slug NOT LIKE '%-tika' AND work_slug <> 'pli-vism' AND work_slug NOT LIKE 'pli-cst-%' AND work_slug <> 'pli-vinaya') AND original ~* 'samath' AND original ~* 'vipassan';",
      "candidates": 136
     }
    ],
    "frame_union": 755,
+   "measurement_queries": [
+    {
+     "label": "Object-term footprint (run per object across all layers; asubha shown)",
+     "sql": "SELECT count(*) FROM passages WHERE original ~* 'asubh';"
+    },
+    {
+     "label": "Commentarial assignment idiom, all layers (to compare canon vs commentary)",
+     "sql": "SELECT count(*) FROM passages WHERE original ~* 'kammaṭṭhān' AND original ~* 'adāsi|ācikkhi|kathesi|uggaṇhāpesi|uggaṇhi|ārocesi';"
+    },
+    {
+     "label": "Develop-imperative footprint (with and without an object)",
+     "sql": "SELECT count(*) FROM passages WHERE original ~* 'bhāvehi|bhāvetha|bhāveyyāsi|bhāveyyātha|bhāvetabb';"
+    },
+    {
+     "label": "Carita footprint: any occurrence",
+     "sql": "SELECT count(*) FROM passages WHERE original ~* 'carit';"
+    },
+    {
+     "label": "Carita footprint: temperament-typed forms",
+     "sql": "SELECT count(*) FROM passages WHERE original ~* 'rāgacarit|dosacarit|mohacarit|saddhācarit|buddhicarit|vitakkacarit|ñāṇacarit';"
+    },
+    {
+     "label": "Calm + insight co-occurrence, all layers",
+     "sql": "SELECT count(*) FROM passages WHERE original ~* 'samath' AND original ~* 'vipassan';"
+    },
+    {
+     "label": "Understanding-types footprint (ugghaṭitaññū / vipañcitaññū)",
+     "sql": "SELECT count(*) FROM passages WHERE original ~* 'ugghaṭitaññ|vipañcitaññ|vipaccitaññ';"
+    }
+   ],
+   "targeted_queries": [
+    {
+     "label": "Visuddhimagga III carita-to-object matrix",
+     "sql": "SELECT id, citation, original FROM passages WHERE work_slug = 'pli-vism' AND original ~* 'rāgacaritassa';"
+    },
+    {
+     "label": "Visuddhimagga III the forty objects (Cattālīsakammaṭṭhāna)",
+     "sql": "SELECT id, citation, original FROM passages WHERE work_slug = 'pli-vism' AND original ~* 'dasa kasiṇā|cattālīsa.{0,12}kammaṭṭhān';"
+    },
+    {
+     "label": "Mettā tree-deity origin story (Sn-a / Khp-a Mettasutta commentary)",
+     "sql": "SELECT id, citation, title FROM passages WHERE work_slug = 'pli-kn-attha' AND title ~* 'mettasutta' AND original ~* 'devatā|rukkh';"
+    },
+    {
+     "label": "Death-mindfulness directed to the bhikkhū (graded)",
+     "sql": "SELECT id, citation FROM passages WHERE work_slug IN ('pli-dn','pli-mn','pli-sn','pli-an','pli-kn','pli-dhp','pli-ud','pli-iti','pli-snp','pli-thag','pli-thig','pli-vv','pli-pv','pli-cp','pli-bv','pli-ja','pli-ap','pli-kp') AND original ~* 'maraṇasati|maraṇassati';"
+    },
+    {
+     "label": "Note: the F4 calm/insight cells and the four-element loci (AN 4.92-94, AN 9.4, MN 28/62/140, etc.) were confirmed by direct fetch of each cited passage, reachable from its citation link.",
+     "sql": ""
+    }
+   ],
    "carita_sense_split": {
     "scope": "Sutta Piṭaka work_slugs (pli-dn/mn/sn/an/kn/dhp/ud/iti/snp/thag/thig/vv/pv/cp/bv/ja/ap/kp)",
-    "any_carita": "original ~* 'carit' -> 554 passages",
-    "temperament_compound": "original ~* 'rāgacarit|dosacarit|mohacarit|saddhācarit|buddhicarit|vitakkacarit|ñāṇacarit|samacarit' -> 9 passages",
+    "any_carita_sql": "SELECT count(*) FROM passages WHERE work_slug IN ('pli-dn','pli-mn','pli-sn','pli-an','pli-kn','pli-dhp','pli-ud','pli-iti','pli-snp','pli-thag','pli-thig','pli-vv','pli-pv','pli-cp','pli-bv','pli-ja','pli-ap','pli-kp') AND original ~* 'carit';",
+    "any_carita_count": 554,
+    "temperament_compound_sql": "SELECT id, work_slug FROM passages WHERE work_slug IN ('pli-dn','pli-mn','pli-sn','pli-an','pli-kn','pli-dhp','pli-ud','pli-iti','pli-snp','pli-thag','pli-thig','pli-vv','pli-pv','pli-cp','pli-bv','pli-ja','pli-ap','pli-kp') AND original ~* 'rāgacarit|dosacarit|mohacarit|saddhācarit|buddhicarit|vitakkacarit|ñāṇacarit|samacarit';",
+    "temperament_compound_count": 9,
     "nine_ids": [
      "cst-s0515m.mul-kn15_14 (Mahāniddesa)",
      "cst-s0515m.mul-kn15_16 (Mahāniddesa)",
@@ -56,7 +111,8 @@
      "cst-s0520m.nrf-kn20_7 (Peṭakopadesa)",
      "cst-s0518m.nrf-kn18_2 (Milindapañha)"
     ],
-    "paṭisambhidāmagga": "cst-s0517m (Paṭisambhidāmagga) original ~* temperament-compound -> 0 passages",
+    "paṭisambhidāmagga_sql": "SELECT count(*) FROM passages WHERE work_slug = 'pli-kn' AND id LIKE 'cst-s0517m%' AND original ~* 'rāgacarit|dosacarit|mohacarit';",
+    "paṭisambhidāmagga_count": 0,
     "none_in_four_nikayas": true
    },
    "integrity": "Every coded instance evidence_pali was verified to be a literal substring of its source row (188/188 fine, 33/33 coarse, 9/9 added); 0 fabricated quotes."

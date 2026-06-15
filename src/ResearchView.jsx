@@ -663,6 +663,23 @@ const CARITA_MATRIX = [
   { carita: 'Intelligence (buddhi / ñāṇa)', objects: 'Mindfulness of death; the peaceful; the repulsiveness of food; the four-element analysis' },
 ];
 
+function CopyCode({ text, label }) {
+  const [done, setDone] = useState(false);
+  if (!text) return label ? <span style={tinyNote}>{label}</span> : null;
+  const copy = () => {
+    try { navigator.clipboard?.writeText(text); } catch (e) { /* clipboard unavailable */ }
+    setDone(true); setTimeout(() => setDone(false), 1200);
+  };
+  return (
+    <span style={copyWrap}>
+      <code style={codeInline}>{text}</code>
+      <button type="button" style={copyBtn} onClick={copy} title="Copy this query" aria-label="Copy query">
+        {done ? '✓ copied' : 'copy'}
+      </button>
+    </span>
+  );
+}
+
 function Cite({ id, children }) {
   if (!id) return <span style={citeDead} title="No single corpus row (composite cell)">{children}</span>;
   return (
@@ -1557,62 +1574,61 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 live database; every citation resolves to a passage in the reader.
               </p>
 
-              {data.meta.query_log && (
+              {data.meta.query_log && (() => {
+                const ql = data.meta.query_log;
+                const css = ql.carita_sense_split;
+                return (
                 <section style={{ marginTop: 14 }}>
                   <h2 style={h2}>Reproducibility appendix: the exact queries</h2>
                   <p style={methodNote}>
-                    This is the full query log. {data.meta.query_log.engine} A reader with database access can
-                    paste each predicate and reproduce the count; the frame is the union of the four rules
-                    below, and the figures elsewhere in the paper are filters over the instances those rules
-                    surfaced. Diacritics follow the corpus (the niggahita is written both ways, ṃ and ṁ, so the
-                    predicates list both where it matters).
+                    This is the full query log. {ql.engine} Every query below has a copy button; paste it into
+                    a Postgres client on the corpus and the count returns. {ql.note} Diacritics follow the
+                    corpus (the niggahita is written both ways, ṃ and ṁ, so the predicates list both where it
+                    matters).
                   </p>
-                  <h3 style={h3}>The candidate frame: {fmt(data.meta.query_log.frame_union)} passages</h3>
-                  <div style={tableWrap}>
-                    <table style={table}>
-                      <thead>
-                        <tr><th style={thLeft}>Frame rule</th><th style={thLeft}>Predicate on <code style={codeInline}>passages.original</code></th><th style={thNum}>Hits</th></tr>
-                      </thead>
-                      <tbody>
-                        {data.meta.query_log.frame_rules.map((q, i) => (
-                          <tr key={i} style={tr}>
-                            <td style={tdLeftSm}>{q.rule}</td>
-                            <td style={tdLeftSm}><code style={codeInline}>{q.predicate}</code></td>
-                            <td style={tdNum}>{fmt(q.candidates)}</td>
-                          </tr>
-                        ))}
-                        <tr style={trTotal}>
-                          <td style={tdLeftSm}>Deduplicated union (the frame)</td>
-                          <td style={tdLeftSm}><span style={tinyNote}>distinct passage ids across the four rules</span></td>
-                          <td style={tdNumStrong}>{fmt(data.meta.query_log.frame_union)}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                  <h3 style={h3}>1. The candidate frame: {fmt(ql.frame_union)} passages (the four rules whose union is the census)</h3>
+                  {ql.frame_rules.map((q, i) => (
+                    <div key={i} style={qRow}>
+                      <div style={qHead}><span style={qLabel}>{q.rule}</span><span style={qHits}>{fmt(q.candidates)} hits</span></div>
+                      <CopyCode text={q.sql} />
+                    </div>
+                  ))}
                   <p style={tableCaption}>
-                    Meditation-object vocabulary used by the first two rules (alternation, case-insensitive):{' '}
-                    <code style={codeInline}>{data.meta.query_log.meditation_object_vocabulary}</code>
+                    Deduplicated union of the four rules = {fmt(ql.frame_union)} candidate passages, coded down
+                    to {fmt(derived.inst.length)} instances. Meditation-object vocabulary used by rule 2
+                    (alternation, case-insensitive): <CopyCode text={ql.meditation_object_vocabulary} />
                   </p>
-                  <h3 style={h3}>The <em>carita</em> sense-split</h3>
-                  <p>
-                    Scope: {data.meta.query_log.carita_sense_split.scope}. Any occurrence,{' '}
-                    <code style={codeInline}>{data.meta.query_log.carita_sense_split.any_carita}</code>. The
-                    temperament compound,{' '}
-                    <code style={codeInline}>{data.meta.query_log.carita_sense_split.temperament_compound}</code>.
-                    The Paṭisambhidāmagga control,{' '}
-                    <code style={codeInline}>{data.meta.query_log.carita_sense_split.paṭisambhidāmagga}</code>.
-                    The nine temperament-compound passages, each opening in the reader:
-                  </p>
+                  <h3 style={h3}>2. Measurement queries (the per-layer footprint that diagnosed the undercount)</h3>
+                  {ql.measurement_queries.map((q, i) => (
+                    <div key={i} style={qRow}>
+                      <div style={qHead}><span style={qLabel}>{q.label}</span></div>
+                      <CopyCode text={q.sql} />
+                    </div>
+                  ))}
+                  <h3 style={h3}>3. Targeted queries (specific cells and loci)</h3>
+                  {ql.targeted_queries.map((q, i) => (
+                    <div key={i} style={qRow}>
+                      <div style={qHead}><span style={qLabel}>{q.label}</span></div>
+                      <CopyCode text={q.sql} label={q.sql ? '' : '(by-id fetch; follow the citation link)'} />
+                    </div>
+                  ))}
+                  <h3 style={h3}>4. The <em>carita</em> sense-split</h3>
+                  <p>Scope: {css.scope}.</p>
+                  <div style={qRow}><div style={qHead}><span style={qLabel}>Any occurrence of carita</span><span style={qHits}>{fmt(css.any_carita_count)}</span></div><CopyCode text={css.any_carita_sql} /></div>
+                  <div style={qRow}><div style={qHead}><span style={qLabel}>Temperament-typed compound</span><span style={qHits}>{fmt(css.temperament_compound_count)}</span></div><CopyCode text={css.temperament_compound_sql} /></div>
+                  <div style={qRow}><div style={qHead}><span style={qLabel}>Paṭisambhidāmagga control</span><span style={qHits}>{fmt(css.paṭisambhidāmagga_count)}</span></div><CopyCode text={css.paṭisambhidāmagga_sql} /></div>
+                  <p style={{ ...tableCaption, marginTop: 8 }}>The nine temperament-compound passages, each opening in the reader:</p>
                   <ul style={idList}>
-                    {data.meta.query_log.carita_sense_split.nine_ids.map((s) => {
+                    {css.nine_ids.map((s) => {
                       const id = s.split(' ')[0];
                       const work = s.slice(s.indexOf('(')) || '';
                       return <li key={id} style={drillLi}><Cite id={id}>{id}</Cite> <span style={drillMeta}>{work}</span></li>;
                     })}
                   </ul>
-                  <p style={tableCaption}>{data.meta.query_log.integrity}</p>
+                  <p style={tableCaption}>{ql.integrity}</p>
                 </section>
-              )}
+                );
+              })()}
             </div>
           </>
         )}
@@ -1966,6 +1982,13 @@ const drillMeta = { color: 'var(--bc-text-tertiary)', fontStyle: 'italic' };
 const drillObj = { color: 'var(--bc-accent)' };
 const codeInline = { fontFamily: 'ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace', fontSize: 11.5, color: 'var(--bc-text-secondary)', background: 'rgba(var(--bc-accent-rgb), 0.06)', padding: '1px 4px', borderRadius: 3, wordBreak: 'break-word', whiteSpace: 'normal' };
 const idList = { listStyle: 'none', margin: '4px 0 12px', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2px 18px' };
+// Copy-pastable query rows in the reproducibility appendix.
+const copyWrap = { display: 'inline-flex', alignItems: 'flex-start', gap: 6, maxWidth: '100%' };
+const copyBtn = { flex: '0 0 auto', background: 'rgba(var(--bc-accent-rgb), 0.10)', border: '1px solid rgba(var(--bc-accent-rgb), 0.28)', color: 'var(--bc-accent)', fontSize: 10.5, letterSpacing: '0.04em', textTransform: 'uppercase', borderRadius: 4, padding: '2px 7px', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', alignSelf: 'center' };
+const qRow = { margin: '0 0 10px' };
+const qHead = { display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap', marginBottom: 3 };
+const qLabel = { fontFamily: SERIF, fontSize: 13, color: 'var(--bc-text-primary)' };
+const qHits = { fontSize: 11.5, color: 'var(--bc-text-tertiary)', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' };
 const tdNumStrong = { ...tdNum, fontWeight: 600 };
 const catLink = { background: 'transparent', border: 'none', padding: 0, margin: 0, font: 'inherit', color: 'var(--bc-accent)', cursor: 'pointer', textAlign: 'left', textDecoration: 'underline', textDecorationColor: 'rgba(var(--bc-accent-rgb), 0.4)', textUnderlineOffset: 3 };
 const tinyNote = { fontSize: 11, fontStyle: 'italic', color: 'var(--bc-text-tertiary)' };
