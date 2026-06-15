@@ -68,7 +68,7 @@ const seen = new Set(censusIds), out = [...census]
 let added = 0
 for (const x of [...v13, ...fine, ...coarse]) {
   if (seen.has(String(x.id))) continue
-  seen.add(String(x.id)); out.push(x); added++
+  seen.add(String(x.id)); out.push({ ...x, source: 'expansion' }); added++
 }
 
 const cnt = (arr, key) => arr.reduce((a, i) => (a[i[key]] = (a[i[key]] || 0) + 1, a), {})
@@ -78,6 +78,34 @@ const newOnly = out.filter(i => !censusIds.has(String(i.id)))
 ds.instances = out
 ds.meta.version = '2.0'
 ds.meta.title = 'How an Individual Is Guided — assignment census v2.0'
+
+// The exact query log: every predicate run against passages.original (Postgres
+// ~* = case-insensitive regex) over the live corpus via the proxy. Published so a
+// human can re-run each count. layer/tier = derived from work_slug (suffix -attha
+// -> commentary, -tika -> commentary; pli-abhidhamma -> abhidhamma; pli-ps/ne/pe/
+// nd/mil -> para-canon; pli-cst-* -> extra-canonical; else sutta).
+const OBJ = "asubh | mettā|mettaṃ|mettaṁ | ānāpān | kasiṇ | aniccasaññ | maraṇasati|maraṇassati | kāyagatā | paṭikūl | dhātumanasikār | buddhānussati|dhammānussati|saṅghānussati|cāgānussati|sīlānussati|devatānussati | catunnaṃ dhātūnaṃ|catunnaṁ dhātūnaṁ"
+ds.meta.query_log = {
+  engine: 'PostgreSQL ~* (case-insensitive regex) over passages.original, run by direct SQL through the dhamma-pg proxy; the search service was not used for the frame.',
+  meditation_object_vocabulary: OBJ,
+  frame_rules: [
+    { rule: 'assignment narrative (commentary + sub-commentary + extra-canonical)', predicate: "original ~* 'kammaṭṭhān' AND original ~* 'adāsi|ācikkhi|kathesi|uggaṇhāpesi|uggaṇhi|ārocesi'", candidates: 268 },
+    { rule: 'develop/attend directive + a meditation object', predicate: "( original ~* 'bhāvehi|bhāvetha|bhāveyyāsi|bhāveyyātha|bhāvetabb' OR original ~* 'manasi karohi|manasi karotha' ) AND original ~* (object vocabulary above)", candidates: 330 },
+    { rule: 'temperament-keyed assignment formula', predicate: "original ~* 'rāgacaritassa|dosacaritassa|mohacaritassa|vitakkacaritassa|saddhācaritassa|buddhicaritassa|ñāṇacaritassa'", candidates: 79 },
+    { rule: 'calm + insight co-treatment (sutta + para-canon + abhidhamma)', predicate: "original ~* 'samath' AND original ~* 'vipassan'", candidates: 136 },
+  ],
+  frame_union: 755,
+  carita_sense_split: {
+    scope: 'Sutta Piṭaka work_slugs (pli-dn/mn/sn/an/kn/dhp/ud/iti/snp/thag/thig/vv/pv/cp/bv/ja/ap/kp)',
+    any_carita: "original ~* 'carit' -> 554 passages",
+    temperament_compound: "original ~* 'rāgacarit|dosacarit|mohacarit|saddhācarit|buddhicarit|vitakkacarit|ñāṇacarit|samacarit' -> 9 passages",
+    nine_ids: ['cst-s0515m.mul-kn15_14 (Mahāniddesa)', 'cst-s0515m.mul-kn15_16 (Mahāniddesa)', 'cst-s0516m.mul-kn16_1 (Cūḷaniddesa)', 'cst-s0519m.mul-kn19_4 (Nettippakaraṇa)', 'cst-s0519m.mul-kn19_5 (Nettippakaraṇa)', 'cst-s0519m.mul-kn19_6 (Nettippakaraṇa)', 'cst-s0520m.nrf-kn20_2 (Peṭakopadesa)', 'cst-s0520m.nrf-kn20_7 (Peṭakopadesa)', 'cst-s0518m.nrf-kn18_2 (Milindapañha)'],
+    paṭisambhidāmagga: "cst-s0517m (Paṭisambhidāmagga) original ~* temperament-compound -> 0 passages",
+    none_in_four_nikayas: true,
+  },
+  integrity: 'Every coded instance evidence_pali was verified to be a literal substring of its source row (188/188 fine, 33/33 coarse, 9/9 added); 0 fabricated quotes.',
+}
+
 ds.aggregates = {
   ...ds.aggregates,
   total: out.length, original_census: census.length, expansion_added: added,

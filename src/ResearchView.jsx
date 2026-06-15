@@ -684,6 +684,7 @@ function IndividualGuidanceStudy({ entry, onBack }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState({});
+  const [drill, setDrill] = useState(null);
 
   useEffect(() => {
     setData(null); setError(null);
@@ -723,6 +724,37 @@ function IndividualGuidanceStudy({ entry, onBack }) {
   }, [data]);
 
   const sumTier = (obj) => TIER_KEYS.reduce((s, k) => s + (obj?.[k] || 0), 0);
+
+  // Drill-down: every count cell opens the full hyperlinked list of instances behind it.
+  const inst = derived?.inst || [];
+  const toggleDrill = (key, title, items) =>
+    setDrill((d) => (d && d.key === key ? null : { key, title, items }));
+  const cell = (key, title, items, strong) =>
+    items.length ? (
+      <button type="button" style={strong ? drillNumStrong : drillNum} aria-expanded={drill?.key === key}
+        onClick={() => toggleDrill(key, title, items)} title={`Show the ${items.length} instances behind this count`}>
+        {fmt(items.length)}
+      </button>
+    ) : <span style={tdNumDot}>·</span>;
+  const renderDrill = (prefix) =>
+    drill && drill.key.startsWith(prefix) ? (
+      <div style={drillBox}>
+        <div style={drillHead}>
+          <span style={drillTitle}>{drill.title}</span>
+          <span style={drillCount}>{fmt(drill.items.length)} {drill.items.length === 1 ? 'instance' : 'instances'}</span>
+          <button type="button" style={drillClose} onClick={() => setDrill(null)}>close ✕</button>
+        </div>
+        <ol style={drillOl}>
+          {drill.items.map((r, i) => (
+            <li key={(r.id || 'na') + ':' + i} style={drillLi}>
+              <Cite id={r.id}>{r.citation || r.id || '—'}</Cite>
+              {r.recipient ? <span style={drillMeta}> · {r.recipient}</span> : null}
+              {r.object && !/^unspecified|^unstated/i.test(r.object) ? <span style={drillObj}> · {r.object}</span> : null}
+            </li>
+          ))}
+        </ol>
+      </div>
+    ) : null;
 
   return (
     <div data-scroll-root="" style={scrollWrap}>
@@ -919,18 +951,19 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                     {FACETS.map((f) => (
                       <tr key={f.key} style={tr}>
                         <td style={tdLeft}>{f.short}</td>
-                        {TIER_KEYS.map((k) => <td key={k} style={tdNum}>{derived.facetByTier[f.key][k] ? fmt(derived.facetByTier[f.key][k]) : '·'}</td>)}
-                        <td style={tdNumStrong}>{fmt(sumTier(derived.facetByTier[f.key]))}</td>
+                        {TIER_KEYS.map((k) => <td key={k} style={tdNum}>{cell('t1:' + f.key + ':' + k, f.short + ' · ' + TIER_COL[k].label, inst.filter((r) => r.facet === f.key && r.tier === k))}</td>)}
+                        <td style={tdNumStrong}>{cell('t1:' + f.key + ':all', f.short + ' · all tiers', inst.filter((r) => r.facet === f.key), true)}</td>
                       </tr>
                     ))}
                     <tr style={trTotal}>
                       <td style={tdLeft}>All instances</td>
-                      {TIER_KEYS.map((k) => <td key={k} style={tdNumStrong}>{fmt(data.aggregates.by_tier[k])}</td>)}
-                      <td style={tdNumStrong}>{fmt(derived.inst.length)}</td>
+                      {TIER_KEYS.map((k) => <td key={k} style={tdNumStrong}>{cell('t1:all:' + k, 'All instances · ' + TIER_COL[k].label, inst.filter((r) => r.tier === k), true)}</td>)}
+                      <td style={tdNumStrong}>{cell('t1:all:all', 'All instances', inst, true)}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
+              {renderDrill('t1:')}
               <p style={tableCaption}>
                 Column key, the three-tier axis. Sutta = the four Nikāyas and the prose Khuddaka; Abhi. =
                 the Abhidhamma Piṭaka, the seven books, canonical but second; Para-c. = the para-canonical
@@ -988,19 +1021,17 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {MODE_ORDER.map((m) => {
-                      const row = data.aggregates.mode_x_tier[m] || {};
-                      return (
-                        <tr key={m} style={tr}>
-                          <td style={tdLeft}>{MODE_LABEL[m]}</td>
-                          {TIER_KEYS.map((k) => <td key={k} style={tdNum}>{row[k] ? fmt(row[k]) : '·'}</td>)}
-                          <td style={tdNumStrong}>{fmt(sumTier(row))}</td>
-                        </tr>
-                      );
-                    })}
+                    {MODE_ORDER.map((m) => (
+                      <tr key={m} style={tr}>
+                        <td style={tdLeft}>{MODE_LABEL[m]}</td>
+                        {TIER_KEYS.map((k) => <td key={k} style={tdNum}>{cell('t2:' + m + ':' + k, MODE_LABEL[m] + ' · ' + TIER_COL[k].label, inst.filter((r) => r.mode === m && r.tier === k))}</td>)}
+                        <td style={tdNumStrong}>{cell('t2:' + m + ':all', MODE_LABEL[m] + ' · all tiers', inst.filter((r) => r.mode === m), true)}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
+              {renderDrill('t2:')}
               <p style={tableCaption}>
                 Object-assignment is the most common mode and the only one with a heavy commentarial
                 presence; the statement, elaboration and leading modes sit almost entirely in the suttas,
@@ -1064,19 +1095,17 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {CRITERION_ORDER.map((c) => {
-                      const row = data.aggregates.criterion_x_tier[c] || {};
-                      return (
-                        <tr key={c} style={tr}>
-                          <td style={tdLeft}>{CRITERION_LABEL[c]}</td>
-                          {TIER_KEYS.map((k) => <td key={k} style={tdNum}>{row[k] ? fmt(row[k]) : '·'}</td>)}
-                          <td style={tdNumStrong}>{fmt(sumTier(row))}</td>
-                        </tr>
-                      );
-                    })}
+                    {CRITERION_ORDER.map((c) => (
+                      <tr key={c} style={tr}>
+                        <td style={tdLeft}>{CRITERION_LABEL[c]}</td>
+                        {TIER_KEYS.map((k) => <td key={k} style={tdNum}>{cell('t3:' + c + ':' + k, CRITERION_LABEL[c] + ' · ' + TIER_COL[k].label, inst.filter((r) => r.criterion === c && r.tier === k))}</td>)}
+                        <td style={tdNumStrong}>{cell('t3:' + c + ':all', CRITERION_LABEL[c] + ' · all tiers', inst.filter((r) => r.criterion === c), true)}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
+              {renderDrill('t3:')}
               <p style={tableCaption}>
                 Defilement and situation are sutta keys; temperament is a commentarial key, though the roots it
                 is built on are Abhidhamma (see the carita sharpening in section F). Capacity, the
@@ -1279,7 +1308,34 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 in the main, the canon's own objects, while what the commentary supplies is the machinery of
                 individual diagnosis, the judgement of who should receive which. This warrant reading comes
                 from that coding, a distribution rather than the cell-by-cell adjudication the fifteen-cell
-                ledger reports, and it is offered as such.
+                ledger reports, and it is offered as such. Each figure below opens the full list of its
+                instances, so the reading is checkable passage by passage.
+              </p>
+
+              <h3 style={h3}>Table 5. The expansion by warrant (each figure opens its instances)</h3>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr><th style={thLeft}>Warrant reading</th><th style={thNum}>Instances</th></tr>
+                  </thead>
+                  <tbody>
+                    {[['canonical', 'Rests on a canonical object or formula'], ['innovation', 'Adds an object or keying with no canonical source'], ['uncertain', 'Left undecided']].map(([h, label]) => (
+                      <tr key={h} style={tr}>
+                        <td style={tdLeft}>{label}</td>
+                        <td style={tdNumStrong}>{cell('tw:' + h, label, inst.filter((r) => r.source === 'expansion' && r.h_class === h), true)}</td>
+                      </tr>
+                    ))}
+                    <tr style={trTotal}>
+                      <td style={tdLeft}>All instances added beyond the first census</td>
+                      <td style={tdNumStrong}>{cell('tw:all', 'All instances added beyond the first census', inst.filter((r) => r.source === 'expansion'), true)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              {renderDrill('tw:')}
+              <p style={tableCaption}>
+                The warrant reading is the coding's, offered as a distribution and not as a second cell-by-cell
+                ledger. Open any figure to read its instances and follow each to its passage.
               </p>
 
               {/* READER'S AID */}
@@ -1500,6 +1556,63 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 dataset, the codebook, and the design are published with this study and reproducible from the
                 live database; every citation resolves to a passage in the reader.
               </p>
+
+              {data.meta.query_log && (
+                <section style={{ marginTop: 14 }}>
+                  <h2 style={h2}>Reproducibility appendix: the exact queries</h2>
+                  <p style={methodNote}>
+                    This is the full query log. {data.meta.query_log.engine} A reader with database access can
+                    paste each predicate and reproduce the count; the frame is the union of the four rules
+                    below, and the figures elsewhere in the paper are filters over the instances those rules
+                    surfaced. Diacritics follow the corpus (the niggahita is written both ways, ṃ and ṁ, so the
+                    predicates list both where it matters).
+                  </p>
+                  <h3 style={h3}>The candidate frame: {fmt(data.meta.query_log.frame_union)} passages</h3>
+                  <div style={tableWrap}>
+                    <table style={table}>
+                      <thead>
+                        <tr><th style={thLeft}>Frame rule</th><th style={thLeft}>Predicate on <code style={codeInline}>passages.original</code></th><th style={thNum}>Hits</th></tr>
+                      </thead>
+                      <tbody>
+                        {data.meta.query_log.frame_rules.map((q, i) => (
+                          <tr key={i} style={tr}>
+                            <td style={tdLeftSm}>{q.rule}</td>
+                            <td style={tdLeftSm}><code style={codeInline}>{q.predicate}</code></td>
+                            <td style={tdNum}>{fmt(q.candidates)}</td>
+                          </tr>
+                        ))}
+                        <tr style={trTotal}>
+                          <td style={tdLeftSm}>Deduplicated union (the frame)</td>
+                          <td style={tdLeftSm}><span style={tinyNote}>distinct passage ids across the four rules</span></td>
+                          <td style={tdNumStrong}>{fmt(data.meta.query_log.frame_union)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p style={tableCaption}>
+                    Meditation-object vocabulary used by the first two rules (alternation, case-insensitive):{' '}
+                    <code style={codeInline}>{data.meta.query_log.meditation_object_vocabulary}</code>
+                  </p>
+                  <h3 style={h3}>The <em>carita</em> sense-split</h3>
+                  <p>
+                    Scope: {data.meta.query_log.carita_sense_split.scope}. Any occurrence,{' '}
+                    <code style={codeInline}>{data.meta.query_log.carita_sense_split.any_carita}</code>. The
+                    temperament compound,{' '}
+                    <code style={codeInline}>{data.meta.query_log.carita_sense_split.temperament_compound}</code>.
+                    The Paṭisambhidāmagga control,{' '}
+                    <code style={codeInline}>{data.meta.query_log.carita_sense_split.paṭisambhidāmagga}</code>.
+                    The nine temperament-compound passages, each opening in the reader:
+                  </p>
+                  <ul style={idList}>
+                    {data.meta.query_log.carita_sense_split.nine_ids.map((s) => {
+                      const id = s.split(' ')[0];
+                      const work = s.slice(s.indexOf('(')) || '';
+                      return <li key={id} style={drillLi}><Cite id={id}>{id}</Cite> <span style={drillMeta}>{work}</span></li>;
+                    })}
+                  </ul>
+                  <p style={tableCaption}>{data.meta.query_log.integrity}</p>
+                </section>
+              )}
             </div>
           </>
         )}
@@ -1838,6 +1951,21 @@ const tr = { borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.10)' };
 const trTotal = { borderTop: '2px solid rgba(var(--bc-accent-rgb), 0.30)', fontWeight: 600 };
 const tdLeft = { textAlign: 'left', padding: '7px 10px', color: 'var(--bc-text-primary)' };
 const tdNum = { textAlign: 'right', padding: '7px 10px', color: 'var(--bc-text-primary)', whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums' };
+// Drill-down: clickable count cells + the panel that lists the instances behind a count.
+const tdNumDot = { textAlign: 'right', padding: '7px 10px', color: 'var(--bc-text-tertiary)' };
+const drillNum = { background: 'transparent', border: 'none', padding: '1px 3px', margin: '-1px -3px', font: 'inherit', fontVariantNumeric: 'tabular-nums', color: 'var(--bc-accent)', cursor: 'pointer', textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: 3 };
+const drillNumStrong = { ...drillNum, fontWeight: 600 };
+const drillBox = { margin: '4px 0 16px', padding: '12px 14px', borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.45)', background: 'rgba(var(--bc-accent-rgb), 0.045)', borderRadius: 3 };
+const drillHead = { display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 8 };
+const drillTitle = { fontFamily: SERIF, fontWeight: 600, fontSize: 13.5, color: 'var(--bc-text-primary)' };
+const drillCount = { fontSize: 12, color: 'var(--bc-text-tertiary)', fontVariantNumeric: 'tabular-nums' };
+const drillClose = { marginLeft: 'auto', background: 'transparent', border: 'none', color: 'var(--bc-text-tertiary)', fontSize: 11.5, letterSpacing: '0.04em', cursor: 'pointer', fontFamily: 'inherit' };
+const drillOl = { listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '3px 18px', maxHeight: 360, overflowY: 'auto' };
+const drillLi = { fontFamily: SERIF, fontSize: 13, lineHeight: 1.5, color: 'var(--bc-text-secondary)' };
+const drillMeta = { color: 'var(--bc-text-tertiary)', fontStyle: 'italic' };
+const drillObj = { color: 'var(--bc-accent)' };
+const codeInline = { fontFamily: 'ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace', fontSize: 11.5, color: 'var(--bc-text-secondary)', background: 'rgba(var(--bc-accent-rgb), 0.06)', padding: '1px 4px', borderRadius: 3, wordBreak: 'break-word', whiteSpace: 'normal' };
+const idList = { listStyle: 'none', margin: '4px 0 12px', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2px 18px' };
 const tdNumStrong = { ...tdNum, fontWeight: 600 };
 const catLink = { background: 'transparent', border: 'none', padding: 0, margin: 0, font: 'inherit', color: 'var(--bc-accent)', cursor: 'pointer', textAlign: 'left', textDecoration: 'underline', textDecorationColor: 'rgba(var(--bc-accent-rgb), 0.4)', textUnderlineOffset: 3 };
 const tinyNote = { fontSize: 11, fontStyle: 'italic', color: 'var(--bc-text-tertiary)' };
