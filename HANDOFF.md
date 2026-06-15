@@ -760,7 +760,7 @@ after running).
   (article landing + new Translators index)
 - **Demonstration query**: `"mindfulness of breathing"` → SN 54
   Ānāpāna-saṃyutta. Verified to work on prod.
-- **Sign-off**: Isaac Keenan Cyr / keenan@boothcheck.com
+- **Sign-off**: [name withheld] / keenan@boothcheck.com
 
 Three other email drafts (`BPS_EMAIL_DRAFT.md`,
 `SUTTACENTRAL_EMAIL_DRAFT.md`, `CPD_EMAIL_DRAFT.md`) **not yet
@@ -946,7 +946,7 @@ Notes for working with me:
 - Em-dashes are an AI tell. Use commas/periods instead.
 - Don't use the word "Buddhist" in user-facing copy without
   asking — there's an in-flight site-wide review of that term.
-- I'm one person (Isaac Keenan Cyr, but go by Keenan). Code
+- I'm one person ([name withheld], but go by [name]). Code
   comments and user-facing copy use first-person singular.
 
 Wait for direction before starting anything substantive.

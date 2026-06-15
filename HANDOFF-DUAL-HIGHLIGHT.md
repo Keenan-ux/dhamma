@@ -168,7 +168,7 @@ Notes for working with me:
 - Flat-rate Anthropic plan, per-token cost not a constraint
 - No em-dashes, use commas / periods
 - Don't use "Buddhist" in user-facing copy without asking
-- I'm one person (Isaac Keenan Cyr, go by Keenan)
+- I'm one person ([name withheld], go by [name])
 - Scholarly register, not marketing
 - Wait for direction before starting anything substantive
 ```

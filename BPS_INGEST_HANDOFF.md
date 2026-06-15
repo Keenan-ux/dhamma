@@ -26,7 +26,7 @@ permission first. The reasoning:
 - A heads-up notification will follow once material is on the
   page, framed as good-faith disclosure rather than permission
   request. BPS retains the practical ability to ask for changes;
-  Keenan will honour any reasonable response.
+  [name] will honour any reasonable response.
 - Permission-first risks an unanswered inbox blocking real work
   for months, or a cautious "no" from someone who hasn't seen the
   attribution discipline in context.
@@ -368,7 +368,7 @@ new session once the work is on the page; the email points to
 concrete URLs they can click and review.
 
 Tone: scholarly, not apologetic, not consultative. Same register
-as the ATI email that was sent. Sign-off: Keenan,
+as the ATI email that was sent. Sign-off: [name],
 keenan@boothcheck.com.
 
 Do not send the notification before the work is visible. The

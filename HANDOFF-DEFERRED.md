@@ -184,7 +184,7 @@ Pāli Dictionary. Same revision pass. If yes, ingest pattern matches
 - Scholarly register throughout. No marketing copy, no stat-bragging,
   no em-dashes. CLAUDE.md memory note on `feedback-tone-no-marketing`
   is the canonical voice.
-- First-person singular (Isaac Keenan Cyr / Keenan).
+- First-person singular ([name withheld] / [name]).
 - Sign-off email is `keenan@boothcheck.com`.
 - Don't volunteer the fact that the site is brand-new or that I'm
   the sole maintainer. The signature already conveys "small,
@@ -220,7 +220,7 @@ Notes for working with me:
 - Flat-rate Anthropic plan, per-token cost not a constraint
 - No em-dashes, use commas / periods
 - Don't use "Buddhist" in user-facing copy without asking
-- I'm one person (Isaac Keenan Cyr, go by Keenan)
+- I'm one person ([name withheld], go by [name])
 - Scholarly register, not marketing
 - Wait for direction before starting anything substantive
 ```

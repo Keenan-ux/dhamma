@@ -1669,7 +1669,7 @@ export default function ReadingPanel({
         if (t && t.source === 'dhamma') {
           return (
             <div style={attribFooter}>
-              <span style={attribNotes}>in-house draft, visible only to you</span>
+              <span style={attribNotes}>AI draft translation (Claude), visible only to you</span>
               {t.notes && <span style={attribNotes}> · {t.notes}</span>}
             </div>
           );

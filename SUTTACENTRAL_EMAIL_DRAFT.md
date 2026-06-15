@@ -33,6 +33,6 @@ way your data is being re-presented, please tell me and I'll adjust.
 
 With deep gratitude for the open-data work SuttaCentral does.
 
-Keenan
-Isaac Keenan Cyr
+[name]
+[name withheld]
 keenan@boothcheck.com

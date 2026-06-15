@@ -113,7 +113,7 @@ thing," and I'd rather hear from you than guess.
 With respect, and thanks for the decades of editorial work that
 made these translations possible.
 
-Isaac Keenan Cyr
+[name withheld]
 keenan@boothcheck.com
 
 ---

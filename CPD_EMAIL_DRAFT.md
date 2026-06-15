@@ -46,7 +46,7 @@ interface from within the site.
 
 With deep respect for the decades of work that went into the CPD,
 
-Isaac Keenan Cyr
+[name withheld]
 keenan@boothcheck.com
 
 ---

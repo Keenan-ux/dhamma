@@ -6,7 +6,7 @@
 
 Dear Barre Center for Buddhist Studies and the Access to Insight maintainers,
 
-My name is Keenan. I am writing to introduce myself and to let you
+My name is [name]. I am writing to introduce myself and to let you
 know, plainly, what I have done with the Access to Insight library.
 
 I keep a small scholarly tool for reading and searching the Pali canon
@@ -33,6 +33,6 @@ make the change. I am happy to defer to your wishes on any of it.
 
 With respect and gratitude for the work you have done,
 
-Keenan
-Isaac Keenan Cyr
+[name]
+[name withheld]
 keenan@boothcheck.com

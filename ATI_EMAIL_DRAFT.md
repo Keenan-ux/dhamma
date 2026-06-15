@@ -46,5 +46,5 @@ institution's operating budget to remain accessible.
 
 With deep respect for the work you've done,
 
-Isaac Keenan Cyr
+[name withheld]
 keenan@boothcheck.com
