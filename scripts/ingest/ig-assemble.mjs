@@ -71,6 +71,25 @@ for (const x of [...v13, ...fine, ...coarse]) {
   seen.add(String(x.id)); out.push({ ...x, source: 'expansion' }); added++
 }
 
+// Apply the verified warrant ledger (re-adjudication): overwrite each expansion
+// instance's h_class with the verified H0/H1 and the checkable warrant id.
+let expLedger = null
+const ledgerPath = `${R}/research/individual-guidance/out/readjud_final.json`
+if (existsSync(ledgerPath)) {
+  const verified = J(ledgerPath)
+  for (const x of out) {
+    const v = x.source === 'expansion' ? verified[x.id] : null
+    if (v) {
+      x.h_class = v.h_class
+      x.warrant = (v.warrant_id && v.warrant_id !== 'none') ? v.warrant_id : null
+      x.warrant_basis = v.basis
+      x.census_verdict = v.split_resolved ? 'verified (split-resolved)' : 'verified'
+    }
+  }
+  const ev = out.filter(x => x.source === 'expansion')
+  expLedger = { H0: ev.filter(x => x.h_class === 'H0').length, H1: ev.filter(x => x.h_class === 'H1').length, total: ev.length, split_resolved: Object.values(verified).filter(v => v.split_resolved).length }
+}
+
 const cnt = (arr, key) => arr.reduce((a, i) => (a[i[key]] = (a[i[key]] || 0) + 1, a), {})
 const cross = (arr, a, b) => arr.reduce((m, i) => { const k = i[a]; (m[k] ||= {}); m[k][i[b]] = (m[k][i[b]] || 0) + 1; return m }, {})
 const newOnly = out.filter(i => !censusIds.has(String(i.id)))
@@ -135,7 +154,7 @@ ds.aggregates = {
   by_facet: cnt(out, 'facet'), by_tier: cnt(out, 'tier'),
   criterion_x_tier: cross(out, 'criterion', 'tier'), mode_x_tier: cross(out, 'mode', 'tier'),
   frame: { candidates: 755, fine: 454, coarse: 301, fine_coded_instances: fine.length, fine_excludes: J(`${R}/research/individual-guidance/out/fine_full.json`).n_excludes },
-  expansion_warrant: { canonical: newOnly.filter(i => i.h_class === 'canonical').length, innovation: newOnly.filter(i => i.h_class === 'innovation').length, uncertain: newOnly.filter(i => i.h_class === 'uncertain').length },
+  expansion_ledger: expLedger || { H0: 0, H1: 0, total: 0, split_resolved: 0 },
 }
 writeFileSync(`${R}/public/research/individual-guidance.json`, JSON.stringify(ds, null, 1))
 console.log(JSON.stringify({ total: out.length, added, by_facet: ds.aggregates.by_facet, by_tier: ds.aggregates.by_tier, expansion_warrant: ds.aggregates.expansion_warrant }, null, 2))

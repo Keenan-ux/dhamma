@@ -731,8 +731,10 @@ function IndividualGuidanceStudy({ entry, onBack }) {
     }
     const byFacet = {};
     for (const f of FACETS) byFacet[f.key] = inst.filter((r) => r.facet === f.key);
+    // Table 4 is the original curated 15-cell ledger; the 208 verified expansion
+    // cells (source==='expansion', also H0/H1) live in Table 5, not here.
     const ledger = inst
-      .filter((r) => r.h_class === 'H0' || r.h_class === 'H1')
+      .filter((r) => (r.h_class === 'H0' || r.h_class === 'H1') && r.source !== 'expansion')
       .map((r) => ({ ...r, cellLabel: CELL[r.study_label] || r.object || r.citation }));
     // H0 by warrant tier (sutta, abhidhamma, para-canon), then H1 (no warrant)
     const wRank = { sutta: 0, abhidhamma: 1, 'para-canon': 2, none: 3 };
@@ -1321,26 +1323,29 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 H<sub>A</sub> placed in the canon with the Buddha alone.
               </p>
               <p>
-                Counted by warrant, the enlargement does not overturn the ledger; it extends it. Of the
-                assignment instances added beyond the first pass, {fmt(data.aggregates?.expansion_warrant?.canonical || 0)}{' '}
-                rest on a canonical object or formula, {fmt(data.aggregates?.expansion_warrant?.innovation || 0)}{' '}
-                add an object or a keying with no canonical source, and {fmt(data.aggregates?.expansion_warrant?.uncertain || 0)}{' '}
-                are left undecided. The shape is the ledger's at scale: the objects the commentary assigns are,
-                in the main, the canon's own objects, while what the commentary supplies is the machinery of
-                individual diagnosis, the judgement of who should receive which. This warrant reading comes
-                from that coding, a distribution rather than the cell-by-cell adjudication the fifteen-cell
-                ledger reports, and it is offered as such. Each figure below opens the full list of its
-                instances, so the reading is checkable passage by passage.
+                Counted by warrant, the enlargement does not overturn the ledger; it extends it. Each of the
+                {' '}{fmt(data.aggregates?.expansion_ledger?.total || 0)} added instances was re-adjudicated to
+                the same H0/H1 test the fifteen-cell ledger uses, by two independent readers, with the
+                canonical warrant named and checked against the corpus: {fmt(data.aggregates?.expansion_ledger?.H0 || 0)}{' '}
+                are supported (H0), resting on a canonical object keyed as the canon keys it, and
+                {' '}{fmt(data.aggregates?.expansion_ledger?.H1 || 0)} are innovations (H1), where the commentary
+                supplies the keying. The split is close to even, and it falls where the prior expectation
+                placed it: the objects the commentary assigns are, in the main, the canon's own, but the
+                apparatus that fits a standing object to a standing temperament, and the teacher-diagnosis that
+                reads it, carries no canonical warrant. The {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
+                instances on which the two readers disagreed were resolved by one rule: a canonical object with
+                no temperament-typing and no Visuddhimagga-only technique counts as supported. Each figure below
+                opens the full list of its instances, every warrant resolving to a passage.
               </p>
 
-              <h3 style={h3}>Table 5. The expansion by warrant (each figure opens its instances)</h3>
+              <h3 style={h3}>Table 5. The expansion warrant ledger (verified; each figure opens its instances)</h3>
               <div style={tableWrap}>
                 <table style={table}>
                   <thead>
-                    <tr><th style={thLeft}>Warrant reading</th><th style={thNum}>Instances</th></tr>
+                    <tr><th style={thLeft}>Verdict</th><th style={thNum}>Instances</th></tr>
                   </thead>
                   <tbody>
-                    {[['canonical', 'Rests on a canonical object or formula'], ['innovation', 'Adds an object or keying with no canonical source'], ['uncertain', 'Left undecided']].map(([h, label]) => (
+                    {[['H0', 'Supported (H0): a canonical warrant, named and checked against the corpus'], ['H1', 'Innovation (H1): the commentary supplies the keying (temperament-typing, teacher-diagnosis, or a Visuddhimagga-only technique)']].map(([h, label]) => (
                       <tr key={h} style={tr}>
                         <td style={tdLeft}>{label}</td>
                         <td style={tdNumStrong}>{cell('tw:' + h, label, inst.filter((r) => r.source === 'expansion' && r.h_class === h), true)}</td>
@@ -1355,8 +1360,9 @@ function IndividualGuidanceStudy({ entry, onBack }) {
               </div>
               {renderDrill('tw:')}
               <p style={tableCaption}>
-                The warrant reading is the coding's, offered as a distribution and not as a second cell-by-cell
-                ledger. Open any figure to read its instances and follow each to its passage.
+                Each added instance re-adjudicated by two independent readers to a named, corpus-checked
+                canonical warrant or to none, by the same test as the fifteen-cell ledger. Open any figure to
+                read its instances and follow each warrant to its passage.
               </p>
 
               {/* READER'S AID */}
@@ -1455,10 +1461,12 @@ function IndividualGuidanceStudy({ entry, onBack }) {
                 enumeration rests on a candidate frame built by direct database query rather than on the search
                 service; within the tradition's closed lists and the secondary literature it is saturated, but
                 that saturation is structural, not a proof that the open corpus holds no further instance
-                phrased in terms the frame did not cover. Two limits are particular to this version. The warrant
-                reading of the enlarged commentarial set is the coding's, reported as a distribution and not
-                adjudicated cell by cell in the manner of the fifteen-cell ledger. And several gaps named in the
-                earlier pass are now closed and carried in the dataset: the forty objects of the Visuddhimagga
+                phrased in terms the frame did not cover. Two notes are particular to this version. The expansion
+                warrant ledger was re-adjudicated to the H0/H1 test by two independent readers, with each
+                warrant named and checked against the corpus; the {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
+                cells they split on were resolved by one stated rule rather than a third pass, and every cell is
+                exposed per instance for inspection. And several gaps named in the earlier pass are now closed
+                and carried in the dataset: the forty objects of the Visuddhimagga
                 and their temperament keying are pulled verbatim, the graded death-mindfulness discourses and
                 the directed discourse on body-mindfulness are enumerated, and the commentarial back-story in
                 which monks frightened by tree-deities are given loving-kindness is recorded as a commentarial
