@@ -92,6 +92,9 @@ function parseInitialHash() {
   } else if (head === 'research') {
     // ResearchView reads the open-entry slug (#/research/<slug>) from the hash.
     out.tab = 'research';
+  } else if (head === 'explorations') {
+    // ResearchView (Explorations collection, public) reads its slug from the hash.
+    out.tab = 'explorations';
   } else if (head === 'about') {
     out.tab = 'about';
   } else if (head === 'signin') {
@@ -236,6 +239,9 @@ export default function Dhamma() {
     } else if (tab === 'research') {
       // ResearchView manages its own /research/<slug> deep link in-place.
       if (!window.location.hash.startsWith('#/research/')) hash = '/research';
+    } else if (tab === 'explorations') {
+      // ResearchView (Explorations) manages its own /explorations/<slug> deep link.
+      if (!window.location.hash.startsWith('#/explorations/')) hash = '/explorations';
     } else if (tab === 'about') {
       hash = '/about';
     } else if (tab === 'signin') {
@@ -501,8 +507,9 @@ export default function Dhamma() {
                 onCompareTerm={(term) => { setQuery(term); setTab('concordance'); }}
               />
             )}
+            {tab === 'explorations' && <ResearchView collection="explorations" />}
             {tab === 'research' && (isAdmin ? (
-              <ResearchView />
+              <ResearchView collection="research" />
             ) : (
               <div style={{ position: 'absolute', inset: 0, paddingTop: 56, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ maxWidth: 420, textAlign: 'center', padding: 28, fontFamily: '"Noto Serif", Georgia, serif' }}>

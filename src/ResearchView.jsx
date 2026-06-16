@@ -13,7 +13,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { isModifiedClick } from './linkHelpers.js';
 /* eslint-disable react-hooks/exhaustive-deps */
 
-const ENTRIES = [
+const RESEARCH_ENTRIES = [
   {
     slug: 'awakening',
     title: 'Every Instance of Awakening in the Pāli Canon and Commentary',
@@ -35,24 +35,62 @@ const ENTRIES = [
   },
 ];
 
-export default function ResearchView() {
-  // Initialized straight from the hash so a cold load on
-  // #/research/<slug> starts on the entry, not the index.
-  const [openSlug, setOpenSlug] = useState(() => {
-    const m = window.location.hash.match(/^#\/research\/(.+)$/);
+// Public worked examples — the same renderer, ungated, served from /explorations/*.json
+// (outside the /research/*.json admin gate). The Explorations sidebar tab is open to all.
+const EXPLORATION_ENTRIES = [
+  {
+    slug: 'wheel-turning-monarch',
+    title: 'The Wheel-Turning Monarch Across the Canon and Its Commentaries',
+    subtitle: 'A worked example of researching the corpus: how to find the wheel-turning-monarch passages, and a survey of what turns up across canon and commentary.',
+    data: '/explorations/wheel-turning-monarch.json',
+  },
+];
+
+// Two collections, one renderer. `research` is admin-gated (Dhamma.jsx) and shows the
+// compiled-article lane; `explorations` is public and static-only.
+const COLLECTIONS = {
+  research: {
+    base: 'research',
+    heading: 'Research',
+    sub: 'Long-form studies built directly on the corpus. Counts are reproducible from the live database.',
+    entries: RESEARCH_ENTRIES,
+    showApi: true,
+  },
+  explorations: {
+    base: 'explorations',
+    heading: 'Explorations',
+    sub: 'Worked examples of researching the canon with this tool: how to find the passages, and a survey of what turns up. Open to all.',
+    entries: EXPLORATION_ENTRIES,
+    showApi: false,
+  },
+};
+
+export default function ResearchView({ collection = 'research' }) {
+  // One renderer, two collections: the gated Research studies and the public
+  // Explorations (worked examples). The collection sets the hash base, the index
+  // heading, the entry list, and whether the admin-only compiled-article lane
+  // (/api/research) is shown.
+  const C = COLLECTIONS[collection] || COLLECTIONS.research;
+  const base = C.base;
+  const matchSlug = (hash) => {
+    const m = hash.match(new RegExp('^#/' + base + '/(.+)$'));
     return m ? decodeURIComponent(m[1]) : null;
-  });
+  };
+
+  // Initialized straight from the hash so a cold load on #/<base>/<slug>
+  // starts on the entry, not the index.
+  const [openSlug, setOpenSlug] = useState(() => matchSlug(window.location.hash));
 
   useEffect(() => {
     function syncFromHash() {
-      const m = window.location.hash.match(/^#\/research\/(.+)$/);
-      const next = m ? decodeURIComponent(m[1]) : null;
+      const next = matchSlug(window.location.hash);
       setOpenSlug((prev) => (prev === next ? prev : next));
     }
     syncFromHash();
     window.addEventListener('hashchange', syncFromHash);
     return () => window.removeEventListener('hashchange', syncFromHash);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [base]);
 
   // Mirror an OPEN entry into the hash. Opening an entry is a real
   // navigation, so it PUSHES — back returns to the research index
@@ -65,45 +103,47 @@ export default function ResearchView() {
     const prev = prevOpenSlugRef.current;
     prevOpenSlugRef.current = openSlug;
     if (!openSlug) return;
-    const want = `#/research/${encodeURIComponent(openSlug)}`;
+    const want = `#/${base}/${encodeURIComponent(openSlug)}`;
     if (window.location.hash === want) return;
     if (openSlug !== prev) {
       window.history.pushState(null, '', want);
     } else {
       window.history.replaceState(null, '', want);
     }
-  }, [openSlug]);
+  }, [openSlug, base]);
 
   // Article-based research (admin-only, from /api/research) — the compiled
   // markdown studies. Listed alongside the bespoke static studies below. This
   // view only renders for admins (Dhamma.jsx gates it), so the fetch is safe.
   const [apiEntries, setApiEntries] = useState([]);
   useEffect(() => {
+    if (!C.showApi) { setApiEntries([]); return; }
     let cancelled = false;
     fetch('/api/research', { credentials: 'same-origin' })
       .then((r) => (r.ok ? r.json() : { entries: [] }))
       .then((d) => { if (!cancelled) setApiEntries(Array.isArray(d.entries) ? d.entries : []); })
       .catch(() => {});
     return () => { cancelled = true; };
-  }, []);
+  }, [C.showApi]);
 
-  const entry = openSlug ? ENTRIES.find((e) => e.slug === openSlug) : null;
+  const entry = openSlug ? C.entries.find((e) => e.slug === openSlug) : null;
   if (entry) {
     const StudyComponent = entry.slug === 'individual-guidance' ? IndividualGuidanceStudy
       : entry.slug === 'heart-base-and-insight' ? HeartBaseStudy
+      : entry.slug === 'wheel-turning-monarch' ? CakkavattiStudy
       : AwakeningStudy;
     return (
       <StudyComponent
         entry={entry}
-        onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', '#/research'); }}
+        onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', `#/${base}`); }}
       />
     );
   }
-  if (openSlug && !entry) {
+  if (openSlug && !entry && C.showApi) {
     return (
       <ArticleStudy
         slug={openSlug}
-        onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', '#/research'); }}
+        onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', `#/${base}`); }}
       />
     );
   }
@@ -112,19 +152,16 @@ export default function ResearchView() {
     <div data-scroll-root="" style={scrollWrap}>
       <header style={pageHeader}>
         <div style={rule} />
-        <h1 style={pageTitle}>Research</h1>
-        <p style={pageSubtitle}>
-          Long-form studies built directly on the corpus. Counts are reproducible
-          from the live database.
-        </p>
+        <h1 style={pageTitle}>{C.heading}</h1>
+        <p style={pageSubtitle}>{C.sub}</p>
         <div style={rule} />
       </header>
 
       <ul style={list}>
-        {ENTRIES.map((e) => (
+        {C.entries.map((e) => (
           <li key={e.slug} style={itemRow}>
             <a
-              href={`#/research/${encodeURIComponent(e.slug)}`}
+              href={`#/${base}/${encodeURIComponent(e.slug)}`}
               onClick={(ev) => { if (isModifiedClick(ev)) return; ev.preventDefault(); setOpenSlug(e.slug); }}
               style={itemLink}
               aria-label={`Open ${e.title}`}
@@ -137,7 +174,7 @@ export default function ResearchView() {
         {apiEntries.map((e) => (
           <li key={e.slug} style={itemRow}>
             <a
-              href={`#/research/${encodeURIComponent(e.slug)}`}
+              href={`#/${base}/${encodeURIComponent(e.slug)}`}
               onClick={(ev) => { if (isModifiedClick(ev)) return; ev.preventDefault(); setOpenSlug(e.slug); }}
               style={itemLink}
               aria-label={`Open ${e.title}`}
@@ -1934,6 +1971,277 @@ function HeartBaseStudy({ entry, onBack }) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Wheel-turning-monarch study. The public-facing exemplar: a how-to-research
+// preface (copy-pastable search recipes + tool pointers) over a comprehensive
+// enumeration of the cakkavatti theme, cross-cut by topic and split by textual
+// layer. Reads public/research/wheel-turning-monarch.json. The renderer only
+// READS the JSON; every count is reproducible from the live corpus and every
+// citation opens in the reader. Admin-gated via Dhamma.jsx until published.
+// ---------------------------------------------------------------------------
+
+const WTM_PITAKA = {
+  sutta: { label: 'Sutta', full: 'Sutta Piṭaka' },
+  abhidhamma: { label: 'Abhi.', full: 'Abhidhamma Piṭaka' },
+  vinaya: { label: 'Vin.', full: 'Vinaya Piṭaka' },
+  commentary: { label: 'Comm.', full: 'Commentaries (aṭṭhakathā)' },
+  subcommentary: { label: 'Sub-c.', full: 'Sub-commentaries (ṭīkā)' },
+  anya: { label: 'Extra', full: 'Extra-canonical' },
+};
+
+function CakkavattiStudy({ entry, onBack }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState({});
+  const sectionRefs = useRef({});
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  // Theme × layer matrix, derived from the instance list so the table can never
+  // drift from the cited lists below it.
+  const derived = useMemo(() => {
+    if (!data) return null;
+    const themes = data.themes || [];
+    const byLayer = {};
+    const colTotals = { mula: 0, attha: 0, tika: 0, anya: 0 };
+    let total = 0;
+    for (const t of themes) {
+      const c = { mula: 0, attha: 0, tika: 0, anya: 0 };
+      for (const i of (t.instances || [])) {
+        if (i.layer in c) { c[i.layer] += 1; colTotals[i.layer] += 1; total += 1; }
+      }
+      byLayer[t.key] = c;
+    }
+    return { themes, byLayer, colTotals, total };
+  }, [data]);
+
+  function jumpTo(key) {
+    setOpen((o) => ({ ...o, [key]: true }));
+    requestAnimationFrame(() => {
+      const el = sectionRefs.current[key];
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  const cols = data?.termCounts?.columns || [];
+  const sumLayer = (c) => LAYER_KEYS.reduce((s, k) => s + (c?.[k] || 0), 0);
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label="Back to Research (Esc)">
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to Research</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && derived && (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Overview.</span> The wheel-turning monarch (cakkavatti) is the
+                Pāli tradition's image of ideal worldly power, the secular twin of the Buddha: a great man
+                born with the thirty-two marks will become one or the other. This worked example gathers the idea
+                across the live corpus of {fmt(194710)} passages and splits it on the axis the tool is built
+                to expose, canon against commentary. The core term alone occurs {fmt(data.termCounts.rows[0].occ)}{' '}
+                times in {fmt(data.termCounts.rows[0].pass)} passages, so most mentions are brief; what follows
+                keeps the {fmt(derived.total)} substantive passages, grouped into {derived.themes.length} strands
+                of the idea, from the wheel rising in the sky and the bloodless conquest to the duty that holds
+                an empire together, the king who himself answers to Dhamma, and the warning, told against
+                Mandhātā, that no conquest ever satisfies. One pattern recurs: the canon states the figure in a
+                few fixed formulas, and the commentary supplies the picture.
+              </p>
+
+              <p style={methodNote}>
+                Every count is reproducible from the live database, and every citation opens its passage. The
+                enumeration is bounded by the vocabulary in the next section: a passage that carries the idea
+                without any of these words could be missed, which is why the terms are given in full and can be
+                extended. Renderings of Pāli titles follow the corpus edition. This is a worked example rather
+                than a full study, and it makes no claim about historical authorship; canon-versus-commentary
+                here is a textual-layer split in the received corpus, not a dating.
+              </p>
+
+              {/* HOW TO: the worked-example preface */}
+              <h2 style={h2}>How to do this yourself</h2>
+              <p>{data.howto.intro}</p>
+              {data.howto.recipes.map((r, i) => (
+                <div key={i} style={qRow}>
+                  <div style={qHead}>
+                    <span style={qLabel}>{r.mode} · {r.scope}</span>
+                    {typeof r.occ === 'number' && (
+                      <span style={qHits}>{fmt(r.occ)} occ · {fmt(r.pass)} passages</span>
+                    )}
+                  </div>
+                  <CopyCode text={r.query} />
+                  <p style={recipeNote}>{r.note}</p>
+                </div>
+              ))}
+              <div style={{ margin: '16px 0 0' }}>
+                {data.howto.tips.map((t, i) => (
+                  <div key={i} style={tipRow}>
+                    <span style={tipLabel}>{t.label}.</span> {t.note}
+                    {t.path && <CopyCode text={t.path} />}
+                  </div>
+                ))}
+              </div>
+
+              {data.howto.meaning && (
+                <>
+                  <h3 style={h3}>When you don’t know the Pāli: searching in plain English</h3>
+                  <p>{data.howto.meaning.intro}</p>
+                  {data.howto.meaning.examples.map((ex, i) => (
+                    <div key={i} style={qRow}>
+                      <div style={qHead}><span style={qLabel}>{ex.mode} · {ex.scope}</span></div>
+                      <CopyCode text={ex.query} />
+                      <p style={recipeNote}>
+                        {ex.note}{' '}
+                        <span style={recipeSurfaces}>Surfaces: {ex.surfaces.map((s, j) => (
+                          <span key={s.id}>{j ? ' · ' : ''}<Cite id={s.id}>{s.citation}</Cite></span>
+                        ))}.</span>
+                      </p>
+                    </div>
+                  ))}
+                  <p style={methodNote}>{data.howto.meaning.limit}</p>
+                </>
+              )}
+
+              {/* TABLE 1: counts-for-all */}
+              <h2 style={h2}>Table 1. The vocabulary, counted across the corpus</h2>
+              <p style={tableCaption}>{data.termCounts.note}</p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Term</th>
+                      {cols.map((k) => <th key={k} style={thNum} title={WTM_PITAKA[k]?.full}>{WTM_PITAKA[k]?.label || k}</th>)}
+                      <th style={thNum}>Occ.</th>
+                      <th style={thNum}>Passages</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.termCounts.rows.map((r) => (
+                      <tr key={r.term} style={tr}>
+                        <td style={tdLeft}>
+                          <a href={`#/concordance/${encodeURIComponent(r.term)}`} style={citeLink} title={`Open the concordance for ${r.term}`}>{r.term}</a>
+                          <span style={tinyNote}> · {r.gloss}</span>
+                        </td>
+                        {cols.map((k) => <td key={k} style={tdNum}>{r.byPitaka[k] ? fmt(r.byPitaka[k]) : '·'}</td>)}
+                        <td style={tdNumStrong}>{fmt(r.occ)}</td>
+                        <td style={tdNum}>{fmt(r.pass)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>Each term links to its Concordance page, where these figures and the keyword-in-context lines are generated live.</p>
+
+              {/* TABLE 2: theme × layer */}
+              <h2 style={h2}>Table 2. The strands of the idea, canon against commentary</h2>
+              <p style={tableCaption}>
+                The {fmt(derived.total)} substantive passages, cross-cut by topic and textual layer. Click a
+                strand to open its complete, annotated list below; each citation opens in the reader. Column
+                key: Canon = Tipiṭaka (mūla, including the Abhidhamma and the Khuddaka verse); Comm. =
+                aṭṭhakathā; Sub-comm. = ṭīkā; Extra = extra-canonical.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Strand</th>
+                      {LAYER_KEYS.map((k) => <th key={k} style={thNum} title={LAYER[k].full}>{LAYER[k].label}</th>)}
+                      <th style={thNum}>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {derived.themes.map((t) => {
+                      const c = derived.byLayer[t.key];
+                      return (
+                        <tr key={t.key} style={tr}>
+                          <td style={tdLeft}><button style={catLink} onClick={() => jumpTo(t.key)}>{t.label}</button></td>
+                          {LAYER_KEYS.map((k) => <td key={k} style={tdNum}>{c[k] ? fmt(c[k]) : '·'}</td>)}
+                          <td style={tdNumStrong}>{fmt(sumLayer(c))}</td>
+                        </tr>
+                      );
+                    })}
+                    <tr style={trTotal}>
+                      <td style={tdLeft}>All strands</td>
+                      {LAYER_KEYS.map((k) => <td key={k} style={tdNumStrong}>{fmt(derived.colTotals[k])}</td>)}
+                      <td style={tdNumStrong}>{fmt(derived.total)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>
+                Of the {fmt(derived.total)} passages, {fmt(derived.colTotals.attha + derived.colTotals.tika)} are
+                commentarial or sub-commentarial. The canon states the figure; the commentary draws it. Some
+                passages (DN 17, DN 26) carry several strands and so appear under more than one.
+              </p>
+
+              {/* The complete, lightly-explained cited lists */}
+              <h2 style={h2}>The strands in full</h2>
+              <p style={tableCaption}>Every passage, grouped by strand. Each citation opens in the reader; each carries a one-line note on what it contributes.</p>
+              {derived.themes.map((t) => {
+                const c = derived.byLayer[t.key];
+                return (
+                  <section key={t.key} ref={(el) => { sectionRefs.current[t.key] = el; }} style={bucketSection}>
+                    <button style={bucketHeader} aria-expanded={!!open[t.key]} onClick={() => setOpen((o) => ({ ...o, [t.key]: !o[t.key] }))}>
+                      <span aria-hidden="true" style={{ width: 16, display: 'inline-block' }}>{open[t.key] ? '▾' : '▸'}</span>
+                      <span style={bucketTitle}>{t.label}</span>
+                      <span style={bucketCount}>{fmt(sumLayer(c))}</span>
+                    </button>
+                    {open[t.key] && (
+                      <>
+                        <p style={bucketBlurb}>{t.blurb}</p>
+                        <ol style={evList}>
+                          {t.instances.map((i, idx) => (
+                            <li key={i.id + ':' + idx} style={evRow}>
+                              <a href={`#/read/${encodeURIComponent(i.id)}`} style={evCite} title={`Open ${i.citation} in the reader`}>{i.citation}</a>
+                              <span style={evLayer} title={LAYER[i.layer]?.full || i.layer}>{LAYER[i.layer]?.label || i.layer}</span>
+                              <span style={evEvidence}>{i.note}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      </>
+                    )}
+                  </section>
+                );
+              })}
+
+              <p style={footNote}>
+                {entry.title}, version {data.meta.version}, snapshot {data.meta.corpus_snapshot}. The dataset is
+                published with this worked example and reproducible from the live database; every citation resolves to a
+                passage in the reader.
+              </p>
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  );
+}
+
 function fmt(n) { return (n ?? 0).toLocaleString('en-US'); }
 function pct(n, d) { if (!d) return '·'; return `${Math.round((100 * (n || 0)) / d)}%`; }
 
@@ -2032,6 +2340,12 @@ const tdLeftSm = { textAlign: 'left', padding: '6px 10px', color: 'var(--bc-text
 
 const refList = { fontFamily: SERIF, fontSize: 13.5, lineHeight: 1.6, color: 'var(--bc-text-secondary)', margin: '4px 0 8px', padding: '0 0 0 24px', display: 'flex', flexDirection: 'column', gap: 7 };
 const refItem = { paddingLeft: 4 };
+
+// --- wheel-turning-monarch study additions ---
+const recipeNote = { fontSize: 12.5, fontStyle: 'italic', color: 'var(--bc-text-secondary)', lineHeight: 1.6, margin: '5px 0 0' };
+const tipRow = { fontSize: 13.5, color: 'var(--bc-text-secondary)', lineHeight: 1.7, margin: '0 0 9px' };
+const tipLabel = { fontVariant: 'small-caps', fontWeight: 700, letterSpacing: '0.03em', color: 'var(--bc-accent)', marginRight: 2 };
+const recipeSurfaces = { fontStyle: 'normal', color: 'var(--bc-text-tertiary)' };
 
 const aidPanel = { border: '1px solid rgba(var(--bc-accent-rgb), 0.22)', borderRadius: 8, padding: '16px 18px', margin: '14px 0 18px', background: 'rgba(var(--bc-accent-rgb), 0.04)' };
 const aidHeadRow = { display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10, flexWrap: 'wrap' };

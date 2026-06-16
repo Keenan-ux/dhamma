@@ -20,6 +20,7 @@ const NAV_ITEMS = [
   { key: 'bookmarks',   label: 'Bookmarks',       group: 'tools' },
   { key: 'notes',       label: 'Notes',           group: 'tools' },
   { key: 'docs',        label: 'Docs',            group: 'tools' },
+  { key: 'explorations', label: 'Explorations',   group: 'tools' },
   { key: 'research',    label: 'Research',        group: 'tools' },
 ];
 

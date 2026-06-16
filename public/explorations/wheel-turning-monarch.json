@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "version": "v1.0",
+    "generated": "2026-06-16",
+    "corpus_snapshot": "194,710 passages",
+    "note": "Counts are reproducible from the live database via the Concordance view. Every citation opens the passage in the reader. Renderings of Pāli titles follow the corpus edition (CST/VRI for the commentaries, SuttaCentral for the four Nikāyas)."
+  },
+  "howto": {
+    "intro": "This page is a worked example, not a full study. The question, where the wheel-turning-monarch idea comes from and how much of it is canon versus commentary, is the kind a reader can settle with the tool, so the method is laid out in full before the results. The recipe is always the same: find the vocabulary that names the thing, count it across the corpus to see its shape, then read the substantive passages and split them by textual layer. Each box below is a real query. Click it to copy, paste it into the search bar, and you will reproduce the row it stands for.",
+    "recipes": [
+      { "query": "cakkavatti", "mode": "Stem", "scope": "Original", "occ": 2610, "pass": 1429, "note": "The core term. Stem mode folds the inflections (cakkavattī, cakkavattino, cakkavattissa) and both spellings of the niggahīta, so one query catches all of them." },
+      { "query": "cakkaratana", "mode": "Stem", "scope": "Original", "occ": 504, "pass": 216, "note": "The wheel-treasure itself. Narrows the search from the king to the relic that makes him one." },
+      { "query": "adaṇḍena asatthena", "mode": "Exact", "scope": "Original", "occ": 171, "pass": 127, "note": "The peaceful-conquest formula, without rod, without sword. Exact mode keeps the two words together instead of matching them apart." },
+      { "query": "mahāpurisa", "mode": "Stem", "scope": "Original", "occ": 1387, "pass": 728, "note": "The great man whose body bears the marks. This is the vocabulary of the double destiny, shared between the Buddha-to-be and the king-to-be." },
+      { "query": "mandhātu", "mode": "Stem", "scope": "All", "occ": 161, "pass": 97, "note": "King Mandhātā. Note how the weight sits in the commentary, the Jātaka, and the extra-canonical texts, not the four Nikāyas." },
+      { "query": "mahāsammata", "mode": "Stem", "scope": "All", "occ": 107, "pass": 85, "note": "The Great Elect, the first king. The account of where kingship comes from at all." }
+    ],
+    "tips": [
+      { "label": "Concordance", "path": "/concordance/cakkavatti", "note": "The Concordance view gives the frequency-by-piṭaka bars and the keyword-in-context lines. Every count in the table below is read straight off it." },
+      { "label": "Search by title", "note": "Set the scope to Title and search Cakkavatti to jump to the suttas that carry the name (DN 26, AN 3.14, SN 46.42), instead of every passage that mentions one in passing." },
+      { "label": "Dictionaries", "note": "Select any Pāli word in the reader to open DPD, DPPN, and PED. DPPN holds the proper-name entries for Mandhātā, Mahāsudassana, and Daḷhanemi, with their stories cross-referenced." },
+      { "label": "Commentary jump", "note": "In a mūla sutta, the commentary link resolves the sutta to its aṭṭhakathā and ṭīkā. That is how the canon rows below were paired with their Sumaṅgalavilāsinī and Papañcasūdanī sections." }
+    ],
+    "meaning": {
+      "intro": "Every search above needs the Pāli word. If you do not have it, Meaning mode is the way in. It reads the sense of a plain-English phrase and ranks passages by how close they sit, across both the Pāli and its English translations, so you can describe the idea and let the tool find the neighbourhood. It is a way in, not a complete index; the three examples below show what it catches and what it misses.",
+      "examples": [
+        { "query": "wheel-turning monarch", "mode": "Meaning", "scope": "All", "surfaces": [{ "id": "an3.14", "citation": "AN 3.14" }, { "id": "sn46.42", "citation": "SN 46.42" }, { "id": "an5.131", "citation": "AN 5.131" }, { "id": "an5.133", "citation": "AN 5.133" }], "note": "The English name alone, with no Pāli, lands on the cluster of suttas that carry the figure: the Cakkavatti and Cakkānuvattana discourses. For a reader who knows the idea in English but not the term, this is the most useful single query on the page." },
+        { "query": "a great man destined to become either a Buddha or a world ruler", "mode": "Meaning", "scope": "All", "surfaces": [{ "id": "dn17", "citation": "DN 17" }, { "id": "dn26", "citation": "DN 26" }, { "id": "dn16", "citation": "DN 16" }], "note": "Describe the double destiny and the right discourses surface, Mahāsudassana and the Cakkavatti-sīhanāda among them, without naming the marks or the king." },
+        { "query": "no amount of conquest or wealth ever satisfies craving", "mode": "Meaning", "scope": "All", "surfaces": [{ "id": "sn1.28", "citation": "SN 1.28" }, { "id": "an6.106", "citation": "AN 6.106" }], "note": "Here Meaning mode finds the moral rather than the word: passages on insatiable craving and great wealth that never mention a wheel-turner at all, the very lesson the Mandhātā story carries. A vocabulary search would never reach them." }
+      ],
+      "limit": "Two honest limits. Meaning mode barely touches the commentary, because most of it is untranslated and an English phrase has little Pāli to match against; and a description loaded with common numbers (four continents, seven treasures) tends to pull in unrelated four- and seven-item lists instead. When you need every instance, or the commentarial detail, the term-searches and the Concordance above are the reliable path. Meaning mode gets you in; they make you thorough."
+    }
+  },
+  "termCounts": {
+    "note": "The vocabulary of the wheel-turning monarch, counted across the whole corpus. The figures are total occurrences; the passage count (rightmost) is how many distinct rows carry the term at least once. This is the counts-for-all layer: thousands of mentions, most of them brief. The thematic tables that follow keep only the substantive passages and explain each one.",
+    "columns": ["sutta", "abhidhamma", "vinaya", "commentary", "subcommentary", "anya"],
+    "rows": [
+      { "term": "cakkavatti", "gloss": "the wheel-turning monarch", "occ": 2610, "pass": 1429, "byPitaka": { "sutta": 1312, "abhidhamma": 57, "vinaya": 1, "commentary": 809, "subcommentary": 302, "anya": 129 } },
+      { "term": "mahāpurisa", "gloss": "the great man (bearer of the marks)", "occ": 1387, "pass": 728, "byPitaka": { "sutta": 435, "abhidhamma": 6, "vinaya": 4, "commentary": 628, "subcommentary": 200, "anya": 114 } },
+      { "term": "dvattiṃsa", "gloss": "thirty-two (the marks)", "occ": 988, "pass": 677, "byPitaka": { "sutta": 152, "abhidhamma": 2, "vinaya": 8, "commentary": 471, "subcommentary": 235, "anya": 120 } },
+      { "term": "cakkaratana", "gloss": "the wheel-treasure", "occ": 504, "pass": 216, "byPitaka": { "sutta": 163, "abhidhamma": 4, "vinaya": 0, "commentary": 234, "subcommentary": 78, "anya": 25 } },
+      { "term": "pariṇāyaka", "gloss": "the counsellor-treasure", "occ": 306, "pass": 187, "byPitaka": { "sutta": 140, "abhidhamma": 4, "vinaya": 0, "commentary": 88, "subcommentary": 67, "anya": 7 } },
+      { "term": "adaṇḍena", "gloss": "without rod (peaceful conquest)", "occ": 171, "pass": 127, "byPitaka": { "sutta": 56, "abhidhamma": 2, "vinaya": 6, "commentary": 62, "subcommentary": 39, "anya": 6 } },
+      { "term": "mandhātu", "gloss": "King Mandhātā", "occ": 161, "pass": 97, "byPitaka": { "sutta": 27, "abhidhamma": 0, "vinaya": 0, "commentary": 67, "subcommentary": 30, "anya": 37 } },
+      { "term": "mahāsammata", "gloss": "the Great Elect", "occ": 107, "pass": 85, "byPitaka": { "sutta": 6, "abhidhamma": 0, "vinaya": 0, "commentary": 45, "subcommentary": 35, "anya": 21 } }
+    ]
+  },
+  "themes": [
+    {
+      "key": "double-destiny",
+      "label": "The two destinies and the thirty-two marks",
+      "blurb": "A being born with the thirty-two marks of a great man has, the texts say, two roads and no others: to stay home and become a wheel-turning monarch, or to go forth and become a Buddha. The marks and the fork are canonical and recur across the Nikāyas; the Kathāvatthu even debates whether the marks are fixed.",
+      "instances": [
+        { "id": "dn30", "citation": "DN 30", "layer": "mula", "note": "The Lakkhaṇa Sutta sets out the thirty-two marks one at a time, each earned by a named past deed, under the standing claim that a being so marked has only the two roads open." },
+        { "id": "dn14", "citation": "DN 14", "layer": "mula", "note": "In the Mahāpadāna, brahmins read the marks on the infant Vipassī and pronounce the fork: a wheel-turner if he stays, a Buddha if he goes forth." },
+        { "id": "snp3.11", "citation": "SNP 3.11", "layer": "mula", "note": "The seer Asita reads the marks on the newborn Gotama and weeps, because he will not live to hear the Buddha the child is bound to become." },
+        { "id": "dn3", "citation": "DN 3", "layer": "mula", "note": "The Ambaṭṭha Sutta restates the two-destinies reading of the marks." },
+        { "id": "mn91", "citation": "MN 91", "layer": "mula", "note": "Brahmāyu inspects the Buddha's body for the full set of marks before accepting him." },
+        { "id": "mn92", "citation": "MN 92", "layer": "mula", "note": "Sela the brahmin counts the marks and recites the double destiny back to the Buddha." },
+        { "id": "kv4.7", "citation": "KV 4.7", "layer": "mula", "note": "The Kathāvatthu's Lakkhaṇakathā, in the Abhidhamma Piṭaka, debates the doctrine of the marks: a canonical-Abhidhamma touch on the same theme." }
+      ]
+    },
+    {
+      "key": "wheel-in-sky",
+      "label": "The wheel-treasure appears and rolls through the sky",
+      "blurb": "The sign that a righteous king has become a wheel-turner is the thousand-spoked wheel-treasure rising into the sky on the full-moon observance. The king follows it east, south, west, and north to the encircling ocean. The canon states the event in a few lines; the commentaries supply the cinematic detail, the wheel cleaving the eastern sea and adorning the air as it flies.",
+      "instances": [
+        { "id": "dn17", "citation": "DN 17", "layer": "mula", "note": "Mahāsudassana's wheel-treasure rises on the observance day, and he follows it with his fourfold army to the four oceans." },
+        { "id": "dn26", "citation": "DN 26", "layer": "mula", "note": "Daḷhanemi's wheel appears the same way; its later sinking is the hinge on which the whole decline narrative turns." },
+        { "id": "mn129", "citation": "MN 129", "layer": "mula", "note": "The Bālapaṇḍita names the wheel-treasure first among the signs of the fortunate destiny." },
+        { "id": "cst-s0102a.att-dn2_4_p006", "citation": "Sv-a 4 §6", "layer": "attha", "note": "Sumaṅgalavilāsinī, Cakkaratanavaṇṇanā: how and on what conditions the wheel-treasure manifests." },
+        { "id": "cst-s0102a.att-dn2_4_p008", "citation": "Sv-a 4 §8", "layer": "attha", "note": "The wheel's flight and the kings who rise to meet it as it crosses their realms." },
+        { "id": "cst-s0203a.att-mn3_3_p196", "citation": "Ps-a 3 §196", "layer": "attha", "note": "Papañcasūdanī on the Bālapaṇḍita: the divine wheel cleaves the water of the eastern ocean as it rolls out." },
+        { "id": "cst-s0203a.att-mn3_3_p197", "citation": "Ps-a 3 §197", "layer": "attha", "note": "Papañcasūdanī: the wheel adorning the sky like a sapphire band as the king and his retinue follow." },
+        { "id": "cst-s0103t.tik-dn3_3_p024", "citation": "Sv-pṭ 3 §24", "layer": "tika", "note": "The sub-commentary on the conditions for the wheel-treasure's appearing." }
+      ]
+    },
+    {
+      "key": "peaceful-conquest",
+      "label": "Conquest without rod or sword",
+      "blurb": "The defining claim of the ideal is bloodless empire. The wheel-turner conquers the sea-girt earth adaṇḍena asatthena dhammena, without rod, without sword, by Dhamma. Rival kings do not fight; they submit and ask to be taught. The phrase is a fixed canonical formula, attached wherever the figure appears.",
+      "instances": [
+        { "id": "dn17", "citation": "DN 17", "layer": "mula", "note": "The formula in full: he dwells having won this sea-girt earth without rod, without sword, by Dhamma." },
+        { "id": "dn26", "citation": "DN 26", "layer": "mula", "note": "The instruction the wheel gives: rule by Dhamma, and the rival kings answer rule us, O king, of their own accord." },
+        { "id": "dn30", "citation": "DN 30", "layer": "mula", "note": "The same conquest-formula bound to the catalogue of marks." },
+        { "id": "dn14", "citation": "DN 14", "layer": "mula", "note": "The formula recurs in the Vipassī frame of the Mahāpadāna." },
+        { "id": "mn129", "citation": "MN 129", "layer": "mula", "note": "The fortunate destiny is spelled out to include rule over the four continents without violence." }
+      ]
+    },
+    {
+      "key": "seven-treasures",
+      "label": "The seven treasures and the four endowments",
+      "blurb": "The wheel-turner comes furnished with seven treasures, the wheel, the elephant, the horse, the jewel, the woman, the steward, and the counsellor, and with four personal endowments of beauty, long life, health, and being beloved. The seven are a canonical list; the commentaries give each treasure its own descriptive section.",
+      "instances": [
+        { "id": "dn17", "citation": "DN 17", "layer": "mula", "note": "The full seven treasures and the four endowments set out in order for Mahāsudassana." },
+        { "id": "mn129", "citation": "MN 129", "layer": "mula", "note": "The seven treasures listed as the furniture of the fortunate destiny." },
+        { "id": "dn26", "citation": "DN 26", "layer": "mula", "note": "The treasures attend the heir only while the wheel-duty is kept, and withdraw when it is not." },
+        { "id": "cst-s0203a.att-mn3_3_p228", "citation": "Ps-a 3 §228", "layer": "attha", "note": "Papañcasūdanī, Itthiratanavaṇṇanā: the woman-treasure given her own descriptive section." }
+      ]
+    },
+    {
+      "key": "duty-and-decline",
+      "label": "The wheel-turner's duty and the cycle of decline and renewal",
+      "blurb": "The wheel is not automatic. It rolls only while the king keeps the noble duty of a wheel-turner: provide for the people, consult the wise, let no crime grow from poverty. When a later king skips the duty and lets poverty go unrelieved, theft begins, then killing and lying, and the human lifespan collapses from eighty thousand years to ten before virtue is slowly rebuilt. This is the canon's clearest statement that even ideal rule is a temporary, self-undermining fix.",
+      "instances": [
+        { "id": "dn26", "citation": "DN 26", "layer": "mula", "note": "The cakkavatti-vatta and the long decline: neglect of the duty breeds poverty, crime, and a falling lifespan, then a slow climb back." },
+        { "id": "mn83", "citation": "MN 83", "layer": "mula", "note": "King Maghadeva founds a line of righteous kings who keep the observance, until the last one breaks the custom and ends it." },
+        { "id": "cst-s0103a.att-dn3_3_p012", "citation": "Sv-a 3 §12", "layer": "attha", "note": "Sumaṅgalavilāsinī, Daḷhanemicakkavattirājakathāvaṇṇanā: the first wheel-turner and the content of the duty." },
+        { "id": "cst-s0103a.att-dn3_3_p017", "citation": "Sv-a 3 §17", "layer": "attha", "note": "The commentary on the wheel sinking from its place once the duty lapses." }
+      ]
+    },
+    {
+      "key": "monarch-under-dhamma",
+      "label": "The monarch who himself rules under Dhamma",
+      "blurb": "Against any reading of the wheel-turner as an absolute sovereign, the canon places a king above him. Even the wheel-turner, it says, has a ruler he obeys, and that ruler is Dhamma. He sets the wheel rolling only in reliance on Dhamma, which he honours and guards.",
+      "instances": [
+        { "id": "an3.14", "citation": "AN 3.14", "layer": "mula", "note": "The wheel-turner has a king over him, namely Dhamma, and rolls the wheel relying on Dhamma alone." },
+        { "id": "an5.133", "citation": "AN 5.133", "layer": "mula", "note": "Dhammarājā, the principled king: the wheel-turner rules in dependence on Dhamma, honouring and sheltering it." },
+        { "id": "cst-s0305a.att-sn5_2_p085", "citation": "Spk-a 2 §85", "layer": "attha", "note": "Sāratthappakāsinī on the Cakkavatti Sutta: glossing what the wheel-turner's reliance on Dhamma amounts to." }
+      ]
+    },
+    {
+      "key": "buddha-parallel",
+      "label": "The secular double of the Buddha",
+      "blurb": "The wheel-turner is built as the worldly mirror of the Buddha. Where the king sets rolling a wheel of conquest, the Buddha sets rolling the wheel of Dhamma. Where the king has seven treasures, the Tathāgata has the seven factors of awakening; where four wonders attend the king, four attend the Buddha; the heir who continues his father's wheel is the disciple who continues the Teacher's. The parallel is drawn in the suttas and elaborated in the commentary.",
+      "instances": [
+        { "id": "sn56.11", "citation": "SN 56.11", "layer": "mula", "note": "The Buddha sets rolling the wheel of Dhamma, the dhammacakka, the spiritual counterpart of the king's wheel of conquest." },
+        { "id": "sn46.42", "citation": "SN 46.42", "layer": "mula", "note": "Just as the wheel-turner has seven treasures, the Tathāgata has the seven factors of awakening, treasure for treasure." },
+        { "id": "an4.130", "citation": "AN 4.130", "layer": "mula", "note": "Four wonderful and marvellous things attend a wheel-turner, set beside the four that attend the Tathāgata." },
+        { "id": "an5.131", "citation": "AN 5.131", "layer": "mula", "note": "The five factors by which the wheel-turner keeps the wheel rolling, paired with the Tathāgata's wheel of Dhamma." },
+        { "id": "an5.132", "citation": "AN 5.132", "layer": "mula", "note": "The eldest son rolls on the wheel his father set rolling, as the chief disciple keeps the Dhamma-wheel turning." },
+        { "id": "an1.170-187", "citation": "AN 1.170-187", "layer": "mula", "note": "The Ekapuggala chapter on the one person whose arising is for the welfare of the many, the rarity the wheel-turner shares." },
+        { "id": "cst-s0305a.att-sn5_2_p089", "citation": "Spk-a 2 §89", "layer": "attha", "note": "Sāratthappakāsinī maps the king's seven treasures onto the seven awakening-factors one by one." },
+        { "id": "mil7.4.10", "citation": "MIL 7.4.10", "layer": "anya", "note": "The Milindapañha's Cakkavattiṅgapañha: Nāgasena on the qualities a wheel-turner shares with the Buddha." }
+      ]
+    },
+    {
+      "key": "named-monarchs",
+      "label": "The named wheel-turners",
+      "blurb": "The ideal is not only a type but a cast of named kings. Mahāsudassana, whom the Buddha at the close reveals to have been himself in a past life; Daḷhanemi, first of a line, and Saṅkha, the wheel-turner still to come; Maghadeva, founder of a righteous house; and Mandhātā, the cautionary one. Their stories run from the suttas into the Jātaka, the Cariyāpiṭaka, and the commentaries.",
+      "instances": [
+        { "id": "dn17", "citation": "DN 17", "layer": "mula", "note": "Mahāsudassana, whose vast reign the Buddha narrates and then identifies as one of his own former lives." },
+        { "id": "dn26", "citation": "DN 26", "layer": "mula", "note": "Daḷhanemi opens the line of wheel-turners; the same sutta foretells Saṅkha, the wheel-turner of the age of Metteyya." },
+        { "id": "mn83", "citation": "MN 83", "layer": "mula", "note": "Maghadeva (Makhādeva), founder of a long royal line that kept the going-forth as its custom." },
+        { "id": "ja258", "citation": "JA 258", "layer": "mula", "note": "The Mandhātu Jātaka: Mandhātā wins the four continents and a share of Sakka's throne, then overreaches." },
+        { "id": "ja95", "citation": "JA 95", "layer": "mula", "note": "The Mahāsudassana Jātaka retells the great king's death and the lesson of impermanence." },
+        { "id": "cp4", "citation": "CP 4", "layer": "mula", "note": "The Cariyāpiṭaka frames Mahāsudassana as an exercise in the perfection of giving." },
+        { "id": "cst-s0512a.att-7_p004", "citation": "KN-a §7.4", "layer": "attha", "note": "The Cariyāpiṭaka commentary, Mahāsudassanacariyāvaṇṇanā, expanding the king's largesse." }
+      ]
+    },
+    {
+      "key": "insatiability",
+      "label": "The insatiability of conquest: Mandhātā",
+      "blurb": "The sharpest verdict on the ideal is told against one of its own. Mandhātā conquers the four continents and ascends to the heaven of the Thirty-Three, where he shares Sakka's throne. The moment he conceives the wish to kill Sakka and rule alone, he loses the wheel and falls back to earth to die. The lesson, carried by the Jātaka, the Dhammapada verse, and the commentary, is that no conquest stills craving: not by a rain of coins is thirst for pleasures quenched.",
+      "instances": [
+        { "id": "ja258", "citation": "JA 258", "layer": "mula", "note": "The Mandhātu Jātaka and its stanza: all who live on the earth are Mandhātā's servants, yet he died unsatisfied." },
+        { "id": "dhp179-196", "citation": "DHP 179-196", "layer": "mula", "note": "The Buddhavagga verses (186-187) the story illustrates: no rain of coins, no heap of pleasure, satisfies sense-desire." },
+        { "id": "cst-s0513a2.att-13_p171", "citation": "KN-a §13.171", "layer": "attha", "note": "The Dhammapada commentary on the verse of the rain of coins." },
+        { "id": "cst-s0513a2.att-13_p174", "citation": "KN-a §13.174", "layer": "attha", "note": "The Dhammapada commentary: every being on the earth is Mandhātā's servant, and still it is not enough." },
+        { "id": "cst-e1101n.nrf-009", "citation": "E1101N-NRF §9", "layer": "anya", "note": "The Mahāmandhātu narrative: the rise to the Thirty-Three, the fatal thought, and the fall." }
+      ]
+    },
+    {
+      "key": "origin-of-kingship",
+      "label": "The origin of kingship: the Great Elect",
+      "blurb": "The canon explains where kingship comes from, and it is not divine right. As beings morally decay and theft and lying spread, they agree to set one of their own over them to judge and to rebuke, paying him a share of rice. He is the Mahāsammata, the Great Elect, and from him the words khattiya and rājā are derived. The first king is chosen by the people to do a job, a social contract before the term existed.",
+      "instances": [
+        { "id": "dn27", "citation": "DN 27", "layer": "mula", "note": "The Aggañña Sutta: beings elect the Great Elect to rebuke wrongdoing, and the royal titles are derived from that office." },
+        { "id": "cst-s0103a.att-dn3_4_p042", "citation": "Sv-a 4 §42", "layer": "attha", "note": "Sumaṅgalavilāsinī, Mahāsammatarājavaṇṇanā: the election and its terms explained." },
+        { "id": "cst-s0103a.att-dn3_4_p043", "citation": "Sv-a 4 §43", "layer": "attha", "note": "The commentary deriving the words khattiya and rājā from the first king's role." },
+        { "id": "cst-s0103t.tik-dn3_4_p048", "citation": "Sv-pṭ 4 §48", "layer": "tika", "note": "The sub-commentary on the Great Elect and the founding of order." }
+      ]
+    },
+    {
+      "key": "cosmology-relics",
+      "label": "Domain, cosmology, and the relics of a wheel-turner",
+      "blurb": "The wheel-turner's reach is cosmological, the four great continents and beyond, and his death is treated with a weight reserved for very few. He is one of the four persons worthy of a stupa, and his funeral rites are the stated model for the Buddha's own.",
+      "instances": [
+        { "id": "dn16", "citation": "DN 16", "layer": "mula", "note": "The Mahāparinibbāna names the wheel-turner one of the four worthy of a stupa, and makes his funerary honours the template for the Buddha's." },
+        { "id": "cst-s0102a.att-dn2_4_p014", "citation": "Sv-a 4 §14", "layer": "attha", "note": "Sumaṅgalavilāsinī on the reach of the wheel across the continents and the world-spheres." }
+      ]
+    },
+    {
+      "key": "beyond-nikayas",
+      "label": "In the Abhidhamma and beyond the canon",
+      "blurb": "Outside the four Nikāyas the figure persists. The Abhidhamma keeps the wheel-turner as a recognised class of fortunate person, mostly in its lists (57 occurrences of the term, surfaced in the table above). The Milindapañha and the later vaṃsa literature take him up as a settled topic. These are the extra-canonical and Abhidhamma tails of the same idea.",
+      "instances": [
+        { "id": "mil7.4.10", "citation": "MIL 7.4.10", "layer": "anya", "note": "The Milindapañha's Cakkavattiṅgapañha treats the factors of a wheel-turner as a topic in its own right." },
+        { "id": "cst-e1208n.nrf-001", "citation": "E1208N-NRF §1", "layer": "anya", "note": "The Jinavaṃsadīpa names Mahāsudassana the wheel-turner among the deeds of the lineage." },
+        { "id": "kv4.7", "citation": "KV 4.7", "layer": "mula", "note": "The Kathāvatthu's Lakkhaṇakathā is the Abhidhamma Piṭaka's own engagement with the marks doctrine that underwrites the figure." }
+      ]
+    }
+  ]
+}
