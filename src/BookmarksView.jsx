@@ -1,10 +1,13 @@
-// Bookmarks list — local-only. Click any entry to open the passage in
-// the reader. Entries sorted newest-first; tap the × to remove.
+// Bookmarks list. Click any entry to open the passage in the reader.
+// Entries sorted newest-first; tap the × to remove. Stored on-device
+// when signed out; synced to the user's account when signed in.
 
 import useBookmarks from './useBookmarks.js';
+import { useAuth } from './useAuth.jsx';
 
 export default function BookmarksView({ onOpenPassage }) {
   const { bookmarks, remove } = useBookmarks();
+  const { user } = useAuth();
 
   return (
     <div data-scroll-root="" style={scrollWrap}>
@@ -14,7 +17,7 @@ export default function BookmarksView({ onOpenPassage }) {
         <p style={pageSubtitle}>
           {bookmarks.length === 0
             ? 'No bookmarks yet. Tap the bookmark icon on any passage to save it here.'
-            : `${bookmarks.length} saved · stored locally on this device`}
+            : `${bookmarks.length} saved · ${user ? 'saved to your account, synced across devices' : 'on this device; sign in to save to your account'}`}
         </p>
         <div style={rule} />
       </header>

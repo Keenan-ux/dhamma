@@ -1,7 +1,7 @@
 // /api/corpus, /api/passage/:id, /api/compare execution. Pure DB reads
 // shaped for the frontend.
 
-import { sql } from './db.js';
+import { sql, vtT } from './db.js';
 
 // CST mūla volume-header passages (e.g. cst-s0101m.mul-dn1, no
 // underscore) are pos-1 placeholders carrying the uddāna mnemonic
@@ -36,7 +36,7 @@ export async function getTagFacets() {
   return facets;
 }
 
-export async function runCorpus() {
+export async function runCorpus(viewerEmail = null) {
   if (!sql) return { traditions: [], tagFacets: {} };
 
   // Run the tree query, the per-work passage list, and the tag facets in
@@ -67,12 +67,14 @@ export async function runCorpus() {
         GROUP BY work_slug
       ) pc ON pc.work_slug = w.slug
       LEFT JOIN (
-        -- Per-work count of passages that have at least one row in the
-        -- translations table. Powers the Canon Map "Translated only"
-        -- filter; rolled up through the tree on the server side.
+        -- Per-work count of passages that have at least one viewer-visible
+        -- row in the translations table. Powers the Canon Map "Translated
+        -- only" filter; rolled up through the tree on the server side.
+        -- Private admin drafts are excluded for everyone but their owner
+        -- (vtT), so a gated translation never inflates the public count.
         SELECT p.work_slug, COUNT(DISTINCT p.id)::int AS cnt
         FROM passages p
-        JOIN translations tr ON tr.passage_id = p.id
+        JOIN translations t ON t.passage_id = p.id ${vtT(viewerEmail)}
         GROUP BY p.work_slug
       ) tc ON tc.work_slug = w.slug
       ORDER BY t.display_order, w.display_order NULLS LAST, w.slug NULLS LAST
@@ -556,18 +558,20 @@ function buildSections(metaRows) {
 // translator, source, text, license, source_book, source_url }] } —
 // rows ordered by group order so the consumer can groupBy translator
 // and join in sequence.
-export async function getPassageGroupTranslations(id) {
+export async function getPassageGroupTranslations(id, viewerEmail = null) {
   if (!sql || !id) return null;
   const meta = await getGroupMeta(id);
   if (!meta || meta.rows.length === 0) return null;
   const ids = meta.rows.map((r) => r.id);
-  // Preserve group order via a positional join.
+  // Preserve group order via a positional join. vtT hides private admin
+  // drafts from everyone but their owner, so the reader's translator
+  // dropdown surfaces a gated translation only for the admin who owns it.
   const trans = await sql`
     SELECT t.passage_id, t.translator, t.source, t.text, t.license,
            t.source_book, t.source_url,
            array_position(${ids}::text[], t.passage_id) AS pos
     FROM translations t
-    WHERE t.passage_id = ANY(${ids})
+    WHERE t.passage_id = ANY(${ids}) ${vtT(viewerEmail)}
     ORDER BY array_position(${ids}::text[], t.passage_id), t.translator
   `;
   return { anchor: id, translations: trans };

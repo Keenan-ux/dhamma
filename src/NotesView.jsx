@@ -2,15 +2,17 @@
 // grouped by passage, newest-first. Clicking a note jumps to the
 // passage reader at the noted segment.
 //
-// Storage is localStorage via useNotes. No server involvement.
-// Matches the Bookmarks tab pattern.
+// Storage: localStorage when signed out; synced to the user's account
+// (saved server-side) when signed in. Matches the Bookmarks tab pattern.
 
 import { useMemo, useState } from 'react';
 import useNotes from './useNotes.js';
+import { useAuth } from './useAuth.jsx';
 import { isModifiedClick } from './linkHelpers.js';
 
 export default function NotesView({ onOpenPassage }) {
   const { notes, remove } = useNotes();
+  const { user } = useAuth();
   const [filter, setFilter] = useState('');
 
   // Group notes by passage so the index reads as "DN 22 (3 notes), SN
@@ -141,8 +143,9 @@ export default function NotesView({ onOpenPassage }) {
         <footer style={footerWrap}>
           <div style={rule} />
           <p style={attribution}>
-            Notes are stored in this browser only. They aren't synced
-            to any server. Clearing site data deletes them.
+            {user
+              ? 'Notes are saved to your account and synced across your devices.'
+              : 'Notes are stored on this device; clearing site data deletes them. Sign in to save them to your account and keep them across devices.'}
           </p>
         </footer>
       </div>

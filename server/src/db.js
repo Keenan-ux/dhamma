@@ -49,6 +49,31 @@ export const sql = process.env.DATABASE_URL
     })
   : null;
 
+// ── Translation visibility ──────────────────────────────────────────────────
+// A row in `translations` is visible to a viewer iff it is public, or the
+// viewer is its owner. Public rows have owner_email IS NULL, so the owner
+// disjunct only ever matches a private row against its own owner; an anonymous
+// viewer (email '') matches nothing private. Private rows (visibility='private',
+// owner_email set) are admin drafts — invisible to the public and excluded from
+// every public count, yet fully functional for their owner. `viewerEmail` is
+// the signed-in email (any case) or null/'' for anonymous.
+//
+// Returned as an AND-fragment to splice into a WHERE over the translations
+// table. Two variants because our queries reference the table under different
+// aliases: vtT for `... translations t`, vtBare for a bare `FROM translations`.
+// The predicate MUST stay identical between them.
+function viewerEmailNorm(viewerEmail) {
+  return (viewerEmail || '').trim().toLowerCase();
+}
+export function vtT(viewerEmail) {
+  const email = viewerEmailNorm(viewerEmail);
+  return sql`AND (t.visibility = 'public' OR t.owner_email = ${email})`;
+}
+export function vtBare(viewerEmail) {
+  const email = viewerEmailNorm(viewerEmail);
+  return sql`AND (visibility = 'public' OR owner_email = ${email})`;
+}
+
 // Transient connection failures worth retrying at boot. When the app boots
 // cold, dhamma-pg may still be waking: the FIRST connection intermittently
 // times out (CONNECT_TIMEOUT) or is reset (ECONNRESET) while later

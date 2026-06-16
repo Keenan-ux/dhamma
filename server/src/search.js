@@ -7,7 +7,7 @@
 //   stem    — FTS only, alias-expanded query.
 //   meaning — FTS (alias-expanded) + vector ANN, reciprocal-rank-fused.
 
-import { sql } from './db.js';
+import { sql, vtT } from './db.js';
 import { aliasesFor } from './aliases.js';
 import { embedQuery } from './embed.js';
 import { stemForPrefix } from './paliStem.js';
@@ -575,7 +575,7 @@ const FTS_WEIGHTS = sql`'{0.05, 0.15, 0.6, 1.0}'::float4[]`;
 // Returns null when there's no FTS predicate (vector-only Meaning queries)
 // — there's no meaningful "total" for a pure ANN search, the answer is
 // the entire embedded corpus sorted by similarity.
-async function countFtsMatches({ field, tsquery, pSlugs, layer, translator, tagType, tagValue }) {
+async function countFtsMatches({ field, tsquery, pSlugs, layer, translator, tagType, tagValue, viewerEmail }) {
   if (!tsquery) return null;
   if (field === 'library') {
     const [{ n }] = await sql`
@@ -608,7 +608,7 @@ async function countFtsMatches({ field, tsquery, pSlugs, layer, translator, tagT
       FROM translations t
       JOIN passages p ON p.id = t.passage_id,
            to_tsquery('simple_unaccent', ${tsquery}) q
-      WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT} ${tagP} ${tagP}
+      WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT} ${vtT(viewerEmail)} ${tagP} ${tagP}
     `;
     return n;
   }
@@ -879,6 +879,10 @@ function expandEmbeddingQuery(rawQuery, parsed) {
 export async function runSearch(rawParams) {
   const t0 = Date.now();
   const { q, mode, field, limit, offset, pitaka, layer, translator, tagType, tagValue, nosnippet } = normalizeParams(rawParams);
+  // Viewer email (from the authed session, threaded by the /api/search route)
+  // gates private admin-draft translations: vtT keeps them out of every
+  // translations-table query for everyone but their owner. null/anon ⇒ public.
+  const viewerEmail = rawParams.viewerEmail || null;
 
   if (!q.trim()) {
     return { query: q, mode, field, limit, offset, pitaka, layer, took_ms: 0, results: [], expanded: [], hasMore: false, total: 0 };
@@ -914,7 +918,7 @@ export async function runSearch(rawParams) {
   // the UI say "4,237 passages matching sati" upfront, instead of just
   // the loaded-so-far count growing as the user scrolls. Resolves to
   // null when there's no FTS predicate (vector-only Meaning).
-  const totalPromise = countFtsMatches({ field, tsquery, pSlugs, layer, translator, tagType, tagValue });
+  const totalPromise = countFtsMatches({ field, tsquery, pSlugs, layer, translator, tagType, tagValue, viewerEmail });
   // Two flavors of the same predicate: one for queries with no alias on
   // passages, one for queries where passages is aliased "p". Empty fragments
   // when pitaka is null so the SQL parses without an unused AND clause.
@@ -936,6 +940,9 @@ export async function runSearch(rawParams) {
   const translatorT = (translator && field === 'translation')
     ? sql`AND t.translator = ${translator}`
     : sql``;
+  // Visibility gate, spliced into every translations-table query below so a
+  // private admin draft never surfaces in search (or its total) for non-owners.
+  const visT = vtT(viewerEmail);
   // Tag filter — passage-level EXISTS predicate against passage_tags
   // (the ATI-derived curated indexes: simile / name / subject / number).
   // Composes with FTS / vector / layer / pitaka. Two fragments: one for
@@ -1125,7 +1132,7 @@ export async function runSearch(rawParams) {
       FROM translations t
       JOIN passages p ON p.id = t.passage_id,
            to_tsquery('simple_unaccent', ${tsquery}) q
-      WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT} ${tagP}
+      WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT} ${tagP} ${visT}
       ORDER BY score DESC
       LIMIT ${limit} ${offsetFrag}
     `;
@@ -1174,7 +1181,7 @@ export async function runSearch(rawParams) {
         FROM translations t
         JOIN passages p ON p.id = t.passage_id,
              to_tsquery('simple_unaccent', ${tsquery}) q
-        WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT} ${tagP}
+        WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT} ${tagP} ${visT}
         ORDER BY score DESC
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -1194,7 +1201,7 @@ export async function runSearch(rawParams) {
         JOIN passages p ON p.id = t.passage_id
         WHERE t.embedding IS NOT NULL
           AND (t.embedding <=> ${qVecLit}::vector) < 0.7
-          ${pitakaP} ${layerP} ${translatorT} ${tagP}
+          ${pitakaP} ${layerP} ${translatorT} ${tagP} ${visT}
         ORDER BY t.embedding <=> ${qVecLit}::vector
         LIMIT ${limit} ${offsetFrag}
       `;
@@ -1206,7 +1213,7 @@ export async function runSearch(rawParams) {
           FROM translations t
           JOIN passages p ON p.id = t.passage_id,
                to_tsquery('simple_unaccent', ${tsquery}) q
-          WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT} ${tagP}
+          WHERE t.fts_doc @@ q ${pitakaP} ${layerP} ${translatorT} ${tagP} ${visT}
           LIMIT ${FUSION_POOL}
         ),
         vec AS (
@@ -1215,7 +1222,7 @@ export async function runSearch(rawParams) {
           JOIN passages p ON p.id = t.passage_id
           WHERE t.embedding IS NOT NULL
             AND (t.embedding <=> ${qVecLit}::vector) < 0.7
-            ${pitakaP} ${layerP} ${translatorT} ${tagP}
+            ${pitakaP} ${layerP} ${translatorT} ${tagP} ${visT}
           ORDER BY t.embedding <=> ${qVecLit}::vector
           LIMIT ${FUSION_POOL}
         )

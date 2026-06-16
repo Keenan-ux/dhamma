@@ -223,6 +223,19 @@ CREATE INDEX IF NOT EXISTS idx_translations_fts        ON translations USING GIN
 -- | 'bps-direct') so a single source can carry many books.
 ALTER TABLE translations ADD COLUMN IF NOT EXISTS source_book TEXT;
 
+-- Private / admin-only translations. A row with visibility='private' is an
+-- owned draft (owner_email = the admin who authored it): served ONLY to that
+-- owner, and excluded from every public surface — the Canon-Map translated
+-- count, the translator index, the translation search scope, and the reader's
+-- translator dropdown for everyone else. Public rows (the default) carry
+-- owner_email NULL. The gate itself lives in the read paths (db.js vtT/vtBare
+-- splice the predicate into each translations query); these columns just back
+-- it, defaulting every existing row to 'public' so the live corpus is
+-- unchanged. See [admin-private-translation] design note.
+ALTER TABLE translations ADD COLUMN IF NOT EXISTS visibility  TEXT NOT NULL DEFAULT 'public';
+ALTER TABLE translations ADD COLUMN IF NOT EXISTS owner_email TEXT;
+CREATE INDEX IF NOT EXISTS idx_translations_visibility ON translations(visibility) WHERE visibility <> 'public';
+
 -- Recognised values for translations.license and articles.license:
 --   'cc0'           — SuttaCentral Sujato rows
 --   'cc-by-nc-4.0'  — ATI offline-edition rows (Thanissaro, Walshe,

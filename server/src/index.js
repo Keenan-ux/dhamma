@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { applySchema, health as dbHealth, sql } from './db.js';
+import { applySchema, health as dbHealth, sql, vtBare } from './db.js';
 import { embedReady, embedWarmState } from './embed.js';
 import { aliasesReady } from './aliases.js';
 import { runSearch } from './search.js';
@@ -56,7 +56,10 @@ app.get('/api/dbcheck', async (c) => {
 
 app.get('/api/corpus', async (c) => {
   try {
-    return c.json(await runCorpus());
+    // Pass the viewer so private admin drafts are counted only for their
+    // owner; the public "Translated only" count never includes them.
+    const user = await currentUser(c);
+    return c.json(await runCorpus(user?.email || null));
   } catch (err) {
     return c.json({ error: err.message }, 500);
   }
@@ -102,7 +105,8 @@ app.get('/api/passage/:id/group', async (c) => {
 // row).
 app.get('/api/passage/:id/group-translations', async (c) => {
   try {
-    const out = await getPassageGroupTranslations(c.req.param('id'));
+    const user = await currentUser(c);
+    const out = await getPassageGroupTranslations(c.req.param('id'), user?.email || null);
     if (!out) return c.json({ error: 'not_found' }, 404);
     return c.json(out);
   } catch (err) {
@@ -454,10 +458,12 @@ app.get('/api/passage/:id/translations', async (c) => {
     const id = c.req.param('id');
     const { sql } = await import('./db.js');
     if (!sql) return c.json({ translations: [] });
+    // vtBare hides private admin drafts from everyone but their owner.
+    const user = await currentUser(c);
     const rows = await sql`
       SELECT translator, source, text, notes, copyright, license, source_url, position
       FROM translations
-      WHERE passage_id = ${id}
+      WHERE passage_id = ${id} ${vtBare(user?.email || null)}
       ORDER BY position, translator
     `;
     return c.json({ passage_id: id, translations: rows });
@@ -486,6 +492,8 @@ app.get('/api/search', async (c) => {
     // returns the cached ready promise) to guarantee alias expansion is never
     // silently skipped. Mirrors /api/lookup.
     await aliasesReady();
+    // Viewer gates private admin-draft translations in the translation scope.
+    const user = await currentUser(c);
     const out = await runSearch({
       q: c.req.query('q'),
       mode: c.req.query('mode'),
@@ -500,6 +508,7 @@ app.get('/api/search', async (c) => {
       translator: c.req.query('translator'),
       tag: c.req.query('tag'),
       nosnippet: c.req.query('nosnippet'),
+      viewerEmail: user?.email || null,
     });
     return c.json(out);
   } catch (err) {
@@ -513,11 +522,15 @@ app.get('/api/search', async (c) => {
 // what, with click-through to filter Search by translator.
 app.get('/api/translators', async (c) => {
   try {
+    // vtBare keeps a private admin draft's translator out of the public
+    // index (and its passage count) for everyone but the owner.
+    const user = await currentUser(c);
     const rows = await sql`
       SELECT translator, source, language,
              COUNT(DISTINCT passage_id)::int AS passage_count,
              MIN(copyright) AS sample_copyright
       FROM translations
+      WHERE TRUE ${vtBare(user?.email || null)}
       GROUP BY translator, source, language
       ORDER BY passage_count DESC, translator
     `;
@@ -635,6 +648,18 @@ app.get('/api/research/:slug', requireAdmin, async (c) => {
     FROM articles WHERE category = 'research' AND slug = ${c.req.param('slug')}`;
   if (!row) return c.json({ error: 'not_found' }, 404);
   return c.json(row);
+});
+
+// The research studies fetch their data as static JSON (public/research/*.json).
+// While the studies are WIP they are admin-only, so the DATA must not be
+// fetchable by URL either. Gate /research/*.json to admins, registered BEFORE the
+// static handler so it takes precedence over serveStatic('/*').
+app.get('/research/:file{.+\\.json}', requireAdmin, (c) => {
+  const file = c.req.param('file');
+  if (file.includes('/') || file.includes('..')) return c.json({ error: 'bad_path' }, 400);
+  const p = path.join(STATIC_DIR, 'research', file);
+  if (!fs.existsSync(p)) return c.json({ error: 'not_found' }, 404);
+  return c.body(fs.readFileSync(p), 200, { 'content-type': 'application/json; charset=utf-8' });
 });
 
 if (fs.existsSync(STATIC_DIR)) {
