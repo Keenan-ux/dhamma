@@ -128,9 +128,9 @@ export default function ResearchView({ collection = 'research' }) {
 
   const entry = openSlug ? C.entries.find((e) => e.slug === openSlug) : null;
   if (entry) {
-    const StudyComponent = entry.slug === 'individual-guidance' ? IndividualGuidanceStudy
+    const StudyComponent = collection === 'explorations' ? ExplorationStudy
+      : entry.slug === 'individual-guidance' ? IndividualGuidanceStudy
       : entry.slug === 'heart-base-and-insight' ? HeartBaseStudy
-      : entry.slug === 'wheel-turning-monarch' ? CakkavattiStudy
       : AwakeningStudy;
     return (
       <StudyComponent
@@ -1972,15 +1972,18 @@ function HeartBaseStudy({ entry, onBack }) {
 }
 
 // ---------------------------------------------------------------------------
-// Wheel-turning-monarch study. The public-facing exemplar: a how-to-research
-// preface (copy-pastable search recipes + tool pointers) over a comprehensive
-// enumeration of the cakkavatti theme, cross-cut by topic and split by textual
-// layer. Reads public/research/wheel-turning-monarch.json. The renderer only
-// READS the JSON; every count is reproducible from the live corpus and every
-// citation opens in the reader. Admin-gated via Dhamma.jsx until published.
+// ExplorationStudy — the generic renderer for every public Exploration (the
+// Explorations tab). Reads an exploration JSON (public/explorations/<slug>.json)
+// and renders it whole: the Overview + method note, the how-to-research preface
+// (copy-pastable search recipes, tool pointers, live-tested Meaning-mode
+// examples), the corpus-wide vocabulary table, and the thematic strands split by
+// textual layer. Fully DATA-DRIVEN: a new exploration is a JSON file plus one
+// line in EXPLORATION_ENTRIES, never a code change. Every count is reproducible
+// from the live corpus; every citation opens in the reader.
+// Schema + authoring method: .claude/skills/dhamma-explore/SKILL.md.
 // ---------------------------------------------------------------------------
 
-const WTM_PITAKA = {
+const EXP_PITAKA = {
   sutta: { label: 'Sutta', full: 'Sutta Piṭaka' },
   abhidhamma: { label: 'Abhi.', full: 'Abhidhamma Piṭaka' },
   vinaya: { label: 'Vin.', full: 'Vinaya Piṭaka' },
@@ -1989,7 +1992,7 @@ const WTM_PITAKA = {
   anya: { label: 'Extra', full: 'Extra-canonical' },
 };
 
-function CakkavattiStudy({ entry, onBack }) {
+function ExplorationStudy({ entry, onBack }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState({});
@@ -2061,27 +2064,10 @@ function CakkavattiStudy({ entry, onBack }) {
 
             <div style={articleBody}>
               <p style={abstractLead}>
-                <span style={abstractTag}>Overview.</span> The wheel-turning monarch (cakkavatti) is the
-                Pāli tradition's image of ideal worldly power, the secular twin of the Buddha: a great man
-                born with the thirty-two marks will become one or the other. This worked example gathers the idea
-                across the live corpus of {fmt(194710)} passages and splits it on the axis the tool is built
-                to expose, canon against commentary. The core term alone occurs {fmt(data.termCounts.rows[0].occ)}{' '}
-                times in {fmt(data.termCounts.rows[0].pass)} passages, so most mentions are brief; what follows
-                keeps the {fmt(derived.total)} substantive passages, grouped into {derived.themes.length} strands
-                of the idea, from the wheel rising in the sky and the bloodless conquest to the duty that holds
-                an empire together, the king who himself answers to Dhamma, and the warning, told against
-                Mandhātā, that no conquest ever satisfies. One pattern recurs: the canon states the figure in a
-                few fixed formulas, and the commentary supplies the picture.
+                <span style={abstractTag}>Overview.</span> {data.overview}
               </p>
 
-              <p style={methodNote}>
-                Every count is reproducible from the live database, and every citation opens its passage. The
-                enumeration is bounded by the vocabulary in the next section: a passage that carries the idea
-                without any of these words could be missed, which is why the terms are given in full and can be
-                extended. Renderings of Pāli titles follow the corpus edition. This is a worked example rather
-                than a full study, and it makes no claim about historical authorship; canon-versus-commentary
-                here is a textual-layer split in the received corpus, not a dating.
-              </p>
+              {data.methodNote && <p style={methodNote}>{data.methodNote}</p>}
 
               {/* HOW TO: the worked-example preface */}
               <h2 style={h2}>How to do this yourself</h2>
@@ -2135,7 +2121,7 @@ function CakkavattiStudy({ entry, onBack }) {
                   <thead>
                     <tr>
                       <th style={thLeft}>Term</th>
-                      {cols.map((k) => <th key={k} style={thNum} title={WTM_PITAKA[k]?.full}>{WTM_PITAKA[k]?.label || k}</th>)}
+                      {cols.map((k) => <th key={k} style={thNum} title={EXP_PITAKA[k]?.full}>{EXP_PITAKA[k]?.label || k}</th>)}
                       <th style={thNum}>Occ.</th>
                       <th style={thNum}>Passages</th>
                     </tr>
