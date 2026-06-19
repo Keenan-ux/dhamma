@@ -1,0 +1,401 @@
+{
+ "meta": {
+  "title": "The Intoxicant Cluster Under the Provenance Signature",
+  "subtitle": "A recall-ladder and chronology recoding of majja / meraya / surA: the effect-based category, re-tested.",
+  "version": "2.0",
+  "study_type": "research-only (no public dataset, no renderer); lexical+category typology",
+  "corpus": {
+   "passages": 194710,
+   "snapshot": "2026-06-19",
+   "edition": "Chattha Sangayana (CST/VRI) as ingested into dhamma-pg; SuttaCentral ids as cross-walk."
+  },
+  "work_role_totals": {
+   "attha": 91843,
+   "tika": 81841,
+   "mula": 17996,
+   "anya": 3030
+  },
+  "prior_version": "research/intoxicants/FINDINGS.md (kept intact as the v1 record)",
+  "provenance_note": "Counts are data-bound (each carries its SQL). Verbatim Pali carries full diacritics and matches the cited row. Renderings of untranslated commentary are the author's gloss."
+ },
+ "recall_ladder": {
+  "rung1": {
+   "meraya": 279,
+   "majja": 1455,
+   "sura": 926,
+   "union": 2115
+  },
+  "rung2": {
+   "union": 2115,
+   "delta_over_rung1": 0,
+   "distinct_sura_forms": 404,
+   "distinct_majja_nonh_forms": 395,
+   "note": "substring already diacritic-complete; morphological pass confirms saturation, adds 0"
+  },
+  "rung3": {
+   "madaniya_rows": 64,
+   "pamadatthana_rows": 205,
+   "effect_definition_phrase_rows": 15,
+   "open_category_generalisation_rows": 2,
+   "three_mada_rows": 53,
+   "note": "concept search surfaces the effect-principle without the names; grounds the category claim on rationale, not name proximity"
+  },
+  "rung4_purge": {
+   "majja": {
+    "substring": 1455,
+    "net": 227,
+    "purged": 1228,
+    "purged_senses": "majjha (middle), majjana/majjati (polish/wipe, sq.root mrij), minja/majja (marrow), Majjaka-tthera (proper name)"
+   },
+   "sura": {
+    "substring": 926,
+    "midword": 232,
+    "word_initial": 694,
+    "deva_name_compound": 46,
+    "net": 648,
+    "purged": 278,
+    "purged_senses": "mid-word bhAsurA/devAsura/accharA; surAdhipa (lord-of-gods), surAlaya (god-abode), surAsura (gods-and-titans), surAja (god-king), SurAdha (elder, proper name)"
+   },
+   "meraya": {
+    "substring": 279,
+    "net": 279,
+    "purged": 0,
+    "purged_senses": "none (no homograph; the clean precept anchor)"
+   }
+  },
+  "net_by_layer": {
+   "meraya": {
+    "mula": 172,
+    "attha": 49,
+    "tika": 49,
+    "anya": 9
+   },
+   "sura": {
+    "mula": 200,
+    "attha": 242,
+    "tika": 163,
+    "anya": 43
+   },
+   "majja": {
+    "mula": 76,
+    "attha": 64,
+    "tika": 58,
+    "anya": 29
+   }
+  },
+  "cluster_net": {
+   "mula": 273,
+   "attha": 294,
+   "tika": 206,
+   "anya": 67,
+   "total": 840
+  },
+  "prior": {
+   "meraya_finding_occ_passages": "675 occurrences / 283 passages (Concordance lane, prior session)",
+   "meraya_recount_passages": 279,
+   "majja_concordance_prior": "18,796 occurrences / 9,344 passages (prefix-fold contaminated, prior session P6)",
+   "majja_net_now": 227,
+   "settled_finding": "majja = an effect-based category (intoxication defined by effect, not by a closed substance list)"
+  }
+ },
+ "disambiguation": {
+  "target": "the intoxicant cluster: surA (liquor) / meraya (fermented wine) / majja (intoxicant, sq.root mad/madya)",
+  "rung1_naive_union": 2115,
+  "rung2_morphological_union": 2115,
+  "rung3_concept": {
+   "madaniya_rows": 64,
+   "pamadatthana_rows": 205,
+   "effect_definition_phrase_rows": 15,
+   "open_category_generalisation_rows": 2,
+   "three_mada_rows": 53,
+   "note": "concept search surfaces the effect-principle without the names; grounds the category claim on rationale, not name proximity"
+  },
+  "rung4_cluster_net": 840,
+  "purge": {
+   "majja": {
+    "substring": 1455,
+    "net": 227,
+    "purged": 1228,
+    "purged_senses": "majjha (middle), majjana/majjati (polish/wipe, sq.root mrij), minja/majja (marrow), Majjaka-tthera (proper name)"
+   },
+   "sura": {
+    "substring": 926,
+    "midword": 232,
+    "word_initial": 694,
+    "deva_name_compound": 46,
+    "net": 648,
+    "purged": 278,
+    "purged_senses": "mid-word bhAsurA/devAsura/accharA; surAdhipa (lord-of-gods), surAlaya (god-abode), surAsura (gods-and-titans), surAja (god-king), SurAdha (elder, proper name)"
+   },
+   "meraya": {
+    "substring": 279,
+    "net": 279,
+    "purged": 0,
+    "purged_senses": "none (no homograph; the clean precept anchor)"
+   }
+  },
+  "confounds": {
+   "majjha_middle": "majjha (middle) - the dominant majja-substring homograph",
+   "majjana_polish": "majjana / majjati (polishing, wiping, cleaning teeth; sq.root mrij) - a different lexeme entirely",
+   "minja_marrow": "minja / majja (marrow)",
+   "majjaka_thera": "Majjaka-tthera (a proper name, an Apadana elder)",
+   "sura_deva": "sura (a god/deva), asura (titan), the surA-initial deva-compounds surAdhipa/surAlaya/surAsura/surAja",
+   "surAdha_elder": "SurAdha (an elder; surAdha-tthera/sutta/gatha)",
+   "midword_sura": "mid-word -surA- in bhAsurA (radiant), devAsura (gods-and-titans), accharA-adjacent strings"
+  },
+  "note": "The homograph trap is the analogue of the Uttarakuru kuru-janapada purge. The naive majja substring (1455) is 84% false-positive: only 227 rows carry the intoxicant sense; 1228 are majjha 'middle', majjana 'polish', marrow, or the elder Majjaka. The surA macron substring (926) is ~30% noise: 232 mid-word and 46 deva/name compounds. meraya is the clean anchor (279 rows, 0 homograph). Every load-bearing count below rests on the purged, GROUP-BY-reconfirmed net, not on a name-substring."
+ },
+ "loci": [
+  {
+   "id": "dn31",
+   "work_role": "mula",
+   "citation": "DN 31",
+   "claim": "The six drawbacks (cha adinava) of habitual drinking; drinking first among the six apayamukha; the moral register is pamada / loss, not substance-taboo.",
+   "stratum": "early-canonical",
+   "stratum_warrant": "Sigalovada, DN prose, sutta body; Chinese parallels (DA 16, MA 135, T 16, T 17)",
+   "epistemic": "flat-background-assertion (consequential harms stated, not under a verification formula)",
+   "recension": "multi-recensional-pre-sectarian",
+   "role": "named-triad / register"
+  },
+  {
+   "id": "sn14.25",
+   "work_role": "mula",
+   "citation": "SN 14.25",
+   "claim": "The five-precept list; the agent-noun surAmerayamajjappamAdaTThayi; like associates with like by element.",
+   "stratum": "early-canonical",
+   "stratum_warrant": "SN prose, Kammapathavagga",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only-parallels",
+   "role": "named-triad / precept-formula"
+  },
+  {
+   "id": "an5.179",
+   "work_role": "mula",
+   "citation": "AN 5.179",
+   "claim": "Names meraya and varuni individually in verse; rationale 'they confuse the mind' (cittamohani); embeds the precept in the lay pancasikkhapada that conduces to stream-entry.",
+   "stratum": "early-canonical",
+   "stratum_warrant": "AN prose+verse, Upasakavagga; MA 128 parallel",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-plus-external-partial",
+   "role": "named-triad / effect-rationale (cittamohani)"
+  },
+  {
+   "id": "an8.39",
+   "work_role": "mula",
+   "citation": "AN 8.39",
+   "claim": "Abstaining from surameraya is the fifth of five great gifts (mahadana), giving freedom from fear to countless beings.",
+   "stratum": "early-canonical",
+   "stratum_warrant": "AN prose, Danavagga",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only-parallels",
+   "role": "named-triad / merit-frame"
+  },
+  {
+   "id": "snp2.14",
+   "work_role": "mula",
+   "citation": "SNP 2.14",
+   "claim": "A householder should not drink, knowing it 'ends in intoxication/madness' (ummadana); drink is an apunnayatana, a field of demerit.",
+   "stratum": "early-canonical",
+   "stratum_warrant": "Sutta Nipata Culavagga (Snp 2, NOT the archaic Atthaka Snp 4); gnomic verse",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only-parallels",
+   "role": "named-triad / effect-rationale (ummadana)"
+  },
+  {
+   "id": "sn56.64",
+   "work_role": "mula",
+   "citation": "SN 56.64",
+   "claim": "The peyyala sutta titled SurAmerayasutta; those who refrain from suramerayamajjapamadatthana are few.",
+   "stratum": "early-canonical",
+   "stratum_warrant": "SN peyyala (a late editorial multiplication of an early frame; container early-canonical, peyyala-position late-editorial)",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only-parallels",
+   "role": "named-triad / peyyala"
+  },
+  {
+   "id": "kp2",
+   "work_role": "mula",
+   "citation": "KP 2",
+   "claim": "The undertaking-formula surAmerayamajjapamAdaTThana veramani (here in the Ten-Precepts Dasasikkhapada, the 5th item identical to the lay precept).",
+   "stratum": "late-canonical",
+   "stratum_warrant": "Khuddakapatha is a late-canonical compilation of stock formulae",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only-parallels",
+   "role": "named-triad / undertaking-formula"
+  },
+  {
+   "id": "an3.39",
+   "work_role": "mula",
+   "citation": "AN 3.39",
+   "claim": "The three intoxications (tayo mada): of youth (yobbana), health (arogya), life (jivita). Same sq.root mad as majja; the canon's deepest sense of 'intoxication' is existential, not chemical.",
+   "stratum": "early-canonical",
+   "stratum_warrant": "AN prose, Sukhumalasutta; MA 117 / EA 22.8 parallels",
+   "epistemic": "flat-background-assertion",
+   "recension": "multi-recensional-pre-sectarian",
+   "role": "effect-concept / existential mada"
+  },
+  {
+   "id": "cst-abh02m.mul-150",
+   "work_role": "mula",
+   "citation": "Abh 150 (Vibhanga)",
+   "claim": "The systematized list of madā (intemperance/intoxication: of birth, clan, health, youth, life, gain, honour ...), the Abhidhamma taxonomy of the effect-state.",
+   "stratum": "abhidhamma-canonical",
+   "stratum_warrant": "Vibhanga, Khuddakavatthuvibhanga; a parallel late canonical branch",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only-parallels",
+   "role": "effect-concept / abhidhamma systematization"
+  },
+  {
+   "id": "pli-tv-bu-vb-pc51",
+   "work_role": "mula",
+   "citation": "Bhu. Pc. 51",
+   "claim": "Surapana the monastic offence: surAmerayapane pacittiyam. The word-analysis defines sura (five kinds) and meraya (five asava) by a CLOSED LIST; the offence-permutations then operate on the GENERAL term 'majje' (majje majjasanni pivati ... majje amajjasanni pivati = pacittiya regardless of perception). The category-term majja is canonical and operative; the blade-of-grass quantum (antamaso kusaggenapi).",
+   "stratum": "late-canonical",
+   "stratum_warrant": "Vinaya Mahavibhanga rule + frame-narrative (Sagata nidana); the rule disciplinary-canonical, the origin-story late-canonical by position",
+   "epistemic": "flat-background-assertion (disciplinary ruling, not a verification claim)",
+   "recension": "multi-recensional-pre-sectarian",
+   "recension_witnesses": "Sarvastivada san-sarv-bu-pm-tf11-pc79, Mulasarvastivada san-mu-bu-pm-gbm3-pc79, Lokottaravada san-lo-bu-pm-pc76, Mahasanghika san-mg-bu-pm-pc76, Dharmaguptaka lzh-dg-bu-vb-pc51, Mahisasaka lzh-mi-bu-vb-pc57, Kasyapiya lzh-ka-bu-pm-pc79",
+   "role": "named-list + operative category-term majja"
+  },
+  {
+   "id": "cst-e0905n.nrf-084",
+   "work_role": "anya",
+   "citation": "E0905N-NRF 84 (Parivara)",
+   "claim": "The Parivara catechism independently fixes the offence class as pacittiya, laid down at Kosambi on account of Sagata 'who drank majja'.",
+   "stratum": "late-canonical",
+   "stratum_warrant": "Parivara, a late-canonical Vinaya appendix (catechetical digest)",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only-parallels",
+   "role": "named-triad / catechism"
+  },
+  {
+   "id": "cst-vin02m2.mul-vin3_6",
+   "work_role": "mula",
+   "citation": "Vin 6 (Bhesajjakkhandhaka)",
+   "claim": "Liquor allowed in a medicinal oil-decoction (telapake majjam pakkhipitunti), then restricted to where 'the colour, smell, and taste of the liquor are not detectable' (majjassa na vanno na gandho na raso pannayati); over-strength batches re-designated for external rubbing. The criterion IS the effect-test, IN THE ROOT TEXT: alcohol is allowed only at the point where it can no longer intoxicate.",
+   "stratum": "late-canonical",
+   "stratum_warrant": "Vinaya Mahavagga khandhaka + frame-narrative (Pilindavaccha nidana)",
+   "epistemic": "flat-background-assertion (disciplinary ruling)",
+   "recension": "untested (khandhaka; feature-level parallel not linked)",
+   "role": "effect-criterion in canon (the undetectability test)"
+  },
+  {
+   "id": "cst-s0506a.att-18_p049",
+   "work_role": "attha",
+   "citation": "KN-a 18.49",
+   "claim": "majjam vuccati madaniyaTThena sura ca merayanca: 'majja means, in the sense of being intoxicating, sura and meraya'. The effect-definition of the category, stated as a commentarial gloss.",
+   "stratum": "classical-commentary",
+   "stratum_warrant": "Khuddakapatha-atthakatha (Buddhaghosa-era redaction)",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only",
+   "role": "effect-DEFINITION of the category (commentarial)"
+  },
+  {
+   "id": "cst-s0504a.att-83_p050",
+   "work_role": "attha",
+   "citation": "KN-a 83.50",
+   "claim": "The five sura and five meraya/asava enumerated, then: tadubhayampi madaniyaTThena majjam ('both, in the sense of being intoxicating, are majja') - the bridge from the closed list to the effect-principle.",
+   "stratum": "classical-commentary",
+   "stratum_warrant": "Khuddakapatha-atthakatha",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only",
+   "role": "effect-DEFINITION (closed-list -> effect-principle, commentarial)"
+  },
+  {
+   "id": "cst-s0105t.nrf-60_p030",
+   "work_role": "tika",
+   "citation": "Sv-pt 60.30",
+   "claim": "Quotes the Samyutta- and Khuddakapatha-atthakatha: 'yam va panannampi surasavavinimuttam madaniyam' - 'whatever else, free of sura and asava, is intoxicating'. The OPEN-CATEGORY generalisation: the precept's surA+meraya are nidassanamatta (mere examples), and majja is whatever else intoxicates. This is the load-bearing 'effect-based, open category' claim - and it is COMMENTARIAL.",
+   "stratum": "sub-commentary",
+   "stratum_warrant": "Sumangalavilasini-tika quoting Spk-a (Sam.ni.attha. 3.5.1134)",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only",
+   "role": "OPEN-CATEGORY generalisation (commentarial, the refinement)"
+  },
+  {
+   "id": "cst-s0305a.att-sn5_12_p079",
+   "work_role": "attha",
+   "citation": "Spk-a 12.79",
+   "claim": "The same open-category generalisation in its source aTThakatha: yam va panannampi surasavavinimuttam madaniyam.",
+   "stratum": "classical-commentary",
+   "stratum_warrant": "Samyutta-atthakatha (the source of the Sv-pt quotation)",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only",
+   "role": "OPEN-CATEGORY generalisation (source aTThakatha)"
+  },
+  {
+   "id": "cst-s0105t.nrf-75_p005",
+   "work_role": "tika",
+   "citation": "Sv-pt 75.5",
+   "claim": "Draws the medicine line by the effect-mark: the offence is drinking sura 'that has reached the defining mark of an intoxicant' (majjalakkhanappattaya suraya), meraya included; lonasovTraka/kanjika (a non-intoxicating sour brew) is permitted.",
+   "stratum": "sub-commentary",
+   "stratum_warrant": "Sumangalavilasini-tika",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only",
+   "role": "effect-mark as the operative line (commentarial)"
+  },
+  {
+   "id": "an5.81",
+   "work_role": "mula",
+   "citation": "AN 5.81",
+   "claim": "madaniye majjati - 'one is intoxicated by the intoxicating' - but the OBJECT here is the five sense-pleasures (kama), not surA/meraya. The early canon carries the effect-vocabulary applied to sense-objects, not yet welded onto the drink-category.",
+   "stratum": "early-canonical",
+   "stratum_warrant": "AN prose",
+   "epistemic": "flat-background-assertion",
+   "recension": "pali-only-parallels",
+   "role": "early effect-vocabulary (applied to kama, the drift seam)"
+  }
+ ],
+ "cross_recension": {
+  "named_prohibition_rule": {
+   "anchor": "pli-tv-bu-vb-pc51",
+   "status": "multi-recensional-pre-sectarian",
+   "witnesses_lines": [
+    "Sarvastivada",
+    "Mulasarvastivada",
+    "Lokottavada-Mahasanghika",
+    "Mahasanghika",
+    "Dharmaguptaka",
+    "Mahisasaka",
+    "Kasyapiya"
+   ],
+   "licenses": "the liquor-prohibition (named surA/meraya, the operative majja) predates the sectarian split"
+  },
+  "lay_register": {
+   "anchor": "dn31",
+   "status": "multi-recensional-pre-sectarian",
+   "witnesses": [
+    "DA 16 (lzh)",
+    "MA 135 (lzh)",
+    "T 16",
+    "T 17",
+    "SHT-sutta43",
+    "SF 100"
+   ],
+   "licenses": "the lay drawbacks/pamada register has Agama parallels"
+  },
+  "existential_mada": {
+   "anchor": "an3.39",
+   "status": "multi-recensional-pre-sectarian",
+   "witnesses": [
+    "MA 117",
+    "EA 22.8"
+   ],
+   "licenses": "the existential-intoxication (three mada) concept is multi-recensional"
+  },
+  "effect_based_definition": {
+   "anchor": "cst-s0105t.nrf-60_p030 / cst-s0506a.att-18_p049",
+   "status": "pali-local-commentarial",
+   "witnesses": [],
+   "licenses": "the explicit effect-DEFINITION of the category (madaniyaTThena majjam; the open-list 'whatever else intoxicates') is a Pali-local commentarial development, by construction (an aTThakatha gloss); NOT 'invented from nothing' - it draws the open principle out of canonically-operative material (the rule's 'majje' permutations, the early madaniye-majjati vocabulary, the telapaka undetectability criterion)"
+  }
+ },
+ "verdict": {
+  "settled_finding": "majja = an effect-based category (intoxication defined by effect, not by a closed substance list)",
+  "status": "CONFIRMED + refined",
+  "refinement": "The effect-CONCEPT of intoxication is genuinely canonical (the early madaniye-majjati vocabulary applied to sense-pleasures; the three existential mada at AN 3.39; the Abhidhamma mada-taxonomy; the operative category-term 'majje' in the Pc 51 permutations; the undetectability criterion of the telapaka medicine ruling, in the root text). What is COMMENTARIAL is the explicit effect-DEFINITION of the drink-category as an OPEN class ('majjam vuccati madaniyaTThena ...'; 'yam va panannampi ... madaniyam' = whatever else intoxicates; surA+meraya as nidassanamatta, mere examples). That open-list generalisation occurs in exactly 2 rows, BOTH commentarial, and in 0 canonical rows. So the finding holds: the category is effect-based; the refinement is that the canon supplies the operative category-term and the effect-rationale piecemeal, and the commentary states the open effect-definition as a definition.",
+  "cross_recension": "The named prohibition (surA/meraya, the rule) is pre-sectarian, attested across seven Vinaya recensions; the lay register and the existential-mada concept have Agama parallels. The explicit effect-DEFINITION is Pali-local commentarial.",
+  "regression_gate": "HELD. The settled finding stays green; the move is a refinement (canonical operative category-term + effect-rationale; commentarial open-definition), warranted by the recall ladder + the chronology pass, not a reversal.",
+  "prediction_R5": "PASS. Pre-registered: 'the recall re-check on the majja/meraya/surA homograph cluster changes a count (the known homograph trap); chronology secondary. PASS if the recall-ladder delta is non-zero OR the homograph precision is re-confirmed.' BOTH legs fire: (a) the homograph precision is re-confirmed and sharpened - majja 1455->227 (1228 purged), surA 926->648 (278 purged), meraya 279 clean, cluster net 840; (b) the RUNG1->RUNG4 delta on majja alone is -1228 (a count changed by an order of magnitude, exactly the trap). Chronology, predicted secondary, in fact produced the refinement (effect-definition commentarial)."
+ }
+}

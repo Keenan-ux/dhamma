@@ -1,0 +1,1582 @@
+[
+ {
+  "form": "majjati",
+  "n": 398
+ },
+ {
+  "form": "majja",
+  "n": 371
+ },
+ {
+  "form": "majjapamādaṭṭhānā",
+  "n": 267
+ },
+ {
+  "form": "majjanti",
+  "n": 84
+ },
+ {
+  "form": "majjana",
+  "n": 79
+ },
+ {
+  "form": "majjanavasena",
+  "n": 70
+ },
+ {
+  "form": "majjapo",
+  "n": 62
+ },
+ {
+  "form": "majjanto",
+  "n": 60
+ },
+ {
+  "form": "majjapamādaṭṭhāyī",
+  "n": 44
+ },
+ {
+  "form": "majjappamādaṭṭhānā",
+  "n": 41
+ },
+ {
+  "form": "majjapānā",
+  "n": 39
+ },
+ {
+  "form": "majjani",
+  "n": 36
+ },
+ {
+  "form": "majjato",
+  "n": 36
+ },
+ {
+  "form": "majjanī",
+  "n": 34
+ },
+ {
+  "form": "majjantena",
+  "n": 31
+ },
+ {
+  "form": "majjanā",
+  "n": 31
+ },
+ {
+  "form": "majjapamādaṭṭhāna",
+  "n": 26
+ },
+ {
+  "form": "majjaṁ",
+  "n": 26
+ },
+ {
+  "form": "majjantassa",
+  "n": 25
+ },
+ {
+  "form": "majjatīti",
+  "n": 22
+ },
+ {
+  "form": "majjasi",
+  "n": 21
+ },
+ {
+  "form": "majjamajjhe",
+  "n": 21
+ },
+ {
+  "form": "majjanalakkhaṇo",
+  "n": 20
+ },
+ {
+  "form": "majjapāna",
+  "n": 18
+ },
+ {
+  "form": "majjako",
+  "n": 18
+ },
+ {
+  "form": "majjapā",
+  "n": 18
+ },
+ {
+  "form": "majjapamādaṭṭhānaṁ",
+  "n": 17
+ },
+ {
+  "form": "majjapamādaṭṭhānanti",
+  "n": 16
+ },
+ {
+  "form": "majjatha",
+  "n": 16
+ },
+ {
+  "form": "majjampi",
+  "n": 16
+ },
+ {
+  "form": "majjasī",
+  "n": 16
+ },
+ {
+  "form": "majjatī",
+  "n": 15
+ },
+ {
+  "form": "majjane",
+  "n": 14
+ },
+ {
+  "form": "majjavaṇijjā",
+  "n": 13
+ },
+ {
+  "form": "majjasaññī",
+  "n": 12
+ },
+ {
+  "form": "majjañca",
+  "n": 12
+ },
+ {
+  "form": "majjassa",
+  "n": 12
+ },
+ {
+  "form": "majjakavagga",
+  "n": 10
+ },
+ {
+  "form": "majjapamādaṭṭhānapaccayā",
+  "n": 10
+ },
+ {
+  "form": "majjaniyo",
+  "n": 10
+ },
+ {
+  "form": "majjaniyā",
+  "n": 10
+ },
+ {
+  "form": "majjathā",
+  "n": 10
+ },
+ {
+  "form": "majjanañca",
+  "n": 9
+ },
+ {
+  "form": "majjantī",
+  "n": 9
+ },
+ {
+  "form": "majjantā",
+  "n": 9
+ },
+ {
+  "form": "majjaniñca",
+  "n": 8
+ },
+ {
+  "form": "majjanākāro",
+  "n": 8
+ },
+ {
+  "form": "majjanahattho",
+  "n": 8
+ },
+ {
+  "form": "majjanakkhamo",
+  "n": 8
+ },
+ {
+  "form": "majjaniṁ",
+  "n": 7
+ },
+ {
+  "form": "majjanena",
+  "n": 7
+ },
+ {
+  "form": "majjapāyī",
+  "n": 7
+ },
+ {
+  "form": "majjadāna",
+  "n": 7
+ },
+ {
+  "form": "majjate",
+  "n": 7
+ },
+ {
+  "form": "majjavaṇijjāti",
+  "n": 6
+ },
+ {
+  "form": "majjananti",
+  "n": 6
+ },
+ {
+  "form": "majjatanimhī",
+  "n": 6
+ },
+ {
+  "form": "majjasīti",
+  "n": 6
+ },
+ {
+  "form": "majjakattheraapadāna",
+  "n": 6
+ },
+ {
+  "form": "majjappamādaṭṭhānānuyoge",
+  "n": 6
+ },
+ {
+  "form": "majjapāyinī",
+  "n": 6
+ },
+ {
+  "form": "majjapāne",
+  "n": 6
+ },
+ {
+  "form": "majjapamādaṭṭhāyinī",
+  "n": 6
+ },
+ {
+  "form": "majjamāno",
+  "n": 6
+ },
+ {
+  "form": "majjaṭṭhāna",
+  "n": 6
+ },
+ {
+  "form": "majjantīti",
+  "n": 6
+ },
+ {
+  "form": "majjatoti",
+  "n": 6
+ },
+ {
+  "form": "majjano",
+  "n": 6
+ },
+ {
+  "form": "majjanenāti",
+  "n": 6
+ },
+ {
+  "form": "majjanākārappavatto",
+  "n": 6
+ },
+ {
+  "form": "majjanakavāto",
+  "n": 6
+ },
+ {
+  "form": "majjanakkhama",
+  "n": 6
+ },
+ {
+  "form": "majjanabhāvena",
+  "n": 5
+ },
+ {
+  "form": "majjante",
+  "n": 5
+ },
+ {
+  "form": "majjanattha",
+  "n": 5
+ },
+ {
+  "form": "majjanaṁ",
+  "n": 5
+ },
+ {
+  "form": "majjanādīhi",
+  "n": 5
+ },
+ {
+  "form": "majjanalakkhaṇa",
+  "n": 5
+ },
+ {
+  "form": "majjanta",
+  "n": 5
+ },
+ {
+  "form": "majjanīti",
+  "n": 4
+ },
+ {
+  "form": "majjanākārena",
+  "n": 4
+ },
+ {
+  "form": "majjathāti",
+  "n": 4
+ },
+ {
+  "form": "majjarahā",
+  "n": 4
+ },
+ {
+  "form": "majjavaṇṇa",
+  "n": 4
+ },
+ {
+  "form": "majjabhāvo",
+  "n": 4
+ },
+ {
+  "form": "majjanādīni",
+  "n": 4
+ },
+ {
+  "form": "majjanāyidaṁ",
+  "n": 4
+ },
+ {
+  "form": "majjanāyida",
+  "n": 4
+ },
+ {
+  "form": "majjamima",
+  "n": 4
+ },
+ {
+  "form": "majjapamādaṭṭhāne",
+  "n": 4
+ },
+ {
+  "form": "majjamaṇḍale",
+  "n": 4
+ },
+ {
+  "form": "majjappamādaṭṭhāyī",
+  "n": 4
+ },
+ {
+  "form": "majjanādikāle",
+  "n": 4
+ },
+ {
+  "form": "majjanaparibhaṇḍādikaraṇe",
+  "n": 4
+ },
+ {
+  "form": "majjanaghaṭṭanādikammapariyosāne",
+  "n": 4
+ },
+ {
+  "form": "majjanasabhāvena",
+  "n": 4
+ },
+ {
+  "form": "majjanasamāpattivasena",
+  "n": 4
+ },
+ {
+  "form": "majjadānaṁ",
+  "n": 4
+ },
+ {
+  "form": "majjalakkhaṇappattāya",
+  "n": 3
+ },
+ {
+  "form": "majjakattherassāpadānaṁ",
+  "n": 3
+ },
+ {
+  "form": "majjapānaṁ",
+  "n": 3
+ },
+ {
+  "form": "majjakattherassāpadāna",
+  "n": 3
+ },
+ {
+  "form": "majjakasamā",
+  "n": 3
+ },
+ {
+  "form": "majjanabhāvo",
+  "n": 3
+ },
+ {
+  "form": "majjappamādaṭṭhāyino",
+  "n": 3
+ },
+ {
+  "form": "majjanadantakaṭṭhadānādīni",
+  "n": 3
+ },
+ {
+  "form": "majjanavatta",
+  "n": 3
+ },
+ {
+  "form": "majjanādāya",
+  "n": 3
+ },
+ {
+  "form": "majjanādi",
+  "n": 3
+ },
+ {
+  "form": "majjasaññissa",
+  "n": 3
+ },
+ {
+  "form": "majjatanimhi",
+  "n": 3
+ },
+ {
+  "form": "majjataniyā",
+  "n": 3
+ },
+ {
+  "form": "majjagandha",
+  "n": 3
+ },
+ {
+  "form": "majjanādikāya",
+  "n": 3
+ },
+ {
+  "form": "majjantaṁ",
+  "n": 3
+ },
+ {
+  "form": "majjanādīna",
+  "n": 3
+ },
+ {
+  "form": "majjanādivasena",
+  "n": 3
+ },
+ {
+  "form": "majjanakicca",
+  "n": 3
+ },
+ {
+  "form": "majjanahetu",
+  "n": 3
+ },
+ {
+  "form": "majjaninti",
+  "n": 3
+ },
+ {
+  "form": "majjanasampiyāyanabrūhanasantasukhāna",
+  "n": 3
+ },
+ {
+  "form": "majjanaṭṭhāna",
+  "n": 3
+ },
+ {
+  "form": "majjanākāravasena",
+  "n": 3
+ },
+ {
+  "form": "majjamānena",
+  "n": 3
+ },
+ {
+  "form": "majjamādāya",
+  "n": 3
+ },
+ {
+  "form": "majjama",
+  "n": 3
+ },
+ {
+  "form": "majjayati",
+  "n": 2
+ },
+ {
+  "form": "majjabhāva",
+  "n": 2
+ },
+ {
+  "form": "majjabhāvaṁ",
+  "n": 2
+ },
+ {
+  "form": "majjabhāvamasampatta",
+  "n": 2
+ },
+ {
+  "form": "majjabhūto",
+  "n": 2
+ },
+ {
+  "form": "majjadhammesu",
+  "n": 2
+ },
+ {
+  "form": "majjadiṭṭho",
+  "n": 2
+ },
+ {
+  "form": "majjakā",
+  "n": 2
+ },
+ {
+  "form": "majjakena",
+  "n": 2
+ },
+ {
+  "form": "majjakopi",
+  "n": 2
+ },
+ {
+  "form": "majjameva",
+  "n": 2
+ },
+ {
+  "form": "majjanābhāvena",
+  "n": 2
+ },
+ {
+  "form": "majjanadantakaṭṭhamukhodakānuppadānena",
+  "n": 2
+ },
+ {
+  "form": "majjanādinavavidha",
+  "n": 2
+ },
+ {
+  "form": "majjanakkhamañcā",
+  "n": 2
+ },
+ {
+  "form": "majjanakkhamoti",
+  "n": 2
+ },
+ {
+  "form": "majjanamattampi",
+  "n": 2
+ },
+ {
+  "form": "majjanamevāti",
+  "n": 2
+ },
+ {
+  "form": "majjanamukhodakadantakaṭṭhadānādīni",
+  "n": 2
+ },
+ {
+  "form": "majjanañceva",
+  "n": 2
+ },
+ {
+  "form": "majjanassa",
+  "n": 2
+ },
+ {
+  "form": "majjanaṭṭhānāni",
+  "n": 2
+ },
+ {
+  "form": "majjanatthāya",
+  "n": 2
+ },
+ {
+  "form": "majjanatthera",
+  "n": 2
+ },
+ {
+  "form": "majjanattheravatthu",
+  "n": 2
+ },
+ {
+  "form": "majjanavaseneva",
+  "n": 2
+ },
+ {
+  "form": "majjanavelāya",
+  "n": 2
+ },
+ {
+  "form": "majjañceva",
+  "n": 2
+ },
+ {
+  "form": "majjanidaṇḍena",
+  "n": 2
+ },
+ {
+  "form": "majjanidāyikāvimānavatthu",
+  "n": 2
+ },
+ {
+  "form": "majjanisālāya",
+  "n": 2
+ },
+ {
+  "form": "majjantāti",
+  "n": 2
+ },
+ {
+  "form": "majjantova",
+  "n": 2
+ },
+ {
+  "form": "majjapakkhitta",
+  "n": 2
+ },
+ {
+  "form": "majjapamādaṭṭhānahetu",
+  "n": 2
+ },
+ {
+  "form": "majjapamādaṭṭhānassa",
+  "n": 2
+ },
+ {
+  "form": "majjapamādaṭṭhāyinoti",
+  "n": 2
+ },
+ {
+  "form": "majjapamāde",
+  "n": 2
+ },
+ {
+  "form": "majjapānabahulo",
+  "n": 2
+ },
+ {
+  "form": "majjapānamakappayu",
+  "n": 2
+ },
+ {
+  "form": "majjapānasa",
+  "n": 2
+ },
+ {
+  "form": "majjappamādaṭṭhāna",
+  "n": 2
+ },
+ {
+  "form": "majjappamādaṭṭhānānuyoga",
+  "n": 2
+ },
+ {
+  "form": "majjappamādaṭṭhānānuyogo",
+  "n": 2
+ },
+ {
+  "form": "majjappamādaṭṭhānappaccayā",
+  "n": 2
+ },
+ {
+  "form": "majjappamādaṭṭhāyīhi",
+  "n": 2
+ },
+ {
+  "form": "majjara",
+  "n": 2
+ },
+ {
+  "form": "majjarasa",
+  "n": 2
+ },
+ {
+  "form": "majjasadisa",
+  "n": 2
+ },
+ {
+  "form": "majjasāmaññassa",
+  "n": 2
+ },
+ {
+  "form": "majjasamaye",
+  "n": 2
+ },
+ {
+  "form": "majjasambhāra",
+  "n": 2
+ },
+ {
+  "form": "majjasaññāya",
+  "n": 2
+ },
+ {
+  "form": "majjasmi",
+  "n": 2
+ },
+ {
+  "form": "majjatā",
+  "n": 2
+ },
+ {
+  "form": "majjatādisena",
+  "n": 2
+ },
+ {
+  "form": "majjaṭṭhāne",
+  "n": 2
+ },
+ {
+  "form": "majjavā",
+  "n": 2
+ },
+ {
+  "form": "majjavibhūti",
+  "n": 2
+ },
+ {
+  "form": "majjattā",
+  "n": 1
+ },
+ {
+  "form": "majjanāya",
+  "n": 1
+ },
+ {
+  "form": "majjanamassa",
+  "n": 1
+ },
+ {
+  "form": "majjanako",
+  "n": 1
+ },
+ {
+  "form": "majjanakiriya",
+  "n": 1
+ },
+ {
+  "form": "majjañcāti",
+  "n": 1
+ },
+ {
+  "form": "majjaṭṭhā",
+  "n": 1
+ },
+ {
+  "form": "majjanākāroti",
+  "n": 1
+ },
+ {
+  "form": "majjanehi",
+  "n": 1
+ },
+ {
+  "form": "majjanākāravasappavatto",
+  "n": 1
+ },
+ {
+  "form": "majjanenapi",
+  "n": 1
+ },
+ {
+  "form": "majjanākārappavatti",
+  "n": 1
+ },
+ {
+  "form": "majjanhike",
+  "n": 1
+ },
+ {
+  "form": "majjanākārappatto",
+  "n": 1
+ },
+ {
+  "form": "majjanakaraṇa",
+  "n": 1
+ },
+ {
+  "form": "majjaniādīna",
+  "n": 1
+ },
+ {
+  "form": "majjanīādīna",
+  "n": 1
+ },
+ {
+  "form": "majjaniaṭṭake",
+  "n": 1
+ },
+ {
+  "form": "majjanidaṇḍa",
+  "n": 1
+ },
+ {
+  "form": "majjanidaṇḍavedhanaka",
+  "n": 1
+ },
+ {
+  "form": "majjadānanti",
+  "n": 1
+ },
+ {
+  "form": "majjavisesepi",
+  "n": 1
+ },
+ {
+  "form": "majjanākāramadassa",
+  "n": 1
+ },
+ {
+  "form": "majjanimāḷakeyeva",
+  "n": 1
+ },
+ {
+  "form": "majjanīmāḷakeyeva",
+  "n": 1
+ },
+ {
+  "form": "majjanākāra",
+  "n": 1
+ },
+ {
+  "form": "majjaniñceva",
+  "n": 1
+ },
+ {
+  "form": "majjanakālepi",
+  "n": 1
+ },
+ {
+  "form": "majjanipahāre",
+  "n": 1
+ },
+ {
+  "form": "majjanisadda",
+  "n": 1
+ },
+ {
+  "form": "majjanisalākāyapi",
+  "n": 1
+ },
+ {
+  "form": "majjanīsalākāyapi",
+  "n": 1
+ },
+ {
+  "form": "majjatthāya",
+  "n": 1
+ },
+ {
+  "form": "majjanisaṅkārachaḍḍanakādīni",
+  "n": 1
+ },
+ {
+  "form": "majjanisaṅkhātena",
+  "n": 1
+ },
+ {
+  "form": "majjanakāle",
+  "n": 1
+ },
+ {
+  "form": "majjaniya",
+  "n": 1
+ },
+ {
+  "form": "majjanaha",
+  "n": 1
+ },
+ {
+  "form": "majjaniyampi",
+  "n": 1
+ },
+ {
+  "form": "majjanagandhamālādipūjanacetiyavandanādīni",
+  "n": 1
+ },
+ {
+  "form": "majjanādivattakaraṇena",
+  "n": 1
+ },
+ {
+  "form": "majjanādivatta",
+  "n": 1
+ },
+ {
+  "form": "majjanādīsu",
+  "n": 1
+ },
+ {
+  "form": "majjanādinā",
+  "n": 1
+ },
+ {
+  "form": "majjantampi",
+  "n": 1
+ },
+ {
+  "form": "majjantāna",
+  "n": 1
+ },
+ {
+  "form": "majjanādikaraṇena",
+  "n": 1
+ },
+ {
+  "form": "majjantassapi",
+  "n": 1
+ },
+ {
+  "form": "majjantassāpi",
+  "n": 1
+ },
+ {
+  "form": "majjantassāti",
+  "n": 1
+ },
+ {
+  "form": "majjatthikā",
+  "n": 1
+ },
+ {
+  "form": "majjanādikaraṇe",
+  "n": 1
+ },
+ {
+  "form": "majjanādikammañca",
+  "n": 1
+ },
+ {
+  "form": "majjantenā",
+  "n": 1
+ },
+ {
+  "form": "majjanādika",
+  "n": 1
+ },
+ {
+  "form": "majjanādīhī",
+  "n": 1
+ },
+ {
+  "form": "majjanādibhi",
+  "n": 1
+ },
+ {
+  "form": "majjantiyā",
+  "n": 1
+ },
+ {
+  "form": "majjantiyāva",
+  "n": 1
+ },
+ {
+  "form": "majjanādī",
+  "n": 1
+ },
+ {
+  "form": "majjantoti",
+  "n": 1
+ },
+ {
+  "form": "majjatthiko",
+  "n": 1
+ },
+ {
+  "form": "majjantu",
+  "n": 1
+ },
+ {
+  "form": "majjanupalepanabalikammādinā",
+  "n": 1
+ },
+ {
+  "form": "majjanūpalepanabalikammādinā",
+  "n": 1
+ },
+ {
+  "form": "majjanacoḷaka",
+  "n": 1
+ },
+ {
+  "form": "majjaussave",
+  "n": 1
+ },
+ {
+  "form": "majjapakkhittaṁ",
+  "n": 1
+ },
+ {
+  "form": "majjanaanuyujjanavasena",
+  "n": 1
+ },
+ {
+  "form": "majjanaanuyojanavasena",
+  "n": 1
+ },
+ {
+  "form": "majjaussaveti",
+  "n": 1
+ },
+ {
+  "form": "majjamimaṁ",
+  "n": 1
+ },
+ {
+  "form": "majjapamādaṭṭhānameva",
+  "n": 1
+ },
+ {
+  "form": "majjapamādaṭṭhānāni",
+  "n": 1
+ },
+ {
+  "form": "majjamhāpikañcana",
+  "n": 1
+ },
+ {
+  "form": "majjapamādaṭṭhānānuyoga",
+  "n": 1
+ },
+ {
+  "form": "majjapamādaṭṭhānānuyoge",
+  "n": 1
+ },
+ {
+  "form": "majjamānā",
+  "n": 1
+ },
+ {
+  "form": "majjaviseso",
+  "n": 1
+ },
+ {
+  "form": "majjapamādaṭṭhānāti",
+  "n": 1
+ },
+ {
+  "form": "majjamaṁsaniratā",
+  "n": 1
+ },
+ {
+  "form": "majjamakāsi",
+  "n": 1
+ },
+ {
+  "form": "majjamakaru",
+  "n": 1
+ },
+ {
+  "form": "majjavagāha",
+  "n": 1
+ },
+ {
+  "form": "majjavamañjarīdhara",
+  "n": 1
+ },
+ {
+  "form": "majjamajja",
+  "n": 1
+ },
+ {
+  "form": "majjamadetyeke",
+  "n": 1
+ },
+ {
+  "form": "majjavamañjarīdharapahaṭṭhapupphaphusitaggānekapādapagaṇavitake",
+  "n": 1
+ },
+ {
+  "form": "majjapānādi",
+  "n": 1
+ },
+ {
+  "form": "majjapānādīna",
+  "n": 1
+ },
+ {
+  "form": "majjakumbhā",
+  "n": 1
+ },
+ {
+  "form": "majjavamañjarīdharapahaṭṭhapupphaphusitaggānekapādapagaṇavitate",
+  "n": 1
+ },
+ {
+  "form": "majjapānamakappayuṁ",
+  "n": 1
+ },
+ {
+  "form": "majjapānameva",
+  "n": 1
+ },
+ {
+  "form": "majjapānampi",
+  "n": 1
+ },
+ {
+  "form": "majjapānañca",
+  "n": 1
+ },
+ {
+  "form": "majjapānanti",
+  "n": 1
+ },
+ {
+  "form": "majjapānapariyosānā",
+  "n": 1
+ },
+ {
+  "form": "majjavamañjarīdharapahaṭṭhapupphaphusitaggānekapādapagaṇavitateti",
+  "n": 1
+ },
+ {
+  "form": "majjapānassa",
+  "n": 1
+ },
+ {
+  "form": "majjapānāti",
+  "n": 1
+ },
+ {
+  "form": "majjapānaveramaṇīdhamma",
+  "n": 1
+ },
+ {
+  "form": "majjakoti",
+  "n": 1
+ },
+ {
+  "form": "majjaparikatto",
+  "n": 1
+ },
+ {
+  "form": "majjapāti",
+  "n": 1
+ },
+ {
+  "form": "majjapāyako",
+  "n": 1
+ },
+ {
+  "form": "majjakehi",
+  "n": 1
+ },
+ {
+  "form": "majjakavaggo",
+  "n": 1
+ },
+ {
+  "form": "majjapāyīti",
+  "n": 1
+ },
+ {
+  "form": "majjapivanavatthusmi",
+  "n": 1
+ },
+ {
+  "form": "majjakattherassa",
+  "n": 1
+ },
+ {
+  "form": "majjapoti",
+  "n": 1
+ },
+ {
+  "form": "majjavāni",
+  "n": 1
+ },
+ {
+  "form": "majjakattheraapadānavaṇṇanā",
+  "n": 1
+ },
+ {
+  "form": "majjappamādaṭṭhānaṁ",
+  "n": 1
+ },
+ {
+  "form": "majjacittāgārasaṅghāniitthālaṅkāragandhavaṇṇakavāsitapiññākappabhedā",
+  "n": 1
+ },
+ {
+  "form": "majjappamādaṭṭhānānuyogaṁ",
+  "n": 1
+ },
+ {
+  "form": "majjappamādaṭṭhānānuyoganti",
+  "n": 1
+ },
+ {
+  "form": "majjakattheraapadānādivaṇṇanā",
+  "n": 1
+ },
+ {
+  "form": "majjacaraṇaṅgato",
+  "n": 1
+ },
+ {
+  "form": "majjappamādaṭṭhānānuyogoti",
+  "n": 1
+ },
+ {
+  "form": "majjabhūmiyo",
+  "n": 1
+ },
+ {
+  "form": "majjappamādaṭṭhānassa",
+  "n": 1
+ },
+ {
+  "form": "majjappamādaṭṭhānāti",
+  "n": 1
+ },
+ {
+  "form": "majjakatha",
+  "n": 1
+ },
+ {
+  "form": "majjavaṇṇagandharasa",
+  "n": 1
+ },
+ {
+  "form": "majjakasadisassa",
+  "n": 1
+ },
+ {
+  "form": "majjappamādaṭṭhāyinoti",
+  "n": 1
+ },
+ {
+  "form": "majjappamādo",
+  "n": 1
+ },
+ {
+  "form": "majjappamādoti",
+  "n": 1
+ },
+ {
+  "form": "majjavaṇṇagandharasā",
+  "n": 1
+ },
+ {
+  "form": "majjakapuriso",
+  "n": 1
+ },
+ {
+  "form": "majjarakānana",
+  "n": 1
+ },
+ {
+  "form": "majjavaṇṇagandharasoyeva",
+  "n": 1
+ },
+ {
+  "form": "majjarasādibhūte",
+  "n": 1
+ },
+ {
+  "form": "majjarasaṁ",
+  "n": 1
+ },
+ {
+  "form": "majjarasanti",
+  "n": 1
+ },
+ {
+  "form": "majjasa",
+  "n": 1
+ },
+ {
+  "form": "majjavaṇṇaṁ",
+  "n": 1
+ },
+ {
+  "form": "majjavaṇṇañca",
+  "n": 1
+ },
+ {
+  "form": "majjavesa",
+  "n": 1
+ },
+ {
+  "form": "majjavesanti",
+  "n": 1
+ },
+ {
+  "form": "majjasaṅkhāta",
+  "n": 1
+ },
+ {
+  "form": "majjasaṅkhātasurāya",
+  "n": 1
+ },
+ {
+  "form": "majjasaṅkhāte",
+  "n": 1
+ },
+ {
+  "form": "majjabhāvena",
+  "n": 1
+ },
+ {
+  "form": "majjakampi",
+  "n": 1
+ },
+ {
+  "form": "majjasaññino",
+  "n": 1
+ },
+ {
+  "form": "majjasaññinopi",
+  "n": 1
+ },
+ {
+  "form": "majjakalālā",
+  "n": 1
+ },
+ {
+  "form": "majjakalā",
+  "n": 1
+ },
+ {
+  "form": "majjakādivaggo",
+  "n": 1
+ },
+ {
+  "form": "majjakādīna",
+  "n": 1
+ },
+ {
+  "form": "majjavikkaya",
+  "n": 1
+ },
+ {
+  "form": "majjasmiṁ",
+  "n": 1
+ },
+ {
+  "form": "majjasminti",
+  "n": 1
+ },
+ {
+  "form": "majjajanavakanti",
+  "n": 1
+ },
+ {
+  "form": "majjasupekkhana",
+  "n": 1
+ },
+ {
+  "form": "majjasupekkhanaṁ",
+  "n": 1
+ },
+ {
+  "form": "majjasupekkhananti",
+  "n": 1
+ },
+ {
+  "form": "majjavikkayī",
+  "n": 1
+ },
+ {
+  "form": "majjavisavāṇijjārahita",
+  "n": 1
+ },
+ {
+  "form": "majjajadāna",
+  "n": 1
+ },
+ {
+  "form": "majjaha",
+  "n": 1
+ },
+ {
+  "form": "majjagato",
+  "n": 1
+ },
+ {
+  "form": "majjagandharasampi",
+  "n": 1
+ },
+ {
+  "form": "majjatena",
+  "n": 1
+ },
+ {
+  "form": "majjagandhaṁ",
+  "n": 1
+ },
+ {
+  "form": "majjadiṭṭhoti",
+  "n": 1
+ },
+ {
+  "form": "majjathambho",
+  "n": 1
+ },
+ {
+  "form": "majjadhātu",
+  "n": 1
+ },
+ {
+  "form": "majjananivāsanadānādikicce",
+  "n": 1
+ },
+ {
+  "form": "majjanānisa",
+  "n": 1
+ },
+ {
+  "form": "majjanapānīyaupaṭṭhāpana",
+  "n": 1
+ },
+ {
+  "form": "majjananighaṁsanaparisodhanena",
+  "n": 1
+ },
+ {
+  "form": "majjanaparibhaṇḍādīni",
+  "n": 1
+ },
+ {
+  "form": "majjanapaṭaggidānakūpapokkharaṇīkhaṇāpanādīsu",
+  "n": 1
+ },
+ {
+  "form": "majjanarahita",
+  "n": 1
+ },
+ {
+  "form": "majjanasabhāva",
+  "n": 1
+ },
+ {
+  "form": "majjanasabhāvaṭṭhena",
+  "n": 1
+ },
+ {
+  "form": "majjanasabhāvavantatāya",
+  "n": 1
+ },
+ {
+  "form": "majjananigha",
+  "n": 1
+ },
+ {
+  "form": "majjanasaddampi",
+  "n": 1
+ },
+ {
+  "form": "majjanāni",
+  "n": 1
+ },
+ {
+  "form": "majjanañcettha",
+  "n": 1
+ },
+ {
+  "form": "majjanasampiyāyanabrūhanasantasukhasabhāvehi",
+  "n": 1
+ },
+ {
+  "form": "majjanasampiyāyanu",
+  "n": 1
+ },
+ {
+  "form": "majjanāsanodakapadīpakaraṇe",
+  "n": 1
+ },
+ {
+  "form": "majjadhammesūti",
+  "n": 1
+ },
+ {
+  "form": "majjanāṭakā",
+  "n": 1
+ },
+ {
+  "form": "majjanaṭako",
+  "n": 1
+ },
+ {
+  "form": "majjanāti",
+  "n": 1
+ },
+ {
+  "form": "majjanato",
+  "n": 1
+ },
+ {
+  "form": "majjanamuyhanamattāva",
+  "n": 1
+ },
+ {
+  "form": "majjanamattenapi",
+  "n": 1
+ },
+ {
+  "form": "majjadāyī",
+  "n": 1
+ },
+ {
+  "form": "majjanaṭṭhāne",
+  "n": 1
+ },
+ {
+  "form": "majjadassanussava",
+  "n": 1
+ },
+ {
+  "form": "majjanaṭṭhena",
+  "n": 1
+ },
+ {
+  "form": "majjatītipi",
+  "n": 1
+ },
+ {
+  "form": "majjadassanattha",
+  "n": 1
+ },
+ {
+  "form": "majjanaṭṭho",
+  "n": 1
+ },
+ {
+  "form": "majjanaudakūpaṭṭhānādikālesu",
+  "n": 1
+ },
+ {
+  "form": "majjanaudakupaṭṭhāpanādikālesu",
+  "n": 1
+ },
+ {
+  "form": "majjanaupalepanādīni",
+  "n": 1
+ },
+ {
+  "form": "majjanamatte",
+  "n": 1
+ },
+ {
+  "form": "majjanavasenā",
+  "n": 1
+ },
+ {
+  "form": "majjadāni",
+  "n": 1
+ },
+ {
+  "form": "majjanavātappahāragītavāditasaddupaddavo",
+  "n": 1
+ },
+ {
+  "form": "majjanamattampīti",
+  "n": 1
+ }
+]
