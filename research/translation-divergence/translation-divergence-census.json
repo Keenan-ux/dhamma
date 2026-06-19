@@ -1,0 +1,273 @@
+{
+ "meta": {
+  "title": "R4 provenance-retrofit census: reception + text-critical + attribution over the divergence loci",
+  "scope": "research-only; INTERNAL dataset for REPORT_v12.md. No public file, no renderer.",
+  "corpus_snapshot": "194,710 passages (2026-06-19)",
+  "base_edition_of_study": "SuttaCentral Mahasangiti (source_edition='sc'); reading text, no inline apparatus",
+  "apparatus_source": "CST Burmese monolith siblings (source_edition='cst')",
+  "prediction_scored": "PASS",
+  "regression_gate": "validated-with-caveats verdict + study IAA UNCHANGED (no re-code, no re-run)"
+ },
+ "divergence_suttas": [
+  {
+   "id": "sn6.1",
+   "title": "Brahmayacanasutta",
+   "layer": "mula",
+   "stratum": "early-canonical",
+   "translators": [
+    "sujato",
+    "thanissaro"
+   ]
+  },
+  {
+   "id": "sn6.15",
+   "title": "Parinibbanasutta",
+   "layer": "mula",
+   "stratum": "early-canonical",
+   "translators": [
+    "sujato",
+    "thanissaro"
+   ]
+  },
+  {
+   "id": "sn12.15",
+   "title": "Kaccanagottasutta",
+   "layer": "mula",
+   "stratum": "early-canonical",
+   "translators": [
+    "sujato",
+    "thanissaro",
+    "walshe"
+   ]
+  },
+  {
+   "id": "sn36.21",
+   "title": "Sivakasutta",
+   "layer": "mula",
+   "stratum": "early-canonical",
+   "translators": [
+    "nyanaponika",
+    "sujato",
+    "thanissaro"
+   ]
+  },
+  {
+   "id": "sn41.5",
+   "title": "Pathamakamabhusutta",
+   "layer": "mula",
+   "stratum": "early-canonical",
+   "translators": [
+    "nizamis",
+    "sujato"
+   ]
+  },
+  {
+   "id": "sn41.6",
+   "title": "Dutiyakamabhusutta",
+   "layer": "mula",
+   "stratum": "early-canonical",
+   "translators": [
+    "sujato",
+    "thanissaro"
+   ]
+  },
+  {
+   "id": "sn42.11",
+   "title": "Bhadrakasutta",
+   "layer": "mula",
+   "stratum": "early-canonical",
+   "translators": [
+    "sujato",
+    "thanissaro"
+   ]
+  },
+  {
+   "id": "sn45.8",
+   "title": "Vibhangasutta",
+   "layer": "mula",
+   "stratum": "early-canonical",
+   "translators": [
+    "sujato",
+    "thanissaro"
+   ]
+  }
+ ],
+ "reception_traces": [
+  {
+   "key": "R-a",
+   "locus": "sn6.1:1.7",
+   "pali_term": "nibbanam",
+   "renderings": {
+    "sujato": "extinguishment",
+    "thanissaro": "Unbinding"
+   },
+   "i6_code": "translator-divergent",
+   "pali_settled": true
+  },
+  {
+   "key": "R-b",
+   "locus": "sn6.1:1.7",
+   "pali_term": "sabbupadhipatinissaggo",
+   "renderings": {
+    "sujato": "the letting go of all attachments",
+    "thanissaro": "the relinquishment of all acquisitions"
+   },
+   "i6_code": "translator-divergent",
+   "pali_settled": true
+  },
+  {
+   "key": "R-c",
+   "locus": "sn45.8:10.2",
+   "pali_term": "savitakkam savicaram",
+   "renderings": {
+    "sujato": "while placing the mind and keeping it connected",
+    "thanissaro": "accompanied by directed thought and evaluation"
+   },
+   "i6_code": "translator-divergent",
+   "pali_settled": true
+  },
+  {
+   "key": "R-d",
+   "locus": "sn45.8",
+   "pali_term": "sammasamadhi / jhana",
+   "renderings": {
+    "sujato": "right immersion / absorption",
+    "thanissaro": "right concentration / jhana"
+   },
+   "i6_code": "translator-divergent",
+   "pali_settled": true
+  },
+  {
+   "key": "R-e",
+   "locus": "sn41.6:2.4",
+   "pali_term": "vacisankhara",
+   "renderings": {
+    "sujato": "verbal process",
+    "thanissaro": "verbal fabrications"
+   },
+   "i6_code": "translator-divergent",
+   "pali_settled": true
+  },
+  {
+   "key": "R-f",
+   "locus": "sn12.15",
+   "pali_term": "upadana (in upayupadana)",
+   "renderings": {
+    "sujato": "grasping",
+    "thanissaro": "clingings (sustenances)",
+    "walshe": "grasps"
+   },
+   "i6_code": "translator-divergent",
+   "pali_settled": true,
+   "note": "The divergence-bearing head upadana is unvaried; only the compound prefix upaya- carries a minority variant (see TC-1), which cross-edition-resolves to the chosen reading."
+  }
+ ],
+ "text_critical": [
+  {
+   "key": "TC-1",
+   "locus": "sn12.15",
+   "cst_row": "cst-s0302m.mul-sn2_1",
+   "main_reading": "upayupadanabhinivesavinibandho",
+   "variant_reading": "upayupadana- (long-a upaya)",
+   "sigla": [
+    "si",
+    "sya",
+    "kam",
+    "pi"
+   ],
+   "class": "variant-substantive-claim-bearing",
+   "bearing": "upaya = who is attached/engaged (DPD); upaaya = means/method/approach (DPD). The variant shifts the compound's first member between an attachment-sense and a means-sense.",
+   "chosen_reading": "upaya- (the CST main reading)",
+   "defence": "lectio cross-edition: the SC Mahasangiti base (the study's own edition) and the CST main reading agree on upaya-; the long-a variant is the minority (si. sya. kam. pi.). Reading defended on cross-recension majority, not down-tagged as contested.",
+   "drives_divergence": false
+  },
+  {
+   "key": "TC-2",
+   "locus": "sn36.21",
+   "cst_row": "cst-s0304m.mul-sn4_2",
+   "main_reading": "Idha bhavam gotamo kimaha",
+   "variant_reading": "Idha pana ...",
+   "sigla": [
+    "sya",
+    "kam",
+    "pi",
+    "ka"
+   ],
+   "class": "variant-orthographic-trivial",
+   "bearing": "addition of the connective particle pana; no sense change to the claim.",
+   "chosen_reading": "Idha (CST main = SC base)",
+   "defence": "trivial connective; noted and passed over.",
+   "drives_divergence": false
+  },
+  {
+   "key": "TC-3",
+   "locus": "sn36.21",
+   "cst_row": "cst-s0304m.mul-sn4_2",
+   "main_reading": "Samampi kho etam, sivaka, veditabbam",
+   "variant_reading": "evam veditabbam",
+   "sigla": [
+    "sya",
+    "kam",
+    "ka"
+   ],
+   "class": "variant-orthographic-trivial",
+   "bearing": "samam (oneself) vs evam (thus); a minor adverbial swap not on the divergence term (pittasamutthana, the humoral cause of feeling).",
+   "chosen_reading": "samam (CST main = SC base)",
+   "defence": "minority variant, not claim-bearing for the divergence finding; noted.",
+   "drives_divergence": false
+  },
+  {
+   "key": "TC-clean",
+   "locus": "sn6.1:1.7 / sn41.6:2.4 / sn45.8 defs",
+   "cst_row": null,
+   "main_reading": "nibbanam / sabbupadhipatinissaggo / vacisankhara / savitakkam savicaram",
+   "variant_reading": null,
+   "sigla": [],
+   "class": "no-apparatus-present",
+   "bearing": "the divergence-bearing words carry NO siglum in the CST monolith; the reading text is stable and the divergence is reception, not text.",
+   "chosen_reading": "the settled reading (CST main = SC base)",
+   "defence": "editions agree; nothing to choose.",
+   "drives_divergence": false
+  }
+ ],
+ "attribution": [
+  {
+   "locus": "sn12.15",
+   "i2_code": "buddha-vacana (reporting a position)",
+   "note": "the 'atta me' (my self) clause is the Buddha articulating the right-view stance, not an endorsed self-view; a translator who renders it flat could mislead."
+  },
+  {
+   "locus": "sn36.21",
+   "i2_code": "opponent-then-corrected",
+   "note": "the pubbekatahetu (all-feeling-is-past-kamma) view is voiced by the ascetic interlocutor and corrected by the Buddha; attribution disambiguates the wrong-view clause."
+  }
+ ],
+ "aggregates": {
+  "n_divergence_suttas": 8,
+  "stratum_split": {
+   "early-canonical": 8
+  },
+  "n_reception_traces": 6,
+  "n_reception_pali_settled": 6,
+  "i6_code_split": {
+   "translator-divergent": 6
+  },
+  "text_critical_class_split": {
+   "variant-substantive-claim-bearing": 1,
+   "variant-orthographic-trivial": 2,
+   "no-apparatus-present": 1
+  },
+  "tc_substantive_claim_bearing": 1,
+  "tc_orthographic_trivial": 2,
+  "tc_no_apparatus_clean": 1,
+  "tc_variants_that_drive_a_divergence": 0,
+  "multi_translator_live": {
+   "both_sujato_ati": 1150,
+   "sujato_plus_2_ati": 248,
+   "frozen_mirror_2026_06_12": {
+    "both": 945,
+    "ge2_ati": 177
+   }
+  }
+ }
+}
