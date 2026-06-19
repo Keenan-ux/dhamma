@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "version": "v1.0",
+    "generated": "2026-06-16",
+    "corpus_snapshot": "194,710 passages",
+    "note": "Counts are reproducible from the live database via the Concordance view. Every citation opens the passage in the reader. Renderings of Pāli titles follow the corpus edition (CST/VRI for the commentaries, SuttaCentral for the four Nikāyas)."
+  },
+  "overview": "Vegetarianism is the question of whether a follower of the Buddha should refuse meat, and the early Pāli answer is more guarded than a modern reader expects. This worked example gathers the theme across the live corpus of 194,710 passages and splits it on the axis the tool is built to expose, canon against commentary. The general word for flesh, maṃsa, occurs 8,432 times in 4,220 passages, so most of that is diet and anatomy rather than ethics; what follows keeps 32 substantive instances across 26 passages, grouped into 8 strands, from the threefold-purity rule that lets a monk accept meat to the Āmagandha discourse that relocates defilement from the plate to the conduct, the trades a lay follower should not take up, Devadatta's failed demand for compulsory vegetarianism, the ten kinds of meat that are never allowable, and the old debate over the Buddha's last meal. One pattern recurs, and it runs the other way from what the topic suggests. The canon permits meat under a narrow rule and never makes abstaining a precept; the warrant for strict vegetarianism is thin in the Pāli and grows mainly in the later tradition. The commentary does not overturn this. It tightens the rule, defines the terms, and argues the hard cases."
+  ,
+  "methodNote": "Every count is reproducible from the live database, and every citation opens its passage. The enumeration is bounded by the vocabulary in the next section: a passage that carries the idea without any of these words could be missed, which is why the terms are given in full and can be extended. The general term maṃsa is deliberately broad and most of its 8,432 hits are not about ethics at all, so the strands keep only the loci that bear on the question. Renderings of Pāli titles follow the corpus edition. This is a worked example rather than a full study, and it makes no claim about historical authorship. Canon-versus-commentary here is a textual-layer split in the received corpus, not a dating, and the observation that strict vegetarianism is a later emphasis is a reading of where the warrant sits in these texts, not a thesis about the whole of Buddhism."
+  ,
+  "howto": {
+    "intro": "This page is a worked example, not a full study. The question, whether the Pāli canon asks a follower to give up meat and how much of the answer is canon versus commentary, is the kind a reader can settle with the tool, so the method is laid out in full before the results. The recipe is always the same: find the vocabulary that names the thing, count it across the corpus to see its shape, then read the substantive passages and split them by textual layer. Each box below is a real query. Click it to copy, paste it into the search bar, and you will reproduce the row it stands for.",
+    "recipes": [
+      { "query": "maṃsa", "mode": "Stem", "scope": "Original", "occ": 8432, "pass": 4220, "note": "The general word for flesh. Stem mode folds the inflections and compounds, which is why the count is so large; most of it is diet, almsfood, and anatomy, not the ethics of eating. It marks the field, and the narrower terms below carve the question out of it." },
+      { "query": "macchamaṃsa", "mode": "Stem", "scope": "Original", "occ": 269, "pass": 178, "note": "The fixed compound fish-and-meat, the unit the rules actually legislate. Note where the weight sits: almost all of it is in the commentary and sub-commentary, where the allowable-meat case is argued in detail." },
+      { "query": "āmagandha", "mode": "Stem", "scope": "Original", "occ": 201, "pass": 68, "note": "The raw-stench or taint. The term of the discourse that redefines defilement as conduct, not flesh. Stem mode catches both the sutta and its long commentary." },
+      { "query": "tikoṭiparisuddha", "mode": "Stem", "scope": "Original", "occ": 43, "pass": 28, "note": "Pure in three respects, the technical name for the allowable-meat rule: not seen, not heard, not suspected to have been killed for you. A small, sharp term that lands straight on the doctrine." },
+      { "query": "sūkaramaddava", "mode": "Stem", "scope": "Original", "occ": 42, "pass": 17, "note": "The dish in the Buddha's last meal. Search it to see the canon name it once and the commentary spend pages arguing whether it was tender pork or something else." },
+      { "query": "maṃsavaṇijjā", "mode": "Stem", "scope": "Original", "occ": 16, "pass": 14, "note": "Trade in meat, one of the five trades a lay follower should not take up. A rare term, but it pins the canon's one clear economic ruling on flesh." }
+    ],
+    "tips": [
+      { "label": "Concordance", "path": "/concordance/maṃsa", "note": "The Concordance view gives the frequency-by-piṭaka bars and the keyword-in-context lines. Every count in the table below is read straight off it; for maṃsa the bars also show at a glance how little of the 8,432 hits is about ethics." },
+      { "label": "Search by title", "note": "Set the scope to Title and search Āmagandha or Jīvaka to jump to the discourses that carry the theme (SNP 2.2, MN 55), instead of every passage that mentions meat in passing." },
+      { "label": "Dictionaries", "note": "Select any Pāli word in the reader to open DPD, DPPN, and PED. They separate the senses of maṃsa and gandha and give tikoṭiparisuddha its gloss, which is how the threefold-purity rule was confirmed rather than guessed." },
+      { "label": "Commentary jump", "note": "In a mūla sutta, the commentary link resolves the sutta to its aṭṭhakathā and ṭīkā. That is how MN 55 and DN 16 below were paired with their Papañcasūdanī and Sumaṅgalavilāsinī sections, where the rule is tightened and the last-meal dish is argued." }
+    ],
+    "meaning": {
+      "intro": "Every search above needs the Pāli word. If you do not have it, Meaning mode is the way in. It reads the sense of a plain-English phrase and ranks passages by how close they sit, across both the Pāli and its English translations, so you can describe the idea and let the tool find the neighbourhood. It is a way in, not a complete index; the three examples below show what it catches and what it misses.",
+      "examples": [
+        { "query": "is it allowable for a monk to eat meat", "mode": "Meaning", "scope": "All", "surfaces": [{ "id": "mn55", "citation": "MN 55" }, { "id": "pli-tv-kd6", "citation": "Vin. Kd. 6" }], "note": "The plain question lands on the two loci that answer it: the Jīvaka Sutta, where the Buddha gives the threefold-purity rule, and the Bhesajjakkhandhaka, where the meat rules sit in the monastic code. The top of the list also pulls in the food-related training rules around them." },
+        { "query": "meat from an animal killed specifically to feed a monk", "mode": "Meaning", "scope": "All", "surfaces": [{ "id": "mn55", "citation": "MN 55" }, { "id": "pli-tv-kd6", "citation": "Vin. Kd. 6" }], "note": "Describe the one case the rule turns on, the killed-for-you meat, and MN 55 comes first with the Vinaya behind it, because the English translation carries the very sentence. This is the most reliable Meaning query on the page." },
+        { "query": "the true taint is evil conduct not eating flesh", "mode": "Meaning", "scope": "All", "surfaces": [{ "id": "snp2.2", "citation": "SNP 2.2" }], "note": "Here Meaning mode finds the moral by its sense. The Āmagandha Sutta surfaces from a paraphrase of its own argument, with no shared keyword; the rest of the top results are noise about food and anger, which is the limit below in miniature." }
+      ],
+      "limit": "Two honest limits. Meaning mode barely touches the commentary, where the rule is actually worked out, because most of it is untranslated and an English phrase has little Pāli to match against; and a description built from common food words tends to pull in unrelated passages about eating and hunger. The Devadatta demand for compulsory vegetarianism, for instance, does not surface well from a plain query and was found by the term-search and the title instead. When you need every instance, or the commentarial detail, the term-searches and the Concordance above are the reliable path. Meaning mode gets you in; they make you thorough."
+    }
+  },
+  "termCounts": {
+    "note": "The vocabulary of meat-eating and its ethics, counted across the whole corpus. The figures are total occurrences; the passage count (rightmost) is how many distinct rows carry the term at least once. The first row, maṃsa, is the broad field and is mostly not about ethics; the rows below it are the terms that actually carry the question. This is the counts-for-all layer. The thematic tables that follow keep only the substantive passages and explain each one.",
+    "columns": ["sutta", "abhidhamma", "vinaya", "commentary", "subcommentary", "anya"],
+    "rows": [
+      { "term": "maṃsa", "gloss": "flesh, meat (the broad field)", "occ": 8432, "pass": 4220, "byPitaka": { "sutta": 1605, "abhidhamma": 245, "vinaya": 709, "commentary": 3348, "subcommentary": 1950, "anya": 575 } },
+      { "term": "macchamaṃsa", "gloss": "fish-and-meat (the regulated unit)", "occ": 269, "pass": 178, "byPitaka": { "sutta": 5, "abhidhamma": 0, "vinaya": 36, "commentary": 118, "subcommentary": 104, "anya": 6 } },
+      { "term": "āmagandha", "gloss": "raw stench, taint", "occ": 201, "pass": 68, "byPitaka": { "sutta": 83, "abhidhamma": 8, "vinaya": 0, "commentary": 86, "subcommentary": 21, "anya": 3 } },
+      { "term": "kappiyamaṃsa", "gloss": "allowable meat", "occ": 179, "pass": 115, "byPitaka": { "sutta": 0, "abhidhamma": 0, "vinaya": 0, "commentary": 47, "subcommentary": 132, "anya": 0 } },
+      { "term": "akappiyamaṃsa", "gloss": "unallowable meat", "occ": 119, "pass": 88, "byPitaka": { "sutta": 0, "abhidhamma": 0, "vinaya": 0, "commentary": 29, "subcommentary": 90, "anya": 0 } },
+      { "term": "tikoṭiparisuddha", "gloss": "pure in three respects (the meat rule)", "occ": 43, "pass": 28, "byPitaka": { "sutta": 14, "abhidhamma": 0, "vinaya": 6, "commentary": 9, "subcommentary": 13, "anya": 1 } },
+      { "term": "sūkaramaddava", "gloss": "the last-meal dish (tender pork?)", "occ": 42, "pass": 17, "byPitaka": { "sutta": 28, "abhidhamma": 0, "vinaya": 0, "commentary": 11, "subcommentary": 1, "anya": 2 } },
+      { "term": "maṃsavaṇijjā", "gloss": "trade in meat (a forbidden trade)", "occ": 16, "pass": 14, "byPitaka": { "sutta": 2, "abhidhamma": 0, "vinaya": 0, "commentary": 5, "subcommentary": 8, "anya": 1 } }
+    ]
+  },
+  "themes": [
+    {
+      "key": "threefold-purity",
+      "label": "The threefold-purity rule for accepting meat",
+      "blurb": "The canon's central ruling is permissive, not abstinent. A monk may eat meat that is pure in three respects, tikoṭiparisuddha: he has not seen, not heard, and has no ground to suspect that the animal was killed for him. The Jīvaka Sutta states it plainly; the commentary and sub-commentary define each of the three corners and work the borderline cases. There is no canonical precept against eating meat as such.",
+      "instances": [
+        { "id": "mn55", "citation": "MN 55", "layer": "mula", "note": "The Jīvaka Sutta: the Buddha refuses meat on three grounds, seen, heard, suspected, and permits it on the same three; the locus classicus of the rule." },
+        { "id": "pli-tv-kd6", "citation": "Vin. Kd. 6", "layer": "mula", "note": "The Bhesajjakkhandhaka frames the allowable-meat question inside the monastic code, the Vinaya side of the same ruling." },
+        { "id": "cst-s0202a.att-mn2_1_p126", "citation": "Ps-a 1 §126", "layer": "attha", "note": "Papañcasūdanī on the Jīvaka Sutta: it spells the threefold suspicion out as cases, including the doubly-released, neither-seen-nor-heard kind." },
+        { "id": "cst-vin08t.nrf-14_p003", "citation": "Sp-ṭ §14.3", "layer": "tika", "note": "The sub-commentary's exact definition of tikoṭiparisuddha: purified by three corners, three modes, three reasons, and how each is known." },
+        { "id": "cst-s0202t.tik-mn2_1_p093", "citation": "Ps-pṭ 1 §93", "layer": "tika", "note": "The sub-commentary on the Jīvaka Sutta glossing the terms of non-attachment around the allowable meal." }
+      ]
+    },
+    {
+      "key": "amagandha",
+      "label": "The Āmagandha redefinition: defilement is conduct, not flesh",
+      "blurb": "The sharpest doctrinal move on the topic is to relocate the taint. In the Āmagandha Sutta a flesh-shunning ascetic accuses the Buddha of eating āmagandha, raw stench; the Buddha answers that the real stench is killing, cruelty, theft, lying, and the rest, not any food. Vegetarian abstention is not the path; conduct is. The verse is canonical and its commentary expands the redefinition line by line.",
+      "instances": [
+        { "id": "snp2.2", "citation": "SNP 2.2", "layer": "mula", "note": "The Āmagandha Sutta: the Buddha lists evil conduct as the true taint and says no fish or flesh confers it; the canon's clearest statement that abstaining is not where purity lies." },
+        { "id": "cst-s0505a.att-17_p003", "citation": "KN-a §17.3", "layer": "attha", "note": "The Āmagandha commentary's frame story: the Buddha comes to the ascetics who shun flesh, setting up the exchange." },
+        { "id": "cst-s0505a.att-17_p009", "citation": "KN-a §17.9", "layer": "attha", "note": "The commentary on the ascetic's charge, that eating any flesh, even hare or partridge, is the stench he means." },
+        { "id": "cst-s0505a.att-17_p013", "citation": "KN-a §17.13", "layer": "attha", "note": "The commentary on the Buddha's answer: āmagandha is killing, beating, binding, theft, lying, and the rest, glossed term by term." }
+      ]
+    },
+    {
+      "key": "devadatta",
+      "label": "Devadatta's demand for compulsory vegetarianism, refused",
+      "blurb": "The one explicit proposal to make abstaining a rule is put by Devadatta and turned down. Among five austerities he asks the Buddha to impose for life is that monks eat no fish or meat; the Buddha refuses to make any of the five binding, leaving them to choice. The refusal is told in the Vinaya, in the schism narrative and in the schism training rule. It is the canon's direct answer to the vegetarian question, and the answer is no.",
+      "instances": [
+        { "id": "pli-tv-kd17", "citation": "Vin. Kd. 17", "layer": "mula", "note": "The Saṅghabhedaka Khandhaka: Devadatta's five demands, the fifth being lifelong abstention from fish and meat; the Buddha declines to make them compulsory." },
+        { "id": "cst-vin02m3.mul-vin4_7", "citation": "Vin 7", "layer": "mula", "note": "The CST Saṅghabhedakakkhandhaka carries the same five points: yāvajīvaṃ macchamaṃsaṃ na khādeyyuṃ, lifelong they should not eat fish and meat." },
+        { "id": "pli-tv-bu-vb-ss10", "citation": "Bhu. Ss. 10", "layer": "mula", "note": "The schism training rule (saṅghādisesa 10) sets the same episode in the rule-text, the offense of pressing the five points to split the Sangha." }
+      ]
+    },
+    {
+      "key": "ten-meats",
+      "label": "The kinds of meat that are never allowable",
+      "blurb": "Against the permissive rule the Vinaya sets a fixed list of flesh a monk may never eat at all: human, elephant, horse, dog, snake, lion, tiger, leopard, bear, and hyena. These are barred outright, regardless of the threefold purity. The list is canonical, prompted by named incidents, and the commentary adds that all ten and their like are simply unallowable, kappiya and akappiya meat being the standing categories.",
+      "instances": [
+        { "id": "cst-vin02m2.mul-vin3_6", "citation": "Vin 6", "layer": "mula", "note": "The Bhesajjakkhandhaka's flesh sections: the human-flesh prohibition and the elephant-and-the-rest prohibitions that build the unallowable list." },
+        { "id": "cst-e0905n.nrf-162", "citation": "E0905N-NRF §162", "layer": "anya", "note": "The Suppiyā case restated as question and answer: where and on whose account the human-flesh and the unexamined-meat offenses were laid down." },
+        { "id": "cst-vin06t.nrf-387_p002", "citation": "Sp-ṭ §387.2", "layer": "tika", "note": "The sub-commentary closing the list: all ten kinds of human-flesh-and-the-rest are stated to be of one unallowable nature." },
+        { "id": "cst-vin05t.nrf-7_p003", "citation": "Sp-ṭ §7.3", "layer": "tika", "note": "The Macchamaṃsavinicchaya holding the allowable and unallowable apart: tikoṭiparisuddha meat is permitted, killed-for-you meat is not." }
+      ]
+    },
+    {
+      "key": "killed-for-monk",
+      "label": "Meat killed for the monk: the case the rule turns on",
+      "blurb": "The whole rule pivots on one case, uddissakata, meat from an animal slaughtered specifically to feed the monk. That meat is barred even if offered, because the third corner, suspicion, is no longer clear. The commentary on the Jīvaka Sutta and the sub-commentary on the meat rules work the awkward variants: when some monks know and others do not, when the donor's intent is hidden.",
+      "instances": [
+        { "id": "mn55", "citation": "MN 55", "layer": "mula", "note": "The killed-for-you exclusion stated in the sutta itself: one who slaughters a creature for the Tathāgata or a disciple makes much demerit; that meat is not to be eaten." },
+        { "id": "cst-vin05t.nrf-7_p003", "citation": "Sp-ṭ §7.3", "layer": "tika", "note": "The sub-commentary defines uddissakata as meat prepared by killing for the monks' sake, and bars it on both counts." },
+        { "id": "cst-vin05t.nrf-7_p006", "citation": "Sp-ṭ §7.6", "layer": "tika", "note": "The hard case worked out: in one monastery, those who know the meat was killed for them may not take it, while those who do not know may." },
+        { "id": "cst-s0202a.att-mn2_1_p126", "citation": "Ps-a 1 §126", "layer": "attha", "note": "Papañcasūdanī on the same: the doubly-released suspicion, where the donor's purpose is unknown to the monk, and the meat is still refused if suspected." }
+      ]
+    },
+    {
+      "key": "wrong-livelihood",
+      "label": "Trade in flesh and the butcher's calling",
+      "blurb": "Where the canon does speak against meat, it speaks about the work of producing it, not the eating of it. A lay follower should not take up trade in meat, maṃsavaṇijjā, one of five forbidden trades; the fisherman and the butcher are pictured as cruel callings that lead to a low rebirth. The disapproval lands on killing for profit, which is consistent with the Āmagandha line: the fault is in the conduct, not the food.",
+      "instances": [
+        { "id": "an5.177", "citation": "AN 5.177", "layer": "mula", "note": "The five trades a lay follower should not engage in: weapons, living beings, meat, intoxicants, poisons. Trade in meat is named, eating it is not." },
+        { "id": "an6.18", "citation": "AN 6.18", "layer": "mula", "note": "The fish-dealer: the Buddha says no butcher of fish or cattle grows rich on a grand scale, and the trade tends to a bad rebirth, because of the killing it rests on." },
+        { "id": "mn51", "citation": "MN 51", "layer": "mula", "note": "The Kandaraka Sutta's list of cruel callings, the sheep-butcher, pig-butcher, fowler, trapper, hunter, fisherman, as the type of the self-and-other-tormenting person." },
+        { "id": "an4.198", "citation": "AN 4.198", "layer": "mula", "note": "The Attantapa Sutta carries the same butcher-and-trapper catalogue as the harming livelihood, set against the one who torments neither self nor others." },
+        { "id": "cst-s0402a.att-an4_4_5_p032", "citation": "Mp-a an4.4.5 §32", "layer": "attha", "note": "The commentary parses the callings: orabbhika from urabbha the ram, the slaughterers and fishers named one by one as cruel work." }
+      ]
+    },
+    {
+      "key": "last-meal",
+      "label": "The Buddha's last meal: sūkaramaddava",
+      "blurb": "The last meal sharpens the picture. The Buddha falls fatally ill after eating sūkaramaddava offered by Cunda the smith. The canon names the dish once and moves on; the commentary spends a long note on what it was, recording that the great commentary read it as the tender flesh of a pig while others held it to be a kind of soft rice, a bamboo shoot, or a mushroom. That a tradition with a clear vegetarian rule would have its founder die on pork is itself evidence of how the canon stood on meat.",
+      "instances": [
+        { "id": "dn16", "citation": "DN 16", "layer": "mula", "note": "The Mahāparinibbāna: Cunda prepares sūkaramaddava, the Buddha eats it and falls ill; the dish is named but not explained." },
+        { "id": "ud8.5", "citation": "UD 8.5", "layer": "mula", "note": "The Cunda Sutta of the Udāna gives the parallel last-meal account with the same dish." },
+        { "id": "cst-s0102a.att-dn2_3_p201", "citation": "Sv-a 3 §201", "layer": "attha", "note": "Sumaṅgalavilāsinī glosses sūkaramaddava as the ready flesh of a prime pig, neither too young nor too old, softly cooked; the pork reading from the great commentary." },
+        { "id": "cst-s0503a.att-84_p003", "citation": "KN-a §84.3", "layer": "attha", "note": "The Udāna commentary records the debate in full: tender pork in the old commentary, against the bamboo-shoot and mushroom readings of others." }
+      ]
+    },
+    {
+      "key": "thin-warrant",
+      "label": "How thin the warrant runs, and where it grows",
+      "blurb": "Reading the strands together, the survey supports a single careful claim. In the Pāli the warrant for compulsory vegetarianism is thin: meat is permitted under a guarded rule, abstaining is never a precept, and the one push to make it binding is refused. The texts disapprove of killing and of the meat trade, not of the meal. The strict-vegetarian emphasis that later Buddhism is known for grows mostly outside this layer, which is what a canon-versus-commentary split is good at showing.",
+      "instances": [
+        { "id": "snp2.2", "citation": "SNP 2.2", "layer": "mula", "note": "The Āmagandha verse is the positive ground of the thin-warrant reading: purity is conduct, and no flesh defiles the one whose conduct is clean." },
+        { "id": "pli-tv-kd17", "citation": "Vin. Kd. 17", "layer": "mula", "note": "The refusal of Devadatta's demand is the negative ground: the canon had the chance to make abstaining a rule and declined." },
+        { "id": "mn55", "citation": "MN 55", "layer": "mula", "note": "The threefold-purity rule is the working compromise the whole tradition inherits: eat meat, but never meat you know was killed for you." }
+      ]
+    }
+  ]
+}

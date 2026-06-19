@@ -11,6 +11,19 @@ row, hyperlinked), and **the paper reads like a human scholar wrote it** (no AI 
 process). The intellectual content is the operator's question; what this skill carries is the *method*,
 the *audit discipline*, and the *writing standard*.
 
+**Run it through — decide, don't ask.** This skill is meant to run start to finish unattended; the operator
+may have launched it and walked away. At a decision point, settle it yourself by the standard *which choice
+is the more academically defensible, fair, and balanced* — and if a step is an obvious, defensible part of
+doing the research, just do it. Reserve questions for the operator for genuine scope or values calls that
+this standard cannot settle; never stop for something a competent researcher would simply proceed on.
+
+**Treat the framing as a hypothesis, not a brief.** The operator's question, seed, or outline is a
+*starting* hypothesis to test — never a conclusion to confirm or a script to execute. Pre-register its
+negation with equal weight; if the data contradicts the framing, correct the framing and say so.
+Over-confident or over-scaffolded framing never lowers the bar for falsification — and an obviously-missing
+step (a counter-hypothesis, a control, a checked negative) is a *root* gap to close before continuing, not
+a line for the Limitations section.
+
 ## The two bars already in this repo (reuse them, don't reinvent)
 
 - **Output bar** — the awakening census: `public/research/awakening-events.json` rendered by
@@ -22,6 +35,10 @@ the *audit discipline*, and the *writing standard*.
   [scholarship]/[extension]` confidence tags.
 - **Tool playbook** — `research/intoxicants/HANDOFF.md` (mode/scope heuristics, homograph traps:
   `meraya` not `surā`) and `research/TOOLING-AND-PROCESS.md`.
+- **Method core** — `@PROVENANCE-SIGNATURE.md`: the provenance-signature framework (the eleven axes, the
+  question→axes triage, the recall ladder, the paper segmentation, the worked Uttarakuru example). Imported
+  and invoked as the first design step. Canon-vs-commentary is its first axis, not the whole method; the
+  triage decides which other axes a given question is load-bearing on.
 
 ## Hard rules (the spine)
 
@@ -30,9 +47,16 @@ the *audit discipline*, and the *writing standard*.
    scope, edition) *before* the full census. No post-hoc bucket-fitting.
 2. **Every citation resolves to a real corpus row.** No invented passages, no half-remembered ids.
    Spot-check against `/api/passage/:id`. Fabricated evidence fails the study.
-3. **Canon vs commentary is a standard axis**, always (`layer` ∈ mula/attha/tika/anya; `voice` ∈
-   buddha/commentary). Keep canonical / commentarial / modern-scholar voices rigorously separate via the
-   confidence tags.
+3. **Canon vs commentary is the FIRST axis, not the only one — code the provenance signature.** The `layer`
+   (mula/attha/tika/anya) is a structural ROLE, not a date and not an authority; treating it as the whole
+   provenance question hides the within-canon chronological gradient and the verified-vs-assumed asymmetry.
+   Import `@PROVENANCE-SIGNATURE.md` and run its triage at design time to pick the load-bearing axes
+   (chronological stratum coded *independently* of layer, attribution, epistemic marking, cross-recensional
+   reach, pre-Buddhist provenance, harmonization). The single canon-vs-commentary bit is demoted to one
+   signal of a fuller signature. *(The Uttarakuru study is the cautionary case: 20 of 26 structurally
+   "canonical" rows coded late-canonical or later, and the geography is never placed under the canon's own
+   verification formula — both invisible to the layer axis alone.)* Keep canonical / commentarial /
+   modern-scholar voices rigorously separate via the confidence tags.
 4. **Reconfirm load-bearing negatives by SQL** (via `flyctl proxy 15432:5432 --app dhamma-pg`). A claim
    like "X never appears in the canon" must be a `GROUP BY work_role` count, not a search impression —
    the search lane is flaky and over/under-matches (it has been wrong before; see the `kammaṭṭhāna` case).
@@ -49,18 +73,30 @@ the *audit discipline*, and the *writing standard*.
 
 ## Method (run in this order)
 
+0. **Triage the provenance axes first.** Before the design contract, run the `@PROVENANCE-SIGNATURE.md`
+   triage (§4): the scope/shape gate, the always-on default-core axes, the question-type priors (PASS A),
+   the trip-wires, the per-claim-cluster budget. Record the chosen axis set, the PASS-A codebook, and the
+   named commitment to re-triage (PASS B) after enumeration. Honour the budget: ~5 cheap floor axes always;
+   expensive axes only by trip-wire, ≤3 per cluster.
 1. **Design contract.** Write `research/<topic>/RESEARCH-DESIGN.md`: master question; sub-questions on
-   their *distinct* axes (don't merge typologies/dimensions); H0/H1; the codebook; scope + edition
-   disclosure; the dataset schema; the stopping rule. Freeze it (record the corpus snapshot count + date).
+   their *distinct* axes (don't merge typologies/dimensions); H0/H1; the codebook (including the triaged
+   provenance axes); scope + edition disclosure; the dataset schema; the stopping rule. Freeze it (record
+   the corpus snapshot count + date).
 2. **Structural enumeration first.** Start from the corpus's own closed lists and known loci, not free
    search — that bounds the universe.
 3. **Exhaustive multi-modal search, fully logged.** Every term × every relevant mode/scope/pitaka/layer.
-   **Log every query**: `term · mode · scope · pitaka · layer · endpoint · result-count`. This log is a
-   required deliverable (reproducibility *and* a demonstration of the tool's research utility).
-4. **Saturation stopping rule.** Loop-until-dry: keep adding strategies until **≥2 consecutive rounds
+   **Search the morphological STEM, not the surface string** — Pāli declension lengthens the final vowel
+   (`uttarakuru` → `uttarakurūnaṁ / -su`), so a short-vowel substring silently drops the long-vowel forms;
+   and run a **concept-independent / periphrasis pass** for any "no canonical warrant" claim, because a
+   concept can be canonical without the name. **Log every query** (`term · mode · scope · pitaka · layer ·
+   endpoint · result-count`) and report the **search-depth ladder** (exact-FTS < short-substring < stem) as
+   a first-class finding: recall is a measured variable, not an assumption.
+4. **Re-triage, then saturation stopping rule.** Run PASS B: re-evaluate the trip-wires on the *discovered*
+   claims and add any fired axis with a logged warrant (an obviously-missing axis is a root gap to close
+   here, not a Limitations line). Then loop-until-dry: keep adding strategies until **≥2 consecutive rounds
    find nothing new**; reconcile against external lists (secondary scholarship's cited passages, adjacent
-   datasets); k≥3 blind coders sweep and union. Target "zero missed"; **claim only "saturated +
-   measured"** — never assert unprovable completeness; report the residual recall risk.
+   datasets); k≥3 blind coders sweep and union. Target "zero missed"; **claim only "saturated + measured"** —
+   never assert unprovable completeness; report the residual recall risk.
 5. **Code blind, measure agreement.** k≥3 independent coders classify the per-instance fields; report IAA
    per field; adjudicate + log disagreements.
 6. **Adversarially verify.** For load-bearing claims, an independent skeptic agent re-fetches the passage
@@ -70,9 +106,13 @@ the *audit discipline*, and the *writing standard*.
 
 `public/research/<topic>.json`, modeled on `awakening-events.json`: one record per unit of analysis with
 `id, citation, sc_id, pts_ref, layer, voice, evidence_pali, evidence_en, tr_provenance` + the topic's
-coded fields + (for commentarial cells) a `warrant` (the canonical id, or null). Pre-compute the
-cross-tab aggregates the paper's tables need. Version it (`<topic>-census vX.Y`), pin the corpus snapshot
-date, and publish the codebook + query log beside it (data-availability statement).
+coded fields + (for commentarial cells) a `warrant` (the canonical id, or null) + (where the triaged
+question needs it) the per-claim **provenance signature** (the coded axes from `@PROVENANCE-SIGNATURE.md`).
+Pre-compute the cross-tab aggregates the paper's tables need, including the **stratigraphy table** (rows by
+ascending chronological stratum, layer/stratum disagreements flagged) and, where epistemic marking is
+coded, the **epistemic-status column** and the **absence table** (silent claim · expected frame · SQL-zero ·
+licensed inference · confidence). Version it (`<topic>-census vX.Y`), pin the corpus snapshot date, and
+publish the codebook + query log beside it (data-availability statement).
 Render it as a `<Topic>Study` component in `src/ResearchView.jsx` (sibling to `AwakeningStudy`) — clickable
 citations (`#/read/<id>`), canon/commentary + cross-tab tables, expandable evidence — admin-gated via the
 existing Research tab + `/api/research`.
@@ -83,6 +123,12 @@ Abstract · Question + hypotheses · **Literature review** (engage the field; co
 results, don't rediscover them) · **Methodology** (corpus + edition, the full query log, codebook, IAA) ·
 one chapter per sub-question · Discussion · **Limitations** · Contribution · References · **Appendix =
 the dataset + data-availability statement**.
+
+**Segment by load-bearing axis** (`@PROVENANCE-SIGNATURE.md` §6): carry a compact **provenance signature at
+the point of use** for each load-bearing claim, a first-class **stratigraphy table** (organized by ascending
+stratum), and — where the axis was coded — an **epistemic-stratification** section and an **absence table**,
+so each claim's provenance is visible where it is used rather than asserted flat. The richer the question,
+the more segmented the paper.
 
 Citation apparatus: SuttaCentral id (primary) + PTS vol.page + CST row-id; flag variant readings; declare
 diacritics; **translation provenance** — where the corpus has no English (commentary, Abhidhamma) the

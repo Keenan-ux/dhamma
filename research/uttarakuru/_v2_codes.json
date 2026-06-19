@@ -1,0 +1,159 @@
+{
+ "consensus": {
+  "A1": {
+   "chronological_stratum": "early-canonical",
+   "attribution": "buddha-vacana",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "pre-sectarian",
+   "harmonization": "none",
+   "h0h1_under_chronology": "canonical-seed-early"
+  },
+  "A2": {
+   "chronological_stratum": "early-canonical",
+   "attribution": "deva-mara",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "multi-recensional",
+   "harmonization": "none",
+   "h0h1_under_chronology": "canonical-seed-late"
+  },
+  "A3": {
+   "chronological_stratum": "early-canonical",
+   "attribution": "buddha-vacana",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "pali-local-unconfirmed",
+   "harmonization": "none",
+   "h0h1_under_chronology": "canonical-seed-early"
+  },
+  "A4": {
+   "chronological_stratum": "classical-commentary",
+   "attribution": "redactor-frame",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "untested",
+   "harmonization": "none",
+   "h0h1_under_chronology": "no-canonical-warrant"
+  },
+  "A5": {
+   "chronological_stratum": "sub-commentary",
+   "attribution": "redactor-frame",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "untested",
+   "harmonization": "none",
+   "h0h1_under_chronology": "no-canonical-warrant"
+  },
+  "A6": {
+   "chronological_stratum": "early-canonical",
+   "attribution": "buddha-vacana",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "pali-local-unconfirmed",
+   "harmonization": "none",
+   "h0h1_under_chronology": "split"
+  },
+  "A7": {
+   "chronological_stratum": "classical-commentary",
+   "attribution": "redactor-frame",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "untested",
+   "harmonization": "none",
+   "h0h1_under_chronology": "split"
+  },
+  "A8": {
+   "chronological_stratum": "classical-commentary",
+   "attribution": "redactor-frame",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "untested",
+   "harmonization": "none",
+   "h0h1_under_chronology": "no-canonical-warrant"
+  },
+  "A9": {
+   "chronological_stratum": "late-canonical",
+   "attribution": "redactor-frame",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "pali-local-unconfirmed",
+   "harmonization": "none",
+   "h0h1_under_chronology": "canonical-seed-late"
+  },
+  "A10": {
+   "chronological_stratum": "classical-commentary",
+   "attribution": "redactor-frame",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "pre-sectarian",
+   "harmonization": "none",
+   "h0h1_under_chronology": "split"
+  },
+  "B1": {
+   "chronological_stratum": "early-canonical",
+   "attribution": "buddha-vacana",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "pali-local-unconfirmed",
+   "harmonization": "none",
+   "h0h1_under_chronology": "canonical-seed-early"
+  },
+  "B2": {
+   "chronological_stratum": "early-canonical",
+   "attribution": "buddha-vacana",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "pali-local-unconfirmed",
+   "harmonization": "none",
+   "h0h1_under_chronology": "split"
+  },
+  "B3": {
+   "chronological_stratum": "abhidhamma-canonical",
+   "attribution": "buddha-vacana",
+   "epistemic_marking": "debated",
+   "cross_recensional": "pali-local-unconfirmed",
+   "harmonization": "reconciles-a-tension",
+   "h0h1_under_chronology": "split"
+  },
+  "B4": {
+   "chronological_stratum": "early-canonical",
+   "attribution": "buddha-vacana",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "pali-local-unconfirmed",
+   "harmonization": "scholastic-distinction",
+   "h0h1_under_chronology": "split"
+  },
+  "B5": {
+   "chronological_stratum": "classical-commentary",
+   "attribution": "redactor-frame",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "untested",
+   "harmonization": "scholastic-distinction",
+   "h0h1_under_chronology": "no-canonical-warrant"
+  },
+  "C1": {
+   "chronological_stratum": "classical-commentary",
+   "attribution": "redactor-frame",
+   "epistemic_marking": "flat-background",
+   "cross_recensional": "untested",
+   "harmonization": "reconciles-a-tension",
+   "h0h1_under_chronology": "no-canonical-warrant"
+  }
+ },
+ "iaa": {
+  "chronological_stratum": {
+   "unanimous": 14,
+   "of": 16
+  },
+  "attribution": {
+   "unanimous": 13,
+   "of": 16
+  },
+  "epistemic_marking": {
+   "unanimous": 15,
+   "of": 16
+  },
+  "cross_recensional": {
+   "unanimous": 12,
+   "of": 16
+  },
+  "harmonization": {
+   "unanimous": 12,
+   "of": 16
+  },
+  "h0h1_under_chronology": {
+   "unanimous": 13,
+   "of": 16
+  }
+ },
+ "coders": 3
+}

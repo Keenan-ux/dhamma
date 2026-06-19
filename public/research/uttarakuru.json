@@ -1,0 +1,3329 @@
+{
+ "meta": {
+  "title": "The People of Uttarakuru",
+  "subtitle": "A canon-versus-commentary study of the northern continent's inhabitants: the cosmos's most fortunate humans, and by the canon's own reckoning the worst placed for awakening.",
+  "version": "1.3",
+  "corpus_snapshot": "194,710 passages (2026-06-19)",
+  "generated": null,
+  "unit": "passage-row (mula + per-paragraph commentary)",
+  "corrected_headline": "A tiny early-canonical seed (a named, propertyless, long-lived people, no measure, no figure) materializes into a described place inside a late-canonical paritta, then a visited place in the Apadana and Vinaya frame-narratives, then a measured place at the commentarial boundary. The ethnographic template is pan-Buddhist bedrock; the soteriological verdict is Pali-local-pending-verification. At no rung does the canon submit the geography to its own test of verified knowledge: materialization and verification are different axes, and only the first one moves. The full v2 paper is research/uttarakuru/FINDINGS-v2.md.",
+  "version_note": "v1.3: recoded under the provenance-signature framework (PROVENANCE-SIGNATURE.md). Each feature now carries a per-claim signature (chronological stratum coded independently of structural layer, attribution, epistemic marking, cross-recensional reach, harmonization). The headline finding: of 26 structurally-mula rows only 6 are early-canonical; the literal-place reading is more concrete in the later/narrative registers (a gradient flagged as partly definitional, see FINDINGS-v2.md). v1.2: corrected the short-u substring (144) to the honest stem '%uttarakur%' (161), recovering the canonical four-continent cosmology (AN 3.80 / AN 10.29).",
+  "framing_note": "Two distinct findings are kept apart. The quantitative finding is one of text mass: of the rows that speak of Uttarakuru, the great majority are commentarial. The conceptual finding is one of origin: the core frame (a four-continent place, a propertyless long-lived people who surpass the gods in non-grasping yet lack the holy life) is canonical, and the commentary amplifies it and adds the decisive soteriological verdict. Text mass is not concept-origin; the paper states each separately.",
+  "provenance_note": "Every citation resolves to a live corpus row. Where the corpus carries English (the SuttaCentral mula rows) the rendering is Sujato's; the Aṭṭhakathā, Ṭīkā, and Pali-only Visuddhimagga rows carry no English in the corpus, so those renderings are the author's own gloss, marked tr_provenance='author' and checked against the standard published translations. Verbatim Pali carries full diacritics and matches the cited row.",
+  "edition": "Chaṭṭha Saṅgāyana (CST/VRI) as ingested into dhamma-pg; SuttaCentral ids as cross-walk."
+ },
+ "disambiguation": {
+  "target_substring": 161,
+  "exact_fts": 15,
+  "short_u_substring": 144,
+  "by_layer": {
+   "mula": 26,
+   "attha": 69,
+   "tika": 51,
+   "anya": 15
+  },
+  "confounds": {
+   "kuru_not_uttarakuru": 976,
+   "kurudhamma_kuruvatta": 26,
+   "four_continent_frame": 29,
+   "caturanta_epithet": 125
+  },
+  "excluded_breakdown": {
+   "label": "the 976 bare-kuru (non-continent) rows, by layer",
+   "mula": 124,
+   "attha": 449,
+   "tika": 283,
+   "anya": 120,
+   "note": "These are the Kuru janapada, a different referent (the 'uttarakur' stem is absent), so excluding them does not bias the Uttarakuru count; the breakdown is reported for transparency."
+  },
+  "note": "Three search depths, reported as a finding in their own right. Exact-FTS on the token 'uttarakuru' finds 15 rows. Substring with a short final u, '%uttarakuru%', finds 144 but silently drops the long-u declined forms (uttarakurūnaṃ, uttarakurūsu) that carry the canonical four-continent cosmology. The honest stem '%uttarakur%' finds the full set. 'Kuru' alone then blurs three referents: the continent (target), the Kuru janapada, and the kuru-vatta observance; the 976 bare-kuru rows and 26 kuru-dhamma rows are the blur, excluded; the homonym is itself a finding (feature C1)."
+ },
+ "reliability": {
+  "coders": 3,
+  "features": 16,
+  "unanimous_h0h1": 15,
+  "h0h1_agreement_pct": 93.8,
+  "fleiss_kappa": 0.941,
+  "warrant_agreement": "16/16",
+  "disagreements": [
+   {
+    "feature": "A10",
+    "votes": {
+     "commentarial-detail": 2,
+     "split": 1
+    },
+    "adjudicated": "commentarial-detail",
+    "note": "Majority: the four-continent conquest frame is canonical (DN 17/26), the jewel-woman's Uttarakuru origin a detail within it."
+   }
+  ],
+  "note": "Three independent blind coders classified each feature's canonical warrant and H0/H1 class from the verbatim evidence. Agreement was unanimous on 15 of 16 features (Fleiss kappa 0.94, almost perfect) and on every warrant (canonical-id vs null). The census voice axis is deterministic from the source work; motif is an approximate window-based facet.",
+  "signature_coders": 3,
+  "signature_iaa": {
+   "chronological_stratum": "14/16",
+   "attribution": "13/16",
+   "epistemic_marking": "15/16",
+   "cross_recensional": "12/16",
+   "harmonization": "12/16",
+   "h0h1_under_chronology": "13/16"
+  },
+  "signature_note": "The v2 per-claim signature (chronological stratum, attribution, epistemic marking, cross-recensional reach, harmonization) was coded by three independent blind coders; agreement per axis is reported above (12-15 of 16). The expensive axes (attribution, harmonization) carry the most coder disagreement, as expected, since they require judging speaker and reconciliation-intent beyond a marker search."
+ },
+ "saturation": {
+  "note": "Recall was driven to saturation in four passes, one of which corrected an earlier error. (1) The name pass was fixed mid-study: the first substring '%uttarakuru%' (short final u) found 144 rows but missed the long-u declined forms (uttarakurūnaṃ, uttarakurūsu), so the honest stem '%uttarakur%' was adopted (161 rows); the recovered rows include the canonical four-continent cosmology, AN 3.80 / AN 10.29. (2) The four-continent frame pass folded oblique rows in selectively (e.g. DN 17/26). (3) Concept-independent passes searched the no-warrant features WITHOUT the name: the wish-tree (kapparukkha) is canonical only as an Apadāna merit-fruit, never placed at Uttarakuru; the self-ripening rice is a canonical idyll (DN 27, DN 32, the Vessantara Jātaka); and no canonical passage gives the northern continent a no-disease, perpetual-climate, or from-here-to-heaven property. (4) The canonical akkhaṇa list (AN 8.29 / DN 33) was read directly and does not name Uttarakuru. After the correction no soteriological negative flipped, and the canonical frame (A1, A2, A6) gained witnesses. The no-warrant verdicts now rest on concept searches, not only on name proximity; saturation is measured, not proven."
+ },
+ "context": {
+  "agganna_parallel": {
+   "claim": "The self-ripening rice is not unique to Uttarakuru. DN 27 (Aggañña-sutta) gives the same formula for the cosmic golden age, and the Vessantara Jātaka gives it for the forest hermitage (sāli akaṭṭhapāko). The Uttarakuru ethnography recapitulates a wandering canonical idyll, and the commentary echoes its very wording (akaṇaṃ athusaṃ sugandhaṃ).",
+   "cites": [
+    {
+     "id": "dn27",
+     "label": "DN 27 (Aggañña)"
+    },
+    {
+     "id": "dn32",
+     "label": "DN 32"
+    },
+    {
+     "id": "ja547",
+     "label": "JA 547 (Vessantara)"
+    }
+   ]
+  },
+  "akkhana_control": {
+   "claim": "The soteriological bar is not in the canonical inopportune-birth list. AN 8.29 and DN 33 enumerate the eight akkhaṇā asamayā brahmacariyavāsāya (hell, animal, ghost, long-lived deva, border-region, wrong-view, dullness, no-Buddha-arisen); none names Uttarakuru. The long-lived-deva moment is the nearest, and the commentary extends that reasoning to assimilate the Uttarakurukas. The Uttarakuru disqualification is therefore commentarial, not a canonical akkhaṇa.",
+   "cites": [
+    {
+     "id": "an8.29",
+     "label": "AN 8.29"
+    },
+    {
+     "id": "dn33",
+     "label": "DN 33"
+    }
+   ]
+  }
+ },
+ "segments": [
+  {
+   "key": "A",
+   "title": "What an Uttarakuruka is (ethnography & cosmology)",
+   "blurb": "The northern continent and its people, at the finest grain the corpus supports: the four-continent map, the self-ripening rice, ownerless and houseless life, the wish-tree, the fixed long span, and the continent as the psychic traveller's alms-larder."
+  },
+  {
+   "key": "B",
+   "title": "The soteriological paradox (the hinge)",
+   "blurb": "Why the most fortunate humans are the worst placed for awakening. AN 9.21 makes their three superiorities material comforts and reserves the holy life for Jambudipa; the commentary then names the bar and reads their effortless virtue as the reason it cannot be cultivated."
+  },
+  {
+   "key": "C",
+   "title": "Canon into commentary (the warrant test)",
+   "blurb": "Feature by feature, what the canon seeds and what the commentary builds, plus the homonym the tradition fuses by its own genealogy (the Kuru country and its five-precept observance traced to migrants out of Uttarakuru)."
+  }
+ ],
+ "features": [
+  {
+   "id": "A1",
+   "segment": "A",
+   "name": "The northern continent in the four-mahādīpa schema",
+   "gloss": "Uttarakuru is the northern of the four great continents around Mt Sineru. The canon fixes its place (north, by Mt Neru); the para-canonical Visuddhimagga fixes its measure (8,000 yojanas), and the commentary its square shape, with the inhabitants' faces matching the continent.",
+   "cells": {
+    "canon": {
+     "present": "attested",
+     "text": "DN 32 places it in the north, by Mt Neru; the AN thousandfold-world cosmology lists it as one of the four continents ('a thousand Uttarakurus, a thousand Jambudīpas').",
+     "cites": [
+      {
+       "id": "dn32",
+       "label": "DN 32"
+      },
+      {
+       "id": "an3.80",
+       "label": "AN 3.80"
+      },
+      {
+       "id": "an10.29",
+       "label": "AN 10.29"
+      }
+     ]
+    },
+    "para": {
+     "present": "attested",
+     "text": "Vism gives the measure: 8,000 yojanas (Goyāna/Pubbavideha 7,000; Jambudīpa 10,000). The figure is para-canonical, not canonical.",
+     "cites": [
+      {
+       "id": "cst-e0101n.mul-73_p057",
+       "label": "Vism §73.57"
+      }
+     ]
+    },
+    "attha": {
+     "present": "attested",
+     "text": "The four-continent sizes are restated across the Aṭṭhakathā.",
+     "cites": [
+      {
+       "id": "cst-s0516a.att-12_p036",
+       "label": "KN-a §12.36"
+      },
+      {
+       "id": "cst-vin01a.att-6_p057",
+       "label": "Sp §6.57"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "The continent is square (pīṭha-shaped); the four peoples' faces follow their continent's shape.",
+     "cites": [
+      {
+       "id": "cst-vin01t1.tik-9_p230",
+       "label": "Sp-ṭ §9.230"
+      },
+      {
+       "id": "cst-e0103n.att-75_p096",
+       "label": "Vism-mhṭ §75.96"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Yena uttarakuruvho (var. uttarakurū rammā, sī.syā.pī.), mahāneru sudassano; Manussā tattha jāyanti, amamā apariggahā.",
+     "en": "Where Uttarakuru is, and Mount Neru fair to see; humans are born there, without mine-making, without possessions.",
+     "tr_provenance": "author",
+     "id": "dn32",
+     "label": "DN 32"
+    },
+    {
+     "pali": "Uttarakuru aṭṭhasahassayojanaṃ. Ekameko cettha mahādīpo pañcasatapañcasataparittadīpaparivāro.",
+     "en": "Uttarakuru is 8,000 yojanas; each great continent is ringed by five hundred small islands.",
+     "tr_provenance": "author",
+     "id": "cst-e0101n.mul-73_p057",
+     "label": "Vism §73.57"
+    }
+   ],
+   "h0h1": "canonical-seed",
+   "warrant": "dn32",
+   "warrant_label": "DN 32",
+   "signature": {
+    "chronological_stratum": "early-canonical",
+    "attribution": "buddha-vacana",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "pre-sectarian",
+    "harmonization": "none",
+    "h0h1_under_chronology": "canonical-seed-early"
+   }
+  },
+  {
+   "id": "A2",
+   "segment": "A",
+   "name": "Self-ripening unploughed rice (akaṭṭhapāka-sāli)",
+   "gloss": "They neither sow nor plough; they eat rice that ripens of itself. Canonical twice over: in the DN 32 Uttarakuru verse, and, in the same formula, as the Aggañña-sutta's golden-age rice. The Uttarakuru ethnography recapitulates a canonical template; the commentary echoes the very wording (akaṇaṃ athusaṃ sugandhaṃ).",
+   "cells": {
+    "canon": {
+     "present": "attested",
+     "text": "DN 32: no seed sown, no plough led out; they eat self-ripened rice. The identical formula (huskless, chaffless, fragrant) is the Aggañña-sutta's golden-age rice (DN 27).",
+     "cites": [
+      {
+       "id": "dn32",
+       "label": "DN 32"
+      },
+      {
+       "id": "dn27",
+       "label": "DN 27 (Aggañña)"
+      }
+     ]
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "tika": {
+     "present": "attested",
+     "text": "Glossed with the Aggañña formula: husk-less, chaff-less, fragrant.",
+     "cites": [
+      {
+       "id": "cst-s0103t.tik-dn3_9_p023",
+       "label": "Sv-pṭ 9 §23"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Na te bījaṃ pavapanti, napi nīyanti naṅgalā; Akaṭṭhapākimaṃ sāliṃ, paribhuñjanti mānusā.",
+     "en": "They sow no seed, nor is any plough led out; the humans eat rice that ripens unploughed.",
+     "tr_provenance": "author",
+     "id": "dn32",
+     "label": "DN 32"
+    },
+    {
+     "pali": "Akaṭṭhapāko sāli pāturahosi akaṇo athuso suddho sugandho taṇḍulapphalo.",
+     "en": "Rice ripening unploughed appeared, huskless, chaffless, pure, fragrant, with grain for fruit. (the same words, of the cosmic golden age)",
+     "tr_provenance": "author",
+     "id": "dn27",
+     "label": "DN 27 (Aggañña)"
+    }
+   ],
+   "h0h1": "canonical-seed",
+   "warrant": "dn32",
+   "warrant_label": "DN 32",
+   "signature": {
+    "chronological_stratum": "early-canonical",
+    "attribution": "deva-mara",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "multi-recensional",
+    "harmonization": "none",
+    "h0h1_under_chronology": "canonical-seed-late"
+   }
+  },
+  {
+   "id": "A3",
+   "segment": "A",
+   "name": "No ownership: amama, apariggaha; no houses, no slaves",
+   "gloss": "They make nothing 'mine' and hold no possessions. Canonical in AN 9.21 and DN 32. ('Without mine-making' is the analyst's morphological reading of amama, a- + mama; the commentary itself reads it affectively, as nittaṇha, free of craving.) The commentary spells out no claim even on clothes or food, no wife held as property, no houses, and no slaves.",
+   "cells": {
+    "canon": {
+     "present": "attested",
+     "text": "AN 9.21 and DN 32: amamā (no mine-making), apariggahā (no possessions).",
+     "cites": [
+      {
+       "id": "an9.21",
+       "label": "AN 9.21"
+      },
+      {
+       "id": "dn32",
+       "label": "DN 32"
+      }
+     ]
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "Free of 'mine' even as to clothes/food; the Mp-a reads amama affectively as nittaṇha (free of craving). Houseless ground-sleepers.",
+     "cites": [
+      {
+       "id": "cst-s0103a.att-dn3_9_p019",
+       "label": "Sv-a 9 §19"
+      },
+      {
+       "id": "cst-s0404a.att-an9_p063",
+       "label": "Mp-a vol.9 §63"
+      },
+      {
+       "id": "cst-s0508a2.att-95_p217",
+       "label": "KN-a §95.217"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "No ownership of slaves, servants, or labourers, since the food needs no toil.",
+     "cites": [
+      {
+       "id": "cst-s0103t.tik-dn3_9_p023",
+       "label": "Sv-pṭ 9 §23"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Amamāti vatthābharaṇapānabhojanādīsupi mamattavirahitā. Apariggahāti itthipariggahena apariggahā.",
+     "en": "'Without mine-making': free of the sense of 'mine' even as to clothes, ornaments, drink and food. 'Without possessions': not possessing in the sense of holding a wife.",
+     "tr_provenance": "author",
+     "id": "cst-s0103a.att-dn3_9_p019",
+     "label": "Sv-a 9 §19"
+    },
+    {
+     "pali": "Amamāti nittaṇhā. Aṭṭhakathāyaṃ pana niddukkhāti vuttaṃ.",
+     "en": "'Without mine-making' [means] free of craving; but in the [other] commentary it is said to mean free of suffering.",
+     "tr_provenance": "author",
+     "id": "cst-s0404a.att-an9_p063",
+     "label": "Mp-a vol.9 §63"
+    }
+   ],
+   "h0h1": "canonical-seed",
+   "warrant": "an9.21",
+   "warrant_label": "AN 9.21",
+   "signature": {
+    "chronological_stratum": "early-canonical",
+    "attribution": "buddha-vacana",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "pali-local-unconfirmed",
+    "harmonization": "none",
+    "h0h1_under_chronology": "canonical-seed-early"
+   }
+  },
+  {
+   "id": "A4",
+   "segment": "A",
+   "name": "The wish-tree (kapparukkha) and tree-dwellings",
+   "gloss": "Their clothes, ornaments, even musical instruments hang ready on wish-trees, and peaked-roof trees serve as houses. The wish-tree concept is canonical (an Apadāna merit-fruit), but its placement at Uttarakuru is commentarial, part of a stock list pairing each realm with a signature tree (kapparukkha for Uttarakuru, kadamba for Goyāna, sirīsa for Pubbavideha, pāricchattaka for Tāvatiṃsa).",
+   "cells": {
+    "canon": {
+     "present": "absent",
+     "text": "The kapparukkha occurs canonically only as an Apadāna merit-fruit (wish-trees arising for a past gift of cloth), never placed at Uttarakuru; the Aggañña golden-age (DN 27) knows the self-ripening rice but no wish-tree.",
+     "cites": []
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "Uttarakuru's signature tree is the kapparukkha (vs sirīsa, kadamba, pāricchattaka elsewhere); in the Jotika story clothes and ornaments are taken from it.",
+     "cites": [
+      {
+       "id": "cst-abh01a.att-88_p021",
+       "label": "As §88.21"
+      },
+      {
+       "id": "cst-s0502a.att-326_p014",
+       "label": "KN-a §326.14"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "Peaked-roof trees serve as dwellings; clothes, gold ornaments and instruments hang from the wish-trees.",
+     "cites": [
+      {
+       "id": "cst-s0103t.tik-dn3_9_p023",
+       "label": "Sv-pṭ 9 §23"
+      },
+      {
+       "id": "cst-s0103t.tik-dn3_9_p025",
+       "label": "Sv-pṭ 9 §25"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Uttarakurumhi kapparukkhassa.",
+     "en": "In Uttarakuru, [the measure] of the wish-tree.",
+     "tr_provenance": "author",
+     "id": "cst-abh01a.att-88_p021",
+     "label": "As §88.21"
+    },
+    {
+     "pali": "Kapparukkhato eva ca tesaṃ tattha tattha vatthābharaṇāni nippajjanti.",
+     "en": "And their clothes and ornaments are produced, here and there, straight from the wish-trees.",
+     "tr_provenance": "author",
+     "id": "cst-s0103t.tik-dn3_9_p025",
+     "label": "Sv-pṭ 9 §25"
+    }
+   ],
+   "h0h1": "commentarial-innovation",
+   "warrant": null,
+   "warrant_label": null,
+   "signature": {
+    "chronological_stratum": "classical-commentary",
+    "attribution": "redactor-frame",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "untested",
+    "harmonization": "none",
+    "h0h1_under_chronology": "no-canonical-warrant"
+   }
+  },
+  {
+   "id": "A5",
+   "segment": "A",
+   "name": "Perpetual mild climate; no thorns, disease, or deformity",
+   "gloss": "The season is forever temperate, there are no thorns, no danger, no disease and no deformity. A commentarial elaboration with no located canonical warrant.",
+   "cells": {
+    "canon": {
+     "present": "absent",
+     "text": "No located canonical warrant.",
+     "cites": []
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "tika": {
+     "present": "attested",
+     "text": "The season is always temperate as the last dawn of summer; no thorns; eating the pure rice, no disease and no bodily defect arises.",
+     "cites": [
+      {
+       "id": "cst-s0103t.tik-dn3_9_p023",
+       "label": "Sv-pṭ 9 §23"
+      },
+      {
+       "id": "cst-s0103t.tik-dn3_9_p025",
+       "label": "Sv-pṭ 9 §25"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Sabbakālaṃ samasītuṇhova utu hoti, na ca tesaṃ koci upaghāto vihesā vā uppajjati.",
+     "en": "The season is always evenly cool-and-warm, and no harm or trouble whatever arises for them.",
+     "tr_provenance": "author",
+     "id": "cst-s0103t.tik-dn3_9_p023",
+     "label": "Sv-pṭ 9 §23"
+    }
+   ],
+   "h0h1": "commentarial-innovation",
+   "warrant": null,
+   "warrant_label": null,
+   "signature": {
+    "chronological_stratum": "sub-commentary",
+    "attribution": "redactor-frame",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "untested",
+    "harmonization": "none",
+    "h0h1_under_chronology": "no-canonical-warrant"
+   }
+  },
+  {
+   "id": "A6",
+   "segment": "A",
+   "name": "Fixed lifespan: the thousand-year figure and no premature death",
+   "gloss": "The canon warrants that the lifespan is fixed (niyatāyuka, AN 9.21) but gives no number. The commentary alone warrants how long: exactly a thousand years, and absolutely fixed, with no death-by-interruption.",
+   "cells": {
+    "canon": {
+     "present": "attested",
+     "text": "AN 9.21: niyatāyukā, a fixed lifespan, with no figure. A canonical Apadāna verse calls the people 'long-lived' (dīghāyuka), but under the ambiguous 'kurūsu' that the commentary reads as Uttarakuru.",
+     "cites": [
+      {
+       "id": "an9.21",
+       "label": "AN 9.21"
+      }
+     ]
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "The fixed span is exactly a thousand years; the commentary glosses the canonical 'long-lived' (dīghāyuka) as 'their thousand-year lifespan' and reads the verse's 'kurūsu' as Uttarakuru.",
+     "cites": [
+      {
+       "id": "cst-s0404a.att-an9_p063",
+       "label": "Mp-a vol.9 §63"
+      },
+      {
+       "id": "cst-s0519a.att-36_p049",
+       "label": "KN-a §36.49"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "Their span is absolutely fixed; no death-by-interruption (upacchedaka-maraṇa) befalls them.",
+     "cites": [
+      {
+       "id": "cst-s0101t.tik-dn1_1_p323",
+       "label": "Sv-pṭ 1 §323"
+      },
+      {
+       "id": "cst-abh07t.nrf-133_p002",
+       "label": "Abh-pṭ §133.2"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Niyatāyukāti tesañhi nibaddhaṃ āyu vassasahassameva, gatipi nibaddhā, tato cavitvā saggeyeva nibbattanti.",
+     "en": "'Of fixed lifespan': for their span is settled at just a thousand years; their destiny too is settled; passing from there, they are reborn only in heaven.",
+     "tr_provenance": "author",
+     "id": "cst-s0404a.att-an9_p063",
+     "label": "Mp-a vol.9 §63"
+    }
+   ],
+   "h0h1": "commentarial-detail",
+   "warrant": "an9.21",
+   "warrant_label": "AN 9.21",
+   "signature": {
+    "chronological_stratum": "early-canonical",
+    "attribution": "buddha-vacana",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "pali-local-unconfirmed",
+    "harmonization": "none",
+    "h0h1_under_chronology": "split"
+   }
+  },
+  {
+   "id": "A7",
+   "segment": "A",
+   "name": "No fixed marriage; communal children; weekly desire; unaging youth",
+   "gloss": "From the canonical 'no possessions' the commentary draws a whole social order: no marriage and no 'my wife'; mothers leave newborns in public, strangers' fingers feeding them; desire stirs only once in seven days, so they otherwise move about 'like the passion-free'; all stay sixteen or twenty-five forever.",
+   "cells": {
+    "canon": {
+     "present": "oblique",
+     "text": "Only the bare apariggaha (no possessions) of AN 9.21 / DN 32.",
+     "cites": [
+      {
+       "id": "an9.21",
+       "label": "AN 9.21"
+      }
+     ]
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "No 'this is my wife'; seeing a mother or sister, no desire arises.",
+     "cites": [
+      {
+       "id": "cst-s0103a.att-dn3_9_p019",
+       "label": "Sv-a 9 §19"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "Mothers abandon newborns in public, fed by passers-by's fingers; desire only weekly; women look 16, men 25, forever.",
+     "cites": [
+      {
+       "id": "cst-s0103t.tik-dn3_9_p023",
+       "label": "Sv-pṭ 9 §23"
+      },
+      {
+       "id": "cst-s0103t.tik-dn3_9_p025",
+       "label": "Sv-pṭ 9 §25"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Mātā pana puttaṃ vā dhītaraṃ vā vijāyitvā tesaṃ vicaraṇappadese ṭhapetvā anapekkhā yathāruci gacchati.",
+     "en": "Having borne a son or daughter, the mother sets the child down in a public place and goes off as she pleases, without concern.",
+     "tr_provenance": "author",
+     "id": "cst-s0103t.tik-dn3_9_p025",
+     "label": "Sv-pṭ 9 §25"
+    },
+    {
+     "pali": "Sattāhikā eva ca nesaṃ kāmaratikīḷā hoti, tato vītarāgā viya vicaranti.",
+     "en": "Their sensual play is only once in seven days; otherwise they move about like the passion-free.",
+     "tr_provenance": "author",
+     "id": "cst-s0103t.tik-dn3_9_p025",
+     "label": "Sv-pṭ 9 §25"
+    }
+   ],
+   "h0h1": "split",
+   "warrant": "an9.21",
+   "warrant_label": "AN 9.21",
+   "signature": {
+    "chronological_stratum": "classical-commentary",
+    "attribution": "redactor-frame",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "untested",
+    "harmonization": "none",
+    "h0h1_under_chronology": "split"
+   }
+  },
+  {
+   "id": "A8",
+   "segment": "A",
+   "name": "Beauty and extraordinarily fine hair",
+   "gloss": "The bodies are flawless and the hair so fine that one Uttarakuru hair equals a Jambudīpa hair split eightfold. A commentarial detail with no located canonical warrant.",
+   "cells": {
+    "canon": {
+     "present": "absent",
+     "text": "No located canonical warrant.",
+     "cites": []
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "The hair of the Uttarakurukas is used as a unit of fineness.",
+     "cites": [
+      {
+       "id": "cst-abh02a.att-8_p003",
+       "label": "Vibh-a §8.3"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "A long description of flawless, unaging beauty.",
+     "cites": [
+      {
+       "id": "cst-s0103t.tik-dn3_9_p023",
+       "label": "Sv-pṭ 9 §23"
+      },
+      {
+       "id": "cst-vin01t2.tik-62_p006",
+       "label": "Sp-ṭ §62.6"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "…kese aṭṭhadhā phālite tato ekakoṭṭhāsappamāṇo uttarakurukānaṃ keso.",
+     "en": "…a [Jambudīpa] hair split eightfold: one part is the measure of an Uttarakuruka's hair.",
+     "tr_provenance": "author",
+     "id": "cst-abh02a.att-8_p003",
+     "label": "Vibh-a §8.3"
+    }
+   ],
+   "h0h1": "commentarial-innovation",
+   "warrant": null,
+   "warrant_label": null,
+   "signature": {
+    "chronological_stratum": "classical-commentary",
+    "attribution": "redactor-frame",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "untested",
+    "harmonization": "none",
+    "h0h1_under_chronology": "no-canonical-warrant"
+   }
+  },
+  {
+   "id": "A9",
+   "segment": "A",
+   "name": "The alms-larder: psychic travel to Uttarakuru for food",
+   "gloss": "The dominant thing the texts actually do with Uttarakuru: the Buddha and arahants fly there by psychic power, collect the free almsfood, and return to rinse at Lake Anotatta. Canonical in the Vinaya and the Apadāna, and the single most frequent motif in the commentary.",
+   "cells": {
+    "canon": {
+     "present": "attested",
+     "text": "The Buddha goes to Uttarakuru for almsfood (the Uruvela-Kassapa episode); Moggallāna offers to take the whole Sangha there in the Verañjā famine and the Buddha forbids it.",
+     "cites": [
+      {
+       "id": "pli-tv-kd1",
+       "label": "Vin. Kd. 1"
+      },
+      {
+       "id": "pli-tv-bu-vb-pj1",
+       "label": "Bhu. Pj. 1"
+      },
+      {
+       "id": "tha-ap3",
+       "label": "Apadāna (THA-AP3)"
+      }
+     ]
+    },
+    "para": {
+     "present": "attested",
+     "text": "Milinda asks whether one can go there in this very body; Nāgasena: yes, by psychic mastery.",
+     "cites": [
+      {
+       "id": "mil3.7.9",
+       "label": "MIL 3.7.9"
+      }
+     ]
+    },
+    "attha": {
+     "present": "attested",
+     "text": "Dozens of stories of an arahant fetching almsfood from Uttarakuru.",
+     "cites": [
+      {
+       "id": "cst-s0510a.att-305_p018",
+       "label": "KN-a §305.18"
+      },
+      {
+       "id": "cst-s0401a.att-an1_14_p361",
+       "label": "Mp-a 14 §361"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "A Vinaya casuistry verse: food fetched from Uttarakuru in the afternoon, eaten back here in time, is no offence.",
+     "cites": [
+      {
+       "id": "cst-vin10t.nrf-53_p049",
+       "label": "Sp-ṭ §53.49"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Atha kho bhagavā … uttarakuruṃ gantvā tato piṇḍapātaṃ āharitvā anotattadahe paribhuñjitvā tattheva divāvihāraṃ akāsi.",
+     "en": "Then the Blessed One went to Uttarakuru, brought back almsfood from there, ate it at Lake Anotatta, and spent the day there.",
+     "tr_provenance": "author",
+     "id": "pli-tv-kd1",
+     "label": "Vin. Kd. 1"
+    },
+    {
+     "pali": "Atthi, mahārāja, yo iminā cātummahābhūtikena kāyena uttarakuruṃ vā gaccheyya…",
+     "en": "There is, your majesty, one who could go to Uttarakuru with this very body of the four elements…",
+     "tr_provenance": "sujato",
+     "id": "mil3.7.9",
+     "label": "MIL 3.7.9"
+    }
+   ],
+   "h0h1": "canonical-seed",
+   "warrant": "pli-tv-kd1",
+   "warrant_label": "Vin. Kd. 1",
+   "signature": {
+    "chronological_stratum": "late-canonical",
+    "attribution": "redactor-frame",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "pali-local-unconfirmed",
+    "harmonization": "none",
+    "h0h1_under_chronology": "canonical-seed-late"
+   }
+  },
+  {
+   "id": "A10",
+   "segment": "A",
+   "name": "The wheel-turner's fourth conquest; the jewel-woman's origin",
+   "gloss": "The wheel-turning monarch's dominion runs to the four oceans, the northern quarter being Uttarakuru. The canon gives the ocean-bounded frame; the commentary names Uttarakuru as the conquered northern continent and as the source of the monarch's jewel-woman.",
+   "cells": {
+    "canon": {
+     "present": "oblique",
+     "text": "DN 17 / DN 26: the wheel rolls to all four oceans, the ocean-bounded earth; Uttarakuru not named.",
+     "cites": [
+      {
+       "id": "dn17",
+       "label": "DN 17"
+      },
+      {
+       "id": "dn26",
+       "label": "DN 26"
+      }
+     ]
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "The monarch conquers the 8,000-yojana Uttarakuru; the jewel-woman comes from Uttarakuru (or the Madda royal house).",
+     "cites": [
+      {
+       "id": "cst-s0102a.att-dn2_4_p026",
+       "label": "Sv-a 4 §26"
+      },
+      {
+       "id": "cst-s0102a.att-dn2_4_p037",
+       "label": "Sv-a 4 §37"
+      },
+      {
+       "id": "cst-s0501a.att-50_p014",
+       "label": "KN-a §50.14"
+      }
+     ]
+    },
+    "tika": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "…aṭṭhayojanasahassappamāṇaṃ uttarakuruṃ vijetuṃ tatheva gantvā…",
+     "en": "…going likewise to conquer the eight-thousand-yojana Uttarakuru…",
+     "tr_provenance": "author",
+     "id": "cst-s0102a.att-dn2_4_p026",
+     "label": "Sv-a 4 §26"
+    }
+   ],
+   "h0h1": "commentarial-detail",
+   "warrant": "dn17",
+   "warrant_label": "DN 17 / DN 26",
+   "signature": {
+    "chronological_stratum": "classical-commentary",
+    "attribution": "redactor-frame",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "pre-sectarian",
+    "harmonization": "none",
+    "h0h1_under_chronology": "split"
+   }
+  },
+  {
+   "id": "B1",
+   "segment": "B",
+   "name": "The triangular three-superiorities (AN 9.21)",
+   "gloss": "The hinge of the whole study. AN 9.21 ranks three groups, each surpassing the other two in three respects: Uttarakuru by non-grasping, non-possession, and a fixed span; the Tāvatiṃsa gods by divine span, beauty, and bliss; and the people of Jambudīpa by courage, mindfulness, and that the holy life is lived here. Uttarakuru's superiorities are precisely the comforts; Jambudīpa's third is the path.",
+   "cells": {
+    "canon": {
+     "present": "attested",
+     "text": "AN 9.21 Tiṭhānasutta (ti-ṭhāna, 'three grounds'); quoted again in the Kathāvatthu's debate on where the holy life is lived.",
+     "cites": [
+      {
+       "id": "an9.21",
+       "label": "AN 9.21"
+      },
+      {
+       "id": "kv1.3",
+       "label": "KV 1.3"
+      }
+     ]
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "Glossed across the Nikāya commentaries.",
+     "cites": [
+      {
+       "id": "cst-s0404a.att-an9_p063",
+       "label": "Mp-a vol.9 §63"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "Restated in the sub-commentaries on the same sutta.",
+     "cites": [
+      {
+       "id": "cst-s0103t.tik-dn3_7_p009",
+       "label": "Sv-pṭ 7 §9"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Tīhi, bhikkhave, ṭhānehi uttarakurukā manussā deve ca tāvatiṃse adhiggaṇhanti jambudīpake ca manusse. Katamehi tīhi? Amamā, apariggahā, niyatāyukā, visesaguṇā (var. visesabhuno, sī.syā.pī.).",
+     "en": "In three grounds, monks, the humans of Uttarakuru surpass the gods of the Thirty-Three and the humans of Jambudīpa. Which three? They are without mine-making, without possessions, of fixed lifespan; [they are] of distinctive quality. (The three grounds are amamā, apariggahā, niyatāyukā; visesaguṇā closes the list as a descriptor, not a fourth ground.)",
+     "tr_provenance": "author",
+     "id": "an9.21",
+     "label": "AN 9.21"
+    },
+    {
+     "pali": "…Tīhi, bhikkhave, ṭhānehi jambudīpakā manussā uttarakuruke ca manusse adhiggaṇhanti deve ca tāvatiṃse. Katamehi tīhi? Sūrā, satimanto, idha brahmacariyavāso.",
+     "en": "…In three grounds the humans of Jambudīpa surpass the humans of Uttarakuru and the gods of the Thirty-Three: bravery, mindfulness, and that the holy life is lived here.",
+     "tr_provenance": "sujato",
+     "id": "an9.21",
+     "label": "AN 9.21"
+    }
+   ],
+   "h0h1": "canonical-seed",
+   "warrant": "an9.21",
+   "warrant_label": "AN 9.21",
+   "signature": {
+    "chronological_stratum": "early-canonical",
+    "attribution": "buddha-vacana",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "pali-local-unconfirmed",
+    "harmonization": "none",
+    "h0h1_under_chronology": "canonical-seed-early"
+   }
+  },
+  {
+   "id": "B2",
+   "segment": "B",
+   "name": "The holy life is 'here' because Buddhas arise only in Jambudīpa",
+   "gloss": "AN 9.21's deictic 'the holy life is lived here' is pinned by the commentary: because Buddhas and Paccekabuddhas arise in Jambudīpa, the eightfold-path holy life exists only here. By implication, Uttarakuru, where no Buddha arises, has no path. The canon supplies 'here'; the commentary narrows it to Jambudīpa and to the eightfold path.",
+   "cells": {
+    "canon": {
+     "present": "attested",
+     "text": "AN 9.21: idha brahmacariyavāso (the holy life is here), deictic and unspecified.",
+     "cites": [
+      {
+       "id": "an9.21",
+       "label": "AN 9.21"
+      }
+     ]
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "Because Buddhas and Paccekabuddhas arise in Jambudīpa, the path-holy-life is only here.",
+     "cites": [
+      {
+       "id": "cst-s0404a.att-an9_p063",
+       "label": "Mp-a vol.9 §63"
+      }
+     ]
+    },
+    "tika": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Idha brahmacariyavāsoti jambudīpe buddhapaccekabuddhānaṃ uppajjanato aṭṭhaṅgikamaggabrahmacariyavāsopi idheva hoti.",
+     "en": "'The holy life is lived here': because Buddhas and Paccekabuddhas arise in Jambudīpa, the eightfold-path holy life too is only here.",
+     "tr_provenance": "author",
+     "id": "cst-s0404a.att-an9_p063",
+     "label": "Mp-a vol.9 §63"
+    }
+   ],
+   "h0h1": "canonical-seed",
+   "warrant": "an9.21",
+   "warrant_label": "AN 9.21",
+   "signature": {
+    "chronological_stratum": "early-canonical",
+    "attribution": "buddha-vacana",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "pali-local-unconfirmed",
+    "harmonization": "none",
+    "h0h1_under_chronology": "split"
+   }
+  },
+  {
+   "id": "B3",
+   "segment": "B",
+   "name": "The bar: no zeal, incapable of the path, grouped with Māra",
+   "gloss": "The decisive commentarial move. The canonical inopportune-birth (akkhaṇa) list never names Uttarakuru, and the Kathāvatthu supplies the acchandika/abhabba category while even softening 'here' for the gods. The commentary then slots the Uttarakurukas into that category, groups them with Māra as lacking the desire for nibbāna, and rules that they cannot attain the path though the gods can.",
+   "cells": {
+    "canon": {
+     "present": "attested",
+     "text": "Kathāvatthu debate: the acchandika/abhabba category, applied (in a reductio) to the gods, not to the Uttarakurukas, whom the debate leaves on the no-holy-life side. The canonical 8-akkhaṇa list (AN 8.29, DN 33) names hell, animal, ghost, long-lived deva, border-region, wrong-view, dullness, no-Buddha; not Uttarakuru.",
+     "cites": [
+      {
+       "id": "kv1.3",
+       "label": "KV 1.3"
+      },
+      {
+       "id": "an8.29",
+       "label": "AN 8.29"
+      },
+      {
+       "id": "dn33",
+       "label": "DN 33"
+      }
+     ]
+    },
+    "para": {
+     "present": "attested",
+     "text": "The Uttarakurukas, like Māra, lack the desire for nibbāna.",
+     "cites": [
+      {
+       "id": "cst-e0103n.att-67_p011",
+       "label": "Vism-mhṭ §67.11"
+      }
+     ]
+    },
+    "attha": {
+     "present": "attested",
+     "text": "The Uttarakuru humans have entered the 'acchandika' class and are incapable of entering the path.",
+     "cites": [
+      {
+       "id": "cst-abh02a.att-129_p014",
+       "label": "Vibh-a §129.14"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "For the gods, path-attainment exists; for the Uttarakurukas, non-attainment of the distinction. The going-forth is for them impossible from absence-of-opportunity.",
+     "cites": [
+      {
+       "id": "cst-abh05t.nrf-73_p003",
+       "label": "Abh-pṭ §73.3"
+      },
+      {
+       "id": "cst-abh09t.nrf-279_p012",
+       "label": "Abh-pṭ §279.12"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Acchandikāti kattukamyatākusalacchandarahitā. Uttarakurukā manussā acchandikaṭṭhānaṃ paviṭṭhā… Abhabbā niyāmaṃ okkamituṃ.",
+     "en": "'Acchandika': lacking the wholesome desire-to-act. The Uttarakuru humans have entered the 'acchandika' category… incapable of descending into the [path's] certainty.",
+     "tr_provenance": "author",
+     "id": "cst-abh02a.att-129_p014",
+     "label": "Vibh-a §129.14"
+    },
+    {
+     "pali": "Tattha sūriyaparivattādīhipi devesu maggapaṭilābhāya atthitā vibhāvetabbā, uttarakurukānaṃ pana visesānadhigamabhāvo ubhinnampi icchito evāti.",
+     "en": "There, the existence of path-attainment for the gods is to be shown (by the sun's rotation and so on), but for the Uttarakurukas the non-attainment of the distinction; both are intended.",
+     "tr_provenance": "author",
+     "id": "cst-abh05t.nrf-73_p003",
+     "label": "Abh-pṭ §73.3"
+    }
+   ],
+   "h0h1": "split",
+   "warrant": "kv1.3",
+   "warrant_label": "KV 1.3",
+   "signature": {
+    "chronological_stratum": "abhidhamma-canonical",
+    "attribution": "buddha-vacana",
+    "epistemic_marking": "debated",
+    "cross_recensional": "pali-local-unconfirmed",
+    "harmonization": "reconciles-a-tension",
+    "h0h1_under_chronology": "split"
+   }
+  },
+  {
+   "id": "B4",
+   "segment": "B",
+   "name": "Automatic virtue: pakati-sīla, fixed by birth, the whole life dhammatā-siddha",
+   "gloss": "The thematic key. Their non-transgression is the canonical amama/apariggaha; the commentary reclassifies it as 'natural virtue' (pakati-sīla), morality fixed by being reborn there, and frames the whole effortless life as 'accomplished by nature' (dhammatā-siddha). What is dhammatā cannot be undertaken (samādāna), and so cannot be cultivated into a path. That link, dhammatā-siddha to acchandika, is the commentary's own logic.",
+   "cells": {
+    "canon": {
+     "present": "attested",
+     "text": "The fact: amamā, apariggahā (AN 9.21 / DN 32).",
+     "cites": [
+      {
+       "id": "an9.21",
+       "label": "AN 9.21"
+      },
+      {
+       "id": "dn32",
+       "label": "DN 32"
+      }
+     ]
+    },
+    "para": {
+     "present": "attested",
+     "text": "Vism: the Uttarakurukas' non-transgression is natural virtue (pakati-sīla).",
+     "cites": [
+      {
+       "id": "cst-e0101n.mul-6_p029",
+       "label": "Vism §6.29"
+      }
+     ]
+    },
+    "attha": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "tika": {
+     "present": "attested",
+     "text": "Their virtue is fixed by rebirth there; their whole life is 'accomplished by nature'.",
+     "cites": [
+      {
+       "id": "cst-e0103n.att-7_p020",
+       "label": "Vism-mhṭ §7.20"
+      },
+      {
+       "id": "cst-s0103t.tik-dn3_9_p025",
+       "label": "Sv-pṭ 9 §25"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Uttarakurukānaṃ manussānaṃ avītikkamo pakatisīlaṃ.",
+     "en": "The non-transgression (not-overstepping) of the Uttarakuru humans is natural virtue.",
+     "tr_provenance": "author",
+     "id": "cst-e0101n.mul-6_p029",
+     "label": "Vism §6.29"
+    },
+    {
+     "pali": "Pakatisīlanti sabhāvasīlaṃ. Tatrūpapattiniyataṃ hi sīlaṃ uttarakurukānaṃ.",
+     "en": "'Natural virtue' means intrinsic virtue; for the Uttarakurukas, virtue is fixed by being reborn there.",
+     "tr_provenance": "author",
+     "id": "cst-e0103n.att-7_p020",
+     "label": "Vism-mhṭ §7.20"
+    }
+   ],
+   "h0h1": "split",
+   "warrant": "an9.21",
+   "warrant_label": "AN 9.21",
+   "signature": {
+    "chronological_stratum": "early-canonical",
+    "attribution": "buddha-vacana",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "pali-local-unconfirmed",
+    "harmonization": "scholastic-distinction",
+    "h0h1_under_chronology": "split"
+   }
+  },
+  {
+   "id": "B5",
+   "segment": "B",
+   "name": "Fixed heaven-destiny (sugati-niyata)",
+   "gloss": "Dying there, they are reborn only in heaven, never in hell, animal, or ghost realm. No located canonical warrant predicates this of the Uttarakurukas; the commentary supplies it, while carefully noting this 'fixed destiny' is not the technical fixed-class of the path or its opposite.",
+   "cells": {
+    "canon": {
+     "present": "absent",
+     "text": "No located canonical passage predicates a heaven-destiny of the Uttarakurukas.",
+     "cites": []
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "Passing from there, they are reborn only in heaven; their 'fixed destiny' is not the technical niyata-class.",
+     "cites": [
+      {
+       "id": "cst-s0404a.att-an9_p063",
+       "label": "Mp-a vol.9 §63"
+      },
+      {
+       "id": "cst-abh03a.att-31_p023",
+       "label": "Pañca-a §31.23"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "Not reborn in hell, animal or ghost realm; by their naturally-perfected five precepts, reborn in the deva-world.",
+     "cites": [
+      {
+       "id": "cst-s0103t.tik-dn3_9_p025",
+       "label": "Sv-pṭ 9 §25"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Na ca tato matā nirayaṃ vā tiracchānayoniṃ vā pettivisayaṃ vā upapajjanti. Dhammatāsiddhassa pañcasīlassa ānubhāvena te devaloke nibbattanti.",
+     "en": "Those who die there are not reborn in hell, the animal realm, or the ghost realm; by the power of their naturally-perfected five precepts they are reborn in the deva-world.",
+     "tr_provenance": "author",
+     "id": "cst-s0103t.tik-dn3_9_p025",
+     "label": "Sv-pṭ 9 §25"
+    },
+    {
+     "pali": "Yā pana uttarakurukānaṃ niyatagatikatā vuttā, na sā niyatadhammavasena.",
+     "en": "The 'fixed destiny' spoken of for the Uttarakurukas is not by way of the [technical] fixed-class.",
+     "tr_provenance": "author",
+     "id": "cst-abh03a.att-31_p023",
+     "label": "Pañca-a §31.23"
+    }
+   ],
+   "h0h1": "commentarial-innovation",
+   "warrant": null,
+   "warrant_label": null,
+   "signature": {
+    "chronological_stratum": "classical-commentary",
+    "attribution": "redactor-frame",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "untested",
+    "harmonization": "scholastic-distinction",
+    "h0h1_under_chronology": "no-canonical-warrant"
+   }
+  },
+  {
+   "id": "C1",
+   "segment": "C",
+   "name": "The homonym the tradition fuses: continent, country, observance",
+   "gloss": "'Kuru' names three things the term blurs: the northern continent Uttarakuru, the Kuru country (janapada) in Jambudīpa where the Satipaṭṭhāna suttas are taught, and the kuru-vatta moral observance of the Kurudhamma Jātaka. The commentary fuses all three by its own genealogy: the Kuru country and its five-precept observance are traced to migrants out of Uttarakuru continent.",
+   "cells": {
+    "canon": {
+     "present": "absent",
+     "text": "The genealogical fusion is not canonical.",
+     "cites": []
+    },
+    "para": {
+     "present": "absent",
+     "text": "·",
+     "cites": []
+    },
+    "attha": {
+     "present": "attested",
+     "text": "The region settled by people who came from Uttarakuru got the name 'Kuru country'; hence 'he dwells among the Kurus'.",
+     "cites": [
+      {
+       "id": "cst-s0102a.att-dn2_2_p005",
+       "label": "Sv-a 2 §5"
+      },
+      {
+       "id": "cst-s0201a.att-mn1_1_p967",
+       "label": "Ps-a 1 §967"
+      }
+     ]
+    },
+    "tika": {
+     "present": "attested",
+     "text": "Those migrants kept the five precepts as they naturally had; their successors' imitation became the kuru-vatta, shown by the Kurudhamma Jātaka. Elsewhere the Kuru country is 'like Uttarakuru' in season by the latent force of that observance.",
+     "cites": [
+      {
+       "id": "cst-s0102t.tik-dn2_2_p007",
+       "label": "Sv-pṭ 2 §7"
+      },
+      {
+       "id": "cst-s0201t.tik-mn1_1_p928",
+       "label": "Ps-pṭ 1 §928"
+      }
+     ]
+    }
+   },
+   "verbatim": [
+    {
+     "pali": "Uttarakuruto āgatamanussehi āvasitapadeso 'kururaṭṭha'nti nāmaṃ labhi.",
+     "en": "The region settled by the people who came from Uttarakuru received the name 'the Kuru country'.",
+     "tr_provenance": "author",
+     "id": "cst-s0102a.att-dn2_2_p005",
+     "label": "Sv-a 2 §5"
+    },
+    {
+     "pali": "Te uttarakuruto āgatamanussā tattha rakkhitaniyāmeneva pañca sīlāni rakkhiṃsu… kuruvattadhammoti paññāyittha. Ayañca attho kurudhammajātakena dīpetabbo.",
+     "en": "Those people who came from Uttarakuru kept the five precepts there just as they had observed them… and it came to be known as the kuru-vatta dhamma; this is illustrated by the Kurudhamma Jātaka.",
+     "tr_provenance": "author",
+     "id": "cst-s0102t.tik-dn2_2_p007",
+     "label": "Sv-pṭ 2 §7"
+    }
+   ],
+   "h0h1": "commentarial-innovation",
+   "warrant": null,
+   "warrant_label": null,
+   "signature": {
+    "chronological_stratum": "classical-commentary",
+    "attribution": "redactor-frame",
+    "epistemic_marking": "flat-background",
+    "cross_recensional": "untested",
+    "harmonization": "reconciles-a-tension",
+    "h0h1_under_chronology": "no-canonical-warrant"
+   }
+  }
+ ],
+ "census": [
+  {
+   "id": "cst-e0301n.nrf-009",
+   "citation": "E0301N-NRF §9",
+   "work_slug": "pli-cst-e0301n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Vīthimutta saṅgaha paramatthadīpanī",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0601n.nrf-002",
+   "citation": "E0601N-NRF §2",
+   "work_slug": "pli-cst-e0601n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Namakkāraṭīkā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0703n.nrf-001",
+   "citation": "E0703N-NRF §1",
+   "work_slug": "pli-cst-e0703n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "Mahiyaṅgaṇāgamanaṃ",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0803n.nrf-016",
+   "citation": "E0803N-NRF §16",
+   "work_slug": "pli-cst-e0803n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "11. Vāccābhidheyyaliṅgādiparidīpananāmikapadamālā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0804n.nrf-025",
+   "citation": "E0804N-NRF §25",
+   "work_slug": "pli-cst-e0804n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Makārantadhātu",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0804n.nrf-069",
+   "citation": "E0804N-NRF §69",
+   "work_slug": "pli-cst-e0804n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "19. Sabbagaṇavinicchaya",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0806n.nrf-122",
+   "citation": "E0806N-NRF §122",
+   "work_slug": "pli-cst-e0806n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "other",
+   "has_tr": false,
+   "title": "99. Sabbā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0809n.nrf-007",
+   "citation": "E0809N-NRF §7",
+   "work_slug": "pli-cst-e0809n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Bhūmivagga",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0810n.nrf-003",
+   "citation": "E0810N-NRF §3",
+   "work_slug": "pli-cst-e0810n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Saggakaṇḍavaṇṇanā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0810n.nrf-006",
+   "citation": "E0810N-NRF §6",
+   "work_slug": "pli-cst-e0810n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "3. Naravaggavaṇṇanā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e1202n.nrf-013",
+   "citation": "E1202N-NRF §13",
+   "work_slug": "pli-cst-e1202n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Thūpāramha kathā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e1205n.nrf-001",
+   "citation": "E1205N-NRF §1",
+   "work_slug": "pli-cst-e1205n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "1. Tathāgatassāgamanakathā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e1205n.nrf-004",
+   "citation": "E1205N-NRF §4",
+   "work_slug": "pli-cst-e1205n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "other",
+   "has_tr": false,
+   "title": "4. Pakiṇṇakakathā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e1210n.nrf-002",
+   "citation": "E1210N-NRF §2",
+   "work_slug": "pli-cst-e1210n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Pakiṇṇakathavivaraṇaṃ",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e1215n.nrf-001",
+   "citation": "E1215N-NRF §1",
+   "work_slug": "pli-cst-e1215n-nrf",
+   "layer": "anya",
+   "voice": "para-canon",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Samantakūṭavaṇṇanā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh01a.att-2_p061",
+   "citation": "As §2.61",
+   "work_slug": "pli-abh-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "Nidānakathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh01a.att-88_p021",
+   "citation": "As §88.21",
+   "work_slug": "pli-abh-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Uddesavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh02a.att-129_p014",
+   "citation": "Vibh-a §129.14",
+   "work_slug": "pli-abh-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Chaṭṭhabalaniddeso",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh02a.att-8_p003",
+   "citation": "Vibh-a §8.3",
+   "work_slug": "pli-abh-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "Pakiṇṇakakathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh03a.att-31_p023",
+   "citation": "Pañca-a §31.23",
+   "work_slug": "pli-abh-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "1. Ekakaniddesavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh03a.att-72_p002",
+   "citation": "Pañca-a §72.2",
+   "work_slug": "pli-abh-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "1. Suddhabrahmacariyakathāvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0401a.att-an1_14_p361",
+   "citation": "Mp-a 14 §361",
+   "work_slug": "pli-an-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "Dabbattheravatthu",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0401a.att-an1_16_p051",
+   "citation": "Mp-a 16 §51",
+   "work_slug": "pli-an-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "(16) 4. Ekadhammapāḷi-catutthavaggavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0402a.att-an4_1_5_p014",
+   "citation": "Mp-a an4.1.5 §14",
+   "work_slug": "pli-an-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "5. Rohitassasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0404a.att-an9_p063",
+   "citation": "Mp-a vol.9 §63",
+   "work_slug": "pli-an-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "1. Tiṭhānasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0102a.att-dn2_2_p005",
+   "citation": "Sv-a 2 §5",
+   "work_slug": "pli-dn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Nidānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0102a.att-dn2_4_p026",
+   "citation": "Sv-a 4 §26",
+   "work_slug": "pli-dn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Cakkaratanavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0102a.att-dn2_4_p037",
+   "citation": "Sv-a 4 §37",
+   "work_slug": "pli-dn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Itthiratanavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0102a.att-dn2_7_p016",
+   "citation": "Sv-a 7 §16",
+   "work_slug": "pli-dn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Nidānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0103a.att-dn3_4_p031",
+   "citation": "Sv-a 4 §31",
+   "work_slug": "pli-dn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "Candimasūriyādipātubhāvavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0103a.att-dn3_9_p019",
+   "citation": "Sv-a 9 §19",
+   "work_slug": "pli-dn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Paṭhamabhāṇavāravaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0501a.att-32_p004",
+   "citation": "KN-a §32.4",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "Bahūdevātigāthāvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0501a.att-50_p014",
+   "citation": "KN-a §50.14",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Yaṃkiñcītigāthāvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0501a.att-50_p022",
+   "citation": "KN-a §50.22",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Yaṃkiñcītigāthāvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0502a.att-165_p054",
+   "citation": "KN-a §165.54",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "2. Devorohaṇavatthu",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0502a.att-326_p014",
+   "citation": "KN-a §326.14",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "33. Jaṭilattheravatthu",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0502a.att-327_p004",
+   "citation": "KN-a §327.4",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "34. Jotikattheravatthu",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0502a.att-74_p003",
+   "citation": "KN-a §74.3",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "8. Pañcasatabhikkhuvatthu",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0502a.att-91_p004",
+   "citation": "KN-a §91.4",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "2. Bāhiyadārucīriyattheravatthu",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0503a.att-12_p011",
+   "citation": "KN-a §12.11",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "10. Bāhiyasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0503a.att-3_p062",
+   "citation": "KN-a §3.62",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Paṭhamabodhisuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0504a.att-2_p033",
+   "citation": "KN-a §2.33",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Nidānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0505a.att-16_p041",
+   "citation": "KN-a §16.41",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Ratanasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0505a.att-16_p049",
+   "citation": "KN-a §16.49",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Ratanasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0505a.att-21_p033",
+   "citation": "KN-a §21.33",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "4. Maṅgalasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0505a.att-38_p004",
+   "citation": "KN-a §38.4",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "6. Sabhiyasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0505a.att-39_p026",
+   "citation": "KN-a §39.26",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "7. Selasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0506a.att-4_p044",
+   "citation": "KN-a §4.44",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "1. Paṭhamapīṭhavimānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0507a.att-16_p068",
+   "citation": "KN-a §16.68",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "simile",
+   "has_tr": false,
+   "title": "1. Saṃsāramocakapetivatthuvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0508a1.att-9_p003",
+   "citation": "KN-a §9.3",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "5. Dabbattheragāthāvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0508a2.att-4_p003",
+   "citation": "KN-a §4.3",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "3. Sabhiyattheragāthāvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0508a2.att-88_p062",
+   "citation": "KN-a §88.62",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "2. Sāriputtattheragāthāvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0508a2.att-95_p217",
+   "citation": "KN-a §95.217",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "1. Mahāmoggallānattheragāthāvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0510a.att-138_p004",
+   "citation": "KN-a §138.4",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Sudhāpiṇḍiyattheraapadānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0510a.att-209_p004",
+   "citation": "KN-a §209.4",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "6. Kadambapupphiyattheraapadānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0510a.att-288_p002",
+   "citation": "KN-a §288.2",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "6. Bāhiyattheraapadānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0510a.att-305_p018",
+   "citation": "KN-a §305.18",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "2. Nadīkassapattheraapadānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0510a.att-37_p153",
+   "citation": "KN-a §37.153",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "3-1. Sāriputtattheraapadānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0510a.att-37_p154",
+   "citation": "KN-a §37.154",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "3-1. Sāriputtattheraapadānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0510a.att-38_p044",
+   "citation": "KN-a §38.44",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "3-2. Mahāmoggallānattheraapadānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0510a.att-52_p011",
+   "citation": "KN-a §52.11",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "3. Nandattheraapadānavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0511a.att-15_p043",
+   "citation": "KN-a §15.43",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "11. Nāradabuddhavaṃsavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0511a.att-8_p077",
+   "citation": "KN-a §8.77",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "4. Koṇḍaññabuddhavaṃsavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0514a1.att-4_p295",
+   "citation": "KN-a §4.295",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "20. Sattatinipāto",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0514a2.att-1_p1249",
+   "citation": "KN-a §1.1249",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "22. Mahānipāto",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0514a3.att-8_p1463",
+   "citation": "KN-a §8.1463",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Micchākathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0515a.att-3_p020",
+   "citation": "KN-a §3.20",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "1. Kāmasuttaniddesavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0516a.att-12_p033",
+   "citation": "KN-a §12.33",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "11. Jatukaṇṇimāṇavasuttaniddesavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0516a.att-12_p036",
+   "citation": "KN-a §12.36",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "11. Jatukaṇṇimāṇavasuttaniddesavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0517a.att-160_p080",
+   "citation": "KN-a §160.80",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "Iddhikathāvaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0517a.att-63_p015",
+   "citation": "KN-a §63.15",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "69. Āsayānusayañāṇaniddesavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0519a.att-36_p049",
+   "citation": "KN-a §36.49",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "Sāsanapaṭṭhānavāravaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0201a.att-mn1_1_p967",
+   "citation": "Ps-a 1 §967",
+   "work_slug": "pli-mn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "10. Satipaṭṭhānasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0201a.att-mn1_3_p094",
+   "citation": "Ps-a 3 §94",
+   "work_slug": "pli-mn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "3. Vammikasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0201a.att-mn1_5_p307",
+   "citation": "Ps-a 5 §307",
+   "work_slug": "pli-mn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "10. Māratajjanīyasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0203a.att-mn3_3_p217",
+   "citation": "Ps-a 3 §217",
+   "work_slug": "pli-mn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Cakkaratanavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0203a.att-mn3_3_p228",
+   "citation": "Ps-a 3 §228",
+   "work_slug": "pli-mn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Itthiratanavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0301a.att-sn1_1_p276",
+   "citation": "Spk-a 1 §276",
+   "work_slug": "pli-sn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "7. Samayasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0301a.att-sn1_2_p068",
+   "citation": "Spk-a 2 §68",
+   "work_slug": "pli-sn-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "6. Rohitassasuttavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01a.att-18_p012",
+   "citation": "Sp §18.12",
+   "work_slug": "pli-vin-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Dubbhikkhakathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01a.att-19_p006",
+   "citation": "Sp §19.6",
+   "work_slug": "pli-vin-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "Mahāmoggallānassasīhanādakathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01a.att-6_p057",
+   "citation": "Sp §6.57",
+   "work_slug": "pli-vin-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Verañjakaṇḍavaṇṇanā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin02a2.att-113_p002",
+   "citation": "Sp §113.2",
+   "work_slug": "pli-vin-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Siveyyakadussayugakathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin02a2.att-114_p003",
+   "citation": "Sp §114.3",
+   "work_slug": "pli-vin-attha",
+   "layer": "attha",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "Samattiṃsavirecanakathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh03m3.mul-026",
+   "citation": "Abh §26",
+   "work_slug": "pli-abhidhamma",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "1. Suddhabrahmacariyakathā",
+   "stratum": "abhidhamma-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "kv1.3",
+   "citation": "KV 1.3",
+   "work_slug": "pli-abhidhamma",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Brahmacariyakathā",
+   "stratum": "abhidhamma-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "an10.29",
+   "citation": "AN 10.29",
+   "work_slug": "pli-an",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "cosmology",
+   "has_tr": true,
+   "title": "Paṭhamakosalasutta",
+   "stratum": "early-canonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "an3.80",
+   "citation": "AN 3.80",
+   "work_slug": "pli-an",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "cosmology",
+   "has_tr": true,
+   "title": "Cūḷanikāsutta",
+   "stratum": "early-canonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "an9.21",
+   "citation": "AN 9.21",
+   "work_slug": "pli-an",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "soteriology",
+   "has_tr": true,
+   "title": "Tiṭhānasutta",
+   "stratum": "early-canonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0402m2.mul-an3_2_3",
+   "citation": "AN an3.2.3",
+   "work_slug": "pli-an",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "cosmology",
+   "has_tr": true,
+   "title": "(8) 3. Ānandavaggo",
+   "stratum": "early-canonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0404m2.mul-an9_1_3",
+   "citation": "AN an9.1.3",
+   "work_slug": "pli-an",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "soteriology",
+   "has_tr": true,
+   "title": "3. Sattāvāsavaggo",
+   "stratum": "early-canonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0404m3.mul-an10_1_3",
+   "citation": "AN an10.1.3",
+   "work_slug": "pli-an",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "cosmology",
+   "has_tr": true,
+   "title": "3. Mahāvaggo",
+   "stratum": "early-canonical",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "tha-ap3",
+   "citation": "THA-AP3",
+   "work_slug": "pli-ap",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "Sāriputtattheraapadāna",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "tha-ap407",
+   "citation": "THA-AP407",
+   "work_slug": "pli-ap",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "5 Upasivattheraapadāna",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-s0103m.mul-dn3_9",
+   "citation": "DN 9",
+   "work_slug": "pli-dn",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "ethnography",
+   "has_tr": true,
+   "title": "9. Āṭānāṭiyasuttaṃ",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "dn32",
+   "citation": "DN 32",
+   "work_slug": "pli-dn",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "ethnography",
+   "has_tr": true,
+   "title": "Āṭānāṭiyasutta",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-s0510m1.mul-kn10_1",
+   "citation": "KN 1",
+   "work_slug": "pli-kn",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "1. Buddhavaggo",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-s0510m1.mul-kn10_41",
+   "citation": "KN 41",
+   "work_slug": "pli-kn",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "41. Metteyyavaggo",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-s0518m.nrf-kn18_1",
+   "citation": "KN 1",
+   "work_slug": "pli-kn",
+   "layer": "mula",
+   "voice": "para-canon",
+   "motif": "simile",
+   "has_tr": false,
+   "title": "Milindapañhapāḷi",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-s0518m.nrf-kn18_2",
+   "citation": "KN 2",
+   "work_slug": "pli-kn",
+   "layer": "mula",
+   "voice": "para-canon",
+   "motif": "other",
+   "has_tr": false,
+   "title": "2-3. Milindapañho",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "mil1",
+   "citation": "MIL 1",
+   "work_slug": "pli-mil",
+   "layer": "mula",
+   "voice": "para-canon",
+   "motif": "simile",
+   "has_tr": true,
+   "title": "1. Ārambhakathā",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "mil3.7.9",
+   "citation": "MIL 3.7.9",
+   "work_slug": "pli-mil",
+   "layer": "mula",
+   "voice": "para-canon",
+   "motif": "other",
+   "has_tr": true,
+   "title": "9. Uttarakurukādigamanapañha",
+   "stratum": "paracanonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-vin01m.mul-vin1_1",
+   "citation": "Vin 1",
+   "work_slug": "pli-vinaya",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "Verañjakaṇḍaṃ",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-vin02m2.mul-vin3_1",
+   "citation": "Vin 1",
+   "work_slug": "pli-vinaya",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "larder-iddhi",
+   "has_tr": true,
+   "title": "1. Mahākhandhako",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "pli-tv-bu-vb-pj1",
+   "citation": "Bhu. Pj. 1",
+   "work_slug": "pli-vinaya",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "larder-iddhi",
+   "has_tr": true,
+   "title": "1. Paṭhamapārājikasikkhāpada",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "pli-tv-kd1",
+   "citation": "Vin. Kd. 1",
+   "work_slug": "pli-vinaya",
+   "layer": "mula",
+   "voice": "canonical",
+   "motif": "larder-iddhi",
+   "has_tr": true,
+   "title": "1. Mahākhandhaka",
+   "stratum": "late-canonical",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-e0101n.mul-6_p029",
+   "citation": "Vism §6.29",
+   "work_slug": "pli-vism",
+   "layer": "mula",
+   "voice": "para-canon",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "Sīlappabhedakathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-e0101n.mul-73_p054",
+   "citation": "Vism §73.54",
+   "work_slug": "pli-vism",
+   "layer": "mula",
+   "voice": "para-canon",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Buddhānussatikathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-e0101n.mul-73_p057",
+   "citation": "Vism §73.57",
+   "work_slug": "pli-vism",
+   "layer": "mula",
+   "voice": "para-canon",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Buddhānussatikathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-e0102n.mul-4_p050",
+   "citation": "Vism §4.50",
+   "work_slug": "pli-vism",
+   "layer": "mula",
+   "voice": "para-canon",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "Dasaiddhikathā",
+   "stratum": "classical-commentary",
+   "layer_stratum_disagree": true
+  },
+  {
+   "id": "cst-abh02t.tik-196_p029",
+   "citation": "Abh-pṭ §196.29",
+   "work_slug": "pli-abh-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Viññāṇapadaniddesavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh03t.tik-30_p011",
+   "citation": "Abh-pṭ §30.11",
+   "work_slug": "pli-abh-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "1. Ekakaniddesavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh03t.tik-40_p004",
+   "citation": "Abh-pṭ §40.4",
+   "work_slug": "pli-abh-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Nidānakathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh05t.nrf-73_p003",
+   "citation": "Abh-pṭ §73.3",
+   "work_slug": "pli-abh-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "2. Saṃsandanabrahmacariyakathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh07t.nrf-133_p002",
+   "citation": "Abh-pṭ §133.2",
+   "work_slug": "pli-abh-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Cutipaṭisandhikkamavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh08t.nrf-55_p068",
+   "citation": "Abh-pṭ §55.68",
+   "work_slug": "pli-abh-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Kāmāvacarakusalavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-abh09t.nrf-279_p012",
+   "citation": "Abh-pṭ §279.12",
+   "work_slug": "pli-abh-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Ekakamātikatthavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0403t.tik-an6_p307",
+   "citation": "Mp-pṭ vol.6 §307",
+   "work_slug": "pli-an-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "2-11. Āvaraṇasuttādivaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0404t.tik-an10_p034",
+   "citation": "Mp-pṭ vol.10 §34",
+   "work_slug": "pli-an-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "simile",
+   "has_tr": false,
+   "title": "10. Dutiyaariyāvāsasuttavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0404t.tik-an8_p219",
+   "citation": "Mp-pṭ vol.8 §219",
+   "work_slug": "pli-an-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "10. Bhūmicālasuttavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0404t.tik-an9_p102",
+   "citation": "Mp-pṭ vol.9 §102",
+   "work_slug": "pli-an-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "1. Tiṭhānasuttavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0101t.tik-dn1_1_p323",
+   "citation": "Sv-pṭ 1 §323",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Ekaccasassatavādavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0102t.tik-dn2_1_p204",
+   "citation": "Sv-pṭ 1 §204",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Brahmayācanakathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0102t.tik-dn2_2_p007",
+   "citation": "Sv-pṭ 2 §7",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Nidānavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0102t.tik-dn2_9_p003",
+   "citation": "Sv-pṭ 9 §3",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "simile",
+   "has_tr": false,
+   "title": "Uddesavārakathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0103t.tik-dn3_4_p033",
+   "citation": "Sv-pṭ 4 §33",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Candimasūriyādipātubhāvavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0103t.tik-dn3_7_p009",
+   "citation": "Sv-pṭ 7 §9",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Suppatiṭṭhitapādatālakkhaṇavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0103t.tik-dn3_9_p014",
+   "citation": "Sv-pṭ 9 §14",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Paṭhamabhāṇavāravaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0103t.tik-dn3_9_p020",
+   "citation": "Sv-pṭ 9 §20",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Paṭhamabhāṇavāravaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0103t.tik-dn3_9_p023",
+   "citation": "Sv-pṭ 9 §23",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Paṭhamabhāṇavāravaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0103t.tik-dn3_9_p025",
+   "citation": "Sv-pṭ 9 §25",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "Paṭhamabhāṇavāravaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0103t.tik-dn3_9_p027",
+   "citation": "Sv-pṭ 9 §27",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Paṭhamabhāṇavāravaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0104t.nrf-11_p011",
+   "citation": "Sv-pṭ §11.11",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Ekaccasassatavādavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0501t.nrf-41_p099",
+   "citation": "KN-pṭ §41.99",
+   "work_slug": "pli-kn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "Sāsanapaṭṭhānavibhāvanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0201t.tik-mn1_1_p047",
+   "citation": "Ps-pṭ 1 §47",
+   "work_slug": "pli-mn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Abbhantaranidānavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0201t.tik-mn1_1_p926",
+   "citation": "Ps-pṭ 1 §926",
+   "work_slug": "pli-mn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "10. Satipaṭṭhānasuttavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0201t.tik-mn1_1_p928",
+   "citation": "Ps-pṭ 1 §928",
+   "work_slug": "pli-mn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "simile",
+   "has_tr": false,
+   "title": "Uddesavārakathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0201t.tik-mn1_2_p092",
+   "citation": "Ps-pṭ 2 §92",
+   "work_slug": "pli-mn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Pañcagativaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0201t.tik-mn1_3_p211",
+   "citation": "Ps-pṭ 3 §211",
+   "work_slug": "pli-mn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "6. Pāsarāsisuttavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0201t.tik-mn1_5_p248",
+   "citation": "Ps-pṭ 5 §248",
+   "work_slug": "pli-mn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "10. Māratajjanīyasuttavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0301t.tik-sn1_1_p051",
+   "citation": "Spk-pṭ 1 §51",
+   "work_slug": "pli-sn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Oghataraṇasuttavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-s0301t.tik-sn1_6_p021",
+   "citation": "Spk-pṭ 6 §21",
+   "work_slug": "pli-sn-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "1. Brahmāyācanasuttavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t1.tik-24_p007",
+   "citation": "Sp-ṭ §24.7",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "Mahāmoggallānassa sīhanādakathā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t1.tik-9_p178",
+   "citation": "Sp-ṭ §9.178",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Verañjakaṇḍavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t1.tik-9_p188",
+   "citation": "Sp-ṭ §9.188",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "name-in-list",
+   "has_tr": false,
+   "title": "Verañjakaṇḍavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t1.tik-9_p230",
+   "citation": "Sp-ṭ §9.230",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Verañjakaṇḍavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t1.tik-9_p231",
+   "citation": "Sp-ṭ §9.231",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Verañjakaṇḍavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t1.tik-9_p283",
+   "citation": "Sp-ṭ §9.283",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Verañjakaṇḍavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t1.tik-9_p351",
+   "citation": "Sp-ṭ §9.351",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "Verañjakaṇḍavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t2.tik-3_p043",
+   "citation": "Sp-ṭ §3.43",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Sudinnabhāṇavāravaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t2.tik-62_p006",
+   "citation": "Sp-ṭ §62.6",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "ethnography",
+   "has_tr": false,
+   "title": "Padabhājanīyavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin01t2.tik-85_p004",
+   "citation": "Sp-ṭ §85.4",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "8. Paṭhamaduṭṭhadosasikkhāpadavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin06t.nrf-9_p003",
+   "citation": "Sp-ṭ §9.3",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "larder-iddhi",
+   "has_tr": false,
+   "title": "Verañjakaṇḍavaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin07t.nrf-16_p011",
+   "citation": "Sp-ṭ §16.11",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Upāsakattapaṭivedanākathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin10t.nrf-53_p049",
+   "citation": "Sp-ṭ §53.49",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Sedamocanakathā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-vin12t.nrf-358_p002",
+   "citation": "Sp-ṭ §358.2",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "208. Siveyyakadussayugakathā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0103n.att-67_p011",
+   "citation": "Vism-mhṭ §67.11",
+   "work_slug": "pli-vism-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "soteriology",
+   "has_tr": false,
+   "title": "Pakiṇṇakakathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0103n.att-75_p096",
+   "citation": "Vism-mhṭ §75.96",
+   "work_slug": "pli-vism-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Buddhānussatikathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0103n.att-75_p160",
+   "citation": "Vism-mhṭ §75.160",
+   "work_slug": "pli-vism-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "cosmology",
+   "has_tr": false,
+   "title": "1. Buddhānussatikathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0103n.att-7_p020",
+   "citation": "Vism-mhṭ §7.20",
+   "work_slug": "pli-vism-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Sīlappabhedakathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  },
+  {
+   "id": "cst-e0103n.att-83_p004",
+   "citation": "Vism-mhṭ §83.4",
+   "work_slug": "pli-vism-tika",
+   "layer": "tika",
+   "voice": "commentary",
+   "motif": "other",
+   "has_tr": false,
+   "title": "Maraṇassatikathāvaṇṇanā",
+   "stratum": "sub-commentary",
+   "layer_stratum_disagree": false
+  }
+ ],
+ "aggregates": {
+  "voice_split": {
+   "canonical": 18,
+   "para-canon": 23,
+   "commentary": 120
+  },
+  "para_subsplit": {
+   "visuddhimagga": 4,
+   "milindapanha": 4,
+   "extra-canonical": 15
+  },
+  "layer_count": {
+   "mula": 26,
+   "attha": 69,
+   "tika": 51,
+   "anya": 15
+  },
+  "h0h1_tally": {
+   "canonical-seed": 6,
+   "commentarial-innovation": 5,
+   "commentarial-detail": 2,
+   "split": 3
+  },
+  "warrant_split": {
+   "warranted": 11,
+   "null": 5
+  },
+  "segment_count": {
+   "A": 10,
+   "B": 5,
+   "C": 1
+  },
+  "motif_count": {
+   "soteriology": 25,
+   "cosmology": 43,
+   "larder-iddhi": 27,
+   "name-in-list": 11,
+   "other": 34,
+   "ethnography": 15,
+   "simile": 6
+  },
+  "stratum_split": {
+   "paracanonical": 19,
+   "classical-commentary": 73,
+   "abhidhamma-canonical": 2,
+   "early-canonical": 6,
+   "late-canonical": 10,
+   "sub-commentary": 51
+  },
+  "mula_stratum": {
+   "abhidhamma-canonical": 2,
+   "early-canonical": 6,
+   "late-canonical": 10,
+   "paracanonical": 4,
+   "classical-commentary": 4
+  },
+  "mula_early_vs_late": {
+   "early-canonical": 6,
+   "late-or-later": 20,
+   "note": "Of the structurally-mula rows, the genuinely early-canonical share versus everything stratified later (late-canonical paritta/Apadana/Vinaya-frame, Abhidhamma, paracanonical, commentary-era). The layer/stratum disagreement is the headline."
+  },
+  "feature_stratum": {
+   "early-canonical": 7,
+   "classical-commentary": 6,
+   "sub-commentary": 1,
+   "late-canonical": 1,
+   "abhidhamma-canonical": 1
+  },
+  "cross_recension": {
+   "note": "Link-level from the corpus passage_parallels table (sutta-to-sutta; under-covers the Abhidharma cosmology where an Uttarakuru three-distinctions parallel would live, so a null is a known genre blind-spot).",
+   "agganna_template": {
+    "for": "dn27",
+    "status": "pre-sectarian (multi-recensional)",
+    "parallels": [
+     "san-lo-mvu32 (Mahavastu)",
+     "san-mu-kd17 (Mulasarvastivada Vinaya)",
+     "t10 (Chinese)",
+     "sf277 (Sanskrit fragment)"
+    ]
+   },
+   "atanatiya": {
+    "for": "dn32",
+    "status": "multi-recensional",
+    "parallels": [
+     "t1245 (Chinese)"
+    ]
+   },
+   "tithanasutta_hinge": {
+    "for": "an9.21",
+    "status": "pali-local-unconfirmed",
+    "parallels": [],
+    "guard": "no LINKED non-Pali parallel is not 'no parallel exists'; the schema is stock Abhidharma cosmology a sutta-parallel table under-covers."
+   }
+  }
+ }
+}

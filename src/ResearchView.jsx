@@ -33,6 +33,18 @@ const RESEARCH_ENTRIES = [
     subtitle: 'A three-tier reading of where the seat of mind, the life-continuum, and the insight-ladder come from: sutta silence, an Abhidhamma placeholder, and a commentarial naming.',
     data: '/research/heart-base-and-insight.json',
   },
+  {
+    slug: 'uttarakuru',
+    title: 'The People of Uttarakuru',
+    subtitle: 'A canon-versus-commentary study of the northern continent’s inhabitants: the cosmos’s most fortunate humans, and by the canon’s own reckoning the worst placed for awakening.',
+    data: '/research/uttarakuru.json',
+  },
+  {
+    slug: 'naga',
+    title: 'The Nāga as a Class of Being in the Pāli Canon',
+    subtitle: 'What the canon holds a nāga to be, its births, its place in the cosmos, and the ceiling that bars it from awakening, and how the commentaries systematize, harden, and explain that picture.',
+    data: '/research/naga.json',
+  },
 ];
 
 // Public worked examples — the same renderer, ungated, served from /explorations/*.json
@@ -43,6 +55,12 @@ const EXPLORATION_ENTRIES = [
     title: 'The Wheel-Turning Monarch Across the Canon and Its Commentaries',
     subtitle: 'A worked example of researching the corpus: how to find the wheel-turning-monarch passages, and a survey of what turns up across canon and commentary.',
     data: '/explorations/wheel-turning-monarch.json',
+  },
+  {
+    slug: 'vegetarianism',
+    title: 'Vegetarianism and Meat-Eating Across the Canon and Its Commentaries',
+    subtitle: 'A worked example of researching the corpus: how to find the meat-eating passages, and a survey of where the Pāli stands on vegetarianism across canon and commentary.',
+    data: '/explorations/vegetarianism.json',
   },
 ];
 
@@ -131,10 +149,13 @@ export default function ResearchView({ collection = 'research' }) {
     const StudyComponent = collection === 'explorations' ? ExplorationStudy
       : entry.slug === 'individual-guidance' ? IndividualGuidanceStudy
       : entry.slug === 'heart-base-and-insight' ? HeartBaseStudy
+      : entry.slug === 'uttarakuru' ? UttarakuruStudy
+      : entry.slug === 'naga' ? NagaStudy
       : AwakeningStudy;
     return (
       <StudyComponent
         entry={entry}
+        backLabel={C.heading}
         onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', `#/${base}`); }}
       />
     );
@@ -143,6 +164,7 @@ export default function ResearchView({ collection = 'research' }) {
     return (
       <ArticleStudy
         slug={openSlug}
+        backLabel={C.heading}
         onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', `#/${base}`); }}
       />
     );
@@ -191,7 +213,7 @@ export default function ResearchView({ collection = 'research' }) {
 
 // A compiled markdown study (category='research') rendered from /api/research.
 // Body is server-built sanitized HTML; we style it via the scoped class below.
-function ArticleStudy({ slug, onBack }) {
+function ArticleStudy({ slug, onBack, backLabel = 'Research' }) {
   const [art, setArt] = useState(null);
   const [error, setError] = useState(null);
   useEffect(() => {
@@ -212,9 +234,9 @@ function ArticleStudy({ slug, onBack }) {
     <div data-scroll-root="" style={scrollWrap}>
       <style>{RESEARCH_CSS}</style>
       <article style={articleReadWrap}>
-        <button onClick={onBack} style={backBtn} aria-label="Back to Research (Esc)">
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
           <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
-          <span>Back to Research</span>
+          <span>Back to {backLabel}</span>
           <span style={backBtnHint}>Esc</span>
         </button>
         {!art && !error && <p style={hint}>Loading…</p>}
@@ -260,7 +282,7 @@ const LAYER = {
 };
 const LAYER_KEYS = ['mula', 'attha', 'tika', 'anya'];
 
-function AwakeningStudy({ entry, onBack }) {
+function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
   const [data, setData] = useState(null);
   const [beings, setBeings] = useState(null);
   const [error, setError] = useState(null);
@@ -318,9 +340,9 @@ function AwakeningStudy({ entry, onBack }) {
   return (
     <div data-scroll-root="" style={scrollWrap}>
       <article style={articleReadWrap}>
-        <button onClick={onBack} style={backBtn} aria-label="Back to Research (Esc)">
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
           <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
-          <span>Back to Research</span>
+          <span>Back to {backLabel}</span>
           <span style={backBtnHint}>Esc</span>
         </button>
 
@@ -734,7 +756,7 @@ function warrantIds(w) {
   return m ? Array.from(new Set(m.map((s) => s.toLowerCase()))) : [];
 }
 
-function IndividualGuidanceStudy({ entry, onBack }) {
+function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState({});
@@ -817,9 +839,9 @@ function IndividualGuidanceStudy({ entry, onBack }) {
   return (
     <div data-scroll-root="" style={scrollWrap}>
       <article style={articleReadWrap}>
-        <button onClick={onBack} style={backBtn} aria-label="Back to Research (Esc)">
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
           <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
-          <span>Back to Research</span>
+          <span>Back to {backLabel}</span>
           <span style={backBtnHint}>Esc</span>
         </button>
 
@@ -1707,7 +1729,7 @@ function TierCell({ cell }) {
   );
 }
 
-function HeartBaseStudy({ entry, onBack }) {
+function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -1730,9 +1752,9 @@ function HeartBaseStudy({ entry, onBack }) {
   return (
     <div data-scroll-root="" style={scrollWrap}>
       <article style={articleReadWrap}>
-        <button onClick={onBack} style={backBtn} aria-label="Back to Research (Esc)">
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
           <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
-          <span>Back to Research</span>
+          <span>Back to {backLabel}</span>
           <span style={backBtnHint}>Esc</span>
         </button>
 
@@ -1972,6 +1994,869 @@ function HeartBaseStudy({ entry, onBack }) {
 }
 
 // ---------------------------------------------------------------------------
+// Uttarakuru study. Sibling to HeartBaseStudy: a canon-versus-commentary matrix
+// of the northern continent's inhabitants. Reads public/research/uttarakuru.json
+// (a frozen feature matrix + the full passage census + data-bound aggregates).
+// Admin-gated via Dhamma.jsx. Counts in the prose are read from the dataset.
+// ---------------------------------------------------------------------------
+
+const UBAND = {
+  canon: { label: 'Canon', full: 'Tipiṭaka (mūla), canonical voice' },
+  para: { label: 'Para-canon', full: 'Visuddhimagga / Milindapañha (mūla role, post-canonical voice)' },
+  attha: { label: 'Comm.', full: 'Aṭṭhakathā (commentary)' },
+  tika: { label: 'Sub-comm.', full: 'Ṭīkā (sub-commentary)' },
+};
+const UBAND_KEYS = ['canon', 'para', 'attha', 'tika'];
+
+const UH = {
+  'canonical-seed': { label: 'canonical seed', color: 'var(--bc-accent)', border: 'rgba(var(--bc-accent-rgb), 0.6)', solid: true },
+  'commentarial-detail': { label: 'commentarial detail', color: 'var(--bc-text-secondary)', border: 'rgba(var(--bc-accent-rgb), 0.3)', solid: false },
+  'split': { label: 'split', color: 'var(--bc-accent)', border: 'rgba(var(--bc-accent-rgb), 0.5)', solid: false, dashed: true },
+  'commentarial-innovation': { label: 'no canonical warrant', color: 'var(--bc-loss-text)', border: 'rgba(var(--bc-loss-text-rgb), 0.45)', solid: false },
+};
+function uBadge(h) {
+  const c = UH[h] || UH['commentarial-detail'];
+  return { fontSize: 10.5, fontWeight: 600, letterSpacing: '0.02em', borderRadius: 4, padding: '1px 6px', whiteSpace: 'nowrap', border: '1px solid ' + c.border, borderStyle: c.dashed ? 'dashed' : 'solid', color: c.color, background: c.solid ? 'rgba(var(--bc-accent-rgb), 0.07)' : 'transparent' };
+}
+
+function UFeatureCell({ cell }) {
+  if (!cell || cell.present === 'absent' || (!cell.text && (!cell.cites || !cell.cites.length))) {
+    return <td style={tdLeftSm} aria-label="not attested">·</td>;
+  }
+  return (
+    <td style={cell.present === 'oblique' ? { ...tdLeftSm, opacity: 0.82 } : tdLeftSm}>
+      {cell.present === 'oblique' && <span style={tinyNote}>(oblique) </span>}
+      {cell.text}
+      {cell.cites && cell.cites.length > 0 && (
+        <span style={{ display: 'block', marginTop: 4 }}>
+          {cell.cites.map((c, i) => (
+            <span key={c.id + i}>{i ? ' · ' : ''}<Cite id={c.id}>{c.label}</Cite></span>
+          ))}
+        </span>
+      )}
+    </td>
+  );
+}
+
+function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState({});
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  const bySeg = useMemo(() => {
+    const m = { A: [], B: [], C: [] };
+    if (data) for (const f of data.features) (m[f.segment] || (m[f.segment] = [])).push(f);
+    return m;
+  }, [data]);
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to {backLabel}</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && (() => {
+          const ag = data.aggregates, dis = data.disambiguation, rel = data.reliability;
+          const nFeat = data.features.length, nCensus = data.census.length;
+          const vs = ag.voice_split;
+          return (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Abstract.</span> The people of Uttarakuru, the northern of the
+                four great continents, are the most fortunate humans the Pāli cosmos knows: they own nothing
+                and want for nothing, eat rice that ripens unploughed, live a fixed thousand years, and pass
+                straight to heaven. They are also, by the canon's own reckoning, the worst placed for
+                awakening. This study enumerates every Uttarakuru-bearing passage in the corpus
+                ({nCensus} rows) and codes {nFeat} distinct features for one axis: what the canon seeds and
+                what the commentary builds. The finding is a measured split, best put as a small canonical
+                frame carrying a large commentarial superstructure. {ag.warrant_split.warranted} of the
+                {' '}{nFeat} features carry a canonical warrant; {ag.warrant_split.null} have none located in
+                the corpus as enumerated. The canon supplies the frame, a continent of ownerless, unmarried,
+                long-lived rice-eaters who surpass even the gods in non-grasping yet lack the holy life
+                (AN 9.21); the self-ripening rice is even the same rice, word for word, as the canon's own
+                golden age (DN 27); and the canonical list of inopportune births for the holy life never names
+                Uttarakuru at all (AN 8.29). The commentary supplies the flesh, the wish-trees and perpetual
+                youth and the thousand-year figure, and the gavel: it is the commentary, not the canon, that
+                names the Uttarakurukas incapable of the path, groups them with Māra, and reads their
+                effortless virtue as the reason it cannot be cultivated. Two findings are kept apart
+                throughout: by text mass the corpus is overwhelmingly commentarial, while the frame itself is
+                canonical. The decisive addition is soteriological rather than ethnographic.
+              </p>
+
+              {ag.mula_early_vs_late && (
+                <div style={aidPanel}>
+                  <p style={{ margin: '0 0 8px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--bc-accent)', fontWeight: 600 }}>
+                    Recoded under the provenance signature (v{data.meta.version})
+                  </p>
+                  <p style={{ margin: '0 0 8px' }}>
+                    Canon-versus-commentary is one axis of a fuller signature. Coding chronological stratum
+                    independently of structural layer re-splits the canonical frame: of the{' '}
+                    {ag.layer_count.mula} structurally-mūla rows, only{' '}
+                    <strong>{ag.mula_early_vs_late['early-canonical']}</strong> are genuinely early-canonical
+                    (the bare name in a list or comparison); the other{' '}
+                    <strong>{ag.mula_early_vs_late['late-or-later']}</strong> are late-canonical, Abhidhamma,
+                    paracanonical, or commentary-era. The literal-place reading is more concrete in the later
+                    and more narrative registers, a gradient the study flags as partly definitional rather
+                    than a proven diachrony.
+                  </p>
+                  <p style={{ margin: '0 0 8px' }}>
+                    The ethnographic template is pan-Buddhist (the Aggañña rice has Mahāvastu, Mūlasarvāstivāda,
+                    Chinese and Sanskrit parallels); the soteriological verdict has no linked non-Pāli parallel
+                    and is held <em>Pāli-local-pending-verification</em>, not Theravāda-invented. At no stratum
+                    does the canon place the geography under its own verification formula. Materialisation and
+                    verification are different axes, and only the first one moves.
+                  </p>
+                  <p style={{ ...tinyNote, margin: 0 }}>
+                    Signature inter-annotator agreement (3 coders):{' '}
+                    {Object.entries(rel.signature_iaa || {}).map(([k, v], i) => `${i ? ' · ' : ''}${k.replace(/_/g, ' ')} ${v}`).join('')}.
+                    The full recoded study, with the stratigraphy table, the epistemic-status column, and the
+                    absence table, is the v2 paper (research/uttarakuru/FINDINGS-v2.md).
+                  </p>
+                </div>
+              )}
+              <p style={methodNote}>
+                Every claim resolves to a live corpus row; click any citation to open it in the reader. Counts
+                are read from the dataset. Where the corpus carries English (the SuttaCentral mūla rows) the
+                rendering is Sujato's; the commentary and the Pāli-only Visuddhimagga rows carry no English in
+                the corpus, so those renderings are the author's own gloss, marked as such and checked against
+                the standard translations. Load-bearing negatives were reconfirmed by direct database counts,
+                not by the search lane. Three independent coders classified each feature; agreement was
+                {' '}{rel.unanimous_h0h1} of {rel.features} on the canon-versus-commentary class (Fleiss
+                {' '}<em>κ</em> = {rel.fleiss_kappa}, almost perfect) and {rel.warrant_agreement} on the
+                warrant. Every "no canonical warrant" verdict is read as located, not absolute; the
+                Limitations state the recall floor that bounds it.
+              </p>
+
+              <h2 style={h2}>One term, three referents</h2>
+              <p>
+                A bare search is a trap, in two ways. The exact-match index finds {dis.exact_fts} rows. A
+                substring search with a short final <em>u</em> finds {dis.short_u_substring}, but it silently
+                drops the long-<em>ū</em> declined forms, <em>uttarakurūnaṃ</em> and <em>uttarakurūsu</em>,
+                and those carry the canonical four-continent cosmology (AN 3.80, AN 10.29). Only the stem
+                <em> uttarakur</em> finds the full
+                {' '}{dis.by_layer.mula + dis.by_layer.attha + dis.by_layer.tika + dis.by_layer.anya}. The
+                lesson is the study's own: a proper-name search is a recall instrument, and a careless one
+                under-counts exactly the canonical stratum. And the syllable <em>kuru</em> then blurs three
+                different things, which a careful study must keep apart before it counts anything.
+              </p>
+              <div style={aidPanel}>
+                <p style={{ margin: '0 0 8px' }}><strong>Uttarakuru</strong>, the northern continent, the
+                  target of this study.</p>
+                <p style={{ margin: '0 0 8px' }}><strong>The Kuru country</strong> (<em>janapada</em>) in
+                  Jambudīpa, at Kammāsadhamma, where the Buddha "dwells among the Kurus" and teaches the
+                  Satipaṭṭhāna suttas. Bare <em>kuru</em> that is not the continent accounts for{' '}
+                  {dis.confounds.kuru_not_uttarakuru} rows ({dis.excluded_breakdown.mula} canon,{' '}
+                  {dis.excluded_breakdown.attha + dis.excluded_breakdown.tika} commentary,{' '}
+                  {dis.excluded_breakdown.anya} extra-canonical), reported here as the blur and excluded.
+                  These are a different referent, so excluding them does not bias the Uttarakuru count.</p>
+                <p style={{ margin: 0 }}><strong>The <em>kuru-vatta</em></strong>, the moral observance of the
+                  Kurudhamma Jātaka ({dis.confounds.kurudhamma_kuruvatta} rows, excluded). The tradition itself
+                  fuses all three: see feature C1, where the commentary derives the Kuru country and its
+                  five-precept observance from migrants out of Uttarakuru continent.</p>
+              </div>
+
+              <h2 style={h2}>Two canonical checks</h2>
+              <p>
+                Before the matrix, two controls fix where the canon stands, because both bear on what counts
+                as a commentarial addition. First, the self-ripening rice is not unique to Uttarakuru: the
+                Aggañña-sutta gives the identical formula for the cosmic golden age, so the Uttarakuru
+                ethnography recapitulates a canonical template the commentary then echoes. Second, and more
+                consequentially, the canonical inopportune-birth list, the eight <em>akkhaṇā asamayā
+                brahmacariyavāsāya</em>, does not name Uttarakuru at all. This is the engine behind AN 9.21's
+                "the holy life is lived here" and the topos that no Buddha arises outside Jambudīpa; the canon
+                runs it without the Uttarakurukas in the list. Their place in it, on the enumerated evidence,
+                is the commentary's doing.
+              </p>
+              {['agganna_parallel', 'akkhana_control'].map((k) => {
+                const blk = data.context[k];
+                return (
+                  <p key={k} style={aidNote}>
+                    {blk.claim}
+                    {blk.cites && blk.cites.length > 0 && (
+                      <span style={{ display: 'block', marginTop: 4 }}>
+                        {blk.cites.map((c, i) => <span key={c.id}>{i ? ' · ' : ''}<Cite id={c.id}>{c.label}</Cite></span>)}
+                      </span>
+                    )}
+                  </p>
+                );
+              })}
+
+              <h2 style={h2}>The feature matrix</h2>
+              <p style={tableCaption}>
+                Each feature scored across four bands. <em>Canon</em> = Tipiṭaka mūla; <em>Para-canon</em> =
+                the Visuddhimagga and Milindapañha, which sit in the root-text role but speak with a
+                post-canonical voice; <em>Comm.</em> = aṭṭhakathā; <em>Sub-comm.</em> = ṭīkā. Every cell's
+                citations open the passage in the reader. The badge gives the canon-versus-commentary verdict;
+                "evidence" expands the verbatim Pāli.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Feature</th>
+                      {UBAND_KEYS.map((k) => <th key={k} style={thLeft} title={UBAND[k].full}>{UBAND[k].label}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {['A', 'B', 'C'].map((seg) => {
+                      const sd = data.segments.find((s) => s.key === seg);
+                      const rows = [
+                        <tr key={'h' + seg} style={{ background: 'rgba(var(--bc-accent-rgb), 0.05)' }}>
+                          <td colSpan={5} style={{ ...tdLeftSm, padding: '9px 10px' }}>
+                            <strong>§{seg}. {sd ? sd.title : ''}</strong>
+                            <span style={{ display: 'block', ...bucketBlurb, padding: 0, margin: '3px 0 0' }}>{sd ? sd.blurb : ''}</span>
+                          </td>
+                        </tr>,
+                      ];
+                      for (const f of (bySeg[seg] || [])) {
+                        rows.push(
+                          <tr key={f.id} style={tr}>
+                            <td style={{ ...tdLeftSm, minWidth: 190 }}>
+                              <strong>{f.name}</strong>
+                              <span style={{ display: 'block', marginTop: 4 }}>
+                                <span style={uBadge(f.h0h1)}>{(UH[f.h0h1] || {}).label || f.h0h1}</span>
+                                {f.warrant_label && <span style={{ ...tinyNote, marginLeft: 6 }}>warrant: {f.warrant_label}</span>}
+                              </span>
+                              {f.verbatim && f.verbatim.length > 0 && (
+                                <span style={{ display: 'block', marginTop: 5 }}>
+                                  <button style={evToggle} onClick={() => setOpen((o) => ({ ...o, [f.id]: !o[f.id] }))}
+                                    aria-expanded={!!open[f.id]}>{open[f.id] ? 'Hide evidence' : 'Evidence'}</button>
+                                </span>
+                              )}
+                            </td>
+                            {UBAND_KEYS.map((k) => <UFeatureCell key={k} cell={f.cells[k]} />)}
+                          </tr>
+                        );
+                        if (open[f.id] && f.verbatim) {
+                          rows.push(
+                            <tr key={f.id + '-ev'}>
+                              <td colSpan={5} style={{ padding: '0 10px 6px' }}>
+                                <div style={evDetail}>
+                                  <p style={{ ...evField, margin: '0 0 8px' }}><span style={evFieldKey}>Gloss.</span> {f.gloss}</p>
+                                  {f.verbatim.map((v, i) => (
+                                    <div key={i} style={{ marginBottom: 10 }}>
+                                      <p style={evPali}>{v.pali}</p>
+                                      <p style={evEn}>{v.en}</p>
+                                      <p style={evMeta}>
+                                        <Cite id={v.id}>{v.label}</Cite>
+                                        {' · '}{v.tr_provenance === 'sujato' ? 'tr. Sujato' : v.tr_provenance === 'author' ? "author's gloss" : v.tr_provenance}
+                                      </p>
+                                    </div>
+                                  ))}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      }
+                      return rows;
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 style={h2}>What the count says</h2>
+              <p>
+                Of {nFeat} features, {ag.warrant_split.warranted} carry a canonical warrant and
+                {' '}{ag.warrant_split.null} do not. Read by class: {ag.h0h1_tally['canonical-seed'] || 0} are
+                canonical seeds the commentary elaborates faithfully; {ag.h0h1_tally['commentarial-detail'] || 0}
+                {' '}fill a canonical frame with a specific figure; {ag.h0h1_tally['split'] || 0} are splits, where
+                the canon gives a category and the commentary supplies a new identification or a hardening; and
+                {' '}{ag.h0h1_tally['commentarial-innovation'] || 0} have no located canonical warrant. The
+                last group is not random. It clusters in the vivid ethnography, the wish-trees, the perpetual
+                climate, the flawless bodies, and in the two hardest soteriological moves: the fixed
+                heaven-destiny, and, through the split at feature B3, the explicit ruling that the
+                Uttarakurukas are incapable of the path.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead><tr><th style={thLeft}>Canon-vs-commentary class</th><th style={thNum}>Features</th></tr></thead>
+                  <tbody>
+                    {['canonical-seed', 'commentarial-detail', 'split', 'commentarial-innovation'].map((h) => (
+                      <tr key={h} style={tr}><td style={tdLeft}><span style={uBadge(h)}>{UH[h].label}</span></td><td style={tdNum}>{ag.h0h1_tally[h] || 0}</td></tr>
+                    ))}
+                    <tr style={trTotal}><td style={tdLeft}>Total</td><td style={tdNum}>{nFeat}</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>
+                The same shape shows in the raw enumeration. Of {nCensus} Uttarakuru-bearing rows, only{' '}
+                {vs.canonical} are canonical Tipiṭaka, {vs['para-canon']} are para-canonical
+                ({ag.para_subsplit.visuddhimagga} Visuddhimagga, {ag.para_subsplit.milindapanha} Milindapañha,
+                which the Burmese tradition counts as canonical, and {ag.para_subsplit['extra-canonical']}{' '}
+                other extra-canonical), and {vs.commentary} are commentary or sub-commentary. Two findings
+                must be kept apart here. By text mass the picture is overwhelmingly commentarial. By concept,
+                the frame is canonical: the frame-bearing DN 32 and the paradox-bearing AN 9.21 both sit among
+                those {vs.canonical} rows. Uttarakuru is best described as a small canonical frame carrying a
+                large commentarial superstructure.
+              </p>
+
+              <h2 style={h2}>The paradox, and who sharpened it</h2>
+              <p>
+                The hinge is a single sutta. AN 9.21 ranks three groups so that each surpasses the other two in
+                three respects. The Uttarakurukas surpass the gods of the Thirty-Three and the humans of
+                Jambudīpa by being without mine-making, without possessions, and of fixed lifespan. The gods
+                surpass by divine span, beauty, and bliss. And the humans of Jambudīpa surpass both by courage,
+                by mindfulness, and by this: that the holy life is lived here. The structure does the
+                theology by itself. Uttarakuru's three superiorities are exactly the comforts; Jambudīpa's
+                third is the path. The most fortunate humans have the fruits of virtue without the means to
+                cultivate it.
+              </p>
+              <p>
+                What the commentary adds is not the paradox but its verdict. The canonical Abhidhamma, in the
+                Kathāvatthu's debate on where the holy life is lived, actually <em>softens</em> the "lived
+                here": it argues that a non-returner completes the path among the gods of the Pure Abodes, so
+                "here" cannot mean Jambudīpa alone. But the relief is carved out for the gods, not for
+                Uttarakuru. The commentary then moves the other way. It slots the Uttarakurukas into the class
+                of those who lack the very wish to practise (<em>acchandika</em>), declares them incapable of
+                entering the path (<em>abhabba</em>), groups them with Māra as lacking the desire for nibbāna,
+                and rules that for them the holy life is a thing of no-opportunity, attainable by the gods but
+                not by them. The trajectory is not lenient canon hardening into harsh commentary. It is a
+                canon that debates and partly softens, and a commentary that re-targets and hardens, precisely
+                against Uttarakuru.
+              </p>
+              <p>
+                The reason it gives is the study's quiet centre. Their virtue is real but automatic. The
+                Visuddhimagga classes their non-transgression as natural virtue, morality fixed by being
+                reborn there; the sub-commentary calls their whole effortless life "accomplished by nature."
+                What is accomplished by nature cannot be undertaken, and what cannot be undertaken cannot be
+                cultivated into a path. The comfort is not merely a distraction from renunciation. It is the
+                structural absence of anything to renounce. That is the bar, seen from inside.
+              </p>
+              <p>
+                This places the study within a known field rather than beside it. Collins read the Pāli
+                imagination of felicity as a set of utopias that are, by design, soteriological dead ends, and
+                Gethin read the cosmology as a map of meditative and moral states rather than a gazetteer. The
+                quantified result here gives both a textual mechanism. The northern utopia is a dead end not
+                because the texts say comfort distracts, but because the commentary reclassifies the comfort
+                as virtue-by-nature, and virtue-by-nature, having no act behind it, has nothing to develop.
+                The contribution is not the observation that Uttarakuru cannot practise, which is old, but the
+                located demonstration that the canon supplies the felicity and the frame while the commentary
+                supplies the disqualifying verdict and its reason.
+              </p>
+
+              <h2 style={h2}>Limitations</h2>
+              <p>
+                This is a saturated enumeration, not a proof of completeness, and it earned that caution the
+                hard way. The first name search used a short-vowel substring that under-counted the canonical
+                cosmology; the corrected stem and a set of concept-independent passes, searching each
+                no-warrant feature without the proper name, fixed it. No verdict flipped, and the canonical
+                frame gained witnesses. The residual floor is real: a search can still miss a canonical
+                passage that describes the northern continent by epithet alone, so each "no canonical warrant"
+                verdict refutes a located warrant, not a doctrinal entailment, and is stated that way. The
+                voice axis is deterministic from each row's source work; the motif facet is an approximate,
+                window-based tag. The Kathāvatthu is canonical but the latest canonical stratum and already
+                argumentative in style, a point the reading depends on and states. The wider Indic and
+                Sanskrit Uttarakuru, the Mahābhārata's northern paradise and the Abhidharmakośa cosmology, is
+                a horizon named here, not a witness used.
+              </p>
+
+              <h2 style={h2}>References</h2>
+              <div style={refList}>
+                <div style={refItem}>Collins, S. 1998. <em>Nirvana and Other Buddhist Felicities: Utopias of the Pali Imaginaire</em>. Cambridge: Cambridge University Press.</div>
+                <div style={refItem}>Gethin, R. 1997. "Cosmology and meditation: from the Aggañña Sutta to the Mahāyāna." <em>History of Religions</em> 36.3.</div>
+                <div style={refItem}>Kloetzli, R. 1983. <em>Buddhist Cosmology: From Single World System to Pure Land</em>. Delhi: Motilal Banarsidass.</div>
+                <div style={refItem}>La Vallée Poussin, L. de. 1911. "Cosmogony and Cosmology (Buddhist)." In <em>Encyclopaedia of Religion and Ethics</em>, vol. 4. Edinburgh: T. & T. Clark.</div>
+                <div style={refItem}>Sadakata, A. 1997. <em>Buddhist Cosmology: Philosophy and Origins</em>. Tokyo: Kōsei.</div>
+                <div style={refItem}>Reynolds, F. and Reynolds, M. 1982. <em>Three Worlds According to King Ruang</em>. Berkeley: Asian Humanities Press.</div>
+                <div style={refItem}>Anālayo, Bhikkhu. 2018. <em>Rebirth in Early Buddhism and Current Research</em>. Boston: Wisdom.</div>
+              </div>
+
+              <p style={footNote}>
+                Uttarakuru census, version {data.meta.version}, snapshot {data.meta.corpus_snapshot}. Edition:
+                {' '}{data.meta.edition} Every corpus citation resolves to a passage in the reader; counts are
+                computed from the dataset.
+              </p>
+            </div>
+          </>
+          );
+        })()}
+      </article>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Nāga study. Sibling to UttarakuruStudy: what the canon holds a nāga to be
+// (ontology + soteriology) and how the commentary systematizes it. Reads
+// public/research/naga.json (the referent ledger, the verified spine with
+// verbatim evidence, the H0/H1 divergence cells, the full serpent census, and
+// data-bound aggregates). Admin-gated. Counts in the prose are read from data.
+// ---------------------------------------------------------------------------
+
+const NREF_ORDER = ['serpent', 'elephant', 'person', 'epithet', 'citizen', 'tree', 'nonlexical', 'ambiguous'];
+const NREF_LABEL = {
+  serpent: 'serpent-being', elephant: 'elephant (the bull-tusker)', person: 'personal name (Nāgasena, Nāgita…)',
+  epithet: 'epithet of a sage (folk etym. na + āgu)', citizen: 'citizen / urban (nāgara)', tree: 'tree (ironwood / betel)',
+  nonlexical: 'morphological false friend', ambiguous: 'undecidable',
+};
+const NFACET = {
+  birth_mode: 'Mode of birth (the four nāgayoni)', classification: 'Class and plane (animal status)',
+  realm_habitat: 'Realm and habitat', lifespan: 'Lifespan and glory', power: 'Powers',
+  karma_cause: 'The karma that makes one', diet_predation: 'Diet and predation',
+  uposatha: 'Keeping the uposatha', hears_dhamma: 'Hearing the Dhamma, devotion', takes_human_form: 'Taking human form',
+  magga_phala_ceiling: 'The path-ceiling', ordination_bar: 'The ordination bar', bodhisatta_as_naga: 'The bodhisatta as nāga',
+};
+const NSEG = {
+  A_ontology: ['birth_mode', 'classification', 'realm_habitat', 'lifespan', 'power', 'karma_cause', 'diet_predation'],
+  B_soteriology: ['uposatha', 'hears_dhamma', 'takes_human_form', 'magga_phala_ceiling', 'ordination_bar', 'bodhisatta_as_naga'],
+};
+function nBadge(v) {
+  const m = {
+    H0: { label: 'faithful (H0)', color: 'var(--bc-accent)', bg: 'rgba(var(--bc-accent-rgb), 0.07)', border: 'rgba(var(--bc-accent-rgb), 0.6)' },
+    H1: { label: 'innovation (H1)', color: 'var(--bc-loss-text)', bg: 'transparent', border: 'rgba(var(--bc-loss-text-rgb), 0.45)' },
+  };
+  const c = m[v] || { label: v, color: 'var(--bc-text-secondary)', bg: 'transparent', border: 'rgba(var(--bc-accent-rgb), 0.3)' };
+  return { fontSize: 10.5, fontWeight: 600, letterSpacing: '0.02em', borderRadius: 4, padding: '1px 6px', whiteSpace: 'nowrap', border: '1px solid ' + c.border, color: c.color, background: c.bg };
+}
+const nLayerCols = ['mula', 'attha', 'tika', 'anya'];
+const nLayerLabel = { mula: 'Canon', attha: 'Comm.', tika: 'Sub-comm.', anya: 'Extra-can.' };
+
+function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState({});
+  const [openFacet, setOpenFacet] = useState({});
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  const claimRows = useMemo(() => (data ? data.records.filter((r) => r.claim_bearing) : []), [data]);
+  const byFacet = useMemo(() => {
+    const m = {};
+    for (const r of claimRows) (m[r.facet] || (m[r.facet] = [])).push(r);
+    return m;
+  }, [claimRows]);
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to {backLabel}</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && (() => {
+          const m = data.meta, ag = data.aggregates, led = ag.referent_ledger, hl = m.h_lex, iaa = m.iaa, hh = m.h0_h1;
+          const nSerp = data.records.length;
+          const nClaim = claimRows.length;
+          const candTotal = NREF_ORDER.reduce((s, k) => s + (led[k] ? led[k].total : 0), 0);
+          const fxl = ag.facet_x_layer;
+          const spineBy = (seg) => data.spine.filter((s) => s.segment === seg);
+          const facetTotal = (f) => nLayerCols.reduce((s, k) => s + ((fxl[f] && fxl[f][k]) || 0), 0);
+          return (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Abstract.</span> The nāga is the Pāli canon's exemplary liminal
+                being: a serpent that keeps the sabbath, hears the Dhamma, and can take human shape, yet
+                cannot win the path while it remains a nāga. This study asks what the canon holds a nāga to be,
+                ontologically and soteriologically, and how the Aṭṭhakathā and Ṭīkā systematize that picture.
+                A first finding is lexical and load-bearing: <em>nāga</em> is a heteronym, and a bare search is
+                a trap. Of {candTotal} corpus rows carrying a genuine <em>nāga</em>-token, only {led.serpent.total}
+                {' '}({Math.round((led.serpent.total / candTotal) * 100)} percent) use it of the serpent-being;
+                the rest are the bull-elephant, the monk Nāgasena and his namesakes, the honorific of a sage,
+                the citizen (<em>nāgara</em>), and the ironwood tree, over a base of morphological false friends
+                (<em>samannāgata</em>, <em>anāgāmī</em>) that swamp the raw string. On the {led.serpent.total}
+                {' '}serpent rows ({nClaim} of them asserting an ontological or soteriological claim), the result
+                is a measured split, best put as <em>faithful on the bare facts, innovative in the apparatus</em>.
+                The canon fixes, in the Buddha's own voice, the four modes of nāga-birth (SN 29), the animal
+                (<em>tiracchāna</em>) destination, and the ceiling itself, which it even names
+                (<em>nāgā aviruḷhidhammā</em>, "incapable of growth") and enacts in the Vinaya's bar on
+                ordaining animals. The commentary supplies the machinery: an Abhidhamma rebirth-linking rooted
+                in bad kamma, a water-dwelling frog-eating habitat, the expansion of the disguise-failure
+                occasions from two to five, the broadening of "animal" to any non-human down to Sakka, and the
+                doctrinal reason for the ceiling, that the nāga is <em>abhabba</em>, incapable of jhāna, insight,
+                and path-and-fruit. Of {hh.decidable_cells} decidable canon-to-commentary cells, {hh.H0} are
+                faithful and {hh.H1} are located innovations.
+              </p>
+              <p style={methodNote}>
+                Every claim resolves to a live corpus row; click any citation to open it in the reader. Counts
+                are read from the dataset. The candidate frame was built by direct database regex over the Pāli
+                text, not the search lane, so a count is a count and not a search impression. Where the corpus
+                carries English (the SuttaCentral mūla rows) the rendering is Sujato's, who translates
+                {' '}<em>nāga</em> as "dragon"; the Vinaya Mahākhandhaka and all commentary carry no English in
+                the corpus, so those renderings are the author's own gloss, marked as such and checked against
+                Horner's <em>Book of the Discipline</em>. The ambiguous canonical rows were classified blind
+                from the Pāli windows; a 124-row subsample was triple-coded to measure reliability, which was
+                almost perfect (Fleiss <em>κ</em> = {iaa.fleiss_kappa}, {iaa.all_three_agree} unanimous). The
+                remaining ambiguous rows and the commentary were single-coded against that validated codebook.
+                The fourteen load-bearing spine passages were quote-verified against the source; the other
+                rows are confirmed to exist as live passages but their quotes were not individually
+                re-confirmed. Every "no canonical warrant" verdict is read as located, not absolute; the
+                Limitations state the recall floor that bounds it.
+              </p>
+
+              <h2 style={h2}>One word, many beings</h2>
+              <p>
+                Before anything can be counted, the word must be disambiguated, and the size of the problem is
+                itself a result. A naive reader who searches the corpus for <em>nāga</em> meets a wall that is
+                mostly not about serpents at all. In the canon alone the bare substring occurs in
+                {' '}{hl.canon_substring_nāga_rows.mula} rows, but {hl.canon_morphological_noise_pct} percent of
+                those are morphological accidents: <em>samannāgata</em> ("endowed with"), <em>anāgata</em>
+                {' '}("future"), <em>anāgāmī</em> ("non-returner"), all built on <em>āgata</em> ("come"), in
+                which the letters <em>n-ā-g-a</em> are a seam between morphemes and carry no nāga. Past that
+                filter the genuine <em>nāga</em>-word is still a heteronym with at least five live senses. The
+                table gives the full count across the four textual layers, classified by sense; only the first
+                row, the serpent-being, is this study's subject.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Sense of <em>nāga</em></th>
+                      {nLayerCols.map((k) => <th key={k} style={thNum}>{nLayerLabel[k]}</th>)}
+                      <th style={thNum}>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {NREF_ORDER.filter((k) => led[k]).map((k) => (
+                      <tr key={k} style={k === 'serpent' ? { ...tr, background: 'rgba(var(--bc-accent-rgb), 0.06)' } : tr}>
+                        <td style={tdLeft}>{k === 'serpent' ? <strong>{NREF_LABEL[k]}</strong> : NREF_LABEL[k]}</td>
+                        {nLayerCols.map((c) => <td key={c} style={tdNum}>{led[k][c]}</td>)}
+                        <td style={tdNum}>{k === 'serpent' ? <strong>{led[k].total}</strong> : led[k].total}</td>
+                      </tr>
+                    ))}
+                    <tr style={trTotal}>
+                      <td style={tdLeft}>All genuine <em>nāga</em>-token rows</td>
+                      {nLayerCols.map((c) => <td key={c} style={tdNum}>{NREF_ORDER.reduce((s, k) => s + (led[k] ? led[k][c] : 0), 0)}</td>)}
+                      <td style={tdNum}>{candTotal}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>
+                The serpent-being is {led.serpent.total} of {candTotal} genuine rows, and {led.serpent.mula} of
+                the canon's {NREF_ORDER.reduce((s, k) => s + (led[k] ? led[k].mula : 0), 0)}. The two largest
+                rival senses are instructive. <em>Person</em> is dominated by the monk Nāgasena of the
+                Milindapañha; <em>elephant</em> is the noble tusker of simile, "the king's nāga." Both are why a
+                bare count of "nāga in the canon" overstates the serpent by an order of magnitude. That the same
+                word names the serpent, the elephant, and the sinless one is not noise to be discarded but a
+                fact about the language, recorded here as the study's first finding.
+              </p>
+
+              <h2 style={h2}>What a nāga is</h2>
+              <p>
+                The canon's ontology of the nāga is compact and is given in the Buddha's voice. The
+                Nāgasaṃyutta (SN 29) opens by fixing the four <em>nāgayoni</em>, the four modes by which nāgas
+                are born: from an egg, from a womb, from moisture, and spontaneously; and it ranks them, the
+                spontaneous highest. The same collection states their nature in three words that recur as the
+                object of longing throughout the canon, <em>dīghāyukā vaṇṇavanto sukhabahulā</em>: long-lived,
+                beautiful, abounding in happiness. One is reborn among them, SN 29 says, by a precise recipe:
+                mixed conduct of body, speech, and mind, plus having heard of the nāgas' glory, plus the
+                aspiration to it, plus an act of giving. The decisive ontological fact is supplied not in SN 29
+                but in the Vinaya: the nāga is <em>tiracchānagata</em>, "gone among the animals," a destination
+                below the human and the divine. Its powers, the coils and the hood, the dwelling
+                (<em>bhavana</em>) it emerges from, and above all the shape-shift into human form, are shown
+                rather than catalogued, most beautifully in the nāga-king Mucalinda who sheltered the newly
+                awakened Buddha through seven days of storm and then took the form of a brahmin youth to
+                worship him. The canon also gives the nāga a fixed cosmological place: the Āṭānāṭiya-sutta sets
+                the nāga-host as one of the four guardian armies of the quarters, beside the yakkhas,
+                gandhabbas, and kumbhaṇḍas (<Cite id="dn32">DN 32</Cite>), and the Mahāsamaya lists the nāgas
+                among the orders of beings gathered before the Buddha (<Cite id="dn20">DN 20</Cite>). Its
+                standing enemy the garuḷa is canonical too: the Saṃyutta gives the supaṇṇas their own
+                four-births collection mirroring SN 29, and DN 20 has the Buddha make peace between them.
+              </p>
+              <p>
+                The commentary's additions to this picture are detail laid over a canonical frame, and where
+                they go beyond the frame they do so in a consistent direction, toward system. The
+                Samantapāsādikā gives the nāga an Abhidhamma classification the suttas never state, a
+                rebirth-linking consciousness rooted in the result of bad kamma, so that for all its deva-like
+                lordship the nāga is technically a woeful rebirth; and it furnishes the habitat the suttas leave
+                blank, a creature that moves in water and eats frogs. The four-births commentary (the
+                Catuyonivaṇṇanā) sets the nāga's four <em>yoni</em> into a full cosmological scheme of who is
+                born how, and cross-refers the canonical four supaṇṇa-births. The pattern is the study's thesis
+                in miniature: the canon states that the nāga is born four ways and is an animal; the commentary
+                explains, classifies, and furnishes.
+              </p>
+              {spineBy('A_ontology').length > 0 && (
+                <div style={{ marginTop: 14 }}>
+                  <p style={tableCaption}>The verified ontological spine. Each row's citation opens the passage; "evidence" expands the verbatim Pāli.</p>
+                  {spineBy('A_ontology').map((s) => <NSpineRow key={s.id} s={s} open={open} setOpen={setOpen} />)}
+                </div>
+              )}
+
+              <h2 style={h2}>The ceiling, and who explained it</h2>
+              <p>
+                The soteriological paradox is the heart of the matter, and the canon states it more fully than
+                a first reading expected. A nāga is a moral being: SN 29 shows nāgas
+                keeping the uposatha, reflecting on their past conduct and resolving to do better, and the
+                nāga-king of the Vinaya story is a devotee who wants the holy life. Yet the highest a nāga
+                aspires to in the suttas is a heavenly rebirth, never the path; and when an actual nāga, weary
+                of the nāga-birth and longing for human state, takes a young man's form and gets himself
+                ordained, the Buddha's ruling is explicit. He tells the nāga, in the canon, in his own voice,
+                <em> tumhe khottha nāgā aviruḷhidhammā imasmiṁ dhammavinaye</em>, "you nāgas are of
+                non-growth-nature in this Dhamma-Vinaya," and lays down the rule that an animal may not be
+                ordained, and if ordained must be expelled. The ceiling is therefore not merely enacted by a
+                rule; it is named. What the canon does not give is the reason.
+              </p>
+              <p>
+                The reason is the commentary's, and it is exact. The Samantapāsādikā glosses
+                {' '}<em>aviruḷhidhamma</em> by supplying its content: the nāgas are of non-growth-nature
+                {' '}<em>because of their incapacity</em> (<em>abhabbattā</em>) <em>for jhāna, insight, and
+                path-and-fruit</em>. Here the canon names a ceiling and the commentary builds the doctrine of
+                it, the <em>abhabba</em> being who cannot develop the path in this life. Two further
+                commentarial moves harden the same wall. The canon gives two occasions on which a nāga's
+                disguise fails, mating with its own kind and falling asleep relaxed; the commentary makes them
+                five, adding rebirth, the shedding of the skin, and death. And the canon's word
+                {' '}<em>tiracchānagata</em>, "animal," is read by the commentary as any non-human whatsoever,
+                "down to Sakka the king of the gods," so that the bar that begins as a rule about animals
+                becomes a rule about the not-human. The bodhisatta himself, the Jātakas insist, was repeatedly
+                a nāga-king and kept the precepts there; the same texts are clear that he did so to perfect his
+                virtue toward a future human awakening, never to awaken as a nāga. The nāga is thus the clearest
+                single case of a principle the canon holds quietly and the commentary states loudly: that a
+                human birth is the needed basis for the path.
+              </p>
+              {spineBy('B_soteriology').length > 0 && (
+                <div style={{ marginTop: 14 }}>
+                  <p style={tableCaption}>The verified soteriological spine.</p>
+                  {spineBy('B_soteriology').map((s) => <NSpineRow key={s.id} s={s} open={open} setOpen={setOpen} />)}
+                </div>
+              )}
+
+              <h2 style={h2}>Canon and commentary, cell by cell</h2>
+              <p>
+                The distributional result above has a qualitative mechanism, which a close reading of the
+                load-bearing cells makes precise. These cells are the claims where both a canonical locus and a
+                commentarial treatment sit on the verified spine; they are an analyst-selected set, not a
+                warrant-tally over every commentarial claim, so the count characterizes the spine, not the
+                whole census. For each cell the test is whether a canonical passage warrants what the commentary
+                says. The faithful cells (H0) are the bare facts: the four births, the lifespan, the uposatha,
+                the cause of rebirth, the shape-shift, all of which the commentary glosses without exceeding.
+                The located innovations (H1) cluster, and they cluster tellingly, in the apparatus: the
+                Abhidhamma rebirth-linking, the physical habitat, the doctrinal ground of the ceiling, the
+                expanded reversion list, and the broadened category of the barred. Across the {hh.decidable_cells}
+                {' '}load-bearing cells, {hh.H0} are faithful and {hh.H1} are located innovations; each "none
+                located" refutes a warrant search, not a doctrinal entailment.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr><th style={thLeft}>Claim</th><th style={thLeft}>Canon</th><th style={thLeft}>Commentary</th><th style={thLeft}>Verdict</th></tr>
+                  </thead>
+                  <tbody>
+                    {data.h0_h1_cells.map((c, i) => (
+                      <tr key={i} style={tr}>
+                        <td style={tdLeftSm}><strong>{c.cell}</strong><span style={{ ...tinyNote, display: 'block', marginTop: 3 }}>{c.note}</span></td>
+                        <td style={tdLeftSm}>{c.canon ? <Cite id={c.canon}>{c.canon}</Cite> : <span style={tinyNote}>none located</span>}</td>
+                        <td style={tdLeftSm}>{c.commentary ? <Cite id={c.commentary}>{c.commentary}</Cite> : <span style={tinyNote}>·</span>}</td>
+                        <td style={tdLeftSm}><span style={nBadge(c.verdict)}>{(c.verdict === 'H0' ? 'faithful (H0)' : c.verdict === 'H1' ? 'innovation (H1)' : c.verdict)}</span></td>
+                      </tr>
+                    ))}
+                    <tr style={trTotal}><td style={tdLeft} colSpan={3}>Decidable cells: H0 faithful / H1 innovation</td><td style={tdLeftSm}>{hh.H0} / {hh.H1}</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                The same shape appears in the full enumeration, not just the curated cells. Across the
+                {' '}{nClaim} claim-bearing serpent passages, the commentary carries the great bulk of every
+                facet, and most heavily the facets of furnishing. The table reads the claim-bearing census by
+                facet and layer; the ontological facets of habitat and power, where there is most to invent,
+                are the most lopsided toward the commentary.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr><th style={thLeft}>Facet</th>{nLayerCols.map((k) => <th key={k} style={thNum}>{nLayerLabel[k]}</th>)}<th style={thNum}>Total</th></tr>
+                  </thead>
+                  <tbody>
+                    {['A_ontology', 'B_soteriology'].map((seg) => ([
+                      <tr key={'h' + seg} style={{ background: 'rgba(var(--bc-accent-rgb), 0.05)' }}>
+                        <td colSpan={6} style={{ ...tdLeftSm, padding: '8px 10px' }}>
+                          <strong>{seg === 'A_ontology' ? '§A  Ontology, what a nāga is' : '§B  Soteriology, the ceiling'}</strong>
+                        </td>
+                      </tr>,
+                      ...NSEG[seg].filter((f) => fxl[f]).map((f) => (
+                        <tr key={f} style={tr}>
+                          <td style={tdLeft}>{NFACET[f]}</td>
+                          {nLayerCols.map((k) => <td key={k} style={tdNum}>{(fxl[f] && fxl[f][k]) || 0}</td>)}
+                          <td style={tdNum}>{facetTotal(f)}</td>
+                        </tr>
+                      )),
+                    ]))}
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 style={h2}>Discussion</h2>
+              <p>
+                The result places the nāga within a field that has long read it as ambiguous, and gives that
+                reading a mechanism on an axis the field has not measured. Bloss's study of the Buddha and the
+                nāga and DeCaroli's account of spirit-deity religion both locate the nāga's subordination in the
+                cultic and narrative register: the pre-Buddhist water-deity converted, tamed, made a protector
+                and donor, its worship redirected to the Buddha. That register is real and is not what this
+                study counts. This study measures a different axis, the classificatory and soteriological one,
+                what the texts say a nāga ontologically is and whether it can win the path; and there the
+                ambiguity is not evenly distributed across the tradition. The canon already does the decisive
+                work, classing the nāga as an animal and naming its incapacity; the figure is liminal in the
+                suttas, not only in later devotion. The commentary's contribution is not the subordination but
+                its system: the doctrinal reason (<em>abhabba</em>), the Abhidhamma rebirth-linking, and the
+                generalization of the bar from animals to all non-humans. The contribution is thus an addition
+                to Bloss and DeCaroli, a classificatory axis beside their cultic one, not a relocation of their
+                finding. Appleton's reading of the nāga-king Jātakas fits precisely here: the bodhisatta can
+                be a virtuous nāga, but his virtue there is always oriented toward a future human birth, which
+                is the soteriology of the ceiling told as narrative. The nāga is the canon's sharpest image of a
+                being that has the fruits of merit, long life, beauty, and happiness, without the one
+                opportunity that matters.
+              </p>
+
+              <h2 style={h2}>Limitations</h2>
+              <p>
+                This is a high-recall lexical census on the <em>nāga</em>-word with a measured recall floor,
+                not a proof of completeness. The frame is the broad <em>nāg</em>-string minus the morphological
+                false friends, classified by sense; its floor lies in one place, the material that speaks of
+                nāgas under the ordinary snake words (<em>ahi</em>, <em>sappa</em>, <em>āsīvisa</em>,
+                <em> uraga</em>, <em>bhujaga</em>) without the term <em>nāga</em>. That floor was measured, not
+                only named: a sweep of those words (overwhelmingly literal snakes) found at most six canonical
+                rows carrying nāga-being markers under a snake-synonym without a <em>nāga</em>-token, and a
+                reconciliation against the named nāga-kings (Mucalinda, Bhūridatta, Erakapatta, Saṅkhapāla,
+                Nandopananda, Apalāla, Campeyya) passed, all resolving in the census. The residual is small,
+                bounded, and real, and every "no canonical warrant" verdict refutes a located warrant, not a
+                doctrinal entailment. A 124-row subsample of the canonical ambiguous rows was triple-coded with
+                almost-perfect agreement; the rest of the ambiguous rows and the whole commentary were
+                single-coded against that validated codebook, so the commentary's sense-counts carry the
+                codebook's reliability but not a per-row second opinion. The warrant-by-cell test is a close
+                reading of the load-bearing spine, not a tally over every commentarial claim. The voice axis
+                (the Buddha versus narrative versus commentary) is an approximate tag from each row's source;
+                the canon-versus-commentary layer axis, which carries the argument, is exact. The
+                cross-tradition nāga (the Mahāvastu and the Sanskrit Vinaya on ordaining the non-human) and the
+                nāga of the relic cult, the natural home of the cultic subordination Bloss describes, are
+                horizons named here, not witnesses used.
+              </p>
+
+              <h2 style={h2}>The full census</h2>
+              <p style={tableCaption}>
+                Every claim-bearing serpent passage, grouped by facet. Counts are from the dataset; each
+                citation opens the passage in the reader. Expand a facet to see its instances.
+              </p>
+              {['A_ontology', 'B_soteriology'].map((seg) => (
+                <div key={seg} style={{ marginTop: 6 }}>
+                  <p style={{ ...bucketBlurb, margin: '10px 0 4px' }}><strong>{seg === 'A_ontology' ? '§A  Ontology' : '§B  Soteriology'}</strong></p>
+                  {NSEG[seg].filter((f) => byFacet[f]).map((f) => (
+                    <div key={f} style={{ marginBottom: 4 }}>
+                      <button style={evToggle} onClick={() => setOpenFacet((o) => ({ ...o, [f]: !o[f] }))} aria-expanded={!!openFacet[f]}>
+                        {openFacet[f] ? '▾' : '▸'} {NFACET[f]} ({byFacet[f].length})
+                      </button>
+                      {openFacet[f] && (
+                        <ul style={{ margin: '4px 0 8px 16px', padding: 0, listStyle: 'none' }}>
+                          {byFacet[f].map((r) => (
+                            <li key={r.id} style={{ marginBottom: 5, fontSize: 13.5, lineHeight: 1.5 }}>
+                              <Cite id={r.id}>{r.citation || r.id}</Cite>
+                              <span style={{ ...tinyNote, marginLeft: 6 }}>[{r.layer}]</span>
+                              {r.claim && <span> {r.claim}</span>}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
+
+              <h2 style={h2}>References</h2>
+              <div style={refList}>
+                <div style={refItem}>Vogel, J. P. 1926. <em>Indian Serpent-Lore, or the Nāgas in Hindu Legend and Art</em>. London: Arthur Probsthain.</div>
+                <div style={refItem}>Bloss, L. W. 1973. "The Buddha and the Nāga: A Study in Buddhist Folk Religiosity." <em>History of Religions</em> 13.1: 36–53.</div>
+                <div style={refItem}>DeCaroli, R. 2004. <em>Haunting the Buddha: Indian Popular Religions and the Formation of Buddhism</em>. New York: Oxford University Press.</div>
+                <div style={refItem}>Appleton, N. 2010. <em>Jātaka Stories in Theravāda Buddhism: Narrating the Bodhisatta Path</em>. Farnham: Ashgate.</div>
+                <div style={refItem}>Horner, I. B. 1951. <em>The Book of the Discipline (Vinaya-Piṭaka), Vol. IV (Mahāvagga)</em>. London: Luzac.</div>
+                <div style={refItem}>Collins, S. 1998. <em>Nirvana and Other Buddhist Felicities: Utopias of the Pali Imaginaire</em>. Cambridge: Cambridge University Press.</div>
+                <div style={refItem}>Malalasekera, G. P. 1937–38. <em>Dictionary of Pāli Proper Names</em>. London: John Murray.</div>
+              </div>
+
+              <p style={footNote}>
+                Nāga census, version {m.version}, snapshot {m.corpus_snapshot}. {nSerp} serpent-being rows,
+                {' '}{nClaim} claim-bearing; referent agreement Fleiss <em>κ</em> = {iaa.fleiss_kappa}. Every
+                corpus citation resolves to a passage in the reader; counts are computed from the dataset.
+              </p>
+            </div>
+          </>
+          );
+        })()}
+      </article>
+    </div>
+  );
+}
+
+function NSpineRow({ s, open, setOpen }) {
+  return (
+    <div style={{ borderTop: '1px solid var(--bc-border)', padding: '8px 0' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 14, fontWeight: 600 }}>{s.claim}</span>
+        <span style={{ display: 'flex', gap: 8, alignItems: 'center', whiteSpace: 'nowrap' }}>
+          {s.warrant && <span style={tinyNote}>warrant: <Cite id={s.warrant}>{s.warrant}</Cite></span>}
+          <Cite id={s.id}>{s.citation || s.id}</Cite>
+          <button style={evToggle} onClick={() => setOpen((o) => ({ ...o, [s.id]: !o[s.id] }))} aria-expanded={!!open[s.id]}>
+            {open[s.id] ? 'Hide' : 'Evidence'}
+          </button>
+        </span>
+      </div>
+      {open[s.id] && (
+        <div style={{ ...evDetail, marginTop: 6 }}>
+          {s.evidence_pali && <p style={evPali}>{s.evidence_pali}</p>}
+          {s.evidence_en && <p style={evEn}>{s.evidence_en}</p>}
+          <p style={evMeta}>
+            <Cite id={s.id}>{s.citation || s.id}</Cite>
+            {' · '}{s.layer}{' · '}
+            {s.tr_provenance === 'sujato' ? 'tr. Sujato' : s.tr_provenance === 'author' ? "author's gloss" : (s.tr_provenance || '')}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // ExplorationStudy — the generic renderer for every public Exploration (the
 // Explorations tab). Reads an exploration JSON (public/explorations/<slug>.json)
 // and renders it whole: the Overview + method note, the how-to-research preface
@@ -1992,7 +2877,7 @@ const EXP_PITAKA = {
   anya: { label: 'Extra', full: 'Extra-canonical' },
 };
 
-function ExplorationStudy({ entry, onBack }) {
+function ExplorationStudy({ entry, onBack, backLabel = 'Explorations' }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState({});
@@ -2046,9 +2931,9 @@ function ExplorationStudy({ entry, onBack }) {
   return (
     <div data-scroll-root="" style={scrollWrap}>
       <article style={articleReadWrap}>
-        <button onClick={onBack} style={backBtn} aria-label="Back to Research (Esc)">
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
           <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
-          <span>Back to Research</span>
+          <span>Back to {backLabel}</span>
           <span style={backBtnHint}>Esc</span>
         </button>
 

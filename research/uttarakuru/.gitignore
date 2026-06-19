@@ -1,0 +1,14 @@
+# Scratch full-text fetches + v2 intermediates — reproducible from the SQL/workflows, not the record.
+_dossier_full.json
+_hinge.json
+_svpt_cluster.json
+_mula_windows.json
+_allids.txt
+_v2_plan.md
+_v2_queries.json
+_v2_paper_draft.md
+_v2_editorial.json
+_v2_pieces.json
+_v2_sections.json
+# Kept (the record + build inputs): *.md (FINDINGS-v2, EVIDENCE, HANDOFF, RESEARCH-DESIGN, V2-DOSSIER),
+# build_dataset.py, runq.py, _census_windows.json, _census_coded.json, _census_v2.json, _v2_codes.json
