@@ -290,3 +290,40 @@ Heart-base 3 partial rows (sibling study). The expansion warrant distribution (1
 and could be hardened to a cell-by-cell ledger. The frame regexes bound recall (stated + extensible).
 
 See also: `[[dhamma-research-standard]]`, `[[dhamma-auth-research-tab]]`, `[[dhamma-concurrency-wedge]]`.
+
+---
+
+## v2 provenance-signature retrofit (R2, 2026-06-19)
+
+Retrofit under `PROVENANCE-SIGNATURE.md` per `research/PROVENANCE-RETROFIT-COORDINATOR.md` §6.R2.
+Paper: `research/individual-guidance/FINDINGS-v2.md`. Builder: `build_dataset.py` (new; data-bound,
+consistency-gated, em-dash gate). Renderer: additive v2 block in `IndividualGuidanceStudy` only.
+
+**Triage.** Descriptive scope gate (how carita is assigned, not what object to use). Four load-bearing
+axes: I.1 chronological stratum, the I.1 carita drift strip (3.3), II.7 epistemic, I.4 recension.
+Excluded: I.5 pre-Buddhist (no pan-Indian antecedent), I.8 harmonization (the tradition disclaims the
+apparatus rather than reconciling it).
+
+**SQL ladder (serial, dhamma-pg proxy 15432).** All counts reconfirmed by GROUP BY work_role/work_slug.
+- RUNG 1 bare token `\mcarita\M`: 5 rows.
+- RUNG 2 stem `carit` by layer: mula 824 / attha 1860 / tika 1187 / anya 159 (over-collects the verb).
+- RUNG 3 temperament-compound `(raga|dosa|moha|vitakka|saddha|nana|panna)carit`, mula by work:
+  pli-vism 30, pli-kn 10, pli-ne 4, pli-nd 3, pli-pe 3, pli-mil 2, pli-ps 1; **pli-an/sn/mn/dn 0,
+  pli-abhidhamma 0** (the load-bearing zero).
+- RUNG 4 periphrasis (antidote formula): `asubhā bhāvetabbā`/`vitakkupacchedāya` mula 35 (pli-an 5, pli-ud 1).
+- kammaṭṭhāna regression: mula 148 (134 Vism) / attha 1073 / tika 787 / anya 18 (matches frozen §7).
+- closed-40 `cattālīsa.{0,4}kammaṭṭhān` mula = 2, both Vism §37.
+- epistemic: carita × knowing-formula mula co-occurrences gap 16,852 / 132,840 / 229,586 chars; the one
+  tight row is Vism §36.30, the `na sārato paccetabbaṃ` disclaimer.
+- recension: an4.170→sa560 (lzh); an9.1/ud4.1→ma56/ma57 + Udanavarga; an6.10→sa931. carita-feature has
+  no feature-level external (container-vs-feature; the Niddesa's parallels are to the glossed verse).
+- D0 regression: yuganaddha mula 35; sukkhavipassaka/two-vehicle mula = 5, all Vism. Verdict intact.
+
+**Gates.** build_dataset CONSISTENCY: PASS; em-dash 0 (dataset + paper); process leaks 0; ladder
+non-decreasing; regression sutta 46 / commentary 212, H0/H1 8/7; 12/12 paper cite ids resolve;
+`npx vite build` green.
+
+**Verdict: CONFIRMED + sharpened.** The "commentarial systematization" finding holds as a chronology
+fact: the apparatus is post-canonical (para-canonical hinge + Vism body) on a pre-sectarian seed; the
+carita drift strip is buildable (5 strata, 4 drift points); the matching is systematized, never
+asserted-verified (the Vism's own disclaimer). §5 R2 prediction: **PASS**.
