@@ -466,6 +466,100 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 only {fmt(colTotals.mula)} ({pct(colTotals.mula, data.totals.events)}) are in the canon itself.
               </p>
 
+              {/* The provenance-signature retrofit (v2): the canon column of
+                  Table 2 is one structural projection. Coding chronological
+                  stratum and attribution independently of the mūla tag re-splits
+                  the 299 "canonical" events. Self-hides if the v2 block is
+                  absent from the dataset. */}
+              {data.v2 && (
+                <>
+                  <h2 style={h2}>Table 2b. The canon, re-split by chronological stratum</h2>
+                  <p style={tableCaption}>
+                    The structural mūla tag is a position in the edited corpus, not a date. Coding
+                    each canonical event by the chronological stratum of its work, independently of
+                    the mūla / aṭṭhakathā / ṭīkā layer, shows that only{' '}
+                    {fmt(data.v2.stratigraphy.mula_early_vs_late['early-canonical'])} of the{' '}
+                    {fmt(colTotals.mula)} canonical awakening events are early-canonical; the other{' '}
+                    {fmt(data.v2.stratigraphy.mula_early_vs_late['late-or-later'])} carry the mūla
+                    tag while coding late-canonical, paracanonical, or commentary-era (the
+                    layer/stratum disagreement). The single largest canonical class, the Apadāna, is
+                    late-canonical autobiographical verse. Full paper: research/awakening/FINDINGS-v2.md.
+                  </p>
+                  <div style={tableWrap}>
+                    <table style={table}>
+                      <thead>
+                        <tr>
+                          <th style={thLeft}>Work (canonical class)</th>
+                          <th style={thNum}>Events</th>
+                          <th style={thLeft}>Chronological stratum</th>
+                          <th style={thLeft}>Layer/stratum disagree</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Object.entries(data.v2.stratigraphy.class_strata)
+                          .sort((a, b) => b[1].events - a[1].events)
+                          .map(([work, d]) => (
+                            <tr key={work} style={tr}>
+                              <td style={tdLeft}>{work}</td>
+                              <td style={tdNum}>{fmt(d.events)}</td>
+                              <td style={tdLeft}>{d.stratum}</td>
+                              <td style={tdLeft}>{['early-canonical', 'archaic-canonical'].includes(d.stratum) ? 'no' : 'yes'}</td>
+                            </tr>
+                          ))}
+                        <tr style={trTotal}>
+                          <td style={tdLeft}>All canonical events</td>
+                          <td style={tdNumStrong}>{fmt(colTotals.mula)}</td>
+                          <td style={tdLeft}>
+                            {fmt(data.v2.stratigraphy.mula_early_vs_late['early-canonical'])} early,{' '}
+                            {fmt(data.v2.stratigraphy.mula_early_vs_late['late-or-later'])} late-or-later
+                          </td>
+                          <td style={tdLeft}>{fmt(data.v2.stratigraphy.mula_early_vs_late.layer_stratum_disagree)} of {fmt(colTotals.mula)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <h2 style={h2}>Table 2c. Who narrates the awakening (attribution)</h2>
+                  <p style={tableCaption}>
+                    The illocutionary owner of the attainment-claim, coded per canonical event-class.
+                    None of the {fmt(colTotals.mula)} canonical awakening events is the Buddha
+                    asserting an awakening in his own mouth; they are redactor-narrated frames or the
+                    awakened elder's own hagiographic verse. Of the {fmt(data.v2.attribution.quotative_scan.total)} rows,{' '}
+                    {fmt(data.v2.attribution.quotative_scan.first_person)} carry first-person
+                    self-narration markers and only {fmt(data.v2.attribution.quotative_scan.buddha_etadavoca)}{' '}
+                    carry the Buddha-speech frame (and those for the teaching, not the attainment).
+                  </p>
+                  <div style={tableWrap}>
+                    <table style={table}>
+                      <thead>
+                        <tr>
+                          <th style={thLeft}>Attribution (narrating voice)</th>
+                          <th style={thNum}>Events</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[['buddha-vacana (the Buddha asserts the awakening)', data.v2.attribution.buddha_vacana]]
+                          .concat(Object.entries(data.v2.attribution.mula_attribution_split).sort((a, b) => b[1] - a[1]))
+                          .map(([k, v]) => (
+                            <tr key={k} style={tr}>
+                              <td style={tdLeft}>{k}</td>
+                              <td style={tdNum}>{fmt(v)}</td>
+                            </tr>
+                          ))}
+                        <tr style={trTotal}>
+                          <td style={tdLeft}>All canonical events</td>
+                          <td style={tdNumStrong}>{fmt(colTotals.mula)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p style={methodNote}>
+                    Provenance-signature retrofit ({data.v2.prediction_score.result} on the
+                    pre-registered prediction). {data.v2.verdict}
+                  </p>
+                </>
+              )}
+
               {/* A third lens: who attains, not what occasions it. Built from
                   the being-classification overlay (deduped named individuals +
                   a collective taxonomy). Self-hides until the overlay loads. */}

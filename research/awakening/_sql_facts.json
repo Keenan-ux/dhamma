@@ -1,0 +1,22 @@
+{
+ "_note": "SQL-derived facts, reconfirmed serially against dhamma-pg (snapshot 194,710 passages, 2026-06-19). Every count here was produced by a GROUP BY / count query, not a search impression.",
+ "regression_role_split": {"mula": 299, "attha": 1762, "tika": 118, "anya": 35},
+ "recall_ladder": [
+  {"rung": 1, "strategy": "naive surface string 'arahattaṁ pāpuṇi' (bar-niggahita glyph, as a non-specialist types it), ILIKE", "yield": 2, "note": "the CST corpus writes niggahita as the dotted-m glyph (ṃ), so the bar-m (ṁ) surface string finds almost nothing"},
+  {"rung": 2, "strategy": "glyph-normalized + declension/sandhi (dotted-m ṃ; pāpuṇi/patto/pattā/āpādi), regex over the arahatta-attainment family", "yield": 914, "note": "the glyph normalization is the dominant recovery; +912 over rung 1"},
+  {"rung": 3, "strategy": "concept/periphrasis union, name-independent (desanāpariyosāne, gāthāpariyosāne, anupādāya āsavehi cittaṃ vimucci, virajaṃ vītamalaṃ dhammacakkhuṃ udapādi, khīṇā jāti, aññaṃ byākāsi) across all markers", "yield": 1488, "note": "the mass-awakening formula desanāpariyosāne is 0 in mula and 206 in attha, a commentarial narrative marker; +574 over rung 2"},
+  {"rung": 4, "strategy": "false-positive purge (doctrinal/abstract uses of the markers set aside as non-events by the close read)", "yield": 2214, "note": "the census reports 4,023 classified marker passages, of which 2,214 narrate a real event and 1,809 are doctrinal/abstract and were set aside; the 2,214 is the net event count after the purge"}
+ ],
+ "marker_by_role": {
+  "arahatta_papuni": {"anya": 14, "attha": 610, "mula": 22, "tika": 49},
+  "desanapariyosane": {"anya": 5, "attha": 206, "mula": 0, "tika": 9},
+  "cittavimucci": {"anya": 4, "attha": 58, "mula": 148, "tika": 21},
+  "dhammacakkhu_udapadi": {"anya": 3, "attha": 9, "mula": 28, "tika": 5}
+ },
+ "quotative_scan_mula": {"first_person": 206, "buddha_etadavoca": 22, "nidana_frame": 48, "total": 299,
+   "note": "of the 299 mula events, 206 carry first-person self-narration markers (the Apadāna / Theragāthā 'I attained' verse); only 22 carry bhagavā etadavoca; 48 carry the redactor's evaṃ me sutaṃ / tena samayena frame"},
+ "cross_recension": {
+   "early_nikaya_prose_external": {"lzh": 11, "san": 1, "note": "of the 33 early-canonical Nikāya-prose awakening events, external (non-Pāli) parallels exist for several, a link-level proxy for a pre-sectarian core of the bare awakening narration"},
+   "apadana_buddhavamsa_external": {"lzh": 40, "san": 24, "pra": 13, "note": "link-level only; the Apadāna/Buddhavaṃsa works carry some external parallels at work level, but the genre is philologically late-canonical; container-vs-feature kept distinct, coded link-level"}
+ }
+}
