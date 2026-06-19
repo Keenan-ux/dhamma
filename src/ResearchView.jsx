@@ -2203,6 +2203,175 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 <em> The Birth of Insight</em>; Pa-Auk Sayadaw, <em>Knowing and Seeing</em>.
               </p>
 
+              {/* ---- v2 provenance-signature retrofit (R3; additive, self-hides if absent) ---- */}
+              {data.v2 && (() => {
+                const v = data.v2;
+                return (
+                  <section style={{ marginTop: 34 }}>
+                    <h2 style={h2}>{v.title}</h2>
+                    <p style={methodNote}>{v.subtitle}</p>
+                    <p>{v.headline}</p>
+
+                    {Array.isArray(v.recall_ladder) && v.recall_ladder.length > 0 && (
+                      <>
+                        <h3 style={h3}>Recall ladder: the named heart-base versus the unnamed posit</h3>
+                        <div style={tableWrap}>
+                          <table style={table}>
+                            <thead>
+                              <tr>
+                                <th style={thLeft}>Rung</th>
+                                <th style={thLeft}>Strategy</th>
+                                <th style={thNum}>Yield</th>
+                                <th style={thNum}>Δ</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {v.recall_ladder.map((r, i) => (
+                                <tr key={i} style={tr}>
+                                  <td style={tdLeftSm}>{r.rung}</td>
+                                  <td style={tdLeftSm}>{r.strategy}</td>
+                                  <td style={tdNum}>{r.yield}</td>
+                                  <td style={tdNum}>{r.delta}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        <p style={tableCaption}>
+                          The named heart-base stays at zero in the four Nikāyas and zero in the seven
+                          Abhidhamma books; rung 3 surfaces the canonical-Abhidhamma posit the name-search
+                          can never find. The concept is canonical even though the name is not.
+                        </p>
+                      </>
+                    )}
+
+                    {Array.isArray(v.stratigraphy) && v.stratigraphy.length > 0 && (
+                      <>
+                        <h3 style={h3}>Stratum, coded independently of structural layer</h3>
+                        <div style={tableWrap}>
+                          <table style={table}>
+                            <thead>
+                              <tr>
+                                <th style={thLeft}>Element</th>
+                                <th style={thLeft}>Chronological stratum</th>
+                                <th style={thLeft}>Structural layer</th>
+                                <th style={thNum} title="Hits in the four Nikāyas + the seven Abhidhamma books">4-Nik. + Abhi.</th>
+                                <th style={thNum}>Layer/stratum disagree</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {v.stratigraphy.map((r, i) => (
+                                <tr key={i} style={tr}>
+                                  <td style={tdLeft}>{r.element}</td>
+                                  <td style={tdLeftSm}>{r.stratum}</td>
+                                  <td style={tdLeftSm}>{r.structural_layer}</td>
+                                  <td style={tdNum}>{r.four_nikaya_abhidhamma_hits}</td>
+                                  <td style={tdNum}>{r.layer_stratum_disagree ? 'yes' : 'no'}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        <p style={tableCaption}>
+                          {v.stratigraphy.map((r, i) => (
+                            <span key={i}>{i ? ' · ' : ''}<Cite id={r.anchor?.id}>{r.anchor?.label}</Cite></span>
+                          ))}
+                        </p>
+                      </>
+                    )}
+
+                    {v.epistemic && (
+                      <>
+                        <h3 style={h3}>Epistemic marking: {v.epistemic.verdict}</h3>
+                        <p><em>{v.epistemic.claim}</em></p>
+                        <ul style={{ margin: '6px 0 8px 0', paddingLeft: 20 }}>
+                          {v.epistemic.evidence.map((e, i) => <li key={i} style={{ marginBottom: 6 }}>{e}</li>)}
+                        </ul>
+                        {Array.isArray(v.epistemic.cooccurrence) && (
+                          <div style={tableWrap}>
+                            <table style={table}>
+                              <thead>
+                                <tr>
+                                  <th style={thLeft}>Verification formula</th>
+                                  <th style={thNum}>Rows with both</th>
+                                  <th style={thNum}>Min char-gap</th>
+                                  <th style={thLeft}>Reading</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {v.epistemic.cooccurrence.map((co, i) => (
+                                  <tr key={i} style={tr}>
+                                    <td style={tdLeftSm}>{co.formula}</td>
+                                    <td style={tdNum}>{co.rows_with_both}</td>
+                                    <td style={tdNum}>{fmt(co.min_char_gap)}</td>
+                                    <td style={tdLeftSm}>{co.reading} <Cite id={co.row?.id}>{co.row?.label}</Cite></td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+                      </>
+                    )}
+
+                    {Array.isArray(v.absence) && v.absence.length > 0 && (
+                      <>
+                        <h3 style={h3}>The heart-base as a structured absence</h3>
+                        {v.absence.map((a, i) => (
+                          <p key={i} style={{ marginBottom: 8 }}>
+                            <strong>Silent claim:</strong> {a.silent_claim}{' '}
+                            <strong>Expected frame:</strong> {a.expected_frame}.{' '}
+                            <strong>Co-occurrence:</strong> {a.sql_cooccurrence}.{' '}
+                            <strong>Licenses:</strong> {a.licensed}{' '}
+                            <strong>Does not license:</strong> {a.not_licensed}{' '}
+                            <em>{a.contrast}</em>
+                          </p>
+                        ))}
+                      </>
+                    )}
+
+                    {v.harmonization && (
+                      <>
+                        <h3 style={h3}>Harmonization: {v.harmonization.verdict}</h3>
+                        <p><em>{v.harmonization.claim}</em></p>
+                        <p>Formula: {v.harmonization.formula}.</p>
+                        {v.harmonization.witnesses.map((w, i) => (
+                          <div key={i} style={{ margin: '6px 0' }}>
+                            <p style={evPaliBlock}>{w.pali}</p>
+                            <p style={evEnBlock}>{w.en} (<Cite id={w.locus?.id}>{w.locus?.label}</Cite>; scripture adduced: <Cite id={w.adduced_scripture?.id}>{w.adduced_scripture?.label}</Cite>)</p>
+                          </div>
+                        ))}
+                        <p style={tableCaption}>{v.harmonization.note}</p>
+                      </>
+                    )}
+
+                    {v.recension && (
+                      <>
+                        <h3 style={h3}>Cross-recensional reach: {v.recension.verdict}</h3>
+                        <p>
+                          <strong>Heart-base.</strong> {v.recension.heart_base.note} {v.recension.heart_base.scholarship}
+                        </p>
+                        <p>
+                          <strong>Insight ladder.</strong> {v.recension.insight_ladder.note} {v.recension.insight_ladder.guard}
+                        </p>
+                        <p>
+                          <strong>Shared seed.</strong> {v.recension.seed_shared.claim}{' '}
+                          (<Cite id={v.recension.seed_shared.anchor?.id}>{v.recension.seed_shared.anchor?.label}</Cite>)
+                        </p>
+                      </>
+                    )}
+
+                    {v.prediction_score && (
+                      <p style={methodNote}>
+                        Pre-registered prediction scored <strong>{v.prediction_score.result}</strong>.{' '}
+                        {v.prediction_score.evidence} {v.verdict}
+                      </p>
+                    )}
+                    <p style={methodNote}>{v.method_note}</p>
+                  </section>
+                );
+              })()}
+
               <p style={footNote}>
                 Companion to the individual-guidance census, version {data.meta.version}, snapshot{' '}
                 {data.meta.corpus_snapshot}. Every corpus citation resolves to a passage in the reader.
