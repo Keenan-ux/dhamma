@@ -1,0 +1,91 @@
+# Attribution Re-Code + Per-Claim Audit — living handoff
+
+> Coordinator state for the follow-on campaign that corrects a per-claim coding defect found in the completed
+> provenance-retrofit campaign (`research/PROVENANCE-RETROFIT-COORDINATOR.md`). Update this doc IN PLACE as each
+> item lands (snapshot, not an append log). A successor reads this in full, then the files in §2, runs §4's
+> verification commands to confirm live state, reports the §5 key metric + any drift, then resumes from §5.
+
+## 1. Mission
+
+The retrofit campaign coded parts of the per-claim provenance signature **by work-class** rather than **per
+claim**, violating the framework's binding rule ("the signature is coded *per claim*, not per row" —
+PROVENANCE-SIGNATURE §2). In **R1 (awakening census)** this produced a published, now-live false headline:
+**"0 of 299 canonical awakening events is buddha-vacana."** The `WORK_ATTRIBUTION` map in
+`research/awakening/build_dataset.py` assigns `nikāya-prose → redactor-frame` wholesale, which mis-files
+**MN 4 / MN 19 / MN 36 / MN 85 / MN 100** — the suttas where the **Buddha narrates his own awakening in the
+first person** (`…me … cittaṁ vimuccittha`, confirmed live 2026-06-19) — as redactor-frame. By the framework's
+own I.2 rule (code the illocutionary owner of the *claim*, embedded direct speech included), those are
+**buddha-vacana (the Buddha asserting his own awakening)**, so the true count is **not 0**.
+
+**The correction is itself uncertain and needs a deeper dive** (operator's call): the "~5" is a guess from five
+SuttaCentral ids, not a verified enumeration. Re-code attribution **per claim with proper enumeration + IAA**;
+nail the true, deduplicated count of the Buddha's own-awakening recollections; **test (do not assume)** the
+relational claim "the Buddha asserts only his *own* awakening, never another's"; then audit R2–R5 for the same
+per-work shortcut; fix dataset + paper + renderer; redeploy **only on explicit operator authorization** (this is
+a correction to a live published scholarly finding).
+
+## 2. File / artifact map (+ commands)
+
+**The defect + the R1 study (priority territory):**
+- `research/awakening/build_dataset.py` — **the defect lives in the `WORK_ATTRIBUTION` dict (~lines 115–125)**: per-work, not per-claim. Also `tally('v2_attribution')` and the `buddha_vacana = …get('buddha-vacana', 0)` line that hard-zeros the headline.
+- `research/awakening/_mula_workslug.json` — id→work_slug manifest for the **299 mūla events** (the audit universe). Work split: pli-ap 103, pli-kn 88, pli-thag 24, pli-vism 17, pli-mn 14, pli-thig 14, pli-sn 12, pli-vinaya 6, pli-an 5, pli-bv 5, pli-ud 3, pli-nd 2, pli-dn 2, pli-mil 2, pli-vv 2.
+- The **33 nikāya-prose rows** are the audit core (the rest are Apadāna/Theragāthā self-report + late strata). Known Buddha-own-awakening rows: `mn4`, `mn19`, `mn36`, `mn85`, `mn100`. Audit the CST MN siblings too (`cst-s0201m.mul-mn1_1`, `-mn1_2`, `cst-s0202m.mul-mn2_3/4/5`, `cst-s0203m.mul-mn3_2/5`) and the SN/AN/DN prose rows (`an5.56`, `an8.11`, `an8.30`, `dn5`, `sn35.121`, `sn47.29/30`, `sn52.24`, `sn54.8`, `sn55.27/39/53`, `sn8.7/12`, …) for **(a)** the Buddha asserting his own awakening and **(b)** the Buddha declaring *another's* awakening.
+- `research/awakening/FINDINGS-v2.md` — the paper. The defect surfaces in "**The attribution axis**" section + the table row `| buddha-vacana … | 0 | none |` and the keystone-signature block.
+- `public/research/awakening-events.json` — the **live** dataset (v2 attribution block); served admin-gated.
+- `src/ResearchView.jsx` — `AwakeningStudy`, **"Table 2c. Who narrates the awakening"** (the live render the operator was reading).
+
+**The method standard:**
+- `.claude/skills/dhamma-research/PROVENANCE-SIGNATURE.md` — **§2 "coded per claim, not per row"** (the violated rule); **I.2 attribution** (the quotative marker inventory: `bhagavā etadavoca`, `ahaṁ/mayā` first-person, the `redactor-frame` default, and the opponent-then-corrected scan); the worked example §7 (embedded-speaker coding).
+- `.claude/skills/dhamma-research/SKILL.md` — the k≥3 blind-coder + IAA discipline for the expensive per-claim axes.
+
+**Upstream (the completed campaign that introduced the defect):**
+- `research/PROVENANCE-RETROFIT-COORDINATOR.md` — the finished R1–R5 ledger. R1 = `ece3e63`. See its post-completion defect note.
+- The other study builders to audit in A2: `research/individual-guidance/build_dataset.py`, `research/heart-base/build_dataset.py`, `research/translation-divergence/build_dataset.py`, `research/intoxicants/build_dataset.py`.
+
+**DB lane (serial only):** proxy `flyctl proxy 15432:5432 --app dhamma-pg` (verify `Get-NetTCPConnection -LocalPort 15432`); password live `PW=$(flyctl ssh console -a dhamma-pg -C "printenv POSTGRES_PASSWORD" | tr -d '\r\n')`, never committed; runner `PYTHONIOENCODING=utf-8 DATABASE_URL="postgres://dhamma:$PW@localhost:15432/dhamma" python research/naga/sql.py "<SQL>"`.
+
+**Rebuild + verify:** `python research/awakening/build_dataset.py` → `CONSISTENCY: PASS`; `grep -c "—" <paper-or-dataset>` → 0; leak scan `grep -niE "\b(agent|workflow|pipeline|box|prompt|LLM)\b" <paper>`; `npx vite build`.
+**Deploy (operator-authorized only):** `git push origin master` then `flyctl deploy -a dhamma`; smoke `curl -s https://dhamma.fly.dev/api/dbcheck` (expect passages 194710); research data is admin-gated (a 401 on `/research/*.json` is the gate working).
+
+## 3. Sub-chat ledger
+
+| # | Item | Brief | Status | Verdict |
+|---|---|---|---|---|
+| A1 | Awakening attribution per-claim re-code (the priority) | §6.A1 | NOT STARTED | — |
+| A2 | Cross-study per-work-shortcut audit (R2–R5) | §6.A2 | NOT STARTED | — |
+| A3 | Method hardening (per-claim-granularity gate in framework/skill + coordinator verify step) | §6.A3 | NOT STARTED | — |
+
+## 4. Verification commands (+ expected) — the coordinator re-runs these, never trusts self-report
+
+- **NEW — per-claim coding spot-audit (the check that would have caught this):** pick ≥8 coded rows at random across work-classes; **read each `original` directly** and confirm the attribution code matches *that row's* actual quotative owner, **not its work-class**. A row whose code is a function of its work, not its content, is a fail.
+- `python research/awakening/build_dataset.py` → `CONSISTENCY: PASS`; the buddha-vacana count is now **data-bound from per-row codes**, not a hard `get(...,0)`.
+- **Dedup check:** confirm SC-id and CST-sibling rows of the same sutta are not double-counted (e.g. `mn36` vs its `cst-…mul-mn…` sibling); report the deduped N.
+- **"Never asserts another's" test:** confirm A1 ran a *named concept search* for the Buddha declaring others' attainments (`aññaṁ byākāsi`, arahant-declaration formulae, MN 118-style mass confirmations) before any "never" is published. A bare "never" with no search is a fail.
+- `grep -c "—"` → 0 (paper + dataset); leak scan clean; `npx vite build` succeeds.
+- Live smoke after any authorized redeploy.
+
+## 5. Open queue + predictions
+
+All three items open. **Key metric:** the deduped, per-claim-coded, IAA'd **buddha-vacana count** for the 299 (currently a false 0). **Pre-registered predictions** (score verbatim after each lands; a wrong prediction is a finding):
+- **A1:** PREDICT the true buddha-vacana count is **small but > 0** (the Buddha's own bodhi recollections, deduped — order of a handful, not zero and not large); and the relational claim survives in the *refined* form "the Buddha asserts only his **own** awakening" once arahant-declarations are searched (OR the search finds the Buddha declaring others' attainments, which **refutes "never"** and is itself the finding). PASS if every nikāya-prose row is read individually, the count is deduped + IAA'd, and the "another's" question is answered by a named search, not assumed.
+- **A2:** PREDICT ≥1 other retrofit used a per-work code where the framework wanted per-claim, but **no verdict flips** (the R2–R5 verdicts were robust). PASS if every per-work coding site is located and classified artifact-risk vs benign, and any count that moves is logged with a warrant.
+- **A3:** PREDICT the gap was a missing *verification* step, not a missing rule (the rule existed in §2; the coordinator never spot-audited coding granularity). PASS if a per-claim-granularity spot-audit is added to the coordinator's standing verification battery and the framework/skill flags work→code lookups as recall aids, never verdicts.
+
+## 6. Delegation briefs (the QUEUE; ten-field shape)
+
+Shared preamble for every brief: **READ FIRST** = this doc (§1–§5), `.claude/skills/dhamma-research/PROVENANCE-SIGNATURE.md` (§2 + I.2), the study's own files in §2, and `research/PROVENANCE-RETROFIT-COORDINATOR.md` for upstream context. **DB LANE** = serial only (§2). **DRIFT LOG** = this very defect (a work-class lookup masqueraded as a per-claim code and zeroed a real category) + the retrofit doc's per-study notes. **COMMIT CADENCE** = one commit per item, commit-don't-push, **never redeploy without explicit operator authorization** (live published finding).
+
+- **§6.A1 — Awakening attribution per-claim re-code.** GOAL: replace the false `buddha-vacana=0` with a deduped, per-claim-coded, IAA'd count. METHOD: (1) pull every one of the 299 mūla rows' `original` window around its attainment marker (serial SQL); (2) code the illocutionary owner **per row** from the quotative evidence (Buddha first-person own-awakening `ahaṁ … abbhaññāsiṁ / me … vimuccittha`; Buddha declaring another's attainment; named-disciple self-report; redactor-frame; deva; opponent), expanding the codebook beyond the current work-class buckets; (3) **dedup** SC/CST siblings; (4) run the named "does the Buddha ever declare *another's* awakening" search; (5) k≥3 blind coders + IAA on the contested rows; (6) rebuild the dataset so the count is data-bound from per-row codes, rewrite the paper's attribution section + Table 2c to the precise relational claim, update the `AwakeningStudy` renderer; (7) report for verification, then hand the redeploy decision to the operator. ANTI-PATTERNS: coding by work-class (the defect); publishing "never" without the search; double-counting SC+CST siblings; quietly footnoting instead of correcting. STOPPING CRITERION: every nikāya-prose row read individually, the buddha-vacana count deduped + IAA'd + data-bound, the "another's" question answered by search, `CONSISTENCY: PASS`, em-dash 0, no leaks, `vite build` green; A1 prediction scored. REGRESSION GATE: the 2,214 event count, the 299/1,915 canon/commentary split, and the chronology stratigraphy (38 early / 261 disagree) stay green unless re-coded with a logged warrant — this is an *attribution* fix, not a re-census.
+- **§6.A2 — Cross-study per-work-shortcut audit.** GOAL: find every place R2–R5 coded a per-claim axis by work-class (or over a monolithic row) and classify each artifact-risk vs benign. METHOD: read each study's `build_dataset.py` for `WORK_*`/lookup-driven code assignment on an expensive per-claim axis (attribution, epistemic, harmonization); for each, spot-read rows to see if the work-code matches the row-claim; re-code and rebuild only where a count moves. STOPPING CRITERION: every per-work coding site located + classified, any moved count logged, each touched builder `CONSISTENCY: PASS`. REGRESSION GATE: the R2–R5 verdicts + IAA stay green unless a re-code warrants a logged change.
+- **§6.A3 — Method hardening.** GOAL: close the verification gap that let a work-class code publish as a per-claim verdict. METHOD: add a **per-claim coding-granularity spot-audit** to the coordinator's standing verification battery (read N coded rows, confirm code≠f(work)); add a one-line guard to PROVENANCE-SIGNATURE §2 / SKILL.md that a work→code lookup is a *recall aid*, never the recorded code. STOPPING CRITERION: the guard + the audit step are written into the method docs; A3 prediction scored. (Touches only method docs — disjoint from A1/A2.)
+
+## 7. Coordination / ownership rules
+
+- **Serial DB** (the corpus wedges under fan-out). Run A1 fully before A2 if both touch the DB. A3 is doc-only (no DB) and may run any time.
+- **A1 owns** the awakening files (`research/awakening/*`, `public/research/awakening-events.json`, the `AwakeningStudy` function in the shared `src/ResearchView.jsx`). **A2 owns** the R2–R5 study files (disjoint from A1). **A3 owns** the method docs. The three are file-disjoint, but the serial-DB constraint means A1→A2 in sequence; A3 can interleave.
+- **Redeploy is operator-owned.** Commit corrections (commit-don't-push); surface the diff + the corrected number to the operator and let them authorize `flyctl deploy`. Do not silently redeploy a changed published finding.
+- A detected defect is a problem to **solve**, not a caveat to surface. Update this doc's §3 + §5 the moment an item lands.
+
+## 8. Per-pending-item check (what to verify when each lands)
+
+For A1: (1) re-run the per-claim coding spot-audit (§4) — codes must match rows, not works; (2) read the newly-coded buddha-vacana rows directly and confirm each is genuinely the Buddha asserting an awakening; (3) confirm the dedup; (4) confirm the "another's awakening" search was run and the published claim matches its result; (5) `CONSISTENCY: PASS` + em-dash 0 + no leaks + `vite build`; (6) score the A1 prediction; (7) record in §3 + §5; (8) present the corrected number + diff to the operator for the redeploy decision. For A2/A3: re-run their gates, score predictions, record.

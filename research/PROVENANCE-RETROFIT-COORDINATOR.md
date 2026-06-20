@@ -81,6 +81,17 @@ All five studies retrofitted under the provenance-signature framework, each coor
 
 **All five §5 predictions scored PASS.** No settled finding was overturned; every retrofit *sharpened or refined* its study — the framework added depth (within-canon chronology, epistemic asymmetry, semantic drift, reception-vs-text, homograph precision) without changing a verdict. The recurring shape: the canon-vs-commentary contrast is repeatedly an early→late gradient *inside* the canon, and the load-bearing claims are stated flat (never under the verification formula). Verification battery run per study: builder `CONSISTENCY: PASS` + em-dash gate 0 + zero process leaks + recall-ladder/regression gate + a direct-read spot-check + `vite build`. The serial-DB invariant (§7) was held throughout (one study at a time; no parallel corpus access). `origin/master` is at `4d21791`; the unpushed commits ahead of it are the five study commits (`ece3e63` → `fbad500`) plus the coordinator-ledger commit that records this completion. **Next action for the operator: review the unpushed commits and decide on push; nothing is deployed.**
 
+### POST-COMPLETION DEFECT (found 2026-06-19 during operator review of the live page)
+
+R1's attribution axis was coded **by work-class, not per claim**, violating PROVENANCE-SIGNATURE §2. The
+`WORK_ATTRIBUTION` map files all nikāya-prose as `redactor-frame`, which mis-codes **MN 4/19/36/85/100** (the
+Buddha narrating his **own** awakening in the first person) and published a **false headline "0 of 299 is
+buddha-vacana."** The true count is **not 0**. This was missed by the coordinator's verification (the chronology
+spot-check was run; the attribution `0` was not audited against the Buddha's own awakening). A follow-on campaign
+owns the correction + a cross-study audit + a method-hardening pass: see
+**`research/ATTRIBUTION-AUDIT-COORDINATOR.md`** (items A1–A3). The live page still shows the uncorrected `0`
+until A1 lands and the operator authorizes a redeploy.
+
 ## 6. Delegation briefs (the QUEUE; ten-field shape)
 
 Each brief shares this preamble: **READ FIRST** (in order) = this doc (§1–§5), `research/RETROFIT-BRIEF.md`,
