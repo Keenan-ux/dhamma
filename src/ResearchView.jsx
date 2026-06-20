@@ -3633,7 +3633,11 @@ const abstractTag = { fontVariant: 'small-caps', fontWeight: 700, letterSpacing:
 const h3 = { fontFamily: SERIF, fontSize: 14.5, fontWeight: 600, letterSpacing: '0.02em', color: 'var(--bc-text-primary)', margin: '22px 0 8px' };
 
 const citeLink = { color: 'var(--bc-accent)', textDecoration: 'none', whiteSpace: 'nowrap', borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.32)' };
-const citeDead = { color: 'var(--bc-text-tertiary)', fontStyle: 'italic', whiteSpace: 'nowrap' };
+// citeDead is the no-id (composite) case, which can hold a long descriptive source
+// ("Vism cross-ref via ..."). It must WRAP (no nowrap) or it overflows its column and
+// overlaps neighbours; overflowWrap breaks any long token. citeLink keeps nowrap so a
+// real short cite (e.g. "MN 10") never breaks mid-citation in prose.
+const citeDead = { color: 'var(--bc-text-tertiary)', fontStyle: 'italic', overflowWrap: 'anywhere' };
 
 const tdLeftSm = { textAlign: 'left', padding: '6px 10px', color: 'var(--bc-text-primary)', fontSize: 13, lineHeight: 1.45, verticalAlign: 'top', overflowWrap: 'anywhere' };
 
