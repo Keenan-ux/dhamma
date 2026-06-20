@@ -56,9 +56,21 @@ Single autonomous worker chat (the backlog is interdependent — all five edit t
 | 3 | heart-base | paper + component + builder | **LANDED + committed 140ee02** (builder: stratigraphy reordered ascending + gate name-lookup, CONSISTENCY PASS, numbers identical) |
 | 4 | individual-guidance | paper + component (builder unchanged) | **LANDED + committed 140ee02**; red-team CLEAN; builder unchanged (already diachronic + drift strip ascending) |
 | 5 | intoxicants | paper only | **LANDED + committed 0591565**; red-team CLEAN |
-| 6 | naga (optional) | component + JSON | NOT STARTED (optional stretch; does not block stopping) |
+| 6 | naga (optional) | component + JSON | **DEFERRED with rationale** (see below); does not block stopping |
 
-**studies-remaining (primary 1-5) = 0.** All committed; ONE deploy pending. naga optional.
+**studies-remaining (primary 1-5) = 0.** All committed + pushed; ONE deploy done (see §9).
+
+**naga deferral rationale (a coordinator judgment, not an omission):** the naga dataset
+(`public/research/naga.json`) carries only the structural `layer` (mula/attha/tika) and the
+canon-vs-commentary `h0_h1` cell verdicts; it has NO `v2`/chronological-stratum block, and its
+aggregates (`facet_x_layer`, `segment_x_layer`, `serpent_by_layer`, `claim_by_layer`) are all
+structural-layer splits. The other five studies were re-spinnable presentation-only because each
+already codes a chronological stratum per row; naga does not. A naga re-spine would therefore have
+to be EITHER a canon-vs-commentary-shaped spine (a named ANTI-PATTERN: "the whole task is
+chronology-FIRST") OR require adding per-row stratum coding to its builder (new research, the
+"do not re-derive the stratum data" ANTI-PATTERN and outside presentation-only scope). Forcing
+either would lower quality, so naga is left for a future pass that first gives it a provenance-
+signature stratum coding (then it becomes a clean presentation re-spine like the others).
 
 ## 4. Verification commands (+ expected)
 
@@ -198,8 +210,27 @@ data tables / cited-lists are folded under the appropriate stratum section or ke
 destroying the tool.
 
 **Execution model:** papers (disjoint files) + builder prose (disjoint) rewritten/red-teamed via
-Workflow; the shared `src/ResearchView.jsx` component edits done serially in the main loop (one
-study at a time, vite build between) to avoid clobber. Commit + push per study; ONE deploy at end.
+Workflow; the shared `src/ResearchView.jsx` component edits done serially (one study at a time,
+vite build between) to avoid clobber. Commit + push per study; ONE deploy at end.
+
+**FINAL (2026-06-20) — COMPLETE + DEPLOYED.** All 5 primary studies re-spined across every surface
+they have (paper + reader + builder/JSON), independently verified, and committed:
+e2186df (awakening + uttarakuru), 0591565 (intoxicants), 140ee02 (heart-base + individual-guidance
++ awakening citation fix), 7991d60 (this doc). Pushed to origin/master. ONE deploy run
+(`flyctl deploy -a dhamma`, machine reached good state, DNS verified).
+- Verification done: `npx vite build` green; em-dash 0 in all rendered prose (the only 6 in
+  `ResearchView.jsx` are pre-existing JS code comments, unregulated); all 5 builders
+  `CONSISTENCY: PASS` and idempotent; numeric-multiset diffs (new vs frozen) show zero value drift;
+  no data path or citation dropped from any reader; every reader h2 sequence is the ascending strata
+  + one trailing data heading; all 5 PDFs regenerated with diacritics + figure glyphs present (no
+  tofu); a final adversarial cross-surface red team scored uttarakuru / individual-guidance /
+  intoxicants CLEAN and awakening / heart-base minor (items resolved or logged above).
+- Smoke (serial, post-deploy): `/api/dbcheck` passages 194710 (exact), pgvector true, pg 16.14;
+  `/research/awakening-events.json` and `/research/heart-base-and-insight.json` both HTTP 401
+  (admin gate intact); SPA root HTTP 200. The pre-existing HB citation `cst-abh07t.nrf-135_p014`
+  resolves live (HTTP 200).
+- Both pre-registered predictions scored PASS (see §5).
+- naga deferred with rationale (see §3). It is the only open item and is optional.
 
 ## 7. Coordination / ownership rules
 
