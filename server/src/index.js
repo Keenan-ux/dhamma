@@ -608,11 +608,18 @@ app.get('/api/me', async (c) => {
 
 // Per-user collections: bookmarks + notes, persisted as JSONB documents
 // (the client hooks own the list shape; the server stores the whole list).
-const USER_KINDS = new Set(['bookmarks', 'notes']);
+const USER_KINDS = new Set(['bookmarks', 'notes', 'research-notes']);
+// research-notes are the admin/operator's private reading annotations on the
+// Research + Explorations studies. They are per-user (like notes/bookmarks) but
+// additionally ADMIN-ONLY: a non-admin signed-in user must never be able to
+// read or write them, since the note UI is surfaced even on the PUBLIC
+// explorations pages (gated to admins client-side; this is the server backstop).
+const ADMIN_ONLY_KINDS = new Set(['research-notes']);
 app.get('/api/user/:kind', requireAuth, async (c) => {
   const kind = c.req.param('kind');
   if (!USER_KINDS.has(kind)) return c.json({ error: 'unknown collection' }, 400);
   const user = c.get('user');
+  if (ADMIN_ONLY_KINDS.has(kind) && !user.is_admin) return c.json({ error: 'Admin only.' }, 403);
   const [row] = await sql`SELECT items, updated_at FROM user_collections WHERE user_id = ${user.id} AND kind = ${kind}`;
   return c.json({ items: row?.items || [], updatedAt: row?.updated_at || null });
 });
@@ -620,6 +627,7 @@ app.put('/api/user/:kind', requireAuth, async (c) => {
   const kind = c.req.param('kind');
   if (!USER_KINDS.has(kind)) return c.json({ error: 'unknown collection' }, 400);
   const user = c.get('user');
+  if (ADMIN_ONLY_KINDS.has(kind) && !user.is_admin) return c.json({ error: 'Admin only.' }, 403);
   const body = await c.req.json().catch(() => ({}));
   const items = Array.isArray(body.items) ? body.items : null;
   if (!items) return c.json({ error: 'items must be an array' }, 400);

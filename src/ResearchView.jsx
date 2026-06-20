@@ -13,6 +13,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { isModifiedClick } from './linkHelpers.js';
 import useIsNarrow from './useIsNarrow.js';
 import useScrollHide from './useScrollHide.js';
+import { useAuth } from './useAuth.jsx';
+import ResearchNotes from './ResearchNotes.jsx';
 /* eslint-disable react-hooks/exhaustive-deps */
 
 const RESEARCH_ENTRIES = [
@@ -231,6 +233,9 @@ export default function ResearchView({ collection = 'research' }) {
   // (/api/research) is shown.
   const C = COLLECTIONS[collection] || COLLECTIONS.research;
   const base = C.base;
+  // Admin-only inline research notes mount alongside an open study. isAdmin gates
+  // them even on the PUBLIC explorations pages, so a non-admin never sees them.
+  const { isAdmin } = useAuth();
   const matchSlug = (hash) => {
     const m = hash.match(new RegExp('^#/' + base + '/(.+)$'));
     return m ? decodeURIComponent(m[1]) : null;
@@ -301,6 +306,9 @@ export default function ResearchView({ collection = 'research' }) {
           onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', `#/${base}`); }}
         />
         <StudyOutline openKey={collection + ':' + openSlug} />
+        {isAdmin && (
+          <ResearchNotes collection={collection} slug={openSlug} studyTitle={entry.title} />
+        )}
       </>
     );
   }
