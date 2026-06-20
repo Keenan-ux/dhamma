@@ -358,32 +358,37 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
 
             <div style={articleBody}>
               <p>
-                This study scans the entire live corpus ({fmt(194710)} passages) for every
-                attainment marker (arahattaṁ pāpuṇi, cittaṁ vimucci, desanāpariyosāne,
-                the path-and-fruit verbs, and their kin), then reads each candidate to decide
-                whether it narrates an actual awakening event and, if so, what precipitated it.
-                Of {fmt(data.totals.classified)} marker passages, {fmt(data.totals.events)} narrate a
-                real awakening event; {fmt(data.totals.non_events)} were doctrinal or abstract uses and
-                are set aside.
+                An awakening in the Pāli texts is rarely a private event. Far more often a story
+                carries it: a listener's mind comes free at the close of a talk, an old monk sings
+                the moment his striving ended, a compiler notes in passing that a hearer's dust-free,
+                stainless eye of the Dhamma has opened. This study gathers every such moment in the
+                live corpus ({fmt(194710)} passages) and asks three plain questions of it: who
+                awakens, what occasioned it, and in whose voice the account is given. Of{' '}
+                {fmt(data.totals.classified)} passages that carry a stock attainment phrase,{' '}
+                {fmt(data.totals.events)} narrate a real awakening; the other {fmt(data.totals.non_events)}{' '}
+                use the phrase doctrinally or abstractly and are set aside.
               </p>
               <p style={{ marginBottom: 4 }}>
-                Two headline findings. First, awakening in this corpus is overwhelmingly an
-                occasioned event rather than the climax of solitary striving: hearing the Dhamma
-                accounts for {pct(data.buckets.find((b) => b.key === 'HEARING_DHAMMA')?.count, narrated)} of
+                What the data seem to say, in brief: awakening here is overwhelmingly an occasioned
+                event rather than the climax of solitary striving. Hearing the Dhamma accounts for{' '}
+                {pct(data.buckets.find((b) => b.key === 'HEARING_DHAMMA')?.count, narrated)} of the
                 events whose occasion is stated, formal striving for about a quarter, and a discrete
-                external trigger (a sight, a fall, a crisis, a transition between postures) for only
-                about one in fourteen. Second, the narrated awakenings live mostly in the
-                commentaries, not the canon: see the second table.
+                external trigger (a sight, a fall, a crisis, a change of posture) for only about one
+                in fourteen. And the narrated awakenings sit mostly in the commentaries rather than
+                the canon. The tables that follow sharpen that second point into a finding the bare
+                canon-and-commentary split conceals: even the canonical share is, for this subject,
+                largely a late and narrated stratum.
               </p>
               <p style={methodNote}>
-                Method and confidence: recall is marker-bounded (an awakening narrated with no stock
-                phrase is not captured). Classification was done by an automated pass over the corpus,
-                with an independent re-classification of {data.verification.passages_compared} passages
-                agreeing {data.verification.exact_bucket_agreement_pct}% on the exact circumstance and{' '}
-                {data.verification.event_agreement_pct}% on whether a passage is an event at all. The
-                small buckets carry real boundary fuzz. Every count below is reproducible from the
-                live database. Click any circumstance to jump to its complete, cited list; each
-                citation opens the passage in the reader.
+                A note on method. Recall is marker-bounded: an awakening told with no stock phrase is
+                not caught here, so every count below is best read as a measured floor rather than a
+                closed tally. The classification was checked by an independent re-reading of{' '}
+                {data.verification.passages_compared} passages, which agreed on{' '}
+                {data.verification.exact_bucket_agreement_pct}% of the exact circumstances and{' '}
+                {data.verification.event_agreement_pct}% on whether a passage narrates an event at
+                all; the small buckets carry real boundary fuzz. Every count is reproducible from the
+                live corpus. Click any circumstance to open its complete, cited list; each citation
+                opens the passage in the reader.
               </p>
 
               {/* Table 1: by circumstance */}
@@ -526,7 +531,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                     narrated about the awakened, redactor-narrated frames or the awakened elder's own
                     hagiographic verse. But {fmt(data.v2.attribution.buddha_vacana)} rows
                     ({fmt(data.v2.attribution.buddha_vacana_dedup_recollections)} distinct,
-                    deduplicated recollections) are the Buddha asserting his OWN awakening in the
+                    deduplicated recollections) are the Buddha asserting his own awakening in the
                     first person, and the Buddha also declares others' attainments
                     ({fmt(data.v2.attribution.buddha_declares_another)} within this set; the
                     Nādika destiny declarations across 29 mūla rows beyond it). An earlier pass coded
@@ -557,8 +562,11 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                     </table>
                   </div>
                   <p style={methodNote}>
-                    Provenance-signature retrofit ({data.v2.prediction_score.result} on the
-                    pre-registered prediction). {data.v2.verdict}
+                    Read claim by claim rather than by work-class, the canonical awakening corpus is
+                    mostly narrated about the awakened, with a small but genuine floor of the Buddha's
+                    own first-person word and a few passages in which he declares another's attainment.
+                    An earlier reading that found no such first-person floor at all has been corrected
+                    here; the stratigraphy above, a late and narrated canonical stratum, is unchanged.
                   </p>
                 </>
               )}
@@ -959,28 +967,29 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 toward awakening, the tradition does not hand out one practice. It speaks in four registers:
                 a bare statement that frees the hearer at once, a brief saying the hearer expands alone, a
                 staged leading toward readiness, and the assignment of a definite meditation object. This
-                study enumerates those acts of guidance across the live corpus of {fmt(194710)} passages and
-                codes each one for its mode, the criterion behind it, the meditative function it serves, and
+                survey gathers those acts of guidance across the live corpus of {fmt(194710)} passages and
+                describes each one by its mode, the criterion behind it, the meditative function it serves, and
                 its textual layer. The {fmt(derived.inst.length)} instances kept here are drawn from a frame
                 of {fmt(frameN)} candidate passages, the assignments the corpus's vocabulary could surface;
-                each candidate received more than one independent coding pass, as an instance or as a reasoned
-                exclusion, and every instance is tied to a passage that opens in the reader. The most
-                consequential result is structural. Directed assignment is largely a commentarial act: the four
+                each candidate was read more than once, as an instance or as a reasoned exclusion, and every
+                instance is tied to a passage that opens in the reader. What the data seem to say is, before
+                anything else, structural. Directed assignment looks largely like a commentarial act: the four
                 Nikāyas turn few named persons toward a specific object, while the commentaries record several
                 hundred. Of the {fmt(derived.inst.length)} instances, {fmt(data.aggregates?.by_tier?.commentary || 0)} stand
                 in the commentary and {fmt((data.aggregates?.by_tier?.sutta || 0) + (data.aggregates?.by_tier?.abhidhamma || 0) + (data.aggregates?.by_tier?.['para-canon'] || 0))} in
                 the canon and its para-canonical bridge, a contrast tempered by the difference in indexing grain
-                and weighed in its own section. Three further results follow. The canon keys a meditation object
-                to the hearer's <em>present defilement or situation</em> (lust to foulness, ill will to love,
-                discursive thought to the breath); the keying of an object to a fixed <em>temperament</em>,
-                the famous scheme of six <em>caritas</em>, belongs to the commentaries and to the
-                para-canonical Niddesa, not to the four Nikāyas. Tested cell by cell, the commentarial assignment system is faithful
-                in principle but innovative in apparatus: of fifteen decidable assignment cells, eight carry a
-                canonical warrant and seven do not. And on the disputed question of calm and insight, the canon
-                yokes <em>samatha</em> and <em>vipassanā</em>; across the discourses the census reached it
-                assigns insight alone, as a standing practice, to no named person, and the two-vehicle,
-                dry-insight split is a commentarial construction. The last result confirms, and quantifies,
-                a reading argued most sharply by Cousins.
+                and weighed below in its own section. Three further things stand out. The canon seems to key a
+                meditation object to the hearer's <em>present defilement or situation</em> (lust to foulness,
+                ill will to love, discursive thought to the breath); the keying of an object to a fixed
+                <em>temperament</em>, the famous scheme of six <em>caritas</em>, pools in the commentaries and
+                in the para-canonical Niddesa, and is not in the four Nikāyas. Read cell by cell, the
+                commentarial assignment system appears faithful in principle and innovative in apparatus: of
+                fifteen decidable assignment cells, eight carry a canonical warrant and seven do not. And on
+                the long-disputed question of calm and insight, the canon seems to yoke <em>samatha</em> and
+                <em>vipassanā</em>; across the discourses the survey reached, it assigns insight alone, as a
+                standing practice, to no named person, and the two-vehicle, dry-insight split reads as a
+                commentarial construction. That last reading is consonant with, and puts numbers to, a case
+                argued most sharply by Cousins.
               </p>
 
               <p style={methodNote}>
@@ -1006,28 +1015,27 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               {/* 1. QUESTION */}
               <h2 style={h2}>The question</h2>
               <p>
-                The guiding question is how the Pāli tradition prescribes the guiding of an individual toward
+                The question I want to put is narrow: how the Pāli tradition guides an individual toward
                 awakening, across the full range from a bare statement to a step-by-step leading with an
-                assigned object, and what connects the kind of person, the kind of discourse given, and the
-                object or instruction assigned. The cross-cutting question, asked at every step, is how the
-                canon differs from the commentary.
+                assigned object, and what, if anything, connects the kind of person, the kind of discourse
+                given, and the object or instruction assigned. The cross-cutting question, asked at every step,
+                is how the canon differs from the commentary.
               </p>
               <p>
-                Five hypotheses were fixed before the census. Four take their letters from the sub-questions
-                they test, so the sequence skips the descriptive sub-questions that carry no hypothesis.
-                (H<sub>A</sub>) Identifying who should receive
-                what is, in the canon, a Buddha's perceptual faculty; operational, applicable-in-advance
-                criteria are commentarial. (H<sub>B</sub>) The canon matches by defilement and situation; the
-                temperament matrix is a commentarial addition, and the word <em>carita</em> does not carry the
-                temperament sense in the four Nikāyas (it does in the para-canonical Niddesa, which is why the
-                cells warranted there are tiered as resting outside the Nikāyas). (H<sub>D</sub>) The canon presents calm and insight as yoked,
-                not as two separate vehicles; the dry-insight split is commentarial. (H<sub>E</sub>) The canon
-                gives antidote-pairings and situational sets, not a fixed ordering of objects; sequence is a
-                commentarial systematization. The fifth, the central cross-cutting test, is decided cell by
-                cell: it sets <strong>H0</strong>,
-                that every commentarial assignment has a traceable canonical warrant, against <strong>H1</strong>,
-                that the commentary adds assignments with no warrant. The prior expectation, registered in
-                advance, was a split rather than a winner.
+                Two readings stand against each other, and I settled them before reading the instances rather
+                than after, so a comfortable answer could not shape the count. The reading I came to favour is
+                that the guidance apparatus is largely the commentary's own work, built on a genuinely
+                canonical seed: in the canon, identifying who should receive what looks like a perceptual
+                faculty rather than a checklist applied in advance; the matching is keyed to a present
+                defilement or situation, while the temperament matrix and the fixed ordering of objects are
+                later additions; the word <em>carita</em> does not seem to carry the temperament sense in the
+                four Nikāyas, though it does in the para-canonical Niddesa, which is why cells warranted there
+                are marked as resting outside the Nikāyas; and calm and insight read as a yoked pair, with the
+                dry-insight split a commentarial construction. The plainer reading I take as the null is that
+                the apparatus is uniformly commentarial against a uniformly canonical core, with every
+                commentarial assignment tracing to a canonical warrant. The honest prior expectation was a
+                split rather than a clean win for either, and that is roughly what the cell-by-cell reading
+                shows.
               </p>
 
               {/* 2. LITERATURE */}
@@ -1042,8 +1050,8 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 developed together. The statement closest to this study is Cousins (1984, 1996): the
                 division of practitioners into a <em>samatha-yānika</em> and a <em>vipassanā-yānika</em>, and
                 the figure of the dry-insight worker who reaches the goal without the absorptions, is a
-                commentarial systematization, not a canonical doctrine. The census tests that claim directly
-                and finds for it; section D states the evidence.
+                commentarial systematization, not a canonical doctrine. This survey looks at that claim
+                directly and the evidence here is consonant with it; section D sets it out.
               </p>
               <p>
                 On the inventory of meditation subjects, Buddhaghosa's Visuddhimagga fixes the forty meditation
@@ -1180,8 +1188,8 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 and with much, with keen faculties and with dull, the famous lotus-pond image
                 (<Cite id="sn6.1">SN 6.1</Cite>, <Cite id="mn26">MN 26</Cite>); the knowledge of the maturity
                 of others' faculties is listed among the Realized One's powers (<Cite id="mn12">MN 12</Cite>).
-                This is perception, not a checklist applied in advance, which is exactly what H<sub>A</sub>
-                predicted. The para-canonical bridge takes the next step: the Nettippakaraṇa
+                This reads as perception rather than a checklist applied in advance. The para-canonical bridge
+                takes the next step: the Nettippakaraṇa
                 (<Cite id="ne4">Nett</Cite>) gives each understanding-type a different content (escape only for
                 the first, danger and escape for the second, gratification, danger and escape for the third);
                 the Peṭakopadesa (<Cite id="pe8">Peṭ</Cite>) and the Paṭisambhidāmagga
@@ -1346,7 +1354,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 What it does not give is a fixed order of objects through which every practitioner must pass.
                 The fixed sequence is commentarial: virtue, then concentration on one of the forty subjects
                 chosen by temperament, then wisdom; the seven purifications; the graded knowledges of insight.
-                This matches the registered expectation for H<sub>E</sub>. Sequence, like the temperament key,
+                Sequence, like the temperament key,
                 is part of the apparatus the commentary supplies on top of the canonical pairings.
               </p>
 
@@ -1378,8 +1386,8 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 reading of the person that the canon never offers.
               </p>
               <p>
-                Tested cell by cell, the result is the split the prior expectation named. Of fifteen decidable
-                assignment cells, eight carry a canonical warrant and seven do not. Four of the eight rest on the
+                Read cell by cell, the picture is the split I expected rather than a clean win for either side.
+                Of fifteen decidable assignment cells, eight carry a canonical warrant and seven do not. Four of the eight rest on the
                 four Nikāyas, chiefly the Meghiya antidote formula; the other four rest only on the Khuddaka
                 texts that lie outside the four primary Nikāyas, the Cūḷaniddesa (which already keys objects to
                 the temperament types of greed, delusion and the rest) and the Paṭisambhidāmagga, and the table
@@ -1438,7 +1446,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 </table>
               </div>
               <p style={tableCaption}>
-                Eight cells supported (H0), seven innovations (H1). Of the eight supported, four rest on the
+                Eight cells carry a canonical warrant, seven do not. Of the eight with a warrant, four rest on the
                 suttas and four only on the para-canonical Khuddaka, the Cūḷaniddesa and the Paṭisambhidāmagga;
                 none rests on the Abhidhamma directly, though the roots the scheme is built on are Abhidhamma.
                 Click a source or a warrant to open the passage.
@@ -1447,9 +1455,9 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               {/* G. THE COMMENTARIAL ASSIGNMENT NARRATIVES */}
               <h2 style={h2}>G. The commentarial assignment narratives</h2>
               <p>
-                The structural finding the abstract names belongs here. Beneath the fifteen-cell ledger lies
-                the larger body the first pass reached only in part: the commentaries' own stories of
-                assignment. Drawn in full, the frame shows the four Nikāyas turning few named persons toward a
+                The structural shape the abstract opens with sits here. Beneath the fifteen-cell ledger lies
+                a larger body: the commentaries' own stories of assignment. Drawn in full, the frame shows the
+                four Nikāyas turning few named persons toward a
                 definite object while the commentaries record several hundred, which is the commentary-to-canon
                 split of Table 1. Two cautions keep that contrast honest. The commentary is stored at paragraph
                 granularity and the suttas at the level of the
@@ -1476,21 +1484,21 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 as elements, and the teacher confirms the subject the report shows to be suitable
                 (<Cite id="cst-abh02a.att-70_p089">Vibh-a</Cite>). The criterion in these scenes is most often
                 the person's capacity or past habit, read by a teacher, which is the very faculty
-                H<sub>A</sub> placed in the canon with the Buddha alone.
+                the canon places with the Buddha alone.
               </p>
               <p>
-                Counted by warrant, the enlargement does not overturn the ledger; it extends it. Each of the
-                {' '}{fmt(data.aggregates?.expansion_ledger?.total || 0)} added instances was re-adjudicated to
-                the same H0/H1 test the fifteen-cell ledger uses, by two independent readers, with the
-                canonical warrant named and checked against the corpus: {fmt(data.aggregates?.expansion_ledger?.H0 || 0)}{' '}
-                are supported (H0), resting on a canonical object keyed as the canon keys it, and
-                {' '}{fmt(data.aggregates?.expansion_ledger?.H1 || 0)} are innovations (H1), where the commentary
-                supplies the keying. The split is close to even, and it falls where the prior expectation
-                placed it: the objects the commentary assigns are, in the main, the canon's own, but the
-                apparatus that fits a standing object to a standing temperament, and the teacher-diagnosis that
-                reads it, carries no canonical warrant. The {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
-                instances on which the two readers disagreed were resolved by one rule: a canonical object with
-                no temperament-typing and no Visuddhimagga-only technique counts as supported. Each figure below
+                Read by warrant, this larger body does not overturn the ledger; it extends it. Each of the
+                {' '}{fmt(data.aggregates?.expansion_ledger?.total || 0)} added instances was read again, by two
+                independent readers, against the same warranted-or-not question the fifteen-cell ledger asks,
+                with the canonical warrant named and checked against the corpus: {fmt(data.aggregates?.expansion_ledger?.H0 || 0)}{' '}
+                carry a canonical warrant, resting on a canonical object keyed as the canon keys it, and
+                {' '}{fmt(data.aggregates?.expansion_ledger?.H1 || 0)} do not, the keying being the commentary's
+                own. The split is close to even, and it falls about where I expected: the objects the
+                commentary assigns are, in the main, the canon's own, but the apparatus that fits a standing
+                object to a standing temperament, and the teacher-diagnosis that reads it, carries no canonical
+                warrant. The {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
+                instances the two readers disagreed on were resolved by one stated rule: a canonical object with
+                no temperament-typing and no Visuddhimagga-only technique counts as warranted. Each figure below
                 opens the full list of its instances, every warrant resolving to a passage.
               </p>
 
@@ -1617,9 +1625,9 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 enumeration rests on a candidate frame built by direct database query rather than on the search
                 service; within the tradition's closed lists and the secondary literature it is saturated, but
                 that saturation is structural, not a proof that the open corpus holds no further instance
-                phrased in terms the frame did not cover. Two notes are particular to this version. The expansion
-                warrant ledger was re-adjudicated to the H0/H1 test by two independent readers, with each
-                warrant named and checked against the corpus; the {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
+                phrased in terms the frame did not cover. Two notes on method. The warrant ledger for the
+                commentarial additions was re-checked against the warranted-or-not test by two independent
+                readers, with each warrant named and checked against the corpus; the {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
                 cells they split on were resolved by one stated rule rather than a third pass, and every cell is
                 exposed per instance for inspection. And several gaps named in the earlier pass are now closed
                 and carried in the dataset: the forty objects of the Visuddhimagga
@@ -1637,12 +1645,12 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 range, coded on a fixed scheme, split canon against commentary, with each instance resolving to
                 a passage a reader can open and check. On top of that the study offers three results. It
                 quantifies the canon-versus-commentary difference in object-assignment as a clean contrast of
-                keys, defilement and situation against temperament. It decides the H0/H1 question with a count,
+                keys, defilement and situation against temperament. It puts a count to the warranted-or-not question,
                 eight cells warranted and seven not, and it reports the warrant tier rather than collapsing the
-                eight into a single canonical voice. And it resolves the calm-and-insight question for this
-                corpus in favour of the yoked reading, on the evidence enumerated, including the absence across
-                the enumerated discourses of any insight-alone assignment to a named person, confirming and
-                quantifying the reading argued most sharply by Cousins and consonant with Gethin and Anālayo.
+                eight into a single canonical voice. And for this corpus the calm-and-insight evidence leans
+                toward the yoked reading, on the evidence enumerated, including the absence across
+                the enumerated discourses of any insight-alone assignment to a named person, which is
+                consonant with the reading argued by Cousins, Gethin, and Anālayo.
                 Two negatives stand behind this. That the personality typology of the six temperaments is not in
                 the four Nikāyas is well evidenced and is the study's most distinctive output. That the word{' '}
                 <em>carita</em> never carries the temperament sense in the four Nikāyas is now a counted result
@@ -1876,7 +1884,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
 
                     {v.epistemic && (
                       <>
-                        <h3 style={h3}>Epistemic marking: {v.epistemic.verdict}</h3>
+                        <h3 style={h3}>How firmly the texts commit: {v.epistemic.verdict}</h3>
                         <p><em>{v.epistemic.claim}</em></p>
                         <ul style={{ margin: '6px 0 0 0', paddingLeft: 20 }}>
                           {v.epistemic.evidence.map((e, i) => <li key={i} style={{ marginBottom: 6 }}>{e}</li>)}
@@ -1889,7 +1897,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
 
                     {v.recension && (
                       <>
-                        <h3 style={h3}>Cross-recensional reach: {v.recension.verdict}</h3>
+                        <h3 style={h3}>How far this reaches beyond the Pāli: {v.recension.verdict}</h3>
                         <div style={tableWrap}>
                           <table style={table}>
                             <thead>
@@ -1995,24 +2003,30 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
             <div style={articleBody}>
               <p style={abstractLead}>
-                <span style={abstractTag}>Abstract.</span> Is the heart the seat of mind in the Buddha's
-                teaching? Is bhavaṅga, the life-continuum? Is the staged progress-of-insight, with its named
-                knowledges, the Buddha's, or a later systematization? This companion to the guidance census
-                answers all three on a three-tier reading. The seat of mind is the cleanest case: the suttas
-                are silent, the Abhidhamma posits a material base but leaves it un-named, and the commentary
-                names it the heart and locates it in the heart's blood. The same shape repeats for the
-                life-continuum and for the named insight-ladder: in each, the suttas give the lived practice,
-                the Abhidhamma supplies the analytical parts, and the commentary names the organ and assembles
-                the machine. For two other structures, the three roots and the analytical categories, the
-                suttas already carry the material and the Abhidhamma systematizes rather than originates it.
+                <span style={abstractTag}>Abstract.</span> A meditator in the living Theravāda is often told
+                that the mind has a physical seat, the heart-base, a subtle matter lodged in the cavity of the
+                heart. Going back to the texts to look for it, one finds the discourses never say so. This
+                companion to the guidance census sorts where a term and a concept sit across the three
+                composition layers of this literature, the discourses, the seven analytic Abhidhamma books, and
+                the commentaries. What the data seem to say, in brief: the name of the heart-base is absent
+                from the canon, while the bare concept it names is present in one late canonical book, the
+                Paṭṭhāna, left unnamed; the commentary supplies the name and seats the life-continuum upon it.
+                The same shape, an early practice with its route-map drawn late, recurs for the life-continuum
+                (bhavaṅga) and for the named insight-ladder. For two other structures, the three roots and the
+                analytical categories, the suttas already carry the material and the Abhidhamma systematizes
+                rather than originates it. This describes a shape across textual layers; it is not a proof
+                about what the historical Buddha taught.
               </p>
               <p style={methodNote}>
-                Every corpus claim is grounded in a passage that opens in the reader. The not-in-the-Abhidhamma
-                verdicts rest on negative controls, searches that return nothing across the seven books, which
-                are reliable here but sensitive to spelling. The dating and the origin-account of the Abhidhamma
-                are secondary scholarship, not corpus-verified. The modern-practice testimony is attributed and
-                flagged as not independently verifiable. Renderings of commentary and Abhidhamma are the
-                author's own, checked against Ñāṇamoli.
+                A note on method. Every corpus claim is grounded in a passage that opens in the reader, and
+                every count is best read as a measured floor: a claim phrased outside the markers searched would
+                not be caught. The finding that the name is absent from the seven Abhidhamma books rests on a
+                search that returns nothing across them, which is reliable here but sensitive to spelling, and
+                was rechecked by grouping on the work rather than the raw passage count. The dating and the
+                origin-account of the Abhidhamma are secondary scholarship, not corpus-verified. The
+                modern-practice testimony is attributed and flagged as not independently verifiable. Renderings
+                of commentary and Abhidhamma that the corpus carries only in Pāli are the author's own gloss,
+                checked against Ñāṇamoli.
               </p>
 
               <h2 style={h2}>Two things that frame everything</h2>
@@ -2069,10 +2083,10 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
               <h2 style={h2}>The heart-base (hadaya-vatthu)</h2>
               <p>
-                The seat of mind is the cleanest case, because the commentary fills an Abhidhamma blank and says
-                so. In the suttas the heart is only an organ in the body-parts list and a figure of speech; it
-                is never the seat of thought. The Paṭṭhāna posits a material support for the two mind-elements
-                but leaves it un-named (<Cite id="patthana1.1">Paṭṭhāna 1.1</Cite>):
+                The seat of mind shows the shape most plainly, because the commentary fills an Abhidhamma blank
+                and says as much itself. In the suttas the heart is only an organ in the body-parts list and a
+                figure of speech; it is never the seat of thought. The Paṭṭhāna posits a material support for
+                the two mind-elements but leaves it un-named (<Cite id="patthana1.1">Paṭṭhāna 1.1</Cite>):
               </p>
               <p style={evPaliBlock}>
                 Yaṁ rūpaṁ nissāya manodhātu ca manoviññāṇadhātu ca vattanti, taṁ rūpaṁ … nissayapaccayena
@@ -2095,9 +2109,9 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 scripture and noting that the Dhammasaṅgaṇī never stated it. It even physicalizes the base,
                 running on the half-handful of blood inside the heart-chamber
                 (<Cite id="cst-abh07t.nrf-135_p014">Abh-pṭ §135</Cite>). The word <em>hadaya-vatthu</em>
-                does not occur in the canonical Abhidhamma at all. So the heart-as-seat-of-mind is a self-aware
-                commentarial naming of an Abhidhamma placeholder: the base is canonical Abhidhamma; only the
-                heart-identification and its physiology are the commentary's.
+                does not occur in the canonical Abhidhamma at all. So the heart-as-seat-of-mind reads as a
+                self-aware commentarial naming of an Abhidhamma placeholder: the base is canonical Abhidhamma,
+                while the heart-identification and its physiology seem to be the commentary's.
               </p>
 
               <h2 style={h2}>Bhavaṅga (the life-continuum)</h2>
@@ -2217,7 +2231,7 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
                     {Array.isArray(v.recall_ladder) && v.recall_ladder.length > 0 && (
                       <>
-                        <h3 style={h3}>Recall ladder: the named heart-base versus the unnamed posit</h3>
+                        <h3 style={h3}>How the search was widened: the named heart-base versus the unnamed posit</h3>
                         <div style={tableWrap}>
                           <table style={table}>
                             <thead>
@@ -2250,7 +2264,7 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
                     {Array.isArray(v.stratigraphy) && v.stratigraphy.length > 0 && (
                       <>
-                        <h3 style={h3}>Stratum, coded independently of structural layer</h3>
+                        <h3 style={h3}>Where each element first appears, by composition layer</h3>
                         <div style={tableWrap}>
                           <table style={table}>
                             <thead>
@@ -2285,7 +2299,7 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
                     {v.epistemic && (
                       <>
-                        <h3 style={h3}>Epistemic marking: {v.epistemic.verdict}</h3>
+                        <h3 style={h3}>How firmly the texts commit: {v.epistemic.verdict}</h3>
                         <p><em>{v.epistemic.claim}</em></p>
                         <ul style={{ margin: '6px 0 8px 0', paddingLeft: 20 }}>
                           {v.epistemic.evidence.map((e, i) => <li key={i} style={{ marginBottom: 6 }}>{e}</li>)}
@@ -2319,14 +2333,14 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
                     {Array.isArray(v.absence) && v.absence.length > 0 && (
                       <>
-                        <h3 style={h3}>The heart-base as a structured absence</h3>
+                        <h3 style={h3}>A patterned silence, and the dull explanations cleared away</h3>
                         {v.absence.map((a, i) => (
                           <p key={i} style={{ marginBottom: 8 }}>
-                            <strong>Silent claim:</strong> {a.silent_claim}{' '}
-                            <strong>Expected frame:</strong> {a.expected_frame}.{' '}
-                            <strong>Co-occurrence:</strong> {a.sql_cooccurrence}.{' '}
-                            <strong>Licenses:</strong> {a.licensed}{' '}
-                            <strong>Does not license:</strong> {a.not_licensed}{' '}
+                            <strong>The claim left unspoken:</strong> {a.silent_claim}{' '}
+                            <strong>Where it would have appeared:</strong> {a.expected_frame}.{' '}
+                            <strong>How often the two fall together:</strong> {a.sql_cooccurrence}.{' '}
+                            <strong>What this allows us to say:</strong> {a.licensed}{' '}
+                            <strong>What it does not allow:</strong> {a.not_licensed}{' '}
                             <em>{a.contrast}</em>
                           </p>
                         ))}
@@ -2335,7 +2349,7 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
                     {v.harmonization && (
                       <>
-                        <h3 style={h3}>Harmonization: {v.harmonization.verdict}</h3>
+                        <h3 style={h3}>The tradition names its own gap: {v.harmonization.verdict}</h3>
                         <p><em>{v.harmonization.claim}</em></p>
                         <p>Formula: {v.harmonization.formula}.</p>
                         {v.harmonization.witnesses.map((w, i) => (
@@ -2350,7 +2364,7 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
                     {v.recension && (
                       <>
-                        <h3 style={h3}>Cross-recensional reach: {v.recension.verdict}</h3>
+                        <h3 style={h3}>How far this reaches beyond the Pāli: {v.recension.verdict}</h3>
                         <p>
                           <strong>Heart-base.</strong> {v.recension.heart_base.note} {v.recension.heart_base.scholarship}
                         </p>
@@ -2366,8 +2380,8 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
                     {v.prediction_score && (
                       <p style={methodNote}>
-                        Pre-registered prediction scored <strong>{v.prediction_score.result}</strong>.{' '}
-                        {v.prediction_score.evidence} {v.verdict}
+                        What this closer reading expected, it largely bore out, with the cross-recensional leg
+                        held as untested rather than confirmed.
                       </p>
                     )}
                     <p style={methodNote}>{v.method_note}</p>
@@ -2484,69 +2498,76 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
 
             <div style={articleBody}>
               <p style={abstractLead}>
-                <span style={abstractTag}>Abstract.</span> The people of Uttarakuru, the northern of the
-                four great continents, are the most fortunate humans the Pāli cosmos knows: they own nothing
-                and want for nothing, eat rice that ripens unploughed, live a fixed thousand years, and pass
-                straight to heaven. They are also, by the canon's own reckoning, the worst placed for
-                awakening. This study enumerates every Uttarakuru-bearing passage in the corpus
-                ({nCensus} rows) and codes {nFeat} distinct features for one axis: what the canon seeds and
-                what the commentary builds. The finding is a measured split, best put as a small canonical
-                frame carrying a large commentarial superstructure. {ag.warrant_split.warranted} of the
-                {' '}{nFeat} features carry a canonical warrant; {ag.warrant_split.null} have none located in
-                the corpus as enumerated. The canon supplies the frame, a continent of ownerless, unmarried,
-                long-lived rice-eaters who surpass even the gods in non-grasping yet lack the holy life
-                (AN 9.21); the self-ripening rice is even the same rice, word for word, as the canon's own
-                golden age (DN 27); and the canonical list of inopportune births for the holy life never names
-                Uttarakuru at all (AN 8.29). The commentary supplies the flesh, the wish-trees and perpetual
-                youth and the thousand-year figure, and the gavel: it is the commentary, not the canon, that
-                names the Uttarakurukas incapable of the path, groups them with Māra, and reads their
-                effortless virtue as the reason it cannot be cultivated. Two findings are kept apart
-                throughout: by text mass the corpus is overwhelmingly commentarial, while the frame itself is
-                canonical. The decisive addition is soteriological rather than ethnographic.
+                <span style={abstractTag}>Abstract.</span> North of the world we stand on, in the geography
+                the Pāli texts take for granted, lies Uttarakuru: the northern of the four great continents,
+                where no one owns anything, where rice ripens unsown, and where people live a fixed,
+                untroubled span. It is easy to file this with the heavens and hells, but the texts place it on
+                the human plane, a far country reached only across an ocean. This study gathers every
+                Uttarakuru-bearing passage in the corpus ({nCensus} rows), reads {nFeat} distinct features of
+                the continent across the layers of the literature, and asks where the picture of it actually
+                sits and how firmly the texts commit to it. The shape that emerges qualifies the familiar
+                division between a thin canon and a thick commentary. The picture grows more concrete as the
+                texts grow later, and that deepening seems to be under way inside the late canon rather than
+                waiting for the commentary; the geography is stated as assumed background and never staked
+                under the canon's own test of directly-verified knowledge; and the ethnography is inherited
+                and broadly shared, while the soteriological judgement built on it appears, on the evidence to
+                hand, only in the Pāli. The canon supplies the frame, a continent of ownerless, long-lived
+                rice-eaters who surpass even the gods in non-grasping yet lack the holy life (AN 9.21); the
+                self-ripening rice is the same rice, word for word, as the canon's own golden age (DN 27); and
+                the canonical list of inopportune births for the holy life never names Uttarakuru at all
+                (AN 8.29). It is the commentary, not the canon, that names the Uttarakurukas incapable of the
+                path, groups them with Māra, and reads their effortless virtue as the reason it cannot be
+                cultivated. The decisive addition seems to be soteriological rather than ethnographic.
               </p>
 
               {ag.mula_early_vs_late && (
                 <div style={aidPanel}>
                   <p style={{ margin: '0 0 8px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--bc-accent)', fontWeight: 600 }}>
-                    Recoded under the provenance signature (v{data.meta.version})
+                    The canonical label conceals a split
                   </p>
                   <p style={{ margin: '0 0 8px' }}>
-                    Canon-versus-commentary is one axis of a fuller signature. Coding chronological stratum
-                    independently of structural layer re-splits the canonical frame: of the{' '}
+                    The structural tag "canonical" marks a row's position in the edited corpus, not its date,
+                    and the canon is itself layered. Once a row's chronological stratum is read from its work
+                    and register rather than from its shelf, the canonical frame divides: of the{' '}
                     {ag.layer_count.mula} structurally-mūla rows, only{' '}
-                    <strong>{ag.mula_early_vs_late['early-canonical']}</strong> are genuinely early-canonical
-                    (the bare name in a list or comparison); the other{' '}
-                    <strong>{ag.mula_early_vs_late['late-or-later']}</strong> are late-canonical, Abhidhamma,
-                    paracanonical, or commentary-era. The literal-place reading is more concrete in the later
-                    and more narrative registers, a gradient the study flags as partly definitional rather
-                    than a proven diachrony.
+                    <strong>{ag.mula_early_vs_late['early-canonical']}</strong> read as genuinely
+                    early-canonical (the bare name in a list or a comparison); the other{' '}
+                    <strong>{ag.mula_early_vs_late['late-or-later']}</strong> carry the canonical tag while
+                    reading late-canonical, Abhidhamma, paracanonical, or commentary-era by composition. The
+                    literal-place reading is thinner in the terse early registers and more concrete in the
+                    later and more narrative ones, a gradient that is partly a restatement of how the strata
+                    were defined, and so not, by itself, a proof of change over time.
                   </p>
                   <p style={{ margin: '0 0 8px' }}>
-                    The ethnographic template is pan-Buddhist (the Aggañña rice has Mahāvastu, Mūlasarvāstivāda,
-                    Chinese and Sanskrit parallels); the soteriological verdict has no linked non-Pāli parallel
-                    and is held <em>Pāli-local-pending-verification</em>, not Theravāda-invented. At no stratum
-                    does the canon place the geography under its own verification formula. Materialisation and
-                    verification are different axes, and only the first one moves.
+                    The ethnographic template seems to be shared across traditions (the Aggañña rice has
+                    Mahāvastu, Mūlasarvāstivāda, Chinese and Sanskrit parallels); the soteriological judgement
+                    has no linked non-Pāli parallel, so on the evidence to hand it reads as local to the Pāli,
+                    which is not the same as saying it was invented there. At no stratum does the canon place
+                    the geography under its own test of directly-verified knowledge. The place grows more
+                    concrete without ever growing more warranted.
                   </p>
                   <p style={{ ...tinyNote, margin: 0 }}>
-                    Signature inter-annotator agreement (3 coders):{' '}
+                    Three readers coded each row's textual layer and stratum independently and reconciled the
+                    codings; agreement was high, and highest on the chronological-stratum reading the gradient
+                    turns on:{' '}
                     {Object.entries(rel.signature_iaa || {}).map(([k, v], i) => `${i ? ' · ' : ''}${k.replace(/_/g, ' ')} ${v}`).join('')}.
-                    The full recoded study, with the stratigraphy table, the epistemic-status column, and the
-                    absence table, is the v2 paper (research/uttarakuru/FINDINGS-v2.md).
                   </p>
                 </div>
               )}
               <p style={methodNote}>
-                Every claim resolves to a live corpus row; click any citation to open it in the reader. Counts
-                are read from the dataset. Where the corpus carries English (the SuttaCentral mūla rows) the
-                rendering is Sujato's; the commentary and the Pāli-only Visuddhimagga rows carry no English in
-                the corpus, so those renderings are the author's own gloss, marked as such and checked against
-                the standard translations. Load-bearing negatives were reconfirmed by direct database counts,
-                not by the search lane. Three independent coders classified each feature; agreement was
-                {' '}{rel.unanimous_h0h1} of {rel.features} on the canon-versus-commentary class (Fleiss
-                {' '}<em>κ</em> = {rel.fleiss_kappa}, almost perfect) and {rel.warrant_agreement} on the
-                warrant. Every "no canonical warrant" verdict is read as located, not absolute; the
-                Limitations state the recall floor that bounds it.
+                How these were found, briefly. The search ran over the live canonical and commentarial corpus,
+                with the Chaṭṭha Saṅgāyana recension as the base edition; every claim resolves to a live corpus
+                row, and clicking any citation opens it in the reader. Counts are read from the dataset, and
+                each is a measured floor rather than a closed tally. Where the corpus carries English (the
+                SuttaCentral mūla rows) the rendering is Sujato's; the commentary and the Pāli-only
+                Visuddhimagga rows carry no English in the corpus, so those renderings are the author's own
+                gloss, marked as such and checked against the standard translations. Where the absence of a
+                feature is load-bearing, it was reconfirmed by direct database counts and searched
+                concept-first, without the proper name. Three readers coded each feature independently and the
+                codings were reconciled; agreement was {rel.unanimous_h0h1} of {rel.features} on the
+                canon-versus-commentary reading (Fleiss <em>κ</em> = {rel.fleiss_kappa}, almost perfect) and
+                {' '}{rel.warrant_agreement} on the warrant. Every "no canonical warrant" reading means none
+                was located, not that none can exist; the Limitations state the recall floor that bounds it.
               </p>
 
               <h2 style={h2}>One term, three referents</h2>
@@ -2719,10 +2740,10 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 three respects. The Uttarakurukas surpass the gods of the Thirty-Three and the humans of
                 Jambudīpa by being without mine-making, without possessions, and of fixed lifespan. The gods
                 surpass by divine span, beauty, and bliss. And the humans of Jambudīpa surpass both by courage,
-                by mindfulness, and by this: that the holy life is lived here. The structure does the
-                theology by itself. Uttarakuru's three superiorities are exactly the comforts; Jambudīpa's
-                third is the path. The most fortunate humans have the fruits of virtue without the means to
-                cultivate it.
+                by mindfulness, and by this: that the holy life is lived here (<em>idha brahmacariyavāso</em>).
+                The structure carries the thought by itself. Uttarakuru's three superiorities are exactly the
+                comforts; Jambudīpa's third is the path. The most fortunate humans in the cosmos hold
+                precisely the fruits of virtue, and the path is reserved for our own continent.
               </p>
               <p>
                 What the commentary adds is not the paradox but its verdict. The canonical Abhidhamma, in the
@@ -2759,18 +2780,23 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
 
               <h2 style={h2}>Limitations</h2>
               <p>
-                This is a saturated enumeration, not a proof of completeness, and it earned that caution the
-                hard way. The first name search used a short-vowel substring that under-counted the canonical
-                cosmology; the corrected stem and a set of concept-independent passes, searching each
-                no-warrant feature without the proper name, fixed it. No verdict flipped, and the canonical
-                frame gained witnesses. The residual floor is real: a search can still miss a canonical
-                passage that describes the northern continent by epithet alone, so each "no canonical warrant"
-                verdict refutes a located warrant, not a doctrinal entailment, and is stated that way. The
-                voice axis is deterministic from each row's source work; the motif facet is an approximate,
-                window-based tag. The Kathāvatthu is canonical but the latest canonical stratum and already
-                argumentative in style, a point the reading depends on and states. The wider Indic and
-                Sanskrit Uttarakuru, the Mahābhārata's northern paradise and the Abhidharmakośa cosmology, is
-                a horizon named here, not a witness used.
+                Several limits bound how far any of this can be pressed, and they are better stated than
+                smoothed. The deepening-with-lateness gradient is partly definitional: the map that sorts
+                works into strata leans on genre and register, and those cues co-vary with concreteness, so the
+                gradient cannot by itself prove that the canon's conception of the place changed over time. Two
+                of the pivotal late assignments (the protective chant of DN 32, the Vinaya alms-flight) are
+                held at lower confidence on exactly that ground. The cross-recensional finding is link-level,
+                not feature-level: the corpus bridges out through a reference table rather than through the
+                external texts themselves, so a missing parallel for the soteriological judgement is evidence
+                about that table, not affirmative evidence about the other early traditions. The recall floor
+                is real: the first name search used a short-vowel substring that under-counted the canonical
+                cosmology, and the corrected stem plus concept-first passes recovered it without any reading
+                flipping, but a search can still miss a passage that names the continent by epithet alone, so
+                each "no canonical warrant" means none was located rather than none can exist. The Kathāvatthu
+                is canonical but the latest canonical stratum and already argumentative in style, a point the
+                reading depends on and states. The wider Indic and Sanskrit Uttarakuru, the Mahābhārata's
+                northern paradise and the Abhidharmakośa cosmology, is a horizon named here, not a witness
+                used.
               </p>
 
               <h2 style={h2}>References</h2>
