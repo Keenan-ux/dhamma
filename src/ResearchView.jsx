@@ -9,8 +9,9 @@
 // so deep links survive reload and re-clicking the sidebar tab returns to the
 // index. Mirrors DocsView / LibraryView hash handling.
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { isModifiedClick } from './linkHelpers.js';
+import useIsNarrow from './useIsNarrow.js';
 /* eslint-disable react-hooks/exhaustive-deps */
 
 const RESEARCH_ENTRIES = [
@@ -83,6 +84,141 @@ const COLLECTIONS = {
   },
 };
 
+// ── Study contents nav (the "you-are-here" outline) ───────────────────────
+// Modeled on the boothcheck report outline, ported to Dhamma's inline-style,
+// no-Tailwind house style. Two responsive variants share one data source:
+//   • rail (wide)  — a sticky list in the right margin, beside the article.
+//   • bar  (narrow) — a collapsible "contents · <current>" disclosure pinned
+//     to the top of the scroll region, showing the active section.
+// Orientation only: it discovers the sections from the rendered <h2>s inside
+// the study's [data-scroll-root], tracks the active one on scroll, and jumps.
+// No telemetry (house rule: no analytics).
+
+const outlineLabel = (text) => {
+  const t = String(text || '').replace(/\s+/g, ' ').trim();
+  // keep it short: drop a trailing "Table N. " stays, but cap length
+  return t.length > 38 ? t.slice(0, 36).trim() + '…' : t;
+};
+const slugify = (text) => String(text || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'sec';
+
+function useStudyOutline(openKey) {
+  const [sections, setSections] = useState([]);
+  const [activeId, setActiveId] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+  const rootRef = useRef(null);
+  const elsRef = useRef([]);
+
+  useEffect(() => {
+    const root = document.querySelector('[data-scroll-root]');
+    rootRef.current = root;
+    if (!root) { setSections([]); setActiveId(null); return undefined; }
+
+    const scan = () => {
+      const found = Array.prototype.slice.call(root.querySelectorAll('article h2'));
+      const seen = {};
+      const list = found.map((el, i) => {
+        if (!el.id) {
+          let id = slugify(el.textContent);
+          if (seen[id]) id = id + '-' + i;
+          seen[id] = true;
+          el.id = id;
+        }
+        return { id: el.id, label: outlineLabel(el.textContent), el };
+      });
+      elsRef.current = list;
+      setSections((prev) => {
+        if (prev.length === list.length && prev.every((p, i) => p.id === list[i].id)) return prev;
+        return list.map((s) => ({ id: s.id, label: s.label }));
+      });
+    };
+
+    const computeActive = () => {
+      setScrolled(root.scrollTop > 120);
+      const els = elsRef.current;
+      if (!els.length) return;
+      const line = root.getBoundingClientRect().top + 96;
+      let best = els[0].id, bestTop = -Infinity;
+      for (const s of els) {
+        const top = s.el.getBoundingClientRect().top;
+        if (top <= line && top > bestTop) { bestTop = top; best = s.id; }
+      }
+      setActiveId((p) => (p === best ? p : best));
+    };
+
+    let raf = 0;
+    const onScroll = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; computeActive(); }); };
+
+    const init = requestAnimationFrame(() => { scan(); computeActive(); });
+    let mo = null, deb = 0;
+    try {
+      mo = new MutationObserver(() => { clearTimeout(deb); deb = setTimeout(() => { scan(); computeActive(); }, 150); });
+      mo.observe(root, { childList: true, subtree: true });
+    } catch { /* no MutationObserver: initial scan only */ }
+    root.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(init); if (raf) cancelAnimationFrame(raf);
+      clearTimeout(deb); if (mo) mo.disconnect();
+      root.removeEventListener('scroll', onScroll);
+    };
+  }, [openKey]);
+
+  const jumpTo = useCallback((id) => {
+    const root = rootRef.current;
+    if (!root) return;
+    if (id === '__top__') { try { root.scrollTo({ top: 0, behavior: 'smooth' }); } catch { root.scrollTop = 0; } return; }
+    const esc = (window.CSS && CSS.escape) ? CSS.escape(id) : id;
+    const el = root.querySelector('#' + esc);
+    if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
+
+  return { sections, activeId, jumpTo, scrolled };
+}
+
+const OUTLINE_TOP = { id: '__top__', label: 'overview' };
+
+function StudyOutline({ openKey }) {
+  // Rail needs room in the right margin beside the ~916px article (whose right
+  // edge sits ~1106px from the viewport left once the sidebar shows); below this
+  // the pinned bar is used instead, so the rail never overlaps the prose.
+  const narrow = useIsNarrow(1340);
+  const { sections, activeId, jumpTo, scrolled } = useStudyOutline(openKey);
+  const [open, setOpen] = useState(false);
+  if (!sections || sections.length < 2) return null;
+  const entries = [OUTLINE_TOP, ...sections];
+  const jump = (id) => { jumpTo(id); setOpen(false); };
+
+  if (narrow) {
+    // Show the pinned bar only after the reader scrolls past the header, so it
+    // never covers the study's back-button / title at the top.
+    if (!scrolled && !open) return null;
+    const current = sections.find((s) => s.id === activeId) || sections[0];
+    return (
+      <div style={outlineBarWrap}>
+        <button type="button" style={outlineBarBtn} aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+          <span>contents{current ? <span style={{ color: 'var(--bc-text-tertiary)' }}> · {current.label}</span> : null}</span>
+          <span style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .15s', color: 'var(--bc-text-tertiary)' }}>▾</span>
+        </button>
+        {open && (
+          <nav style={outlineBarNav} aria-label="study contents">
+            {entries.map((e) => (
+              <button key={e.id} type="button" onClick={() => jump(e.id)} aria-current={e.id === activeId ? 'true' : undefined} style={outlineEntry(e.id === activeId)}>{e.label}</button>
+            ))}
+          </nav>
+        )}
+      </div>
+    );
+  }
+  return (
+    <nav style={outlineRail} aria-label="study contents">
+      <div style={outlineRailLabel}>contents</div>
+      {entries.map((e) => (
+        <button key={e.id} type="button" onClick={() => jump(e.id)} aria-current={e.id === activeId ? 'true' : undefined} style={outlineEntry(e.id === activeId)}>{e.label}</button>
+      ))}
+    </nav>
+  );
+}
+
 export default function ResearchView({ collection = 'research' }) {
   // One renderer, two collections: the gated Research studies and the public
   // Explorations (worked examples). The collection sets the hash base, the index
@@ -153,11 +289,14 @@ export default function ResearchView({ collection = 'research' }) {
       : entry.slug === 'naga' ? NagaStudy
       : AwakeningStudy;
     return (
-      <StudyComponent
-        entry={entry}
-        backLabel={C.heading}
-        onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', `#/${base}`); }}
-      />
+      <>
+        <StudyComponent
+          entry={entry}
+          backLabel={C.heading}
+          onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', `#/${base}`); }}
+        />
+        <StudyOutline openKey={collection + ':' + openSlug} />
+      </>
     );
   }
   if (openSlug && !entry && C.showApi) {
@@ -853,6 +992,15 @@ function Cite({ id, children }) {
   );
 }
 
+// A composite source cell has no single corpus row (e.g. "Vism cross-ref via
+// Mp-a 18 §87; Sv-a 11 §2 (uddesa variant); Nett-a §11.26 (paccayākāra variant)").
+// It cannot be one hyperlink, so show only the PRIMARY source named (the part
+// before the first ';' or '('), capped, with the full cross-ref on hover.
+function shortSource(s) {
+  const primary = String(s || '').split(/[;(]/)[0].trim();
+  return primary.length > 42 ? primary.slice(0, 40).trim() + '…' : (primary || '·');
+}
+
 // Pull resolvable corpus ids out of a free-text warrant string.
 const WARRANT_ID_RE = /\b(?:an|sn|mn|dn|ud|snp|thig|thag|iti|dhp|cnd|mnd|pe|ne|ps)\d[\w.]*/gi;
 function warrantIds(w) {
@@ -1429,7 +1577,11 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                       return (
                         <tr key={r.study_label || i} style={tr}>
                           <td style={tdLeftSm}>{r.cellLabel}</td>
-                          <td style={tdLeftSm}><Cite id={r.id}>{r.citation}</Cite></td>
+                          <td style={tdLeftSm}>
+                            {r.id
+                              ? <Cite id={r.id}>{r.citation}</Cite>
+                              : <span style={citeDead} title={r.citation}>{shortSource(r.citation)}</span>}
+                          </td>
                           <td style={tdLeftSm}>
                             {r.h_class === 'H1'
                               ? <span style={tinyNote}>none</span>
@@ -3542,6 +3694,17 @@ function pct(n, d) { if (!d) return '·'; return `${Math.round((100 * (n || 0)) 
 const SERIF = '"Noto Serif", Georgia, serif';
 const scrollWrap = { position: 'absolute', inset: 0, overflow: 'auto', paddingTop: 56 };
 
+// Study contents outline (quiet UI chrome, system sans). Positioned relative to
+// <main> (the positioned content area): a rail in the right margin on wide
+// viewports, a pinned bar at the content-area top on narrow ones.
+const OUTLINE_FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+const outlineRail = { position: 'absolute', top: 64, right: 14, width: 186, zIndex: 6, maxHeight: 'calc(100% - 88px)', overflowY: 'auto', fontFamily: OUTLINE_FONT, fontSize: 12.5, paddingBottom: 12 };
+const outlineRailLabel = { fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.13em', color: 'var(--bc-text-tertiary)', opacity: 0.85, margin: '0 0 8px', paddingLeft: 8 };
+const outlineBarWrap = { position: 'absolute', top: 56, left: 0, right: 0, zIndex: 14, background: 'var(--bc-bg-base)', borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.18)', fontFamily: OUTLINE_FONT };
+const outlineBarBtn = { width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, padding: '9px 16px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--bc-text-secondary)', fontFamily: OUTLINE_FONT, fontSize: 13, letterSpacing: '0.04em' };
+const outlineBarNav = { padding: '4px 8px 10px', maxHeight: '60vh', overflowY: 'auto', background: 'var(--bc-bg-base)', borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.10)' };
+const outlineEntry = (active) => ({ display: 'block', width: '100%', textAlign: 'left', cursor: 'pointer', background: 'none', border: 'none', borderLeft: `2px solid ${active ? 'var(--bc-accent)' : 'transparent'}`, padding: '3px 0 3px 8px', marginBottom: 1, color: active ? 'var(--bc-accent)' : 'var(--bc-text-tertiary)', fontWeight: active ? 700 : 400, fontFamily: OUTLINE_FONT, fontSize: 12.5, lineHeight: 1.45 });
+
 const pageHeader = { maxWidth: 820, margin: '64px 0 0', padding: '0 28px', textAlign: 'center' };
 const rule = { height: 1, background: 'rgba(var(--bc-accent-rgb), 0.32)', margin: '0 auto', maxWidth: 580 };
 const pageTitle = {
@@ -3569,7 +3732,7 @@ const articleBody = { fontFamily: SERIF, fontSize: 15, lineHeight: 1.75, color: 
 
 const methodNote = { fontSize: 13, fontStyle: 'italic', color: 'var(--bc-text-secondary)', lineHeight: 1.7, borderLeft: '2px solid rgba(var(--bc-accent-rgb), 0.28)', paddingLeft: 14, margin: '18px 0 8px' };
 
-const h2 = { fontFamily: SERIF, fontSize: 17, fontWeight: 600, letterSpacing: '0.02em', color: 'var(--bc-text-primary)', margin: '34px 0 10px' };
+const h2 = { fontFamily: SERIF, fontSize: 17, fontWeight: 600, letterSpacing: '0.02em', color: 'var(--bc-text-primary)', margin: '34px 0 10px', scrollMarginTop: 84 };
 const tableCaption = { fontSize: 12.5, fontStyle: 'italic', color: 'var(--bc-text-tertiary)', lineHeight: 1.6, margin: '0 0 12px' };
 
 const tableWrap = { overflowX: 'auto', margin: '6px 0 8px' };
