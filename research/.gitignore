@@ -13,3 +13,6 @@ _readability_*
 _pilot_*
 awakening/_paper.html
 awakening/*.pdf
+*.pdf
+*/_paper.html
+_cr_*/
