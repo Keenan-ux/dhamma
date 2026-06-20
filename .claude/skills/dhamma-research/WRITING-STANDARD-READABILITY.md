@@ -1,4 +1,4 @@
-<!-- Operator-decided 2026-06-19: (1) HYBRID structure: idea-shaped body + ONE short visible Methods note; (2) FEWER tables, lean on inline figures; (3) pilot the awakening paper end-to-end first. This file reflects those calls. Pairs with dhamma-research SKILL.md. -->
+<!-- ACTIVE STANDARD (operator-approved 2026-06-19 after the awakening pilot). Imported by dhamma-research SKILL.md as @WRITING-STANDARD-READABILITY.md; governs the written FORM of every paper. Decisions baked in: (1) HYBRID structure (idea-shaped body + one short visible Methods note); (2) fewer tables, lean on inline figures. Reference implementation: research/awakening/FINDINGS-readable.md (+ .pdf via research/_render_pdf.py). The benchmark exemplar text is kept locally and gitignored (third-party copyright). -->
 
 # WRITING-STANDARD-READABILITY.md
 

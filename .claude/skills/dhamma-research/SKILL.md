@@ -39,6 +39,12 @@ a line for the Limitations section.
   question→axes triage, the recall ladder, the paper segmentation, the worked Uttarakuru example). Imported
   and invoked as the first design step. Canon-vs-commentary is its first axis, not the whole method; the
   triage decides which other axes a given question is load-bearing on.
+- **Writing standard** — `@WRITING-STANDARD-READABILITY.md`: how the paper is WRITTEN so a scholar reads it
+  straight through (the Anālayo benchmark). Two physical lanes (plain hedged prose organized by finding in
+  the body; all apparatus in footnotes + appendices), idea-shaped sections with one short visible Methods
+  note, a numbered roadmap, worked examples, signposts, mostly inline typeset figures with few argued tables,
+  ~15 pages. Governs the paper's FORM; the method core governs what is KNOWN. Reference implementation:
+  `research/awakening/FINDINGS-readable.md` (render to PDF with `research/_render_pdf.py` + headless Chrome).
 
 ## Hard rules (the spine)
 
@@ -125,16 +131,21 @@ existing Research tab + `/api/research`.
 
 ## The paper (final, public-facing) — format
 
-Abstract · Question + hypotheses · **Literature review** (engage the field; confirm/quantify known
-results, don't rediscover them) · **Methodology** (corpus + edition, the full query log, codebook, IAA) ·
-one chapter per sub-question · Discussion · **Limitations** · Contribution · References · **Appendix =
-the dataset + data-availability statement**.
+The written form follows `@WRITING-STANDARD-READABILITY.md` (the Anālayo-benchmark readable standard), not a
+process-shaped template. The body is **idea-shaped**: a human opening, a numbered roadmap, six sections named
+for what the data says about the subject, one short visible **Methods note** (corpus + edition + recall floor
++ headline IAA, ~200 to 300 words), worked examples, signposts, mostly inline typeset figures with at most
+one or two argued tables, then **Notes** and **Appendices A/B/C**. Target ~15 pages. Render to PDF.
 
-**Segment by load-bearing axis** (`@PROVENANCE-SIGNATURE.md` §6): carry a compact **provenance signature at
-the point of use** for each load-bearing claim, a first-class **stratigraphy table** (organized by ascending
-stratum), and — where the axis was coded — an **epistemic-stratification** section and an **absence table**,
-so each claim's provenance is visible where it is used rather than asserted flat. The richer the question,
-the more segmented the paper.
+**The rigor is preserved but relocated, not deleted.** Everything the method core produces still appears, in
+the apparatus lane: the **per-claim provenance signature** goes in a footnote on the sentence it backs and in
+Appendix A (full enumeration), NOT inline in the body; the **stratigraphy** finding drives the body's date
+section and its dot-strip figure, with the wide stratigraphy table in Appendix A; an **epistemic-
+stratification** section and an **absence table** (where those axes were coded) live in the body as prose +
+one figure with the SQL/char-gap detail in Appendix B. The litmus test: a reader who skips every footnote,
+table, and appendix still finishes with the data's highlights; a reviewer who follows any footnote still
+reaches the full provenance signature. See `@WRITING-STANDARD-READABILITY.md` §2 (the mechanical
+body/footnote/appendix placement rule) and §7 (what stays the same).
 
 Citation apparatus: SuttaCentral id (primary) + PTS vol.page + CST row-id; flag variant readings; declare
 diacritics; **translation provenance** — where the corpus has no English (commentary, Abhidhamma) the

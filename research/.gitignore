@@ -11,3 +11,5 @@ data/token_df.json
 _exemplar_*
 _readability_*
 _pilot_*
+awakening/_paper.html
+awakening/*.pdf
