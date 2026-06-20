@@ -51,12 +51,14 @@ Single autonomous worker chat (the backlog is interdependent — all five edit t
 
 | # | Study | Surfaces | Status |
 |---|---|---|---|
-| 1 | awakening | paper + component + JSON | NOT STARTED |
-| 2 | uttarakuru | paper + component + JSON | NOT STARTED |
-| 3 | heart-base | paper + component + JSON | NOT STARTED |
-| 4 | individual-guidance | paper + component + JSON | NOT STARTED |
-| 5 | intoxicants | paper only | NOT STARTED |
-| 6 | naga (optional) | component + JSON | NOT STARTED |
+| 1 | awakening | paper + component (builder unchanged) | **LANDED + committed e2186df** (+ citation-label/dead-link fix in 140ee02 from red-team) |
+| 2 | uttarakuru | paper + component (builder unchanged) | **LANDED + committed e2186df** (incl. char-gap moved out of body); red-team CLEAN |
+| 3 | heart-base | paper + component + builder | **LANDED + committed 140ee02** (builder: stratigraphy reordered ascending + gate name-lookup, CONSISTENCY PASS, numbers identical) |
+| 4 | individual-guidance | paper + component (builder unchanged) | **LANDED + committed 140ee02**; red-team CLEAN; builder unchanged (already diachronic + drift strip ascending) |
+| 5 | intoxicants | paper only | **LANDED + committed 0591565**; red-team CLEAN |
+| 6 | naga (optional) | component + JSON | NOT STARTED (optional stretch; does not block stopping) |
+
+**studies-remaining (primary 1-5) = 0.** All committed; ONE deploy pending. naga optional.
 
 ## 4. Verification commands (+ expected)
 
@@ -77,6 +79,14 @@ Single autonomous worker chat (the backlog is interdependent — all five edit t
 **Pre-registered predictions** (score in this doc after the run):
 - PREDICT the refactor moves ZERO findings/counts (it is presentation-only); every builder stays `CONSISTENCY: PASS` and every headline number is unchanged. PASS if no regression value moves without a logged warrant.
 - PREDICT chronology is a NATURAL fit for all five (each already codes stratum and several already lead with it), so no study needs its data re-coded, only its prose re-ordered. PASS if no `build_dataset.py` stratum LOGIC changes (only prose strings + section order change).
+
+**SCORED 2026-06-20 (after the run):**
+- **Prediction 1 — PASS.** All five builders print `CONSISTENCY: PASS`; every headline number is unchanged from the frozen pre-refactor papers (verified by numeric-multiset diffs of every paper body new-vs-frozen, plus the live datasets). No regression value moved. The only logged presentation relocations (value preserved in all): uttarakuru raw char-gap `7,200` moved body→footnote; intoxicants one rhetorical restatement of `2,115` dropped (still stated elsewhere); uttarakuru `976`/`KV 1.3` surfaced into the body (real, in original + dataset). Zero findings/counts changed.
+- **Prediction 2 — PASS.** No `build_dataset.py` stratum CODING LOGIC changed in any study. The only builder edit was heart-base: a presentation REORDER (stable sort of the stratigraphy list by ascending stratum rank) plus a gate-robustness fix (index → element-name lookup). No stratum value, code, or coding rule changed anywhere. awakening/uttarakuru/individual-guidance/intoxicants builders untouched.
+
+**Logged pre-existing nits (NOT refactor regressions; left frozen per the "findings frozen" rule; for a future quality pass):**
+- heart-base paper §IV body states a raw char-gap "87,102 characters apart" (present in the frozen original; it is the proximity-guard argument's evidence, with the two closer near-misses softened to "about 120 / about seventy"). The sibling uttarakuru/IG keep their raw gaps in footnotes. A consistency nit, not introduced by this refactor.
+- heart-base reader cites `cst-abh07t.nrf-135_p014` (Abh-pṭ §135, "half-handful of blood"); pre-existing in the component, not enumerated in the dataset JSON. RESOLVED: verified to resolve on the live corpus (HTTP 200, 2026-06-20), a real row. No action needed.
 
 ## 6. The delegation brief / autonomous worker seed (ten-field; paste into the new chat)
 
@@ -156,6 +166,40 @@ READ FIRST (in order):
 
 COMMIT CADENCE: one commit per study (per surface-set), pushed in real time; ONE deploy at the very end.
 ```
+
+## 9. Coordinator run log (live — started 2026-06-20)
+
+**Baseline verified before any edit (regression anchor):** all five builders print
+`CONSISTENCY: PASS` and are idempotent (re-running dirties nothing). Papers all em-dash 0.
+Authoritative numbers to hold fixed:
+- awakening: 299 mūla (38 early / 261 late), Apadāna 162, buddha-vacana 17 (9 dedup), 2,214 events; recall [2, 914, 1488, 2214].
+- uttarakuru: 161 census; voice {canonical 18, para-canon 23, commentary 120}; 16 features; h0h1 {canonical-seed 6, commentarial-innovation 5, commentarial-detail 2, split 3}; warrant {11, null 5}.
+- heart-base: recall [240, 272, 283, 283]; named-heart canon 0; posit canon 7; three-tier rows 7.
+- individual-guidance: sutta 46, commentary 212; H0/H1 8/7; drift 3 classes.
+- intoxicants: verdict CONFIRMED + refined; open-category commentarial-only 2.
+
+**VERIFIED per-surface scope (corrects the brief's generic "rewrite builder prose" step — checked against the actual JSX):**
+| Study | Component renders v2/v3 PROSE? | Builder prose edit needed |
+|---|---|---|
+| awakening | NO — `data.v2.*` are numbers only; prose is hand-written JSX | NO (verdict/headline are internal QA, not rendered) |
+| uttarakuru | NO — renders `data.aggregates/.reliability/.features`; prose hand-written | NO |
+| heart-base | YES — renders `v.title/subtitle/headline/stratigraphy/method_note` | YES (rewrite + rebuild JSON) |
+| individual-guidance | YES — `v.title/subtitle/headline/stratigraphy/drift_strip/method_note` | YES (rewrite + rebuild JSON) |
+| intoxicants | n/a (no component) | n/a (paper only) |
+
+So builder PROSE edits are needed ONLY for heart-base + individual-guidance. awakening/uttarakuru
+builders are left untouched (numbers unchanged); re-run only to confirm the gate still passes.
+
+**Component-spine design decision:** the live components are interactive data explorers (tables +
+expandable cited lists), not papers. The chronology spine is applied as the component's primary
+narrative sections (h2 = strata named for the subject) carrying the re-ordered prose; the existing
+data tables / cited-lists are folded under the appropriate stratum section or kept as a trailing
+"complete census" block. This satisfies h2=strata (TOC reflects the diachronic arc) without
+destroying the tool.
+
+**Execution model:** papers (disjoint files) + builder prose (disjoint) rewritten/red-teamed via
+Workflow; the shared `src/ResearchView.jsx` component edits done serially in the main loop (one
+study at a time, vite build between) to avoid clobber. Commit + push per study; ONE deploy at end.
 
 ## 7. Coordination / ownership rules
 
