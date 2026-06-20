@@ -83,6 +83,21 @@ The signature is coded **per claim**, not per row. A single passage interleaves
 speakers, registers, and epistemic statuses; the unit of coding is the
 load-bearing claim, with its supporting passage and char-window cited.
 
+> **Per-claim-granularity guard (enforce, don't just state).** A work→code
+> lookup (a `WORK_ATTRIBUTION[work]` / work→register map) is a **recall aid for
+> seeding candidate codes**, *never* the recorded per-claim code. The recorded
+> code must be a function of the *row's own* content, verified by reading the row.
+> Before any per-claim count (attribution, epistemic, harmonization) is frozen,
+> spot-audit ≥8 coded rows across work-classes and confirm each code matches that
+> row, not its work-class; a category that comes out exactly 0, or exactly equal
+> to a work's row-count, is the diagnostic signature of a per-work shortcut and
+> must be re-coded per row. **Failure case on record:** the awakening census R1
+> retrofit coded attribution by work-class (`nikāya-prose → redactor-frame`
+> wholesale), which hard-zeroed `buddha-vacana` and published a false "0 of 299"
+> headline; per-claim re-coding found 17 rows (9 deduplicated recollections) of
+> the Buddha asserting his own awakening. The rule below existed; the *verification
+> step* did not. This guard is that step.
+
 > **Axes considered and rejected** (per the Step-5 discipline, exclusions are
 > justified in writing, not silently dropped):
 > *regional transmission* = recension (I.4) + edition (I.7);

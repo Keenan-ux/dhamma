@@ -155,6 +155,14 @@ a frontend feature are cleanly parallelizable; two edits to `search.js` are not.
 - VERIFY, don't trust. Re-run a sub-chat's probes/tests yourself; check its
   reasoning, not just its verdict. Independent verification has caught real
   inconsistencies self-reports glossed.
+- CODING-GRANULARITY SPOT-AUDIT (for any study/audit that codes a per-claim or
+  per-instance category). Before accepting a count, pick ≥8 coded rows across
+  classes, read each source row directly, and confirm its code is a function of
+  *that row's* content, not of its class/work/bucket. A category that lands
+  exactly 0, or exactly equal to a class's size, is the signature of a per-class
+  shortcut masquerading as a per-claim code: send it back for per-row re-coding.
+  (This battery exists because a per-work attribution lookup once published a
+  false "0 of 299" headline; the rule was present, the verification step was not.)
 - A detected bias/defect is a problem to SOLVE, not a caveat to surface.
 - Commit per unit; do not push unless explicitly asked. Sub-chats on shared
   files keep edits additive; reconcile at merge (nothing pushed → local resolve).

@@ -53,7 +53,7 @@ a correction to a live published scholarly finding).
 |---|---|---|---|---|
 | A1 | Awakening attribution per-claim re-code (the priority) | §6.A1 | **LANDED** (committed, not deployed) | **PASS** — false 0 corrected to **17 buddha-vacana rows / 9 deduped recollections** (data-bound, IAA κ=1.0); "never another's" refuted |
 | A2 | Cross-study per-work-shortcut audit (R2–R5) | §6.A2 | NOT STARTED | — |
-| A3 | Method hardening (per-claim-granularity gate in framework/skill + coordinator verify step) | §6.A3 | NOT STARTED | — |
+| A3 | Method hardening (per-claim-granularity gate in framework/skill + coordinator verify step) | §6.A3 | **LANDED** (committed) | **PASS** — the gap was a missing *verification step*, not a missing rule |
 
 **A1 landing note (2026-06-19).** The per-claim re-code is done and verified.
 - **The corrected key metric: buddha-vacana = 17 of 299 rows (was a false 0), collapsing to 9 distinct deduplicated own-awakening recollections** (MN 4 / 19 / 36 / 85 / 100, AN 8.11 = Verañja = Vinaya Pārājika nidāna, SN 54.8, SN 35.13, Vinaya Mahāvagga bodhi). Data-bound from per-row codes in `build_dataset.py` (`PER_ROW_ATTRIBUTION`, sourced from `_attribution_audit.json`); the consistency gate now FAILS if the count is 0 or not equal to the audited per-row list.
@@ -76,9 +76,10 @@ a correction to a live published scholarly finding).
 
 ## 5. Open queue + predictions
 
-A2 + A3 open; **A1 LANDED**. **Key metric (now corrected):** the deduped, per-claim-coded, IAA'd **buddha-vacana count** for the 299 = **17 rows / 9 distinct recollections** (was a false 0). **Pre-registered predictions** (score verbatim after each lands; a wrong prediction is a finding):
+A2 open; **A1 + A3 LANDED**. **Key metric (now corrected):** the deduped, per-claim-coded, IAA'd **buddha-vacana count** for the 299 = **17 rows / 9 distinct recollections** (was a false 0). **Pre-registered predictions** (score verbatim after each lands; a wrong prediction is a finding):
 - **A1: SCORED — PASS.** Predicted small-but->0 and "order of a handful": confirmed (17 rows, 9 deduped recollections). The relational clause resolved via the **OR branch**: the named search FOUND the Buddha declaring others' attainments (29 mūla destiny/stream-entry rows; `sn55.39` within the 299), so the naive "never another's" is refuted and the published claim is the both-and. PASS conditions all met: every nikāya-prose row read individually (33), count deduped (9) + IAA'd (κ=1.0), "another's" answered by named search not assumption. One refinement beyond prediction: the defect also spanned **vinaya-nidāna** (3 rows), not just nikāya-prose.
-- **A2:** PREDICT ≥1 other retrofit used a per-work code where the framework wanted per-claim, but **no verdict flips** (the R2–R5 verdicts were robust). PASS if every per-work coding site is located and classified artifact-risk vs benign, and any count that moves is logged with a warrant.
+- **A2:** PREDICT ≥1 other retrofit used a per-work code where the framework wanted per-claim, but **no verdict flips** (the R2–R5 verdicts were robust). PASS if every per-work coding site is located and classified artifact-risk vs benign, and any count that moves is logged with a warrant. **(NB from A1: also check vinaya/frame-work wholesale codes, not just the obvious axis.)**
+- **A3: SCORED — PASS.** The gap was a missing *verification step*, not a missing rule. The "coded per claim, not per row" rule already lived in PROVENANCE-SIGNATURE §2; what was absent was the spot-audit that enforces it. Added: (1) a per-claim-granularity spot-audit to the coordinator skill's standing rules (`.claude/skills/coordinator/SKILL.md`); (2) an enforce-don't-state guard in PROVENANCE-SIGNATURE §2 + the k≥3 coding step in `dhamma-research/SKILL.md`, both flagging a work→code lookup as a recall aid never the recorded code, with the false-0 case on record. Prediction confirmed.
 - **A3:** PREDICT the gap was a missing *verification* step, not a missing rule (the rule existed in §2; the coordinator never spot-audited coding granularity). PASS if a per-claim-granularity spot-audit is added to the coordinator's standing verification battery and the framework/skill flags work→code lookups as recall aids, never verdicts.
 
 ## 6. Delegation briefs (the QUEUE; ten-field shape)

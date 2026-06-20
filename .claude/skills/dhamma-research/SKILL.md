@@ -98,7 +98,13 @@ a line for the Limitations section.
    datasets); k≥3 blind coders sweep and union. Target "zero missed"; **claim only "saturated + measured"** —
    never assert unprovable completeness; report the residual recall risk.
 5. **Code blind, measure agreement.** k≥3 independent coders classify the per-instance fields; report IAA
-   per field; adjudicate + log disagreements.
+   per field; adjudicate + log disagreements. **Per-claim-granularity gate:** a work→code lookup (e.g.
+   `WORK_ATTRIBUTION[work]`) is a *recall aid for seeding candidates*, never the recorded code. Any
+   per-claim axis (attribution, epistemic, harmonization) must be coded from the *row's own* content;
+   before freezing a count, spot-audit ≥8 coded rows across work-classes and confirm each code is a
+   function of that row, not of its work. A category that comes out exactly 0 or exactly = a work's size
+   is the signature of a per-work shortcut: re-code it per row. (The awakening R1 retrofit published a
+   false "0 buddha-vacana" precisely because it skipped this gate; see PROVENANCE-SIGNATURE §2.)
 6. **Adversarially verify.** For load-bearing claims, an independent skeptic agent re-fetches the passage
    and tries to refute. Distinguish "unsupported" from "unavailable" (tool down ≠ claim false).
 
