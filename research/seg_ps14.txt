@@ -1,0 +1,8 @@
+PASSAGE ps1.4 | PS 1.4 | 1.4. Indriyakathā
+
+99.1	PALI: Yaṁ buddhacakkhu taṁ buddhañāṇaṁ, yaṁ buddhañāṇaṁ taṁ buddhacakkhu, yena cakkhunā tathāgato satte passati apparajakkhe mahārajakkhe tikkhindriye mudindriye svākāre dvākāre suviññāpaye duviññāpaye appekacce paralokavajjabhayadassāvino, appekacce naparalokavajjabhayadassāvino.
+	EN:   
+101.1	PALI: <b>Tikkhindriye mudindriye</b>ti saddho puggalo tikkhindriyo, assaddho puggalo mudindriyo …pe…
+	EN:   
+96.17	PALI: yāvatā indriyaparopariyattañāṇaṁ …
+	EN:   

@@ -1,0 +1,10 @@
+# Large fetched / derived data — reproducible from scripts, not committed.
+data/corpus.json
+data/passage_index.json
+data/lemma_cache.json
+out/
+# Keep: scripts/, *.md, data/slug_map.json, data/sample.json (small, the record)
+!data/slug_map.json
+!data/sample.json
+data/divergence_mirror.json
+data/token_df.json

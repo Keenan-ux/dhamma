@@ -1,0 +1,14 @@
+# Large derived intermediates under data/ — reproducible from the scripts
+# (build_windows.py -> referent_prepass.py -> coding chunks). Kept out of git.
+# The coding OUTPUTS (coded_*.json), the per-row census (serpents_all/serpent_claims/
+# canon_serpent_candidates), the token landscape (mula_naag_tokens.json), the auto-class
+# tallies, and the *_summary.txt files ARE committed as the reproducibility + reliability record.
+data/windows.json
+data/prepass.json
+data/_census_assembled.json
+data/code_chunk_*.json
+data/code_commchunk_*.json
+data/code_comm_*.json
+data/code_mula_ambiguous.json
+data/code_iaa_sample.json
+data/facet_chunk_*.json

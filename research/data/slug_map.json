@@ -1,0 +1,418 @@
+{
+ "pli-abh-attha": {
+  "genre": "atthakatha",
+  "count": 6022
+ },
+ "pli-abh-tika": {
+  "genre": "tika",
+  "count": 21791
+ },
+ "pli-abhidhamma": {
+  "genre": "abhidhamma",
+  "count": 7530
+ },
+ "pli-an": {
+  "genre": "sutta",
+  "count": 1628
+ },
+ "pli-an-attha": {
+  "genre": "atthakatha",
+  "count": 4485
+ },
+ "pli-an-tika": {
+  "genre": "tika",
+  "count": 4673
+ },
+ "pli-ap": {
+  "genre": "khuddaka",
+  "count": 603
+ },
+ "pli-bv": {
+  "genre": "khuddaka",
+  "count": 29
+ },
+ "pli-cp": {
+  "genre": "khuddaka",
+  "count": 35
+ },
+ "pli-cst-e0105n-nrf": {
+  "genre": "anya",
+  "count": 38
+ },
+ "pli-cst-e0201n-nrf": {
+  "genre": "anya",
+  "count": 163
+ },
+ "pli-cst-e0301n-nrf": {
+  "genre": "anya",
+  "count": 15
+ },
+ "pli-cst-e0401n-nrf": {
+  "genre": "anya",
+  "count": 11
+ },
+ "pli-cst-e0501n-nrf": {
+  "genre": "anya",
+  "count": 28
+ },
+ "pli-cst-e0601n-nrf": {
+  "genre": "anya",
+  "count": 3
+ },
+ "pli-cst-e0602n-nrf": {
+  "genre": "anya",
+  "count": 3
+ },
+ "pli-cst-e0603n-nrf": {
+  "genre": "anya",
+  "count": 3
+ },
+ "pli-cst-e0604n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e0605n-nrf": {
+  "genre": "anya",
+  "count": 30
+ },
+ "pli-cst-e0606n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e0607n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e0608n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e0701n-nrf": {
+  "genre": "anya",
+  "count": 8
+ },
+ "pli-cst-e0702n-nrf": {
+  "genre": "anya",
+  "count": 12
+ },
+ "pli-cst-e0703n-nrf": {
+  "genre": "anya",
+  "count": 69
+ },
+ "pli-cst-e0801n-nrf": {
+  "genre": "anya",
+  "count": 14
+ },
+ "pli-cst-e0802n-nrf": {
+  "genre": "anya",
+  "count": 31
+ },
+ "pli-cst-e0803n-nrf": {
+  "genre": "anya",
+  "count": 19
+ },
+ "pli-cst-e0804n-nrf": {
+  "genre": "anya",
+  "count": 69
+ },
+ "pli-cst-e0805n-nrf": {
+  "genre": "anya",
+  "count": 48
+ },
+ "pli-cst-e0806n-nrf": {
+  "genre": "anya",
+  "count": 471
+ },
+ "pli-cst-e0807n-nrf": {
+  "genre": "anya",
+  "count": 721
+ },
+ "pli-cst-e0808n-nrf": {
+  "genre": "anya",
+  "count": 19
+ },
+ "pli-cst-e0809n-nrf": {
+  "genre": "anya",
+  "count": 17
+ },
+ "pli-cst-e0810n-nrf": {
+  "genre": "anya",
+  "count": 16
+ },
+ "pli-cst-e0811n-nrf": {
+  "genre": "anya",
+  "count": 98
+ },
+ "pli-cst-e0812n-nrf": {
+  "genre": "anya",
+  "count": 100
+ },
+ "pli-cst-e0813n-nrf": {
+  "genre": "anya",
+  "count": 33
+ },
+ "pli-cst-e0901n-nrf": {
+  "genre": "anya",
+  "count": 59
+ },
+ "pli-cst-e0902n-nrf": {
+  "genre": "anya",
+  "count": 132
+ },
+ "pli-cst-e0903n-nrf": {
+  "genre": "anya",
+  "count": 163
+ },
+ "pli-cst-e0904n-nrf": {
+  "genre": "anya",
+  "count": 209
+ },
+ "pli-cst-e0905n-nrf": {
+  "genre": "anya",
+  "count": 184
+ },
+ "pli-cst-e0906n-nrf": {
+  "genre": "anya",
+  "count": 69
+ },
+ "pli-cst-e0907n-nrf": {
+  "genre": "anya",
+  "count": 22
+ },
+ "pli-cst-e1001n-nrf": {
+  "genre": "anya",
+  "count": 14
+ },
+ "pli-cst-e1002n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1003n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1004n-nrf": {
+  "genre": "anya",
+  "count": 5
+ },
+ "pli-cst-e1005n-nrf": {
+  "genre": "anya",
+  "count": 7
+ },
+ "pli-cst-e1006n-nrf": {
+  "genre": "anya",
+  "count": 2
+ },
+ "pli-cst-e1007n-nrf": {
+  "genre": "anya",
+  "count": 4
+ },
+ "pli-cst-e1008n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1009n-nrf": {
+  "genre": "anya",
+  "count": 16
+ },
+ "pli-cst-e1010n-nrf": {
+  "genre": "anya",
+  "count": 8
+ },
+ "pli-cst-e1101n-nrf": {
+  "genre": "anya",
+  "count": 41
+ },
+ "pli-cst-e1102n-nrf": {
+  "genre": "anya",
+  "count": 6
+ },
+ "pli-cst-e1103n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1201n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1202n-nrf": {
+  "genre": "anya",
+  "count": 14
+ },
+ "pli-cst-e1203n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1204n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1205n-nrf": {
+  "genre": "anya",
+  "count": 5
+ },
+ "pli-cst-e1206n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1207n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1208n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1209n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1210n-nrf": {
+  "genre": "anya",
+  "count": 3
+ },
+ "pli-cst-e1211n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1212n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1213n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-cst-e1214n-nrf": {
+  "genre": "anya",
+  "count": 9
+ },
+ "pli-cst-e1215n-nrf": {
+  "genre": "anya",
+  "count": 1
+ },
+ "pli-dhp": {
+  "genre": "khuddaka",
+  "count": 26
+ },
+ "pli-dn": {
+  "genre": "sutta",
+  "count": 68
+ },
+ "pli-dn-attha": {
+  "genre": "atthakatha",
+  "count": 3978
+ },
+ "pli-dn-tika": {
+  "genre": "tika",
+  "count": 6330
+ },
+ "pli-iti": {
+  "genre": "khuddaka",
+  "count": 112
+ },
+ "pli-ja": {
+  "genre": "khuddaka",
+  "count": 547
+ },
+ "pli-kn-attha": {
+  "genre": "atthakatha",
+  "count": 62541
+ },
+ "pli-kn-tika": {
+  "genre": "tika",
+  "count": 2203
+ },
+ "pli-kp": {
+  "genre": "khuddaka",
+  "count": 9
+ },
+ "pli-mil": {
+  "genre": "anya",
+  "count": 248
+ },
+ "pli-mn": {
+  "genre": "sutta",
+  "count": 167
+ },
+ "pli-mn-attha": {
+  "genre": "atthakatha",
+  "count": 4780
+ },
+ "pli-mn-tika": {
+  "genre": "tika",
+  "count": 4023
+ },
+ "pli-nd": {
+  "genre": "khuddaka",
+  "count": 39
+ },
+ "pli-ne": {
+  "genre": "anya",
+  "count": 37
+ },
+ "pli-pe": {
+  "genre": "anya",
+  "count": 9
+ },
+ "pli-ps": {
+  "genre": "khuddaka",
+  "count": 31
+ },
+ "pli-pv": {
+  "genre": "khuddaka",
+  "count": 51
+ },
+ "pli-sn": {
+  "genre": "sutta",
+  "count": 1875
+ },
+ "pli-sn-attha": {
+  "genre": "atthakatha",
+  "count": 4409
+ },
+ "pli-sn-tika": {
+  "genre": "tika",
+  "count": 4675
+ },
+ "pli-snp": {
+  "genre": "sutta",
+  "count": 73
+ },
+ "pli-thag": {
+  "genre": "khuddaka",
+  "count": 264
+ },
+ "pli-thig": {
+  "genre": "khuddaka",
+  "count": 73
+ },
+ "pli-ud": {
+  "genre": "khuddaka",
+  "count": 80
+ },
+ "pli-vin-attha": {
+  "genre": "atthakatha",
+  "count": 5628
+ },
+ "pli-vin-tika": {
+  "genre": "tika",
+  "count": 34902
+ },
+ "pli-vinaya": {
+  "genre": "vinaya",
+  "count": 480
+ },
+ "pli-vism": {
+  "genre": "anya",
+  "count": 3619
+ },
+ "pli-vism-tika": {
+  "genre": "tika",
+  "count": 3244
+ },
+ "pli-vv": {
+  "genre": "khuddaka",
+  "count": 85
+ }
+}

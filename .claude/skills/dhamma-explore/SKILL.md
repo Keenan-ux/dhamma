@@ -70,7 +70,7 @@ Copy the shape of `wheel-turning-monarch.json` exactly. Fields:
 {
   "meta": { "version": "v1.0", "generated": "YYYY-MM-DD", "corpus_snapshot": "194,710 passages",
             "note": "Counts reproducible from the live database via the Concordance view; every citation opens in the reader; renderings follow the corpus edition." },
-  "overview":   "The 'Overview.' lead paragraph. State what the theme is, that this is a worked example, the corpus size, the headline count of the core term, the number of substantive passages kept and strands, and the one structural finding (usually: canon states it tersely, commentary draws the picture). Numbers baked in. design.md voice.",
+  "overview":   "The 'Overview.' lead paragraph. State what the theme is, that this is a worked example, the corpus size, the headline count of the core term, the substantive count (if ids repeat across strands, state it as 'N instances across M passages'), the number of strands, and the one structural finding (usually: canon states it tersely, commentary draws the picture). Numbers baked in. design.md voice.",
   "methodNote": "Honest recall-bound: counts reproducible; the enumeration is bounded by the vocabulary in the how-to (a passage without those words can be missed); 'This is a worked example rather than a full study'; canon-vs-commentary is a textual-layer split, not a dating.",
   "howto": {
     "intro": "One paragraph: the page is a worked example; the recipe is find the vocabulary, count it, read and split the substantive passages; each box below is a real query you can paste in.",
@@ -115,7 +115,11 @@ Copy the shape of `wheel-turning-monarch.json` exactly. Fields:
    `/api/passage/<id>`: confirm it resolves and is genuinely on-topic. Tag the layer. Write a
    one-line note on what it contributes. This is "counts-for-all in the table, expand-substantive in
    the strands": you are not listing every match (that is mostly noise), you are curating the
-   passages that carry the theme. Aim for roughly 40-80 instances across the strands.
+   passages that carry the theme. Aim for roughly 40-80 instances for a broad theme, but a genuinely
+   narrow theme may legitimately have fewer (the vegetarianism reference has 32 instances across 26
+   passages in 8 strands). Never pad to reach a number: the curate-don't-list-noise gate always wins.
+   Count instances, and where the same id sits in more than one strand, report the distinct-passage
+   count too.
 5. **Sub-categorize into strands.** Group the verified instances into thematic strands that together
    cover the facets of the theme. Each strand gets a `blurb`. A passage central to two strands may
    appear in both with different notes.

@@ -1,0 +1,34 @@
+{
+  "policy": "leave-in-Pāli vocabulary",
+  "version": "p4-2026-06-07",
+  "principle": "A term is LEFT UNTRANSLATED (transliterated + openable DPD sense-gloss) iff it is (a) technical, (b) genuinely non-1:1 with English, AND (c) an established loanword in the scholarly/practitioner creole. Such terms are handled by policy, not by a per-token translation decision. This is one avowed, auditable, forkable commitment — the sibling of the aliases table.",
+  "boundary_calls_user_2026_06_07": {
+    "in": ["saṅgha"],
+    "out": {
+      "gaṇa": "has a clean English equivalent (company/following); not a loanword",
+      "pāsāda": "a REGISTER choice (palace/longhouse), not a fixed technical concept",
+      "vedehiputta": "an interpretive epithet/name, needs a rendering decision"
+    }
+  },
+  "core": [
+    "dhamma","kamma","saṅkhāra","sati","sampajañña","sampajāna","samādhi","paññā",
+    "sīla","citta","cetasika","viññāṇa","khandha","āyatana","dhātu","nibbāna",
+    "saṃsāra","dukkha","taṇhā","upādāna","avijjā","jhāna","samatha","vipassanā",
+    "mettā","karuṇā","muditā","upekkhā","brahmavihāra","kilesa","āsava","nīvaraṇa",
+    "bojjhaṅga","magga","phala","nirodha","samudaya","arahant","bhikkhu","bhikkhunī",
+    "saṅgha","buddha","anattā","anicca","paṭiccasamuppāda","vedanā","saññā",
+    "saddhā","viriya","pīti","cetanā","phassa","vitakka","vicāra","nimitta",
+    "sotāpanna","sakadāgāmī","anāgāmī","sekha","asekha","puthujjana","ariya"
+  ],
+  "debatable": {
+    "paccaya": "technical Paṭṭhāna relation-name, but also cleanly 'condition' — boundary case; the membership decision is itself the meta-choice-point",
+    "rūpa": "leave-in as an aggregate, but 'form/matter/visible' elsewhere — context-dependent",
+    "nāma": "leave-in in nāma-rūpa, but 'name' elsewhere",
+    "sacca": "leave-in as 'the truths', but 'truth/true' elsewhere",
+    "sukha": "often translated 'pleasant/ease'; leave-in mainly in feeling-triad",
+    "sutta": "leave-in; but 'discourse' is widely accepted too",
+    "vinaya": "leave-in; 'monastic code' accepted",
+    "abhidhamma": "leave-in"
+  },
+  "note": "score_v4 uses core + debatable as the active leave-in set; the debatable list is flagged so a forked edition can move the boundary and re-score."
+}

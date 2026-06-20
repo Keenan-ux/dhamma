@@ -1,0 +1,106 @@
+[
+ {
+  "id": "cst-vin12t.nrf-423_p039",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilānāgilānānaṃ = gilāna+agilānānaṃ (sick and not-sick); sandhi false friend"
+ },
+ {
+  "id": "cst-vin12t.nrf-439_p005",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "polysemy=true; metalinguistic gloss 'nāgasaddassa ahināga-hatthināgesu pavattanato' (snake/elephant senses) applied as buddhanāga = the Buddha as nāga (na+āgu honorific)"
+ },
+ {
+  "id": "cst-vin12t.nrf-440_p004",
+  "referent": "ambiguous",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "mahānāgassā glosses mahāvarāha rejecting boar-sense; great beast tearing earth (padālentassa, mahiṃ vikubbato) — window cannot fix serpent vs elephant"
+ },
+ {
+  "id": "cst-vin12t.nrf-46_p026",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāgassa danto = elephant's tusk -> nāgadantaka (ivory peg); aṅkusa = goad, gajamatthaka"
+ },
+ {
+  "id": "cst-vin12t.nrf-57_p002",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "A monk overpowers the nāga's fiery majesty (teja/ānubhāva) by his own power",
+  "note": "surāpāna sikkhāpada gloss; 'attano tejasā nāgassa teja'nti' = overcoming a nāga's teja (the Sāgata nāga-subduing episode)"
+ },
+ {
+  "id": "cst-vin13t.nrf-120_p006",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāggisantatta = na+aggi+santatta (not heated by fire); sandhi false friend"
+ },
+ {
+  "id": "cst-vin13t.nrf-120_p017",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilānāgilānassa = gilāna+agilānassa (sick and not-sick); sandhi false friend"
+ },
+ {
+  "id": "cst-vin13t.nrf-131_p003",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilānāgilānānaṃ = gilāna+agilānānaṃ (sick and not-sick); sandhi false friend"
+ },
+ {
+  "id": "cst-vin13t.nrf-134_p002",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilānāgilānassa = gilāna+agilānassa (sick and not-sick); sandhi false friend"
+ },
+ {
+  "id": "cst-vin13t.nrf-149_p011",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "sāmikānāgamaṃ = sāmikānaṃ anāgamaṃ (non-coming of owners); glossed 'sāmikānaṃ anāgamanaṃ'; an-āgama prefix false friend"
+ },
+ {
+  "id": "cst-vin13t.nrf-17_p006",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gamanāgame = gamana+āgame (going and coming); sandhi false friend"
+ },
+ {
+  "id": "cst-vin13t.nrf-39_p034",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "sāmikānāgamaṃ = sāmikānaṃ anāgamaṃ (non-coming of owners); an-āgama prefix false friend"
+ },
+ {
+  "id": "cst-vin13t.nrf-60_p021",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nānāgabbhā = nānā+gabbhā (various inner rooms/cabins); sandhi false friend"
+ }
+]

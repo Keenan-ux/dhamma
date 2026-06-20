@@ -1,0 +1,302 @@
+{
+ "seed": "dhamma-cpd-p2-2026-06-07",
+ "n_per_stratum": 10,
+ "corpus_snapshot": "/api/corpus @ dhamma.fly.dev 2026-06-07",
+ "strata": [
+  "abhidhamma",
+  "anya",
+  "atthakatha",
+  "khuddaka",
+  "sutta",
+  "tika",
+  "vinaya"
+ ],
+ "count": 71,
+ "passages": [
+  {
+   "id": "cst-abh03m7.mul-615",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "cst-abh03m4.mul-331",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "cst-abh03m5.mul-175",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "cst-abh03m10.mul-008",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "cst-abh03m9.mul-1045",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "cst-abh02m.mul-101",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "cst-abh03m5.mul-081",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "cst-abh03m9.mul-878",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "patthana21.45",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "cst-abh03m4.mul-137",
+   "genre": "abhidhamma"
+  },
+  {
+   "id": "cst-e0806n.nrf-397",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-e0102n.mul-3_p015",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-e0906n.nrf-013",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-e0102n.mul-11_p003",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-e0101n.mul-93_p002",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-e0102n.mul-88_p015",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-e0101n.mul-70_p004",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-e0902n.nrf-082",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-e0101n.mul-18_p005",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-e0102n.mul-78_p015",
+   "genre": "anya"
+  },
+  {
+   "id": "cst-s0513a4.att-6_p804",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "cst-s0514a1.att-5_p379",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "cst-abh01a.att-95_p094",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "cst-abh01a.att-93_p002",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "cst-s0508a1.att-8_p011",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "cst-s0508a2.att-68_p043",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "cst-s0512a.att-24_p024",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "cst-s0202a.att-mn2_3_p006",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "cst-s0511a.att-20_p009",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "cst-abh02a.att-138_p001",
+   "genre": "atthakatha"
+  },
+  {
+   "id": "tha-ap72",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "ja41",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "tha-ap326",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "thag3.13",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "ja450",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "cp12",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "tha-ap498",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "iti58",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "iti105",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "ja211",
+   "genre": "khuddaka"
+  },
+  {
+   "id": "sn12.13",
+   "genre": "sutta"
+  },
+  {
+   "id": "mn94",
+   "genre": "sutta"
+  },
+  {
+   "id": "sn51.17",
+   "genre": "sutta"
+  },
+  {
+   "id": "sn46.72",
+   "genre": "sutta"
+  },
+  {
+   "id": "sn45.92-95",
+   "genre": "sutta"
+  },
+  {
+   "id": "an10.139",
+   "genre": "sutta"
+  },
+  {
+   "id": "sn45.151",
+   "genre": "sutta"
+  },
+  {
+   "id": "sn35.101",
+   "genre": "sutta"
+  },
+  {
+   "id": "an5.125",
+   "genre": "sutta"
+  },
+  {
+   "id": "an11.19",
+   "genre": "sutta"
+  },
+  {
+   "id": "cst-vin10t.nrf-55_p054",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-vin01t1.tik-7_p065",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-vin08t.nrf-55_p021",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-abh06t.nrf-70_p087",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-s0401t.tik-an1_p159",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-abh06t.nrf-115_p097",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-vin10t.nrf-12_p1457",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-vin02t.tik-228_p005",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-vin08t.nrf-161_p001",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-s0202t.tik-mn2_3_p134",
+   "genre": "tika"
+  },
+  {
+   "id": "cst-vin02m2.mul-vin3_4",
+   "genre": "vinaya"
+  },
+  {
+   "id": "pli-tv-bi-vb-pc19",
+   "genre": "vinaya"
+  },
+  {
+   "id": "pli-tv-bi-vb-pc75",
+   "genre": "vinaya"
+  },
+  {
+   "id": "pli-tv-bu-vb-np18",
+   "genre": "vinaya"
+  },
+  {
+   "id": "pli-tv-bi-vb-pj7",
+   "genre": "vinaya"
+  },
+  {
+   "id": "pli-tv-bu-vb-sk36",
+   "genre": "vinaya"
+  },
+  {
+   "id": "pli-tv-pvr1.5",
+   "genre": "vinaya"
+  },
+  {
+   "id": "pli-tv-bu-vb-sk53",
+   "genre": "vinaya"
+  },
+  {
+   "id": "pli-tv-bi-vb-pj5",
+   "genre": "vinaya"
+  },
+  {
+   "id": "cst-vin01m.mul-vin1_3",
+   "genre": "vinaya"
+  },
+  {
+   "id": "dn2",
+   "genre": "sutta",
+   "calibration": true
+  }
+ ]
+}

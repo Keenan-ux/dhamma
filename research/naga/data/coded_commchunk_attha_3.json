@@ -1,0 +1,1242 @@
+[
+ {
+  "id": "cst-s0508a1.att-7_p021",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "stock verse 'nāgova bandhanaṃ chetvā' — elephant breaking its tether simile for the freed arahant"
+ },
+ {
+  "id": "cst-s0508a1.att-8_p012",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gatamaggena+āgamissāmi — āgam verb, not naga"
+ },
+ {
+  "id": "cst-s0508a1.att-97_p002",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Sunāga — proper name of the elder (Sunāgatthera); 'sunāgo tissa nāmaṃ ahosi'"
+ },
+ {
+  "id": "cst-s0508a1.att-9_p046",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "stock verse 'nāgova bandhanaṃ chetvā' — elephant-tether simile"
+ },
+ {
+  "id": "cst-s0508a2.att-17_p018",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "mahānāgaṃ ... lokanāyakaṃ — honorific of the Buddha (Sumedha lokanāyaka)"
+ },
+ {
+  "id": "cst-s0508a2.att-28_p004",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāgadamana = the taming of the (fire-)serpent at Uruvela; passing narrative mention of the event"
+ },
+ {
+  "id": "cst-s0508a2.att-29_p003",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "bandhanāgāra — 'prison' (bandhana+agāra), not naga"
+ },
+ {
+  "id": "cst-s0508a2.att-30_p002",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Mahānāga — proper name of the elder; 'mahānāgo tissa nāmaṃ ahosi' (Mahānāgatthera)"
+ },
+ {
+  "id": "cst-s0508a2.att-46_p018",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "tosetvāna mahānāgaṃ — pleasing the great nāga (the Buddha) to gain ordination"
+ },
+ {
+  "id": "cst-s0508a2.att-53_p003",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "puna nāgamāsi — puna+na+āgami / na āgami (came not), āgam verb; yakkha narrative, not naga"
+ },
+ {
+  "id": "cst-s0508a2.att-58_p052",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "vipassanā+gāḷho — 'deep in insight', not naga"
+ },
+ {
+  "id": "cst-s0508a2.att-60_p024",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "anāgārehi — anagārika 'homeless ones', a(n)+agāra, not naga"
+ },
+ {
+  "id": "cst-s0508a2.att-60_p042",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "anāgārehi (homeless) + samannāgamena — neither is naga"
+ },
+ {
+  "id": "cst-s0508a2.att-68_p032",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Aṅgīraso mahānāgo — honorific of the Buddha in praise verse"
+ },
+ {
+  "id": "cst-s0508a2.att-73_p023",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "hears_dhamma",
+  "claim": "Koṇḍañña dwelt by Chaddanta lake attended by the chaddanta nāgas for twelve years",
+  "note": "chaddantehi nāgehi upaṭṭhiyamāno — serpent attendants serving the elder"
+ },
+ {
+  "id": "cst-s0508a2.att-73_p060",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Nāgo saṅgāmasīse va' — elephant-in-battle simile (enduring like a war-elephant)"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p002",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Nāgopamasutta context; buddhamahānāga vs the tiracchānagata nāga (elephant) — the praised one is the Buddha-nāga (epithet), polysemy w/ elephant [polysemy]"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p010",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "saccanāmo anuttaro — the supreme one truly named nāga (the Buddha) above all nāga-named beings"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p012",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'na hi āguṃ karoti so' — na+āgu folk etymology applied to the Buddha"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p014",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "saddhāhattho mahānāgo — the great nāga (Buddha) with faith as trunk; epithet built on elephant imagery [polysemy]"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p018",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gacchaṃ samāhito nāgo — the composed nāga (Buddha) walking/standing concentrated"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p020",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "esā nāgassa sampadā — the nāga's (Buddha's) attainment of restraint"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p032",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "mahānāgā ... nāgaṃ nāgena desitaṃ — great nāgas (arahants) understand the nāga (Buddha) taught by the nāga"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p034",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "sarīraṃ vijahaṃ nāgo parinibbissati — the nāga (Buddha) abandoning the body at final nibbāna"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p037",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'Nāgo'ti laddhanāmo sammāsambuddho; na āguṃ karoti folk etym; lists ahi/hatthi/purisa-nāga but the referent here is the Buddha [polysemy]"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p038",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "buddhanāga gloss — 'na hi āguṃ karoti ... tasmā nāgo' the Buddha as sinless one"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p039",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "caraṇā nāgassa — the nāga's (Buddha's) feet/conduct in the elephant-allegory of the Buddha"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p040",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "buddhanāgassa vs hatthināgassa — explicit comparison; the referent praised is the Buddha-nāga (epithet) via elephant analogy [polysemy]"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p041",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gacchaṃ samāhito nāgo — the ever-concentrated nāga (Buddha)"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p042",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "esā nāgassa sampadā — the nāga's (buddhagandhahatthi/Buddha) attainment"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p047",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāgūpamā ... nāgena mayā desitaṃ nāgaṃ — the Buddha as nāga taught to great nāgas (arahants)"
+ },
+ {
+  "id": "cst-s0508a2.att-74_p048",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "sammāsambuddhanāgo — the Buddha-nāga reaching final nibbāna"
+ },
+ {
+  "id": "cst-s0508a2.att-76_p075",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannāgamena — endowment, samannāgata, not naga"
+ },
+ {
+  "id": "cst-s0508a2.att-79_p005",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "varanāgo ... īsādanto urūḷhavā — a fine elephant (tusks like chariot-pole) given as a gift"
+ },
+ {
+  "id": "cst-s0508a2.att-7_p015",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "mahānāgaṃ mahāvīraṃ ... satthāraṃ — honorific of the Teacher (the Buddha)"
+ },
+ {
+  "id": "cst-s0508a2.att-7_p021",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gloss: mahānāgasadisattā, mightier than the khīṇāsava-nāgas — the Buddha as mahānāga; epithet (puns on elephant strength) [polysemy]"
+ },
+ {
+  "id": "cst-s0508a2.att-81_p022",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannāgamena — endowment, not naga"
+ },
+ {
+  "id": "cst-s0508a2.att-81_p106",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāgūpamo mahāvīro ... buddho — the Buddha likened to a nāga in Sela's invitation verse"
+ },
+ {
+  "id": "cst-s0508a2.att-81_p107",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "buddhanāgo asādiso — the peerless Buddha-nāga"
+ },
+ {
+  "id": "cst-s0508a2.att-81_p175",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāgā vandantu satthuno — let the nāgas (the 300 monks/arahants) salute the Teacher; honorific of monks"
+ },
+ {
+  "id": "cst-s0508a2.att-87_p045",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "bodhisatta as the Chaddanta six-tusked elephant-king pierced by the hunter Soṇuttara arrow; matches p086/p087 narrative"
+ },
+ {
+  "id": "cst-s0508a2.att-87_p086",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "chaddanta-mahānāga / chaddanta-nāgarāja = the six-tusked elephant-king, the bodhisatta as Chaddanta tusker pierced by the hunter Soṇuttara"
+ },
+ {
+  "id": "cst-s0508a2.att-87_p087",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'samappito puthusallena nāgo' (Jā 1.16.124) — the Chaddanta elephant pierced by the arrow speaking to the hunter"
+ },
+ {
+  "id": "cst-s0508a2.att-88_p074",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāga in a list of beings: vijjādharā, devatā, nāga, gandhabba, rakkhasa, kumbhaṇḍa, dānava, garuḷa — serpent-class being in an enumeration"
+ },
+ {
+  "id": "cst-s0508a2.att-88_p088",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "ayaṃ nāgo mahāvīro ... muni — the great nāga (Buddha/sage) whose sight frees from suffering"
+ },
+ {
+  "id": "cst-s0508a2.att-88_p153",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "santacittaṃ mahānāgaṃ ... muniṃ — the great nāga (sage/Buddha) like a full-blown lotus"
+ },
+ {
+  "id": "cst-s0508a2.att-88_p209",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "realm_habitat",
+  "claim": "Himavā is the abode (ālaya) of nāgas, asuras and devatās",
+  "note": "'Nāgānaṃ asurānañca devatānañca ālayo' — asserts Himalaya as habitat of nāga-beings"
+ },
+ {
+  "id": "cst-s0508a2.att-88_p348",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannāgamena — endowment, not naga"
+ },
+ {
+  "id": "cst-s0508a2.att-89_p027",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "āraññakā nāgā, kuñjarā ... mātaṅgā īsādantā — forest bull-elephants (kuñjara/mātaṅga cues)"
+ },
+ {
+  "id": "cst-s0508a2.att-89_p028",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "buddhanāgassa ... paṇidhimhi — even great sages do not match the Buddha-nāga's resolve"
+ },
+ {
+  "id": "cst-s0508a2.att-91_p171",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'susamāhito ... nāgo' (AN 6.43 Nāgopama) cited of Mahākassapa/Buddha — the composed nāga; epithet"
+ },
+ {
+  "id": "cst-s0508a2.att-93_p032",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'nāgova asaṅgacārī' — like an unattached-roaming elephant (p127 glosses as mattavāraṇo); Tālapuṭa's aspiration"
+ },
+ {
+  "id": "cst-s0508a2.att-93_p104",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'nāgaṃ va thambhamhi daḷhāya rajjuyā' — like an elephant to a post with a stout rope (p163 glosses mahāhatthi/āḷānathambha)"
+ },
+ {
+  "id": "cst-s0508a2.att-93_p126",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "realm_habitat",
+  "claim": "some sub-oceanic places at the earth's edge are the dwelling-places of nāgas",
+  "note": "nāgādīnaṃ vasanaṭṭhānāni — serpent-being habitats under the sea-floor"
+ },
+ {
+  "id": "cst-s0508a2.att-93_p127",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'yathā mattavāraṇo daḷhathambhaṃ bhinditvā ... asaṅgacārī vanaṃ pavisitvā' — a rutting elephant; simile vehicle"
+ },
+ {
+  "id": "cst-s0508a2.att-93_p163",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'yathā hatthācariyo mahāhatthiṃ āḷānathambhe daḷhāya rajjuyā nibandhati' — elephant-trainer simile"
+ },
+ {
+  "id": "cst-s0508a2.att-95_p114",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'nāgo yathā pūtilataṃ va bandhanaṃ' — like an elephant cutting a rotten-creeper bond; simile for Moggallāna severing fetters"
+ },
+ {
+  "id": "cst-s0508a2.att-95_p217",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nandopananda-nāga-damana-kathā — cross-reference title to the taming of the nāga-king Nandopananda; passing pointer"
+ },
+ {
+  "id": "cst-s0508a2.att-95_p219",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "Nandopananda the nāga-king sat enthroned under a divine white parasol surrounded by his nāga retinue and dancers",
+  "note": "nāgarājā Nandopananda + nāgaparisā — serpent-king with retinue; the Buddha appears so the nāga sees"
+ },
+ {
+  "id": "cst-s0508a2.att-95_p223",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "Moggallāna enters the nāga-king's body through ear/nose, the nāga opens its mouth; Moggallāna claims he could tame 100,000 such nāga-kings",
+  "note": "mahiddhiko nāgo Nandopananda; iddhi-contest with the serpent-king"
+ },
+ {
+  "id": "cst-s0508a2.att-97_p010",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "sadevāsuranāgehi — by devas, asuras and nāgas (list of beings honoring the Jina); serpent-class in enumeration"
+ },
+ {
+  "id": "cst-s0508a2.att-97_p053",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "stock verse 'Nāgova bandhanaṃ chetvā' — elephant-tether simile for the freed arahant"
+ },
+ {
+  "id": "cst-s0508a2.att-97_p120",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Nāganāmo si bhagavā ... isisattamo — 'you are named nāga, O Blessed One'; epithet of the Buddha"
+ },
+ {
+  "id": "cst-s0508a2.att-97_p198",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāgaṃ nāgassa orasaṃ — Nigrodhakappa the true son (nāga) of the nāga (Buddha); epithet of arahant + Buddha"
+ },
+ {
+  "id": "cst-s0508a2.att-97_p226",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'āguṃ na karoti ... bhagavā nāgoti vuccati' — the Buddha called nāga via na+āgu etymology"
+ },
+ {
+  "id": "cst-s0508a2.att-97_p236",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "devanāgasahassehi parivutaṃ — the Buddha surrounded by thousands of deva-and-nāga beings; serpent-class attendants (scenery)"
+ },
+ {
+  "id": "cst-s0508a2.att-97_p262",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gloss: 'āguakaraṇādiatthena nāgaṃ' — the Buddha as nāga (sinless), with Nigrodhakappa his orasa son"
+ },
+ {
+  "id": "cst-s0509a.att-2_p017",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "stock verse 'Nāgīva bandhanaṃ chetvā' (fem.) — she-elephant breaking its bond simile for the arahant nun"
+ },
+ {
+  "id": "cst-s0509a.att-30_p014",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Nāgaṃ ogāhamuttiṇṇaṃ nadītīramhi' — saw an elephant come up out of the river (p019 glosses hatthināga)"
+ },
+ {
+  "id": "cst-s0509a.att-30_p016",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "man with goad, 'nāgo pasārayī pādaṃ, puriso nāgam āruhi' — the elephant stretched its foot, the man mounted it"
+ },
+ {
+  "id": "cst-s0509a.att-30_p019",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'nāgaṃ ... hatthināgaṃ nadiyaṃ ogāhaṃ katvā' — the elephant bathing in the river"
+ },
+ {
+  "id": "cst-s0509a.att-52_p002",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'dantaṃ guttaṃ saṃyatindriyaṃ nāgaṃ' — the Buddha as the tamed, guarded, restrained nāga walking the street; epithet (tamed-one imagery) [polysemy]"
+ },
+ {
+  "id": "cst-s0509a.att-56_p102",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "stock verse 'Nāgova bandhanaṃ chetvā' (fem. anāsavā) — elephant-tether simile"
+ },
+ {
+  "id": "cst-s0509a.att-56_p151",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "stock verse 'Nāgīva bandhanaṃ chetvā' — she-elephant tether simile"
+ },
+ {
+  "id": "cst-s0509a.att-56_p177",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Devā nāgāsurā brahmā saṃviggā' — devas, nāgas, asuras, brahmās were stirred; serpent-class in list of beings"
+ },
+ {
+  "id": "cst-s0509a.att-56_p196",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Nāgāsurā ca brahmāno ... pūjayiṃsu' — nāgas, asuras, brahmās honored the dying Buddha-mother; serpent-class in list"
+ },
+ {
+  "id": "cst-s0509a.att-56_p198",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "sa-nāga-asura-brahmakā — with nāgas, asuras, brahmās; serpent-class in enumeration of beings"
+ },
+ {
+  "id": "cst-s0509a.att-57_p017",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+āgamissasi 'you will not come (again)' — āgam verb negated; not naga"
+ },
+ {
+  "id": "cst-s0509a.att-72_p033",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Nāgā ca susumārā ca, ye caññe udake carā' — nāgas and crocodiles and other water-dwellers; serpent (water-beings), per p060 gloss 'vijjhasā'"
+ },
+ {
+  "id": "cst-s0509a.att-72_p060",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "realm_habitat",
+  "claim": "nāgas are water-creatures (glossed vijjhasā), among aquatic beings",
+  "note": "explicit gloss 'nāgāti vijjhasā ... vārigocarā' — nāgas as water-dwelling beings"
+ },
+ {
+  "id": "cst-s0509a.att-74_p034",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Nāgabhogasadisopamā ubho ... ūrū' — thighs like an elephant's trunk (p057 glosses hatthināgassa hattha)"
+ },
+ {
+  "id": "cst-s0509a.att-74_p057",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'nāgabhoga... hatthināgassa hatthena samasamā' — like an elephant's trunk"
+ },
+ {
+  "id": "cst-s0509a.att-74_p075",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "stock verse 'Nāgīva bandhanaṃ chetvā' — she-elephant tether simile"
+ },
+ {
+  "id": "cst-s0509a.att-76_p035",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'nāgo chetvāva bandhanaṃ' — like an elephant cutting its bond (p067 glosses hatthināgo)"
+ },
+ {
+  "id": "cst-s0509a.att-76_p067",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'ayabandhanaṃ viya hatthināgo gihibandhanaṃ chinditvā' — an elephant cutting its iron bond"
+ },
+ {
+  "id": "cst-s0509a.att-84_p020",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "stock verse 'Nāgīva bandhanaṃ chetvā' — she-elephant tether simile"
+ },
+ {
+  "id": "cst-s0509a.att-84_p248",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "evamādiguṇa-samannāgamena — endowment, samannāgata; not naga"
+ },
+ {
+  "id": "cst-s0510a.att-111_p003",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "diet_predation",
+  "claim": "the garuḷa(-king) seizes nāgas; nāges are the garuḍa's prey",
+  "note": "'garuḷādhipo ... nāge gaṇhanatthāya' — nāgas as serpent-prey of the garuḷa"
+ },
+ {
+  "id": "cst-s0510a.att-116_p002",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Nāgasamāla the elder named for his body soft like nāga-tree (ironwood) shoots: 'nāgarukkhapallavakomaḷasadisasarīrattā nāgasamālo'; nāga-token = nāgarukkha (tree). The personal name is derived but the lexical nāga here is the tree"
+ },
+ {
+  "id": "cst-s0510a.att-16_p002",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Nāgā ca Nāgasamālā ca dve aggasāvikā — proper names of the two chief female disciples of Buddha Sujāta"
+ },
+ {
+  "id": "cst-s0510a.att-180_p003",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāgarukkhehi sañchanno ... campaka-kappūra-nāga-agaru-candanādayo rukkhā — nāga(-tree)s among list of trees covering Mt Gotama"
+ },
+ {
+  "id": "cst-s0510a.att-215_p002",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "deva-yakkha-gandhabba-nāgānaṃ dhammadesanaṃ — Dhamma-teaching to devas, yakkhas, gandhabbas, nāgas; serpent-class in list"
+ },
+ {
+  "id": "cst-s0510a.att-266_p002",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "candana-agaru-kappūra...-nāga-punnāga-ketakādīhi sugandhapupphehi — nāga and punnāga among fragrant flowering trees; nānāgandha = 'various scents' (not naga)"
+ },
+ {
+  "id": "cst-s0510a.att-275_p004",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Nāgapallava-tthera — proper name of the elder (Nāgapallavatthera's apadāna)"
+ },
+ {
+  "id": "cst-s0510a.att-285_p011",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "deva-māra-brāhmaṇa-supaṇṇa-nāgānaṃ — the radiance of none of devas/māra/brahmā/supaṇṇa/nāga; serpent-class in list of beings"
+ },
+ {
+  "id": "cst-s0510a.att-290_p002",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gata-nāgadamanādīhi pāṭihāriyehi — the (fire-)nāga-taming miracle at Uruvela; passing narrative mention"
+ },
+ {
+  "id": "cst-s0510a.att-298_p024",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Campakā salaḷā nāgā, sugandhā' — campaka, salaḷa, nāga(-tree)s, fragrant; nāga among flowering trees"
+ },
+ {
+  "id": "cst-s0510a.att-305_p004",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "the (fire-)nāga in the fire-room breathes smoke and bursts into flame against the Buddha, who masters its fire with his own",
+  "note": "the Uruvela agyāgāra serpent (ahināga) fire-contest; nāgarāja/nāga in the fire-hut"
+ },
+ {
+  "id": "cst-s0510a.att-305_p008",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "the serpent (ahināga) breathes smoke; the man-nāga (Buddha) likewise breathes smoke",
+  "note": "'ahināgo ... manussanāgo pi' — explicit serpent (ahi-nāga) vs Buddha as man-nāga"
+ },
+ {
+  "id": "cst-s0510a.att-305_p009",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "the serpent bursts into flame unable to bear the affront; the man-nāga (Buddha) also blazes",
+  "note": "ahināgo pāvako va pajjali — the fire-serpent flaming in the contest"
+ },
+ {
+  "id": "cst-s0510a.att-305_p010",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'mahāsamaṇo nāgena viheṭhiyati' — the jaṭilas say the great recluse is harassed by the nāga (the fire-serpent); narrative mention"
+ },
+ {
+  "id": "cst-s0510a.att-305_p011",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "by night's end the serpent's flames are quenched while the iddhi-master's many-hued flames remain",
+  "note": "'hatā nāgassa acciyo' — the serpent's fire defeated"
+ },
+ {
+  "id": "cst-s0510a.att-305_p013",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "the Buddha shows the (fire-)serpent put in his bowl, its fire mastered by his fire",
+  "note": "'pattamhi odahitvā ahināgaṃ ... ayaṃ te kassapa nāgo pariyādinno' — serpent subdued in the bowl"
+ },
+ {
+  "id": "cst-s0510a.att-305_p018",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'hiyyo na āgami / nāgamāsi' and 'mahāsamaṇo na āgacchati' — āgam verb (did not come); Kassapa asking why the recluse did not come; not naga"
+ },
+ {
+  "id": "cst-s0510a.att-30_p049",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "classification",
+  "claim": "distinguishing kinds of being: a nāga sinks into the earth, a devatā goes through the air, a man eats alms — diagnostic test of the bodhisatta's nature",
+  "note": "'sace nāgo bhavissati, pathaviyaṃ nimujjitvā gamissati' — nāga as a class of being w/ earth-diving power"
+ },
+ {
+  "id": "cst-s0510a.att-30_p060",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāga-yakkha-supaṇṇādayo dibbehi gandhapupphādīhi pūjayiṃsu — nāgas, yakkhas, supaṇṇas honored the bodhisatta; serpent-class in list (scenery)"
+ },
+ {
+  "id": "cst-s0510a.att-30_p070",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'nāgā nāgānaṃ, supaṇṇā supaṇṇānaṃ' — nāgas proclaimed to nāgas the Buddha's victory; serpent-class beings (parallel to devas, supaṇṇas)"
+ },
+ {
+  "id": "cst-s0510a.att-30_p073",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'jayaṃ tadā nāgagaṇā mahesino' — the hosts of nāgas proclaimed the great sage's victory; serpent-class beings (scenery)"
+ },
+ {
+  "id": "cst-s0510a.att-313_p002",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "manussa-deva-nāga-garuḷa-yakkha-kumbhaṇḍa-gandhabbehi thūpe kate — stupa built by men, devas, nāgas, garuḷas, etc.; serpent-class in list"
+ },
+ {
+  "id": "cst-s0510a.att-314_p004",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: sunāgo/nāgo = 'sundaro nāgo hatthirājā', hatthināgo with tusks like a chariot-pole, royal mount; a gifted elephant"
+ },
+ {
+  "id": "cst-s0510a.att-35_p045",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'nāgalokato nāgā ca' — nāgas from the nāga-world; in list (men, nāgas, gandhabbas, devas) honoring the bodhisatta's mansion"
+ },
+ {
+  "id": "cst-s0510a.att-35_p048",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nara-nāga-gandhabba-devehi suviditaṃ — known to men, nāgas, gandhabbas, devas; serpent-class in list"
+ },
+ {
+  "id": "cst-s0510a.att-35_p108",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'buddhanāgena hatthināgassa yuddhaṃ' — fight of the Buddha-nāga vs the elephant Nāḷāgiri (hatthināga); the hatthināga token = elephant. buddhanāga = epithet but tokens flag hatthināga; primary referent is the elephant Nāḷāgiri [polysemy]"
+ },
+ {
+  "id": "cst-s0510a.att-35_p117",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "puna+āgañchi 'came again' — āgam verb; not naga"
+ },
+ {
+  "id": "cst-s0510a.att-36_p038",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'eko care mātaṅgaraññe va nāgo' — like an elephant (mātaṅga) roaming alone in the forest; Khaggavisāṇa-style simile"
+ },
+ {
+  "id": "cst-s0510a.att-36_p045",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Nāgova yūthāni vivajjayitvā, sañjātakhandho' — like an elephant leaving the herd, full-grown; solitary-elephant simile"
+ },
+ {
+  "id": "cst-s0510a.att-36_p115",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Nāgapaliveṭhana — a place/mountain name (nāga-encircled) among Himalayan peaks; the named mountain references serpent-being lore, geographic name. Mention only"
+ },
+ {
+  "id": "cst-s0510a.att-36_p183",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit narrative: 'hatthiyoniyaṃ uppajjitvā ... yūthapati mahānāgo', pālileyyaka-nāga = the Pārileyya elephant; the herd-leader bull-elephant"
+ },
+ {
+  "id": "cst-s0510a.att-36_p185",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'yathā ayaṃ hatthī ... adantabhūmiṃ nāgacchati ... sarīramahantatāya vā nāgo' — the etymology of nāga applied to the elephant (na-gacchati / great-bodied); referent = elephant"
+ },
+ {
+  "id": "cst-s0510a.att-37_p176",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "realm_habitat",
+  "claim": "earth-dwelling and ground-based nāgas dwell near the lake, living off it",
+  "note": "'bhūmaṭṭhathalaṭṭhā nāgā ca ... taṃ saraṃ upajīvanti' — terrestrial nāga-beings among those frequenting the lake"
+ },
+ {
+  "id": "cst-s0510a.att-37_p222",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'āgusaṅkhātaṃ pāpaṃ na karotīti nāgo, assajitthero' — the nāga = the elder Assaji (an arahant); honorific via na+āgu [polysemy]"
+ },
+ {
+  "id": "cst-s0510a.att-37_p250",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "realm_habitat",
+  "claim": "Himavā is the abode of all nāgas, asuras and devas",
+  "note": "explicit gloss: 'sabbanāgānaṃ ... ālayo ... himavā nāgādīnaṃ ālayo' — Himalaya as habitat of nāga-beings"
+ },
+ {
+  "id": "cst-s0510a.att-38_p004",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "bodhisatta_as_naga",
+  "claim": "Moggallāna in a past life was the nāga-king Varuṇa, a sea-dwelling nāga; lists five classes of nāgas (mañjerikā, earth-dwelling, mountain, river, oceanic)",
+  "note": "explicit serpent ontology: nāgarājā Varuṇa, sāmuddikanāgo; taxonomy of nāga kinds"
+ },
+ {
+  "id": "cst-s0510a.att-38_p005",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "bodhisatta_as_naga",
+  "claim": "the nāga-king (Moggallāna in a past life) left his nāga retinue; nāga-maidens played music for the Buddha",
+  "note": "nāgasamūha (nāga-retinue) + nāgamāṇavikā (nāga-maidens); serpent beings"
+ },
+ {
+  "id": "cst-s0510a.att-38_p044",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "magga_phala_ceiling",
+  "claim": "Nandopananda the nāga-king is a wrong-viewed being unconfident in the Three Jewels; the Buddha sees his supporting-condition for going-for-refuge",
+  "note": "nāgarājā Nandopananda micchādiṭṭhiko; soteriological status of the serpent-king"
+ },
+ {
+  "id": "cst-s0510a.att-38_p048",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "Moggallāna enters the nāga-king through its ears/nose, it opens its mouth; he claims he could tame 100,000 such nāga-kings",
+  "note": "mahiddhiko nāgo Nandopananda iddhi-contest (parallel to p223)"
+ },
+ {
+  "id": "cst-s0510a.att-42_p035",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "diet_predation",
+  "claim": "the garuḷa seizes the nāga (pannaga) as its prey from the great ocean",
+  "note": "explicit gloss: garuḷa swooping to seize the nāga/pannaga; nāga as serpent-prey"
+ },
+ {
+  "id": "cst-s0510a.att-42_p086",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'nāgasatasahassāni = satasahassa-hatthino mātaṅgā ... tidhā pabhinnā' — a hundred thousand rutting elephants"
+ },
+ {
+  "id": "cst-s0510a.att-42_p087",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'sirikaṃ nāma nāgaṃ hatthiṃ āruyha' — mounting the elephant named Sirika"
+ },
+ {
+  "id": "cst-s0510a.att-42_p089",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'sirikaṃ nāma nāgaṃ ... so hatthināgo' — the elephant Sirika sent against the paccekabuddha"
+ },
+ {
+  "id": "cst-s0510a.att-42_p090",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Nāgaṃ duṭṭhamanaṃ disvā' — seeing the ill-tempered elephant (continuation of the Sirika elephant narrative)"
+ },
+ {
+  "id": "cst-s0510a.att-43_p018",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "hears_dhamma",
+  "claim": "Koṇḍañña dwelt by Chaddanta lake attended by the chaddanta nāgas for twelve years",
+  "note": "chaddantehi nāgehi upaṭṭhiyamāno — serpent attendants (duplicate of att-73_p023)"
+ },
+ {
+  "id": "cst-s0510a.att-46_p025",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "arahantanāgā vs buddhanāgarājā, contrasted via kuñjara/hatthi simile; the arahant-nāgas and Buddha-nāga-king are honorific epithets of persons, drawn from elephant imagery [polysemy]"
+ },
+ {
+  "id": "cst-s0510a.att-57_p032",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'varanāgo ... īsādanto ... hatthikkhandhe ussāpitasetacchattena' — a fine elephant with a parasol on its back, given as gift"
+ },
+ {
+  "id": "cst-s0510a.att-5_p035",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "magga_phala_ceiling",
+  "claim": "only a human (male) can fulfil the aspiration to Buddhahood; a nāga's, supaṇṇa's, deity's, or Sakka's aspiration does not succeed",
+  "note": "explicit soteriological ceiling: 'nāgassa ... patthanā no samijjhati' — nāga cannot become a Buddha"
+ },
+ {
+  "id": "cst-s0510a.att-5_p055",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Narā nāgā ca gandhabbā abhivādetvāna pakkamuṃ' — men, nāgas, gandhabbas paid homage; serpent-class in list (scenery)"
+ },
+ {
+  "id": "cst-s0510a.att-5_p107",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "bandhanāgāra — 'prison' (bandhana+agāra); not naga"
+ },
+ {
+  "id": "cst-s0510a.att-5_p159",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "the crowd wonders whether the upheaval is a nāga-possession/seizure or a possession by some bhūta-yakkha-devatā",
+  "note": "'nāgāvaṭṭo ayaṃ ... aññatarāvaṭṭo' — a nāga's turning/seizure as a possible cause of the disturbance; nāga power over events"
+ },
+ {
+  "id": "cst-s0510a.att-62_p002",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "manussa-deva-nāga-garuḷa-kumbhaṇḍa-yakkha-gandhabbehi thūpe kate — stupa built by men, devas, nāgas, etc.; serpent-class in list (dup of att-313)"
+ },
+ {
+  "id": "cst-s0510a.att-84_p005",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss: 'caturāpāyaṃ na gacchatīti nāgo ... mahānāgo' — Aṅgīrasa (the Buddha) as nāga via na+gacchati etymology; honorific"
+ },
+ {
+  "id": "cst-s0510a.att-8_p002",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "hears_dhamma",
+  "claim": "Atula the mighty nāga-king, hearing a Buddha had arisen, came out of the nāga-realm with his kin, honored the Buddha and took refuge",
+  "note": "nāgarājā Atula + nāgabhavana (nāga-realm); serpent-king takes refuge. nāgarukkho = the bodhi tree (nāga-tree), separate sense, but dominant nāga token = serpent-king"
+ },
+ {
+  "id": "cst-s0511a.att-10_p004",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nāgabodhiṃ upagantvā — Buddha Sumana's bodhi tree was a nāga(-tree, ironwood); the Awakening tree"
+ },
+ {
+  "id": "cst-s0511a.att-10_p051",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "hears_dhamma",
+  "claim": "'I came out of the nāga-realm with my kin and attended the Conqueror with the nāgas' divine instruments'",
+  "note": "nāgabhavanā nikkhamitvā ... nāgānaṃ dibbaturiyehi — the nāga-king (past-life) honoring the Buddha from the nāga-world"
+ },
+ {
+  "id": "cst-s0511a.att-10_p076",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'nāgamūle abujjhatha' — awakened at the root of a nāga(-tree); the bodhi tree of Buddha Sumana"
+ },
+ {
+  "id": "cst-s0511a.att-11_p004",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'mattavaranāgagāmī nāgabodhiṃ padakkhiṇaṃ' — nāgabodhi = the nāga(-tree) bodhi of Buddha Revata; mattavaranāgagāmī (walking like a fine rutting elephant) is a compound epithet but the nāgabodhi token = tree"
+ },
+ {
+  "id": "cst-s0511a.att-11_p048",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Mahānāgavanuyyāne — in the Mahānāga grove park (a pleasure-garden named for nāga-trees) where Revata attained parinibbāna; place-name from the tree"
+ },
+ {
+  "id": "cst-s0511a.att-11_p055",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'nāgamūle abujjhatha' — awakened at the root of a nāga(-tree); Revata's bodhi tree"
+ },
+ {
+  "id": "cst-s0511a.att-12_p048",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'nāgamūle abujjhatha' — awakened at the root of a nāga(-tree); Sobhita's bodhi tree"
+ },
+ {
+  "id": "cst-s0511a.att-12_p052",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nānāgandhehi 'with various scents' (nānā+gandha); not naga"
+ },
+ {
+  "id": "cst-s0511a.att-15_p023",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "the serpent (ahināga/nāgarāja), affronted, breathes smoke and flame and discharges venom enough to destroy all Jambudīpa, which cannot stir a single hair of the Buddha",
+  "note": "ahināga vs munirāja fire-and-venom contest; serpent's deadly venom-power. facet=power (venom)"
+ },
+ {
+  "id": "cst-s0511a.att-15_p039",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "Verocana the nāga-king, after the taming of the great Doṇa nāga-king, conjured a seven-jewel pavilion in the Ganges and feasted the Buddha with nāga dancers",
+  "note": "mahādoṇanāgarāja + verocana nāgarājā + nāganāṭaka; serpent-kings' iddhi-creation and offering"
+ },
+ {
+  "id": "cst-s0511a.att-15_p041",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Yadā verocano nāgo dānaṃ dadāti satthuno' — when Verocana the nāga gave the gift; serpent-king (verse summary of p039)"
+ },
+ {
+  "id": "cst-s0511a.att-18_p046",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Nāgā ca Nāgasamālā ca dve aggasāvikā' — proper names of Buddha Sujāta's two chief female disciples (dup of att-16_p002)"
+ },
+ {
+  "id": "cst-s0511a.att-18_p052",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "'Nāgo ca Nāgasamālā ca ahesuṃ aggasāvikā' — proper names of the chief female disciples (verse form)"
+ },
+ {
+  "id": "cst-s0511a.att-19_p011",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "buddhanāgo vs hatthināgo (Nāḷāgiri-type charging elephant) tamed by mettā; the hatthināga token = the elephant; buddhanāga = epithet of Buddha [polysemy]"
+ }
+]

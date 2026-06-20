@@ -1,0 +1,10 @@
+PASSAGE mn56 | MN 56 | Upālisutta
+
+18.1	PALI: Atha kho bhagavā upālissa gahapatissa anupubbiṁ kathaṁ kathesi, seyyathidaṁ—
+	EN:   Then the Buddha taught the householder Upāli step by step, with
+18.2	PALI: dānakathaṁ sīlakathaṁ saggakathaṁ, kāmānaṁ ādīnavaṁ okāraṁ saṅkilesaṁ, nekkhamme ānisaṁsaṁ pakāsesi.
+	EN:   a talk on giving, ethical conduct, and heaven. He explained the drawbacks of sensual pleasures, so sordid and corrupt, and the benefit of renunciation.
+18.3	PALI: Yadā bhagavā aññāsi upāliṁ gahapatiṁ kallacittaṁ muducittaṁ vinīvaraṇacittaṁ udaggacittaṁ pasannacittaṁ, atha yā buddhānaṁ sāmukkaṁsikā dhammadesanā taṁ pakāsesi—
+	EN:   And when he knew that Upāli’s mind was ready, pliable, rid of hindrances, elated, and confident he explained the special teaching of the Buddhas:
+18.6	PALI: evameva upālissa gahapatissa tasmiṁyeva āsane virajaṁ vītamalaṁ dhammacakkhuṁ udapādi:
+	EN:   in that very seat the stainless, immaculate vision of the Dhamma arose in Upāli:

@@ -1,0 +1,182 @@
+[
+ {
+  "sutta": "sn54.1",
+  "seg": "sn54.1:1.7",
+  "pali": "Idha, bhikkhave, bhikkhu araññagato vā rukkhamūlagato vā suññāgāragato vā nisīdati pallaṅkaṁ ābhujitvā ujuṁ kāyaṁ paṇidhāya parimukhaṁ satiṁ upaṭṭhapetvā. ",
+  "comment": "The situation here—a mendicant gone to the forest—establishes that this practice takes place in the wider context of the Gradual Training. Indeed, this whole sutta can be understood as an expansion of this phrase, mentioned briefly at <a href='https://suttacentral.net/dn2/en/sujato#67.3'>DN 2:67.3</a>. | For <i lang='pi' translate='no'>parimukhaṁ</i> (“present”) we find <i lang='pi' translate='no'>pratimukha</i> in Sanskrit, which can mean “presence” or the reflection of the face. Late canonical Pali explains <i lang='pi' translate='no'>parimukhaṁ</i> as “the tip of the nose or the reflection of the face (<i lang='pi' translate='no'>mukhanimitta</i>)”. <i lang='pi' translate='no'>Parimukha</i> in Sanskrit is rare, but it appears in Pāṇini 4.4.29, which the commentary illustrates with the example of a servant “in the presence” of their master (cp. <a href='https://suttacentral.net/sn47.8/en/sujato'>SN 47.8</a>). So it seems the sense is “before the face” or more generally “in the presence”. | To “bring mindfulness” (<i lang='pi' translate='no'>satiṁ upaṭṭhapetvā</i>) is literally to “do satipaṭṭhāna”. The root sense of <i lang='pi' translate='no'>upaṭṭhāna</i> is to “stand near” or “attend” (like a nurse on a patient, <a href='https://suttacentral.net/sn47.13/en/sujato#1.3'>SN 47.13:1.3</a>), and the Sanskrit <i lang='pi' translate='no'>upasthāna</i> is commonly used in the sense “homage” of the gods, based on the idea of “attending” the sacred flame. A literal translation of the phrase might be, “having made memory attend to what is present”."
+ },
+ {
+  "sutta": "sn54.1",
+  "seg": "sn54.1:1.8",
+  "pali": "So satova assasati, satova passasati. ",
+  "comment": "The most fundamental meditation instruction. Notice how the Buddha phrases it: not “concentrate on the breath” as an object, but rather “breathing” as an activity to which one brings mindfulness. The stages of breath meditation are not meant to be done deliberately, but to be observed and understood as the natural process of deepening meditation."
+ },
+ {
+  "sutta": "sn12.1",
+  "seg": "sn12.1:1.1",
+  "pali": "Evaṁ me sutaṁ—",
+  "comment": "Dependent origination depicts the unfolding of existence through a series of twelve links, which describe how our response to present experience generates future suffering. For an overview, see my <a href='https://suttacentral.net/edition/sn/en/sujato/introduction'>Introduction to the Linked Discourses</a>. To better understand the context for this terminology, I give some non-Buddhist usages, especially from texts closest in time and place to the Buddha. In the next discourse we see how the Buddha redefined these terms to his purpose. I also note new coinages which may be innovations by the Buddha."
+ },
+ {
+  "sutta": "sn12.1",
+  "seg": "sn12.1:1.7",
+  "pali": "“paṭiccasamuppādaṁ vo, bhikkhave, desessāmi. ",
+  "comment": "As an account of the origination of things, dependent origination compares to creation myths composed centuries before the Buddha, found in the tenth and final section of the Rig Veda. Perhaps there was an ocean of darkness, from which being was forged by fire and set in motion by desire (Rig Veda 10.129); or else the world was shaped from the sacrifice of the cosmic Man (10.90); or else the beginning was a Golden Egg, a Creator later called Pajāpati, but at first known only as “Who?” (10.121). From the unknowable One arose innumerable names and forms, all linked by their shared origin and woven together in the ritual (10.130). The connections (<i lang='pi' translate='no'>nidāna</i>) are cloaked in mystery, known only by poets (10.114.2), who protect the truth by hiding the highest names (10.5). | Note that the key term for Vedic creation (<i lang='pi' translate='no'>sṛj</i>) is assiduously avoided in Buddhism."
+ },
+ {
+  "sutta": "sn45.8",
+  "seg": "sn45.8:1.2",
+  "pali": "“Ariyaṁ vo, bhikkhave, aṭṭhaṅgikaṁ maggaṁ desessāmi vibhajissāmi. ",
+  "comment": "See note on <a href='https://suttacentral.net/sn12.2/en/sujato#1.2'>SN 12.2:1.2</a> for a discussion of “analysis” discourses. | The same definitions are found at <a href='https://suttacentral.net/dn22/en/sujato#21.1'>DN 22:21.1</a> and <a href='https://suttacentral.net/mn141/en/sujato#24.1'>MN 141:24.1</a>."
+ },
+ {
+  "sutta": "sn45.8",
+  "seg": "sn45.8:10.1",
+  "pali": "Katamo ca, bhikkhave, sammāsamādhi? ",
+  "comment": "“Immersion” (<i lang='pi' translate='no'>samādhi</i>) is treated in <a href='https://suttacentral.net/sn53/en/sujato'>SN 53</a> and throughout the Suttas, eg. <a href='https://suttacentral.net/sn12.23/en/sujato#2.15'>SN 12.23:2.15</a>, <a href='https://suttacentral.net/mn44/en/sujato#12.2'>MN 44:12.2</a> and notes. The primary sense is the mind “collected” or “immersed” inside itself, with a secondary connotation of radiant illumination. | Before the Buddha, we find <i lang='pi' translate='no'>samādhi</i> and related terms in the sense of gathering kindling for the fire. The past participle <i lang='pi' translate='no'>samāhita</i> occurs in the sense “collected, contained”, as the essence of waters are “contained” in the Sun (Śatapatha Brāhmaṇa 5.1.2.7). Certain Upaniṣadic usages presage the Buddhist sense, though expressed in a mystical form designed to be as obscure as possible. A realized sage, being “collected”, sees only the self in the self and is free from evil, having become one with Divinity (Bṛhadāraṇyaka Upaniṣad 4.4.24). For such a one, the whole world is “contained” in the space within the heart—earth and sky, fire and wind, sun and moon, all beings and all desires (Chāndogya Upaniṣad 8.1.3–5). The hidden Self, finer than the finest, larger than the largest, may only be discerned by one who is peaceful and “collected” (Kaṭha Upaniṣad 2.24)."
+ },
+ {
+  "sutta": "sn47.9",
+  "seg": "sn47.9:1.2",
+  "pali": "ekaṁ samayaṁ bhagavā vesāliyaṁ viharati veḷuvagāmake. ",
+  "comment": "This picks up the narrative from <a href='https://suttacentral.net/sn47.2/en/sujato'>SN 47.2</a>; the Buddha has just arrived at Beluva from Ambapālī’s mango grove (<a href='https://suttacentral.net/dn16/en/sujato#2.21.4'>DN 16:2.21.4</a>). | Pali texts waver between <i lang='pi' translate='no'>beluva</i> (“wood-apple”) and <i lang='pi' translate='no'>veḷuva</i> (from <i lang='pi' translate='no'>veḷuvant</i>, “full of bamboo”)."
+ },
+ {
+  "sutta": "sn47.9",
+  "seg": "sn47.9:1.4",
+  "pali": "“etha tumhe, bhikkhave, samantā vesāliyā yathāmittaṁ yathāsandiṭṭhaṁ yathāsambhattaṁ vassaṁ upetha. ",
+  "comment": "The Buddha was travelling with a large retinue, which could become burdensome on a small village if they were to stay the three months of the rains residence. The texts note several monasteries and places to stay around Vesālī."
+ },
+ {
+  "sutta": "sn6.1",
+  "seg": "sn6.1:1.1",
+  "pali": "Evaṁ me sutaṁ—",
+  "comment": "A similar account is told of Gotama Buddha at <a href='https://suttacentral.net/mn26/en/sujato#19.2'>MN 26:19.2</a>, <a href='https://suttacentral.net/mn85/en/sujato#43.2'>MN 85:43.2</a>, and <a href='https://suttacentral.net/pli-tv-kd1/en/sujato#5.2.2'>Kd 1:5.2.2</a>, and of Vipassī at <a href='https://suttacentral.net/dn14/en/sujato#3.1.4'>DN 14:3.1.4</a>."
+ },
+ {
+  "sutta": "sn6.1",
+  "seg": "sn6.1:1.6",
+  "pali": "Ālayarāmāya kho pana pajāya ālayaratāya ālayasammuditāya duddasaṁ idaṁ ṭhānaṁ yadidaṁ idappaccayatāpaṭiccasamuppādo. ",
+  "comment": "“Specific conditionality” (<i lang='pi' translate='no'>idappaccayatā</i>) refers to the fact that dependent origination traces the specific conditions for other specific things: this conditions that. It is not a general principle of universal conditionality (“everything is interconnected”). | Dependent origination (<a href='https://suttacentral.net/paṭiccasamuppāda/en/sujato'>PAṭICCASAMUPPāDA</a>) is treated in detail in SN 12."
+ },
+ {
+  "sutta": "sn10.1",
+  "seg": "sn10.1:1.1",
+  "pali": "Evaṁ me sutaṁ—",
+  "comment": "The <i lang='pi' translate='no'>yakkha</i> Indaka asks how the body can grow in the womb, apparently because he believes in an immortal, immaterial soul. | Compare Bṛhadāraṇyaka Upaniṣad 4.3.8: “When at birth this person takes on a body, he becomes united with bad things, and when at death he leaves it behind, he gets rid of those bad things” (Olivelle’s translation). This shares many terms with Indaka’s verse: use of <i lang='pi' translate='no'>ayaṁ</i> for the subject; <i lang='pi' translate='no'>sarīra</i> for the body; <i lang='pi' translate='no'>sajjati</i> for <i lang='pi' translate='no'>saṁsṛjyate</i>. Furthermore, the “bad things” are explained in the commentary as the body and organs with which the soul becomes burdened at birth. This passage is part of the dialogue on the “light of a person” between Yājñavalkya and Janaka, which is alluded to several times in the Pali Suttas."
+ },
+ {
+  "sutta": "sn10.1",
+  "seg": "sn10.1:1.2",
+  "pali": "ekaṁ samayaṁ bhagavā rājagahe viharati indakūṭe pabbate, indakassa yakkhassa bhavane. ",
+  "comment": "Indaka is named after the mountain he inhabits. The mountain itself might the same as Mount Vediyaka, where Sakka/Indra appeared to the Buddha at Indra’s hill cave (<a href='https://suttacentral.net/dn21/en/sujato#1.1.2'>DN 21:1.1.2</a>). Indaka’s interest in human fertility is professional: such <i lang='pi' translate='no'>yakkhas</i> were fertility deities, called upon with sacrifice in times of birth and death of children. | The first two suttas of this chapter feature otherwise unknown <i lang='pi' translate='no'>yakkhas</i> named Indaka and Sakka, while <em>the</em> Sakka/Indra is sometimes referred to as <i lang='pi' translate='no'>yakkha</i> (<a href='https://suttacentral.net/mn37/en/sujato#5.3'>MN 37:5.3</a>)."
+ },
+ {
+  "sutta": "sn11.8",
+  "seg": "sn11.8:1.1",
+  "pali": "Sāvatthiyaṁ jetavane. ",
+  "comment": "Chāndogya Upaniṣad 8.7–12 tells of how Virocana studies with Indra under their Progenitor, Prajāpati, to learn about the higher Self that is free from evil and death. The Sutta responds to that dialogue, drawing its key vocabulary and ideas from the Upaniṣad and setting them to a quite different purpose (cf. <a href='https://suttacentral.net/sn3.8/en/sujato'>SN 3.8</a>). A number of interpretive difficulties can be resolved in this light, resulting in a more satisfying text."
+ },
+ {
+  "sutta": "sn11.8",
+  "seg": "sn11.8:1.3",
+  "pali": "Atha kho sakko ca devānamindo verocano ca asurindo yena bhagavā tenupasaṅkamiṁsu; upasaṅkamitvā paccekaṁ dvārabāhaṁ nissāya aṭṭhaṁsu. ",
+  "comment": "Verocana is “son of Virocana” (Agni or the Sun). He is called Bali at <a href='https://suttacentral.net/dn20/en/sujato#12.9'>DN 20:12.9</a>. His story, detailed in various legends of later times, tells how he was a great king of the titans who at times even defeated the gods and ruled heaven, but did so justly. Here he seems to have settled his long enmity with Indra. In the Sutta, he may as well be Virocana himself, as Pali is not always assiduous in maintaining patronymics."
+ },
+ {
+  "sutta": "sn12.15",
+  "seg": "sn12.15:1.1",
+  "pali": "Sāvatthiyaṁ viharati. ",
+  "comment": "This discourse was quoted by Ānanda to Channa at <a href='https://suttacentral.net/sn22.90/en/sujato#9.1'>SN 22.90:9.1</a>. It was cited by name in Nāgārjuna’s Mūlamadhyamakakārikā 15.7: “In the Advice to Kātyāyana, both ‘exists’ and ‘does not exist’ are denied by the Buddha, expert in being and non-being.” Nāgārjuna’s text, an important Buddhist philosophical treatise, is studied extensively to this day."
+ },
+ {
+  "sutta": "sn12.15",
+  "seg": "sn12.15:1.2",
+  "pali": "Atha kho āyasmā kaccānagotto yena bhagavā tenupasaṅkami; upasaṅkamitvā bhagavantaṁ abhivādetvā ekamantaṁ nisīdi. Ekamantaṁ nisinno kho āyasmā kaccānagotto bhagavantaṁ etadavoca: ",
+  "comment": "Called Sandha Kātyāyana in Sanskrit."
+ },
+ {
+  "sutta": "sn4.24",
+  "seg": "sn4.24:1.2",
+  "pali": "ekaṁ samayaṁ bhagavā uruvelāyaṁ viharati najjā nerañjarāya tīre ajapālanigrodhe. ",
+  "comment": "According to the commentarial reckoning, this was in the fifth week after Awakening."
+ },
+ {
+  "sutta": "sn4.24",
+  "seg": "sn4.24:1.3",
+  "pali": "Tena kho pana samayena māro pāpimā sattavassāni bhagavantaṁ anubandho hoti otārāpekkho otāraṁ alabhamāno. ",
+  "comment": "This series of verses is a cleverly structured argument where Māra tries one method after another, always seeking to find something in the Buddha’s words or deeds that make him vulnerable. | Siddhattha had practiced for six years and had now only just realized Awakening, so either the number seven has been rounded up, or else Māra began his work before Siddhattha left home."
+ },
+ {
+  "sutta": "sn45.11",
+  "seg": "sn45.11:1.2",
+  "pali": "“Icchāmahaṁ, bhikkhave, aḍḍhamāsaṁ paṭisallīyituṁ. ",
+  "comment": "The Buddha also goes on retreat at <a href='https://suttacentral.net/sn45.12/en/sujato'>SN 45.12</a>, <a href='https://suttacentral.net/sn54.9/en/sujato'>SN 54.9</a>, <a href='https://suttacentral.net/sn54.11/en/sujato'>SN 54.11</a>, <a href='https://suttacentral.net/sn54.12/en/sujato'>SN 54.12</a>, <a href='https://suttacentral.net/pli-tv-bu-vb-np15/en/sujato#1.1.2'>Bu NP 15:1.1.2</a>, and <a href='https://suttacentral.net/pli-tv-bu-vb-pj3/en/sujato#1.1.4'>Bu Pj 3:1.1.4</a>."
+ },
+ {
+  "sutta": "sn45.11",
+  "seg": "sn45.11:2.10",
+  "pali": "saññāpaccayāpi vedayitaṁ; ",
+  "comment": "Likewise, “perception” affects feeling in general, as when one recognizes a puppy and feels happy. In the context of advanced meditation, it can refer any of the stages of immersion short of neither-perception-nor-non-perception. Perception and feeling in the process of deep meditation are further discussed in <a href='https://suttacentral.net/mn44/en/sujato'>MN 44</a> and <a href='https://suttacentral.net/sn41.6/en/sujato'>SN 41.6</a>."
+ },
+ {
+  "sutta": "sn6.4",
+  "seg": "sn6.4:1.2",
+  "pali": "ekaṁ samayaṁ bhagavā sāvatthiyaṁ viharati jetavane anāthapiṇḍikassa ārāme. ",
+  "comment": "The opening is shared with <a href='https://suttacentral.net/mn49/en/sujato'>MN 49</a>, except there the Buddha recalls an encounter at Ukkaṭṭhā. See also <a href='https://suttacentral.net/ja405/en/sujato'>Ja 405</a>."
+ },
+ {
+  "sutta": "sn6.4",
+  "seg": "sn6.4:1.3",
+  "pali": "Tena kho pana samayena bakassa brahmuno evarūpaṁ pāpakaṁ diṭṭhigataṁ uppannaṁ hoti: ",
+  "comment": "Baka maintains the same wrong view at <a href='https://suttacentral.net/mn49/en/sujato#2.2'>MN 49:2.2</a>, where he engages the Buddha in philosophical debate. The word <i lang='pi' translate='no'>baka</i> means “stork” or “crane”. To search for a high divinity of this name in Brahmanism is to be disappointed, for instead we find a man-eating demon (<i lang='pi' translate='no'>rakṣasa</i>) in bird form whose fate is to be slain by the hero Bhīma (or Kṛṣṇa). Pali stories tell of how the stork dozes peacefully as if meditating by the water, while in reality he is trying to fool fish into approaching so he can snatch them up (<a href='https://suttacentral.net/ja38/en/sujato'>Ja 38</a>, <a href='https://suttacentral.net/ja236/en/sujato'>Ja 236</a>). A cunning, large, white, high-flying, predatory bird who fakes meditation is a fitting image for the antagonist of these suttas."
+ },
+ {
+  "sutta": "mn71",
+  "seg": "mn71:1.1",
+  "pali": "Evaṁ me sutaṁ—",
+  "comment": "This begins the “Vacchagotta trilogy”, a series of three suttas tracing Vacchagotta’s spiritual development. These are supplemented by an entire Saṁyutta of questions (<a href='https://suttacentral.net/sn33/en/sujato'>SN 33</a>). In this sutta he shows an attitude of curiosity and respect, and gains a degree of faith in the Buddha. | This is not the same person as the lay brahmin Vacchagotta of Venāgapura  at <a href='https://suttacentral.net/an3.63/en/sujato#2.1'>AN 3.63:2.1</a>."
+ },
+ {
+  "sutta": "mn71",
+  "seg": "mn71:11.2",
+  "pali": "“atthi nu kho, bho gotama, koci gihī gihisaṁyojanaṁ appahāya kāyassa bhedā dukkhassantakaro”ti? ",
+  "comment": "Vacchagotta uses the phrase <i lang='pi' translate='no'>gihisaṁyojana</i> (“fetter of lay life”) for the inner attachment to lay life, which is not overcome by the mere act of joining a religious order. Compare the Buddha’s term <i lang='pi' translate='no'>gehasita</i>, the thoughts and memories “of the lay life” (<a href='https://suttacentral.net/mn21/en/sujato#6.2'>MN 21:6.2</a>, <a href='https://suttacentral.net/mn119/en/sujato#4.7'>MN 119:4.7</a>, <a href='https://suttacentral.net/mn125/en/sujato#23.5'>MN 125:23.5</a>, <a href='https://suttacentral.net/mn137/en/sujato#9.3'>MN 137:9.3</a>). See also <a href='https://suttacentral.net/mn54/en/sujato'>MN 54</a>, where the external “signs” of a householder are connected with the fetters."
+ },
+ {
+  "sutta": "sn22.96",
+  "seg": "sn22.96:1.2",
+  "pali": "Ekamantaṁ nisinno kho so bhikkhu bhagavantaṁ etadavoca: ",
+  "comment": "“That” (<i lang='pi' translate='no'>so</i>) refers back to an introductory passage that has been elided."
+ },
+ {
+  "sutta": "sn22.96",
+  "seg": "sn22.96:3.1",
+  "pali": "Bhūtapubbāhaṁ, bhikkhu, rājā ahosiṁ khattiyo muddhāvasitto. ",
+  "comment": "These details are greatly expanded in <a href='https://suttacentral.net/dn17/en/sujato'>DN 17</a>, where the Buddha names himself Mahāsudassana."
+ },
+ {
+  "sutta": "sn41.5",
+  "seg": "sn41.5:1.1",
+  "pali": "Ekaṁ samayaṁ āyasmā kāmabhū macchikāsaṇḍe viharati ambāṭakavane. ",
+  "comment": "Kāmabhū discussed Dhamma with Ānanda at Ghosita’s Monastery near Kosambī in <a href='https://suttacentral.net/sn35.233/en/sujato'>SN 35.233</a>."
+ },
+ {
+  "sutta": "sn41.5",
+  "seg": "sn41.5:1.2",
+  "pali": "Atha kho citto gahapati yenāyasmā kāmabhū tenupasaṅkami; upasaṅkamitvā āyasmantaṁ kāmabhuṁ abhivādetvā ekamantaṁ nisīdi. Ekamantaṁ nisinnaṁ kho cittaṁ gahapatiṁ āyasmā kāmabhū etadavoca: ",
+  "comment": "Verses connecting parts of the Dhamma to a chariot are also found at <a href='https://suttacentral.net/sn1.46/en/sujato'>SN 1.46</a> and <a href='https://suttacentral.net/sn45.4/en/sujato'>SN 45.4</a>."
+ },
+ {
+  "sutta": "sn41.6",
+  "seg": "sn41.6:1.3",
+  "pali": "“kati nu kho, bhante, saṅkhārā”ti? ",
+  "comment": "Excepting the final question, Citta’s questions echo those of the layman Visākha to the nun Dhammadinnā (<a href='https://suttacentral.net/mn44/en/sujato#13.1'>MN 44:13.1</a>)."
+ },
+ {
+  "sutta": "sn41.6",
+  "seg": "sn41.6:1.5",
+  "pali": "kāyasaṅkhāro, vacīsaṅkhāro, cittasaṅkhāro”ti. ",
+  "comment": "These three “processes” (<i lang='pi' translate='no'>saṅkhāra</i>) apply, as we shall see, in the development of meditation (<a href='https://suttacentral.net/dn18/en/sujato#24.1'>DN 18:24.1</a>). They must be distinguished from the similarly named three kinds of “choices” (<i lang='pi' translate='no'>saṅkhāra</i>) that define volitional activity determining rebirth (i.e. karma, <a href='https://suttacentral.net/mn57/en/sujato#8.2'>MN 57:8.2</a>). In the three “processes”, the final item is always <i lang='pi' translate='no'>cittasaṅkhāra</i> (“mental process”), whereas in the three “choices” the final item is usually <i lang='pi' translate='no'>manosaṅkhāra</i>. While <i lang='pi' translate='no'>mano</i> and <i lang='pi' translate='no'>citta</i> both mean “mind”, <i lang='pi' translate='no'>mano</i> leans to the sense of “volition”, while <i lang='pi' translate='no'>citta</i> leans to the sense of “awareness”. It is a quirk of the Pali texts that they usually have <i lang='pi' translate='no'>cittasaṅkhāra</i> in the context of dependent origination (but see <a href='https://suttacentral.net/sn12.25/en/sujato#13.1'>SN 12.25:13.1</a>), where the Sanskrit has the expected <i lang='pi' translate='no'>manaḥsaṁskāraḥ</i> (SF 165 Ādisūtra, Arv 5.2 Arthaviniścayasūtra, SF 238 Pratītyasamutpādādivibhaṅganirdeśa)."
+ }
+]

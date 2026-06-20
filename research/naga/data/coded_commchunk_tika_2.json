@@ -1,0 +1,1242 @@
+[
+ {
+  "id": "cst-vin01t1.tik-9_p226",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "realm_habitat",
+  "claim": "Nagas (glossed by uraga) are mighty in water and guard Mount Sineru's first terrace.",
+  "note": "uragasaddena naga gahita"
+ },
+ {
+  "id": "cst-vin01t1.tik-9_p227",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "Nagas wage a bloodless war with the asuras at Sineru, driving them back; if outmatched they ally with the supannas.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin01t1.tik-9_p230",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "ratana-agarehi (gem-mine houses), not naga"
+ },
+ {
+  "id": "cst-vin01t1.tik-9_p240",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Coranaga, a Tambapanni robber named among others reborn from grave kamma"
+ },
+ {
+  "id": "cst-vin01t1.tik-9_p290",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga in a list of beings (deva-naga-yakkha-gandhabba) who may venerate the Buddha; passing"
+ },
+ {
+  "id": "cst-vin01t1.tik-9_p300",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nana-guna-visavanato (blossoming), not naga"
+ },
+ {
+  "id": "cst-vin01t1.tik-9_p362",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga in a list of being-classes (naga-suparna-nerayika) making up the remaining sattaloka; passing"
+ },
+ {
+  "id": "cst-vin01t1.tik-9_p385",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "desana-gambhirata sandhi, not naga"
+ },
+ {
+  "id": "cst-vin01t1.tik-9_p388",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "karma_cause",
+  "claim": "A verse asks by what conduct/merit this naga's great celestial mansion arose.",
+  "note": "Vimanavatthu-style naga-mahavimana"
+ },
+ {
+  "id": "cst-vin01t2.tik-10_p027",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "praise verse of the Buddha: the naga of secluded dwelling, fetters destroyed"
+ },
+ {
+  "id": "cst-vin01t2.tik-55_p032",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga-form displayed by vikubbana-iddhi; about a yogi's power, not nagas"
+ },
+ {
+  "id": "cst-vin01t2.tik-59_p092",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "phusana-gahana sandhi, not naga"
+ },
+ {
+  "id": "cst-vin01t2.tik-59_p099",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "codana-gathaya (challenge-verse), not naga"
+ },
+ {
+  "id": "cst-vin01t2.tik-62_p016",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "giant created naga-forms drawn out by naga-iddhi; iddhi vehicle"
+ },
+ {
+  "id": "cst-vin01t2.tik-64_p010",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "classification",
+  "claim": "A naga (or supanna) is a tiracchanagata and dies in its own serpent-form, so the offence is pacittiya not thullaccaya.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin01t2.tik-66_p016",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Coranaga-vatthu, a robber/person named Naga"
+ },
+ {
+  "id": "cst-vin01t2.tik-78_p055",
+  "referent": "tree",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagarukkha (ironwood tree) felled by a monk, angering the tree-deva; Nagamahavihara is a place name"
+ },
+ {
+  "id": "cst-vin01t2.tik-84_p009",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "ayam va so mahanago cited as a grammatical example of va; mahanaga of a person"
+ },
+ {
+  "id": "cst-vin02t.tik-124_p004",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagamandala glossed as a snake-warding charm-circle (sappanam pavesanivaranattham); lexical gloss"
+ },
+ {
+  "id": "cst-vin02t.tik-132_p004",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Chaddanta naga-herd (six-tusked elephant clan) simile for radiating rays"
+ },
+ {
+  "id": "cst-vin02t.tik-133_p006",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "The naga-king Mucalinda's body-heat and coils (bhoga) shelter the Buddha.",
+  "note": "exegetical gloss framed on Mucalinda"
+ },
+ {
+  "id": "cst-vin02t.tik-146_p010",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "from the naga-taming onward (Uruvela fire-serpent); temporal reference"
+ },
+ {
+  "id": "cst-vin02t.tik-146_p011",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga-taming counted among the sixteen miracles; reference to the event"
+ },
+ {
+  "id": "cst-vin02t.tik-159_p003",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "bandhanagara (prison = bandhana+agara), not naga"
+ },
+ {
+  "id": "cst-vin02t.tik-161_p013",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naranago bull among men, praise verse (narasiha) of the Buddha/his father"
+ },
+ {
+  "id": "cst-vin02t.tik-223_p012",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "folk-etym na+agu (does no wrong) applied to the Buddha; polysemy"
+ },
+ {
+  "id": "cst-vin02t.tik-228_p008",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "great elders (Mahakassapa et al.) described as mahanaga; polysemy simile"
+ },
+ {
+  "id": "cst-vin02t.tik-228_p009",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Chaddanto nagaraja = the bull-elephant king with 8000 elephants, parallel to hamsa-raja/cakkavatti; prov said serpent"
+ },
+ {
+  "id": "cst-vin02t.tik-228_p012",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga in a being-list (deva-suparna-naga-yakkha-gandhabba-manussa); passing"
+ },
+ {
+  "id": "cst-vin02t.tik-228_p021",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagavikkantacara = bull-elephant stride simile for the Buddha's gait"
+ },
+ {
+  "id": "cst-vin02t.tik-228_p025",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagavikkantacara, elephant-stride simile for the Buddha's gait"
+ },
+ {
+  "id": "cst-vin02t.tik-229_p002",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "realm_habitat",
+  "claim": "Vatthu-vijja experts identify underground spots as the dwelling-claims of nagas (and yakkhas, bhutas).",
+  "note": ""
+ },
+ {
+  "id": "cst-vin02t.tik-233_p002",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "santhamban-agara (rest-house = ...+agara), not naga"
+ },
+ {
+  "id": "cst-vin02t.tik-267_p013",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "glosses naga = mahanta/great and cites isadantassa hatthino (Ud 35); the tusker"
+ },
+ {
+  "id": "cst-vin02t.tik-270_p007",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Palileyya pun: buddhanaga (Buddha) compared with hatthinaga (elephant); naga applied to a human; polysemy"
+ },
+ {
+  "id": "cst-vin02t.tik-296_p008",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Virupakkha glossed as naga-clans (snake-paritta context); lexical gloss"
+ },
+ {
+  "id": "cst-vin02t.tik-296_p022",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga-form by vikubbana-iddhi; about iddhi power"
+ },
+ {
+  "id": "cst-vin02t.tik-317_p002",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Nalagiri verse ma kunjara nagam asado: buddhanaga = the Buddha, addressed re the elephant; polysemy"
+ },
+ {
+  "id": "cst-vin02t.tik-319_p014",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannagama (endowment), not naga"
+ },
+ {
+  "id": "cst-vin02t.tik-332_p005",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "realm_habitat",
+  "claim": "Nagas include those dwelling on the wave-crests and those in [celestial] mansions.",
+  "note": "naga gloss among great sea-beings"
+ },
+ {
+  "id": "cst-vin04t.nrf-331_p002",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga-mandala listed among parittas (snake-charm); lists charms"
+ },
+ {
+  "id": "cst-vin04t.nrf-57_p006",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+agamesi (did not wait), not naga"
+ },
+ {
+  "id": "cst-vin05t.nrf-10_p006",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nana-gabbha (various rooms), not naga"
+ },
+ {
+  "id": "cst-vin05t.nrf-10_p007",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nana-gabbha (various rooms), not naga"
+ },
+ {
+  "id": "cst-vin05t.nrf-20_p004",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "a vimana of devas/nagas/brahmas may be a kappiya-kuti; passing list mention"
+ },
+ {
+  "id": "cst-vin05t.nrf-22_p014",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+agamissati (will not come), not naga"
+ },
+ {
+  "id": "cst-vin05t.nrf-23_p013",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "bandhanagare (in prison), not naga"
+ },
+ {
+  "id": "cst-vin05t.nrf-23_p047",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "ordination_bar",
+  "claim": "A naga (or supanna etc.), being a non-human animal (tiracchanagata), may not be ordained/given upasampada.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin05t.nrf-29_p054",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+agamenta (not waiting), not naga"
+ },
+ {
+  "id": "cst-vin05t.nrf-36_p170",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+gutte (unguarded), not naga"
+ },
+ {
+  "id": "cst-vin05t.nrf-4_p010",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Coranaga, who wandered seeking kingship; proper name"
+ },
+ {
+  "id": "cst-vin05t.nrf-4_p011",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Coranaga-vatthu and king Mahanaga (mahanagaranno); proper names"
+ },
+ {
+  "id": "cst-vin05t.nrf-6_p010",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagadantaka = ivory/tusk wall-peg, in a list of monastery fittings"
+ },
+ {
+  "id": "cst-vin05t.nrf-9_p025",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagadantaka = tusk-peg, listed with bed/chair/parasol"
+ },
+ {
+  "id": "cst-vin06t.nrf-10_p006",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nana-guna-visesa, not naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-169_p003",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga(m) apothayitva = Sagata subduing the Ambatittha serpent; event reference"
+ },
+ {
+  "id": "cst-vin06t.nrf-16_p029",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nana-guna (various qualities), not naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-22_p006",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagarupa = naga-form being, beside whom ordination is discussed; prov said citizen"
+ },
+ {
+  "id": "cst-vin06t.nrf-294_p002",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagamandala = naga-restraining charm (nagarodha); lexical gloss; prov said citizen"
+ },
+ {
+  "id": "cst-vin06t.nrf-2_p039",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannagama (endowment), not naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-2_p056",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samvannana-ggahana, not naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-312_p024",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannagama (endowment) throughout, not naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-315_p006",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "from the naga-taming onward (Uruvela serpent); temporal reference"
+ },
+ {
+  "id": "cst-vin06t.nrf-329_p007",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naranago, praise verse (narasiha) of the Buddha"
+ },
+ {
+  "id": "cst-vin06t.nrf-335_p002",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "takes_human_form",
+  "claim": "The monk-naga reverts to its naga-existence (nagayoni) when mating with its own kind or sleeping; cannot hold human form.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin06t.nrf-384_p006",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilana-agilana (sick/not-sick), not naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-385_p003",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss nagoti hatthi (naga means elephant)"
+ },
+ {
+  "id": "cst-vin06t.nrf-388_p002",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "te mahanaga = the great elders (Upali et al.) who knew the intent"
+ },
+ {
+  "id": "cst-vin06t.nrf-43_p006",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "giant created naga-forms drawn out by naga-iddhi; iddhi vehicle"
+ },
+ {
+  "id": "cst-vin06t.nrf-44_p007",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Coranaga story; robber/person named Naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-469_p002",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "tamdivasa-anagame (non-arrival that day), not naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-6_p007",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "families of nagas, yakkhas and other devatas around the Bodhi tree; being-list"
+ },
+ {
+  "id": "cst-vin06t.nrf-80_p002",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+gutte (unguarded), not naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-80_p005",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nana-gabbha (various rooms), not naga"
+ },
+ {
+  "id": "cst-vin06t.nrf-9_p015",
+  "referent": "ambiguous",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Aggisikha/Dhumasikha naga in Sri Lanka; sense (serpents/elders/elephants?) not fixable from window"
+ },
+ {
+  "id": "cst-vin06t.nrf-9_p025",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "...santitthana-gahane sandhi, not naga"
+ },
+ {
+  "id": "cst-vin07t.nrf-123_p007",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "desana-ggahana, not naga"
+ },
+ {
+  "id": "cst-vin07t.nrf-24_p010",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannagama (endowment), not naga"
+ },
+ {
+  "id": "cst-vin07t.nrf-265_p003",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagamandala = snake-warding charm-circle; lexical gloss"
+ },
+ {
+  "id": "cst-vin07t.nrf-281_p002",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "hears_dhamma",
+  "claim": "The subdued [fire-]naga, its power crushed, receives refuges and precepts and attends the Buddha all night.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin07t.nrf-281_p011",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga-taming among the fifteen miracles; reference to the event"
+ },
+ {
+  "id": "cst-vin07t.nrf-305_p002",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "diet_predation",
+  "claim": "The naga is water-dwelling and frog-eating; its serpent-body manifests (e.g. when asleep).",
+  "note": ""
+ },
+ {
+  "id": "cst-vin07t.nrf-312_p004",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "ordinand named Naga (alongside Tissa) in the upasampada procedure"
+ },
+ {
+  "id": "cst-vin07t.nrf-312_p005",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naming the ordinand Naga (nagadi-namena) in upasampada"
+ },
+ {
+  "id": "cst-vin07t.nrf-372_p003",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Palileyya udana gloss: buddhanaga (Buddha) vs nagassa hatthino (elephant); pun applied to a human; polysemy"
+ },
+ {
+  "id": "cst-vin07t.nrf-378_p005",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannagama (endowment), not naga"
+ },
+ {
+  "id": "cst-vin07t.nrf-389_p002",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+agamma (not having reached), not naga"
+ },
+ {
+  "id": "cst-vin07t.nrf-391_p010",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "metta to Virupakkha-clan nagas (snake-paritta); gloss"
+ },
+ {
+  "id": "cst-vin07t.nrf-391_p015",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga-form by vikubbana-iddhi; about iddhi power"
+ },
+ {
+  "id": "cst-vin07t.nrf-405_p008",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Nalagiri verse, buddhanaga = the Buddha; polysemy"
+ },
+ {
+  "id": "cst-vin07t.nrf-415_p004",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss naga = of the snake-kind (sappajatika); lexical gloss"
+ },
+ {
+  "id": "cst-vin07t.nrf-485_p007",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "ordinand-name example: must not say nago for the name Naga"
+ },
+ {
+  "id": "cst-vin07t.nrf-5_p004",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "Susunaga(-putta), proper name (king Susunaga's son)"
+ },
+ {
+  "id": "cst-vin07t.nrf-5_p008",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+agamimsu (did not come), not naga"
+ },
+ {
+  "id": "cst-vin07t.nrf-6_p012",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "hatthinaga (elephant) affirmed vs ahi-naga (serpent) excluded; hunting scene; nagavanna=iddhi form"
+ },
+ {
+  "id": "cst-vin07t.nrf-72_p016",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga-form by vikubbana-iddhi; about iddhi power"
+ },
+ {
+  "id": "cst-vin07t.nrf-74_p004",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "appana-gocare (domain of absorption), not naga"
+ },
+ {
+  "id": "cst-vin07t.nrf-75_p016",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "phusana-gahana sandhi, not naga"
+ },
+ {
+  "id": "cst-vin07t.nrf-7_p002",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "folk-etym do no wrong (agu), hence naga, said of the elder-reciters of the Vinaya"
+ },
+ {
+  "id": "cst-vin07t.nrf-7_p004",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "realm_habitat",
+  "claim": "Dawn-coloured clay originates from the naga-realm (nagabhavana) and is brought by nagas.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin07t.nrf-7_p009",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "families of nagas, yakkhas and other devatas around the Bodhi tree; being-list"
+ },
+ {
+  "id": "cst-vin07t.nrf-8_p066",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga in a list of remaining beings (avasesa-naga-adi-satte); passing"
+ },
+ {
+  "id": "cst-vin07t.nrf-8_p071",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "desana-gambhirata sandhi, not naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-165_p003",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilana-agilana (sick/not-sick), not naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-183_p004",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilana-agilana (sick/not-sick), not naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-190_p006",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "anumodana-gathaya (thanksgiving verse), not naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-20_p046",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "desana-ggahana, not naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-32_p046",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "magga_phala_ceiling",
+  "claim": "The Buddha tells the naga: you are of non-growing nature (aviruddhi-dhamma) in this Dhamma-Vinaya - incapable of path-growth.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin08t.nrf-33_p023",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "ordinand named Naga (alongside Tissa) in upasampada"
+ },
+ {
+  "id": "cst-vin08t.nrf-33_p024",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naming the ordinand Naga in upasampada"
+ },
+ {
+  "id": "cst-vin08t.nrf-35_p058",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannagame (endowment with factors), not naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-68_p071",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "samannagama (endowment), not naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-74_p030",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "bandhanagara (prison), not naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-74_p034",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+agametva (without waiting), not naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-76_p026",
+  "referent": "person",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "ordinand-name example nago vs the name Naga"
+ },
+ {
+  "id": "cst-vin08t.nrf-81_p005",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+agamesum/agamittha/agamentanam (did not wait) - the non-waiting pamsukula story; prov said person"
+ },
+ {
+  "id": "cst-vin09t.nrf-128_p068",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "ordination_bar",
+  "claim": "A naga (naga-manavaka), a non-human animal (tiracchanagata), is one whose upasampada is prohibited.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin09t.nrf-130_p054",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga-women listed among female being-types (manussitthi-naga-garula-manavika) as parajika-object; list"
+ },
+ {
+  "id": "cst-vin09t.nrf-142_p002",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "ayam va so mahanago grammatical example of va; mahanaga of a person"
+ },
+ {
+  "id": "cst-vin09t.nrf-178_p005",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagadantaka = tusk-peg, listed with bed/chair/parasol"
+ },
+ {
+  "id": "cst-vin09t.nrf-394_p002",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagamandala = snake-warding charm-circle; lexical gloss"
+ },
+ {
+  "id": "cst-vin09t.nrf-68_p002",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilana-agilana-ta (sick/not-sick), not naga"
+ },
+ {
+  "id": "cst-vin10t.nrf-12_p1231",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "bhikkhuna+aggi (fire by a bhikkhu), not naga"
+ },
+ {
+  "id": "cst-vin10t.nrf-13_p059",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gahatthena-agahatthena (householder/non-householder), not naga"
+ },
+ {
+  "id": "cst-vin10t.nrf-16_p085",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "desana-ganana (count of confession), not naga"
+ },
+ {
+  "id": "cst-vin10t.nrf-24_p187",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "ordination_bar",
+  "claim": "A naga (or supanna, yakkha, even Sakka), called tiracchanagata, may not be ordained.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin10t.nrf-52_p199",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+gilano (not sick), not naga"
+ },
+ {
+  "id": "cst-vin10t.nrf-52_p423",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+gilano (not sick), not naga"
+ },
+ {
+  "id": "cst-vin11t.nrf-11_p255",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagadanta = tusk-peg (nagadantadike adese)"
+ },
+ {
+  "id": "cst-vin11t.nrf-16_p036",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "desana-ganana (count of confession), not naga"
+ },
+ {
+  "id": "cst-vin11t.nrf-17_p035",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nana-gabbhe (various rooms), not naga"
+ },
+ {
+  "id": "cst-vin11t.nrf-1_p031",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nana-guna (various virtues), not naga"
+ },
+ {
+  "id": "cst-vin11t.nrf-36_p005",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilana-agilana (sick/not-sick), not naga"
+ },
+ {
+  "id": "cst-vin11t.nrf-38_p003",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "naga among beings the Buddha tames (damma-deva-brahma-naga); passing list"
+ },
+ {
+  "id": "cst-vin11t.nrf-47_p121",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "classification",
+  "claim": "Tiracchanagata is glossed as a naga or supanna - classing the naga as a (non-human) animal, for the pit-digging rule.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin11t.nrf-5_p055",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "classification",
+  "claim": "Nagas are reckoned among footless beings (apada), in the snake (ahi) category of the sattanikaya.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin11t.nrf-5_p069",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nana-guna-ratanakaram (mine of qualities), not naga"
+ },
+ {
+  "id": "cst-vin11t.nrf-6_p060",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "na+agamma (not reaching), not naga"
+ },
+ {
+  "id": "cst-vin11t.nrf-6_p252",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "takes_human_form",
+  "claim": "Nagas (and garulas), with their youths and maidens, may sit running a shop in human guise.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin11t.nrf-7_p021",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "Nagas possess naga-iddhi: venom by sight, bite, and touch, killing thereby.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin11t.nrf-9_p216",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagadanta = tusk-peg (between the half-moon bracket and the nagadanta)"
+ },
+ {
+  "id": "cst-vin12t.nrf-196_p002",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "nagamandala = snake-warding charm-circle; lexical gloss"
+ },
+ {
+  "id": "cst-vin12t.nrf-21_p004",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "explicit gloss like a naga's tooth, hence nagadantaka (tusk-peg)"
+ },
+ {
+  "id": "cst-vin12t.nrf-240_p002",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "power",
+  "claim": "The naga-king Mucalinda's coils (bhoga), seven-fold, encircle and shelter the Buddha.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin12t.nrf-247_p005",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "the time of the naga-taming (Uruvela serpent); temporal reference"
+ },
+ {
+  "id": "cst-vin12t.nrf-275_p002",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "birth_mode",
+  "claim": "The naga, despite deva-like fortune, loathes its naga-existence (nagayoni, one of the four naga birth-modes).",
+  "note": ""
+ },
+ {
+  "id": "cst-vin12t.nrf-275_p003",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "diet_predation",
+  "claim": "The naga eats water-dwelling frogs and mates with a same-species nagini, then loathes its state.",
+  "note": ""
+ },
+ {
+  "id": "cst-vin12t.nrf-275_p004",
+  "referent": "serpent",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "grammatical gloss: sajati = a same-species nagini; this chunk is morphological analysis"
+ },
+ {
+  "id": "cst-vin12t.nrf-275_p005",
+  "referent": "serpent",
+  "claim_bearing": true,
+  "facet": "classification",
+  "claim": "Examines the naga's status as tiracchanagata (apaya-included, ahetuka-rebirth).",
+  "note": ""
+ },
+ {
+  "id": "cst-vin12t.nrf-335_p002",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "folk-etym na+agu (no wrong is his) said of the Buddha, from his going-forth onward; polysemy"
+ },
+ {
+  "id": "cst-vin12t.nrf-34_p002",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "mahanaga glossed as great arahants (mahaarahantesu) being present"
+ },
+ {
+  "id": "cst-vin12t.nrf-384_p015",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "ti-ka lists 5 senses of naga (serpent/elephant/ironwood-tree/supreme/proper-name); here the simile matanga aranne nago (forest bull-elephant) for the supreme; nagarukkha=tree also cited; polysemy"
+ },
+ {
+  "id": "cst-vin12t.nrf-385_p002",
+  "referent": "elephant",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "hatthinaga = the great elephant dwelling at Palileyyaka; hatthi and naga synonyms"
+ },
+ {
+  "id": "cst-vin12t.nrf-385_p003",
+  "referent": "epithet",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "udana gloss: nagena = buddhanaga (Buddha) vs nagassa = hatthinaga (elephant); pun applied to a human; polysemy"
+ },
+ {
+  "id": "cst-vin12t.nrf-423_p004",
+  "referent": "nonlexical",
+  "claim_bearing": false,
+  "facet": null,
+  "claim": null,
+  "note": "gilana-agilana (sick/not-sick), not naga"
+ }
+]

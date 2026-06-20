@@ -56,3 +56,7 @@ __pycache__/
 # scratch only.
 /scripts/ingest/probe-*.mjs
 tmp/
+
+# Mangled-path junk: scripts that wrote to a literal C:\Users\isaac path
+# instead of $HOME create these in-repo. Never commit them.
+*Usersisaac*

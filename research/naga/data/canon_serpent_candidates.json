@@ -1,0 +1,1382 @@
+[
+ {
+  "id": "an8.19",
+  "citation": "AN 8.19",
+  "title": "Pahārādasutta",
+  "facet": "realm_habitat",
+  "claim": "nāgas dwell in the great ocean as one of the classes of mighty beings (timi, asuras, nāgas, gandhabbas)",
+  "tokens": [
+   "nāgā"
+  ]
+ },
+ {
+  "id": "an8.20",
+  "citation": "AN 8.20",
+  "title": "Uposathasutta",
+  "facet": "realm_habitat",
+  "claim": "nāgas are among the mighty beings dwelling in the great ocean",
+  "tokens": [
+   "nāgā"
+  ]
+ },
+ {
+  "id": "bv11",
+  "citation": "BV 11",
+  "title": "11. Nāradabuddhavaṁsa",
+  "facet": "hears_dhamma",
+  "claim": "the Buddha Nārada tames the nāga-king Mahādoṇa with a miracle, converting devas and humans",
+  "tokens": [
+   "nāgarājaṁ",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "bv21",
+  "citation": "BV 21",
+  "title": "21 Vipassībuddhavaṁsa",
+  "facet": "bodhisatta_as_naga",
+  "claim": "the bodhisatta was a mighty nāga-king named Atula with many crores of nāgas in his retinue, who honoured Buddha Vipassī",
+  "tokens": [
+   "nāgakoṭīnaṁ",
+   "nāgarājā",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "bv6",
+  "citation": "BV 6",
+  "title": "6. Sumanabuddhavaṁsa",
+  "facet": "bodhisatta_as_naga",
+  "claim": "the bodhisatta was a mighty nāga-king Atula who came out from the nāga-realm (nāgabhavana) with his kin and honoured Buddha Sumana",
+  "tokens": [
+   "nāgabhavanā",
+   "nāgamūle",
+   "nāgarājā",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "cnd7",
+  "citation": "CND 7",
+  "title": "3. Puṇṇakamāṇavapucchāniddesa",
+  "facet": "classification",
+  "claim": "some people take nāgas as their deity (nāgavatikānaṁ nāgā devatā), listed beside supaṇṇas, yakkhas, asuras, gandhabbas as object-of-worship beings",
+  "tokens": [
+   "nāgavatikānaṁ",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "cp13",
+  "citation": "CP 13",
+  "title": "Campeyyanāgacariya",
+  "facet": "bodhisatta_as_naga",
+  "claim": "the bodhisatta was the mighty nāga Campeyya, keeping the uposatha while captured by a snake-charmer",
+  "tokens": [
+   "campeyyanāgacariya",
+   "campeyyanāgacariyaṁ",
+   "hatthināgavagga"
+  ]
+ },
+ {
+  "id": "cst-abh03m3.mul-159",
+  "citation": "Abh §159",
+  "title": "(124) 9. Duggatikathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgakaññāya"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0101n.mul-36_p008",
+  "citation": "Vism §36.8",
+  "title": "Cariyāvaṇṇanā",
+  "facet": "karma_cause",
+  "claim": "a hate-natured person may have fallen from hell or the nāga-womb (nirayanāgayoni); nāga-birth as a destination of certain kamma/temperament",
+  "tokens": [
+   "nirayanāgayonīhi"
+  ]
+ },
+ {
+  "id": "cst-e0101n.mul-51_p004",
+  "citation": "Vism §51.4",
+  "title": "Pañcavasīkathā",
+  "facet": "power",
+  "claim": "Mahāmoggallāna's swift attainment is likened to his taming of the nāga-king Nandopananda; the nāga-king as a being subdued by iddhi",
+  "tokens": [
+   "nandopanandanāgarājadamane"
+  ]
+ },
+ {
+  "id": "cst-e0101n.mul-51_p006",
+  "citation": "Vism §51.6",
+  "title": "Pañcavasīkathā",
+  "facet": "power",
+  "claim": "an attendant nāga-king is seized by a supaṇṇa-king swooping from the sky; the elder makes a mountain and saves the nāga-king",
+  "tokens": [
+   "nāgarājānaṃ",
+   "upaṭṭhākanāgarājānaṃ"
+  ]
+ },
+ {
+  "id": "cst-e0101n.mul-73_p060",
+  "citation": "Vism §73.60",
+  "title": "1. Buddhānussatikathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0101n.mul-87_p070",
+  "citation": "Vism §87.70",
+  "title": "Mettābhāvanākathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0101n.mul-87_p072",
+  "citation": "Vism §87.72",
+  "title": "Mettābhāvanākathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0101n.mul-87_p077",
+  "citation": "Vism §87.77",
+  "title": "Mettābhāvanākathā",
+  "facet": "bodhisatta_as_naga",
+  "claim": "as the nāga-king Saṅkhapāla the bodhisatta endured being pierced and dragged, practising endurance/sīla",
+  "tokens": [
+   "saṅkhapālanāgarājā"
+  ]
+ },
+ {
+  "id": "cst-e0102n.mul-10_p016",
+  "citation": "Vism §10.16",
+  "title": "Cutūpapātañāṇakathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājādīnaṃ"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0102n.mul-3_p021",
+  "citation": "Vism §3.21",
+  "title": "Abhiññākathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājānaṃ"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0102n.mul-4_p006",
+  "citation": "Vism §4.6",
+  "title": "Dasaiddhikathā",
+  "facet": "power",
+  "claim": "a meditator with iddhi can abandon his form and display a nāga-form (among kumāraka/nāga forms); nāga as a shape that can be manifested",
+  "tokens": [
+   "nāgavaṇṇaṃ"
+  ]
+ },
+ {
+  "id": "cst-e0102n.mul-4_p076",
+  "citation": "Vism §4.76",
+  "title": "Dasaiddhikathā",
+  "facet": "power",
+  "claim": "nāgas and supaṇṇas, out of envy, may magically create obstacles (mountains/trees) in the air against a flying monk",
+  "tokens": [
+   "nāgasupaṇṇādayo"
+  ]
+ },
+ {
+  "id": "cst-e0102n.mul-5_p002",
+  "citation": "Vism §5.2",
+  "title": "Nandopanandanāgadamanakathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0102n.mul-5_p003",
+  "citation": "Vism §5.3",
+  "title": "Nandopanandanāgadamanakathā",
+  "facet": "power",
+  "claim": "the nāga-king Nandopananda sits enthroned amid his nāga-retinue at a feast; the Buddha passes over so the nāga-king sees him",
+  "tokens": [
+   "nāgaparisāya",
+   "nāgarājā"
+  ]
+ },
+ {
+  "id": "cst-e0102n.mul-5_p004",
+  "citation": "Vism §5.4",
+  "title": "Nandopanandanāgadamanakathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājassa"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0102n.mul-5_p005",
+  "citation": "Vism §5.5",
+  "title": "Nandopanandanāgadamanakathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0102n.mul-5_p006",
+  "citation": "Vism §5.6",
+  "title": "Nandopanandanāgadamanakathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājassa",
+   "nāgarājavaṇṇaṃ",
+   "nāgarājā",
+   "nāgarājānaṃ"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0102n.mul-5_p007",
+  "citation": "Vism §5.7",
+  "title": "Nandopanandanāgadamanakathā",
+  "facet": "power",
+  "claim": "Moggallāna enters and traverses the nāga-king's body and declares he could tame a hundred thousand nāga-kings like Nandopananda",
+  "tokens": [
+   "nāgarājā",
+   "nāgarājānaṃ",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "cst-e0102n.mul-5_p008",
+  "citation": "Vism §5.8",
+  "title": "Nandopanandanāgadamanakathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājadamanaṃ",
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0102n.mul-5_p009",
+  "citation": "Vism §5.9",
+  "title": "Nandopanandanāgadamanakathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā",
+   "nāgarājānaṃ"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0102n.mul-5_p025",
+  "citation": "Vism §5.25",
+  "title": "Nandopanandanāgadamanakathā",
+  "facet": "power",
+  "claim": "by vikubbana-iddhi one can display a nāga-form (among supaṇṇa, asura, deva, brahmā forms)",
+  "tokens": [
+   "nāgavaṇṇaṃ"
+  ]
+ },
+ {
+  "id": "cst-e0102n.mul-85_p005",
+  "citation": "Vism §85.5",
+  "title": "Nibbidānupassanāñāṇakathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-e0102n.mul-86_p002",
+  "citation": "Vism §86.2",
+  "title": "Muñcitukamyatāñāṇakathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-s0102m.mul-dn2_3",
+  "citation": "DN 3",
+  "title": "3. Mahāparinibbānasuttaṃ",
+  "facet": "realm_habitat",
+  "claim": "a nāga-king of Rāmagāma venerates a relic-portion of the Buddha; nāgas as relic-keepers honoured beside deva/nāga/nara kings",
+  "tokens": [
+   "devindanāgindanarindapūjito",
+   "nāgarājā",
+   "nāgāpalokitaṃ"
+  ]
+ },
+ {
+  "id": "cst-s0102m.mul-dn2_7",
+  "citation": "DN 7",
+  "title": "7. Mahāsamayasuttaṃ",
+  "facet": "classification",
+  "claim": "nāgas (Yamuna, Dhataraṭṭha clans; Erāvaṇa the great nāga) attend the great assembly; the Buddha grants them safety from the supaṇṇas who seize nāga-kings",
+  "tokens": [
+   "mahānāgo",
+   "nāgarāje",
+   "nāgarājānamāsi",
+   "nāgasā",
+   "nāgaṃ",
+   "nāgā",
+   "nāgānañca",
+   "susunāgā"
+  ]
+ },
+ {
+  "id": "cst-s0102m.mul-dn2_8",
+  "citation": "DN 8",
+  "title": "8. Sakkapañhasuttaṃ",
+  "facet": "classification",
+  "claim": "nāgas listed among devas, manussas, asuras, gandhabbas and other classes (puthukāyā) bound by fetters; nāga as a class of being",
+  "tokens": [
+   "nāgo",
+   "nāgova",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "cst-s0103m.mul-dn3_7",
+  "citation": "DN 7",
+  "title": "7. Lakkhaṇasuttaṃ",
+  "facet": "classification",
+  "claim": "gandhabbas and nāgas (gandhabbanāgā), winged ones and quadrupeds attend the great being; nāgas as a class of attendant beings",
+  "tokens": [
+   "anāgāriyataṃ",
+   "gandhabbanāgā",
+   "nāgā",
+   "nāgānaṃ"
+  ]
+ },
+ {
+  "id": "cst-s0103m.mul-dn3_9",
+  "citation": "DN 9",
+  "title": "9. Āṭānāṭiyasuttaṃ",
+  "facet": "classification",
+  "claim": "nāgas have their own social orders — nāgo/nāgī/nāgapotaka/nāgamahāmatto/nāgapārisajja/nāgapacāra (lord, female, young, minister, councillor); parallel to gandhabba and kumbhaṇḍa hierarchies who may harass monks",
+  "tokens": [
+   "nāgamahāmatto",
+   "nāgapacāro",
+   "nāgapotako",
+   "nāgapotikā",
+   "nāgapārisajjo",
+   "nāgasenāya",
+   "nāgeheva",
+   "nāgo",
+   "nāgānañca",
+   "nāgī"
+  ]
+ },
+ {
+  "id": "cst-s0202m.mul-mn2_3",
+  "citation": "MN 3",
+  "title": "3. Paribbājakavaggo",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgāvāsasate"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-s0303m.mul-sn3_3",
+  "citation": "SN 3",
+  "title": "3. Diṭṭhisaṃyuttaṃ",
+  "facet": "classification",
+  "claim": "Makkhali's cosmology enumerates 4,900 nāga-abodes (ekūnapaññāsa nāgavāsasate) among the fixed categories of beings/rebirths",
+  "tokens": [
+   "nāgavāsasate"
+  ]
+ },
+ {
+  "id": "cst-s0303m.mul-sn3_8",
+  "citation": "SN 8",
+  "title": "8. Nāgasaṃyuttaṃ",
+  "facet": "birth_mode",
+  "claim": "there are four nāga-wombs: egg-born, womb-born, moisture-born, spontaneously-born nāgas (the four nāgayoni)",
+  "tokens": [
+   "nāgayoniyo",
+   "nāgehi",
+   "nāgā",
+   "nāgānaṃ"
+  ]
+ },
+ {
+  "id": "cst-s0303m.mul-sn3_9",
+  "citation": "SN 9",
+  "title": "9. Supaṇṇasaṃyuttaṃ",
+  "facet": "diet_predation",
+  "claim": "supaṇṇas of each birth-mode carry off nāgas; egg-born supaṇṇas seize only egg-born nāgas, etc.; nāgas as the prey of supaṇṇas",
+  "tokens": [
+   "nāge"
+  ]
+ },
+ {
+  "id": "cst-s0305m.mul-sn5_1",
+  "citation": "SN 1",
+  "title": "1. Maggasaṃyuttaṃ",
+  "facet": "realm_habitat",
+  "claim": "nāgas grow their bodies and gather strength depending on the Himalaya, then descend to the pools and to the great ocean; their habitat and growth",
+  "tokens": [
+   "nāgarakaṃ",
+   "nāgasuttaṃ",
+   "nāgo",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "cst-s0404m1.mul-an8_1_2",
+  "citation": "AN an8.1.2",
+  "title": "2. Mahāvaggo",
+  "facet": "realm_habitat",
+  "claim": "nagas (with asuras and gandhabbas) dwell as mighty beings in the great ocean",
+  "tokens": [
+   "nāgā"
+  ]
+ },
+ {
+  "id": "cst-s0501m.mul-kn1_8",
+  "citation": "KN 8",
+  "title": "8. Nidhikaṇḍasuttaṃ",
+  "facet": "power",
+  "claim": "nagas can spirit away/remove buried treasure (as yakkhas carry it off)",
+  "tokens": [
+   "nāgā"
+  ]
+ },
+ {
+  "id": "cst-s0503m.mul-kn3_2",
+  "citation": "KN 2",
+  "title": "2. Mucalindavaggo",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "cst-s0503m.mul-kn3_5",
+  "citation": "KN 5",
+  "title": "5. Soṇavaggo (mahāvagga (aṭṭhakathāya sameti))",
+  "facet": "realm_habitat",
+  "claim": "nagas (with asuras, gandhabbas) dwell as great beings in the ocean",
+  "tokens": [
+   "nāgaṃ",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "cst-s0510m2.mul-kn11_4",
+  "citation": "KN 4",
+  "title": "4. Khattiyāvaggo",
+  "facet": "magga_phala_ceiling",
+  "claim": "devas, kinnaras and nagas (former retinue) will attain awakening in a future time",
+  "tokens": [
+   "nāgā",
+   "nāgīva"
+  ]
+ },
+ {
+  "id": "cst-s0511m.mul-kn12_21",
+  "citation": "KN 21",
+  "title": "21. Vipassībuddhavaṃso",
+  "facet": "bodhisatta_as_naga",
+  "claim": "the Bodhisatta was once a mighty naga-king (Atula) with millions of nagas, who honored Buddha Vipassi",
+  "tokens": [
+   "nāgakoṭīnaṃ",
+   "nāgarājā",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "cst-s0511m.mul-kn12_6",
+  "citation": "KN 6",
+  "title": "6. Sumanabuddhavaṃso",
+  "facet": "bodhisatta_as_naga",
+  "claim": "the Bodhisatta was a mighty naga-king Atula who came from the naga-abode (nagabhavana) with his kin to honor Buddha Sumana",
+  "tokens": [
+   "nāgabhāvanā",
+   "nāgamūle",
+   "nāgarājā",
+   "nāgānaṃ"
+  ]
+ },
+ {
+  "id": "cst-s0512m.mul-kn13_2",
+  "citation": "KN 2",
+  "title": "2. Hatthināgavaggo",
+  "facet": "bodhisatta_as_naga",
+  "claim": "the vagga collects the Bodhisatta's lives as the naga-kings Campeyya and Sankhapala (with Bhuridatta), who kept their virtue as nagas",
+  "tokens": [
+   "campeyyanāgacariyaṃ",
+   "campeyyanāgacariyā",
+   "hatthināgavaggo",
+   "hatthināgo",
+   "nāgasahassānaṃ"
+  ]
+ },
+ {
+  "id": "cst-s0513m.mul-kn14_12",
+  "citation": "KN 12",
+  "title": "12. Dvādasakanipāto",
+  "facet": "classification",
+  "claim": "a naga has a spread hood (phana) and coils (bhoga) and caught a falling prince with its coils",
+  "tokens": [
+   "nāgo"
+  ]
+ },
+ {
+  "id": "cst-s0513m.mul-kn14_15",
+  "citation": "KN 15",
+  "title": "15. Vīsatinipāto",
+  "facet": "diet_predation",
+  "claim": "the naga-clan (with its maidens and dwellings) lives under the supannas' predatory enmity; the king secures supanna non-aggression toward the nagas",
+  "tokens": [
+   "gahītanāgaṃ",
+   "nāga",
+   "nāgakaññe",
+   "nāgakaññā",
+   "nāgakaññāsmi",
+   "nāgakulaṃ",
+   "nāgakulena",
+   "nāgarājetamatthaṃ",
+   "nāgarājā",
+   "nāgassa",
+   "nāgaṃ",
+   "nāge",
+   "nāgo",
+   "nāgoti",
+   "nāgānaṃ",
+   "nānāgandhasamīritaṃ",
+   "nānāgottā"
+  ]
+ },
+ {
+  "id": "cst-s0513m.mul-kn14_2",
+  "citation": "KN 2",
+  "title": "2. Dukanipāto",
+  "facet": "power",
+  "claim": "a naga, by its power, took the form of a ship to carry a faithful layman safely across the sea",
+  "tokens": [
+   "nāga",
+   "nāgamissatīti",
+   "nāgavarena",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "cst-s0514m.mul-kn14_17",
+  "citation": "KN 17",
+  "title": "17. Cattālīsanipāto",
+  "facet": "magga_phala_ceiling",
+  "claim": "a mighty naga-king of divine power keeps austerities/uposatha longing for human rebirth, holding the human world superior (for the path)",
+  "tokens": [
+   "anāgamma",
+   "nāga",
+   "nāganāsasamūpamā",
+   "nāgarājetamatthaṃ",
+   "nāgarājā",
+   "nāgassidaṃ",
+   "nāgañca",
+   "nāgaṃ",
+   "nāgena",
+   "nāgo",
+   "nāgova"
+  ]
+ },
+ {
+  "id": "cst-s0514m.mul-kn14_22",
+  "citation": "KN 22",
+  "title": "22. Mahānipāto",
+  "facet": "bodhisatta_as_naga",
+  "claim": "Bhuridatta Jataka: the Bodhisatta as a naga-king, with naga-maidens (Irandhati), the naga-clan and naga-realm, and naga marriage",
+  "tokens": [
+   "anāgārā",
+   "giripunnāgā",
+   "hatthināge",
+   "mahānāgaṃ",
+   "mahānāgā",
+   "nāga",
+   "nāgadānena",
+   "nāgakaññampi",
+   "nāgakaññañca",
+   "nāgakaññaṃ",
+   "nāgakaññetamatthaṃ",
+   "nāgakaññā",
+   "nāgakaññāpi",
+   "nāgakaññāya",
+   "nāgakhandhe",
+   "nāgakhandhesu",
+   "nāgakhandhātipātino",
+   "nāgakulassa",
+   "nāgakulā",
+   "nāgakuñjara",
+   "nāgamallikā",
+   "nāgamo",
+   "nāgamānesuṃ",
+   "nāgamāruhi",
+   "nāgamāruyha",
+   "nāganāsūru",
+   "nāgarañño",
+   "nāgarājaṃ",
+   "nāgarāje",
+   "nāgarājetamatthaṃ",
+   "nāgarājā",
+   "nāgarājānaṃ",
+   "nāgasahassāni",
+   "nāgasaṃsevitaṃ",
+   "nāgassa",
+   "nāgavallikā",
+   "nāgavara",
+   "nāgaṃ",
+   "nāge",
+   "nāgehi",
+   "nāgena",
+   "nāgi",
+   "nāgo",
+   "nāgohamasmi",
+   "nāgopi",
+   "nāgosi",
+   "nāgā",
+   "nāgādhipatiṃ",
+   "nāgāna",
+   "nāgānamiva",
+   "nāgānaṃ",
+   "nāgāni",
+   "nānāgandhasameritaṃ",
+   "nānāgandhasamoditaṃ",
+   "nānāgandhehi",
+   "punnāgā",
+   "pānāgāre"
+  ]
+ },
+ {
+  "id": "cst-vin01m.mul-vin1_3",
+  "citation": "Vin 3",
+  "title": "2. Saṅghādisesakaṇḍaṃ",
+  "facet": "power",
+  "claim": "Maṇikaṇṭha the nāga-king crosses the Ganges, coils a sage sevenfold and rears a great hood over him",
+  "tokens": [
+   "nāgarājā",
+   "nāgarājānaṃ",
+   "nāgassa",
+   "nāgaṃ",
+   "nāgo",
+   "nānāgottā"
+  ]
+ },
+ {
+  "id": "cst-vin02m2.mul-vin3_1",
+  "citation": "Vin 1",
+  "title": "1. Mahākhandhako",
+  "facet": "power",
+  "claim": "the fierce fire-room nāgarāja is iddhimā, āsiviso, ghoraviso (potent, venomous serpent); the Buddha subdues it",
+  "tokens": [
+   "ahināgassa",
+   "ahināgaṃ",
+   "ahināgo",
+   "anāgāriyaṃ",
+   "manussanāgopi",
+   "nāga",
+   "nāgamāsi",
+   "nāgarājassa",
+   "nāgarājā",
+   "nāgassa",
+   "nāgayoniyā",
+   "nāgaṃ",
+   "nāgena",
+   "nāgo",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "cst-vin02m2.mul-vin3_6",
+  "citation": "Vin 6",
+  "title": "6. Bhesajjakkhandhako",
+  "facet": "realm_habitat",
+  "claim": "a nāga dwelling at the Mandākinī lotus-pond gives Moggallāna lotus-stalks and commands another nāga",
+  "tokens": [
+   "nāgarājā",
+   "nāgarājānaṃ",
+   "nāgaṃ",
+   "nāgo",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "cst-vin02m3.mul-vin4_9",
+  "citation": "Vin 9",
+  "title": "9. Pātimokkhaṭṭhapanakkhandhakaṃ",
+  "facet": "realm_habitat",
+  "claim": "the great ocean is the abode of great beings — timi, asurā, nāgā, gandhabbā — with bodies up to many leagues",
+  "tokens": [
+   "nāgā"
+  ]
+ },
+ {
+  "id": "dn16",
+  "citation": "DN 16",
+  "title": "Mahāparinibbānasutta",
+  "facet": "power",
+  "claim": "a nāga-king venerates a relic-share at Rāmagāma and one of the Buddha's tooth-relics; nāga-kings hold/honor relics",
+  "tokens": [
+   "devindanāgindanarindapūjito",
+   "nāgarājā",
+   "nāgāpalokita",
+   "nāgāpalokitaṁ"
+  ]
+ },
+ {
+  "id": "dn20",
+  "citation": "DN 20",
+  "title": "Mahāsamayasutta",
+  "facet": "classification",
+  "claim": "Mahāsamaya: nāgas (Nāgasā, Vesālā, Tacchakā, Kambala-Assatara, Yāmunā, Dhataraṭṭhā, Erāvaṇa) come to the assembly; supaṇṇas threaten them and the Buddha makes peace; nāgas take refuge",
+  "tokens": [
+   "mahānāgo",
+   "nāgarāje",
+   "nāgarājānamāsi",
+   "nāgasā",
+   "nāgaṁ",
+   "nāgā",
+   "nāgānañca",
+   "susunāgā"
+  ]
+ },
+ {
+  "id": "dn32",
+  "citation": "DN 32",
+  "title": "Āṭānāṭiyasutta",
+  "facet": "classification",
+  "claim": "Āṭānāṭiya: nāgo/nāgī/nāgapotako/nāgamahāmatto/nāgapārisajja — nāgas have a society (males, females, young, ministers, courtiers) parallel to gandhabbas/kumbhaṇḍas",
+  "tokens": [
+   "nāgamahāmatto",
+   "nāgapacāro",
+   "nāgapotako",
+   "nāgapotikā",
+   "nāgapārisajjo",
+   "nāgasenāya",
+   "nāgeheva",
+   "nāgo",
+   "nāgānañca",
+   "nāgī"
+  ]
+ },
+ {
+  "id": "ja190",
+  "citation": "JA 190",
+  "title": "10. Sīlānisaṁsajātaka",
+  "facet": "power",
+  "claim": "a nāga ferries a faithful lay-devotee across by boat (Nāgo nāvāya vaṇṇena saddhaṃ vahatupāsakaṃ) — fruit of faith/virtue",
+  "tokens": [
+   "nāgavarena",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "ja253",
+  "citation": "JA 253",
+  "title": "3. Maṇikaṇṭhajātaka",
+  "facet": "power",
+  "claim": "a nāga owns a wish-granting gem (maṇi); when a brahmin begs it repeatedly the nāga withdraws and never reappears",
+  "tokens": [
+   "nāgo"
+  ]
+ },
+ {
+  "id": "ja290",
+  "citation": "JA 290",
+  "title": "10. Sīlavīmaṁsakajātaka",
+  "facet": "diet_predation",
+  "claim": "even a venomous nāga (ghoraviso nāgo) is not killed because it is virtuous (sīlavā) — virtue protects",
+  "tokens": [
+   "nāgo"
+  ]
+ },
+ {
+  "id": "ja330",
+  "citation": "JA 330",
+  "title": "10. Sīlavīmaṁsajātaka",
+  "facet": "diet_predation",
+  "claim": "a venomous nāga (ghoraviso nāgo), being virtuous, is not slain — virtue spares it",
+  "tokens": [
+   "nāgo"
+  ]
+ },
+ {
+  "id": "ja357",
+  "citation": "JA 357",
+  "title": "7. Laṭukikajātaka",
+  "facet": "power",
+  "claim": "a nāga-king is destroyed by weak creatures (crow, frog, fly) banding together — even a mighty nāga falls to enmity",
+  "tokens": [
+   "nāgarājā",
+   "nāgaṁ"
+  ]
+ },
+ {
+  "id": "ja405",
+  "citation": "JA 405",
+  "title": "10. Bakajātaka",
+  "facet": "power",
+  "claim": "a malicious nāga seizes a boat in the Ganges current and a being rescues the men from it",
+  "tokens": [
+   "nāgena"
+  ]
+ },
+ {
+  "id": "ja441",
+  "citation": "JA 441",
+  "title": "3. Catuposathiyajātaka",
+  "facet": "classification",
+  "claim": "the nāga-king (with garuḷa/venateyya, gandhabba-king, the Kuru king) declares his virtue is khanti (patience) — nāga as one of four exemplary kings",
+  "tokens": [
+   "nāgadantaṁ",
+   "nāgarājā",
+   "nāgaṁ",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "ja472",
+  "citation": "JA 472",
+  "title": "9. Mahāpadumajātaka",
+  "facet": "power",
+  "claim": "a hooded nāga (nāgo jātaphaṇo), mighty, caught the falling prince in its coils and saved him in a mountain abyss",
+  "tokens": [
+   "nāgo"
+  ]
+ },
+ {
+  "id": "ja493",
+  "citation": "JA 493",
+  "title": "10. Mahāvāṇijajātaka",
+  "facet": "power",
+  "claim": "nāgas emerge fully armed (sannaddhā paṇḍavīsati) with archers to attack tree-fellers — a nāga host guarding/avenging",
+  "tokens": [
+   "nāgā"
+  ]
+ },
+ {
+  "id": "ja506",
+  "citation": "JA 506",
+  "title": "10. Campeyyajātaka",
+  "facet": "takes_human_form",
+  "claim": "Campeyya the nāga-king keeps uposatha as a serpent (uraga), is captured by a snake-charmer, freed, and invites the king to his nāga palace; bodhisatta-as-nāga",
+  "tokens": [
+   "gahītanāgaṁ",
+   "nāga",
+   "nāgakaññe",
+   "nāgakaññā",
+   "nāgakaññāsmi",
+   "nāgakulaṁ",
+   "nāgakulena",
+   "nāgarājetamatthaṁ",
+   "nāgarājā",
+   "nāgassa",
+   "nāge",
+   "nāgo",
+   "nāgoti",
+   "nānāgandhasamīritaṁ"
+  ]
+ },
+ {
+  "id": "ja518",
+  "citation": "JA 518",
+  "title": "8. Paṇḍaranāgarājajātaka",
+  "facet": "power",
+  "claim": "the nāga-king Paṇḍaraka is seized by the supaṇṇa once his secret is betrayed (Nāgaṃ yathā paṇḍarakaṃ supaṇṇo)",
+  "tokens": [
+   "nāgarāja",
+   "nāgaṁ",
+   "nāgā",
+   "paṇḍaranāgarājajātaka",
+   "paṇḍaranāgarājajātakaṁ"
+  ]
+ },
+ {
+  "id": "ja524",
+  "citation": "JA 524",
+  "title": "4. Saṅkhapālajātaka",
+  "facet": "takes_human_form",
+  "claim": "Saṅkhapāla the nāga-king keeps uposatha enduring torment by hunters, longing to be reborn human (manussayoniṃ abhipatthayāno); bodhisatta-as-nāga",
+  "tokens": [
+   "nāga",
+   "nāgarājetamatthaṁ",
+   "nāgarājā",
+   "nāgassidaṁ",
+   "nāgañca",
+   "nāgaṁ",
+   "nāgena",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "ja533",
+  "citation": "JA 533",
+  "title": "1 Cūḷahaṁsajātaka",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājārivantaraṁ"
+  ],
+  "auto": true
+ },
+ {
+  "id": "ja543",
+  "citation": "JA 543",
+  "title": "6. Bhūridattajātaka",
+  "facet": "power",
+  "claim": "Bhūridatta the nāga: a snake-charmer threatens 'alampāno hi nāgena' and boasts of mastering venomless/venomous nāgas; the nāga is the bodhisatta serpent",
+  "tokens": [
+   "mahānāgaṁ",
+   "nāgassa",
+   "nāgaṁ",
+   "nāge",
+   "nāgehi",
+   "nāgena",
+   "nāgo",
+   "nāgohamasmi",
+   "nāgosi",
+   "nāgā",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "ja546",
+  "citation": "JA 546",
+  "title": "Vidhurajātaka",
+  "facet": "realm_habitat",
+  "claim": "Vidhura: the nāga realm with nāga-king/queen (nāgarājā, nāgi), nāga-maidens (nāgakaññā), nāga-kingdom (nāgakula); a nāgi practising non-malice attains the deva-world",
+  "tokens": [
+   "nāga",
+   "nāgakaññampi",
+   "nāgakaññañca",
+   "nāgakaññaṁ",
+   "nāgakaññetamatthaṁ",
+   "nāgakaññā",
+   "nāgakaññāpi",
+   "nāgakaññāya",
+   "nāgakulā",
+   "nāgakuñjara",
+   "nāgamallikā",
+   "nāgarañño",
+   "nāgarājaṁ",
+   "nāgarājetamatthaṁ",
+   "nāgarājā",
+   "nāgarājānaṁ",
+   "nāgassa",
+   "nāgavara",
+   "nāgaṁ",
+   "nāge",
+   "nāgi",
+   "nāgo",
+   "nāgā",
+   "nāgādhipatiṁ",
+   "pānāgāre"
+  ]
+ },
+ {
+  "id": "ja86",
+  "citation": "JA 86",
+  "title": "6. Sīlavīmaṁsakajātaka",
+  "facet": "diet_predation",
+  "claim": "a venomous nāga (ghoraviso nāgo), being virtuous, is not killed — virtue protects it",
+  "tokens": [
+   "nāgo"
+  ]
+ },
+ {
+  "id": "kp8",
+  "citation": "KP 8",
+  "title": "Nidhikaṇḍasutta",
+  "facet": "power",
+  "claim": "Nidhikaṇḍa: nāgas can spirit away a buried treasure (Nāgā vā apanāmenti), as yakkhas carry it off",
+  "tokens": [
+   "nāgā"
+  ]
+ },
+ {
+  "id": "kv12.9",
+  "citation": "KV 12.9",
+  "title": "Duggatikathā",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgakaññāya"
+  ],
+  "auto": true
+ },
+ {
+  "id": "mn129",
+  "citation": "MN 129",
+  "title": "Bālapaṇḍitasutta",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "mn23",
+  "citation": "MN 23",
+  "title": "Vammikasutta",
+  "facet": "classification",
+  "claim": "Vammika riddle: digging the anthill one finds a nāga; 'leave the nāga, do not strike it, pay homage' — the nāga = the arahant (allegory), literal referent a serpent in the mound",
+  "tokens": [
+   "nāgassā",
+   "nāgassāti",
+   "nāgaṁ",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "mn76",
+  "citation": "MN 76",
+  "title": "Sandakasutta",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgāvāsasate"
+  ],
+  "auto": true
+ },
+ {
+  "id": "pe2",
+  "citation": "PE 2",
+  "title": "2. Sāsanapaṭṭhānadutiyabhūmi",
+  "facet": "hears_dhamma",
+  "claim": "The Buddha tames/teaches devas, nāgas and yakkhas in their own dialects via Dhamma",
+  "tokens": [
+   "devanāgayakkhānaṁ"
+  ]
+ },
+ {
+  "id": "pli-tv-bu-vb-pc51",
+  "citation": "Bhu. Pc. 51",
+  "title": "51. Surāpānasikkhāpada",
+  "facet": "power",
+  "claim": "A nāga in the fire-room smokes and blazes; its fire is mastered only by the fire-element",
+  "tokens": [
+   "nāgassa",
+   "nāgena",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "pli-tv-bu-vb-ss6",
+  "citation": "Bhu. Ss. 6",
+  "title": "6. Kuṭikārasikkhāpada",
+  "facet": "power",
+  "claim": "The nāga-king Maṇikaṇṭha coils a sage sevenfold and rears a great hood",
+  "tokens": [
+   "nāgarājā",
+   "nāgarājānaṁ",
+   "nāgassa",
+   "nāgaṁ",
+   "nāgo"
+  ]
+ },
+ {
+  "id": "pli-tv-kd1",
+  "citation": "Vin. Kd. 1",
+  "title": "1. Mahākhandhaka",
+  "facet": "power",
+  "claim": "A fierce nāga-king of the fire-room is potent, terribly venomous; the Buddha subdues its fire",
+  "tokens": [
+   "ahināgaṁ",
+   "ahināgo",
+   "anāgāriyaṁ",
+   "manussanāgopi",
+   "nāga",
+   "nāgamāsi",
+   "nāgarājassa",
+   "nāgarājā",
+   "nāgassa",
+   "nāgayoniyā",
+   "nāgaṁ",
+   "nāgena",
+   "nāgo",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "sn29.1",
+  "citation": "SN 29.1",
+  "title": "Suddhikasutta",
+  "facet": "birth_mode",
+  "claim": "There are four nāga births: egg-born, womb-born, moisture-born, spontaneously-born",
+  "tokens": [
+   "nāgavagga",
+   "nāgayoniyo",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "sn29.10",
+  "citation": "SN 29.10",
+  "title": "Catutthasutasutta",
+  "facet": "karma_cause",
+  "claim": "Ambivalent (dual) bodily/verbal/mental conduct + craving leads to rebirth among spontaneously-born nāgas",
+  "tokens": [
+   "nāgavagga",
+   "nāgā",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "sn29.11-20",
+  "citation": "SN 29.11-20",
+  "title": "Aṇḍajadānūpakārasuttadasaka",
+  "facet": "karma_cause",
+  "claim": "Dual conduct plus specific giving leads to rebirth among egg-born nāgas (dīghāyu, vaṇṇavanto)",
+  "tokens": [
+   "nāgavagga",
+   "nāgā",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "sn29.2",
+  "citation": "SN 29.2",
+  "title": "Paṇītatarasutta",
+  "facet": "birth_mode",
+  "claim": "Among the four nāga births each later mode is superior to the egg-born",
+  "tokens": [
+   "nāgavagga",
+   "nāgayoniyo",
+   "nāgehi",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "sn29.21-50",
+  "citation": "SN 29.21-50",
+  "title": "Jalābujādidānūpakārasuttattiṁsaka",
+  "facet": "karma_cause",
+  "claim": "Dual conduct plus specific giving leads to rebirth among womb/moisture/spontaneously-born nāgas",
+  "tokens": [
+   "nāgamhi",
+   "nāgasaṁyuttaṁ",
+   "nāgavagga",
+   "nāgavaggo",
+   "nāgā",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "sn29.3",
+  "citation": "SN 29.3",
+  "title": "Uposathasutta",
+  "facet": "uposatha",
+  "claim": "Egg-born nāgas keep the uposatha and so release the body, recalling their former dual conduct",
+  "tokens": [
+   "nāgavagga",
+   "nāgā",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "sn29.4",
+  "citation": "SN 29.4",
+  "title": "Dutiyauposathasutta",
+  "facet": "uposatha",
+  "claim": "Womb-born nāgas keep the uposatha and release the body",
+  "tokens": [
+   "nāgavagga",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "sn29.5",
+  "citation": "SN 29.5",
+  "title": "Tatiyauposathasutta",
+  "facet": "uposatha",
+  "claim": "Moisture-born nāgas keep the uposatha and release the body",
+  "tokens": [
+   "nāgavagga",
+   "nāgā"
+  ]
+ },
+ {
+  "id": "sn29.6",
+  "citation": "SN 29.6",
+  "title": "Catutthauposathasutta",
+  "facet": "uposatha",
+  "claim": "Spontaneously-born nāgas keep the uposatha, resolving on good conduct to escape the nāga state",
+  "tokens": [
+   "nāgavagga",
+   "nāgā",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "sn29.7",
+  "citation": "SN 29.7",
+  "title": "Sutasutta",
+  "facet": "karma_cause",
+  "claim": "Dual conduct, with hearing that egg-born nāgas are long-lived/handsome, leads to rebirth among them",
+  "tokens": [
+   "nāgavagga",
+   "nāgā",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "sn29.8",
+  "citation": "SN 29.8",
+  "title": "Dutiyasutasutta",
+  "facet": "karma_cause",
+  "claim": "Dual conduct leads to rebirth among womb-born nāgas",
+  "tokens": [
+   "nāgavagga",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "sn29.9",
+  "citation": "SN 29.9",
+  "title": "Tatiyasutasutta",
+  "facet": "karma_cause",
+  "claim": "Dual conduct leads to rebirth among moisture-born nāgas",
+  "tokens": [
+   "nāgavagga",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "sn30.2",
+  "citation": "SN 30.2",
+  "title": "Harantisutta",
+  "facet": "diet_predation",
+  "claim": "Supaṇṇas seize nāgas only of their own or lower birth-class (egg/womb/moisture/spontaneous)",
+  "tokens": [
+   "nāge"
+  ]
+ },
+ {
+  "id": "sn6.4",
+  "citation": "SN 6.4",
+  "title": "Bakabrahmasutta",
+  "facet": "diet_predation",
+  "claim": "A cruel nāga in the Ganges seizes a boat, craving human prey; the bodhisatta frees it",
+  "tokens": [
+   "nāgena"
+  ]
+ },
+ {
+  "id": "snp2.14",
+  "citation": "SNP 2.14",
+  "title": "Dhammikasutta",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "tha-ap4",
+  "citation": "THA-AP4",
+  "title": "Mahāmoggallānattheraapadāna",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "tha-ap402",
+  "citation": "THA-AP402",
+  "title": "Ajitattheraapadāna",
+  "facet": "hears_dhamma",
+  "claim": "nāgas and garuḷas come to the Buddha desiring to hear Dhamma",
+  "tokens": [
+   "nāgā"
+  ]
+ },
+ {
+  "id": "tha-ap521",
+  "citation": "THA-AP521",
+  "title": "Sabbaphaladāyakattheraapadāna",
+  "facet": "lifespan",
+  "claim": "long-lived nāgas, possessed of iddhi and great renown, come under the donor's sway",
+  "tokens": [
+   "nāgā"
+  ]
+ },
+ {
+  "id": "thi-ap19",
+  "citation": "THI-AP19",
+  "title": "Uppalavaṇṇātherīapadāna",
+  "facet": "hears_dhamma",
+  "claim": "a nāga-king hosts and feeds the Buddha in the nāga realm and a nāga-maiden makes the anumodanā",
+  "tokens": [
+   "mahānāgo",
+   "nāgakaññā",
+   "nāgarājā",
+   "nāgānaṁ"
+  ]
+ },
+ {
+  "id": "ud2.1",
+  "citation": "UD 2.1",
+  "title": "Mucalindasutta",
+  "facet": null,
+  "claim": "[auto strong-serpent; facet TBD]",
+  "tokens": [
+   "nāgarājā"
+  ],
+  "auto": true
+ },
+ {
+  "id": "ud5.5",
+  "citation": "UD 5.5",
+  "title": "Uposathasutta",
+  "facet": "realm_habitat",
+  "claim": "the great ocean is the dwelling of mighty beings including nāgas, with bodies up to hundreds of yojanas",
+  "tokens": [
+   "nāgā"
+  ]
+ }
+]

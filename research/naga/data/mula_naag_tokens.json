@@ -1,0 +1,1294 @@
+[
+ {
+  "token": "nāgasena",
+  "freq": 1412
+ },
+ {
+  "token": "nāgo",
+  "freq": 619
+ },
+ {
+  "token": "nāgā",
+  "freq": 264
+ },
+ {
+  "token": "nāgaseno",
+  "freq": 168
+ },
+ {
+  "token": "nāgasenā",
+  "freq": 166
+ },
+ {
+  "token": "nāgita",
+  "freq": 129
+ },
+ {
+  "token": "nāgarājā",
+  "freq": 120
+ },
+ {
+  "token": "nāgassa",
+  "freq": 116
+ },
+ {
+  "token": "nāgova",
+  "freq": 89
+ },
+ {
+  "token": "nāgaṃ",
+  "freq": 70
+ },
+ {
+  "token": "nāgaṁ",
+  "freq": 68
+ },
+ {
+  "token": "nāga",
+  "freq": 62
+ },
+ {
+  "token": "nāgghanti",
+  "freq": 57
+ },
+ {
+  "token": "nāgasenaṃ",
+  "freq": 54
+ },
+ {
+  "token": "nāgasenaṁ",
+  "freq": 54
+ },
+ {
+  "token": "nāgena",
+  "freq": 52
+ },
+ {
+  "token": "nāgānaṃ",
+  "freq": 34
+ },
+ {
+  "token": "nāgānaṁ",
+  "freq": 34
+ },
+ {
+  "token": "nāgghati",
+  "freq": 34
+ },
+ {
+  "token": "nāgasahassāni",
+  "freq": 34
+ },
+ {
+  "token": "nāgasenassa",
+  "freq": 32
+ },
+ {
+  "token": "nāge",
+  "freq": 27
+ },
+ {
+  "token": "nāgasamālo",
+  "freq": 26
+ },
+ {
+  "token": "nāgavane",
+  "freq": 18
+ },
+ {
+  "token": "nāgito",
+  "freq": 18
+ },
+ {
+  "token": "nāgoti",
+  "freq": 16
+ },
+ {
+  "token": "nāgakaññā",
+  "freq": 16
+ },
+ {
+  "token": "nāgarājānaṃ",
+  "freq": 14
+ },
+ {
+  "token": "nāgehi",
+  "freq": 14
+ },
+ {
+  "token": "nāgavaniko",
+  "freq": 14
+ },
+ {
+  "token": "nāgavagga",
+  "freq": 13
+ },
+ {
+  "token": "nāgīva",
+  "freq": 12
+ },
+ {
+  "token": "nāgadante",
+  "freq": 12
+ },
+ {
+  "token": "nāgacchanti",
+  "freq": 10
+ },
+ {
+  "token": "nāgasenena",
+  "freq": 10
+ },
+ {
+  "token": "nāganāsūrū",
+  "freq": 10
+ },
+ {
+  "token": "nāgasamālavagga",
+  "freq": 10
+ },
+ {
+  "token": "nāgāramāvase",
+  "freq": 10
+ },
+ {
+  "token": "nāgī",
+  "freq": 10
+ },
+ {
+  "token": "nāgacchati",
+  "freq": 9
+ },
+ {
+  "token": "nāgitaṃ",
+  "freq": 8
+ },
+ {
+  "token": "nāgacchatīti",
+  "freq": 8
+ },
+ {
+  "token": "nāgopi",
+  "freq": 8
+ },
+ {
+  "token": "nāgitaṁ",
+  "freq": 8
+ },
+ {
+  "token": "nāgadatto",
+  "freq": 8
+ },
+ {
+  "token": "nāgi",
+  "freq": 8
+ },
+ {
+  "token": "nāgayoniyā",
+  "freq": 8
+ },
+ {
+  "token": "nāgatthero",
+  "freq": 8
+ },
+ {
+  "token": "nāgayoniyo",
+  "freq": 8
+ },
+ {
+  "token": "nāgarājānaṁ",
+  "freq": 7
+ },
+ {
+  "token": "nāgapārisajjo",
+  "freq": 6
+ },
+ {
+  "token": "nāgasamāla",
+  "freq": 6
+ },
+ {
+  "token": "nāgapotako",
+  "freq": 6
+ },
+ {
+  "token": "nāgapotikā",
+  "freq": 6
+ },
+ {
+  "token": "nāgāvāsasate",
+  "freq": 6
+ },
+ {
+  "token": "nāgapacāro",
+  "freq": 6
+ },
+ {
+  "token": "nāgapupphiyo",
+  "freq": 6
+ },
+ {
+  "token": "nāgakaññāya",
+  "freq": 6
+ },
+ {
+  "token": "nāgānañca",
+  "freq": 6
+ },
+ {
+  "token": "nāgarājetamatthaṃ",
+  "freq": 6
+ },
+ {
+  "token": "nāgarājetamatthaṁ",
+  "freq": 6
+ },
+ {
+  "token": "nāgamahāmatto",
+  "freq": 6
+ },
+ {
+  "token": "nāgattāya",
+  "freq": 6
+ },
+ {
+  "token": "nāgatigamanāni",
+  "freq": 6
+ },
+ {
+  "token": "nāgasuttaṃ",
+  "freq": 6
+ },
+ {
+  "token": "nāgasutta",
+  "freq": 6
+ },
+ {
+  "token": "nāgamūle",
+  "freq": 6
+ },
+ {
+  "token": "nāgavanaṁ",
+  "freq": 5
+ },
+ {
+  "token": "nāgarājassa",
+  "freq": 5
+ },
+ {
+  "token": "nāgasenoti",
+  "freq": 5
+ },
+ {
+  "token": "nāgavanaṃ",
+  "freq": 5
+ },
+ {
+  "token": "nāgabhavane",
+  "freq": 4
+ },
+ {
+  "token": "nāgeheva",
+  "freq": 4
+ },
+ {
+  "token": "nāgaccheyyā",
+  "freq": 4
+ },
+ {
+  "token": "nāgamallikā",
+  "freq": 4
+ },
+ {
+  "token": "nāgasenāya",
+  "freq": 4
+ },
+ {
+  "token": "nāgasirivhayano",
+  "freq": 4
+ },
+ {
+  "token": "nāgamāruhi",
+  "freq": 4
+ },
+ {
+  "token": "nāgamāruyha",
+  "freq": 4
+ },
+ {
+  "token": "nāgamāsado",
+  "freq": 4
+ },
+ {
+  "token": "nāgapetavatthu",
+  "freq": 4
+ },
+ {
+  "token": "nāgāsurā",
+  "freq": 4
+ },
+ {
+  "token": "nāgotveva",
+  "freq": 4
+ },
+ {
+  "token": "nāgamo",
+  "freq": 4
+ },
+ {
+  "token": "nāgamessantī",
+  "freq": 4
+ },
+ {
+  "token": "nāgañca",
+  "freq": 4
+ },
+ {
+  "token": "nāgacchissati",
+  "freq": 4
+ },
+ {
+  "token": "nāgamessatī",
+  "freq": 4
+ },
+ {
+  "token": "nāgamesuṁ",
+  "freq": 3
+ },
+ {
+  "token": "nāgamesuṃ",
+  "freq": 3
+ },
+ {
+  "token": "nāgakaññaṁ",
+  "freq": 3
+ },
+ {
+  "token": "nāgassā",
+  "freq": 3
+ },
+ {
+  "token": "nāgassāti",
+  "freq": 3
+ },
+ {
+  "token": "nāgakaññaṃ",
+  "freq": 3
+ },
+ {
+  "token": "nāgadattaṁ",
+  "freq": 3
+ },
+ {
+  "token": "nāgarājaṁ",
+  "freq": 3
+ },
+ {
+  "token": "nāgasenapañho",
+  "freq": 3
+ },
+ {
+  "token": "nāgarājaṃ",
+  "freq": 3
+ },
+ {
+  "token": "nāgāpalokitaṃ",
+  "freq": 3
+ },
+ {
+  "token": "nāgavaṇṇaṃ",
+  "freq": 3
+ },
+ {
+  "token": "nāgadattaṃ",
+  "freq": 3
+ },
+ {
+  "token": "nāgataṃ",
+  "freq": 3
+ },
+ {
+  "token": "nāgasahassānaṁ",
+  "freq": 3
+ },
+ {
+  "token": "nāgarāje",
+  "freq": 3
+ },
+ {
+  "token": "nāgahatassa",
+  "freq": 2
+ },
+ {
+  "token": "nāgabalo",
+  "freq": 2
+ },
+ {
+  "token": "nāgabhogasadisopamā",
+  "freq": 2
+ },
+ {
+  "token": "nāgacchasi",
+  "freq": 2
+ },
+ {
+  "token": "nāgaccheyyu",
+  "freq": 2
+ },
+ {
+  "token": "nāgaccheyyun",
+  "freq": 2
+ },
+ {
+  "token": "nāgacchissanti",
+  "freq": 2
+ },
+ {
+  "token": "nāgadānena",
+  "freq": 2
+ },
+ {
+  "token": "nāgadantakepi",
+  "freq": 2
+ },
+ {
+  "token": "nāgadatta",
+  "freq": 2
+ },
+ {
+  "token": "nāgadattañca",
+  "freq": 2
+ },
+ {
+  "token": "nāgadattassa",
+  "freq": 2
+ },
+ {
+  "token": "nāgagandhabbarakkhasā",
+  "freq": 2
+ },
+ {
+  "token": "nāgakaññampi",
+  "freq": 2
+ },
+ {
+  "token": "nāgakaññañca",
+  "freq": 2
+ },
+ {
+  "token": "nāgakaññāpi",
+  "freq": 2
+ },
+ {
+  "token": "nāgakaññāsmi",
+  "freq": 2
+ },
+ {
+  "token": "nāgakaññe",
+  "freq": 2
+ },
+ {
+  "token": "nāgakaññetamatthaṁ",
+  "freq": 2
+ },
+ {
+  "token": "nāgakaññetamatthaṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgakesariyo",
+  "freq": 2
+ },
+ {
+  "token": "nāgakhandhe",
+  "freq": 2
+ },
+ {
+  "token": "nāgakhandhesu",
+  "freq": 2
+ },
+ {
+  "token": "nāgakulā",
+  "freq": 2
+ },
+ {
+  "token": "nāgakulaṁ",
+  "freq": 2
+ },
+ {
+  "token": "nāgakulaṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgakulena",
+  "freq": 2
+ },
+ {
+  "token": "nāgakuñjara",
+  "freq": 2
+ },
+ {
+  "token": "nāgamā",
+  "freq": 2
+ },
+ {
+  "token": "nāgamaṁsu",
+  "freq": 2
+ },
+ {
+  "token": "nāgamaṃsu",
+  "freq": 2
+ },
+ {
+  "token": "nāgamāsi",
+  "freq": 2
+ },
+ {
+  "token": "nāgamesi",
+  "freq": 2
+ },
+ {
+  "token": "nāgamesī",
+  "freq": 2
+ },
+ {
+  "token": "nāgamessasi",
+  "freq": 2
+ },
+ {
+  "token": "nāgamessatha",
+  "freq": 2
+ },
+ {
+  "token": "nāgamhi",
+  "freq": 2
+ },
+ {
+  "token": "nāgamigasālā",
+  "freq": 2
+ },
+ {
+  "token": "nāgamissati",
+  "freq": 2
+ },
+ {
+  "token": "nāgamitthā",
+  "freq": 2
+ },
+ {
+  "token": "nāgāna",
+  "freq": 2
+ },
+ {
+  "token": "nāganāgassa",
+  "freq": 2
+ },
+ {
+  "token": "nāganāgo",
+  "freq": 2
+ },
+ {
+  "token": "nāganāmānaṁ",
+  "freq": 2
+ },
+ {
+  "token": "nāganāmānaṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgānamiva",
+  "freq": 2
+ },
+ {
+  "token": "nāganāmo",
+  "freq": 2
+ },
+ {
+  "token": "nāganāmosi",
+  "freq": 2
+ },
+ {
+  "token": "nāganāsasamūpamā",
+  "freq": 2
+ },
+ {
+  "token": "nāganāsūru",
+  "freq": 2
+ },
+ {
+  "token": "nāgānogāhanena",
+  "freq": 2
+ },
+ {
+  "token": "nāgānubaddho",
+  "freq": 2
+ },
+ {
+  "token": "nāgapallavamādāya",
+  "freq": 2
+ },
+ {
+  "token": "nāgapallaviko",
+  "freq": 2
+ },
+ {
+  "token": "nāgapallavo",
+  "freq": 2
+ },
+ {
+  "token": "nāgāpalokitaṁ",
+  "freq": 2
+ },
+ {
+  "token": "nāgapunnāgaketakā",
+  "freq": 2
+ },
+ {
+  "token": "nāgapunnāgasālasalaḷacampakayūthikātimuttakapāṭaluppalavassikamallikāvicitto",
+  "freq": 2
+ },
+ {
+  "token": "nāgapupphajjunañceva",
+  "freq": 2
+ },
+ {
+  "token": "nāgapupphaṁ",
+  "freq": 2
+ },
+ {
+  "token": "nāgapupphaṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgapupphañca",
+  "freq": 2
+ },
+ {
+  "token": "nāgapupphasamaye",
+  "freq": 2
+ },
+ {
+  "token": "nāgapupphiyattheraapadāna",
+  "freq": 2
+ },
+ {
+  "token": "nāgapupphiyattheraapadānaṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgapupphiyattherassāpadānaṁ",
+  "freq": 2
+ },
+ {
+  "token": "nāgapupphiyattherassāpadānaṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgapure",
+  "freq": 2
+ },
+ {
+  "token": "nāgarāja",
+  "freq": 2
+ },
+ {
+  "token": "nāgarājānamāsi",
+  "freq": 2
+ },
+ {
+  "token": "nāgarājena",
+  "freq": 2
+ },
+ {
+  "token": "nāgāramāvaseti",
+  "freq": 2
+ },
+ {
+  "token": "nāgarañño",
+  "freq": 2
+ },
+ {
+  "token": "nāgariko",
+  "freq": 2
+ },
+ {
+  "token": "nāgarukkhoti",
+  "freq": 2
+ },
+ {
+  "token": "nāgasā",
+  "freq": 2
+ },
+ {
+  "token": "nāgasahassānaṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgasamālā",
+  "freq": 2
+ },
+ {
+  "token": "nāgasamālaṁ",
+  "freq": 2
+ },
+ {
+  "token": "nāgasamālaṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgasamālassa",
+  "freq": 2
+ },
+ {
+  "token": "nāgasamālattheragāthā",
+  "freq": 2
+ },
+ {
+  "token": "nāgasamālena",
+  "freq": 2
+ },
+ {
+  "token": "nāgasaṅghapurakkhato",
+  "freq": 2
+ },
+ {
+  "token": "nāgasatasahassāni",
+  "freq": 2
+ },
+ {
+  "token": "nāgasenakathā",
+  "freq": 2
+ },
+ {
+  "token": "nāgasenamupāgami",
+  "freq": 2
+ },
+ {
+  "token": "nāgasene",
+  "freq": 2
+ },
+ {
+  "token": "nāgaseṭṭho",
+  "freq": 2
+ },
+ {
+  "token": "nāgassāsi",
+  "freq": 2
+ },
+ {
+  "token": "nāgataṁ",
+  "freq": 2
+ },
+ {
+  "token": "nāgatanti",
+  "freq": 2
+ },
+ {
+  "token": "nāgatāti",
+  "freq": 2
+ },
+ {
+  "token": "nāgati",
+  "freq": 2
+ },
+ {
+  "token": "nāgāti",
+  "freq": 2
+ },
+ {
+  "token": "nāgatigamanānī",
+  "freq": 2
+ },
+ {
+  "token": "nāgatigamanānīti",
+  "freq": 2
+ },
+ {
+  "token": "nāgavadhena",
+  "freq": 2
+ },
+ {
+  "token": "nāgavagge",
+  "freq": 2
+ },
+ {
+  "token": "nāgavaggo",
+  "freq": 2
+ },
+ {
+  "token": "nāgavanassa",
+  "freq": 2
+ },
+ {
+  "token": "nāgavanika",
+  "freq": 2
+ },
+ {
+  "token": "nāgavanike",
+  "freq": 2
+ },
+ {
+  "token": "nāgavara",
+  "freq": 2
+ },
+ {
+  "token": "nāgavarena",
+  "freq": 2
+ },
+ {
+  "token": "nāgavāsasate",
+  "freq": 2
+ },
+ {
+  "token": "nāgavatā",
+  "freq": 2
+ },
+ {
+  "token": "nāgavataṁ",
+  "freq": 2
+ },
+ {
+  "token": "nāgavataṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgavatikā",
+  "freq": 2
+ },
+ {
+  "token": "nāgavikkantagamano",
+  "freq": 2
+ },
+ {
+  "token": "nāgavimānavatthu",
+  "freq": 2
+ },
+ {
+  "token": "nāgavittodā",
+  "freq": 2
+ },
+ {
+  "token": "nāgayakkhanaramarūhi",
+  "freq": 2
+ },
+ {
+  "token": "nāgayuttena",
+  "freq": 2
+ },
+ {
+  "token": "nāggihuttassupasevanā",
+  "freq": 2
+ },
+ {
+  "token": "nāgitassa",
+  "freq": 2
+ },
+ {
+  "token": "nāgitasutta",
+  "freq": 2
+ },
+ {
+  "token": "nāgitasuttaṃ",
+  "freq": 2
+ },
+ {
+  "token": "nāgitattheragāthā",
+  "freq": 2
+ },
+ {
+  "token": "nāgitena",
+  "freq": 2
+ },
+ {
+  "token": "nāgitoti",
+  "freq": 2
+ },
+ {
+  "token": "nāgiyā",
+  "freq": 2
+ },
+ {
+  "token": "nāgohamasmi",
+  "freq": 2
+ },
+ {
+  "token": "nāgomhi",
+  "freq": 2
+ },
+ {
+  "token": "nāgosi",
+  "freq": 2
+ },
+ {
+  "token": "nāgūpamo",
+  "freq": 2
+ },
+ {
+  "token": "nāgamissatīti",
+  "freq": 1
+ },
+ {
+  "token": "nāgamissatī",
+  "freq": 1
+ },
+ {
+  "token": "nāgavimānaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgamethāti",
+  "freq": 1
+ },
+ {
+  "token": "nāgamethā",
+  "freq": 1
+ },
+ {
+  "token": "nāgametaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgavimānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgametaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgassidaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgassidaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasupaṇṇādayo",
+  "freq": 1
+ },
+ {
+  "token": "nāgamesāgamesuṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgamesāgamesuṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgamentānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgatā",
+  "freq": 1
+ },
+ {
+  "token": "nāgabalapaṇṇarasamakkhito",
+  "freq": 1
+ },
+ {
+  "token": "nāgamentānaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgabhāvanā",
+  "freq": 1
+ },
+ {
+  "token": "nāgadānassidaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgakesariyattheraapadānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgakesariyattheraapadāna",
+  "freq": 1
+ },
+ {
+  "token": "nāgamānesuṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāguṭṭhigaṇanaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgakesaraṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgamānesuṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgalatādantakaṭṭhaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgakesaraṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgakulassa",
+  "freq": 1
+ },
+ {
+  "token": "nāgādhipatiṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgādhipatiṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgavallikā",
+  "freq": 1
+ },
+ {
+  "token": "nāgakoṭīnaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgakoṭīnaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgadattasuttaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgakhandhātipātino",
+  "freq": 1
+ },
+ {
+  "token": "nāgarājārivantaraṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgarājavaṇṇaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgarājārivantaraṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgadattasutta",
+  "freq": 1
+ },
+ {
+  "token": "nāgarājādīnaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgarājadamanaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgarakaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgapunnāgaketakaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgavanikaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgavanikaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgarikamanussānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgadānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgarukkha",
+  "freq": 1
+ },
+ {
+  "token": "nāgarukkhe",
+  "freq": 1
+ },
+ {
+  "token": "nāgaketakā",
+  "freq": 1
+ },
+ {
+  "token": "nāgavaṇṇaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgapunnāgaketakaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgakesariyattherassāpadānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgaparisāya",
+  "freq": 1
+ },
+ {
+  "token": "nāgāpalokita",
+  "freq": 1
+ },
+ {
+  "token": "nāgadantaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgadantaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgadantakan",
+  "freq": 1
+ },
+ {
+  "token": "nāgakesariyattherassāpadānaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasamālattheraapadāna",
+  "freq": 1
+ },
+ {
+  "token": "nāgasamālattheraapadānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgadantaka",
+  "freq": 1
+ },
+ {
+  "token": "nāgasamālattherassāpadānaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasamālattherassāpadānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgapallavattherassāpadānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasamālavaggo",
+  "freq": 1
+ },
+ {
+  "token": "nāgadānassidaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgapallavattherassāpadānaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasaṁsevitaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasaṃsevitaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasaṁyuttaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgabhavanā",
+  "freq": 1
+ },
+ {
+  "token": "nāgadānaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgapallavattheraapadānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgapallavattheraapadāna",
+  "freq": 1
+ },
+ {
+  "token": "nāgavatikānaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgapabbatavāsīpadhāniyatissattherassa",
+  "freq": 1
+ },
+ {
+  "token": "nāgāni",
+  "freq": 1
+ },
+ {
+  "token": "nāgavatikānaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasenan",
+  "freq": 1
+ },
+ {
+  "token": "nāgasenapañha",
+  "freq": 1
+ },
+ {
+  "token": "nāgaṃva",
+  "freq": 1
+ },
+ {
+  "token": "nāgasenasaddo",
+  "freq": 1
+ },
+ {
+  "token": "nāgasenasaddoyeva",
+  "freq": 1
+ },
+ {
+  "token": "nāgaṁva",
+  "freq": 1
+ },
+ {
+  "token": "nāgasenattheraṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasenattheraṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasenavisajjanaṁ",
+  "freq": 1
+ },
+ {
+  "token": "nāgasenavisajjanaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgampi",
+  "freq": 1
+ },
+ {
+  "token": "nāgabalāpaṇṇarasavaṇṇaṃ",
+  "freq": 1
+ },
+ {
+  "token": "nāgamoti",
+  "freq": 1
+ }
+]

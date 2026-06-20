@@ -1,0 +1,9 @@
+scanned 12283 substring-nāg rows; 3909 rows carry a genuine nāga token
+layer	rows	genuine_occ	windows
+mula	935	5109	2356
+attha	2027	3155	2117
+tika	672	947	686
+anya	275	1136	677
+TOTAL	3909	10347	5836
+
+windows.json size: 3802 KB

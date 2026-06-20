@@ -1,0 +1,10 @@
+rows: 3909  |  auto-coded: 1167  |  need agent: 2742
+
+prov_referent	mula	attha	tika	anya	total
+serpent	64	441	60	34	599
+elephant	44	113	54	11	222
+person	285	72	33	5	395
+tree	16	40	8	7	71
+citizen	7	204	29	27	267
+ambiguous	488	1136	484	163	2271
+mixed	31	21	4	28	84
