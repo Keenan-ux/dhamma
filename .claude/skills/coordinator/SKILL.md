@@ -108,8 +108,11 @@ fire-and-forget. Hard rules:
   to the next, don't halt the run; the end condition is the measurable STOPPING
   CRITERION, never a check-in.
 - For long backlogs, point the worker at the /continuous-research autonomy
-  discipline (commit-don't-push, no-ScheduleWakeup, phase order) so the overnight
-  run is durable.
+  discipline (no-ScheduleWakeup, phase order) so the overnight run is durable. An
+  unattended worker may commit-don't-push (it can't resolve auth/conflicts alone),
+  but that makes pushing the COORDINATOR's standing job: sweep the worker's
+  branches/worktrees for committed-not-pushed units and push each once verified,
+  in real time, so unshipped work never piles up unseen.
 - Dhamma-specific: long embed/ingest runs MUST launch detached
   (`Start-Process -WindowStyle Hidden`, not a harness-tracked task) so a Claude
   Code restart can't kill them; size GPU batches by memory budget (BGE-M3
@@ -164,8 +167,22 @@ a frontend feature are cleanly parallelizable; two edits to `search.js` are not.
   (This battery exists because a per-work attribution lookup once published a
   false "0 of 299" headline; the rule was present, the verification step was not.)
 - A detected bias/defect is a problem to SOLVE, not a caveat to surface.
-- Commit per unit; do not push unless explicitly asked. Sub-chats on shared
-  files keep edits additive; reconcile at merge (nothing pushed → local resolve).
+- PUSH IS THE COORDINATOR'S JOB, IN REAL TIME. Commit per unit, and once you
+  have independently VERIFIED a unit (yours or a sub-chat's), PUSH it. Do not let
+  verified commits sit unpushed accumulating into a "what's landed vs what's
+  shipped" tracking burden. Proactively, every few landings, run
+  `git log origin/<branch>..HEAD --oneline` (and check any sub-chat
+  branches/worktrees) for landed-but-unpushed work and push it once verified.
+  Unpushed commits scattered across several chats are how work silently diverges
+  or gets lost on a machine wipe; find them and push them before they bite, do
+  not wait to be asked. Sub-chats on shared files keep edits additive; reconcile
+  at merge.
+- PUSH is not DEPLOY. Pushing to the remote (GitHub) is safe, reversible, and the
+  coordinator owns it outright — do it freely. DEPLOY (shipping to a live/served
+  surface) is the separately-gated action: keep it operator-owned ONLY when it
+  changes a live, published, externally-consumed finding; for ordinary internal
+  changes the coordinator owns the deploy too. When unsure which kind a change is,
+  push now and flag the deploy question, never the reverse.
 - Keep the living doc current — it is worthless stale. Update §state every landing.
 - Don't over-generalize the framework for n=1; lift a reusable template out only
   when a second campaign of the same shape appears.
