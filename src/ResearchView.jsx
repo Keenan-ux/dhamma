@@ -3573,15 +3573,18 @@ const h2 = { fontFamily: SERIF, fontSize: 17, fontWeight: 600, letterSpacing: '0
 const tableCaption = { fontSize: 12.5, fontStyle: 'italic', color: 'var(--bc-text-tertiary)', lineHeight: 1.6, margin: '0 0 12px' };
 
 const tableWrap = { overflowX: 'auto', margin: '6px 0 8px' };
-// overflowWrap:'anywhere' is inherited by every cell: it lets a long unbreakable token
-// (a citation id, a source string, a Pāli compound) break for sizing, so one long source
-// can never widen the whole table. Numeric cells set whiteSpace:'nowrap' and stay on one line.
-const table = { width: '100%', borderCollapse: 'collapse', fontFamily: SERIF, fontSize: 14, fontVariantNumeric: 'tabular-nums', overflowWrap: 'anywhere', wordBreak: 'break-word' };
+// table-layout:'fixed' gives predictable column widths (columns share the container
+// width evenly instead of growing to fit content), so one long source can never widen
+// the whole table; overflowWrap:'anywhere' (inherited by every cell) breaks a long
+// unbreakable token within its column rather than overflowing. Do NOT add
+// wordBreak:'break-word' here: under fixed layout it forces narrow columns to break
+// every character. Numeric cells set whiteSpace:'nowrap' and stay on one line.
+const table = { width: '100%', borderCollapse: 'collapse', fontFamily: SERIF, fontSize: 14, fontVariantNumeric: 'tabular-nums', tableLayout: 'fixed', overflowWrap: 'anywhere' };
 const thLeft = { textAlign: 'left', padding: '8px 10px', borderBottom: '2px solid rgba(var(--bc-accent-rgb), 0.30)', fontWeight: 600, fontSize: 12.5, letterSpacing: '0.04em', color: 'var(--bc-text-secondary)' };
 const thNum = { ...thLeft, textAlign: 'right', whiteSpace: 'nowrap' };
 const tr = { borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.10)' };
 const trTotal = { borderTop: '2px solid rgba(var(--bc-accent-rgb), 0.30)', fontWeight: 600 };
-const tdLeft = { textAlign: 'left', padding: '7px 10px', color: 'var(--bc-text-primary)', overflowWrap: 'anywhere', wordBreak: 'break-word' };
+const tdLeft = { textAlign: 'left', padding: '7px 10px', color: 'var(--bc-text-primary)', overflowWrap: 'anywhere' };
 const tdNum = { textAlign: 'right', padding: '7px 10px', color: 'var(--bc-text-primary)', whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums' };
 // Drill-down: clickable count cells + the panel that lists the instances behind a count.
 const tdNumDot = { textAlign: 'right', padding: '7px 10px', color: 'var(--bc-text-tertiary)' };
@@ -3632,7 +3635,7 @@ const h3 = { fontFamily: SERIF, fontSize: 14.5, fontWeight: 600, letterSpacing: 
 const citeLink = { color: 'var(--bc-accent)', textDecoration: 'none', whiteSpace: 'nowrap', borderBottom: '1px solid rgba(var(--bc-accent-rgb), 0.32)' };
 const citeDead = { color: 'var(--bc-text-tertiary)', fontStyle: 'italic', whiteSpace: 'nowrap' };
 
-const tdLeftSm = { textAlign: 'left', padding: '6px 10px', color: 'var(--bc-text-primary)', fontSize: 13, lineHeight: 1.45, verticalAlign: 'top', overflowWrap: 'anywhere', wordBreak: 'break-word' };
+const tdLeftSm = { textAlign: 'left', padding: '6px 10px', color: 'var(--bc-text-primary)', fontSize: 13, lineHeight: 1.45, verticalAlign: 'top', overflowWrap: 'anywhere' };
 
 const refList = { fontFamily: SERIF, fontSize: 13.5, lineHeight: 1.6, color: 'var(--bc-text-secondary)', margin: '4px 0 8px', padding: '0 0 0 24px', display: 'flex', flexDirection: 'column', gap: 7 };
 const refItem = { paddingLeft: 4 };
