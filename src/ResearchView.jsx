@@ -505,23 +505,25 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 An awakening in the Pāli texts is rarely a private event. Far more often a story
                 carries it: a listener's mind comes free at the close of a talk, an old monk sings
                 the moment his striving ended, a compiler notes in passing that a hearer's dust-free,
-                stainless eye of the Dhamma has opened. This study gathers every such moment in the
-                live corpus ({fmt(194710)} passages) and asks three plain questions of it: who
-                awakens, what occasioned it, and in whose voice the account is given. Of{' '}
+                stainless eye of the Dhamma has opened. This study traces awakening across the layers
+                of the texts, earliest to latest, and asks three plain questions of every such moment
+                in the live corpus ({fmt(194710)} passages): who awakens, when the passage was
+                written, and in whose voice the account is given. Of{' '}
                 {fmt(data.totals.classified)} passages that carry a stock attainment phrase,{' '}
                 {fmt(data.totals.events)} narrate a real awakening; the other {fmt(data.totals.non_events)}{' '}
                 use the phrase doctrinally or abstractly and are set aside.
               </p>
-              <p style={{ marginBottom: 4 }}>
-                What the data seem to say, in brief: awakening here is overwhelmingly an occasioned
-                event rather than the climax of solitary striving. Hearing the Dhamma accounts for{' '}
-                {pct(data.buckets.find((b) => b.key === 'HEARING_DHAMMA')?.count, narrated)} of the
-                events whose occasion is stated, formal striving for about a quarter, and a discrete
-                external trigger (a sight, a fall, a crisis, a change of posture) for only about one
-                in fourteen. And the narrated awakenings sit mostly in the commentaries rather than
-                the canon. The tables that follow sharpen that second point into a finding the bare
-                canon-and-commentary split conceals: even the canonical share is, for this subject,
-                largely a late and narrated stratum.
+              <p style={abstractLead}>
+                The walk climbs the strata in order: the early discourses (a thin floor of plainly
+                narrated breakthroughs, and the one seam where the Buddha stakes his own awakening);
+                the elders' verse (the attainment song, contested in date); the late canon (the bulk,
+                carried almost single-handedly by the Apadāna's autobiographical verse); the edge of
+                the canon (the paracanonical Milindapañha); and the commentary (the Visuddhimagga, the
+                latest layer the survey touches). Of the {fmt(data.totals.events)} awakening events in
+                the whole corpus, {fmt(colTotals.mula)} sit in the canonical division, and it is those
+                {' '}{fmt(colTotals.mula)} the walk follows. Read across the layers, the events the
+                tradition files as canonical turn out to be mostly late by composition and mostly
+                narrated about the awakened, not the early Buddha-word the structural label implies.
               </p>
               <p style={methodNote}>
                 A note on method. Recall is marker-bounded: an awakening told with no stock phrase is
@@ -531,12 +533,273 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 {data.verification.exact_bucket_agreement_pct}% of the exact circumstances and{' '}
                 {data.verification.event_agreement_pct}% on whether a passage narrates an event at
                 all; the small buckets carry real boundary fuzz. Every count is reproducible from the
-                live corpus. Click any circumstance to open its complete, cited list; each citation
-                opens the passage in the reader.
+                live corpus. In the closing census, click any circumstance to open its complete, cited
+                list; each citation opens the passage in the reader.
+              </p>
+
+              {/* ----------------------------------------------------------------
+                  Chronological spine. Each <h2> below names a textual stratum,
+                  earliest to latest, so the contents outline reads diachronically.
+                  The by-stratum and attribution tables (v2) are relocated INTO the
+                  late-canon and commentary sections respectively. All numbers use
+                  the same JSON accesses as before.
+                  ---------------------------------------------------------------- */}
+
+              <h2 style={h2}>In the early discourses</h2>
+              <p>
+                The structural division of the canon invites a particular expectation: that the
+                events filed as canonical are, in the main, the old material, the core around which
+                the later literature gathered. It does not hold even at the oldest floor. Of the{' '}
+                {fmt(colTotals.mula)} events in the canonical division, only{' '}
+                {fmt(data.v2 ? data.v2.stratigraphy.mula_early_vs_late['early-canonical'] : 38)}{' '}
+                belong to the early discourses and the Udāna (Nikāya prose, 33, and the Udāna, 5).
+                These are the awakenings most readers picture when they think of the canon describing
+                its goal: a listener sits through a graduated talk and the eye of the Dhamma opens in
+                him; a wanderer hears a few words and is freed. They are narrated plainly and briefly,
+                by a compiler who does not dwell. The Udāna tells the awakening of Bāhiya
+                (<Cite id="ud1.10">UD 1.10</Cite>) in a few flat lines, the same event the late verse
+                would later unfold across a chain of lives.
+              </p>
+              <p>
+                This early floor is also the one place in the whole census where the Buddha stakes his
+                own awakening. When a text reports an awakening, someone is doing the reporting, and a
+                flat note that a mind was freed has no speaker inside it claiming the event. Counting
+                only the passages whose words are unmistakably the Buddha's, spoken of his own
+                awakening,{' '}
+                {data.v2 ? fmt(data.v2.attribution.buddha_vacana) : '17'} rows do this; once the
+                duplicate edition-copies of a single discourse are merged they resolve to{' '}
+                {data.v2 ? fmt(data.v2.attribution.buddha_vacana_dedup_recollections) : '9'} distinct
+                recollections, among them the Bhayabherava and Dvedhāvitakka accounts
+                (<Cite id="mn4">MN 4</Cite>, <Cite id="mn19">MN 19</Cite>), the long autobiography to
+                Aggivessana (<Cite id="mn36">MN 36</Cite>), the accounts to Prince Bodhi and to
+                Saṅgārava (<Cite id="mn85">MN 85</Cite>, <Cite id="mn100">MN 100</Cite>), the
+                Verañja discourse the Vinaya repeats as its first occasioning-story
+                (<Cite id="an8.11">AN 8.11</Cite>), and the breath-meditation account
+                (<Cite id="sn54.8">SN 54.8</Cite>). On this load-bearing category three readers working
+                independently from the Pāli agreed without a single exception (κ = 1.0). Nor does the
+                Buddha speak only of himself here: within the canonical rows he also declares another's
+                attainment ({data.v2 ? fmt(data.v2.attribution.buddha_declares_another) : '1'} such
+                row, the Buddha telling Mahānāma that Kāḷigodhā's son has entered the stream,{' '}
+                <Cite id="sn55.39">SN 55.39</Cite>), with the Nādika destiny-declarations recurring
+                across 29 mūla rows beyond it. An earlier reading that recorded no such first-person
+                floor at all has been corrected here.
+              </p>
+              <p style={methodNote}>
+                The floor does not prove as much as it might seem. That the Buddha speaks of his
+                awakening in these places does not make awakening his doctrinal subject rather than
+                his biography; most of the {fmt(colTotals.mula)} canonical events remain the
+                compiler's note or the elder's verse. The seam is also a lower bound: the
+                seeker-before-the-night frame, searched in its own right, turns up in some 48 places
+                across the canon, most of them outside this set.
+              </p>
+
+              <h2 style={h2}>In the elders' verse</h2>
+              <p>
+                Climb one layer and the report shifts key. The Theragāthā and Therīgāthā, 59 events
+                between them, are the first stratum where the awakening event becomes the elder's own
+                first-person attainment song, closed by a compiler's colophon naming him
+                (<Cite id="cst-s0508m">Therāpadāna 25 sibling, Th 1.66, Meghiya</Cite>). As a voice it
+                stands between the compiler's flat early notice below it and the elaborated life-verse
+                above it: the awakened person speaking of his own release after the fact. This stratum
+                is genuinely contested in date, archaic in places and late in others, so it is marked
+                register-relative rather than forced to one side. The lopsided shape that follows does
+                not depend on where it falls, because the Apadāna alone already makes the late material
+                the larger part. Read as early rather than late, the floor would grow at most by these
+                59; even then the late bulk above stays the larger part.
+              </p>
+
+              <h2 style={h2}>In the late canon</h2>
+              <p>
+                The bulk of the canonical census lives here. The events that carry the canonical tag
+                while composing late do not come from the discourses in the main but from the verse
+                and exegetical anthologies the tradition gathered into the canon at a later stage. One
+                stratum dominates the rest several times over: the Apadāna, 162 events, first-person
+                verse in which a named elder traces a past good deed forward to his present release.
+                This single late-canonical work supplies more than half of all{' '}
+                {fmt(colTotals.mula)} canonical events and more than four times the entire early floor.
+                Joined to it are the lineage verse of the Buddhavaṁsa (8,{' '}
+                <Cite id="cst-s0511m">Bv 10, Padumabuddhavaṁsa</Cite>), the late exegesis of the
+                Niddesa (3, <Cite id="cnd5">Cnd 5</Cite>), the celestial-mansion verse of the
+                Vimānavatthu (2), and the Vinaya occasioning-stories (6,{' '}
+                <Cite id="pli-tv-kd1">Vin Mahāvagga nidāna</Cite>), where an awakening is staged inside
+                a frame-story that explains how a monastic rule came to be laid down. The shape of this
+                list is the finding: the place the canon most often files an awakening is not its old
+                doctrinal prose but its late autobiographical verse.
+              </p>
+              <p>
+                The structural mūla tag is a position in the edited corpus, not a date. Coding each
+                canonical event by the chronological stratum of its work, independently of the
+                mūla / aṭṭhakathā / ṭīkā layer, makes the gradient explicit: only{' '}
+                {fmt(data.v2 ? data.v2.stratigraphy.mula_early_vs_late['early-canonical'] : 38)} of the{' '}
+                {fmt(colTotals.mula)} canonical awakening events are early-canonical; the other{' '}
+                {fmt(data.v2 ? data.v2.stratigraphy.mula_early_vs_late['late-or-later'] : 261)} carry
+                the mūla tag while coding late-canonical, paracanonical, or commentary-era.
+              </p>
+
+              {/* Table 2b relocated: the by-stratum re-split lives in the late-canon section. */}
+              {data.v2 && (
+                <>
+                  <p style={tableCaption}>
+                    Table. The canon, re-split by chronological stratum. The single largest canonical
+                    class, the Apadāna, is late-canonical autobiographical verse. Full paper:
+                    research/awakening/FINDINGS-v2.md.
+                  </p>
+                  <div style={tableWrap}>
+                    <table style={table}>
+                      <thead>
+                        <tr>
+                          <th style={thLeft}>Work (canonical class)</th>
+                          <th style={thNum}>Events</th>
+                          <th style={thLeft}>Chronological stratum</th>
+                          <th style={thLeft}>Layer/stratum disagree</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Object.entries(data.v2.stratigraphy.class_strata)
+                          .sort((a, b) => b[1].events - a[1].events)
+                          .map(([work, d]) => (
+                            <tr key={work} style={tr}>
+                              <td style={tdLeft}>{work}</td>
+                              <td style={tdNum}>{fmt(d.events)}</td>
+                              <td style={tdLeft}>{d.stratum}</td>
+                              <td style={tdLeft}>{['early-canonical', 'archaic-canonical'].includes(d.stratum) ? 'no' : 'yes'}</td>
+                            </tr>
+                          ))}
+                        <tr style={trTotal}>
+                          <td style={tdLeft}>All canonical events</td>
+                          <td style={tdNumStrong}>{fmt(colTotals.mula)}</td>
+                          <td style={tdLeft}>
+                            {fmt(data.v2.stratigraphy.mula_early_vs_late['early-canonical'])} early,{' '}
+                            {fmt(data.v2.stratigraphy.mula_early_vs_late['late-or-later'])} late-or-later
+                          </td>
+                          <td style={tdLeft}>{fmt(data.v2.stratigraphy.mula_early_vs_late.layer_stratum_disagree)} of {fmt(colTotals.mula)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
+
+              <p>
+                It is one thing to read 162 as a number and another to read one of the 162 as a life.
+                Consider the elder whose verse opens the Apadāna's collection, the one who went for
+                refuge to the Three Refuges (<Cite id="cst-s0510m1.mul-kn10_1">Therāpadāna 25,
+                Tisaraṇagamaniya</Cite>). He tells his story from its root: lifetimes ago, in the city
+                of Candavatī, he was a man who looked after his mother and his father. That ordinary
+                care is the seed of the whole account, and the verse follows its fruit across the long
+                round of rebirths down to the life in which the elder says, plainly and in his own
+                voice, that he attained arahantship. Set beside the Bāhiya notice from the early floor,
+                the difference in key is plain: the same event the early stratum records almost in
+                passing, the late verse unfolds across a chain of lives. The biographical impulse, in
+                other words, does not wait for the commentary to begin; it is already at work inside
+                the late canon, gathering and celebrating the lives of those who awoke.
+              </p>
+
+              <h2 style={h2}>On the edge of the canon</h2>
+              <p>
+                The descent runs one step past the Tipiṭaka into the Milindapañha, 4 events,
+                paracanonical dialogue sitting on the very edge of the canon proper, where a later
+                author casts doctrine as the give-and-take of a king and a monk
+                (<Cite id="cst-s0518m">Mil 3.7.3, Nāgasena's dialogue</Cite>). The voice here is the
+                named-disciple dialogue: the awakening is set inside the exchange of King Milinda and
+                the elder Nāgasena. It is a thin stratum, kept distinct because it is its own point on
+                the timeline, and it carries the line cleanly across the canon's outer boundary into
+                the latest material the survey touches.
+              </p>
+
+              <h2 style={h2}>In the commentary</h2>
+              <p>
+                The walk ends at the latest material the survey reaches. The Visuddhimagga, 17 events,
+                is classical commentary that the structural shelving nonetheless files as canonical
+                (<Cite id="cst-e0102n.mul-4_p042">Vism 4 §42</Cite>), the clearest case where a text's
+                structural file and its composition date pull in opposite directions. Its voice is the
+                compiler's flat note, a narrator simply telling us a listener's mind came free, the
+                same plain frame that opens the early floor, now arriving many centuries later. By the
+                time genuine commentary appears the narrated mode has been running since the late
+                canon, layers earlier: the line between a spare doctrinal canon and an elaborating
+                commentary is real, but for this subject it falls partly inside the canonical shelf
+                itself rather than at its edge.
+              </p>
+
+              {/* Table 2c relocated: the attribution split lives in the commentary section,
+                  where the four-voices arithmetic completes. */}
+              {data.v2 && (
+                <>
+                  <p style={tableCaption}>
+                    Table. Who narrates the awakening (attribution), coded per claim, one row at a
+                    time. Most of the {fmt(colTotals.mula)} canonical awakening events are
+                    narrated about the awakened, redactor-narrated frames or the awakened elder's own
+                    hagiographic verse. But {fmt(data.v2.attribution.buddha_vacana)} rows
+                    ({fmt(data.v2.attribution.buddha_vacana_dedup_recollections)} distinct,
+                    deduplicated recollections) are the Buddha asserting his own awakening in the first
+                    person, and the Buddha also declares others' attainments
+                    ({fmt(data.v2.attribution.buddha_declares_another)} within this set; the Nādika
+                    destiny declarations across 29 mūla rows beyond it). Confirmed per-row by three
+                    independent blind coders (κ = 1.0).
+                  </p>
+                  <div style={tableWrap}>
+                    <table style={table}>
+                      <thead>
+                        <tr>
+                          <th style={thLeft}>Attribution (narrating voice)</th>
+                          <th style={thNum}>Events</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Object.entries(data.v2.attribution.mula_attribution_split).sort((a, b) => b[1] - a[1])
+                          .map(([k, v]) => (
+                            <tr key={k} style={tr}>
+                              <td style={tdLeft}>{k}</td>
+                              <td style={tdNum}>{fmt(v)}</td>
+                            </tr>
+                          ))}
+                        <tr style={trTotal}>
+                          <td style={tdLeft}>All canonical events</td>
+                          <td style={tdNumStrong}>{fmt(colTotals.mula)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p style={methodNote}>
+                    The voices sorted across the five layers resolve into four ways of telling. The
+                    elder's own life-verse of the Apadāna carries 162; the disciple's own report of the
+                    Theragāthā and Therīgāthā, 59; the compiler's flat note, 46; and the lineage and
+                    dialogue verse, 14 (the 10 lineage and frame verse of the Buddhavaṁsa and
+                    Vimānavatthu, joined by the 4 dialogue rows of the Milindapañha). These four
+                    together carry 281 of the {fmt(colTotals.mula)}. Add the
+                    {' '}{fmt(data.v2.attribution.buddha_vacana)} rows of the Buddha's own word and the
+                    single row in which he declares another's stream-entry, and the
+                    {' '}{fmt(colTotals.mula)} close. In each of the four, the awakening is something a
+                    third party records or something the awakened person celebrates after the fact, not
+                    the Buddha staking his own awakening as a claim.
+                  </p>
+                </>
+              )}
+
+              {/* ----------------------------------------------------------------
+                  The complete census. The data-explorer blocks (by-circumstance
+                  tables, who-awakens tables, and the per-bucket cited lists) sit
+                  here as <h3> under one trailing <h2>, with every interaction
+                  intact.
+                  ---------------------------------------------------------------- */}
+              <h2 style={h2}>The complete census</h2>
+              <p style={tableCaption}>
+                The full data explorer behind the walk above. The same {fmt(data.totals.events)} events,
+                sorted three further ways: by what occasioned each awakening, by structural layer, and
+                by who attained it. Every figure is reproducible from the live corpus, and every cited
+                list expands to its rows, each citation opening the passage in the reader.
               </p>
 
               {/* Table 1: by circumstance */}
-              <h2 style={h2}>Table 1. Awakening events by precipitating circumstance</h2>
+              <h3 style={h3}>By precipitating circumstance</h3>
+              <p style={tableCaption}>
+                Awakening here is overwhelmingly an occasioned event rather than the climax of solitary
+                striving. Hearing the Dhamma accounts for{' '}
+                {pct(data.buckets.find((b) => b.key === 'HEARING_DHAMMA')?.count, narrated)} of the
+                events whose occasion is stated, formal striving for about a quarter, and a discrete
+                external trigger (a sight, a fall, a crisis, a change of posture) for only about one in
+                fourteen.
+              </p>
               <div style={tableWrap}>
                 <table style={table}>
                   <thead>
@@ -569,10 +832,10 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 </table>
               </div>
 
-              {/* Table 2: canon vs commentary (the crucial split) */}
-              <h2 style={h2}>Table 2. Canon versus commentary, by circumstance</h2>
+              {/* Table 2: canon vs commentary (the structural layer split) */}
+              <h3 style={h3}>By structural layer</h3>
               <p style={tableCaption}>
-                The crux of the study: where each kind of awakening is narrated. The canon
+                Where each kind of awakening is narrated, by structural layer. The canon
                 states the Dhamma; the commentaries supply the biography.
               </p>
               <div style={tableWrap}>
@@ -615,112 +878,12 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 only {fmt(colTotals.mula)} ({pct(colTotals.mula, data.totals.events)}) are in the canon itself.
               </p>
 
-              {/* The provenance-signature retrofit (v2): the canon column of
-                  Table 2 is one structural projection. Coding chronological
-                  stratum and attribution independently of the mūla tag re-splits
-                  the 299 "canonical" events. Self-hides if the v2 block is
-                  absent from the dataset. */}
-              {data.v2 && (
-                <>
-                  <h2 style={h2}>Table 2b. The canon, re-split by chronological stratum</h2>
-                  <p style={tableCaption}>
-                    The structural mūla tag is a position in the edited corpus, not a date. Coding
-                    each canonical event by the chronological stratum of its work, independently of
-                    the mūla / aṭṭhakathā / ṭīkā layer, shows that only{' '}
-                    {fmt(data.v2.stratigraphy.mula_early_vs_late['early-canonical'])} of the{' '}
-                    {fmt(colTotals.mula)} canonical awakening events are early-canonical; the other{' '}
-                    {fmt(data.v2.stratigraphy.mula_early_vs_late['late-or-later'])} carry the mūla
-                    tag while coding late-canonical, paracanonical, or commentary-era (the
-                    layer/stratum disagreement). The single largest canonical class, the Apadāna, is
-                    late-canonical autobiographical verse. Full paper: research/awakening/FINDINGS-v2.md.
-                  </p>
-                  <div style={tableWrap}>
-                    <table style={table}>
-                      <thead>
-                        <tr>
-                          <th style={thLeft}>Work (canonical class)</th>
-                          <th style={thNum}>Events</th>
-                          <th style={thLeft}>Chronological stratum</th>
-                          <th style={thLeft}>Layer/stratum disagree</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Object.entries(data.v2.stratigraphy.class_strata)
-                          .sort((a, b) => b[1].events - a[1].events)
-                          .map(([work, d]) => (
-                            <tr key={work} style={tr}>
-                              <td style={tdLeft}>{work}</td>
-                              <td style={tdNum}>{fmt(d.events)}</td>
-                              <td style={tdLeft}>{d.stratum}</td>
-                              <td style={tdLeft}>{['early-canonical', 'archaic-canonical'].includes(d.stratum) ? 'no' : 'yes'}</td>
-                            </tr>
-                          ))}
-                        <tr style={trTotal}>
-                          <td style={tdLeft}>All canonical events</td>
-                          <td style={tdNumStrong}>{fmt(colTotals.mula)}</td>
-                          <td style={tdLeft}>
-                            {fmt(data.v2.stratigraphy.mula_early_vs_late['early-canonical'])} early,{' '}
-                            {fmt(data.v2.stratigraphy.mula_early_vs_late['late-or-later'])} late-or-later
-                          </td>
-                          <td style={tdLeft}>{fmt(data.v2.stratigraphy.mula_early_vs_late.layer_stratum_disagree)} of {fmt(colTotals.mula)}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <h2 style={h2}>Table 2c. Who narrates the awakening (attribution)</h2>
-                  <p style={tableCaption}>
-                    The illocutionary owner of the attainment-claim, coded per claim (per row, not
-                    per work-class). Most of the {fmt(colTotals.mula)} canonical awakening events are
-                    narrated about the awakened, redactor-narrated frames or the awakened elder's own
-                    hagiographic verse. But {fmt(data.v2.attribution.buddha_vacana)} rows
-                    ({fmt(data.v2.attribution.buddha_vacana_dedup_recollections)} distinct,
-                    deduplicated recollections) are the Buddha asserting his own awakening in the
-                    first person, and the Buddha also declares others' attainments
-                    ({fmt(data.v2.attribution.buddha_declares_another)} within this set; the
-                    Nādika destiny declarations across 29 mūla rows beyond it). An earlier pass coded
-                    this axis by work-class and wrongly recorded zero Buddha-vacana; the count is now
-                    per-row, confirmed by three independent blind coders (IAA κ=1.0).
-                  </p>
-                  <div style={tableWrap}>
-                    <table style={table}>
-                      <thead>
-                        <tr>
-                          <th style={thLeft}>Attribution (narrating voice)</th>
-                          <th style={thNum}>Events</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Object.entries(data.v2.attribution.mula_attribution_split).sort((a, b) => b[1] - a[1])
-                          .map(([k, v]) => (
-                            <tr key={k} style={tr}>
-                              <td style={tdLeft}>{k}</td>
-                              <td style={tdNum}>{fmt(v)}</td>
-                            </tr>
-                          ))}
-                        <tr style={trTotal}>
-                          <td style={tdLeft}>All canonical events</td>
-                          <td style={tdNumStrong}>{fmt(colTotals.mula)}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <p style={methodNote}>
-                    Read claim by claim rather than by work-class, the canonical awakening corpus is
-                    mostly narrated about the awakened, with a small but genuine floor of the Buddha's
-                    own first-person word and a few passages in which he declares another's attainment.
-                    An earlier reading that found no such first-person floor at all has been corrected
-                    here; the stratigraphy above, a late and narrated canonical stratum, is unchanged.
-                  </p>
-                </>
-              )}
-
               {/* A third lens: who attains, not what occasions it. Built from
                   the being-classification overlay (deduped named individuals +
                   a collective taxonomy). Self-hides until the overlay loads. */}
               {beings && beings.individuals && beings.individuals.length > 0 && (
                 <>
-                  <h2 style={h2}>Table 3. Who awakens: named individuals</h2>
+                  <h3 style={h3}>Who awakens: named individuals</h3>
                   <p style={tableCaption}>
                     A third lens, not what occasions awakening but who attains it. Every named
                     person across the events, deduplicated (spelling and title variants merged,
@@ -793,7 +956,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
 
               {beings && beings.collectives && beings.collectives.length > 0 && (
                 <>
-                  <h2 style={h2}>Table 4. Collective and anonymous awakenings</h2>
+                  <h3 style={h3}>Collective and anonymous awakenings</h3>
                   <p style={tableCaption}>
                     Events whose subject is a group or an unnamed person, classified by kind.
                     Click a class for its events; each row keeps the original description (a
@@ -833,7 +996,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
               )}
 
               {/* Complete cited lists, one section per circumstance */}
-              <h2 style={h2}>Complete cited list</h2>
+              <h3 style={h3}>Complete cited list</h3>
               <p style={tableCaption}>
                 Every event, grouped by circumstance. Each citation opens the passage in the
                 reader. The evidence column quotes the phrase that justifies the classification.
@@ -2661,22 +2824,31 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 the Pāli texts take for granted, lies Uttarakuru: the northern of the four great continents,
                 where no one owns anything, where rice ripens unsown, and where people live a fixed,
                 untroubled span. It is easy to file this with the heavens and hells, but the texts place it on
-                the human plane, a far country reached only across an ocean. This study gathers every
-                Uttarakuru-bearing passage in the corpus ({nCensus} rows), reads {nFeat} distinct features of
-                the continent across the layers of the literature, and asks where the picture of it actually
-                sits and how firmly the texts commit to it. The shape that emerges qualifies the familiar
-                division between a thin canon and a thick commentary. The picture grows more concrete as the
-                texts grow later, and that deepening seems to be under way inside the late canon rather than
-                waiting for the commentary; the geography is stated as assumed background and never staked
-                under the canon's own test of directly-verified knowledge; and the ethnography is inherited
-                and broadly shared, while the soteriological judgement built on it appears, on the evidence to
-                hand, only in the Pāli. The canon supplies the frame, a continent of ownerless, long-lived
-                rice-eaters who surpass even the gods in non-grasping yet lack the holy life (AN 9.21); the
-                self-ripening rice is the same rice, word for word, as the canon's own golden age (DN 27); and
-                the canonical list of inopportune births for the holy life never names Uttarakuru at all
-                (AN 8.29). It is the commentary, not the canon, that names the Uttarakurukas incapable of the
-                path, groups them with Māra, and reads their effortless virtue as the reason it cannot be
-                cultivated. The decisive addition seems to be soteriological rather than ethnographic.
+                the human plane, a far country reached only across an ocean. This study traces the continent
+                across the layers of the texts, earliest to latest. It gathers every Uttarakuru-bearing
+                passage in the corpus ({nCensus} rows), reads {nFeat} distinct features of the continent, and
+                asks where the picture of it actually sits and how firmly the texts commit to it. The shape
+                that emerges qualifies the familiar division between a thin canon and a thick commentary. The
+                picture grows more concrete as the texts grow later, and that deepening seems to be under way
+                inside the late canon rather than waiting for the commentary; the geography is stated as
+                assumed background and never staked under the canon's own test of directly-verified knowledge;
+                and the ethnography is inherited and broadly shared, while the soteriological judgement built
+                on it appears, on the evidence to hand, only in the Pāli. The canon supplies the frame, a
+                continent of ownerless, long-lived rice-eaters who surpass even the gods in non-grasping yet
+                lack the holy life (AN 9.21); the self-ripening rice is the same rice, word for word, as the
+                canon's own golden age (DN 27); and the canonical list of inopportune births for the holy life
+                never names Uttarakuru at all (AN 8.29). It is the commentary, not the canon, that names the
+                Uttarakurukas incapable of the path, groups them with Māra, and reads their effortless virtue
+                as the reason it cannot be cultivated. The decisive addition seems to be soteriological rather
+                than ethnographic.
+              </p>
+              <p>
+                What follows reads the continent forward through the strata in which it is described,
+                earliest to latest: in the early discourses, a name in a list; in the late canon, a place
+                described and then visited; in the Abhidhamma, the boundary debated; in the commentaries, the
+                place measured and the verdict named; and in the sub-commentaries and the modern reading, the
+                bar re-hardened. A trailing section opens the full feature-by-feature census beneath that
+                narrative for any reader who wants the underlying enumeration.
               </p>
 
               {ag.mula_early_vs_late && (
@@ -2726,16 +2898,47 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 codings were reconciled; agreement was {rel.unanimous_h0h1} of {rel.features} on the
                 canon-versus-commentary reading (Fleiss <em>κ</em> = {rel.fleiss_kappa}, almost perfect) and
                 {' '}{rel.warrant_agreement} on the warrant. Every "no canonical warrant" reading means none
-                was located, not that none can exist; the Limitations state the recall floor that bounds it.
+                was located, not that none can exist; the limitations note states the recall floor that bounds it.
               </p>
 
-              <h2 style={h2}>One term, three referents</h2>
+              <h2 style={h2}>In the early discourses</h2>
               <p>
-                A bare search is a trap, in two ways. The exact-match index finds {dis.exact_fts} rows. A
-                substring search with a short final <em>u</em> finds {dis.short_u_substring}, but it silently
-                drops the long-<em>ū</em> declined forms, <em>uttarakurūnaṃ</em> and <em>uttarakurūsu</em>,
-                and those carry the canonical four-continent cosmology (AN 3.80, AN 10.29). Only the stem
-                <em> uttarakur</em> finds the full
+                At the earliest layer the continent is barely more than a name. The most common error a modern
+                reader brings to Uttarakuru is to imagine it as a separate world floating in space, or as one
+                more destiny in the cycle of rebirth beside the heavens and hells. The early texts draw both
+                lines differently. Uttarakuru is one of four continents set in a single ocean around one
+                central mountain, and the people born there are <em>manussā</em>, "humans," the same word the
+                texts use for us; in the comparison that ranks them, the gods are named as a separate class,
+                never folded in with the continent-dwellers. So the early cosmos has a horizontal axis, the
+                human plane spread across four continents in their salt sea, and a vertical one, the ladder of
+                rebirth-destinies. Uttarakuru sits on the horizontal axis, a far country on the same earth
+                reached only across the water, and that placement, not any later detail, is what the early
+                canon actually warrants.
+              </p>
+              <p>
+                The early-canonical floor is small and not uniform. Three discourses carry it. In two, the
+                Cūḷanikāsutta and the Paṭhamakosalasutta (AN 3.80, AN 10.29), the name does the least possible
+                work: Uttarakuru is one entry in a nested cosmology of a thousand world-systems, named off as
+                one of the four and nothing more. The third, the Tiṭhānasutta (AN 9.21), is different in kind,
+                and already carries the asymmetry the whole question turns on. The Uttarakuru humans surpass
+                both the gods of the Thirty-Three and the humans of our own continent in three respects, while
+                our continent surpasses both in three respects of which the third is <em>idha
+                brahmacariyavāso</em>, "the holy life is lived here." Even here the inhabitants get only bare
+                predicate-words, without mine-making, without possessions, of fixed life-span, and the span,
+                though fixed, is given no figure. The early canon offers a named continent, a propertyless
+                people, a fixed-but-unmeasured life, and the bare soteriological ranking; nothing is located
+                precisely, measured, visited, or described. Once a row's stratum is read from its work rather
+                than its shelf, this early floor is the{' '}
+                <strong>{ag.mula_early_vs_late['early-canonical']}</strong> of the {ag.layer_count.mula}{' '}
+                structurally-canonical rows where shelving and composition agree; the other{' '}
+                {ag.mula_early_vs_late['late-or-later']} read later than they are filed.
+              </p>
+              <p>
+                A bare search is a trap, in two ways, and the way the continent was searched is itself part of
+                the floor. The exact-match index finds {dis.exact_fts} rows. A substring search with a short
+                final <em>u</em> finds {dis.short_u_substring}, but it silently drops the long-<em>ū</em>
+                declined forms, <em>uttarakurūnaṃ</em> and <em>uttarakurūsu</em>, and those carry the canonical
+                four-continent cosmology (AN 3.80, AN 10.29). Only the stem <em> uttarakur</em> finds the full
                 {' '}{dis.by_layer.mula + dis.by_layer.attha + dis.by_layer.tika + dis.by_layer.anya}. The
                 lesson is the study's own: a proper-name search is a recall instrument, and a careless one
                 under-counts exactly the canonical stratum. And the syllable <em>kuru</em> then blurs three
@@ -2757,17 +2960,32 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                   five-precept observance from migrants out of Uttarakuru continent.</p>
               </div>
 
-              <h2 style={h2}>Two canonical checks</h2>
+              <h2 style={h2}>In the late canon</h2>
               <p>
-                Before the matrix, two controls fix where the canon stands, because both bear on what counts
-                as a commentarial addition. First, the self-ripening rice is not unique to Uttarakuru: the
-                Aggañña-sutta gives the identical formula for the cosmic golden age, so the Uttarakuru
-                ethnography recapitulates a canonical template the commentary then echoes. Second, and more
-                consequentially, the canonical inopportune-birth list, the eight <em>akkhaṇā asamayā
-                brahmacariyavāsāya</em>, does not name Uttarakuru at all. This is the engine behind AN 9.21's
-                "the holy life is lived here" and the topos that no Buddha arises outside Jambudīpa; the canon
-                runs it without the Uttarakurukas in the list. Their place in it, on the enumerated evidence,
-                is the commentary's doing.
+                Above the early floor the literal-place reading thickens, and on the corpus's stratum map it
+                begins to thicken before any commentary speaks. First the continent is described: located by
+                Mount Neru and peopled by humans who eat rice that ripens unsown, in the late protective chant
+                of the Āṭānāṭiya (DN 32). The register is the load-bearing fact here, since a protective chant
+                tolerates a vivid concretisation that doctrinal-analytical prose does not, and the late canon's
+                first solid picture of the place comes to us inside one. Then the continent is visited: in the
+                verse of the Apadāna it is named in a roll of lands the arahants reach, and in the Vinaya's
+                frame-narratives it becomes a place the Buddha flies to for alms. In the famine at Verañjā the
+                elder Moggallāna offers to lift the whole community to Uttarakuru where the rice ripens unsown,
+                and the Buddha forbids it; the land of effortless plenty is refused in favour of staying where
+                the going is hard. The measured place, eight thousand yojanas across, and the exact
+                thousand-year span belong one layer further out, to the commentary.
+              </p>
+              <p>
+                The picture the late canon supplies is, for the most part, not the Pāli's own invention. Its
+                defining motif, a people who neither sow nor plough and eat rice that ripens of itself
+                (<em>akaṭṭhapāka-sāli</em>, "unploughed-ripening rice"), is the golden-age rice of the Aggañña
+                account recapitulated, and that template is bedrock across recensions, resolving to witnesses
+                in the Mahāvastu, a non-Pāli Vinaya, and Chinese. The described container travels too: the
+                protective chant that gives Uttarakuru its mountain and its rice resolves to a Chinese
+                parallel. But the external witness buys antiquity, not warrant. The described place is still
+                flat background inside a ritual chant, never staked under any verification formula, and a
+                parallel in another recension does nothing to upgrade that. Two short controls fix where the
+                canon stands, and both bear on what later counts as a commentarial addition.
               </p>
               {['agganna_parallel', 'akkhana_control'].map((k) => {
                 const blk = data.context[k];
@@ -2782,8 +3000,113 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                   </p>
                 );
               })}
+              <p>
+                The first control is the self-ripening rice: it is not unique to Uttarakuru, since the
+                Aggañña-sutta gives the identical formula for the cosmic golden age, so the ethnography
+                recapitulates a canonical template the commentary then echoes. The second, more
+                consequentially, is the canonical inopportune-birth list, the eight <em>akkhaṇā asamayā
+                brahmacariyavāsāya</em>, which does not name Uttarakuru at all. That list is the engine behind
+                AN 9.21's "the holy life is lived here," and the canon runs it without the Uttarakurukas; their
+                place in it, on the enumerated evidence, is the commentary's doing. The gradient here is held
+                with a guard: the late assignments of DN 32 and the Vinaya alms-flight rest on a chant-genre
+                label and a frame-story position, not on a date, and are coded at lower confidence, so the
+                deepening is best stated as register-relative rather than as a proven chronology.
+              </p>
 
-              <h2 style={h2}>The feature matrix</h2>
+              <h2 style={h2}>In the Abhidhamma</h2>
+              <p>
+                Alongside the late-canonical narrative branch runs a second late-canonical branch, scholastic
+                rather than descriptive, and it is here that the canon first argues the question its later
+                layers will turn into the verdict against Uttarakuru. The category in play is that of the
+                <em> acchandika</em>, "lacking the wholesome desire-to-act," and the being <em>abhabba niyāmaṃ
+                okkamituṃ</em>, "incapable of entering the path's certainty." It lives in the Kathāvatthu's
+                Suddhabrahmacariya discussion, where it is deployed in a reductio aimed at the gods, not at the
+                Uttarakurukas. The finding to mark is that within that long passage the disqualifying category
+                and the continent's name fall in two wholly separate places: the canon possesses the category
+                that will later bar the continent's people, but it spends that category on the devas and never
+                joins it to the name. This is the first move of a longer trajectory. The Abhidhamma supplies
+                the category; the act of pinning it to the continent waits for the layer above.
+              </p>
+
+              <h2 style={h2}>In the commentaries</h2>
+              <p>
+                Two things happen at the commentarial layer, and they pull in different directions. On the
+                descriptive side the continent is finally measured: the Visuddhimagga gives it eight thousand
+                yojanas across, each great continent ringed by five hundred small islands, and the canon's bare
+                "fixed span" is closed to a figure, "settled at just a thousand years," a number the commentary
+                supplied rather than recovered (the one canonical row pairing "a thousand years" with the
+                continent assigns those years to a flowering creeper, not to the people). On the soteriological
+                side the commentary at last names the verdict, identifying the Uttarakurukas with the
+                disqualifying category the Abhidhamma had left unattached. This is the layer where the picture
+                is most concrete, and so the right place to gather the thread that has run flat under every
+                layer so far: the texts run an elaborate machinery for grading where a being is reborn and for
+                marking whether such knowledge is directly seen, and the northern continent is never once
+                placed inside it as a thing verified. The place becomes walkable, measurable, peopled, and
+                ranked, and through all of it the geography keeps the same flat key. Of everything the texts say
+                about Uttarakuru, the verified column is empty.
+              </p>
+              <p>
+                If the descriptive furniture is borrowed, the judgement built on it is, on the evidence to
+                hand, not. The whole soteriological load rests on AN 9.21, where the most fortunate humans in
+                the cosmos hold precisely the comforts of virtue while the path is reserved for our own
+                continent. In the corpus's reference table this load-bearing sutta has no non-Pāli parallel, so
+                the specific ranking reads as local to the Pāli, and the move that fixes it sharpest is the
+                commentary's. The guard belongs in print: "no linked parallel" is not "Theravāda-invented." A
+                missing parallel is evidence about the reference table, which under-covers exactly the
+                scholastic and cosmological genre where the likeliest analogue would sit, not affirmative
+                evidence about the other early traditions. The right reading is Pāli-local pending
+                verification, never Pāli-unique. A second, smaller commentarial move belongs here too: one
+                canonical verse of remembered deeds says the speaker was reborn "in the Kurus"
+                (<em>kurūsu</em>), which defaults to the Kuru country of the Indian plain, and only the
+                commentary reads that locative into the continent. The same habit runs through the study, the
+                later layer supplying what the canon leaves bare.
+              </p>
+
+              <h2 style={h2}>In the sub-commentaries and modern reading</h2>
+              <p>
+                The shallow end of the timeline completes the trajectory the canon began and the commentary
+                advanced. Where the Kathāvatthu had softened the disqualifying category for the gods, and the
+                commentary had pinned it to the Uttarakurukas, the sub-commentary re-hardens it against them,
+                grouping the continent's people <em>mārādayo viya</em>, "like Māra and the rest," among those
+                for whom the path is closed. In the same layer the continent takes its final shape, the square
+                (<em>pīṭha</em>-shaped) continent whose inhabitants' faces match its outline, and the same hand
+                finishes the <em>kurūsu</em>-as-Uttarakuru gloss. The full trajectory can now be stated whole:
+                the canon debates the bar and softens it for the gods, the commentary identifies the
+                Uttarakurukas with the barred category, and the sub-commentary re-hardens the bar against them
+                in the same breath the canon had used to relieve the devas.
+              </p>
+              <p>
+                It is worth a word on the vocabulary, because much of it is a modern frame the Pāli does not
+                carry. The analytic terms throughout, "ethnography," "cosmology," "plane versus realm," "salt
+                water versus space," "literal versus symbolic," are a modern overlay laid over a Pāli that says
+                its own words. So is the reception of the nested thousandfold cosmology, the <em>lokadhātu</em>
+                {' '}a modern reader is tempted to render "galaxy." And the "fortune, therefore disability"
+                reading drawn across these layers is the present author's reconstruction, synthesising glosses
+                the commentary supplies separately, the natural virtue, the virtue fixed by rebirth there, the
+                lack of the wholesome desire-to-act, into one inference, and flagged as such rather than
+                presented as a single canonical or commentarial statement.
+              </p>
+              <p>
+                For a reader who is not a specialist, that last move is the human point. The texts take the
+                cosmos's most fortunate humans, with no possessions to quarrel over, a fixed long life, and a
+                beauty that never ages, and make them the worst-placed of all for awakening: a virtue that
+                arrives automatically with the address is a virtue never undertaken, and a virtue never
+                undertaken cannot be cultivated into a path. The fortune is the disability. The most one can
+                say with confidence is the smallest thing and the steadiest: the texts grow more sure of what
+                Uttarakuru looks like, and never once claim to have seen it. The comfort is real; the path,
+                they say, is lived here (<em>idha brahmacariyavāso</em>).
+              </p>
+
+              <h2 style={h2}>The complete census</h2>
+              <p style={tableCaption}>
+                The narrative above rests on a full enumeration of every Uttarakuru-bearing row, scored
+                feature by feature. The detail follows for any reader who wants the underlying count: the
+                feature matrix across the four textual bands, the canon-versus-commentary tally, the paradox
+                read close, and the limits and references. Every citation opens the passage in the reader, and
+                every expandable "evidence" panel gives the verbatim Pāli.
+              </p>
+
+              <h3 style={h3}>The feature matrix</h3>
               <p style={tableCaption}>
                 Each feature scored across four bands. <em>Canon</em> = Tipiṭaka mūla; <em>Para-canon</em> =
                 the Visuddhimagga and Milindapañha, which sit in the root-text role but speak with a
@@ -2857,7 +3180,7 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 </table>
               </div>
 
-              <h2 style={h2}>What the count says</h2>
+              <h3 style={h3}>What the count says</h3>
               <p>
                 Of {nFeat} features, {ag.warrant_split.warranted} carry a canonical warrant and
                 {' '}{ag.warrant_split.null} do not. Read by class: {ag.h0h1_tally['canonical-seed'] || 0} are
@@ -2893,7 +3216,7 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 large commentarial superstructure.
               </p>
 
-              <h2 style={h2}>The paradox, and who sharpened it</h2>
+              <h3 style={h3}>The paradox, and who sharpened it</h3>
               <p>
                 The hinge is a single sutta. AN 9.21 ranks three groups so that each surpasses the other two in
                 three respects. The Uttarakurukas surpass the gods of the Thirty-Three and the humans of
@@ -2937,7 +3260,7 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 supplies the disqualifying verdict and its reason.
               </p>
 
-              <h2 style={h2}>Limitations</h2>
+              <h3 style={h3}>Limitations</h3>
               <p>
                 Several limits bound how far any of this can be pressed, and they are better stated than
                 smoothed. The deepening-with-lateness gradient is partly definitional: the map that sorts
@@ -2958,7 +3281,7 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 used.
               </p>
 
-              <h2 style={h2}>References</h2>
+              <h3 style={h3}>References</h3>
               <div style={refList}>
                 <div style={refItem}>Collins, S. 1998. <em>Nirvana and Other Buddhist Felicities: Utopias of the Pali Imaginaire</em>. Cambridge: Cambridge University Press.</div>
                 <div style={refItem}>Gethin, R. 1997. "Cosmology and meditation: from the Aggañña Sutta to the Mahāyāna." <em>History of Religions</em> 36.3.</div>

@@ -6,27 +6,26 @@ When the Pāli texts report an awakening, the report is rarely a private moment 
 
 ---
 
-# I. The shape of awakening in the texts
+# I. Awakening across the layers of the texts
 
 An awakening in the Pāli texts is rarely a private event. Far more often it is something a story reports: a listener's mind comes free at the close of a talk, an old monk sings the moment his striving ended, a compiler notes in passing that a hearer's "dust-free, stainless eye of the Dhamma" had opened.[^1] These moments are scattered everywhere, in prose and in verse, in the discourses and in the later anthologies, and they are easy to take as a single uniform thing: the canon describing the goal it was made to point at. If we gather every such moment in the corpus and ask a plain question of it, who is awakening, when was the passage written, and in whose voice is the claim made, the answers are not quite the ones the usual division between canon and commentary leads us to expect.
 
-The question I want to put is narrow and, I hope, answerable. It is not what awakening *is*, a question the texts treat and I do not. It is where, across the layers of the literature, the descriptions of awakening actually sit, and who is given to speak them. Two readings stand against each other here. The one I came to favour (call it the working hypothesis) is that the canonical descriptions of awakening are concentrated in the late-composed strata, and that they are mostly narrated about the awakened rather than spoken by the Buddha of himself. The plainer expectation, which I take as the null and which the structural shelving of the texts seems to support, is that the events filed as canonical are spread across the canon's layers as that filing implies, with an early floor of the Buddha's own word and the claims of awakening owned by his voice. The pages that follow sort and describe a marker-bounded count; they do not prove a case, and where they correct an earlier impression they say so quietly.[^2]
+The question I want to put is narrow and, I hope, answerable. It is not what awakening *is*, a question the texts treat and I do not. It is where, across the layers of the literature, the descriptions of awakening actually sit, and who is given to speak them. Two readings stand against each other here. The one I came to favour is that the canonical descriptions of awakening are concentrated in the late-composed strata, and that they are mostly narrated about the awakened rather than spoken by the Buddha of himself.[^3] The plainer expectation, which the structural shelving of the texts seems to support, is that the events filed as canonical are spread across the canon's layers as that filing implies, with an early floor of the Buddha's own word and the claims of awakening owned by his voice. The pages that follow sort and describe a marker-bounded count; they do not prove a case, and where they correct an earlier impression they say so quietly.[^2]
 
-The first thing the count shows is about age. The texts the tradition files as canonical are not, for this subject, mostly its old core. Of the 299 awakening events that sit in the canonical division, only a small floor of 38 belong to the early discourses and the Udāna. The other 261 are canonical by shelving but late by composition. Most of them, by a wide margin, come from one stratum: the Apadāna, the late autobiographical verse in which named elders recount the past deed that ripened into their present release.
+The plan of the pages that follow is to walk the awakening-event up the layers of the literature, from the oldest material to the latest, watching how the report changes key as the texts get younger. Of the 2,214 awakening-events the whole corpus holds, 299 sit in the canonical division, and it is those 299 the walk follows. Of them only a small floor of 38 belong to the earliest material; the other 261 are canonical by shelving but late by composition, and most of them, by a wide margin, come from one late stratum: the Apadāna, the autobiographical verse in which named elders recount the past deed that ripened into their present release.
 
 > **162 of 299**: awakening events the corpus files as canon but that belong to one late stratum, the Apadāna. The early discourses contribute 38.
 
-The second thing the count shows is about voice, and I take it up in §IV. Here it is enough to say that these awakenings are, in the main, narrated *about* the awakened rather than spoken *by* the one who awoke. A compiler reports them, or the elder himself recites his own verse. Yet they are not, as a first reading of the data had suggested, wholly without the Buddha's own word. Read claim by claim, a small set of passages is the Buddha recounting his own awakening in the first person, and a second small set is the Buddha declaring that someone else has awoken.[^3]
+This survey proceeds by following that ascent, layer by layer:
 
-This study proceeds as follows:
+- **III. In the early discourses.** The thin early floor of 38 plainly narrated breakthroughs, and the seam at the very base where the Buddha stakes his own awakening in the first person.
+- **IV. In the elders' verse.** The Theragāthā and Therīgāthā, contested in date, where the report becomes the elder's own attainment song.
+- **V. In the late canon.** The bulk: the Apadāna and the smaller late strata, where the biographical impulse takes over and one worked life shows what the largest class looks like on the page.
+- **VI. On the edge of the canon.** The Milindapañha, paracanonical dialogue sitting on the very boundary of the canon proper.
+- **VII. In the commentary.** The Visuddhimagga, classical commentary the structural shelving nonetheless files as canonical, the latest material the survey touches.
+- **VIII. What this means, and what it does not.** Why a late and narrated canonical corpus matters for how we read awakening, and the limits of saying so.
 
-- **II. What counts as an awakening, and how it was found.** The stock phrases that mark an attainment, and why every count here is a floor rather than a ceiling.
-- **III. A canonical shelf, a late-canonical text.** How the 299 canonical events sort by date, and why the old division between canon and commentary turns out to run partly inside the canon.
-- **IV. Who says it: narrated awakenings and the Buddha's own word.** The four voices that narrate most of these events, and the floor of passages spoken by the Buddha of himself.
-- **V. A worked case: the elder of Candavatī.** One Apadāna awakening told in full, to show what the largest class actually looks like on the page.
-- **VI. What this means, and what it does not.** Why a late and narrated canonical corpus matters for how we read awakening, and the limits of saying so.
-
-Before counting anything, it is worth being clear about what was counted as an awakening, and how thoroughly the texts were searched for it. To that I turn first.
+Before walking the layers, it is worth being clear about what was counted as an awakening, and how thoroughly the texts were searched for it. To that I turn first.
 
 # II. What counts as an awakening, and how it was found
 
@@ -55,82 +54,51 @@ Every count reported here is a floor, not a ceiling. The markers were searched f
 > full event count            ██████████████████████████████▏ 2,214
 > ```
 
-With the events in hand and the search measured, the first question to put to them is the simplest one: when were they written? Every count that follows is a measured floor over the Chattha Saṅgāyana corpus; I now ask how those counts sort by date.
+With the events in hand and the search measured, I can begin the walk. The cleanest way to take the question of when these awakenings were written is to start at the oldest floor and climb, watching the report change as the texts get younger. So I begin with the early discourses.
 
-# III. A canonical shelf, a late-canonical text
+# III. In the early discourses
 
-*What the data say about age, in one line: the canon's awakening-events are mostly its late verse, not its old prose.*
+*What the data say at this layer, in one line: the early floor is thin, plainly narrated, and the one place the Buddha stakes his own awakening.*
 
-### III.1 The early floor
+The structural division of the canon invites a particular expectation: that the events filed as canonical are, in the main, the old material, the Buddha-word core around which the later literature accreted. For awakening-events, that expectation does not hold even at the oldest floor, where it should hold best. Of the 299 events in the canonical division, only 38 belong to the early discourses and the Udāna.[^9] These are the awakenings most readers picture when they think of the canon describing its goal: a listener sits through a graduated talk, and at its close the eye of the Dhamma opens in him; a wanderer hears a few words and is freed. They are narrated plainly, briefly, by a compiler who does not dwell on them. Thirty-eight is not nothing. But against the 299 it is a thin floor, and against the corpus as a whole it is very thin indeed. The 38 comprise Nikāya prose, 33, and the Udāna, 5.
 
-The structural division of the canon invites a particular expectation: that the events filed as canonical are, in the main, the old material, the Buddha-word core around which the later literature accreted. For awakening-events, that expectation does not hold. Of the 299 events in the canonical division, only 38 belong to the early discourses and the Udāna.[^9] These are the awakenings most readers picture when they think of the canon describing its goal: a listener sits through a graduated talk, and at its close the eye of the Dhamma opens in him; a wanderer hears a few words and is freed. They are narrated plainly, briefly, by a compiler who does not dwell on them. Thirty-eight is not nothing. But against the 299 it is a thin floor, and against the corpus as a whole it is very thin indeed.
+It is worth pausing on how light the touch is at this layer. The Udāna tells the awakening of Bāhiya of the Bark-cloth in a few flat lines. There is no autobiography, no past-life ledger, no method laid out for the reader; the compiler simply reports, in the third person, that on hearing a very short instruction Bāhiya's mind was freed.[^23] As we will see, the same event that the late verse would unfold across a chain of lives, the early stratum records almost in passing.
 
-### III.2 The late bulk
+The early floor is also, and this is the part the structural division least predicts, the one place in the whole census where the Buddha stakes his own bodhi. When a text reports an awakening, someone is doing the reporting, and it is worth asking who. A flat sentence that "his mind was freed" has no speaker inside it claiming the event; it is the compiler's note. So the cautious reading counts a passage as the Buddha's own word only when the words themselves are unmistakably his, spoken of his own awakening. By that measure most of the 299 are not the Buddha's word at all, and the few that are sit here, at the base.
 
-The remaining 261 events carry the canonical tag while composing late. They do not come from the discourses at all, in the main, but from the verse and exegetical anthologies the tradition gathered into the canon at a later stage. One stratum dominates the rest several times over:
-
-- **Apadāna (162).** First-person verse in which a named elder traces a past good deed forward to his present release. This single late-canonical work supplies more than half of all 299 canonical events, and more than four times the entire early floor.
-- **Buddhavaṁsa (8), Niddesa (3), Vimānavatthu (2).** Lineage verse that celebrates the awakenings achieved under past Buddhas; late canonical exegesis; and verse of the celestial-mansion genre, in which a being recounts the deed that won a heavenly rebirth and, in these few cases, the breakthrough that came with it.
-- **Vinaya occasioning-stories (6).** Awakenings staged inside a frame-story that explains how a monastic rule came to be laid down; the awakening is incidental to the rule the story exists to introduce.
-- **Milindapañha (4).** Paracanonical dialogue, sitting on the very edge of the canon proper, where a later author casts doctrine as the give-and-take of a king and a monk.
-- **Visuddhimagga (17).** Classical commentary that the structural shelving nonetheless files as canonical, the latest material in the list by a wide margin.
-
-The shape of this list is the finding. The awakening-event, as a thing the canon records, is not evenly distributed across the canon's age. It is sparse in the old discourses and dense in the late verse, and one late work, the Apadāna, carries it almost single-handedly.
-
-> **Table 1. A canonical shelf that is mostly a late-canonical text.**
-> *The 299 canonical awakening-events by date of composition. "Filed as canon, reads late" marks events whose structural shelving calls them canonical but whose composition places later. Six rows shown, small late strata folded; full per-work split in Appendix A.*
->
-> | When it was composed | The events here | Count | Filed as canon, reads late |
-> |---|---|---:|:---:|
-> | Early discourses and Udāna | a listener's eye of the Dhamma opens at the close of a talk | 38 | no |
-> | Theragāthā / Therīgāthā (contested) | the elder's own attainment verse | 59 | register-relative |
-> | Apadāna | first-person past-deed-to-present-release verse | 162 | yes |
-> | Buddhavaṁsa, Niddesa, Vimānavatthu | lineage verse and late exegesis | 13 | yes |
-> | Vinaya occasioning-stories | an awakening staged in a frame-story | 6 | yes |
-> | Milindapañha; Visuddhimagga | paracanonical dialogue; classical commentary | 21 | yes |
-
-Reading down the last column gives the contrast at a glance: 38 events sit in the early floor where shelving and composition agree, and 261 sit where they part ways.[^10] One row needs a word of caution. The Theragāthā and Therīgāthā, at 59, are genuinely contested in date, archaic in places and late in others, so I mark them register-relative rather than forcing them to one side; the gradient described here does not depend on where they fall, because the Apadāna alone already makes the late material the larger part.
-
-### III.3 The gradient
-
-Set the two ends side by side and the pattern reads as a gradient rather than a wall. There is a thin early layer of plainly narrated breakthroughs, and a thick late layer of elaborated, biographical, often first-person verse. The proportion is steep: roughly one canonical awakening-event in eight is early, and seven in eight read late.
-
-> **38 vs 261**: early-canonical awakening-events against those filed as canon but composing later.
-
-This matters for how the old contrast between canon and commentary is usually drawn. That contrast treats the canon as the layer that states the Dhamma and the commentary as the layer that supplies the surrounding biography, the lives and back-stories and ripened deeds. What the count suggests is that the biographical impulse does not wait for the commentary to begin. It is already at work inside the late canon, in the Apadāna and the Buddhavaṁsa, gathering and celebrating the lives of those who awoke. The line between a spare doctrinal canon and an elaborating commentary is real, but it falls, for this subject, partly inside the canonical shelf itself rather than at its edge.
-
-So the contrast between an early canon and a late commentary turns out to run partly inside the canon itself. A second question sharpens it further: when these awakenings are told, in whose voice are they told? To that I now turn.
-
-# IV. Who says it: narrated awakenings and the Buddha's own word
-
-*What the data seem to say here, before any detail: the canonical awakenings are mostly told about someone, by a reporter or by the awakened person himself, and only a thin floor is the Buddha speaking of his own awakening.*
-
-When a text reports an awakening, someone is doing the reporting, and it is worth asking who. A flat sentence that "his mind was freed" has no speaker inside it claiming the event; it is the compiler's note. So the cautious reading counts a passage as the Buddha's own word only when the words themselves are unmistakably his, spoken of his own awakening. By that measure most of the 299 are not the Buddha's word at all. They fall into four ways of telling:
-
-- **The elder's own life-verse (162).** In the Apadāna the awakened monk recites, in the first person, the path from a long-ago good deed to his present release. This is the largest class by far.
-- **The disciple's own report (59).** In the Theragāthā and Therīgāthā the elder sings his attainment, closed by a compiler's colophon naming him.[^11]
-- **The compiler's flat note (46).** Across the early discourses, the Udāna, the Niddesa, the Vinaya frame-stories, and the Visuddhimagga, a narrator simply tells us a listener's mind came free.[^12]
-- **Lineage and dialogue verse (14).** The mass awakenings at the feet of past Buddhas, narrated in the lineage verse of the Buddhavaṁsa and joined by the Vimānavatthu (10 together), and the paracanonical exchanges of the Milindapañha (4).[^13]
-
-These four together carry 281 of the 299. The point of sorting them is not the arithmetic but the grammar: in each, the awakening is something a third party records, or something the awakened person celebrates after the fact, and in neither case is it the Buddha staking his own bodhi as a claim. A first reading of the data drew the same picture but pressed it one step too far, recording that the canon never once puts an awakening in the Buddha's own mouth.
-
-Read claim by claim, that turns out to be too strong. A small set is different in kind. Here the Buddha narrates his own awakening, speaking as the seeker before the night, declaring the awakening itself, and recounting the last watch to a named listener.[^14] Seventeen passages do this. Once the duplicate edition-copies of a single discourse are merged, the seventeen resolve to nine distinct recollections: the Bhayabherava and Dvedhāvitakka accounts (MN 4, MN 19); the long autobiography to the wanderer Aggivessana (MN 36); the same told to Prince Bodhi and to the brahmin Saṅgārava (MN 85, MN 100); the discourse to the brahmin of Verañja that the Vinaya then repeats word for word as its first occasioning-story (AN 8.11); the breath-meditation account (SN 54.8); the bare bodhisatta-before-awakening reflection (SN 35.13); and the Mahāvagga bodhi-narrative.[^15] These passages are the early-canonical floor of the whole census, and on them three readers working independently from the Pāli agreed without a single exception.[^16]
+A small set is different in kind from everything above it. Here the Buddha narrates his own awakening, speaking as the seeker before the night, declaring the awakening itself, and recounting the last watch to a named listener.[^14] Seventeen passages do this. Once the duplicate edition-copies of a single discourse are merged, the seventeen resolve to nine distinct recollections: the Bhayabherava and Dvedhāvitakka accounts (MN 4, MN 19); the long autobiography to the wanderer Aggivessana (MN 36); the same told to Prince Bodhi and to the brahmin Saṅgārava (MN 85, MN 100); the discourse to the brahmin of Verañja that the Vinaya then repeats word for word as its first occasioning-story (AN 8.11); the breath-meditation account (SN 54.8); the bare bodhisatta-before-awakening reflection (SN 35.13); and the Mahāvagga bodhi-narrative.[^15] These passages are the early-canonical floor of the whole census, and on them three readers working independently from the Pāli agreed without a single exception.[^16]
 
 > **9**: distinct recollections, across 17 passages, in which the Buddha speaks of his own awakening. The earlier count of zero was wrong.
 
 It is worth pausing on what one of these sounds like, since the floor is easy to state and easy to under-feel. In the discourse to the brahmin of the fear and dread, the Buddha sets the scene as the unawakened seeker he once was, walks his hearer through the three watches of a single night, and ends each watch with the same plain first-person report: that this knowledge, then that one, then the third, was attained by him in the last watch.[^17] The voice is unmistakably his own, the hearer is named, and the event is staked rather than narrated about him. This is the seam the earlier zero had missed.
 
-Nor does the Buddha speak only of himself. The same authoritative voice declares others' attainments. Searching the canonical rows for the Buddha declaring another's attainment turns up the destiny-declarations of the "mirror of the Dhamma" at Nādika, where the Buddha announces who, among the departed, has become a non-returner, a once-returner, a stream-enterer, and the stream-entry declarations that recur more widely still.[^18] Within the 299, one such row is the Buddha telling the Sakyan Mahānāma that Kāḷigodhā's son has entered the stream.[^19] So the cautious summary is double. Most awakenings here are told about the awakened, by a compiler or by the awakened elder. But a real floor of the Buddha's own word survives, both of his own awakening and of others'.
+Nor does the Buddha speak only of himself at this layer. The same authoritative voice declares others' attainments. Searching the canonical rows for the Buddha declaring another's attainment turns up the destiny-declarations of the "mirror of the Dhamma" at Nādika, where the Buddha announces who, among the departed, has become a non-returner, a once-returner, a stream-enterer, and the stream-entry declarations that recur more widely still.[^18] Within the 299, one such row is the Buddha telling the Sakyan Mahānāma that Kāḷigodhā's son has entered the stream.[^19]
 
-This floor does not prove as much as it might seem. That the Buddha speaks of his bodhi in these seventeen places does not make awakening his doctrinal subject rather than his biography; most of the 299 remain the compiler's note or the elder's verse, and the correction here fixes the speaker-count, nothing larger. It is also, by its own construction, a lower bound. The seventeen are the rows a first reading happened to gather, and that reading did not look for the Buddha's own-awakening accounts as such. Searched in its own right, the bodhisatta-before-the-night frame appears in some 48 places across the canon, most of them outside the 299, the Ariyapariyesana among them.[^20] The seam is therefore at least as wide as nine recollections, and the present count does not close it.
+This floor does not prove as much as it might seem, and it is best to mark the limit here rather than later. That the Buddha speaks of his bodhi in these seventeen places does not make awakening his doctrinal subject rather than his biography; most of the 299 remain the compiler's note or the elder's verse, and the correction here fixes the speaker-count, nothing larger. It is also, by its own construction, a lower bound. The seventeen are the rows a first reading happened to gather, and that reading did not look for the Buddha's own-awakening accounts as such. Searched in its own right, the bodhisatta-before-the-night frame appears in some 48 places across the canon, most of them outside the 299, the Ariyapariyesana among them.[^20] The seam is therefore at least as wide as nine recollections, and the present count does not close it.
 
-In sum, the canonical awakening corpus seems to speak mostly in the third person and the disciple's first person, with a thin but genuine seam of the Buddha's own word at its base. It helps to see one of these awakenings whole. I turn now to a single life-verse, the kind that makes up the largest class of all.
+In sum, the early-canonical material is thin, plainly narrated by a compiler who does not dwell, and the one place where shelving and composition agree and where the Buddha stakes his own awakening. Everything above this floor is canonical by shelving but late by composition. The first layer up is contested in date, and to it I now turn.
 
-# V. A worked case: the elder of Candavatī
+# IV. In the elders' verse
 
-*What the figure below shows, before the detail: the awakening-event genre is sparse in the early discourses and pools in the late verse, and the single largest pool is the Apadāna.*
+Climb one layer and the report shifts key. The Theragāthā and Therīgāthā, 59 events between them, are the first stratum where the awakening-event becomes the elder's *own* first-person attainment song, closed by a compiler's colophon naming him.[^11] This is the disciple's own report: in the verse the elder sings his attainment, and the redactor's colophon supplies the name. As a voice it stands between the compiler's flat early notice below it and the elaborated life-verse above it, the awakened person speaking of his own release after the fact.
 
-The contrast §III drew as a table can also be seen as a shape. If the ten strata are laid out from early to late, with each marked for how many awakening-events it carries and whether it belongs to the early floor or to the late and narrated bulk, the distribution is lopsided in a way the eye catches faster than a column of counts.
+This stratum is genuinely contested in date. The Theragāthā and Therīgāthā, at 59, are archaic in places and late in others, so I mark them register-relative rather than forcing them to one side. The gradient described in this paper does not depend on where they fall, because the Apadāna alone already makes the late material the larger part. Read as early rather than late, the early floor would grow at most by this stratum's 59; even then the late bulk above stays the larger part. It is the hinge between the thin early floor and the late bloom, and the next layer up is where that bloom arrives.
+
+# V. In the late canon
+
+*What the data say at this layer, in one line: the canon's awakening-events are mostly its late verse, not its old prose, and one late work carries them almost single-handedly.*
+
+The bulk of the census lives here. The 261 events that carry the canonical tag while composing late do not come from the discourses at all, in the main, but from the verse and exegetical anthologies the tradition gathered into the canon at a later stage. One stratum dominates the rest several times over:
+
+- **Apadāna (162).** First-person verse in which a named elder traces a past good deed forward to his present release. This single late-canonical work supplies more than half of all 299 canonical events, and more than four times the entire early floor.
+- **Buddhavaṁsa (8), Niddesa (3), Vimānavatthu (2).** Lineage verse that celebrates the awakenings achieved under past Buddhas; late canonical exegesis; and verse of the celestial-mansion genre, in which a being recounts the deed that won a heavenly rebirth and, in these few cases, the breakthrough that came with it.
+- **Vinaya occasioning-stories (6).** Awakenings staged inside a frame-story that explains how a monastic rule came to be laid down; the awakening is incidental to the rule the story exists to introduce.
+
+The shape of this list is the finding. The awakening-event, as a thing the canon records, is not evenly distributed across the canon's age. It is sparse in the old discourses and dense in the late verse, and one late work, the Apadāna, carries it almost single-handedly.
+
+The voice changes here as decisively as the date. In the Apadāna the awakened monk recites, in the first person, the path from a long-ago good deed to his present release: the elder's own life-verse, and the largest class by far at 162. Joined to it is the lineage and frame verse: the mass awakenings at the feet of past Buddhas, narrated in the lineage verse of the Buddhavaṁsa and the Vimānavatthu, 10 together. Where the elders' verse one layer down sang the elder's bare attainment, the late canon sets that attainment inside a ledger of past lives or a lineage of past Buddhas. The biographical impulse, in other words, is already fully at work inside the canon.
+
+The whole gradient is easiest to take in at a glance as a shape. If the ten strata the census touches are laid out from early to late, with each marked for how many awakening-events it carries and whether it belongs to the early floor or to the late and narrated bulk, the distribution is lopsided in a way the eye catches faster than a column of counts.
 
 > **Figure 2. The awakening-event genre thins toward the early discourses and pools in the late verse.**
 > *The 299 canonical awakening-events by stratum, early (left) to late (right). A filled dot marks the early-canonical floor; an open dot marks a stratum the shelving files as canon but composition places later. Each dot stands for about fifteen events (rounded up, so every stratum shows at least one).*
@@ -154,13 +122,47 @@ The contrast §III drew as a table can also be seen as a shape. If the ten strat
 
 Two things stand out. The filled dots, the genuine early floor, are few: 38 events in all, the Nikāya prose where a listener's eye of the Dhamma opens at the close of a talk, and the terse notices of the Udāna. The Apadāna row dwarfs every other. At 162 events it is, on its own, more than four times the entire early floor, and it belongs to a stratum the field places late. The shape is the finding: the place the canon most often files an awakening is not its old doctrinal prose but its late autobiographical verse.
 
+> **38 vs 261**: early-canonical awakening-events against those filed as canon but composing later.
+
+A table makes the same contrast readable down a single column.
+
+> **Table 1. A canonical shelf that is mostly a late-canonical text.**
+> *The 299 canonical awakening-events by date of composition. "Filed as canon, reads late" marks events whose structural shelving calls them canonical but whose composition places later. Six rows shown, small late strata folded; full per-work split in Appendix A.*
+>
+> | When it was composed | The events here | Count | Filed as canon, reads late |
+> |---|---|---:|:---:|
+> | Early discourses and Udāna | a listener's eye of the Dhamma opens at the close of a talk | 38 | no |
+> | Theragāthā / Therīgāthā (contested) | the elder's own attainment verse | 59 | register-relative |
+> | Apadāna | first-person past-deed-to-present-release verse | 162 | yes |
+> | Buddhavaṁsa, Niddesa, Vimānavatthu | lineage verse and late exegesis | 13 | yes |
+> | Vinaya occasioning-stories | an awakening staged in a frame-story | 6 | yes |
+> | Milindapañha; Visuddhimagga | paracanonical dialogue; classical commentary | 21 | yes |
+
+Reading down the last column gives the contrast at a glance: 38 events sit in the early floor where shelving and composition agree, and 261 sit where they part ways.[^10]
+
 It is one thing to read 162 as a number and another to read one of the 162 as a life. Consider the elder remembered as the one who went for refuge to the Three Refuges, whose verse opens the Apadāna's collection of such lives. He tells his story from its root. Lifetimes ago, in the city of Candavatī, he was a man who looked after his mother and his father.[^22] That ordinary care for his parents is the seed of the whole account. The verse then follows its fruit across the long round of rebirths, life after life, down to the one in which the elder says, plainly and in his own voice, that he attained arahantship. The owner of the claim is the elder himself; the frame around it is the compiler's anthology of such lives; and the mood is celebration of a ripened past rather than instruction in a method one might follow. This is what the largest single block of canonical awakenings actually is on the page: not the Buddha teaching the way to awaken, but a later tradition lovingly cataloguing who had.
 
-It is worth setting one of the early floor's notices beside it, to feel the difference in key. The Udāna tells the awakening of Bāhiya of the Bark-cloth in a few flat lines. There is no autobiography, no past-life ledger, no method laid out for the reader; the compiler simply reports, in the third person, that on hearing a very short instruction Bāhiya's mind was freed.[^23] The same event that the Apadāna would unfold across a chain of lives, the early stratum records almost in passing. The two stand at the ends of what the canon files under awakening: a thin early floor that notes the fact and moves on, and a thick late bloom that sings it.
+Set this Candavatī life beside the Bāhiya notice from the early floor, as I promised above, and the difference in key is plain. The same event that the Apadāna unfolds across a chain of lives, the early stratum records almost in passing, in a few flat third-person lines. The two stand at the ends of what the canon files under awakening: a thin early floor that notes the fact and moves on, and a thick late bloom that sings it.
 
-In sum, the late stratum does not merely outnumber the early one; it seems to tell awakening in a different key, the elder's celebratory life-verse rather than the compiler's brief notice. What this pattern means for a reader, and what it does not, is the last question.
+This matters for how the old contrast between canon and commentary is usually drawn. That contrast treats the canon as the layer that states the Dhamma and the commentary as the layer that supplies the surrounding biography, the lives and back-stories and ripened deeds. What the count suggests is that the biographical impulse does not wait for the commentary to begin. It is already at work inside the late canon, in the Apadāna and the Buddhavaṁsa, gathering and celebrating the lives of those who awoke.
 
-# VI. What this means, and what it does not
+In sum, the late stratum does not merely outnumber the early one; it tells awakening in a different key, the elder's celebratory life-verse rather than the compiler's brief notice, and it does so inside the canonical shelf, before any commentary speaks. Past the late verse the literature passes the boundary of the Tipiṭaka proper, and the descent continues there.
+
+# VI. On the edge of the canon
+
+The descent runs one step past the Tipiṭaka into the Milindapañha, 4 events, paracanonical dialogue sitting on the very edge of the canon proper, where a later author casts doctrine as the give-and-take of a king and a monk. The voice here is the named-disciple-dialogue: the awakening is set inside the exchange of King Milinda and the elder Nāgasena, a class of 4. It is a thin stratum, kept distinct because it is its own point on the timeline, and it carries the diachronic line cleanly across the canon's outer boundary into the latest material the survey touches.
+
+# VII. In the commentary
+
+The walk ends at the latest material the survey reaches. The Visuddhimagga, 17 events, is classical commentary that the structural shelving nonetheless files as canonical, the latest in the list by a wide margin and the clearest case where a text's structural file and its composition date pull in opposite directions. Its voice is the compiler's flat note: a narrator simply tells us a listener's mind came free, the same plain redactor-frame telling that opens the early floor, now arriving many centuries later. Across the early discourses, the Udāna, the Niddesa, the Vinaya frame-stories, and the Visuddhimagga, that flat note accounts for 46 of the 299.[^12]
+
+This is where the argument about the canon-and-commentary line completes itself. By the time genuine commentary appears in the list, the biographical and narrated mode has been running since the late canon, layers earlier. The line between a spare doctrinal canon and an elaborating commentary is real, but it falls, for this subject, partly inside the canonical shelf itself rather than at its edge.
+
+The voices sorted across these five layers resolve into four ways of telling, and it is worth holding the arithmetic in one place so the dispersal does not lose it. The elder's own life-verse of the Apadāna carries 162; the disciple's own report of the Theragāthā and Therīgāthā, 59; the compiler's flat note, 46; and the lineage and dialogue verse, 14 (the 10 lineage and frame verse of the Buddhavaṁsa and Vimānavatthu, joined by the 4 dialogue rows of the Milindapañha).[^13] These four together carry 281 of the 299. Add the 17 rows of the Buddha's own word and the single row in which he declares another's stream-entry, and the 299 close. The point of sorting them is not the arithmetic but the grammar: in each of the four, the awakening is something a third party records, or something the awakened person celebrates after the fact, and in neither case is it the Buddha staking his own bodhi as a claim.
+
+In sum, by the time the commentary is written the narrated mode is long established, and the latest layer the survey touches only confirms what the late canon began.
+
+# VIII. What this means, and what it does not
 
 If one sets out to ask how "the canon" describes awakening, this survey suggests the honest answer is that one is mostly reading a late and devotional layer of the canon, not its old core. The bare early notices, a listener's eye opening at the end of a talk, are real but few. Most of what the shelving files as canonical awakening is the Apadāna's and the Buddhavaṁsa's biographical verse, a later tradition's loving catalogue of who, across the ages, had awoken, with a thin seam of the Buddha's own first-person account of his bodhi at its base. The familiar division between an early canon that states the Dhamma and a later commentary that supplies the biography is not wrong, on this evidence; it seems only to be partial. The biographical impulse does not wait for the commentary to begin. It is already at work inside the late canon, in the verse, before any commentary speaks. For a non-specialist this is worth knowing before opening "the canon" on awakening: the weight of that material is later, and more celebratory, than its canonical label implies.
 
@@ -182,7 +184,7 @@ What the data cannot do is say why the shape is as it is. It seems to me that to
 
 [^2]: "Early" and "late" throughout are relative stratigraphy on standard philological grounds, not absolute dates: the Apadāna, Buddhavaṁsa, and Niddesa as late-canonical, the Visuddhimagga as classical commentary tagged canonical. Per-work counts and per-claim provenance signatures are in Appendix A; the two contested cells (the Theragāthā/Therīgāthā register, the Vinaya occasioning-story position) are flagged there. Pre-registration frozen 2026-06; see Appendix B.
 
-[^3]: Coded per claim, with three independent readers agreeing on the load-bearing category (κ = 1.0; full matrix in Appendix C). Counts, loci, and the corrected earlier reading are taken up in §IV and Appendix A.
+[^3]: Coded per claim, with three independent readers agreeing on the load-bearing category (κ = 1.0; full matrix in Appendix C). Counts, loci, and the corrected earlier reading are taken up in §III and Appendix A.
 
 [^4]: The full-release formula, e.g. *anupādāya ca me āsavehi cittaṁ vimucci* ("and through not clinging my mind was freed from the taints"), as at SN 54.8 in the breath-meditation register. Full strings and inflected variants in Appendix A.
 
@@ -198,7 +200,7 @@ What the data cannot do is say why the shape is as it is. It seems to me that to
 
 [^10]: The six-row split here folds the smaller late strata; the full ten-work breakdown is Nikāya prose 33, Udāna 5, Theragāthā/Therīgāthā 59, Apadāna 162, Buddhavaṁsa 8, Niddesa 3, Vinaya occasioning-stories 6, Vimānavatthu 2, Milindapañha 4, Visuddhimagga 17, summing to 299 (full enumeration in Appendix A). Representative rows with corpus ids: early discourses, DN 5 and MN 74; Udāna, UD 1.10; Apadāna, Therāpadāna 25 and the CST volume row cst-s0510m1.mul-kn10_1; Buddhavaṁsa 10, bv10; Niddesa, cnd5; Vinaya occasioning-story, pli-tv-kd1; Milindapañha, mil3.7.3; Visuddhimagga, cst-e0102n.mul-4_p042. Machine-checkable census: public/research/awakening-events.json.
 
-[^11]: Representative row: Theragāthā 1.66 (Meghiya), CST sibling cst-s0508m, with the elder's first-person verse closed by a naming colophon. The stratum is held contested-confidence (the verse is archaic, the biographical frame around it later); see §VI and Appendix A. Per-claim signature [stratum: archaic-or-late-canonical | layer: mula | speaker: named-disciple-self-report | register: attainment verse with redactor colophon | edition: CST].
+[^11]: Representative row: Theragāthā 1.66 (Meghiya), CST sibling cst-s0508m, with the elder's first-person verse closed by a naming colophon. The stratum is held contested-confidence (the verse is archaic, the biographical frame around it later); see §VIII and Appendix A. Per-claim signature [stratum: archaic-or-late-canonical | layer: mula | speaker: named-disciple-self-report | register: attainment verse with redactor colophon | edition: CST].
 
 [^12]: Representative flat-note rows: UD 1.10 (Bāhiya); DN 5, where the brahmin Kūṭadanta's dust-free eye of the Dhamma arises; Visuddhimagga, cst-e0102n.mul-4_p042. Per-claim signature for this class [stratum: mixed early-to-commentary | layer: mula | speaker: redactor-frame | register: prose | edition: CST]. Full rows in Appendix A.
 
@@ -216,9 +218,9 @@ What the data cannot do is say why the shape is as it is. It seems to me that to
 
 [^19]: SN 55.39 (the Buddha declares Kāḷigodhā's son a stream-enterer), coded buddha-declares-another; the single such row within the 299. Per-claim signature [stratum: canonical | layer: mula | speaker: buddha-declares-another | register: prose | edition: CST].
 
-[^20]: The bodhisatta-before-awakening first-person frame appears in 48 canonical rows corpus-wide, including the Ariyapariyesana (MN 26), MN 14, MN 128, and many SN and AN rows that did not enter the 299. The within-census figure (17 rows, 9 recollections) is therefore reported as a measured floor bounded by the earlier reading's reach, not as a re-count of the canon; see §VI.
+[^20]: The bodhisatta-before-awakening first-person frame appears in 48 canonical rows corpus-wide, including the Ariyapariyesana (MN 26), MN 14, MN 128, and many SN and AN rows that did not enter the 299. The within-census figure (17 rows, 9 recollections) is therefore reported as a measured floor bounded by the earlier reading's reach, not as a re-count of the canon; see §VIII.
 
-[^21]: Stratum counts: Nikāya prose 33, Udāna 5, Theragāthā/Therīgāthā 59, Apadāna 162, Buddhavaṁsa 8, Niddesa 3, Vinaya nidāna 6, Vimānavatthu 2, Milindapañha 4, Visuddhimagga 17 (sum 299). Early floor = 33 + 5 = 38. The "contested" mark on the Theragāthā/Therīgāthā row reflects the register-relative dating discussed in §VI. In the dot-strip each dot stands for roughly fifteen events, rounded up so no stratum is left blank; the printed count beside each row is the exact figure. Full per-work breakdown and per-row signatures in Appendix A.
+[^21]: Stratum counts: Nikāya prose 33, Udāna 5, Theragāthā/Therīgāthā 59, Apadāna 162, Buddhavaṁsa 8, Niddesa 3, Vinaya nidāna 6, Vimānavatthu 2, Milindapañha 4, Visuddhimagga 17 (sum 299). Early floor = 33 + 5 = 38. The "contested" mark on the Theragāthā/Therīgāthā row reflects the register-relative dating discussed in §VIII. In the dot-strip each dot stands for roughly fifteen events, rounded up so no stratum is left blank; the printed count beside each row is the exact figure. Full per-work breakdown and per-row signatures in Appendix A.
 
 [^22]: Therāpadāna 25, the Tisaraṇagamaniya, with the Apadāna CST volume row cst-s0510m1.mul-kn10_1. The opening and close in Pāli: *Nagare candavatiyā, mātupaṭṭhāko ahuṁ … arahattamapāpuṇiṁ* ("in the city of Candavatī I was a supporter of my mother … I attained arahantship"). Per-claim signature [stratum: late-canonical | layer: mula | speaker: hagiographic-self-narration | register: narrative-hagiographic verse | edition: CST].
 
