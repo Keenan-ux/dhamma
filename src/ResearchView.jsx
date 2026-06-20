@@ -12,6 +12,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { isModifiedClick } from './linkHelpers.js';
 import useIsNarrow from './useIsNarrow.js';
+import useScrollHide from './useScrollHide.js';
 /* eslint-disable react-hooks/exhaustive-deps */
 
 const RESEARCH_ENTRIES = [
@@ -184,6 +185,10 @@ function StudyOutline({ openKey }) {
   const narrow = useIsNarrow(1340);
   const { sections, activeId, jumpTo, scrolled } = useStudyOutline(openKey);
   const [open, setOpen] = useState(false);
+  // Track the same hide-on-scroll state as the TopNav so the pinned bar rises to
+  // the very top when the nav slides away (and drops back under it when it shows),
+  // instead of floating at a fixed offset. Paused while the dropdown is open.
+  const navHidden = useScrollHide({ paused: open });
   if (!sections || sections.length < 2) return null;
   const entries = [OUTLINE_TOP, ...sections];
   const jump = (id) => { jumpTo(id); setOpen(false); };
@@ -194,7 +199,7 @@ function StudyOutline({ openKey }) {
     if (!scrolled && !open) return null;
     const current = sections.find((s) => s.id === activeId) || sections[0];
     return (
-      <div style={outlineBarWrap}>
+      <div style={{ ...outlineBarWrap, top: navHidden ? 0 : 56, transition: 'top 0.3s ease' }}>
         <button type="button" style={outlineBarBtn} aria-expanded={open} onClick={() => setOpen((o) => !o)}>
           <span>contents{current ? <span style={{ color: 'var(--bc-text-tertiary)' }}> · {current.label}</span> : null}</span>
           <span style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .15s', color: 'var(--bc-text-tertiary)' }}>▾</span>
