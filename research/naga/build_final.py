@@ -184,6 +184,55 @@ facet_x_layer = {f: dict(c) for f, c in fxl.items()}
 segment_x_layer = {s: dict(c) for s, c in sxl.items()}
 REFERENT_LEDGER["serpent"] = {**{k: serp_by_layer.get(k, 0) for k in ('mula','attha','tika','anya')}, "total": len(recs)}
 
+# ---- chronological stratum (coded in build_dataset.py, INDEPENDENTLY of layer) ----
+# Spine rows added above that were not in the serpent census carry no stratum yet;
+# code them by their structural layer. Only commentary rows ever hit this fallback
+# (a mula row reaching it is a gate failure below).
+EARLY = ("early-canonical", "archaic-canonical")
+COARSE = {"attha": "classical-commentary", "tika": "sub-commentary", "anya": "paracanonical"}
+for r in recs:
+    if not r.get("stratum"):
+        r["work"] = "commentary-" + r["layer"]
+        r["stratum"] = COARSE.get(r["layer"], "indeterminate")
+        r["stratum_confidence"] = "secure" if r["layer"] in COARSE else "none"
+        r["stratum_warrant"] = "structural layer used as a stratum proxy (spine row not in the census)"
+        r["layer_stratum_disagree"] = False
+
+# stratum aggregates recomputed from the FINAL records (after the spine overlay),
+# so the published counts reconcile exactly with records[].
+stratum_split = dict(Counter(r["stratum"] for r in recs))
+sbl = defaultdict(Counter)
+for r in recs:
+    sbl[r["stratum"]][r["layer"]] += 1
+stratum_by_layer = {k: dict(v) for k, v in sbl.items()}
+mula_stratum = dict(Counter(r["stratum"] for r in recs if r["layer"] == "mula"))
+claim_stratum = dict(Counter(r["stratum"] for r in recs if r.get("claim_bearing")))
+mula_work_split = dict(Counter(r.get("work") for r in recs if r["layer"] == "mula"))
+n_mula = sum(1 for r in recs if r["layer"] == "mula")
+mula_early = sum(v for k, v in mula_stratum.items() if k in EARLY)
+mula_late = n_mula - mula_early
+disagree = sum(1 for r in recs if r["layer"] == "mula" and r.get("layer_stratum_disagree"))
+# work -> philological warrant, read back from the records (DRY: no re-import)
+strat_warrants = {}
+for r in recs:
+    if r["layer"] == "mula" and r.get("work") and r.get("stratum_warrant"):
+        strat_warrants.setdefault(r["work"], r["stratum_warrant"])
+
+meta["stratigraphy"] = {
+ "note": "Chronological stratum is coded INDEPENDENTLY of the mula/attha/tika structural layer, from "
+   "each row's work and within-work position (PROVENANCE-SIGNATURE.md I.1), exactly as the awakening and "
+   "uttarakuru studies. A row shelved as mula whose stratum is not early-canonical is the analytically "
+   "interesting layer/stratum disagree case (the Visuddhimagga rows tagged mula, the late-canonical "
+   "Jataka/Apadana/Vinaya/Niddesa rows, the Abhidhamma rows). Commentary rows take the structural layer "
+   "as a coarse stratum proxy (atthakatha = classical-commentary, tika = sub-commentary, anya = "
+   "paracanonical); the independence is load-bearing within the canonical rows. Strata judged early or "
+   "archaic are coded at lower confidence where the assignment is register-relative (the Vinaya "
+   "frame-narratives, the late Digha protective/assembly texts, the archaic verse collections).",
+ "order": ["archaic-canonical", "early-canonical", "late-canonical", "abhidhamma-canonical",
+           "paracanonical", "classical-commentary", "sub-commentary"],
+ "warrants": strat_warrants,
+}
+
 out = {"meta": meta,
        "spine": [by_id[s] for s in SPINE if s in by_id],
        "h0_h1_cells": H0H1_CELLS,
@@ -191,9 +240,41 @@ out = {"meta": meta,
                       "facet_x_layer": facet_x_layer,
                       "segment_x_layer": segment_x_layer,
                       "serpent_by_layer": dict(serp_by_layer),
-                      "claim_by_layer": dict(claim_by_layer)},
+                      "claim_by_layer": dict(claim_by_layer),
+                      "stratum_split": stratum_split,
+                      "stratum_by_layer": stratum_by_layer,
+                      "mula_stratum": mula_stratum,
+                      "claim_stratum": claim_stratum,
+                      "mula_work_split": mula_work_split,
+                      "mula_early_vs_late": {"early-canonical": mula_early, "late-or-later": mula_late,
+                                             "layer_stratum_disagree": disagree}},
        "records": recs}
 json.dump(out, open("public/research/naga.json","w",encoding="utf-8"), ensure_ascii=False, indent=1)
-import os
+import os, sys
 print(f"wrote public/research/naga.json ({os.path.getsize('public/research/naga.json')/1024:.0f} KB)")
 print(f"records {len(recs)}; spine {len(out['spine'])}; H0/H1 cells {len(H0H1_CELLS)} (H0 {h0}, H1 {h1})")
+print(f"stratum split: {stratum_split}")
+print(f"mula stratum: {mula_stratum} | early {mula_early} | late-or-later {mula_late} | disagree {disagree}")
+
+# ---- consistency gate ----
+errs = []
+NAMED = {"archaic-canonical","early-canonical","late-canonical","abhidhamma-canonical",
+         "paracanonical","classical-commentary","sub-commentary"}
+# 1. every published record carries one of the seven named strata
+bad = [r["id"] for r in recs if r.get("stratum") not in NAMED]
+if bad: errs.append(f"{len(bad)} records without a named stratum: {bad[:5]}")
+# 2. no mula row fell to the layer-proxy fallback (all coded in build_dataset.py)
+fb = [r["id"] for r in recs if r["layer"] == "mula" and str(r.get("work","")).startswith("commentary-")]
+if fb: errs.append(f"{len(fb)} mula rows hit the proxy fallback: {fb[:5]}")
+# 3. tallies reconcile with records[]
+if sum(stratum_split.values()) != len(recs): errs.append("stratum_split != record count")
+if sum(stratum_by_layer.get(k, {}).get(l, 0) for k in stratum_split for l in ('mula','attha','tika','anya')) != len(recs):
+    errs.append("stratum_by_layer != record count")
+if mula_early + mula_late != n_mula: errs.append("mula early+late != mula count")
+if disagree != mula_late: errs.append(f"disagree ({disagree}) != mula_late ({mula_late})")
+if n_mula != serp_by_layer.get("mula", 0): errs.append("mula count != serpent_by_layer mula")
+# 4. no em-dash in the stratigraphy block / warrants we author here
+authored = json.dumps(meta["stratigraphy"], ensure_ascii=False)
+if "—" in authored: errs.append("em-dash in the authored stratigraphy block")
+print("CONSISTENCY:", "PASS" if not errs else ("FAIL: " + "; ".join(errs)))
+sys.exit(1 if errs else 0)

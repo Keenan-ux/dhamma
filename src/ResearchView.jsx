@@ -3525,6 +3525,17 @@ function nBadge(v) {
 }
 const nLayerCols = ['mula', 'attha', 'tika', 'anya'];
 const nLayerLabel = { mula: 'Canon', attha: 'Comm.', tika: 'Sub-comm.', anya: 'Extra-can.' };
+// chronological strata, earliest to latest — the diachronic spine of the reader
+const NSTRAT_ORDER = ['archaic-canonical', 'early-canonical', 'late-canonical', 'abhidhamma-canonical', 'paracanonical', 'classical-commentary', 'sub-commentary'];
+const NSTRAT_LABEL = {
+  'archaic-canonical': 'Archaic canonical (the oldest verse)',
+  'early-canonical': 'Early canonical (sutta prose)',
+  'late-canonical': 'Late canonical (KN verse-narrative, Vinaya frames)',
+  'abhidhamma-canonical': 'Abhidhamma canonical',
+  'paracanonical': 'Paracanonical (outside the Tipiṭaka)',
+  'classical-commentary': 'Classical commentary (aṭṭhakathā)',
+  'sub-commentary': 'Sub-commentary (ṭīkā)',
+};
 
 function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
   const [data, setData] = useState(null);
@@ -3569,11 +3580,19 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
 
         {data && (() => {
           const m = data.meta, ag = data.aggregates, led = ag.referent_ledger, hl = m.h_lex, iaa = m.iaa, hh = m.h0_h1;
+          const strat = m.stratigraphy || {};
+          const ev = ag.mula_early_vs_late || {};
+          const mulaS = ag.mula_stratum || {};
+          const stratSplit = ag.stratum_split || {};
+          const sbl = ag.stratum_by_layer || {};
+          const stratOrder = (strat.order && strat.order.length ? strat.order : NSTRAT_ORDER);
           const nSerp = data.records.length;
           const nClaim = claimRows.length;
           const candTotal = NREF_ORDER.reduce((s, k) => s + (led[k] ? led[k].total : 0), 0);
+          const mulaLayer = (ag.serpent_by_layer && ag.serpent_by_layer.mula) || ((ev['early-canonical'] || 0) + (ev['late-or-later'] || 0));
           const fxl = ag.facet_x_layer;
           const spineBy = (seg) => data.spine.filter((s) => s.segment === seg);
+          const spineByStrata = (arr) => data.spine.filter((s) => arr.indexOf(s.stratum) !== -1);
           const facetTotal = (f) => nLayerCols.reduce((s, k) => s + ((fxl[f] && fxl[f][k]) || 0), 0);
           return (
           <>
@@ -3606,6 +3625,42 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 and path-and-fruit. Of {hh.decidable_cells} decidable canon-to-commentary cells, {hh.H0} are
                 faithful and {hh.H1} are located innovations.
               </p>
+              <p>
+                What follows reads the nāga forward through the strata in which it is described, earliest to
+                latest: in the early discourses, the four births and a ceiling left implicit; in the late canon,
+                the ceiling named and enacted and the bodhisatta who is a virtuous nāga; in the Abhidhamma and
+                the paracanon, the conduct-boundary drawn around the noble one; in the commentaries, the
+                apparatus that gives the ceiling its reason; and in the sub-commentaries, the kamma-bookkeeping
+                that reconciles a woeful birth with a deva's wealth. A trailing section opens the full
+                enumeration, the heteronym table, the stratum counts, the canon-to-commentary cells, and the
+                census, beneath that narrative for any reader who wants the underlying count.
+              </p>
+
+              {ev['early-canonical'] != null && (
+                <div style={aidPanel}>
+                  <p style={{ margin: '0 0 8px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--bc-accent)', fontWeight: 600 }}>
+                    The canonical label conceals a split
+                  </p>
+                  <p style={{ margin: '0 0 8px' }}>
+                    The structural tag "canon" marks a row's shelf in the edited corpus, not its date, and the
+                    canon is itself layered. Once a serpent row's chronological stratum is read from its work and
+                    register rather than from its shelf, the canonical frame divides: of the {mulaLayer}{' '}
+                    structurally-mūla serpent rows, only <strong>{ev['early-canonical']}</strong> read as
+                    genuinely early-canonical (the four births of SN 29, the Udāna's Mucalinda, the oldest
+                    verse); the other <strong>{ev['late-or-later']}</strong> carry the canonical tag while
+                    reading late-canonical, Abhidhamma, paracanonical, or commentary-era by composition. The
+                    sharpest case is the {mulaS['classical-commentary']} rows that are in fact the
+                    Visuddhimagga, Buddhaghosa's classical commentary shelved in the corpus as a root text.
+                  </p>
+                  <p style={{ ...tinyNote, margin: 0 }}>
+                    Stratum is coded independently of the mula/attha/tika layer, from each row's work and
+                    within-work position. The early-or-archaic assignments that rest on genre or frame-position
+                    rather than a secured date (the Vinaya frame-narratives, the late Dīgha protective and
+                    assembly texts, the archaic verse collections) are coded at lower confidence, so the
+                    deepening is best read as register-relative rather than as a proven chronology.
+                  </p>
+                </div>
+              )}
               <p style={methodNote}>
                 Every claim resolves to a live corpus row; click any citation to open it in the reader. Counts
                 are read from the dataset. The candidate frame was built by direct database regex over the Pāli
@@ -3623,11 +3678,186 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 Limitations state the recall floor that bounds it.
               </p>
 
-              <h2 style={h2}>One word, many beings</h2>
+              <h2 style={h2}>In the early discourses</h2>
               <p>
-                Before anything can be counted, the word must be disambiguated, and the size of the problem is
-                itself a result. A naive reader who searches the corpus for <em>nāga</em> meets a wall that is
-                mostly not about serpents at all. In the canon alone the bare substring occurs in
+                Before anything can be placed in time, the word must be disambiguated, and the size of that
+                problem is itself a result. A reader who searches the corpus for <em>nāga</em> meets a wall that
+                is mostly not about serpents at all: in the canon alone the bare substring occurs in
+                {' '}{hl.canon_substring_nāga_rows.mula} rows, but {hl.canon_morphological_noise_pct} percent of
+                those are morphological accidents (<em>samannāgata</em>, "endowed with"; <em>anāgāmī</em>,
+                "non-returner"), and past that filter the genuine word is still a heteronym with at least five
+                live senses. The full sense-by-layer count is given under <em>The full data</em> below; only the
+                serpent-being is this study's subject, and the rest of this section reads the earliest layer of
+                what the canon says of it.
+              </p>
+              <p>
+                At that earliest layer the ontology of the nāga is compact and is given in the Buddha's voice.
+                The Nāgasaṃyutta (SN 29) opens by fixing the four <em>nāgayoni</em>, the four modes by which
+                nāgas are born, from an egg, from a womb, from moisture, and spontaneously, and it ranks them,
+                the spontaneous highest. The same collection states their nature in three words that recur as
+                the object of longing throughout the canon, <em>dīghāyukā vaṇṇavanto sukhabahulā</em>:
+                long-lived, beautiful, abounding in happiness. One is reborn among them, SN 29 says, by a precise
+                recipe: mixed conduct of body, speech, and mind, plus having heard of the nāgas' glory, plus the
+                aspiration to it, plus an act of giving. Its powers, the coils and the hood, the dwelling
+                (<em>bhavana</em>) it emerges from, and above all the shape-shift into human form, are shown
+                rather than catalogued, most beautifully in the nāga-king Mucalinda who sheltered the newly
+                awakened Buddha through seven days of storm and then took the form of a brahmin youth to worship
+                him.
+              </p>
+              <p>
+                The ceiling is already present here, but only by implication. SN 29 shows nāgas keeping the
+                uposatha, reflecting on their past conduct and resolving to do better; yet the highest a nāga
+                aspires to in these discourses is a heavenly rebirth, never the path. The moral nāga of the early
+                canon is a being with the fruits of merit reaching toward more of the same, and the limit on it
+                is shown by what it is never made to want. Read by stratum rather than by shelf, this early floor
+                is the {ev['early-canonical']} of the {mulaLayer} structurally-canonical serpent rows where
+                shelving and composition agree, the four-births suttas, the Udāna, and the oldest verse of the
+                Suttanipāta and the gāthā collections; the other {ev['late-or-later']} read later than they are
+                filed.
+              </p>
+              {spineByStrata(['early-canonical', 'archaic-canonical']).length > 0 && (
+                <div style={{ marginTop: 14 }}>
+                  <p style={tableCaption}>The verified early-canonical spine. Each row's citation opens the passage; "evidence" expands the verbatim Pāli.</p>
+                  {spineByStrata(['early-canonical', 'archaic-canonical']).map((s) => <NSpineRow key={s.id} s={s} open={open} setOpen={setOpen} />)}
+                </div>
+              )}
+
+              <h2 style={h2}>In the late canon</h2>
+              <p>
+                Above that floor two things the early discourses leave implicit are made explicit, and both come
+                to us inside the later canonical strata. First the cosmological place is fixed. The
+                Āṭānāṭiya-sutta sets the nāga-host as one of the four guardian armies of the quarters, beside the
+                yakkhas, gandhabbas, and kumbhaṇḍas (<Cite id="dn32">DN 32</Cite>), and the Mahāsamaya lists the
+                nāgas among the orders of beings gathered before the Buddha and has him make peace between the
+                nāgas and their standing enemy the garuḷa (<Cite id="dn20">DN 20</Cite>). The register is
+                load-bearing here: both are protective and assembly texts, the late-canonical layer of the Dīgha,
+                and the nāga's first solid placement in the cosmic census comes inside one.
+              </p>
+              <p>
+                Then the ceiling is named. When an actual nāga, weary of the nāga-birth and longing for human
+                state, takes a young man's form and gets himself ordained, the Vinaya's Mahākhandhaka has the
+                Buddha tell him, in his own voice, <em>tumhe khottha nāgā aviruḷhidhammā imasmiṁ
+                dhammavinaye</em>, "you nāgas are of non-growth-nature in this Dhamma-Vinaya," name the two
+                occasions on which a nāga's disguise fails, and lay down that an animal may not be ordained, and
+                if ordained must be expelled. The ceiling is therefore not merely enacted by a rule; it is
+                named. What this layer does not give is the reason. The Vinaya frame-narratives, like the late
+                Dīgha texts, are coded late-canonical at lower confidence, a frame-position label rather than a
+                secured date, but the naming itself is unambiguous and canonical.
+              </p>
+              <p>
+                The same stratum carries the bodhisatta who is a virtuous nāga. The Jātakas, gāthā shelved in a
+                late-canonical collection, repeatedly make the bodhisatta a nāga-king who keeps the precepts in
+                that birth, Campeyya, Bhūridatta, Saṅkhapāla; and the same texts are clear that he does so to
+                perfect his virtue toward a future human awakening, never to awaken as a nāga. The Apadāna,
+                Buddhavaṃsa, Niddesa, and Khuddakapāṭha add their witnesses in the same late-canonical register.
+                This is the layer where the soteriological picture is stated most fully in canonical voice, and
+                it is, by composition, late.
+              </p>
+              {spineByStrata(['late-canonical']).length > 0 && (
+                <div style={{ marginTop: 14 }}>
+                  <p style={tableCaption}>The verified late-canonical spine.</p>
+                  {spineByStrata(['late-canonical']).map((s) => <NSpineRow key={s.id} s={s} open={open} setOpen={setOpen} />)}
+                </div>
+              )}
+
+              <h2 style={h2}>In the Abhidhamma and the paracanon</h2>
+              <p>
+                Between the suttas and the commentary sits a thin but real scholastic layer. In the Kathāvatthu's
+                Duggatikathā, the discourse on bad destinies, the canon draws a conduct-boundary around the noble
+                one: a view-attained person (a stream-enterer) cannot take a nāga-maiden or accept animals
+                (<Cite id="kv12.9">KV 12.9</Cite>). The nāga is here fixed not by a new property but by exclusion,
+                placed outside the ties a noble disciple may form, which is the soteriological ceiling restated
+                as a rule of association. The paracanonical Peṭakopadesa adds the converse image, the Buddha
+                teaching devas, nāgas, and yakkhas the Dhamma each in its own tongue (<Cite id="pe2">PE 2</Cite>).
+                These are the {mulaS['abhidhamma-canonical'] || 0} Abhidhamma-canonical and
+                {' '}{mulaS['paracanonical'] || 0} paracanonical serpent rows shelved as mūla; small in number,
+                they are the hinge between the suttas' implicit ceiling and the commentary's explicit doctrine of
+                it.
+              </p>
+
+              <h2 style={h2}>In the commentaries</h2>
+              <p>
+                The commentary's additions are detail laid over a canonical frame, and where they go beyond the
+                frame they go in one direction, toward system. The Samantapāsādikā gives the nāga an Abhidhamma
+                classification the suttas never state, a rebirth-linking consciousness rooted in the result of
+                bad kamma, so that for all its deva-like lordship the nāga is technically a woeful rebirth; and
+                it furnishes the habitat the suttas leave blank, a creature that moves in water and eats frogs.
+                The four-births commentary (the Catuyonivaṇṇanā) sets the nāga's four <em>yoni</em> into a full
+                cosmological scheme of who is born how, and cross-refers the canonical four supaṇṇa-births. The
+                pattern is the study's thesis in miniature: the canon states that the nāga is born four ways and
+                is an animal; the commentary explains, classifies, and furnishes.
+              </p>
+              <p>
+                Here too the canon's named ceiling is at last given its reason. The Samantapāsādikā glosses
+                {' '}<em>aviruḷhidhamma</em> by supplying its content: the nāgas are of non-growth-nature
+                {' '}<em>because of their incapacity</em> (<em>abhabbattā</em>) <em>for jhāna, insight, and
+                path-and-fruit</em>. Two further commentarial moves harden the same wall. The canon gives two
+                occasions on which a nāga's disguise fails; the commentary makes them five, adding rebirth, the
+                shedding of the skin, and death. And the canon's word <em>tiracchānagata</em>, "animal," is read
+                as any non-human whatsoever, "down to Sakka the king of the gods," so that the bar that begins as
+                a rule about animals becomes a rule about the not-human. The nāga is thus the clearest single
+                case of a principle the canon holds quietly and the commentary states loudly, that a human birth
+                is the needed basis for the path.
+              </p>
+              <p>
+                This is also where the layer-and-stratum split bites hardest. The Visuddhimagga's account of
+                Moggallāna taming the nāga-king Nandopananda, and its other nāga passages, are shelved in the
+                corpus as mūla, root-text, yet they are Buddhaghosa's own fifth-century composition;
+                {' '}{mulaS['classical-commentary']} of the canonical-tagged serpent rows are in fact classical
+                commentary. Across the full enumeration the same shape holds: the commentary carries the great
+                bulk of every facet, and most heavily the facets of furnishing, habitat and power, where there is
+                most to invent. The facet-by-layer table is given under <em>The full data</em> below.
+              </p>
+              {spineByStrata(['classical-commentary']).length > 0 && (
+                <div style={{ marginTop: 14 }}>
+                  <p style={tableCaption}>The verified commentarial spine, the apparatus laid over the canonical frame.</p>
+                  {spineByStrata(['classical-commentary']).map((s) => <NSpineRow key={s.id} s={s} open={open} setOpen={setOpen} />)}
+                </div>
+              )}
+
+              <h2 style={h2}>In the sub-commentaries and the modern reading</h2>
+              <p>
+                The shallow end of the timeline does the bookkeeping. The Ṭīkā's main work on the nāga is to
+                reconcile a tension the commentary's own classification creates: if the nāga is a woeful
+                rebirth, how does it enjoy a deva's wealth, golden colour, and sweet voice? The sub-commentary
+                answers that those enjoyments are the fruit of <em>wholesome</em> sense-sphere kamma even within
+                the lower destiny, so the mixed lot of the nāga is split cleanly along the kamma that produces
+                each half; it places the nāga-realm among the abodes "below," with the hells; and the
+                Visuddhimagga-mahāṭīkā keeps the narrative thread, the nāgas Cūḷodara and Mahodara made
+                venom-free and established in the refuges and precepts. The sub-commentary completes the
+                systematizing the Aṭṭhakathā began, and adds no new bar.
+              </p>
+              <p>
+                The result places the nāga within a field that has long read it as ambiguous, and gives that
+                reading a mechanism on an axis the field has not measured. Bloss's study of the Buddha and the
+                nāga and DeCaroli's account of spirit-deity religion both locate the nāga's subordination in the
+                cultic and narrative register: the pre-Buddhist water-deity converted, tamed, made a protector
+                and donor, its worship redirected to the Buddha. That register is real and is not what this study
+                counts. This study measures a different axis, the classificatory and soteriological one, what the
+                texts say a nāga ontologically is and whether it can win the path; and there the ambiguity is not
+                evenly distributed across the tradition. The canon already does the decisive work, classing the
+                nāga as an animal and naming its incapacity; the figure is liminal in the suttas, not only in
+                later devotion. The commentary's contribution is not the subordination but its system: the
+                doctrinal reason (<em>abhabba</em>), the Abhidhamma rebirth-linking, and the generalization of
+                the bar from animals to all non-humans. Appleton's reading of the nāga-king Jātakas fits
+                precisely here: the bodhisatta can be a virtuous nāga, but his virtue there is always oriented
+                toward a future human birth, which is the soteriology of the ceiling told as narrative. The nāga
+                is the canon's sharpest image of a being that has the fruits of merit, long life, beauty, and
+                happiness, without the one opportunity that matters.
+              </p>
+
+              <h2 style={h2}>The full data</h2>
+              <p style={tableCaption}>
+                The narrative above rests on a full enumeration of every serpent-being row. The detail follows
+                for any reader who wants the underlying count: the heteronym disambiguation, the stratum counts
+                the diachronic reading turns on, the canon-to-commentary cells read close, the full claim-bearing
+                census, and the limits and references. Every citation opens the passage in the reader.
+              </p>
+
+              <h3 style={h3}>One word, many beings</h3>
+              <p>
+                A naive reader who searches the corpus for <em>nāga</em> meets a wall that is mostly not about
+                serpents at all. In the canon alone the bare substring occurs in
                 {' '}{hl.canon_substring_nāga_rows.mula} rows, but {hl.canon_morphological_noise_pct} percent of
                 those are morphological accidents: <em>samannāgata</em> ("endowed with"), <em>anāgata</em>
                 {' '}("future"), <em>anāgāmī</em> ("non-returner"), all built on <em>āgata</em> ("come"), in
@@ -3671,97 +3901,58 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 fact about the language, recorded here as the study's first finding.
               </p>
 
-              <h2 style={h2}>What a nāga is</h2>
+              <h3 style={h3}>By textual stratum</h3>
               <p>
-                The canon's ontology of the nāga is compact and is given in the Buddha's voice. The
-                Nāgasaṃyutta (SN 29) opens by fixing the four <em>nāgayoni</em>, the four modes by which nāgas
-                are born: from an egg, from a womb, from moisture, and spontaneously; and it ranks them, the
-                spontaneous highest. The same collection states their nature in three words that recur as the
-                object of longing throughout the canon, <em>dīghāyukā vaṇṇavanto sukhabahulā</em>: long-lived,
-                beautiful, abounding in happiness. One is reborn among them, SN 29 says, by a precise recipe:
-                mixed conduct of body, speech, and mind, plus having heard of the nāgas' glory, plus the
-                aspiration to it, plus an act of giving. The decisive ontological fact is supplied not in SN 29
-                but in the Vinaya: the nāga is <em>tiracchānagata</em>, "gone among the animals," a destination
-                below the human and the divine. Its powers, the coils and the hood, the dwelling
-                (<em>bhavana</em>) it emerges from, and above all the shape-shift into human form, are shown
-                rather than catalogued, most beautifully in the nāga-king Mucalinda who sheltered the newly
-                awakened Buddha through seven days of storm and then took the form of a brahmin youth to
-                worship him. The canon also gives the nāga a fixed cosmological place: the Āṭānāṭiya-sutta sets
-                the nāga-host as one of the four guardian armies of the quarters, beside the yakkhas,
-                gandhabbas, and kumbhaṇḍas (<Cite id="dn32">DN 32</Cite>), and the Mahāsamaya lists the nāgas
-                among the orders of beings gathered before the Buddha (<Cite id="dn20">DN 20</Cite>). Its
-                standing enemy the garuḷa is canonical too: the Saṃyutta gives the supaṇṇas their own
-                four-births collection mirroring SN 29, and DN 20 has the Buddha make peace between them.
+                The diachronic reading rests on a chronological stratum coded for every row from its work and
+                position, independently of the mula/attha/tika shelf. The table reads the full census by
+                stratum, earliest to latest, with the structural layers each stratum draws from. The
+                analytically interesting cells are the canonical (mūla) rows that do not read early: of the
+                {' '}{mulaLayer} structurally-mūla serpent rows, {ev['early-canonical']} are early-canonical and
+                {' '}{ev['late-or-later']} read later than they are shelved ({ev['layer_stratum_disagree']} carry
+                a layer-stratum disagreement).
               </p>
-              <p>
-                The commentary's additions to this picture are detail laid over a canonical frame, and where
-                they go beyond the frame they do so in a consistent direction, toward system. The
-                Samantapāsādikā gives the nāga an Abhidhamma classification the suttas never state, a
-                rebirth-linking consciousness rooted in the result of bad kamma, so that for all its deva-like
-                lordship the nāga is technically a woeful rebirth; and it furnishes the habitat the suttas leave
-                blank, a creature that moves in water and eats frogs. The four-births commentary (the
-                Catuyonivaṇṇanā) sets the nāga's four <em>yoni</em> into a full cosmological scheme of who is
-                born how, and cross-refers the canonical four supaṇṇa-births. The pattern is the study's thesis
-                in miniature: the canon states that the nāga is born four ways and is an animal; the commentary
-                explains, classifies, and furnishes.
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr><th style={thLeft}>Chronological stratum</th>{nLayerCols.map((k) => <th key={k} style={thNum}>{nLayerLabel[k]}</th>)}<th style={thNum}>Total</th></tr>
+                  </thead>
+                  <tbody>
+                    {stratOrder.filter((k) => stratSplit[k]).map((k) => (
+                      <tr key={k} style={tr}>
+                        <td style={tdLeft}>{NSTRAT_LABEL[k] || k}</td>
+                        {nLayerCols.map((c) => <td key={c} style={tdNum}>{(sbl[k] && sbl[k][c]) || 0}</td>)}
+                        <td style={tdNum}>{stratSplit[k]}</td>
+                      </tr>
+                    ))}
+                    <tr style={trTotal}>
+                      <td style={tdLeft}>All serpent rows</td>
+                      {nLayerCols.map((c) => <td key={c} style={tdNum}>{stratOrder.reduce((s, k) => s + ((sbl[k] && sbl[k][c]) || 0), 0)}</td>)}
+                      <td style={tdNum}>{stratOrder.reduce((s, k) => s + (stratSplit[k] || 0), 0)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>
+                Commentary rows take the structural layer as a coarse stratum (Aṭṭhakathā as classical
+                commentary, Ṭīkā as sub-commentary, extra-canonical as paracanonical); the independence is
+                load-bearing within the canonical rows, where {mulaS['classical-commentary']} mūla-shelved rows
+                are in fact the Visuddhimagga, {mulaS['late-canonical']} are late-canonical, {mulaS['abhidhamma-canonical'] || 0}
+                {' '}Abhidhamma, and {mulaS['paracanonical'] || 0} paracanonical. The register-relative
+                assignments are held at lower confidence, as the Limitations note.
               </p>
-              {spineBy('A_ontology').length > 0 && (
-                <div style={{ marginTop: 14 }}>
-                  <p style={tableCaption}>The verified ontological spine. Each row's citation opens the passage; "evidence" expands the verbatim Pāli.</p>
-                  {spineBy('A_ontology').map((s) => <NSpineRow key={s.id} s={s} open={open} setOpen={setOpen} />)}
-                </div>
-              )}
 
-              <h2 style={h2}>The ceiling, and who explained it</h2>
+              <h3 style={h3}>Canon and commentary, cell by cell</h3>
               <p>
-                The soteriological paradox is the heart of the matter, and the canon states it more fully than
-                a first reading expected. A nāga is a moral being: SN 29 shows nāgas
-                keeping the uposatha, reflecting on their past conduct and resolving to do better, and the
-                nāga-king of the Vinaya story is a devotee who wants the holy life. Yet the highest a nāga
-                aspires to in the suttas is a heavenly rebirth, never the path; and when an actual nāga, weary
-                of the nāga-birth and longing for human state, takes a young man's form and gets himself
-                ordained, the Buddha's ruling is explicit. He tells the nāga, in the canon, in his own voice,
-                <em> tumhe khottha nāgā aviruḷhidhammā imasmiṁ dhammavinaye</em>, "you nāgas are of
-                non-growth-nature in this Dhamma-Vinaya," and lays down the rule that an animal may not be
-                ordained, and if ordained must be expelled. The ceiling is therefore not merely enacted by a
-                rule; it is named. What the canon does not give is the reason.
-              </p>
-              <p>
-                The reason is the commentary's, and it is exact. The Samantapāsādikā glosses
-                {' '}<em>aviruḷhidhamma</em> by supplying its content: the nāgas are of non-growth-nature
-                {' '}<em>because of their incapacity</em> (<em>abhabbattā</em>) <em>for jhāna, insight, and
-                path-and-fruit</em>. Here the canon names a ceiling and the commentary builds the doctrine of
-                it, the <em>abhabba</em> being who cannot develop the path in this life. Two further
-                commentarial moves harden the same wall. The canon gives two occasions on which a nāga's
-                disguise fails, mating with its own kind and falling asleep relaxed; the commentary makes them
-                five, adding rebirth, the shedding of the skin, and death. And the canon's word
-                {' '}<em>tiracchānagata</em>, "animal," is read by the commentary as any non-human whatsoever,
-                "down to Sakka the king of the gods," so that the bar that begins as a rule about animals
-                becomes a rule about the not-human. The bodhisatta himself, the Jātakas insist, was repeatedly
-                a nāga-king and kept the precepts there; the same texts are clear that he did so to perfect his
-                virtue toward a future human awakening, never to awaken as a nāga. The nāga is thus the clearest
-                single case of a principle the canon holds quietly and the commentary states loudly: that a
-                human birth is the needed basis for the path.
-              </p>
-              {spineBy('B_soteriology').length > 0 && (
-                <div style={{ marginTop: 14 }}>
-                  <p style={tableCaption}>The verified soteriological spine.</p>
-                  {spineBy('B_soteriology').map((s) => <NSpineRow key={s.id} s={s} open={open} setOpen={setOpen} />)}
-                </div>
-              )}
-
-              <h2 style={h2}>Canon and commentary, cell by cell</h2>
-              <p>
-                The distributional result above has a qualitative mechanism, which a close reading of the
-                load-bearing cells makes precise. These cells are the claims where both a canonical locus and a
-                commentarial treatment sit on the verified spine; they are an analyst-selected set, not a
-                warrant-tally over every commentarial claim, so the count characterizes the spine, not the
-                whole census. For each cell the test is whether a canonical passage warrants what the commentary
-                says. The faithful cells (H0) are the bare facts: the four births, the lifespan, the uposatha,
-                the cause of rebirth, the shape-shift, all of which the commentary glosses without exceeding.
-                The located innovations (H1) cluster, and they cluster tellingly, in the apparatus: the
-                Abhidhamma rebirth-linking, the physical habitat, the doctrinal ground of the ceiling, the
-                expanded reversion list, and the broadened category of the barred. Across the {hh.decidable_cells}
+                The distributional result has a qualitative mechanism, which a close reading of the load-bearing
+                cells makes precise. These cells are the claims where both a canonical locus and a commentarial
+                treatment sit on the verified spine; they are an analyst-selected set, not a warrant-tally over
+                every commentarial claim, so the count characterizes the spine, not the whole census. For each
+                cell the test is whether a canonical passage warrants what the commentary says. The faithful
+                cells (H0) are the bare facts: the four births, the lifespan, the uposatha, the cause of
+                rebirth, the shape-shift, all of which the commentary glosses without exceeding. The located
+                innovations (H1) cluster, and they cluster tellingly, in the apparatus: the Abhidhamma
+                rebirth-linking, the physical habitat, the doctrinal ground of the ceiling, the expanded
+                reversion list, and the broadened category of the barred. Across the {hh.decidable_cells}
                 {' '}load-bearing cells, {hh.H0} are faithful and {hh.H1} are located innovations; each "none
                 located" refutes a warrant search, not a doctrinal entailment.
               </p>
@@ -3814,53 +4005,7 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 </table>
               </div>
 
-              <h2 style={h2}>Discussion</h2>
-              <p>
-                The result places the nāga within a field that has long read it as ambiguous, and gives that
-                reading a mechanism on an axis the field has not measured. Bloss's study of the Buddha and the
-                nāga and DeCaroli's account of spirit-deity religion both locate the nāga's subordination in the
-                cultic and narrative register: the pre-Buddhist water-deity converted, tamed, made a protector
-                and donor, its worship redirected to the Buddha. That register is real and is not what this
-                study counts. This study measures a different axis, the classificatory and soteriological one,
-                what the texts say a nāga ontologically is and whether it can win the path; and there the
-                ambiguity is not evenly distributed across the tradition. The canon already does the decisive
-                work, classing the nāga as an animal and naming its incapacity; the figure is liminal in the
-                suttas, not only in later devotion. The commentary's contribution is not the subordination but
-                its system: the doctrinal reason (<em>abhabba</em>), the Abhidhamma rebirth-linking, and the
-                generalization of the bar from animals to all non-humans. The contribution is thus an addition
-                to Bloss and DeCaroli, a classificatory axis beside their cultic one, not a relocation of their
-                finding. Appleton's reading of the nāga-king Jātakas fits precisely here: the bodhisatta can
-                be a virtuous nāga, but his virtue there is always oriented toward a future human birth, which
-                is the soteriology of the ceiling told as narrative. The nāga is the canon's sharpest image of a
-                being that has the fruits of merit, long life, beauty, and happiness, without the one
-                opportunity that matters.
-              </p>
-
-              <h2 style={h2}>Limitations</h2>
-              <p>
-                This is a high-recall lexical census on the <em>nāga</em>-word with a measured recall floor,
-                not a proof of completeness. The frame is the broad <em>nāg</em>-string minus the morphological
-                false friends, classified by sense; its floor lies in one place, the material that speaks of
-                nāgas under the ordinary snake words (<em>ahi</em>, <em>sappa</em>, <em>āsīvisa</em>,
-                <em> uraga</em>, <em>bhujaga</em>) without the term <em>nāga</em>. That floor was measured, not
-                only named: a sweep of those words (overwhelmingly literal snakes) found at most six canonical
-                rows carrying nāga-being markers under a snake-synonym without a <em>nāga</em>-token, and a
-                reconciliation against the named nāga-kings (Mucalinda, Bhūridatta, Erakapatta, Saṅkhapāla,
-                Nandopananda, Apalāla, Campeyya) passed, all resolving in the census. The residual is small,
-                bounded, and real, and every "no canonical warrant" verdict refutes a located warrant, not a
-                doctrinal entailment. A 124-row subsample of the canonical ambiguous rows was triple-coded with
-                almost-perfect agreement; the rest of the ambiguous rows and the whole commentary were
-                single-coded against that validated codebook, so the commentary's sense-counts carry the
-                codebook's reliability but not a per-row second opinion. The warrant-by-cell test is a close
-                reading of the load-bearing spine, not a tally over every commentarial claim. The voice axis
-                (the Buddha versus narrative versus commentary) is an approximate tag from each row's source;
-                the canon-versus-commentary layer axis, which carries the argument, is exact. The
-                cross-tradition nāga (the Mahāvastu and the Sanskrit Vinaya on ordaining the non-human) and the
-                nāga of the relic cult, the natural home of the cultic subordination Bloss describes, are
-                horizons named here, not witnesses used.
-              </p>
-
-              <h2 style={h2}>The full census</h2>
+              <h3 style={h3}>The full census</h3>
               <p style={tableCaption}>
                 Every claim-bearing serpent passage, grouped by facet. Counts are from the dataset; each
                 citation opens the passage in the reader. Expand a facet to see its instances.
@@ -3878,7 +4023,7 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                           {byFacet[f].map((r) => (
                             <li key={r.id} style={{ marginBottom: 5, fontSize: 13.5, lineHeight: 1.5 }}>
                               <Cite id={r.id}>{r.citation || r.id}</Cite>
-                              <span style={{ ...tinyNote, marginLeft: 6 }}>[{r.layer}]</span>
+                              <span style={{ ...tinyNote, marginLeft: 6 }}>[{r.layer}{r.stratum ? ' · ' + r.stratum : ''}]</span>
                               {r.claim && <span> {r.claim}</span>}
                             </li>
                           ))}
@@ -3889,7 +4034,35 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 </div>
               ))}
 
-              <h2 style={h2}>References</h2>
+              <h3 style={h3}>Limitations</h3>
+              <p>
+                This is a high-recall lexical census on the <em>nāga</em>-word with a measured recall floor,
+                not a proof of completeness. The frame is the broad <em>nāg</em>-string minus the morphological
+                false friends, classified by sense; its floor lies in one place, the material that speaks of
+                nāgas under the ordinary snake words (<em>ahi</em>, <em>sappa</em>, <em>āsīvisa</em>,
+                <em> uraga</em>, <em>bhujaga</em>) without the term <em>nāga</em>. That floor was measured, not
+                only named: a sweep of those words (overwhelmingly literal snakes) found at most six canonical
+                rows carrying nāga-being markers under a snake-synonym without a <em>nāga</em>-token, and a
+                reconciliation against the named nāga-kings (Mucalinda, Bhūridatta, Erakapatta, Saṅkhapāla,
+                Nandopananda, Apalāla, Campeyya) passed, all resolving in the census. The residual is small,
+                bounded, and real, and every "no canonical warrant" verdict refutes a located warrant, not a
+                doctrinal entailment. A 124-row subsample of the canonical ambiguous rows was triple-coded with
+                almost-perfect agreement; the rest of the ambiguous rows and the whole commentary were
+                single-coded against that validated codebook, so the commentary's sense-counts carry the
+                codebook's reliability but not a per-row second opinion. The warrant-by-cell test is a close
+                reading of the load-bearing spine, not a tally over every commentarial claim. The chronological
+                stratum is coded from each row's work and position; where the assignment rests on genre or
+                frame-position rather than a secured date (the Vinaya frame-narratives, the late Dīgha
+                protective and assembly texts, the archaic verse), it is held at lower confidence, so the
+                deepening-with-lateness reading is register-relative rather than a proven chronology. The voice
+                axis (the Buddha versus narrative versus commentary) is an approximate tag from each row's
+                source; the canon-versus-commentary layer axis, which carries the argument, is exact. The
+                cross-tradition nāga (the Mahāvastu and the Sanskrit Vinaya on ordaining the non-human) and the
+                nāga of the relic cult, the natural home of the cultic subordination Bloss describes, are
+                horizons named here, not witnesses used.
+              </p>
+
+              <h3 style={h3}>References</h3>
               <div style={refList}>
                 <div style={refItem}>Vogel, J. P. 1926. <em>Indian Serpent-Lore, or the Nāgas in Hindu Legend and Art</em>. London: Arthur Probsthain.</div>
                 <div style={refItem}>Bloss, L. W. 1973. "The Buddha and the Nāga: A Study in Buddhist Folk Religiosity." <em>History of Religions</em> 13.1: 36–53.</div>
@@ -3933,7 +4106,7 @@ function NSpineRow({ s, open, setOpen }) {
           {s.evidence_en && <p style={evEn}>{s.evidence_en}</p>}
           <p style={evMeta}>
             <Cite id={s.id}>{s.citation || s.id}</Cite>
-            {' · '}{s.layer}{' · '}
+            {' · '}{s.layer}{s.stratum ? ' · ' + s.stratum : ''}{' · '}
             {s.tr_provenance === 'sujato' ? 'tr. Sujato' : s.tr_provenance === 'author' ? "author's gloss" : (s.tr_provenance || '')}
           </p>
         </div>
