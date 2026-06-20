@@ -329,16 +329,16 @@
   },
   "stratigraphy": [
    {
-    "element": "Heart-base, named (hadaya-vatthu)",
-    "stratum": "classical-commentary",
-    "structural_layer": "mūla (Vism) + aṭṭhakathā/ṭīkā",
-    "four_nikaya_abhidhamma_hits": 0,
-    "layer_stratum_disagree": true,
+    "element": "Insight as lived practice (udayabbayānupassī viharati)",
+    "stratum": "early-canonical",
+    "structural_layer": "mūla",
+    "four_nikaya_abhidhamma_hits": 25,
+    "layer_stratum_disagree": false,
     "anchor": {
-     "id": "cst-abh03a.att-370_p002",
-     "label": "Pañca-a §370"
+     "id": "sn22.89",
+     "label": "SN 22.89"
     },
-    "note": "Zero in the four Nikayas and zero in the seven canonical Abhidhamma books; the 18 mula hits are all Visuddhimagga (mula role, commentary-era stratum) plus one Niddesa and one Milindapanha."
+    "note": "The experiential observation of rise-and-fall IS early-canonical (25 Nikaya rows), but as a present-participle PRACTICE, never as a numbered station. The early canon has the walking; the para-canon draws the route-map."
    },
    {
     "element": "Material base, unnamed (yaṃ rūpaṃ nissāya)",
@@ -377,16 +377,16 @@
     "note": "The NAMED stations are zero across the four Nikayas and zero across the seven Abhidhamma books; first enumerated by name in the Paṭisambhidāmagga Ñāṇakathā (a para-canonical Khuddaka analytical work, structural-mula yet not early)."
    },
    {
-    "element": "Insight as lived practice (udayabbayānupassī viharati)",
-    "stratum": "early-canonical",
-    "structural_layer": "mūla",
-    "four_nikaya_abhidhamma_hits": 25,
-    "layer_stratum_disagree": false,
+    "element": "Heart-base, named (hadaya-vatthu)",
+    "stratum": "classical-commentary",
+    "structural_layer": "mūla (Vism) + aṭṭhakathā/ṭīkā",
+    "four_nikaya_abhidhamma_hits": 0,
+    "layer_stratum_disagree": true,
     "anchor": {
-     "id": "sn22.89",
-     "label": "SN 22.89"
+     "id": "cst-abh03a.att-370_p002",
+     "label": "Pañca-a §370"
     },
-    "note": "The experiential observation of rise-and-fall IS early-canonical (25 Nikaya rows), but as a present-participle PRACTICE, never as a numbered station. The early canon has the walking; the para-canon draws the route-map."
+    "note": "Zero in the four Nikayas and zero in the seven canonical Abhidhamma books; the 18 mula hits are all Visuddhimagga (mula role, commentary-era stratum) plus one Niddesa and one Milindapanha."
    }
   ],
   "epistemic": {

@@ -598,7 +598,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 Climb one layer and the report shifts key. The Theragāthā and Therīgāthā, 59 events
                 between them, are the first stratum where the awakening event becomes the elder's own
                 first-person attainment song, closed by a compiler's colophon naming him
-                (<Cite id="cst-s0508m">Therāpadāna 25 sibling, Th 1.66, Meghiya</Cite>). As a voice it
+                (<Cite>Theragāthā 1.66, Meghiya</Cite>). As a voice it
                 stands between the compiler's flat early notice below it and the elaborated life-verse
                 above it: the awakened person speaking of his own release after the fact. This stratum
                 is genuinely contested in date, archaic in places and late in others, so it is marked
@@ -618,7 +618,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 This single late-canonical work supplies more than half of all{' '}
                 {fmt(colTotals.mula)} canonical events and more than four times the entire early floor.
                 Joined to it are the lineage verse of the Buddhavaṁsa (8,{' '}
-                <Cite id="cst-s0511m">Bv 10, Padumabuddhavaṁsa</Cite>), the late exegesis of the
+                <Cite>Bv 10, Padumabuddhavaṁsa</Cite>), the late exegesis of the
                 Niddesa (3, <Cite id="cnd5">Cnd 5</Cite>), the celestial-mansion verse of the
                 Vimānavatthu (2), and the Vinaya occasioning-stories (6,{' '}
                 <Cite id="pli-tv-kd1">Vin Mahāvagga nidāna</Cite>), where an awakening is staged inside
@@ -700,7 +700,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 The descent runs one step past the Tipiṭaka into the Milindapañha, 4 events,
                 paracanonical dialogue sitting on the very edge of the canon proper, where a later
                 author casts doctrine as the give-and-take of a king and a monk
-                (<Cite id="cst-s0518m">Mil 3.7.3, Nāgasena's dialogue</Cite>). The voice here is the
+                (<Cite>Mil 3.7.3, Nāgasena's dialogue</Cite>). The voice here is the
                 named-disciple dialogue: the awakening is set inside the exchange of King Milinda and
                 the elder Nāgasena. It is a thin stratum, kept distinct because it is its own point on
                 the timeline, and it carries the line cleanly across the canon's outer boundary into
@@ -1328,8 +1328,184 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 Ñāṇamoli for the Visuddhimagga and B. C. Law for the Puggalapaññatti.
               </p>
 
+              {/* DIACHRONIC INTRO */}
+              <p>
+                What follows traces the matching of a person to a practice across the layers of this
+                literature, earliest to latest: in the early discourses, a practice keyed to a present
+                defilement, with no temperament word at all; in the Abhidhamma, still no temperament scheme; in
+                the para-canonical Khuddaka, the hinge where one word changes its job; in the commentaries, a
+                six-type scheme fixed as a person-by-object matrix that the apex manual then declines to
+                certify; in the sub-commentaries, temperament read off the body; and in reading it now, the
+                modern gloss of "personality type" and the limits of saying any of this. A trailing section
+                opens the full facet-by-facet data beneath that narrative, with every count, table, and warrant
+                ledger intact and every citation opening its passage.
+              </p>
+
+              {/* II. EARLY DISCOURSES */}
+              <h2 style={h2}>In the early discourses</h2>
+              <p>
+                Long before the six temperaments, the early discourses make a plainer move. They do not sort the
+                person; they read the defilement that is active and prescribe against it. To Meghiya, harassed
+                by thoughts of sense pleasure, ill will and cruelty, the Buddha gives four things to develop:
+                foulness to give up greed, love to give up hate, mindfulness of breathing to cut off thinking,
+                and the perception of impermanence to uproot the conceit "I am" (<Cite id="an9.3">AN 9.3</Cite>,
+                with the Udāna doublet <Cite id="ud4.1">Ud 4.1</Cite> and the de-personalised parallel{' '}
+                <Cite id="an9.1">AN 9.1</Cite>). The same logic appears as a three-root scheme, foulness against
+                greed, love against hate, wisdom against delusion (<Cite id="an6.107">AN 6.107</Cite>). The
+                pairing is functional, not characterological: it does not say the person is a lustful type, it
+                says that where lust is present, this is the practice that answers it. Alongside the antidote the
+                canon carries the second move the later apparatus leans on, the yoke of calm and insight, in
+                which tranquillity and insight are developed together rather than ranked or split into separate
+                vehicles (<Cite id="an4.170">AN 4.170</Cite>). What the early discourses do <em>not</em> carry is
+                the temperament scheme itself: the temperament-sense <em>carita</em> compound is not faint in the
+                four Nikāyas, it is simply not there, and what stands in its place is the verb <em>carati</em>,
+                "to course, to conduct oneself," with the ethical compounds <em>sucarita</em> and{' '}
+                <em>duccarita</em>. This absence is the negative the rest of the arc is built on.
+              </p>
+
+              {/* III. ABHIDHAMMA */}
+              <h2 style={h2}>In the Abhidhamma</h2>
+              <p>
+                If a six-temperament classification of persons were canonical anywhere, the natural home for it
+                would be the Abhidhamma, the seven books that are the canon's own analytical layer, given to
+                sorting and enumerating. It is not there either. The Abhidhamma does sort persons: the
+                Puggalapaññatti, the canonical designation of human types
+                (<Cite id="cst-abh03m2.mul-014">Pp §§148–151</Cite>), enumerates kinds of person, including the
+                four understanding-types, defining each by its trigger, realization together with the utterance,
+                realization when a brief saying is analysed, realization gradually, and no realization this life.
+                But it does not systematize persons into the six <em>caritas</em>, and where the Abhidhamma does
+                use the word <em>carita</em> (Vibhaṅga §817) it means kamma, the kinds of formation, not
+                temperament. Across the whole canonical shelf, the discourses and the canon's own scholastic
+                analysis alike, the temperament word is absent in any register. The scheme has to enter from
+                somewhere later.
+              </p>
+
+              {/* IV. PARA-CANONICAL KHUDDAKA + drift strip inline */}
+              <h2 style={h2}>In the para-canonical Khuddaka</h2>
+              <p>
+                The place the temperament reading first appears is the para-canonical Khuddaka, and a single word
+                changes its job here. The earliest place the full six-cell matrix appears is not a discourse but
+                a gloss: the Cūḷaniddesa, explaining a verse the brahmin student Mogharāja put to the Buddha, has
+                the Buddha <em>know</em> the type of each person before him and match the teaching to the type,
+                teaching the talk on foulness to the greed-temperament person and pointing out the development of
+                loving-kindness to the hate-temperament one, and so through the six. This is the birth
+                certificate of the apparatus, ascribed to the Buddha's knowing rather than spoken by him in any
+                Nikāya, and it sits in a layer the field places after the four-Nikāya prose. What makes the same
+                stratum the hinge is that the older sense is alive a few pages away: the Paṭisambhidāmagga, sibling
+                to the Niddesa, uses <em>cariyā</em> to mean exactly the older thing, a mode of conduct, listing
+                eight <em>cariyā</em>, the conduct of the postures, of the sense-bases, of mindfulness, and the
+                rest. The word had not yet settled on "temperament" even in the layer that first deployed it that
+                way, so the temperament sense is caught here mid-fork, a re-coinage in progress beside the older
+                conduct reading, not a stable canonical meaning the commentary merely tidied up.
+              </p>
+              {data.v2 && data.v2.drift_strip && (() => {
+                const ds = data.v2.drift_strip;
+                return (
+                  <>
+                    <h3 style={h3}>The <em>{ds.term}</em> semantic-drift strip</h3>
+                    <div style={tableWrap}>
+                      <table style={table}>
+                        <thead>
+                          <tr>
+                            <th style={thLeft}>Stratum</th>
+                            <th style={thLeft}>Sense at this stratum</th>
+                            <th style={thLeft}>Anchor</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {ds.cells.map((c, i) => (
+                            <tr key={i} style={tr}>
+                              <td style={tdLeftSm}>{c.stratum_label}</td>
+                              <td style={tdLeftSm}>{c.sense}</td>
+                              <td style={tdLeftSm}><Cite id={c.anchor?.id}>{c.anchor?.label}</Cite></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <ol style={{ margin: '10px 0 0 0', paddingLeft: 20 }}>
+                      {ds.drift_points.map((p, i) => (
+                        <li key={i} style={{ marginBottom: 6 }}>
+                          <strong>{p.classification}</strong> ({p.from} → {p.to}): {p.note}
+                        </li>
+                      ))}
+                    </ol>
+                    <p style={tableCaption}>{ds.summary}</p>
+                  </>
+                );
+              })()}
+
+              {/* V. COMMENTARIES */}
+              <h2 style={h2}>In the commentaries</h2>
+              <p>
+                From the para-canonical fork the commentary keeps only the temperament sense and hardens it into
+                a fixed six-cell matrix of person against object, with the machinery for assigning one to the
+                other (<Cite id="cst-s0103a.att-dn3_11_p002">Sv-a 11 §2</Cite>,{' '}
+                <Cite id="cst-s0505a.att-10_p003">KN-a §10.3</Cite>). The Visuddhimagga is the manual that carries
+                most of it. Two features mark the scheme as the commentary's own. One is the
+                teacher-diagnosis-then-correction machinery: Sāriputta, reasoning that a young monk must have
+                excess lust, assigns foulness; it fails for three months; the Buddha, seeing that the monk had
+                been a goldsmith working red gold for five hundred lives, judges the repulsive subject unfit and
+                conjures a golden lotus instead, on which the monk attains at once
+                (<Cite id="cst-s0502a.att-234_p003">Dhp-a</Cite>). Neither this misassignment story nor the
+                fixed temperament keying has any canonical source. And the very manual that fixes the grid
+                declines, in its own words, to vouch for its most detailed part. The Visuddhimagga describes at
+                length how a teacher might read a pupil's temperament, from how he walks and stands and eats and
+                sleeps, and then takes it back: this method has come down neither in the canon nor in the old
+                commentary, is stated only following the teachers' opinion, and so is not to be relied on as
+                authoritative (<em>na sārato paccetabbaṃ</em>). The matching is held as serviceable scholastic
+                guidance, taught and kept; it is not staked as the kind of knowing the canon reserves for what is
+                directly seen, and the tradition draws that line itself, at the point where the apparatus is most
+                developed.
+              </p>
+
+              {/* VI. SUB-COMMENTARIES */}
+              <h2 style={h2}>In the sub-commentaries</h2>
+              <p>
+                The sub-commentary takes the typology one step past the Visuddhimagga's matrix, and it is a vivid
+                one. Reading the heart-blood, the Vibhaṅga-aṭṭhakathā says the blood of a greed-type runs red,
+                of a hate-type dark, of a delusion-type the colour of water in which meat has been washed
+                (<Cite id="cst-abh02a.att-70_p058">Vibh-a §70.58</Cite>). Six heart-blood colours, keyed to the
+                six temperaments. A scheme that began as a way of keying a practice to a defilement has become,
+                at this end, a physiology: temperament is now something the body itself displays, diagnosable
+                from its fluids. There is no canonical warrant for this, and none in the old commentary either;
+                it is the apparatus enriching itself past any text it could appeal to. That is the endpoint of
+                the line the antidote formula began.
+              </p>
+
+              {/* VII. MODERN READING */}
+              <h2 style={h2}>In modern reading: what this means</h2>
+              <p>
+                The modern translator, last in the line, renders <em>carita</em> through a category the Pāli
+                never carried, the stable, diagnosable "personality type." The Pāli word is built on{' '}
+                <em>carati</em>, "that which one courses in"; the psychology of fixed character types is imported,
+                not found. If one opens "the canon" to learn how a person is matched to a practice, the honest
+                answer is that the elaborate machinery one finds, the six temperaments, the closed forty
+                meditation subjects, the technical sense of <em>kammaṭṭhāna</em>, is later than the canon and
+                built on a much simpler canonical move. That older move is real and early: the discourses key a
+                practice to a present defilement, foulness against lust, love against ill will, the breath
+                against scattered thought, the perception of impermanence against the conceit "I am," and they
+                leave it there. The six-temperament grid is a scholastic construction laid over that seed; its
+                central word acquired the temperament sense late; and the tradition's own apex manual, having set
+                the grid out in full, declines to certify the most detailed part of it. For a reader, this is
+                worth knowing before reaching for "the canonical teaching on temperament types": the matching
+                machinery is later and softer in its own claims than its canonical shelving implies. What the
+                survey cannot settle is which object an angry or a scattered person <em>should</em> take up; that
+                is a normative question the texts make a teacher's business, openly provisional, and never one
+                the canon invites a person to diagnose in themselves.
+              </p>
+
+              {/* ====================== THE FULL DATA ====================== */}
+              <h2 style={h2}>The full data</h2>
+              <p style={tableCaption}>
+                The facet-by-facet survey beneath the narrative above: the question and its two readings, the
+                earlier scholarship, the sources and method, the per-facet tables and warrant ledger, the
+                reader's aid, the discussion, the stratigraphy and recension tables, and the full dataset with
+                every citation opening its passage.
+              </p>
+
               {/* 1. QUESTION */}
-              <h2 style={h2}>The question</h2>
+              <h3 style={h3}>The question</h3>
               <p>
                 The question I want to put is narrow: how the Pāli tradition guides an individual toward
                 awakening, across the full range from a bare statement to a step-by-step leading with an
@@ -1355,7 +1531,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* 2. LITERATURE */}
-              <h2 style={h2}>Earlier scholarship</h2>
+              <h3 style={h3}>Earlier scholarship</h3>
               <p>
                 The relation of calm to insight is the most-discussed question here, and these results enter an
                 existing debate rather than open a new one. Bronkhorst (1993) argued that a
@@ -1367,7 +1543,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 division of practitioners into a <em>samatha-yānika</em> and a <em>vipassanā-yānika</em>, and
                 the figure of the dry-insight worker who reaches the goal without the absorptions, is a
                 commentarial systematization, not a canonical doctrine. This survey looks at that claim
-                directly and the evidence here is consonant with it; section D sets it out.
+                directly and the evidence here is consonant with it; the section on calm and insight sets it out.
               </p>
               <p>
                 On the inventory of meditation subjects, Buddhaghosa's Visuddhimagga fixes the forty meditation
@@ -1396,7 +1572,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* 3. METHOD + Table 1 */}
-              <h2 style={h2}>Sources and method</h2>
+              <h3 style={h3}>Sources and method</h3>
               <p>
                 The corpus is the Chaṭṭha Saṅgāyana (CST/VRI) recension as ingested into the project database,
                 with SuttaCentral identifiers as the cross-walk and the standard Pāli dictionaries for the
@@ -1476,7 +1652,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* A. PERSON & MODE + Table 3 */}
-              <h2 style={h2}>A. The person and the mode of guidance</h2>
+              <h3 style={h3}>A. The person and the mode of guidance</h3>
               <p>
                 The canon names four kinds of person by the manner in which each comes to understand. The
                 Ugghaṭitaññū-sutta (<Cite id="an4.133">AN 4.133</Cite>) lists them: one who understands at
@@ -1543,7 +1719,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* B. OBJECT ASSIGNMENT */}
-              <h2 style={h2}>B. Assigning a meditation object</h2>
+              <h3 style={h3}>B. Assigning a meditation object</h3>
               <p>
                 The canon's object-assignments turn on a small, closed antidote formula. To Meghiya, harassed
                 in the mango grove by thoughts of sense pleasure, ill will and cruelty, the Buddha gives four
@@ -1578,7 +1754,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* C. PATTERNS + Table (criterion x layer) */}
-              <h2 style={h2}>C. What goes with what</h2>
+              <h3 style={h3}>C. What goes with what</h3>
               <p>
                 Laying the criteria against the tiers makes the central contrast measurable. Every instance
                 keyed to a defilement, and every instance keyed to a situation, is in the suttas. Every
@@ -1627,7 +1803,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* D. SAMATHA-VIPASSANA */}
-              <h2 style={h2}>D. Calm and insight: yoked or split</h2>
+              <h3 style={h3}>D. Calm and insight: yoked or split</h3>
               <p>
                 The load-bearing question is whether the canon prescribes calm and insight as two separate
                 practices, or only as a yoked pair. The evidence is consistent. The Yuganaddha-sutta
@@ -1662,7 +1838,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* E. SEQUENCE */}
-              <h2 style={h2}>E. Does the guidance change over time?</h2>
+              <h3 style={h3}>E. Does the guidance change over time?</h3>
               <p>
                 The canon gives pairings and situational sets, and it does grade a single curriculum, most
                 clearly in the long advice to Rāhula, which moves through the elements, the divine abidings, the
@@ -1675,7 +1851,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* F. CANON VS COMMENTARY + Table 4 (ledger) */}
-              <h2 style={h2}>F. Canon and commentary: the warrant ledger</h2>
+              <h3 style={h3}>F. Canon and commentary: the warrant ledger</h3>
               <p>
                 The commentarial system has two parts that must be judged separately. The object inventory and
                 the defilement-antidote keying are inherited from the canon: foulness for greed, love for hate,
@@ -1773,7 +1949,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* G. THE COMMENTARIAL ASSIGNMENT NARRATIVES */}
-              <h2 style={h2}>G. The commentarial assignment narratives</h2>
+              <h3 style={h3}>G. The commentarial assignment narratives</h3>
               <p>
                 The structural shape the abstract opens with sits here. Beneath the fifteen-cell ledger lies
                 a larger body: the commentaries' own stories of assignment. Drawn in full, the frame shows the
@@ -1850,7 +2026,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* READER'S AID */}
-              <h2 style={h2}>A reader's aid: what the sources license</h2>
+              <h3 style={h3}>A reader's aid: what the sources license</h3>
               <p>
                 Readers ask which object suits them. The sources give two different answers, and they must be
                 kept apart. The canon offers a rule you can apply yourself, because it keys the object to a
@@ -1918,7 +2094,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </div>
 
               {/* DISCUSSION */}
-              <h2 style={h2}>Discussion</h2>
+              <h3 style={h3}>Discussion</h3>
               <p>
                 The picture is coherent. In the canon, guidance is occasioned and personal: a teacher meets a
                 hearer in a state, at a moment, and matches a word or an object to that state. The criterion is
@@ -1944,7 +2120,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 const v = data.v2;
                 return (
                   <section style={{ marginTop: 34 }}>
-                    <h2 style={h2}>{v.title}</h2>
+                    <h3 style={h3}>{v.title}</h3>
                     <p style={methodNote}>{v.subtitle}</p>
                     <p>{v.headline}</p>
 
@@ -2067,7 +2243,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 );
               })()}
 
-              <h2 style={h2}>Limitations</h2>
+              <h3 style={h3}>Limitations</h3>
               <p>
                 Recall is bounded, and the bound is stated rather than hidden. As the method sets out, the
                 enumeration rests on a candidate frame built by direct database query rather than on the search
@@ -2087,7 +2263,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* CONTRIBUTION */}
-              <h2 style={h2}>Contribution</h2>
+              <h3 style={h3}>Contribution</h3>
               <p>
                 The lasting contribution is the auditable census itself: every act of guidance in the studied
                 range, coded on a fixed scheme, split canon against commentary, with each instance resolving to
@@ -2112,7 +2288,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* REFERENCES */}
-              <h2 style={h2}>References</h2>
+              <h3 style={h3}>References</h3>
               <ol style={refList}>
                 <li style={refItem}>Anālayo. 2003. <em>Satipaṭṭhāna: The Direct Path to Realization</em>. Birmingham: Windhorse.</li>
                 <li style={refItem}>Anālayo. 2017. <em>Early Buddhist Meditation Studies</em>. Barre: Barre Center for Buddhist Studies.</li>
@@ -2134,7 +2310,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </ol>
 
               {/* APPENDIX */}
-              <h2 style={h2}>Appendix: the dataset</h2>
+              <h3 style={h3}>Appendix: the dataset</h3>
               <p style={tableCaption}>
                 The complete census, grouped by analytic group. Each citation opens its passage in the reader.
                 Open a row for the verbatim Pāli, the translation or author's gloss, the warrant, and the
@@ -2201,7 +2377,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 const css = ql.carita_sense_split;
                 return (
                 <section style={{ marginTop: 14 }}>
-                  <h2 style={h2}>Reproducibility appendix: the exact queries</h2>
+                  <h3 style={h3}>Reproducibility appendix: the exact queries</h3>
                   <p style={methodNote}>
                     This is the full query log. {ql.engine} Every query below has a copy button; paste it into
                     a Postgres client on the corpus and the count returns. {ql.note} Diacritics follow the
@@ -2338,6 +2514,14 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 rather than originates it. This describes a shape across textual layers; it is not a proof
                 about what the historical Buddha taught.
               </p>
+              <p>
+                What follows traces the seat of mind across the layers of this literature, earliest to latest:
+                in the discourses, a seat unmentioned; in the Abhidhamma, a base posited yet left unnamed; in
+                the commentaries, the base named the heart and posited rather than verified; in the
+                sub-commentaries, the tradition naming its own gap; and in reading it now, what the layered
+                shape means for a reader who meets the heart-base today as settled doctrine. A trailing section
+                opens the full structure-by-structure data beneath that narrative.
+              </p>
               <p style={methodNote}>
                 A note on method. Every corpus claim is grounded in a passage that opens in the reader, and
                 every count is best read as a measured floor: a claim phrased outside the markers searched would
@@ -2349,33 +2533,156 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 of commentary and Abhidhamma that the corpus carries only in Pāli are the author's own gloss,
                 checked against Ñāṇamoli.
               </p>
-
-              <h2 style={h2}>Two things that frame everything</h2>
               <p>
-                First, the contrast has three tiers, not two. The Theravāda canon is not only the suttas: the
-                Abhidhamma is the third basket, canonical, and most of what a flat split would call commentary
-                is the commentary systematizing the Abhidhamma. The seat of mind, the life-continuum, the three
-                roots and the analytical categories are all canonical-Abhidhamma yet absent from the suttas; a
-                two-tier scheme either credits them to the suttas or wrongly calls them commentarial inventions.
-                The Abhidhamma is canonical but second: the account that makes it the word of the Buddha, its
-                preaching in the Tāvatiṃsa heaven, is itself commentarial, so the story that sacralizes the
-                Abhidhamma sits a tier above the canon it explains. Critical scholarship dates the seven books
-                later than the Nikāyas, growing out of the suttas' doctrinal lists. Either way the suttas are the
-                earliest stratum and the Abhidhamma is the first systematizing layer. The para-canonical
-                Khuddaka bridge named here, the Niddesa and the Paṭisambhidāmagga and the rest, is this study's
-                analytic grouping of works the corpus files under the Sutta basket, not a separately dated stratum.
-              </p>
-              <p>
-                Second, the Buddha's register is to be lived, not pondered: come and see, to be experienced by
-                the wise, visible here and now, continuous watching, cultivation, knowing-and-seeing as it is.
-                The canon is a path to walk. The named knowledges are a description of the milestones that
-                walking passes through. The distinction that matters is not experience against thinking, since
-                both the lived dissolution and the named dissolution-knowledge are about experience. It is the
-                path the Buddha gave you to walk against the route-map the commentary drew over it. Keeping the
-                two apart is what the three-tier reading makes possible.
+                Two things frame everything. First, the contrast has three tiers, not two. The Theravāda canon
+                is not only the suttas: the Abhidhamma is the third basket, canonical, and most of what a flat
+                split would call commentary is the commentary systematizing the Abhidhamma. The seat of mind,
+                the life-continuum, the three roots and the analytical categories are all canonical-Abhidhamma
+                yet absent from the suttas; a two-tier scheme either credits them to the suttas or wrongly
+                calls them commentarial inventions. Critical scholarship dates the seven books later than the
+                Nikāyas, growing out of the suttas' doctrinal lists; either way the suttas are the earliest
+                stratum and the Abhidhamma is the first systematizing layer. Second, the Buddha's register is
+                to be lived, not pondered: come and see, visible here and now, knowing-and-seeing as it is. The
+                canon is a path to walk; the named knowledges are a description of the milestones that walking
+                passes through. Keeping the path apart from the route-map the commentary drew over it is what
+                the three-tier reading makes possible.
               </p>
 
-              <h2 style={h2}>The three-tier table</h2>
+              <h2 style={h2}>In the discourses</h2>
+              <p>
+                The oldest stratum holds the experience and withholds both the seat and the map. In the suttas
+                the heart is only an organ in the body-parts list and a figure of speech; it is never the seat
+                of thought, and the named heart-base appears zero times in the four Nikāyas. The
+                life-continuum (bhavaṅga) is absent here too; its nearest analogue is the luminous mind
+                (<Cite id="an1.41-50">AN 1.49–50</Cite>), a figure of moral purity with no base and no
+                mechanism. What the discourses do carry is the lived practice over which the later map is
+                drawn: the contemplation of rise and fall as a plain present-tense activity, a thing one does
+                with no list and no numbered place. That practice, <em>udayabbayānupassī viharati</em>, "he
+                dwells contemplating rise and fall," recurs through the four Nikāyas in twenty-five rows. The
+                staged progress-of-insight as the suttas give it is the experiential path, coarse-grained:
+                watch rise-and-fall, then impermanence, disenchantment, fading, release. The skeleton of the
+                path, the seven purifications, is sutta too: MN 24 (<Cite id="mn24">MN 24</Cite>) enumerates
+                all seven, and the Visuddhimagga is built on them. These are instructions to live, not stations
+                to recognize.
+              </p>
+
+              <h2 style={h2}>In the Abhidhamma</h2>
+              <p>
+                At the second canonical shelf, scholastic rather than narrative, an unnamed material base for
+                the mind first appears. Searched as a name, the heart-base is no more present here than in the
+                discourses; the word <em>hadaya-vatthu</em> does not occur in the canonical Abhidhamma at all.
+                The concept tells a different story. The Paṭṭhāna posits a material support for the two
+                mind-elements but leaves it un-named (<Cite id="patthana1.1">Paṭṭhāna 1.1</Cite>):
+              </p>
+              <p style={evPaliBlock}>
+                Yaṁ rūpaṁ nissāya manodhātu ca manoviññāṇadhātu ca vattanti, taṁ rūpaṁ … nissayapaccayena
+                paccayo.
+              </p>
+              <p style={evEnBlock}>
+                The matter dependent on which the mind-element and the mind-consciousness-element occur, that
+                matter is a condition, by way of support, for them. (author's gloss)
+              </p>
+              <p>
+                The Dhammasaṅgaṇī likewise gives each sense-consciousness a base but leaves the
+                mind-consciousness base indeterminate (<Cite id="cst-abh01m.mul-078">Dhs §584</Cite>). So the
+                concept of a material seat of mind is in the canon, in the analytic layer, but stripped of the
+                name and of any identification with the physical heart. Bhavaṅga falls into the same shape: the
+                Paṭṭhāna uses it as a real term, a discrete state in the conditional relations
+                (<Cite id="patthana2.1">Paṭṭhāna 2.1</Cite>), but with no series and no seat. The elaborate
+                process-model built on it, the citta-vīthi, is the commentary's surplus, not the canonical
+                term. The analytical ground the insight works on, the aggregates, sense-bases, elements and
+                dependent origination, is Abhidhamma, the Vibhaṅga's chapters (<Cite id="vb1">Vibh 1</Cite>,{' '}
+                <Cite id="vb2">Vibh 2</Cite>, <Cite id="vb6">Vibh 6</Cite>); the three roots are Abhidhamma
+                too, the three unwholesome roots of the Dhammasaṅgaṇī and the Vibhaṅga
+                (<Cite id="cst-abh02m.mul-226">Vibh §226</Cite>). But the named graded ladder, rise-and-fall
+                knowledge, dissolution knowledge, comprehension, equanimity about formations, returns nothing
+                across the seven Abhidhamma books; it is first defined one shelf up, in the para-canonical
+                Paṭisambhidāmagga (<Cite id="ps1.1">Paṭis 1.1</Cite>). The early canon has the walking; the
+                route-map is drawn afterward.
+              </p>
+
+              <h2 style={h2}>In the commentaries</h2>
+              <p>
+                The classical-commentary layer is where the posited base is finally given a body, named the
+                heart, located, and run through the cognitive process. The commentary substitutes the heart
+                for the Abhidhamma's anonymous matter (<Cite id="cst-abh03a.att-370_p002">Pañca-a §370</Cite>):
+              </p>
+              <p style={evPaliBlock}>Ettha ca rūpanti hadayavatthumattameva adhippetaṁ.</p>
+              <p style={evEnBlock}>And here, by "matter", only the heart-base is meant. (author's gloss)</p>
+              <p>
+                It even physicalizes the base, running on the half-handful of blood inside the heart-chamber
+                (<Cite id="cst-abh07t.nrf-135_p014">Abh-pṭ §135</Cite>). On bhavaṅga the commentary builds the
+                full cognitive process, the citta-vīthi, in which bhavaṅga vibrates, is arrested, gives way to
+                the cognitive series and returns, and it ties bhavaṅga to the heart-base as an object-less
+                life-continuum (<Cite id="cst-abh01t.tik-69_p013">Abh-pṭ §69</Cite>). The temperament scheme
+                sharpens here too: a three-fold root-carita with a remedy matrix, greed to foulness, hate to
+                love, delusion to dependent origination, is already para-canonical, in the Nettippakaraṇa and
+                Peṭakopadesa (<Cite id="ne6">Nett §13</Cite>), but the six-fold personality typology, the
+                affinity theory, the object-suitability matrix (<Cite id="cst-e0101n.mul-36_p031">Vism III
+                §46</Cite>) and the heart-blood diagnostics (<Cite id="cst-abh02a.att-70_p058">Vibh-a
+                §70.58</Cite>) are the commentary's, first set in the Aṭṭhakathā
+                (<Cite id="cst-s0201a.att-mn1_3_p261">Ps-a 3 §261</Cite>). Where the Abhidhamma does use the
+                word <em>carita</em> (<Cite id="cst-abh02m.mul-149">Vibh §817</Cite>), it means kamma, not
+                temperament; the temperament sense is a commentarial re-coinage. The named insight-ladder is
+                systematized and refined here (<Cite id="cst-e0101n.mul-53_p011">Vism §53</Cite>), which even
+                adds a momentary-versus-continuity reading the bare Paṭisambhidāmagga does not spell out
+                (<Cite id="cst-e0104n.att-76_p012">Vism-mhṭ §76</Cite>), and the commentary even states the
+                weave: two purifications as root, five as body, operating on the aggregates, sense-bases,
+                elements and dependent origination as their ground
+                (<Cite id="cst-abh08t.nrf-100_p024">Abh-pṭ §100</Cite>). At this layer one can also ask with
+                what force the claim is made. The heart-base is introduced by the grammar of a posit, an
+                analysis of its existence and its supporting function, never under the canon's own test of
+                direct knowing that it reserves for the four truths and the ending of the taints; it is stated
+                flat and leaned upon.
+              </p>
+
+              <h2 style={h2}>In the sub-commentaries</h2>
+              <p>
+                The latest in-corpus layer is the one that dates the heart-base for us, by admitting it. A
+                sub-commentator stops the exposition and poses the sceptic's question: how is the heart-base to
+                be known at all, given that it does not come down in the canonical text? He answers in two
+                words, "from scripture and from reason," and then produces, as his scripture, the very
+                anonymous Paṭṭhāna clause that never names the heart
+                (<Cite id="cst-e0104n.att-16_p024">Vism-mhṭ §16</Cite>), noting that the Dhammasaṅgaṇī never
+                stated it. The flag is explicit: the text says the heart-identification is not handed down in
+                the canonical text. The tradition is not under the impression that the heart-base is the
+                Buddha's plain word; it knows it is not, and says so. The reconciliation runs in a circle, and
+                the circle is the evidence: the heart is warranted by the posit, and the posit is what the
+                heart was supposed to name. The sub-commentary also physicalizes the base further, seating the
+                life-continuum on the heart and running it on the blood within the heart-chamber.
+              </p>
+
+              <h2 style={h2}>Reading it now: what this means</h2>
+              <p>
+                The heart is integral, but to a tier. In the suttas it is not the seat of mind at all; the
+                physical base of mind is left unstated. In the Abhidhamma a material base is posited but
+                unnamed, and bhavaṅga exists as a bare term. In the commentary, and in the modern
+                Abhidhamma-revival practice that teaches it, the heart becomes integral: named, made the seat
+                of the life-continuum, located in the heart's blood, and in practice an object of discernment.
+                In modern lay practice this apparatus is alive. In Goenka's teaching, dissolution (bhaṅga) is a
+                sensation-stage, the dissolving of gross sensation into a subtle free-flow, and it is
+                explicitly not the goal; the central caution is against taking it as the goal. The heart-base
+                and bhavaṅga discernment is taught in the modern Abhidhamma-revival lineages too. Pa-Auk
+                teaches it explicitly in its published materials (Pa-Auk Sayadaw, <em>Knowing and Seeing</em>).
+                For Goenka the public record, the ten-day discourses and U Ba Khin's published
+                <em> Essentials</em>, centres on feeling and does not surface the heart-base; a long-course
+                practitioner reports that the heart-base and bhavaṅga work is taught in the non-public
+                long-course discourses. That report cannot be independently verified and is recorded as
+                attributed practitioner testimony, not a citation. If accurate, it strengthens rather than
+                weakens the reading, since it would mean the modern method operationalizes the full
+                Abhidhamma-and-commentary apparatus, not only the sensation-sweep. Historically the whole
+                apparatus, the sixteen knowledges, the cognitive process, bhavaṅga and the heart-base, is the
+                Visuddhimagga and Abhidhamma system revived for mass lay practice by Ledi Sayadaw and built out
+                by the twentieth-century Burmese teachers (Erik Braun, <em>The Birth of Insight</em>). The
+                danger the texts flag, and that modern teachers flag, is the same: mistaking a landmark, a
+                pleasant dissolution, for the destination. For a meditator told today that the mind has a
+                physical base in the heart, the honest report is that the suttas never say so, the canonical
+                Abhidhamma posits a seat without naming it, and the heart-identification is a later, scholastic
+                naming, stated flat and built upon, and never once put to the canon's own test of direct
+                knowing.
+              </p>
+
+              <h2 style={h2}>The full data</h2>
               <p style={tableCaption}>
                 Each structure scored against the four tiers. Every cell's citations open the passage in the
                 reader. Column key as in the guidance census: Sutta = the four Nikāyas and prose Khuddaka;
@@ -2402,135 +2709,12 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 </table>
               </div>
 
-              <h2 style={h2}>The heart-base (hadaya-vatthu)</h2>
-              <p>
-                The seat of mind shows the shape most plainly, because the commentary fills an Abhidhamma blank
-                and says as much itself. In the suttas the heart is only an organ in the body-parts list and a
-                figure of speech; it is never the seat of thought. The Paṭṭhāna posits a material support for
-                the two mind-elements but leaves it un-named (<Cite id="patthana1.1">Paṭṭhāna 1.1</Cite>):
-              </p>
-              <p style={evPaliBlock}>
-                Yaṁ rūpaṁ nissāya manodhātu ca manoviññāṇadhātu ca vattanti, taṁ rūpaṁ … nissayapaccayena
-                paccayo.
-              </p>
-              <p style={evEnBlock}>
-                The matter dependent on which the mind-element and the mind-consciousness-element occur, that
-                matter is a condition, by way of support, for them. (author's gloss)
-              </p>
-              <p>
-                The Dhammasaṅgaṇī likewise gives each sense-consciousness a base but leaves the
-                mind-consciousness base indeterminate (<Cite id="cst-abh01m.mul-078">Dhs §584</Cite>). The
-                commentary substitutes the heart (<Cite id="cst-abh03a.att-370_p002">Pañca-a §370</Cite>):
-              </p>
-              <p style={evPaliBlock}>Ettha ca rūpanti hadayavatthumattameva adhippetaṁ.</p>
-              <p style={evEnBlock}>And here, by "matter", only the heart-base is meant. (author's gloss)</p>
-              <p>
-                The sub-commentary defends the move "from scripture and reason"
-                (<Cite id="cst-e0104n.att-16_p024">Vism-mhṭ §16</Cite>), quoting the Paṭṭhāna clause as its
-                scripture and noting that the Dhammasaṅgaṇī never stated it. It even physicalizes the base,
-                running on the half-handful of blood inside the heart-chamber
-                (<Cite id="cst-abh07t.nrf-135_p014">Abh-pṭ §135</Cite>). The word <em>hadaya-vatthu</em>
-                does not occur in the canonical Abhidhamma at all. So the heart-as-seat-of-mind reads as a
-                self-aware commentarial naming of an Abhidhamma placeholder: the base is canonical Abhidhamma,
-                while the heart-identification and its physiology seem to be the commentary's.
-              </p>
-
-              <h2 style={h2}>Bhavaṅga (the life-continuum)</h2>
-              <p>
-                Bhavaṅga follows the same pattern, one degree milder. The suttas have no life-continuum; the
-                nearest analogue is the luminous mind (<Cite id="an1.41-50">AN 1.49–50</Cite>), a figure of
-                moral purity with no base and no mechanism. The Paṭṭhāna uses bhavaṅga as a real term, a
-                discrete state in the conditional relations (<Cite id="patthana2.1">Paṭṭhāna 2.1</Cite>), but
-                with no series and no seat. The commentary builds the full cognitive process, the citta-vīthi,
-                in which bhavaṅga vibrates, is arrested, gives way to the cognitive series and returns, and it
-                ties bhavaṅga to the heart-base as an object-less life-continuum
-                (<Cite id="cst-abh01t.tik-69_p013">Abh-pṭ §69</Cite>). So bhavaṅga is Abhidhamma-canonical and
-                commentarially elaborated, not invented: the commentary's genuine surplus is the process model
-                and the heart-seat, not the existence of the term.
-              </p>
-
-              <h2 style={h2}>The stages of insight</h2>
-              <p>
-                The staged progress-of-insight is a weave of three differently-sourced strata. What the suttas
-                give is the experiential path, coarse-grained: watch rise-and-fall, then impermanence,
-                disenchantment, fading, release; the fourth tetrad of mindfulness of breathing watches
-                impermanence, fading, cessation, and letting go. These are instructions to live, not stations
-                to recognize. The skeleton of the path, the seven purifications, is sutta: MN 24
-                (<Cite id="mn24">MN 24</Cite>) enumerates all seven, and the Visuddhimagga is built on them. The
-                analytical ground the insight works on, the aggregates, sense-bases, elements and dependent
-                origination, is Abhidhamma, the Vibhaṅga's chapters (<Cite id="vb1">Vibh 1</Cite>,{' '}
-                <Cite id="vb2">Vibh 2</Cite>, <Cite id="vb6">Vibh 6</Cite>). But the named graded ladder,
-                rise-and-fall knowledge, dissolution knowledge, comprehension, equanimity about formations,
-                returns nothing across the seven Abhidhamma books; it is first defined in the para-canonical
-                Paṭisambhidāmagga (<Cite id="ps1.1">Paṭis 1.1</Cite>), then systematized and refined by the
-                Visuddhimagga (<Cite id="cst-e0101n.mul-53_p011">Vism §53</Cite>), which even adds a
-                momentary-versus-continuity reading the bare Paṭisambhidāmagga does not spell out
-                (<Cite id="cst-e0104n.att-76_p012">Vism-mhṭ §76</Cite>).
-              </p>
-              <p>
-                So the precise case of dissolution-knowledge is this: the observation of dissolution is
-                canonical and meant to be walked; numbering it as a fixed station, the fifth knowledge, is the
-                para-canonical and commentarial map of that walking. The Visuddhimagga's insight-system is a
-                weave of a sutta skeleton, Abhidhamma categories, and a para-canonical staging, assembled,
-                populated and graded by the commentary, which even states the weave: two purifications as root,
-                five as body, operating on the aggregates, sense-bases, elements and dependent origination as
-                their ground (<Cite id="cst-abh08t.nrf-100_p024">Abh-pṭ §100</Cite>). The danger the texts flag,
-                and that modern teachers flag, is the same: mistaking a landmark, a pleasant dissolution, for
-                the destination.
-              </p>
-
-              <h2 style={h2}>The carita scheme across the tiers</h2>
-              <p>
-                The temperament scheme sharpens across the tiers as it does in the guidance census. The
-                three roots are Abhidhamma, the three unwholesome roots of the Dhammasaṅgaṇī and the Vibhaṅga
-                (<Cite id="cst-abh02m.mul-226">Vibh §226</Cite>). A three-fold root-carita with a remedy matrix,
-                greed to foulness, hate to love, delusion to dependent origination, is already para-canonical, in
-                the Nettippakaraṇa and Peṭakopadesa (<Cite id="ne6">Nett §13</Cite>), but only on those three
-                roots. The six-fold personality typology, the affinity theory, the object-suitability matrix
-                (<Cite id="cst-e0101n.mul-36_p031">Vism III §46</Cite>) and the heart-blood diagnostics
-                (<Cite id="cst-abh02a.att-70_p058">Vibh-a §70.58</Cite>) are the commentary's, first set in the
-                Aṭṭhakathā (<Cite id="cst-s0201a.att-mn1_3_p261">Ps-a 3 §261</Cite>). Where the Abhidhamma does
-                use the word <em>carita</em> (<Cite id="cst-abh02m.mul-149">Vibh §817</Cite>), it means kamma,
-                the three kinds of formation, not temperament; the temperament sense is a commentarial re-coinage.
-              </p>
-
-              <h2 style={h2}>Modern practice</h2>
-              <p>
-                In modern lay practice this apparatus is alive. In Goenka's teaching, dissolution (bhaṅga) is a
-                sensation-stage, the dissolving of gross sensation into a subtle free-flow, and it is explicitly
-                not the goal; the central caution is against taking it as the goal. The heart-base and bhavaṅga
-                discernment is taught in the modern Abhidhamma-revival lineages too. Pa-Auk teaches it
-                explicitly in its published materials (Pa-Auk Sayadaw, <em>Knowing and Seeing</em>). For
-                Goenka the public record, the ten-day discourses and U Ba Khin's published <em>Essentials</em>,
-                centres on feeling and does not surface the heart-base; a long-course practitioner reports that
-                the heart-base and bhavaṅga work is taught in the non-public long-course discourses. That report
-                cannot be independently verified and is recorded as attributed practitioner testimony, not a
-                citation. If accurate, it strengthens rather than weakens the reading, since it would mean the
-                modern method operationalizes the full Abhidhamma-and-commentary apparatus, not only the
-                sensation-sweep.
-                Historically the whole apparatus, the sixteen knowledges, the cognitive process, bhavaṅga and
-                the heart-base, is the Visuddhimagga and Abhidhamma system revived for mass lay practice by Ledi
-                Sayadaw and built out by the twentieth-century Burmese teachers (Erik Braun, <em>The Birth of
-                Insight</em>).
-              </p>
-
-              <h2 style={h2}>How the heart is integral, and to which tier</h2>
-              <p>
-                The heart is integral, but to a tier. In the suttas it is not the seat of mind at all; the
-                physical base of mind is left unstated. In the Abhidhamma a material base is posited but
-                unnamed, and bhavaṅga exists as a bare term. In the commentary, and in the modern
-                Abhidhamma-revival practice that teaches it, the heart becomes integral: named, made the seat of
-                the life-continuum, located in the heart's blood, and in practice an object of discernment.
-                Encountering it in long-course instruction is real; it is a commentarial-to-modern achievement
-                layered on an Abhidhamma placeholder and a sutta silence.
-              </p>
-
               {/* ---- v2 provenance-signature retrofit (R3; additive, self-hides if absent) ---- */}
               {data.v2 && (() => {
                 const v = data.v2;
                 return (
                   <section style={{ marginTop: 34 }}>
-                    <h2 style={h2}>{v.title}</h2>
+                    <h3 style={h3}>{v.title}</h3>
                     <p style={methodNote}>{v.subtitle}</p>
                     <p>{v.headline}</p>
 
@@ -2694,7 +2878,7 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 );
               })()}
 
-              <h2 style={h2}>Limits and sources</h2>
+              <h3 style={h3}>Limits and sources</h3>
               <p>
                 The not-in-the-Abhidhamma verdicts rest on negative controls, searches that return nothing
                 across the seven books; reliable here but sensitive to spelling and stemming. The dating of the

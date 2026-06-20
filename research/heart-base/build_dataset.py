@@ -138,6 +138,14 @@ STRATIGRAPHY = [
   "note": "The experiential observation of rise-and-fall IS early-canonical (25 Nikaya rows), but as a present-participle PRACTICE, never as a numbered station. The early canon has the walking; the para-canon draws the route-map."},
 ]
 
+# Order the stratigraphy by ASCENDING chronological stratum so the renderer walks
+# earliest layer to latest (the chronology spine). Stable sort keeps the two
+# abhidhamma-canonical rows (material base, then bhavanga) in their authored order.
+# This reorders presentation only; no row, count, or code changes.
+_STRATUM_RANK = {"archaic-canonical": 0, "early-canonical": 1, "abhidhamma-canonical": 2,
+                 "paracanonical": 3, "classical-commentary": 4, "sub-commentary": 5, "reception": 6}
+STRATIGRAPHY.sort(key=lambda r: _STRATUM_RANK.get(r["stratum"], 9))
+
 # 3b. Epistemic marking (II.7) -- the keystone. Is the heart-base ever VERIFIED, or only POSITED?
 #     Co-occurrence of the named heart-base with a verification formula, with the in-window char-gap
 #     (the proximity guard). Every close co-occurrence reads as the heart-base being the POSITED
@@ -280,7 +288,8 @@ if HB_R4 != HB_R3: errs.append("RUNG-4 must not drop the posit periphrasis")
 
 # The named heart-base must be zero in the canon (the load-bearing negative).
 if HB_ABHIDHAMMA_NAMED != 0: errs.append("named heart-base must be 0 in canonical Abhidhamma")
-if STRATIGRAPHY[0]["four_nikaya_abhidhamma_hits"] != 0: errs.append("named heart-base stratigraphy row must read 0")
+_hb_named_row = next((r for r in STRATIGRAPHY if r["element"].startswith("Heart-base, named")), None)
+if not _hb_named_row or _hb_named_row["four_nikaya_abhidhamma_hits"] != 0: errs.append("named heart-base stratigraphy row must read 0")
 
 # The posit must be canonical-Abhidhamma (the RUNG-3 sharpening).
 if HB_ABHIDHAMMA_CONCEPT <= 0: errs.append("unnamed posit must be present in canonical Abhidhamma")
