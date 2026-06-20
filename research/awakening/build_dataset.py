@@ -108,10 +108,19 @@ WORK_STRATUM = {
  'indeterminate':     ('indeterminate',             'none', 'unresolved'),
 }
 
-# work -> attribution (the illocutionary owner of the attainment-claim). The
-# honest default for a flat narrated awakening with no quotative owner is a
-# redactor-frame code, NOT buddha-vacana. None of these classes puts the
-# awakening in the Buddha's own asserting mouth.
+# work -> attribution: the per-row default for the illocutionary owner of the
+# attainment-claim. The honest default for a flat narrated awakening with no
+# quotative owner is a redactor-frame code, NOT buddha-vacana.
+#
+# CORRECTION (A1, 2026-06-19): this map is a per-claim-VERIFIED class default
+# (a recall aid), NOT a per-work verdict. The earlier pass used it wholesale and
+# mis-filed every nikaya-prose / vinaya-nidana row as redactor-frame, which
+# hard-zeroed buddha-vacana and published a false "0 of 299" headline. The
+# load-bearing buddha-vacana category is now coded PER ROW (PER_ROW_ATTRIBUTION
+# below), recall-anchored by the bodhisatta-frame / paccaññāsiṃ discriminator and
+# confirmed by k=3 blind coders (IAA kappa=1.0). The non-BV classes
+# (apadana=elder self-narration, thera/therigatha=disciple self-report, etc.)
+# were spot-read and remain class-homogeneous. See _attribution_audit.json.
 WORK_ATTRIBUTION = {
  'apadana':          'hagiographic-self-narration',  # first-person past-to-present awakening verse, redactor-compiled
  'buddhavamsa':      'redactor-frame-verse',         # redactor narrates past-Buddhas' mass awakenings
@@ -120,11 +129,23 @@ WORK_ATTRIBUTION = {
  'niddesa':          'redactor-frame',
  'milindapanha':     'named-disciple-dialogue',
  'visuddhimagga':    'redactor-frame',               # Buddhaghosa's scholastic narration
- 'vinaya-nidana':    'redactor-frame',               # occasioning-story narration
+ 'vinaya-nidana':    'redactor-frame',               # occasioning-story narration (per-row override where the Buddha narrates his own bodhi)
  'udana':            'redactor-frame',
- 'nikaya-prose':     'redactor-frame',               # default: a flat narrated awakening in the sutta frame
+ 'nikaya-prose':     'redactor-frame',               # default: a flat narrated awakening in the sutta frame (per-row override where the Buddha asserts his own awakening)
  'indeterminate':    'indeterminate',
 }
+
+# PER-ROW attribution override (the per-claim codes that the work-class default
+# gets wrong). Sourced from _attribution_audit.json: each row read directly
+# around its attainment marker and confirmed by k=3 blind coders.
+#  - buddha-vacana: the Buddha, in the first person, asserts his OWN awakening
+#    (the bodhisatta-before-bodhi frame / "abhisambuddhoti paccaññāsiṃ" /
+#    "ayaṁ kho me ... tatiyā vijjā adhigatā" in the Buddha's mouth).
+#  - buddha-declares-another: the Buddha declares another's attainment.
+_audit = json.load(open(os.path.join(HERE, '_attribution_audit.json'), encoding='utf-8'))
+PER_ROW_ATTRIBUTION = {eid: 'buddha-vacana' for eid in _audit['buddha_vacana_rows_within_299']}
+for eid in _audit['buddha_declares_another_rows_within_299']:
+    PER_ROW_ATTRIBUTION[eid] = 'buddha-declares-another'
 
 EARLY = ('early-canonical', 'archaic-canonical')
 
@@ -137,7 +158,8 @@ for b in census['buckets']:
         if e['layer'] == 'mula':
             w = work_of(e['id'])
             st, conf, warrant = WORK_STRATUM[w]
-            attr = WORK_ATTRIBUTION[w]
+            attr = PER_ROW_ATTRIBUTION.get(e['id'], WORK_ATTRIBUTION[w])
+            e['v2_attribution_coded_per_row'] = e['id'] in PER_ROW_ATTRIBUTION
             e['v2_work'] = w
             e['v2_stratum'] = st
             e['v2_stratum_confidence'] = conf
@@ -167,7 +189,11 @@ mula_early = sum(v for k, v in stratum_split.items() if k in EARLY)
 mula_late = N_MULA - mula_early
 disagree = sum(1 for e in mula_events if e['v2_layer_stratum_disagree'])
 buddha_vacana = attribution_split.get('buddha-vacana', 0)
+buddha_declares_another = attribution_split.get('buddha-declares-another', 0)
 non_buddha_vacana = N_MULA - buddha_vacana
+# distinct, deduplicated Buddha-own-awakening recollections (SC + CST siblings
+# collapsed); a separate, smaller number than the row-level buddha_vacana count.
+dedup_recollections = _audit['dedup_distinct_recollections']['count']
 
 # event-class -> stratum, for the prediction score (which event-CLASSES re-code late)
 LARGE_CLASS_THRESHOLD = 30  # an event-class is "large" at >= 30 events
@@ -224,10 +250,14 @@ census['v2'] = {
    + str(mula_early) + " are early-canonical; " + str(mula_late) + " carry the mula tag while "
    "coding late-canonical, paracanonical, or commentary-era on the chronological axis. "
    "The single largest class, the Apadana (" + str(work_split.get('apadana', 0)) + " events), "
-   "re-codes late-canonical. And " + str(non_buddha_vacana) + " of the " + str(N_MULA)
-   + " (every one) are redactor-narrated or hagiographic self-report, not the Buddha "
-   "asserting the awakening: the canonical awakening corpus is late and narrated, not "
-   "early Buddha-vacana."),
+   "re-codes late-canonical. On attribution the corpus is overwhelmingly narrated about the "
+   "awakened (" + str(non_buddha_vacana) + " of " + str(N_MULA) + " redactor-narrated or "
+   "self-reported), but NOT, as an earlier pass wrongly coded it, with zero Buddha-vacana: "
+   + str(buddha_vacana) + " of the " + str(N_MULA) + " rows (" + str(dedup_recollections)
+   + " distinct, deduplicated recollections) are the Buddha asserting his OWN awakening in "
+   "the first person, and the Buddha also declares others' attainments. The canonical "
+   "awakening corpus is late and mostly narrated, yet the Buddha is both the first-person "
+   "asserter of his own bodhi and the authoritative declarer of others'."),
  "stratigraphy": {
    "note": ("Chronological stratum coded INDEPENDENTLY of the mula/attha/tika structural "
      "layer, from work + position (PROVENANCE-SIGNATURE I.1). A row whose layer is mula but "
@@ -241,12 +271,20 @@ census['v2'] = {
    "warrants": {w: WORK_STRATUM[w][2] for w in work_split},
  },
  "attribution": {
-   "note": ("Per event-class, the illocutionary owner of the attainment-claim (I.2). The "
-     "honest default for a flat narrated awakening with no quotative owner is a redactor-frame "
-     "code, not buddha-vacana."),
+   "note": ("Per CLAIM (per row, not per work-class), the illocutionary owner of the "
+     "attainment-claim (I.2). The honest default for a flat narrated awakening with no "
+     "quotative owner is a redactor-frame code, not buddha-vacana; the buddha-vacana "
+     "category is coded per row, recall-anchored by the bodhisatta-frame / paccaññāsiṃ "
+     "discriminator and confirmed by k=3 blind coders (IAA kappa=1.0). An earlier pass "
+     "coded attribution by work-class and wrongly hard-zeroed this category."),
    "mula_attribution_split": attribution_split,
    "buddha_vacana": buddha_vacana,
+   "buddha_vacana_dedup_recollections": dedup_recollections,
+   "buddha_declares_another": buddha_declares_another,
    "non_buddha_vacana": non_buddha_vacana,
+   "iaa": _audit["method"]["iaa"],
+   "relational_test": _audit["method"]["relational_test"],
+   "recall_observation": _audit["recall_observation"]["note"],
    "quotative_scan": sqlfacts["quotative_scan_mula"],
  },
  "recall_ladder": sqlfacts["recall_ladder"],
@@ -264,11 +302,16 @@ census['v2'] = {
      "about the surface string, not a recall correction to the census. The GROUP BY work_role "
      "reconfirms the dataset's layer counts exactly."),
  },
- "verdict": ("CONFIRMED and SHARPENED. The original headline (awakenings live mostly in the "
-   "commentaries, not the canon) holds and deepens: even the 'canon' share is mostly a LATE-"
-   "canonical, hagiographic-narrated stratum. The canon/commentary contrast is, in part, an "
-   "early -> late gradient INSIDE the canon, and the awakening-event corpus is narrated about "
-   "the awakened, never staked by the Buddha as his own asserted claim."),
+ "verdict": ("CONFIRMED and SHARPENED on stratigraphy; CORRECTED on attribution. The original "
+   "headline (awakenings live mostly in the commentaries, not the canon) holds and deepens: "
+   "even the 'canon' share is mostly a LATE-canonical, hagiographic-narrated stratum, and the "
+   "canon/commentary contrast is, in part, an early -> late gradient INSIDE the canon. The "
+   "attribution sub-claim is corrected: the earlier 'zero Buddha-vacana, never staked by the "
+   "Buddha as his own claim' was a per-work-class coding artifact. Coded per row, "
+   + str(buddha_vacana) + " of the 299 (" + str(dedup_recollections) + " distinct recollections) "
+   "ARE the Buddha asserting his own awakening in the first person, and the Buddha also declares "
+   "others' attainments. The awakening corpus is mostly narrated about the awakened, but the "
+   "Buddha is both its first-person self-asserter and the authoritative declarer of others'."),
  "prediction_score": {
    "prediction": ("the commentarial/Apadana/Jataka awakening events are a *late* stratum "
      "(chronology), not merely a separate voice; and that some are redactor-narrated, not "
@@ -278,7 +321,9 @@ census['v2'] = {
      + " events, >= the 30-event large-class threshold), re-codes late-canonical; "
      + str(disagree) + " of 299 mula rows carry a layer/stratum disagreement; and "
      + str(non_buddha_vacana) + "/" + str(N_MULA) + " mula events are non-Buddha-vacana "
-     "(redactor-frame or hagiographic self-report), with 0 coded buddha-vacana."),
+     "(redactor-frame or hagiographic self-report). On attribution the per-claim re-code "
+     "corrects the earlier per-work-class zero: " + str(buddha_vacana) + " rows are buddha-vacana "
+     "(" + str(dedup_recollections) + " distinct recollections)."),
    "large_late_classes": large_late_classes,
  },
 }
@@ -324,7 +369,22 @@ if large_late_classes and census['v2']['prediction_score']['result'] != 'PASS':
     errs.append("large late class exists but prediction not scored PASS")
 if not large_late_classes and census['v2']['prediction_score']['result'] == 'PASS':
     errs.append("prediction PASS but no large late class")
-# 8. no em-dash anywhere in the serialized output
+# 8. buddha-vacana is DATA-BOUND from per-row codes (the defect being fixed): it
+# must equal the audited per-row BV list and be > 0 (the false 0 is corrected).
+n_bv_audit = len(_audit['buddha_vacana_rows_within_299'])
+bv_from_rows = sum(1 for e in mula_events if e['v2_attribution'] == 'buddha-vacana')
+if buddha_vacana != bv_from_rows:
+    errs.append(f"buddha_vacana ({buddha_vacana}) != per-row count ({bv_from_rows})")
+if buddha_vacana != n_bv_audit:
+    errs.append(f"buddha_vacana ({buddha_vacana}) != audited BV list ({n_bv_audit})")
+if buddha_vacana == 0:
+    errs.append("buddha_vacana is 0 (the per-work-class defect would reproduce)")
+# every per-row override id must be a real mula event id
+mids = {e['id'] for e in mula_events}
+stray = [i for i in PER_ROW_ATTRIBUTION if i not in mids]
+if stray:
+    errs.append(f"per-row attribution ids not in mula events: {stray}")
+# 9. no em-dash anywhere in the serialized output
 raw = open(CENSUS, encoding='utf-8').read()
 if "—" in raw:
     errs.append("em-dash present in output")
@@ -335,7 +395,9 @@ print("mula events:", N_MULA, "| early:", mula_early, "| late-or-later:", mula_l
 print("stratum:", stratum_split)
 print("work:", work_split)
 print("attribution:", attribution_split)
-print("buddha-vacana:", buddha_vacana, "| non-buddha-vacana:", non_buddha_vacana)
+print("buddha-vacana:", buddha_vacana, "(dedup recollections:", dedup_recollections,
+      ") | buddha-declares-another:", buddha_declares_another,
+      "| non-buddha-vacana:", non_buddha_vacana)
 print("large classes re-coding late:", large_late_classes)
 print("recall ladder yields:", yields)
 print("prediction:", census['v2']['prediction_score']['result'])

@@ -51,9 +51,19 @@ a correction to a live published scholarly finding).
 
 | # | Item | Brief | Status | Verdict |
 |---|---|---|---|---|
-| A1 | Awakening attribution per-claim re-code (the priority) | §6.A1 | NOT STARTED | — |
+| A1 | Awakening attribution per-claim re-code (the priority) | §6.A1 | **LANDED** (committed, not deployed) | **PASS** — false 0 corrected to **17 buddha-vacana rows / 9 deduped recollections** (data-bound, IAA κ=1.0); "never another's" refuted |
 | A2 | Cross-study per-work-shortcut audit (R2–R5) | §6.A2 | NOT STARTED | — |
 | A3 | Method hardening (per-claim-granularity gate in framework/skill + coordinator verify step) | §6.A3 | NOT STARTED | — |
+
+**A1 landing note (2026-06-19).** The per-claim re-code is done and verified.
+- **The corrected key metric: buddha-vacana = 17 of 299 rows (was a false 0), collapsing to 9 distinct deduplicated own-awakening recollections** (MN 4 / 19 / 36 / 85 / 100, AN 8.11 = Verañja = Vinaya Pārājika nidāna, SN 54.8, SN 35.13, Vinaya Mahāvagga bodhi). Data-bound from per-row codes in `build_dataset.py` (`PER_ROW_ATTRIBUTION`, sourced from `_attribution_audit.json`); the consistency gate now FAILS if the count is 0 or not equal to the audited per-row list.
+- **IAA κ=1.0**: 3 independent blind coders unanimously coded all 17 BV rows buddha-vacana (packet `_iaa_packet.json`, windows `_attr_worksheet.json`).
+- **Relational claim REFUTED (the A1 prediction's OR branch fired):** the Buddha does declare others' attainments (29 mūla rows carry the destiny/stream-entry formula, 10 carry `aññaṁ byākāsi`, the Nādika mirror-of-Dhamma spans DN/MN/SN/AN; within the 299, `sn55.39` coded `buddha-declares-another`). Published claim is the nuanced both-and ("the Buddha is both the first-person asserter of his own bodhi and the authoritative declarer of others'"), never "never another's."
+- **DRIFT from this doc:** the defect was NOT confined to nikāya-prose. It also mis-filed **3 vinaya-nidāna rows** (`cst-vin01m.mul-vin1_1`, `cst-vin02m2.mul-vin3_1`, `pli-tv-bu-vb-pj1`) as redactor-frame; these carry the Buddha's first-person bodhi narrative and are now buddha-vacana. A2 should watch for the same per-work shortcut in any builder that codes a Vinaya/frame work wholesale.
+- **Recall observation (not a re-census):** the census under-enumerated the Buddha's own-awakening corpus. The bodhisatta-frame appears in **48 mūla rows corpus-wide** (incl. MN 26 Ariyapariyesanā, MN 14, MN 128, many SN/AN), most outside the 299. The 17/9 figure is a floor bounded by the original census's recall; regression gate holds the 299 fixed so the attribution fix is not confounded with a re-census.
+- **Regression GREEN:** 2,214 events, 299/1,915 canon/commentary, 38 early / 261 disagree, Apadāna 162 late — all unchanged. `CONSISTENCY: PASS`, em-dash 0 (paper + dataset), no process leaks, `vite build` green.
+- **Files touched:** `research/awakening/build_dataset.py`, `public/research/awakening-events.json`, `research/awakening/FINDINGS-v2.md`, `src/ResearchView.jsx` (Table 2c), plus audit artifacts (`_attribution_audit.json`, `_attr_worksheet.json`, `_iaa_packet.json`, `_audit_capture.py`).
+- **REDEPLOY: pending operator authorization** (this corrects a live published finding). Commit-don't-push done; the corrected number + diff are surfaced for the operator's `git push` + `flyctl deploy` decision.
 
 ## 4. Verification commands (+ expected) — the coordinator re-runs these, never trusts self-report
 
@@ -66,8 +76,8 @@ a correction to a live published scholarly finding).
 
 ## 5. Open queue + predictions
 
-All three items open. **Key metric:** the deduped, per-claim-coded, IAA'd **buddha-vacana count** for the 299 (currently a false 0). **Pre-registered predictions** (score verbatim after each lands; a wrong prediction is a finding):
-- **A1:** PREDICT the true buddha-vacana count is **small but > 0** (the Buddha's own bodhi recollections, deduped — order of a handful, not zero and not large); and the relational claim survives in the *refined* form "the Buddha asserts only his **own** awakening" once arahant-declarations are searched (OR the search finds the Buddha declaring others' attainments, which **refutes "never"** and is itself the finding). PASS if every nikāya-prose row is read individually, the count is deduped + IAA'd, and the "another's" question is answered by a named search, not assumed.
+A2 + A3 open; **A1 LANDED**. **Key metric (now corrected):** the deduped, per-claim-coded, IAA'd **buddha-vacana count** for the 299 = **17 rows / 9 distinct recollections** (was a false 0). **Pre-registered predictions** (score verbatim after each lands; a wrong prediction is a finding):
+- **A1: SCORED — PASS.** Predicted small-but->0 and "order of a handful": confirmed (17 rows, 9 deduped recollections). The relational clause resolved via the **OR branch**: the named search FOUND the Buddha declaring others' attainments (29 mūla destiny/stream-entry rows; `sn55.39` within the 299), so the naive "never another's" is refuted and the published claim is the both-and. PASS conditions all met: every nikāya-prose row read individually (33), count deduped (9) + IAA'd (κ=1.0), "another's" answered by named search not assumption. One refinement beyond prediction: the defect also spanned **vinaya-nidāna** (3 rows), not just nikāya-prose.
 - **A2:** PREDICT ≥1 other retrofit used a per-work code where the framework wanted per-claim, but **no verdict flips** (the R2–R5 verdicts were robust). PASS if every per-work coding site is located and classified artifact-risk vs benign, and any count that moves is logged with a warrant.
 - **A3:** PREDICT the gap was a missing *verification* step, not a missing rule (the rule existed in §2; the coordinator never spot-audited coding granularity). PASS if a per-claim-granularity spot-audit is added to the coordinator's standing verification battery and the framework/skill flags work→code lookups as recall aids, never verdicts.
 

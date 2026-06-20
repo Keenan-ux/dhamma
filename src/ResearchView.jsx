@@ -521,13 +521,17 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
 
                   <h2 style={h2}>Table 2c. Who narrates the awakening (attribution)</h2>
                   <p style={tableCaption}>
-                    The illocutionary owner of the attainment-claim, coded per canonical event-class.
-                    None of the {fmt(colTotals.mula)} canonical awakening events is the Buddha
-                    asserting an awakening in his own mouth; they are redactor-narrated frames or the
-                    awakened elder's own hagiographic verse. Of the {fmt(data.v2.attribution.quotative_scan.total)} rows,{' '}
-                    {fmt(data.v2.attribution.quotative_scan.first_person)} carry first-person
-                    self-narration markers and only {fmt(data.v2.attribution.quotative_scan.buddha_etadavoca)}{' '}
-                    carry the Buddha-speech frame (and those for the teaching, not the attainment).
+                    The illocutionary owner of the attainment-claim, coded per claim (per row, not
+                    per work-class). Most of the {fmt(colTotals.mula)} canonical awakening events are
+                    narrated about the awakened, redactor-narrated frames or the awakened elder's own
+                    hagiographic verse. But {fmt(data.v2.attribution.buddha_vacana)} rows
+                    ({fmt(data.v2.attribution.buddha_vacana_dedup_recollections)} distinct,
+                    deduplicated recollections) are the Buddha asserting his OWN awakening in the
+                    first person, and the Buddha also declares others' attainments
+                    ({fmt(data.v2.attribution.buddha_declares_another)} within this set; the
+                    Nādika destiny declarations across 29 mūla rows beyond it). An earlier pass coded
+                    this axis by work-class and wrongly recorded zero Buddha-vacana; the count is now
+                    per-row, confirmed by three independent blind coders (IAA κ=1.0).
                   </p>
                   <div style={tableWrap}>
                     <table style={table}>
@@ -538,8 +542,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                         </tr>
                       </thead>
                       <tbody>
-                        {[['buddha-vacana (the Buddha asserts the awakening)', data.v2.attribution.buddha_vacana]]
-                          .concat(Object.entries(data.v2.attribution.mula_attribution_split).sort((a, b) => b[1] - a[1]))
+                        {Object.entries(data.v2.attribution.mula_attribution_split).sort((a, b) => b[1] - a[1])
                           .map(([k, v]) => (
                             <tr key={k} style={tr}>
                               <td style={tdLeft}>{k}</td>
