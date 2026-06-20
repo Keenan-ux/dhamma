@@ -1,13 +1,13 @@
 {
  "meta": {
   "title": "The People of Uttarakuru",
-  "subtitle": "A canon-versus-commentary study of the northern continent's inhabitants: the cosmos's most fortunate humans, and by the canon's own reckoning the worst placed for awakening.",
+  "subtitle": "A survey of how the northern continent's inhabitants are described across the layers of the Pali canon and commentaries: the cosmos's most fortunate humans, and, by the canon's own reckoning, the worst placed for awakening.",
   "version": "1.3",
   "corpus_snapshot": "194,710 passages (2026-06-19)",
   "generated": null,
   "unit": "passage-row (mula + per-paragraph commentary)",
-  "corrected_headline": "A tiny early-canonical seed (a named, propertyless, long-lived people, no measure, no figure) materializes into a described place inside a late-canonical paritta, then a visited place in the Apadana and Vinaya frame-narratives, then a measured place at the commentarial boundary. The ethnographic template is pan-Buddhist bedrock; the soteriological verdict is Pali-local-pending-verification. At no rung does the canon submit the geography to its own test of verified knowledge: materialization and verification are different axes, and only the first one moves. The full v2 paper is research/uttarakuru/FINDINGS-v2.md.",
-  "version_note": "v1.3: recoded under the provenance-signature framework (PROVENANCE-SIGNATURE.md). Each feature now carries a per-claim signature (chronological stratum coded independently of structural layer, attribution, epistemic marking, cross-recensional reach, harmonization). The headline finding: of 26 structurally-mula rows only 6 are early-canonical; the literal-place reading is more concrete in the later/narrative registers (a gradient flagged as partly definitional, see FINDINGS-v2.md). v1.2: corrected the short-u substring (144) to the honest stem '%uttarakur%' (161), recovering the canonical four-continent cosmology (AN 3.80 / AN 10.29).",
+  "headline": "A small early-canonical seed (a named, propertyless, long-lived people, with no measure and no figure) grows into a described place inside a late-canonical protective chant, then a place flown to for alms in the Apadana and the Vinaya frame-narratives, then a measured place at the commentarial boundary. The ethnographic template appears to be shared across the early Buddhist traditions; the soteriological judgement built on it has, on the evidence to hand, no parallel outside the Pali. At no rung does the canon place the geography under its own test of directly-verified knowledge. The picture grows more concrete without ever growing more warranted, and only the first of those two moves. The full write-up is research/uttarakuru/FINDINGS-readable.md.",
+  "version_note": "v1.3: each feature is now coded for its chronological stratum (the composition layer of the text), judged independently of where the row is shelved in the edited corpus. The headline finding is that of 26 structurally-canonical rows only 6 are early-canonical, and the literal-place reading is more concrete in the later and more narrative registers (a gradient that is partly definitional, as the readable write-up discusses). v1.2: corrected the short-u substring (144) to the honest stem '%uttarakur%' (161), recovering the canonical four-continent cosmology (AN 3.80 / AN 10.29).",
   "framing_note": "Two distinct findings are kept apart. The quantitative finding is one of text mass: of the rows that speak of Uttarakuru, the great majority are commentarial. The conceptual finding is one of origin: the core frame (a four-continent place, a propertyless long-lived people who surpass the gods in non-grasping yet lack the holy life) is canonical, and the commentary amplifies it and adds the decisive soteriological verdict. Text mass is not concept-origin; the paper states each separately.",
   "provenance_note": "Every citation resolves to a live corpus row. Where the corpus carries English (the SuttaCentral mula rows) the rendering is Sujato's; the Aṭṭhakathā, Ṭīkā, and Pali-only Visuddhimagga rows carry no English in the corpus, so those renderings are the author's own gloss, marked tr_provenance='author' and checked against the standard published translations. Verbatim Pali carries full diacritics and matches the cited row.",
   "edition": "Chaṭṭha Saṅgāyana (CST/VRI) as ingested into dhamma-pg; SuttaCentral ids as cross-walk."
@@ -56,7 +56,7 @@
     "note": "Majority: the four-continent conquest frame is canonical (DN 17/26), the jewel-woman's Uttarakuru origin a detail within it."
    }
   ],
-  "note": "Three independent blind coders classified each feature's canonical warrant and H0/H1 class from the verbatim evidence. Agreement was unanimous on 15 of 16 features (Fleiss kappa 0.94, almost perfect) and on every warrant (canonical-id vs null). The census voice axis is deterministic from the source work; motif is an approximate window-based facet.",
+  "note": "Three independent readers classified each feature's canonical warrant and its early-versus-later class from the verbatim evidence. Agreement was unanimous on 15 of 16 features (Fleiss kappa 0.94, near-complete) and on every warrant (a canonical citation versus none). The voice of each census row follows directly from its source work; the motif is an approximate window-based grouping.",
   "signature_coders": 3,
   "signature_iaa": {
    "chronological_stratum": "14/16",
@@ -66,14 +66,14 @@
    "harmonization": "12/16",
    "h0h1_under_chronology": "13/16"
   },
-  "signature_note": "The v2 per-claim signature (chronological stratum, attribution, epistemic marking, cross-recensional reach, harmonization) was coded by three independent blind coders; agreement per axis is reported above (12-15 of 16). The expensive axes (attribution, harmonization) carry the most coder disagreement, as expected, since they require judging speaker and reconciliation-intent beyond a marker search."
+  "signature_note": "Each claim was coded for several further properties (its chronological stratum, who is speaking, how the text marks what it knows, how far the claim reaches across the other early-Buddhist recensions, and whether the commentary reconciles a tension); three independent readers coded these, and agreement on each property is reported above (12 to 15 of 16). The hardest to judge (who is speaking, and whether a tension is being reconciled) carry the most disagreement, as one would expect, since they ask the reader to weigh speaker and intent rather than just spot a marker."
  },
  "saturation": {
   "note": "Recall was driven to saturation in four passes, one of which corrected an earlier error. (1) The name pass was fixed mid-study: the first substring '%uttarakuru%' (short final u) found 144 rows but missed the long-u declined forms (uttarakurūnaṃ, uttarakurūsu), so the honest stem '%uttarakur%' was adopted (161 rows); the recovered rows include the canonical four-continent cosmology, AN 3.80 / AN 10.29. (2) The four-continent frame pass folded oblique rows in selectively (e.g. DN 17/26). (3) Concept-independent passes searched the no-warrant features WITHOUT the name: the wish-tree (kapparukkha) is canonical only as an Apadāna merit-fruit, never placed at Uttarakuru; the self-ripening rice is a canonical idyll (DN 27, DN 32, the Vessantara Jātaka); and no canonical passage gives the northern continent a no-disease, perpetual-climate, or from-here-to-heaven property. (4) The canonical akkhaṇa list (AN 8.29 / DN 33) was read directly and does not name Uttarakuru. After the correction no soteriological negative flipped, and the canonical frame (A1, A2, A6) gained witnesses. The no-warrant verdicts now rest on concept searches, not only on name proximity; saturation is measured, not proven."
  },
  "context": {
   "agganna_parallel": {
-   "claim": "The self-ripening rice is not unique to Uttarakuru. DN 27 (Aggañña-sutta) gives the same formula for the cosmic golden age, and the Vessantara Jātaka gives it for the forest hermitage (sāli akaṭṭhapāko). The Uttarakuru ethnography recapitulates a wandering canonical idyll, and the commentary echoes its very wording (akaṇaṃ athusaṃ sugandhaṃ).",
+   "claim": "The self-ripening rice is not unique to Uttarakuru. DN 27 (Aggañña-sutta) gives the same formula for the cosmic golden age, and the Vessantara Jātaka gives it for the forest hermitage (sāli akaṭṭhapāko, 'rice that ripens unploughed'). The Uttarakuru ethnography recapitulates a canonical idyll that wanders across several settings, and the commentary echoes its very wording (akaṇaṃ athusaṃ sugandhaṃ, 'huskless, chaffless, fragrant').",
    "cites": [
     {
      "id": "dn27",
@@ -90,7 +90,7 @@
    ]
   },
   "akkhana_control": {
-   "claim": "The soteriological bar is not in the canonical inopportune-birth list. AN 8.29 and DN 33 enumerate the eight akkhaṇā asamayā brahmacariyavāsāya (hell, animal, ghost, long-lived deva, border-region, wrong-view, dullness, no-Buddha-arisen); none names Uttarakuru. The long-lived-deva moment is the nearest, and the commentary extends that reasoning to assimilate the Uttarakurukas. The Uttarakuru disqualification is therefore commentarial, not a canonical akkhaṇa.",
+   "claim": "The soteriological bar is not in the canonical inopportune-birth list. AN 8.29 and DN 33 enumerate the eight akkhaṇā asamayā brahmacariyavāsāya ('inopportune, untimely moments for the holy life': hell, animal, ghost, long-lived deva, border-region, wrong-view, dullness, no-Buddha-arisen); none names Uttarakuru. The long-lived-deva moment is the nearest, and the commentary extends that reasoning to take in the Uttarakurukas. The Uttarakuru disqualification is therefore commentarial, not a canonical inopportune birth.",
    "cites": [
     {
      "id": "an8.29",
@@ -3320,9 +3320,9 @@
    },
    "tithanasutta_hinge": {
     "for": "an9.21",
-    "status": "pali-local-unconfirmed",
+    "status": "no linked non-Pali parallel; local to the Pali pending verification",
     "parallels": [],
-    "guard": "no LINKED non-Pali parallel is not 'no parallel exists'; the schema is stock Abhidharma cosmology a sutta-parallel table under-covers."
+    "guard": "No linked non-Pali parallel is not the same as 'no parallel exists'; the three-distinctions schema is stock Abhidharma cosmology, which a sutta-to-sutta parallel table under-covers."
    }
   }
  }

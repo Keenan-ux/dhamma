@@ -144,7 +144,7 @@ STRATIGRAPHY = [
 #     cognitive SUPPORT that knowing-cittas run on, never the thing a knowing-formula verifies.
 EPISTEMIC = {
  "verdict": "posited, never verified",
- "claim": "The heart-base is stated flat as the assumed material support of mind. Across the whole corpus it is never the object of the canon's own verification formula. Where a verification verb falls in the same row it is either far away (a separate pericope) or it names the very faculty (abhiññā, the divine eye) whose citta the heart-base is said to SUPPORT, not a knowing that confirms the heart-base.",
+ "claim": "The heart-base is stated flat, as the assumed material support of mind. Across the whole corpus it is never the object of the canon's own register of direct knowing. Where a knowing-word falls in the same row it is either far away (in a separate passage) or it names the very faculty (abhiññā 'direct knowledge', the divine eye) whose mind the heart-base is said to support, not a knowing that confirms the heart-base.",
  "verification_register_attestation": {"sacchikatvā": 654, "sayaṃ_abhiññā_sacchikatvā": 190, "yathābhūtaṃ_pajānāti": 264,
    "note": "The verification register is abundant in the same corpus, so the silence around the heart-base is patterned, not a thin-corpus gap."},
  "cooccurrence": [
@@ -156,9 +156,9 @@ EPISTEMIC = {
    "reading": "the closest gap reads 'the fifth jhana, operating by way of direct-knowledge, runs DEPENDENT ON the heart-base' (abhiññāvasena pavattaṃ pañcamajjhānaṃ … hadayavatthuññeva nissāya) -- the heart-base is the posited support a knowing-citta runs on, the opposite of a verified claim."},
  ],
  "evidence": [
-  "The verification formulae sacchikatvā (654 rows), sayaṃ abhiññā sacchikatvā (190), and yathābhūtaṃ pajānāti (264) are abundant, so the verification register is present in the same corpus stratum; the heart-base simply never enters it.",
-  "Every co-occurrence of the named heart-base with a verification verb is either a separate pericope (char-gaps to 87,102) or a passage where the heart-base is the SUPPORT the knowing-faculty runs on (abhiññāvasena … hadayavatthuṃ nissāya), never the object that knowing confirms.",
-  "The heart-base is introduced by an existence-and-support analysis (atthibhāvo, nissaya-lakkhaṇa), the grammar of a posit, not by abbhaññāsiṃ / sacchikatvā, the grammar of a verification.",
+  "The formulae of direct knowing sacchikatvā ('having directly realized', 654 rows), sayaṃ abhiññā sacchikatvā ('by his own direct knowledge, having realized', 190), and yathābhūtaṃ pajānāti ('knows as it really is', 264) are abundant, so this register is present in the same layer of the corpus; the heart-base simply never enters it.",
+  "Every co-occurrence of the named heart-base with a knowing-word is either a separate passage (with gaps reaching 87,102 characters) or a line where the heart-base is the support the knowing-faculty runs on (abhiññāvasena … hadayavatthuṃ nissāya, 'by way of direct knowledge ... dependent on the heart-base'), never the object that knowing confirms.",
+  "The heart-base is introduced by an analysis of its being-there and its supporting role (atthibhāvo 'its existence', nissaya-lakkhaṇa 'the support-characteristic'), the grammar of a posit, not by abbhaññāsiṃ / sacchikatvā, the grammar of a thing realized.",
  ],
  "anchor": c("cst-abh09t.nrf-237_p002", "Abh-pṭ §237"),
 }
@@ -179,8 +179,8 @@ ABSENCE = [
 #     'not handed down in the [canonical] text') and reconcile it 'from scripture and from reason'
 #     (āgamato yuttito ca), adducing the anonymous Paṭṭhāna posit as their scripture.
 HARMONIZATION = {
- "verdict": "harmonization-flagged (reconciled-by-distinction)",
- "claim": "The tradition does not paper over the gap; it states it. The sub-commentary openly flags that the heart-base 'does not come down in the [canonical] text' and reconciles the silence with the Abhidhamma placeholder by the twofold move 'from scripture and from reason', then quotes the Paṭṭhāna's anonymous yaṃ-rūpaṃ-nissāya clause as the very scripture.",
+ "verdict": "the tradition states the gap and reconciles it from scripture and reason",
+ "claim": "The tradition does not paper over the gap; it states it. The sub-commentary openly notes that the heart-base 'does not come down in the [canonical] text' and reconciles the silence with the Abhidhamma placeholder by the twofold move 'from scripture and from reason' (āgamato yuttito ca), then quotes the Paṭṭhāna's anonymous yaṃ rūpaṃ nissāya clause ('the matter dependent on which the mind occurs') as the very scripture.",
  "formula": "āgamato yuttito ca (from scripture and from reason) + the flag Pāḷiyaṃ anāgata (not handed down in the text)",
  "witnesses": [
   {"locus": c("cst-abh08t.nrf-84_p074", "Abh-pṭ §84.74"),
@@ -192,19 +192,19 @@ HARMONIZATION = {
    "en": "How is it to be known that the heart-base is the support-characteristic of the mind-element and the mind-consciousness-element? From scripture and from reason.",
    "adduced_scripture": c("cst-e0104n.att-16_p024", "the same Paṭṭhāna clause, quoted in-line")},
  ],
- "note": "The reconciliation is itself the evidence of a felt tension: the commentary supplies scripture-and-reason precisely because the heart-identification is Pāḷiyaṃ anāgata. The adduced scripture is the unnamed Abhidhamma posit, so the commentary closes its own gap with the placeholder it is naming.",
+ "note": "The reconciliation is itself the sign of a felt tension: the commentary supplies scripture and reason precisely because the heart-identification is Pāḷiyaṃ anāgata ('not handed down in the [canonical] text'). The scripture it adduces is the unnamed Abhidhamma posit, so the commentary closes its own gap with the placeholder it is in the act of naming.",
 }
 
 # 3e. Cross-recension (I.4) -- is the heart-base / insight ladder Theravada-specific or shared?
 RECENSION = {
- "verdict": "Theravāda-specific (corpus-link null is a known Abhidhamma blind-spot; the doctrinal differentia is scholarship-attributed)",
+ "verdict": "Theravāda-specific, though the corpus parallels are untested here (a known Abhidhamma blind-spot) and the doctrinal point is attributed to comparative scholarship",
  "heart_base": {"corpus_link": "untested",
-   "note": "The Paṭṭhāna (the heart-base posit locus) carries ZERO parallel rows of any kind; the SuttaCentral parallels table is sutta-to-sutta and structurally under-covers the Abhidhamma, so the null is a genre blind-spot, coded untested rather than pali-unique.",
-   "scholarship": "The localization of mind in the heart (hadaya-vatthu) is a recognized Theravāda differentia: the northern Abhidharma (Sarvāstivāda, later Yogācāra) does not seat mano-viññāṇa in the heart. Attributed to comparative-Abhidharma scholarship, not corpus-derived."},
+   "note": "The Paṭṭhāna, where the posit lives, carries no parallel rows of any kind; the SuttaCentral parallels table is built sutta-to-sutta and thin on the Abhidhamma, so this is best read as a genre blind-spot, untested rather than shown to be Pāli-unique.",
+   "scholarship": "The seating of mind in the heart (hadaya-vatthu) is a recognized Theravāda feature: the northern Abhidharma (Sarvāstivāda, later Yogācāra) does not seat the mind-consciousness in the heart. This is attributed to comparative Abhidharma scholarship, not derived from this corpus."},
  "insight_ladder": {"corpus_link": "pali-local-unconfirmed",
-   "note": "The Paṭisambhidāmagga sections carry some Chinese (Saṃyukta-Āgama) parallels at the SUTTA-CONTENT level (e.g. ps2.x → sa-suttas), but a container parallel is not a feature parallel: the numbered sixteen-ñāṇa SEQUENCE is a Paṭisambhidāmagga / Theravāda-Khuddaka systematization with no clean Āgama parallel as a graded ladder.",
-   "guard": "No LINKED non-Pāli parallel for the ladder-as-sequence is not the same as 'no parallel exists'; the claim is that the numbered ladder is Pāli-local, pending feature-level external confirmation."},
- "seed_shared": {"claim": "The shared, plausibly pre-sectarian seed is the LIVED practice the ladder maps: contemplating rise-and-fall (udayabbayānupassī viharati) is in the four Nikayas and recurs across recensions; the route-map drawn over it is Theravāda-local.",
+   "note": "The Paṭisambhidāmagga sections carry some Chinese (Saṃyukta-Āgama) parallels at the level of sutta content (e.g. ps2.x to the sa-suttas), but a shared container is not a shared feature: the numbered sixteen-ñāṇa sequence is a Paṭisambhidāmagga and Theravāda-Khuddaka systematization with no clean Āgama parallel as a graded ladder.",
+   "guard": "Finding no linked non-Pāli parallel for the ladder as a sequence is not the same as 'no parallel exists'; the claim is only that the numbered ladder reads as Pāli-local, pending feature-level external confirmation."},
+ "seed_shared": {"claim": "The shared, plausibly pre-sectarian seed is the lived practice the ladder maps: contemplating rise-and-fall (udayabbayānupassī viharati, 'he dwells contemplating rise and fall') is in the four Nikāyas and recurs across recensions, while the route-map drawn over it reads as Theravāda-local.",
    "anchor": c("sn22.89", "SN 22.89")},
 }
 
@@ -232,10 +232,10 @@ META = {
 }
 
 V2 = {
- "title": "Provenance-signature retrofit (R3)",
- "subtitle": "The heart-base coded for epistemic marking and harmonization; the heart-base and the insight-ñāṇa ladder coded for cross-recensional reach; the heart-base under the verification formula as a structured absence.",
- "method_note": "Re-examined under PROVENANCE-SIGNATURE.md. The study's question is an authority/literalness question about a posited entity (a category-typology member that is an asserted entity), so the triage makes II.7 epistemic marking and I.8 harmonization load-bearing, with III.10 structured-absence as II.7's partner and I.4 cross-recension for the originality arm. Layer+voice, the §3.1 recall ladder, and I.1 chronological stratum are the always-on core (the three-tier matrix already half-builds the chronology). Excluded with warrant: I.5 pre-Buddhist (the heart-base is a Buddhist scholastic posit, not inherited pan-Indian furniture, so inheritance is not load-bearing); I.6 reception (no modern English term carries the finding -- the claim is about Pāli formulae); 3.4 text-critical beyond noting the Paṭṭhāna's (syā.) siglum (no single variant reading flips the heart-base verdict).",
- "headline": "The prior three-tier finding is CONFIRMED and sharpened on two new axes. (1) Epistemically, the heart-base is posited, never verified: across the whole corpus it never falls in-window under the canon's verification formulae (sacchikatvā, the divine eye, yathābhūtaṃ pajānāti), which are themselves abundant (654 / 190 / 264 rows) -- a structured absence, not a thin-corpus gap. Where a verification verb sits close to the heart-base, the heart-base is the SUPPORT the knowing-faculty runs on, not the object it confirms. (2) The tradition flags its own gap and reconciles it: the sub-commentary states the heart-base 'does not come down in the [canonical] text' (Pāḷiyaṃ anāgata) and supplies it 'from scripture and from reason', quoting the Paṭṭhāna's anonymous posit as the scripture. Cross-recension: the heart-base is a Theravāda differentia and the numbered insight-ñāṇa ladder is Pāli-local, while the lived rise-and-fall practice the ladder maps is shared early-canonical.",
+ "title": "How firmly the heart-base is claimed, and how far it reaches",
+ "subtitle": "Reading the heart-base for how firmly it is claimed and for whether the tradition reconciles its own silence; reading the heart-base and the insight-ñāṇa ladder for how far they reach across recensions; and reading the heart-base against the canon's register of direct knowing.",
+ "method_note": "The question here is one of authority and literalness about a posited entity: where is the seat of mind first named, and with what force is the claim made. That shape makes two readings load-bearing, namely whether the heart-base is ever staked under the canon's register of direct knowing, and whether the tradition reconciles its own silence; the reading of the heart-base against the verification register is the partner of the first, and the cross-recensional reach speaks to how original the doctrine is. The layer-and-voice reading, the recall ladder, and the chronological stratum (read from the work and its position, independently of the structural layer) are the always-on core, and the three-tier matrix already half-builds the chronology. Set aside with reason: pre-Buddhist inheritance (the heart-base is a Buddhist scholastic posit, not inherited pan-Indian furniture); modern reception (no modern English term carries the finding, since the claim is about Pāli formulae); and fine text-critical collation beyond noting the Paṭṭhāna's (syā.) siglum, since no single variant reading flips the reading.",
+ "headline": "The earlier three-tier reading holds, and gains two qualifications. First, the heart-base seems to be posited and never verified: across the whole corpus it does not fall in the same window as the canon's formulae of direct knowing (sacchikatvā 'having directly realized', the divine eye, yathābhūtaṃ pajānāti 'knows as it really is'), which are themselves abundant (654, 190, and 264 rows), so the silence reads as patterned rather than as a thin-corpus gap. Where a knowing-word does sit close to the heart-base, the heart-base is the support the knowing-faculty runs on, not the object it confirms. Second, the tradition appears to flag its own gap and reconcile it: the sub-commentary states that the heart-base 'does not come down in the [canonical] text' (Pāḷiyaṃ anāgata) and supplies it 'from scripture and from reason', quoting the Paṭṭhāna's anonymous posit as that scripture. Across recensions the heart-base reads as a Theravāda feature and the numbered insight-ñāṇa ladder as Pāli-local, while the lived rise-and-fall practice the ladder maps is shared early-canonical.",
  "recall_ladder": RECALL_LADDER,
  "recall_summary": {
   "heart_base_named_in_four_nikayas": 0, "heart_base_named_in_seven_abhidhamma": HB_ABHIDHAMMA_NAMED,
@@ -243,7 +243,7 @@ V2 = {
   "named_nana_station_in_four_nikayas": 0, "named_nana_station_in_seven_abhidhamma": 0,
   "lived_rise_fall_practice_in_nikayas": LADDER_BY_STRATUM["udayabbaya_practice_sutta"],
   "bhavanga_in_four_nikayas": BHAVANGA["sutta_nikaya"], "bhavanga_in_seven_abhidhamma": BHAVANGA["abhidhamma_canonical"],
-  "note": "Reconfirmed by GROUP BY work_role / work_slug. The named heart-base mula hits (18) are all Visuddhimagga + one Niddesa + one Milindapanha -- structural-mula, commentary-or-paracanonical stratum, the layer/stratum disagreement.",
+  "note": "Reconfirmed by grouping on the work rather than the raw row count. The 18 named heart-base hits at the root-text layer are all Visuddhimagga, plus one Niddesa and one Milindapañha; all are structurally root-text yet commentary-era or para-canonical by composition, the point where the structural layer and the chronological stratum disagree.",
  },
  "stratigraphy": STRATIGRAPHY,
  "epistemic": EPISTEMIC,
@@ -256,11 +256,11 @@ V2 = {
   "note": "The seven-row three-tier matrix (sutta / abhidhamma / para-canon / commentary) is carried verbatim from v1.1; no cell recoded. The retrofit is purely additive.",
  },
  "prediction_score": {
-  "predicted": "the heart-base is never epistemically verified (only posited), and the insight-ñāṇa ladder is Theravāda-systematic (no clean Āgama parallel). PASS if the epistemic column shows 'posited, never verified' and the cross-recension link is absent/under-covered.",
-  "result": "PASS",
-  "evidence": "Epistemic column: 'posited, never verified' (0 in-window co-occurrence with the verification register, which is itself abundant at 654/190/264 rows; the one close co-occurrence is the heart-base as the support of a knowing-faculty). Cross-recension: the heart-base corpus link is null (under-covered Abhidhamma) and the doctrine is a Theravāda differentia; the numbered ñāṇa ladder is Pāli-local with no clean Āgama parallel as a sequence.",
+  "predicted": "that the heart-base is never staked under the canon's register of direct knowing (only posited), and that the insight-ñāṇa ladder is a Theravāda systematization with no clean Āgama parallel.",
+  "result": "borne out, with the cross-recensional leg held as untested rather than confirmed",
+  "evidence": "The heart-base reads as posited and never verified: no co-occurrence in the same window with the register of direct knowing, which is itself abundant (654, 190, and 264 rows), and the one close co-occurrence is the heart-base as the support a knowing-faculty runs on. Across recensions the heart-base parallels are null (the Abhidhamma is under-covered) and the doctrine reads as a Theravāda feature; the numbered ñāṇa ladder reads as Pāli-local, with no clean Āgama parallel as a sequence.",
  },
- "verdict": "CONFIRMED + sharpened. The three-tier 'sutta silence → Abhidhamma placeholder → commentarial naming' reading holds and gains two edges: the placeholder is never epistemically verified (only posited and built upon), and the commentary reconciles its own naming against an admitted canonical silence, 'from scripture and reason', adducing the very placeholder as the scripture.",
+ "verdict": "The three-tier reading (a sutta silence, an Abhidhamma placeholder, a commentarial naming) holds, and gains two qualifications: the placeholder is never staked under the canon's test of direct knowing, only posited and built upon, and the commentary reconciles its own naming against an admitted canonical silence, 'from scripture and from reason', adducing the very placeholder as the scripture.",
 }
 
 DATA = {"meta": META, "rows": ROWS, "v2": V2}
@@ -318,8 +318,8 @@ if len(HARMONIZATION["witnesses"]) < 2: errs.append("harmonization needs >=2 wit
 for a in ABSENCE:
     if not a.get("expected_frame") or not a.get("contrast"): errs.append("absence row missing frame/contrast")
 
-# Prediction must be scored.
-if V2["prediction_score"]["result"] not in ("PASS", "FAIL"): errs.append("prediction not scored")
+# Prediction must be scored (a non-empty measured outcome string).
+if not str(V2["prediction_score"].get("result", "")).strip(): errs.append("prediction not scored")
 
 # No em-dashes anywhere in the serialized output.
 raw = open(OUT, encoding='utf-8').read()

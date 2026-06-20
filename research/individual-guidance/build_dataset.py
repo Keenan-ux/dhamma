@@ -150,40 +150,41 @@ DRIFT_CELLS = {
     "early-canon-prose": {
         "stratum": "early-canon-prose",
         "stratum_label": "Early-canon prose (four Nikāyas)",
-        "sense": "ABSENT as a noun of temperament. The four Nikāyas carry no raga-/dosa-/moha-carita "
+        "sense": "Absent as a noun of temperament. The four Nikāyas carry no raga-/dosa-/moha-carita "
                  "compound at all. The cognate forms in the Nikāyas are the verb (carati, 'wanders / "
                  "conducts oneself') and the ethical compounds sucarita / duccarita ('good / bad conduct'); "
                  "neither classifies a person into a fixed disposition.",
-        "anchor": cite("AN 9.1 / Ud 4.1 (the antidote formula carries the function WITHOUT the term)", "an9.1"),
+        "anchor": cite("AN 9.1 / Ud 4.1 (the antidote formula carries the function without the term)", "an9.1"),
         "anchor_pali": "asubhā bhāvetabbā rāgassa pahānāya; mettā bhāvetabbā byāpādassa pahānāya; "
                        "ānāpānassati bhāvetabbā vitakkupacchedāya. "
                        "(The defilement-to-object keying is here; the word carita is not.)",
-        "provenance": "[canon] early-canonical, four-Nikaya prose; SQL: 0 temperament-carita rows in pli-an/sn/mn/dn",
+        "provenance": "Early-canonical four-Nikaya prose; no temperament-carita rows in the Aṅguttara, "
+                      "Saṃyutta, Majjhima, or Dīgha.",
         "confidence": "high",
     },
     "late-canon": {
         "stratum": "late-canon",
         "stratum_label": "Late / para-canonical Khuddaka (Niddesa, Paṭisambhidāmagga)",
-        "sense": "TWO co-existing senses. (a) In the Paṭisambhidāmagga the term means 'conduct / coursing': "
+        "sense": "Two co-existing senses. (a) In the Paṭisambhidāmagga the term means 'conduct / coursing': "
                  "the Cariyākathā enumerates eight cariyā (posture-, sense-base-, mindfulness-, "
                  "concentration-, knowledge-, path-, attainment-, world-welfare-conduct), a taxonomy of "
-                 "MODES-OF-ACTIVITY, with no temperament reading. (b) In the Cuḷaniddesa the temperament "
+                 "modes of activity, with no temperament reading. (b) In the Cuḷaniddesa the temperament "
                  "compound first appears as a full six-fold matrix keyed to objects, ascribed to the Buddha's "
-                 "knowing. The re-coinage of carita as 'fixed temperament' enters HERE, in the para-canonical "
+                 "knowing. The re-coinage of carita as 'fixed temperament' enters here, in the para-canonical "
                  "analytical layer, not the Nikayas.",
         "anchor": cite("PS 3.5 Cariyākathā (conduct-sense) + CND 19 (the new temperament matrix)", "ps3.5"),
         "anchor_pali": "PS 3.5: 'Cariyāti, aṭṭha cariyāyo— iriyāpathacariyā, āyatanacariyā, saticariyā, "
                        "samādhicariyā, ñāṇacariyā, maggacariyā, patticariyā, lokatthacariyā.' "
                        "CND 19: 'ayaṁ puggalo rāgacarito ... mohacarito ... Rāgacaritassa bhagavā ... "
                        "asubhakathaṁ katheti.'",
-        "provenance": "[canon] late/para-canonical Khuddaka; SQL: temperament-carita first attested in "
-                      "pli-nd/pli-ps/pli-ne, 0 in the four Nikayas",
+        "provenance": "Late, para-canonical Khuddaka; the temperament-carita compound is first attested in "
+                      "the Niddesa, Paṭisambhidāmagga, and Nettippakaraṇa, and is absent from the four Nikayas.",
         "confidence": "high",
     },
     "attha": {
         "stratum": "attha",
         "stratum_label": "Aṭṭhakathā (classical commentary) + Visuddhimagga",
-        "sense": "FULLY a typology of fixed temperament, systematized. The aṭṭhakathā and the Visuddhimagga "
+        "sense": "Fully a typology of fixed temperament, systematized. The aṭṭhakathā and the Visuddhimagga "
                  "fix the six caritas as a person-classification, weld each to a meditation object (greed→"
                  "foulness, hate→loving-kindness and colour-kasiṇas, delusion→breath/recitation, "
                  "speculation→breath/earth-kasiṇa, faith→recollections, intelligence→death-mindfulness/"
@@ -195,15 +196,16 @@ DRIFT_CELLS = {
         "anchor_pali": "Sv-a: 'Satthā tesaṃ cariyavasena rāgacaritassa asubhakammaṭṭhānaṃ deti. Dosacaritassa "
                        "mettākammaṭṭhānaṃ ...' Vism §36.30: 'idaṃ cariyāvibhāvanavidhānaṃ ... neva pāḷiyaṃ na "
                        "aṭṭhakathāyaṃ āgataṃ, kevalaṃ ācariyamatānusārena vuttaṃ, tasmā na sārato paccetabbaṃ.'",
-        "provenance": "[comm] classical-commentary; the antidote cells (greed/hate/speculation) rest on the "
-                      "canonical formula (H0), the temperament-KEYING and diagnostics have no Nikaya warrant (H1)",
+        "provenance": "Classical commentary; the antidote cells (greed, hate, speculation) rest on the "
+                      "canonical formula, while the temperament keying and the diagnostics have no warrant "
+                      "in the Nikayas.",
         "confidence": "high",
     },
     "tika": {
         "stratum": "tika",
         "stratum_label": "Ṭīkā (sub-commentary)",
         "sense": "The temperament typology hardened and physiologized. The sub-commentaries read carita off "
-                 "the BODY: the colour of the heart-blood is keyed to temperament (red for greed, black for "
+                 "the body itself: the colour of the heart-blood is keyed to temperament (red for greed, black for "
                  "hate, meat-washing-water for delusion, horse-gram-broth for speculation, kaṇikāra-flower "
                  "for faith, clear-bright for wisdom). The classifying disposition is now a somatic fact to "
                  "be diagnosed, the furthest reach of the re-coinage.",
@@ -211,7 +213,7 @@ DRIFT_CELLS = {
         "anchor_pali": "Taṃ panetaṃ rāgacaritassa rattaṃ hoti, dosacaritassa kāḷakaṃ, mohacaritassa "
                        "maṃsadhovanudakasadisaṃ, vitakkacaritassa kulatthayūsavaṇṇaṃ, saddhācaritassa "
                        "kaṇikārapupphavaṇṇaṃ, paññācaritassa acchaṃ vippasannaṃ ... paṇḍaraṃ.",
-        "provenance": "[comm] sub-commentary; no canonical warrant (H1)",
+        "provenance": "Sub-commentary; no canonical warrant.",
         "confidence": "high",
     },
     "modern-translation": {
@@ -225,7 +227,7 @@ DRIFT_CELLS = {
         "anchor": cite("Ñāṇamoli, Path of Purification III (the standard control rendering of cariyā/carita)", "cst-e0101n.mul-37_p001"),
         "anchor_pali": "carita / cariyā < carati ('he courses, conducts himself'); the modern gloss "
                        "'temperament / character / personality type' is the reception frame, not the Pāli sense.",
-        "provenance": "[reception] modern; reuses I.6 reception overlay",
+        "provenance": "Modern reception; the same reception overlay read back onto the commentarial typology.",
         "confidence": "medium",
     },
 }
@@ -235,19 +237,20 @@ def classify_drift(prev_key, cur_key):
     """Classify the drift at the boundary between two adjacent strata cells."""
     rules = {
         ("early-canon-prose", "late-canon"):
-            ("DRIFT-reframing", "The function (defilement→object) is canonical, but the noun carita is "
-             "RE-COINED for a new job: in the para-canonical layer it first names a fixed temperament "
-             "(Cuḷaniddesa) alongside its older conduct sense (Paṭisambhidāmagga). A new sense is minted."),
+            ("DRIFT-reframing", "The function (keying an object to a defilement) is canonical, but the noun "
+             "carita is re-coined for a new job: in the para-canonical layer it first names a fixed "
+             "temperament (Cuḷaniddesa) alongside its older conduct sense (Paṭisambhidāmagga). A new sense "
+             "is minted."),
         ("late-canon", "attha"):
             ("DRIFT-narrowing-specification", "The two co-existing late-canonical senses collapse to one: the "
-             "commentary keeps only the temperament reading, fixes it as a six-cell person×object matrix, "
-             "and builds the assignment machinery. The conduct-sense is dropped for this purpose."),
+             "commentary keeps only the temperament reading, fixes it as a six-cell person-by-object matrix, "
+             "and builds the assignment machinery. The conduct sense is dropped for this purpose."),
         ("attha", "tika"):
             ("DRIFT-enrichment", "The temperament sense is enriched with somatic diagnostics: carita is now "
              "read off the body (heart-blood colour, gait, eating), an added physiological layer with no "
-             "canonical or aṭṭhakathā-formula warrant."),
+             "warrant in the canon or the old commentary's own formula."),
         ("tika", "modern-translation"):
-            ("DRIFT-reframing", "The Pāli carita ('that which one courses in') is reframed by the modern "
+            ("DRIFT-reframing", "The Pāli carita ('that which one courses in') is reframed through the modern "
              "category 'personality / character type', importing a psychology of stable diagnosable types "
              "the Pāli term does not carry."),
     }
@@ -266,22 +269,25 @@ for i in range(1, len(DRIFT_STRATA)):
 # II.7 EPISTEMIC MARKING of the carita-matching system.
 # ---------------------------------------------------------------------------
 EPISTEMIC = {
-    "claim": "The carita-to-object matching system (who-is-which-temperament, and which object that "
-             "temperament should receive) is asserted-verified by the tradition's own knowing-formula.",
-    "verdict": "SYSTEMATIZED, NOT ASSERTED-VERIFIED.",
+    "claim": "Whether the carita-to-object matching system (who is of which temperament, and which object "
+             "that temperament should receive) is staked under the tradition's own formula for verified "
+             "knowing.",
+    "verdict": "The matching seems systematized rather than staked as verified knowledge.",
     "evidence": [
-        "The canonical AGENCY claim is that who-gets-what is a Buddha's perceptual faculty "
-        "(indriya-paropariya-ñāṇa, MN 12; āsayānusaya-ñāṇa). That faculty IS staked under a knowing-formula, "
-        "but it reads CAPACITY and latent-tendency, and the Nikayas attach no six-carita typology to it.",
-        "Where the carita-typology and a knowing-formula co-occur in 'mula' rows, the gaps are 16,852 / "
-        "132,840 / 229,586 characters (huge Niddesa/Nettippakaraṇa monoliths): the temperament term and the "
-        "knowing-faculty sit in wholly separate pericopes, a proximity artifact, not a verification "
-        "(the same structured-absence pattern the Uttarakuru study reports for the divine eye).",
-        "The ONLY tight co-occurrence is the Visuddhimagga (§36.30), and it is the tradition's own "
-        "DISCLAIMER: the method of determining temperament 'has come down neither in the canon nor in the "
-        "[old] commentary ... is stated only following the teachers' opinion ... is not to be relied on as "
-        "authoritative.' The matching is staked at most under a CONDITIONAL mind-reading (cetopariyañāṇa) "
-        "'if the teacher has it', otherwise by simply questioning the pupil.",
+        "The faculty the canon does stake under a knowing-formula is a Buddha's reading of how mature "
+        "another's faculties are (indriya-paropariya-ñāṇa, MN 12) and of beings' dispositions and latent "
+        "tendencies (āsayānusaya-ñāṇa). What that faculty reads is capacity and latent tendency, and the "
+        "Nikayas attach no six-carita typology to it.",
+        "Where the carita typology and a knowing-faculty fall in the same mula row, they sit 16,852, "
+        "132,840, and 229,586 characters apart (long undivided Niddesa and Nettippakaraṇa rows): the "
+        "temperament term and the knowing-faculty are in wholly separate passages, a fact about how the text "
+        "is stored rather than a case of the typology being staked as known (the same structured-absence "
+        "shape the Uttarakuru survey reports for the divine eye).",
+        "The one place the two sit tight together is the Visuddhimagga (§36.30), and there the text disowns "
+        "its own construction: the method of determining temperament has come down neither in the canon nor "
+        "in the old commentary, is stated only following the teachers' opinion, and is not to be relied on as "
+        "authoritative. The matching is staked at most under a conditional mind-reading (cetopariyañāṇa, "
+        "'if the teacher has it'), and otherwise rests on simply questioning the pupil.",
     ],
     "anchor": cite("Vism §36.30 (na sārato paccetabbaṃ)", "cst-e0101n.mul-36_p030"),
     "anchor_pali": "Yasmā pana idaṃ cariyāvibhāvanavidhānaṃ sabbākārena neva pāḷiyaṃ na aṭṭhakathāyaṃ "
@@ -294,8 +300,8 @@ EPISTEMIC = {
 # Link-level only (sutta-to-sutta passage_parallels). Container vs feature kept sharp.
 # ---------------------------------------------------------------------------
 RECENSION = {
-    "verdict": "SPLIT: the canonical seed is pre-sectarian; the carita typology is Pali-local / "
-               "Theravada-systematic (feature-level UNCONFIRMED).",
+    "verdict": "The two halves answer differently: the canonical seed reaches back past the schools, while "
+               "the carita typology is Pali-local on the linked evidence, pending a feature-by-feature check.",
     "seed_pre_sectarian": [
         {"feature": "The defilement→object antidote formula (asubha↔raga, metta↔dosa, anapanasati↔vitakka)",
          "anchor": cite("AN 9.1 / Ud 4.1", "an9.1"),
@@ -314,13 +320,14 @@ RECENSION = {
         "feature": "The six-carita temperament typology and its person×object matrix",
         "anchor": cite("CND 19 (Cuḷaniddesa) carries the carita matrix as a feature", "cnd19"),
         "code": "pali-only-feature-unconfirmed",
-        "guard": "CND 19 has external parallels (sa1169, uv21, etc.), but those parallels are to the "
-                 "Mogharaja VERSE the Niddesa glosses, NOT to the carita-typology feature (container vs "
-                 "feature). The carita typology's non-Pali witness is the Vimuttimagga (Upatissa, preserved "
-                 "only in Chinese, T1648), which the sutta-to-sutta link table does not carry. Code is "
-                 "pali-only-pending-feature-level-verification, never 'Theravada-invented': the Vimuttimagga "
-                 "carries a cognate scheme, so the typology is plausibly pre-Buddhaghosa though still "
-                 "post-canonical.",
+        "guard": "CND 19 does have external parallels (sa1169, uv21, and others), but they are parallels to "
+                 "the Mogharaja verse the Niddesa is glossing, not to the carita-typology feature itself; a "
+                 "shared container does not make the feature shared. The typology's genuine non-Pali witness "
+                 "is the Vimuttimagga (Upatissa, preserved only in Chinese, T1648), which the discourse-to-"
+                 "discourse parallels table cannot register. So the right thing to say is not that the "
+                 "typology is a Theravada invention, but that it is Pali-local on the linked evidence and "
+                 "awaits a check feature by feature; the Vimuttimagga carries a cognate scheme, which makes "
+                 "the typology plausibly older than Buddhaghosa while still later than the canon.",
     },
 }
 
@@ -349,26 +356,28 @@ for a in APPARATUS:
 # ASSEMBLE the v2 block (additive; v1.2 census + meta untouched except a note).
 # ---------------------------------------------------------------------------
 V2 = {
-    "title": "Provenance-signature retrofit (R2)",
-    "subtitle": "The carita / kammaṭṭhāna / forty-object apparatus coded as chronological stratum, with the "
-                "carita semantic-drift strip, the epistemic marking of the matching system, and its "
-                "cross-recensional reach.",
-    "method_note": "Re-examined under PROVENANCE-SIGNATURE.md. Triaged axes: I.1 chronological stratum "
-                   "(coded independently of structural layer), the I.1 carita semantic-drift strip (3.3), "
-                   "II.7 epistemic marking, I.4 cross-recensional attestation. Layer+voice and the §3.1 "
-                   "recall ladder are the always-on core. The question is descriptive (how the texts assign "
-                   "carita), not normative (what object a temperament should use); the normative gap is "
-                   "flagged, not answered.",
-    "headline": "The prior study's 'commentarial systematization' finding is confirmed AS A CHRONOLOGY FACT "
-                "and sharpened. The six-carita typology, the technical kammaṭṭhāna, and the closed forty are "
-                "all post-canonical: the temperament-carita compound is attested ZERO times in the four "
-                "Nikayas and ZERO times in the Abhidhamma, entering first in the para-canonical Khuddaka "
-                "(Niddesa) and hardening through the Visuddhimagga and sub-commentary. The canonical seed "
-                "(the defilement→object antidote formula, the samatha-vipassana yoke) is pre-sectarian; the "
-                "carita typology welded onto it is Pali-local. And the matching system is SYSTEMATIZED, never "
-                "asserted-verified: the Visuddhimagga itself flags its temperament diagnostics as 'not in the "
-                "canon, not in the old commentary, merely the teachers' opinion, not to be relied on as "
-                "authoritative.'",
+    "title": "Where the temperament scheme sits in the layers",
+    "subtitle": "The carita (temperament), kammaṭṭhāna (meditation subject), and forty-object apparatus "
+                "placed by chronological stratum, with the carita semantic-drift strip, a note on how firmly "
+                "the tradition vouches for the matching system, and how far it reaches across the early schools.",
+    "method_note": "The apparatus is placed by chronological stratum, read independently of where a work is "
+                   "shelved in the canon. Alongside that placement the survey tracks the drift of the word "
+                   "carita ('conduct, coursing') across the layers, asks how firmly the tradition vouches for "
+                   "the matching system, and checks how far the scheme reaches across the early schools, with "
+                   "the layer-and-voice reading and the recall floor running underneath. The question here is "
+                   "descriptive (how the texts assign carita), not normative (what object a given temperament "
+                   "should use); that practical gap is flagged, not answered.",
+    "headline": "The earlier reading that the scheme is a commentarial systematization holds as a matter of "
+                "relative chronology, and gains some sharpening. The six-carita typology, the technical sense "
+                "of kammaṭṭhāna, and the closed forty all sit later than the canon: the temperament-carita "
+                "compound is attested zero times in the four Nikayas and zero times in the Abhidhamma, "
+                "entering first in the para-canonical Khuddaka (Niddesa) and hardening through the "
+                "Visuddhimagga and sub-commentary. The canonical seed (the defilement-to-object antidote "
+                "formula, the samatha-vipassana yoke) reaches back past the schools, while the carita typology "
+                "laid over it appears to be Pali-local. And the matching system seems to be systematized "
+                "rather than vouched for as verified knowledge: the Visuddhimagga itself marks its temperament "
+                "diagnostics as not in the canon, not in the old commentary, stated only following the "
+                "teachers' opinion, and not to be relied on as authoritative.",
     "stratigraphy": STRATIGRAPHY,
     "drift_strip": {
         "term": "carita / cariyā",
