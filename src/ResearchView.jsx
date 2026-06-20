@@ -1619,6 +1619,134 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
 
               {/* LIMITATIONS */}
+              {/* ---- v2 provenance-signature retrofit (additive; self-hides if absent) ---- */}
+              {data.v2 && (() => {
+                const v = data.v2;
+                return (
+                  <section style={{ marginTop: 34 }}>
+                    <h2 style={h2}>{v.title}</h2>
+                    <p style={methodNote}>{v.subtitle}</p>
+                    <p>{v.headline}</p>
+
+                    {Array.isArray(v.stratigraphy) && v.stratigraphy.length > 0 && (
+                      <>
+                        <h3 style={h3}>The apparatus as a post-canonical stratum</h3>
+                        <div style={tableWrap}>
+                          <table style={table}>
+                            <thead>
+                              <tr>
+                                <th style={thLeft}>Apparatus element</th>
+                                <th style={thLeft}>Chronological stratum</th>
+                                <th style={thLeft}>Structural layer</th>
+                                <th style={thNum} title="Hits in the four Nikāyas + the seven Abhidhamma books">4-Nik. + Abhi.</th>
+                                <th style={thNum}>Layer/stratum disagree</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {v.stratigraphy.map((r, i) => (
+                                <tr key={i} style={tr}>
+                                  <td style={tdLeft}>{r.element}</td>
+                                  <td style={tdLeftSm}>{r.stratum}</td>
+                                  <td style={tdLeftSm}>{r.structural_layer}</td>
+                                  <td style={tdNum} title={typeof r.raw_four_nikaya_abhidhamma_hits === 'number' && r.raw_four_nikaya_abhidhamma_hits !== r.four_nikaya_abhidhamma_hits ? `${r.raw_four_nikaya_abhidhamma_hits} raw word-hits, all in the ordinary (non-technical) sense` : undefined}>{fmt(r.four_nikaya_abhidhamma_hits)}</td>
+                                  <td style={tdNum}>{r.layer_stratum_disagree ? 'yes' : 'no'}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        <p style={tableCaption}>
+                          {v.stratigraphy.map((r, i) => (
+                            <span key={i}>{i ? ' · ' : ''}<Cite id={r.anchor?.id}>{r.anchor?.label}</Cite></span>
+                          ))}
+                        </p>
+                      </>
+                    )}
+
+                    {v.drift_strip && (
+                      <>
+                        <h3 style={h3}>The <em>{v.drift_strip.term}</em> semantic-drift strip</h3>
+                        <div style={tableWrap}>
+                          <table style={table}>
+                            <thead>
+                              <tr>
+                                <th style={thLeft}>Stratum</th>
+                                <th style={thLeft}>Sense at this stratum</th>
+                                <th style={thLeft}>Anchor</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {v.drift_strip.cells.map((c, i) => (
+                                <tr key={i} style={tr}>
+                                  <td style={tdLeftSm}>{c.stratum_label}</td>
+                                  <td style={tdLeftSm}>{c.sense}</td>
+                                  <td style={tdLeftSm}><Cite id={c.anchor?.id}>{c.anchor?.label}</Cite></td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        <ol style={{ margin: '10px 0 0 0', paddingLeft: 20 }}>
+                          {v.drift_strip.drift_points.map((p, i) => (
+                            <li key={i} style={{ marginBottom: 6 }}>
+                              <strong>{p.classification}</strong> ({p.from} → {p.to}): {p.note}
+                            </li>
+                          ))}
+                        </ol>
+                        <p style={tableCaption}>{v.drift_strip.summary}</p>
+                      </>
+                    )}
+
+                    {v.epistemic && (
+                      <>
+                        <h3 style={h3}>How firmly the texts commit: {v.epistemic.verdict}</h3>
+                        <p><em>{v.epistemic.claim}</em></p>
+                        <ul style={{ margin: '6px 0 0 0', paddingLeft: 20 }}>
+                          {v.epistemic.evidence.map((e, i) => <li key={i} style={{ marginBottom: 6 }}>{e}</li>)}
+                        </ul>
+                        <p style={tableCaption}>
+                          Warrant: <Cite id={v.epistemic.anchor?.id}>{v.epistemic.anchor?.label}</Cite>
+                        </p>
+                      </>
+                    )}
+
+                    {v.recension && (
+                      <>
+                        <h3 style={h3}>How far this reaches beyond the Pāli: {v.recension.verdict}</h3>
+                        <div style={tableWrap}>
+                          <table style={table}>
+                            <thead>
+                              <tr>
+                                <th style={thLeft}>Feature</th>
+                                <th style={thLeft}>Anchor</th>
+                                <th style={thLeft}>Code</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {v.recension.seed_pre_sectarian.map((s, i) => (
+                                <tr key={'s' + i} style={tr}>
+                                  <td style={tdLeftSm}>{s.feature}</td>
+                                  <td style={tdLeftSm}><Cite id={s.anchor?.id}>{s.anchor?.label}</Cite></td>
+                                  <td style={tdLeftSm}>{s.code}</td>
+                                </tr>
+                              ))}
+                              <tr style={tr}>
+                                <td style={tdLeftSm}>{v.recension.typology_pali_local.feature}</td>
+                                <td style={tdLeftSm}><Cite id={v.recension.typology_pali_local.anchor?.id}>{v.recension.typology_pali_local.anchor?.label}</Cite></td>
+                                <td style={tdLeftSm}>{v.recension.typology_pali_local.code}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <p style={tableCaption}>{v.recension.typology_pali_local.guard}</p>
+                      </>
+                    )}
+
+                    <p style={methodNote}>{v.method_note}</p>
+                  </section>
+                );
+              })()}
+
               <h2 style={h2}>Limitations</h2>
               <p>
                 Recall is bounded, and the bound is stated rather than hidden. As the method sets out, the
@@ -1804,133 +1932,6 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 );
               })()}
 
-              {/* ---- v2 provenance-signature retrofit (additive; self-hides if absent) ---- */}
-              {data.v2 && (() => {
-                const v = data.v2;
-                return (
-                  <section style={{ marginTop: 34 }}>
-                    <h2 style={h2}>{v.title}</h2>
-                    <p style={methodNote}>{v.subtitle}</p>
-                    <p>{v.headline}</p>
-
-                    {Array.isArray(v.stratigraphy) && v.stratigraphy.length > 0 && (
-                      <>
-                        <h3 style={h3}>The apparatus as a post-canonical stratum</h3>
-                        <div style={tableWrap}>
-                          <table style={table}>
-                            <thead>
-                              <tr>
-                                <th style={thLeft}>Apparatus element</th>
-                                <th style={thLeft}>Chronological stratum</th>
-                                <th style={thLeft}>Structural layer</th>
-                                <th style={thNum} title="Hits in the four Nikāyas + the seven Abhidhamma books">4-Nik. + Abhi.</th>
-                                <th style={thNum}>Layer/stratum disagree</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {v.stratigraphy.map((r, i) => (
-                                <tr key={i} style={tr}>
-                                  <td style={tdLeft}>{r.element}</td>
-                                  <td style={tdLeftSm}>{r.stratum}</td>
-                                  <td style={tdLeftSm}>{r.structural_layer}</td>
-                                  <td style={tdNum} title={typeof r.raw_four_nikaya_abhidhamma_hits === 'number' && r.raw_four_nikaya_abhidhamma_hits !== r.four_nikaya_abhidhamma_hits ? `${r.raw_four_nikaya_abhidhamma_hits} raw word-hits, all in the ordinary (non-technical) sense` : undefined}>{fmt(r.four_nikaya_abhidhamma_hits)}</td>
-                                  <td style={tdNum}>{r.layer_stratum_disagree ? 'yes' : 'no'}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                        <p style={tableCaption}>
-                          {v.stratigraphy.map((r, i) => (
-                            <span key={i}>{i ? ' · ' : ''}<Cite id={r.anchor?.id}>{r.anchor?.label}</Cite></span>
-                          ))}
-                        </p>
-                      </>
-                    )}
-
-                    {v.drift_strip && (
-                      <>
-                        <h3 style={h3}>The <em>{v.drift_strip.term}</em> semantic-drift strip</h3>
-                        <div style={tableWrap}>
-                          <table style={table}>
-                            <thead>
-                              <tr>
-                                <th style={thLeft}>Stratum</th>
-                                <th style={thLeft}>Sense at this stratum</th>
-                                <th style={thLeft}>Anchor</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {v.drift_strip.cells.map((c, i) => (
-                                <tr key={i} style={tr}>
-                                  <td style={tdLeftSm}>{c.stratum_label}</td>
-                                  <td style={tdLeftSm}>{c.sense}</td>
-                                  <td style={tdLeftSm}><Cite id={c.anchor?.id}>{c.anchor?.label}</Cite></td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                        <ol style={{ margin: '10px 0 0 0', paddingLeft: 20 }}>
-                          {v.drift_strip.drift_points.map((p, i) => (
-                            <li key={i} style={{ marginBottom: 6 }}>
-                              <strong>{p.classification}</strong> ({p.from} → {p.to}): {p.note}
-                            </li>
-                          ))}
-                        </ol>
-                        <p style={tableCaption}>{v.drift_strip.summary}</p>
-                      </>
-                    )}
-
-                    {v.epistemic && (
-                      <>
-                        <h3 style={h3}>How firmly the texts commit: {v.epistemic.verdict}</h3>
-                        <p><em>{v.epistemic.claim}</em></p>
-                        <ul style={{ margin: '6px 0 0 0', paddingLeft: 20 }}>
-                          {v.epistemic.evidence.map((e, i) => <li key={i} style={{ marginBottom: 6 }}>{e}</li>)}
-                        </ul>
-                        <p style={tableCaption}>
-                          Warrant: <Cite id={v.epistemic.anchor?.id}>{v.epistemic.anchor?.label}</Cite>
-                        </p>
-                      </>
-                    )}
-
-                    {v.recension && (
-                      <>
-                        <h3 style={h3}>How far this reaches beyond the Pāli: {v.recension.verdict}</h3>
-                        <div style={tableWrap}>
-                          <table style={table}>
-                            <thead>
-                              <tr>
-                                <th style={thLeft}>Feature</th>
-                                <th style={thLeft}>Anchor</th>
-                                <th style={thLeft}>Code</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {v.recension.seed_pre_sectarian.map((s, i) => (
-                                <tr key={'s' + i} style={tr}>
-                                  <td style={tdLeftSm}>{s.feature}</td>
-                                  <td style={tdLeftSm}><Cite id={s.anchor?.id}>{s.anchor?.label}</Cite></td>
-                                  <td style={tdLeftSm}>{s.code}</td>
-                                </tr>
-                              ))}
-                              <tr style={tr}>
-                                <td style={tdLeftSm}>{v.recension.typology_pali_local.feature}</td>
-                                <td style={tdLeftSm}><Cite id={v.recension.typology_pali_local.anchor?.id}>{v.recension.typology_pali_local.anchor?.label}</Cite></td>
-                                <td style={tdLeftSm}>{v.recension.typology_pali_local.code}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <p style={tableCaption}>{v.recension.typology_pali_local.guard}</p>
-                      </>
-                    )}
-
-                    <p style={methodNote}>{v.method_note}</p>
-                  </section>
-                );
-              })()}
             </div>
           </>
         )}
@@ -2204,22 +2205,6 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 layered on an Abhidhamma placeholder and a sutta silence.
               </p>
 
-              <h2 style={h2}>Limits and sources</h2>
-              <p>
-                The not-in-the-Abhidhamma verdicts rest on negative controls, searches that return nothing
-                across the seven books; reliable here but sensitive to spelling and stemming. The dating of the
-                Abhidhamma and the account of its origin are secondary and scholarly, not corpus-verified. The
-                long-course claim is attributed testimony about confidential material. Three rows an earlier
-                pass left partial are now grounded per row in the table above: the cognitive-process vocabulary
-                in the Atthasālinī, where the life-continuum, once turned, gives rise to the cognitive-process
-                cittas; the element chapter completing the Vibhaṅga's analytical set; and the
-                Paṭisambhidāmagga's Ñāṇakathā, which names the insight-ñāṇas. Sources for the secondary claims:
-                Frauwallner,
-                <em> Studies in Abhidharma Literature</em>; Cousins, <em>Abhidhamma Studies III</em>; Gethin,
-                <em> The Foundations of Buddhism</em>; Ronkin, <em>Early Buddhist Metaphysics</em>; Braun,
-                <em> The Birth of Insight</em>; Pa-Auk Sayadaw, <em>Knowing and Seeing</em>.
-              </p>
-
               {/* ---- v2 provenance-signature retrofit (R3; additive, self-hides if absent) ---- */}
               {data.v2 && (() => {
                 const v = data.v2;
@@ -2388,6 +2373,23 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                   </section>
                 );
               })()}
+
+              <h2 style={h2}>Limits and sources</h2>
+              <p>
+                The not-in-the-Abhidhamma verdicts rest on negative controls, searches that return nothing
+                across the seven books; reliable here but sensitive to spelling and stemming. The dating of the
+                Abhidhamma and the account of its origin are secondary and scholarly, not corpus-verified. The
+                long-course claim is attributed testimony about confidential material. Three rows an earlier
+                pass left partial are now grounded per row in the table above: the cognitive-process vocabulary
+                in the Atthasālinī, where the life-continuum, once turned, gives rise to the cognitive-process
+                cittas; the element chapter completing the Vibhaṅga's analytical set; and the
+                Paṭisambhidāmagga's Ñāṇakathā, which names the insight-ñāṇas. Sources for the secondary claims:
+                Frauwallner,
+                <em> Studies in Abhidharma Literature</em>; Cousins, <em>Abhidhamma Studies III</em>; Gethin,
+                <em> The Foundations of Buddhism</em>; Ronkin, <em>Early Buddhist Metaphysics</em>; Braun,
+                <em> The Birth of Insight</em>; Pa-Auk Sayadaw, <em>Knowing and Seeing</em>.
+              </p>
+
 
               <p style={footNote}>
                 Companion to the individual-guidance census, version {data.meta.version}, snapshot{' '}
