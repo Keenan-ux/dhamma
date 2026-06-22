@@ -60,6 +60,27 @@ reading found four things the skill never coded:
 4. **Reception overlay.** The standard English renders *lokadhātu*
    (world-system) as "galaxy" — a modern frame the Pāli does not carry.
 
+**The individual-guidance study is the second paradigm failure — a different
+blind spot.** A study of how the Pāli tradition matches a person to a meditation
+practice searched essentially one word-family (*carita*, the six-temperament
+compound) and read it as "person-typing is a late commentarial habit": *carita*
+is 0 in the four Nikāyas and the Abhidhamma. Every *carita* count was correct;
+the conclusion was still incomplete, because the **search was the cage**. A
+wide-recall sweep across the *rival* vocabularies the question never named found
+the canon individuates persons robustly and early — by present-mind root-sort
+(*sarāgaṃ cittaṁ*), faculty-maturity (*indriyaparopariya*), receptivity-speed
+(the *ugghaṭitaññū* tetrad), and a fully systematized liberation-mode roster (the
+seven *ariya-puggala*, every term long-ā **ASCII-invisible** to a diacritic-naive
+search). The axis the data actually cleaves on was not chronology but
+**function-vs-essence**: the canon reads what a person presently *does / leans
+toward*, the commentary freezes it into a fixed *type*; *carita* is one local
+instance of a corpus-wide late *nominalization*. The original question was not
+false but **demoted to a special case** of a larger one the framing could not
+see — and a serendipity lane (a pass told to ignore the question) surfaced two
+findings of general importance the study would otherwise never have reported (an
+early canonical homophily law, SN 14 *dhātuso sattā saṁsandanti*; a corpus-wide
+essentialization drift, *sabhāva* ~0 in canon then thousands in commentary).
+
 **The capstone defect is that the skill is question-blind.** It applies the
 same single lens to every research question, regardless of which provenance
 dimensions that question is actually load-bearing on. The fix is a *triage*:
@@ -67,6 +88,16 @@ map the research-question's load-bearing claims to the axes they depend on, and
 mandate coding only those. The framework is a flexible diagnostic, not a
 checklist. Coding all axes on every instance would bury a study; the triage is
 what keeps it tractable.
+
+**The companion defect is that the skill is question-bound.** Where the triage
+fixes question-*blindness* (it codes only the load-bearing axes), it still trusts
+the question to name the right vocabulary and to assume the right primary axis.
+Both can be wrong, and the data can say so. The fix is a discovery front-end
+(§3.6), run *before* the vocabulary and the spine are fixed: cast recall
+horizontally across rival apparatus, cross-read the signature axes to find where
+the data actually clusters, keep a serendipity lane open, and treat the question
+itself as demotable. The triage then clamps onto whatever survived. **Recall must
+exceed the question; the spine is discovered, not assumed.**
 
 ---
 
@@ -150,6 +181,18 @@ position**:
   then JOIN the work→stratum map; **flag any row whose structural layer and
   stratum disagree** (e.g. `layer='mūla' AND stratum='late-canonical'`) as the
   analytically interesting case.
+- **Bind the count-harness to this stratum set.** When recall runs as a batched
+  count (a `CASE`/bucket over `work_slug`), the bucket definition *is* a coding
+  decision: declare it as a frozen, reviewable artifact (`work_slug → stratum`)
+  and check it for hidden lumping *before* the run. **Always carry the full
+  stratum set above** (sutta-piṭaka / Vinaya / `abhidhamma-canonical` /
+  `late-canonical` / `classical-commentary` / `sub-commentary` / Vism), rolling
+  up to a coarse canon-vs-commentary split *only for the headline*. A
+  `1canon = AN/SN/MN/DN/Vinaya/Abhidhamma` lump hides sutta-vs-Abhidhamma (it put
+  `gotrabhū` at 216 "canon" when it is ~0 sutta, heavy in Abhidhamma+commentary);
+  a `para` lump hides early-vs-late-canon. Backstop: a term the field treats as
+  late over-counting in a rolled-up canon bucket means the bucket is hiding a
+  boundary — split one stratum finer and file the split.
 - Where Pāli-internal dating is contested, downgrade confidence and defer to
   I.4 (recension) rather than asserting.
 
@@ -745,6 +788,58 @@ rung and true totality is visible. Reconfirm every negative by SQL. A skipped
 rung is a stated limitation, not a silent zero. The gap between RUNG 1 and
 RUNG 4 is often itself a finding.
 
+**Per-family rule.** RUNG 4 is not run once on the headline term and skipped for
+the rest: *every* term-family that enters the study as evidence — including every
+rival vocabulary the §3.6 sweep promotes — climbs its own ladder and earns its own
+sense-audit on sampled rows before its count is load-bearing. A high count of an
+abstract term is a category / doctrinal-list / homograph lexeme until sampled rows
+prove the individuating sense; an ASCII substring over-recalls (`%carita%` = 224
+canon-mūla rows, all *sucarita / duccarita* conduct, 0 temperament) and
+under-recalls (blind to the long-ā *ariya-puggala* roster) in the same pass. A
+count whose sense you have not read is not yet a count.
+
+**Enumeration-matrix traps (fixed-stem batch runs).** Two leaks sit beneath the
+ladder and bite a programmatic stem-matrix specifically, where the keys are
+generated, not hand-typed.
+
+(1) **Test the compound, not the bare simplex**, for a concept the tradition
+lexicalises as a compound. The head-word keeps a live everyday sense that
+inflates a bare count with the wrong meaning: `upacāra` = 34 canon (vicinity)
+but `upacāra-samādhi` (access-concentration) = 0; `appanā` = 119 (fixing of
+applied thought) but `appanā-samādhi` = 0; likewise `paritta` (protection vs
+limited), `padaka` vs `pādaka-jjhāna`. Search the compound and its joints; read
+the bare hits as a separate sense. Conditional: fire only where the technical
+sense *is* a compound; where the bare word is the object (`jhāna`, `nibbāna`,
+`sati`, `vedanā`) the simplex is correct and forcing a compound under-counts.
+The compound answers only the TERM question; a 0 on it proves the label absent,
+not the phenomenon (pair with RUNG 3).
+
+(2) **Inflection-final keys undercount; re-verify positives before citing.** A
+key ending in an inflectional vowel (`samadhisamvattanika`) is an
+`ILIKE '%key%'` substring that silently drops declined siblings (`-ikehi`,
+`-ikāni`) — the generated key, not just a user's search, is the leak (matrix
+said 44 canon; true count 92). Enumerate keys truncated to the morpheme
+boundary: the shortest root still *unambiguous* (stop before it re-merges a
+homograph — `upacar` would re-collapse the vicinity sense the compound test just
+separated). The asymmetry that makes this cheap: a truncated root matches a
+superset, so truncating can only *raise* a count. Therefore **a 0 is robust only
+on the correctly-truncated root** (no sibling hides below it); a 0 on an
+inflection-final key is **not** safe. So negatives need no inflection re-check
+once the root is right, but **every nonzero matrix count is a floor that must be
+re-queried with the truncated root, then RUNG-4 sense-audited, before it is
+cited** — the positive-side mirror of the "reconfirm every negative by SQL" rule
+above.
+
+**Cross-time reconciliation.** A recount that disagrees with a prior deployed or
+published number is an audit trigger, not an overwrite: trust neither until you
+know why (the 44-vs-92 split was an inflection artifact; the deployed 92 was
+right). Reconcile every carried-forward count against the study's own prior live
+figure; usual causes of a delta are this truncation trap, a homograph/compound
+split (RUNG 4), a coarse layer bucket hiding a boundary, or an edition re-cut
+(I.7). Checkpoint a bulk run per batch to a stem-keyed artifact
+(`stem → {strata}`) so one stem is re-queryable and the run resumable without
+re-running the matrix.
+
 This discipline is **never optional** — every other axis depends on the
 enumeration being real.
 
@@ -763,8 +858,16 @@ order — early-canon-prose | late-canon | attha | ṭīkā | modern-translation
 in each cell record the term's sense at that stratum with a verbatim anchor quote
 (Pāli + provenance tag) and citation. Mark the **drift points** (stratum
 boundaries where the sense changes) and classify each: `DRIFT-enrichment` /
-`DRIFT-narrowing-specification` / `DRIFT-reframing` / `stable-no-drift` /
-`stratum-cell-empty`. The modern-translation column is mandatory and reuses I.6's
+`DRIFT-narrowing-specification` / `DRIFT-reframing` / `DRIFT-nominalization` (a
+process / verb-or-participle sense hardening into a fixed noun-type — the
+*function-to-essence* event, e.g. the present-state *sarāgaṁ cittaṁ* sort frozen
+into the fixed *rāgacarita* type; *carita* the conduct-verb becoming the
+temperament-compound; the spread of *sabhāva* own-nature language) / `stable-no-drift` /
+`stratum-cell-empty`. Track the strip on **grammatical mode and ontological status**,
+not only lexical sense: the most consequential drift is often the moment a verb of
+*doing* becomes a noun of *being*, datable to the stratum where the compound first
+appears, and it is the signature of the function-vs-essence master axis (§3.6). The
+modern-translation column is mandatory and reuses I.6's
 output.
 
 **Honesty guard — anti-anachronism.** Every cross-stratum sense claim must name
@@ -807,6 +910,106 @@ cited as a redactional fact at high confidence; its raw *count* may **not** be
 cited as proportional emphasis. State the near-verbatim matching criterion so the
 count is reproducible.
 
+### 3.6 — Wide-recall discovery sweep (horizontal recall + master-axis discovery)  ·  CHEAP · run BEFORE the vocabulary and spine are fixed
+
+The recall ladder (§3.1) widens *vertically* on one **named** term. This discipline
+widens *horizontally*, across the **rival vocabularies the question never named**,
+and lets the primary axis and even the question be revised by what comes back. It
+runs as a discovery phase between structural enumeration (Step 2) and the
+pre-registration freeze; its job is to make sure the study is built on the real
+field, not on the one word the framing happened to pick.
+
+**Recall must exceed the question.** A study that searches only the term in its
+title can only confirm the pattern it already hypothesised; a pattern carried by
+other vocabulary is structurally invisible. Generate breadth by procedure, not by
+guessing a longer list:
+- **Concept-neighbourhood expansion.** Enumerate *every* way the corpus could
+  encode the phenomenon, not the one the question names (for person-individuation:
+  not just *carita* but *adhimutti / anusaya / dhātu / indriya /* the *ugghaṭitaññū*
+  tetrad / the seven *ariya-puggala* / *bhabba-abhabba / puggalavemattatā*). Each
+  rival apparatus is a different way of doing the same work.
+- **ASCII-invisibility check.** A diacritic-naive substring is blind to long-ā /
+  retroflex families (the seven *ariya-puggala* roster: *saddhānusārī,
+  ubhatobhāgavimutta, kāyasakkhi, diṭṭhippatta*). Enumerate the inflected and
+  romanised variants of every candidate, in both directions.
+- **Co-text bootstrapping.** Harvest the vocabulary that co-occurs with the seed
+  rows; search those; repeat. The corpus tells you what to search next.
+- **Meaning-mode as a recall instrument.** The vector lane surfaces conceptual
+  neighbours with zero lexical overlap; use it to widen the field, not only to rank
+  a known one (sparingly, per the API-load rule).
+- **Negative space.** Search where the tradition *refuses* to sort / universalises /
+  says one practice fits all — the refusals bound the pattern.
+
+**Cross-read the axes to find the master axis (don't pre-pick the spine).** The
+signature axes (§2) are not just honesty metadata; they are the **pattern
+substrate**. Code the wide field on every cheap axis, then look for structure
+*between* axes — the spine is the axis (or axis-pair) the data actually cleaves on,
+discovered, not the one the question assumed. (Individual-guidance: reading the
+*stratum* axis down its length said "carita is late"; cross-reading
+*grammatical-mode × stratum* revealed the real cleavage was **function-vs-essence** —
+verb / participle / present-state early vs fixed-compound-type late — which subsumes
+the chronology question as one projection. See the I.1 drift strip, §3.3,
+`DRIFT-nominalization`.)
+
+**The question is demotable — that is a first-class result.** Pre-register the
+*space* (the candidate axes + the rule for choosing the spine: "the spine is the
+axis with the sharpest data split; rivals reported as runners-up"), not a single
+answer-axis. This stays un-bucket-fittable (the selection rule is frozen) yet open
+(the answer-axis is not). If the wide field shows the question was malformed or is a
+special case of a larger one, **say so and re-spine** — "demoted to a special case"
+and "the real unit is X" are findings, not failures.
+
+**Keep a serendipity lane open by design.** Run at least one pass whose explicit
+brief is to *ignore the question* and report whatever is structurally striking and
+of **general importance to some other field** — a pattern a scholar of cognition,
+sociology, or textual history would want, that the study's own question would never
+surface. (Individual-guidance: the SN 14 homophily law and the *sabhāva*
+essentialization drift came from exactly this lane.) These finds are walled off in
+the paper's standing general-importance section (writing standard §5.8), never
+folded into the study's own claims.
+
+**Scale to an enumeration fleet — for the headline question AND for every
+sub-question or clarification that arises mid-study.** The sweep is not a one-shot
+on the main question; the same exhaustiveness applies to *any* contested or
+high-value point that surfaces while researching (a forty-item list to audit, a
+single Pāli phrase to chase, a "how much X is enough" debate). When a point earns
+it, fan out a **reasoning fleet**: ~12–20 agents, each a distinct lens (lexical,
+doctrinal, by-person-taxonomy, cross-recensional, negative-space, concept-as-fruit,
+the scholars-as-search-targets, and deliberately orthogonal inference lanes), whose
+*only* job is to **enumerate** — hundreds to thousands of exact Pāli search stems,
+the loci they already know bear, and an explicit **inference path per avenue**
+(what a hit, a near-absence, or a co-occurrence would license, including from
+related and orthogonal subjects). The limited-samādhi pass produced **3,045 terms
+across 317 avenues** this way. **Take advantage of every avenue, not a decisive
+subset** — partial execution under-reports; the enumeration is the contract for
+what gets run.
+
+> **The reason/execute split (load-safe, and it is a hard rule).** The fleet
+> agents **reason about WHAT to search; they do NOT query** — not the DB and
+> especially not the live app `/api/*` (which cold-starts at ~38 s/call and has no
+> concurrency guard, [[dhamma-concurrency-wedge]]). The **orchestrator executes**
+> the consolidated term list **serially** against `dhamma-pg` via the
+> `flyctl proxy 15432:5432` path (`research/naga/sql.py`, batched `count(*) FILTER
+> (WHERE original ILIKE …)` with the layer CASE), then **sense-audits every count**
+> (§3.1 per-family rule) and **reads the priority loci in full** before believing a
+> reading. *Failure on record:* a planner agent in the limited-samādhi workflow
+> overstepped into live `/api/search` calls, hit the 38 s latency, and stalled
+> (went "yellow"); the recovery was `TaskStop` → edit the script to drop the
+> planner → resume from the run-id (the cached reasoning lenses return in
+> milliseconds). Never let a fleet hit the slow API; the orchestrator is the single
+> serial executor.
+
+**Honesty guard — the per-family sense-audit is mandatory (see §3.1).** Every new
+term-family the sweep promotes into evidence climbs its *own* ladder and earns its
+*own* RUNG-4 sense-audit before any count is believed. A high canon count of an
+abstract "psychological" term is a **category / doctrinal-list / homograph lexeme
+until proven otherwise**: individual-guidance's two largest apparent "early
+individuation" counts, *anusaya* (119) and *cetopariya* (121), are mostly the fixed
+seven-latent-defilement roster and the *cetopariyañāṇa* abhiññā list-item — *universal*
+to all beings, not inter-personal difference; counting them as person-typing doubled
+a false early mass. The sweep over-collects on purpose; the sense-audit is what makes
+the surviving field real.
+
 ---
 
 ## 4. The triage
@@ -827,9 +1030,10 @@ bit a prior study:
    answer.
 2. **§3.1 Recall-completeness ladder** — recall is a measured variable; a study
    with no documented ladder is unauditable regardless of its question.
-3. **I.1 Chronological stratum** — at minimum a coarse early/late tag within
-   whichever layers the study touches, because "layer" is structural role and
-   silently swallows time.
+3. **I.1 Chronological stratum** — code the full I.1 stratum set, not a coarse
+   early/late tag, and bind the count-harness bucket-`CASE` to it (never a
+   canon/para/comm/tika lump that folds Abhidhamma into "canon" or late-Khuddaka
+   into "para"). "Layer" is structural role and silently swallows time.
 
 (And the CHEAP automatic checks fire freely whenever a load-bearing English term
 appears: I.6 reception word-check; I.7 edition flag on any count or absence.)
@@ -910,6 +1114,14 @@ And four **evidence-shape promotions** (also re-evaluated in PASS B):
 - **I.1 drift strip** whenever the same term is tracked across strata.
 - **I.8 harmonization** whenever a discovered commentarial reconciliation formula
   attaches to the claim.
+- **§3.6 wide-recall discovery sweep** whenever the question names a *vocabulary*
+  or a *category* whose boundary is contestable (any typology, origin/canonicity,
+  or canon-vs-commentary-divergence question) — run it *before* the spine is fixed,
+  because the question may be searching one corner of a wider field.
+- **I.1 `DRIFT-nominalization`** whenever a single term carries both a process /
+  verb sense and a fixed-noun-type sense, or whenever a "fixed type" is claimed
+  late against an early "function" — track the drift on grammatical mode, not only
+  lexical sense, and test whether function-vs-essence is the master axis.
 
 ### 4.4 — PASS B: re-triage on enumerated claims (the spine)
 

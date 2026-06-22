@@ -12,6 +12,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import useResearchNotes from './useResearchNotes.js';
+import { lookupApi } from './api.js';
+import { LookupPanel } from './SelectionActions.jsx';
+
+// Dictionary action only makes sense for short selections (a single Pali
+// headword or short phrase), matching the main reader's popover.
+const LOOKUP_MAX = 80;
 
 const MAX_SEL = 600;
 const HL_NAME = 'research-note';
@@ -62,6 +68,7 @@ export default function ResearchNotes({ collection, slug, studyTitle }) {
   const [sel, setSel] = useState(null);
   const [draft, setDraft] = useState(null);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [lookup, setLookup] = useState(null);
   const studyNotes = forStudy(collection, slug);
 
   // Surface "Add note" when text is selected inside the open study's article.
@@ -115,6 +122,38 @@ export default function ResearchNotes({ collection, slug, studyTitle }) {
     clearSel();
   }
 
+  // Dictionary lookup on the selection, the same multi-source popover the main
+  // reader uses (DPD + DPPN + PED), so a Pali term in a study resolves in place.
+  async function doLookup() {
+    const term = sel?.text;
+    const pos = sel ? { x: sel.x, y: sel.y } : null;
+    if (!term || !pos) return;
+    setLookup({ term, pos, entries: null, loading: true, error: null });
+    clearSel();
+    try {
+      const r = await lookupApi({ term });
+      setLookup({ term, pos, entries: r.entries || [], loading: false, error: null, matchedVia: r.matched_via });
+    } catch (err) {
+      setLookup({ term, pos, entries: [], loading: false, error: err.message });
+    }
+  }
+
+  // Close the lookup popover on Escape / outside click.
+  useEffect(() => {
+    if (!lookup) return;
+    function onKey(e) { if (e.key === 'Escape') setLookup(null); }
+    function onDown(e) {
+      if (e.target.closest('[data-lookup-panel]') || e.target.closest('[data-rn-popover]')) return;
+      setLookup(null);
+    }
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onDown);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onDown);
+    };
+  }, [lookup]);
+
   function saveDraft(body) {
     if (!draft || !body.trim()) return;
     create({
@@ -140,10 +179,17 @@ export default function ResearchNotes({ collection, slug, studyTitle }) {
         <div data-rn-popover role="toolbar" aria-label="Note actions"
           style={{ ...popover, top: Math.max(8, sel.y - 46), left: sel.x, transform: 'translateX(-50%)' }}>
           <button onClick={openDraft} style={popBtn} title="Take a private note on this selection">✎ Add note</button>
+          {sel.text.length <= LOOKUP_MAX && (
+            <>
+              <span style={popDot}>·</span>
+              <button onClick={doLookup} style={popBtn} title="Look up in dictionary (DPD + DPPN + PED)">📖 Define</button>
+            </>
+          )}
         </div>
       )}
 
       {draft && <NoteEditor draft={draft} onSave={saveDraft} onCancel={() => setDraft(null)} />}
+      {lookup && <LookupPanel lookup={lookup} onClose={() => setLookup(null)} />}
 
       <button onClick={() => setPanelOpen((o) => !o)} style={fab} aria-expanded={panelOpen}
         title="Your private research notes (only you and Claude can see these)">
@@ -251,13 +297,14 @@ const popover = {
   background: 'var(--bc-bg-elevated)',
   border: '1px solid rgba(var(--bc-accent-rgb), 0.35)',
   borderRadius: 8, padding: '4px', boxShadow: '0 6px 20px rgba(0,0,0,0.45)',
-  whiteSpace: 'nowrap',
+  whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 0,
 };
 const popBtn = {
   background: 'transparent', border: 'none', color: 'var(--bc-text-primary)',
   fontFamily: 'Outfit, system-ui, sans-serif', fontSize: 12, fontWeight: 600,
   cursor: 'pointer', padding: '6px 12px', borderRadius: 4,
 };
+const popDot = { color: 'var(--bc-text-tertiary)', opacity: 0.4, padding: '0 1px', userSelect: 'none' };
 
 const fab = {
   position: 'fixed', right: 16, bottom: 16, zIndex: 40,

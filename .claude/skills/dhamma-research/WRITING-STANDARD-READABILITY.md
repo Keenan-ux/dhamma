@@ -47,6 +47,17 @@ Sections are named for **what the data says about the subject**, never for an an
 - **awakening** (~4,850), **intoxicants** (~4,750): **body-expand by ~+1,900 / +2,000 reader-facing words** — add the human opening, roadmap, 1–2 worked examples, signposts, bullet relief, "what this means." No new data; new READABILITY.
 - **heart-base** (~1,860): **genuinely thin — expand ~+4,600 words.** It is the proof that ids are removable (it has zero), but it removed rigor instead of relocating it. Bring its rigor up to the others' level AND keep its readability: full enumeration in Appendix A, signatures in footnotes, worked example in body.
 
+### 1.1 The body consolidates, then sweeps — narration is for the abstract (Phase A / Phase B)
+
+The body is organised by **ascending chronological stratum** (the I.1 output), but ordering is not the whole structure. A stratum section that states its upshot in one graceful paragraph is **narration**: it presumes the conclusion and points at one anchor row. The body's job is **consolidation** — at each stratum, *assemble the case the corpus holds there* (every row that does work, the rival vocabularies the discovery sweep surfaced, the readings that fit and the ones that resist) so the pattern emerges from the mass rather than being asserted over it. Consolidation is what earns the synthesis; narration belongs in the abstract.
+
+So the body runs in two phases (§§II–V carry Phase A; the late section carries Phase B):
+
+- **Phase A — per-stratum (earliest to latest).** One section per stratum, each answering *by what mechanism, in what grammatical mode, under whose warrant does THIS layer treat the subject?* Surface the layer's internal structure: what is **consistent** within it, what is **inconsistent** (the tensions, the rows that resist), what **develops** even inside the one layer. **Evidence is stated once, here, at its home stratum.** The stratum carrying the most evidence gets the most room — do not let the richest layer collapse to one paragraph because narration needs only one example (the commentary stratum holding 80% of the instances must not get the same space as a one-row sub-commentary note).
+- **Phase B — the sweep (chronology-blind).** With every stratum's evidence already on the table, drop the partition and read the *whole* field at once for the patterns only visible across layers: **divergence** (one function splits into many forms), **addition** (late material with no early seed), **regression** (the tradition walks something back / disowns it). Phase B **references** Phase A's evidence; it must not re-argue a stratum. If Phase B is re-walking rows, Phase A was too thin.
+
+The skill's single-source rule ("counts stated once, one canonical home") becomes structural here: a row's evidence lives in its Phase-A stratum; Phase B cites it across. A datum stated and drifting in both phases is exactly the seam the coherence pass exists to catch.
+
 ---
 
 ## 2. The apparatus rule (mechanical placement)
@@ -87,7 +98,7 @@ Register: a careful person thinking aloud, not a test harness reporting verdicts
 | Title: "*How a Northern Continent Deepens With Lateness While the Canon Never Stakes It as Verified Knowledge*" | Title: "*Uttarakuru in the Pāli Canon and Commentaries: a survey of how the northern continent is described across textual layers*" |
 | "The single largest canonical class is the Apadāna…" | "Most of these events come from one late stratum, the Apadāna…" |
 
-Strongest permitted body verbs: **suggests · indicates · seems · appears · the data show.** Own conclusions in the first person ("it seems to me," "I take this to mean"). No ALL-CAPS verdicts anywhere in the body. Method does not appear in the title.
+Strongest permitted body verbs: **suggests · indicates · seems · appears · the data show.** **No first person** (`I`, `we`, `my`, `our`): own conclusions in the impersonal voice ("the survey finds", "this reading holds", "on the evidence here"), never "it seems to me" or "I take this to mean" (operator-confirmed 2026-06-21; this reverses the earlier first-person allowance). No ALL-CAPS verdicts anywhere in the body. Also banned from published prose: the crutch phrases **load-bearing** and **cross-cutting** (see EDITOR-CHECKLIST.md). Method does not appear in the title.
 
 ### 3.2 Unpack dense multi-number / multi-clause sentences
 
@@ -186,6 +197,8 @@ Every paper MUST contain all seven. They are the difference between "passes peer
 
    A reader skimming reads only roadmap + section lead-ins + captions + pull-stats and comes away with the whole story. That is the "easy to ingest" target.
 
+8. **A standing "Findings of general importance" section — the last section of every paper.** The discovery sweep's serendipity lane (method core §3.6) surfaces patterns of importance *beyond this study's question* (a cognitive, sociological, or text-historical regularity a scholar of another field would want). These are **walled off** from the study's own thesis in a clearly-titled final section — title it for what it is, e.g. *"Findings of general importance (beyond this study's question)"* — so the operator can find them at a glance and they are never mistaken for the paper's argument. Each find carries its own provenance: **what** it is (one plain sentence), **where** (the corpus ids / loci that ground it), **whence** (the study and date it surfaced from), and a confidence tag. The section is **append-only** across a study's life: a later pass adds finds, never silently drops them. This is the durable capture that keeps a genuinely general discovery from being lost inside a narrow paper. (It is not a Limitations dump and not a "future work" gesture; every entry is a found, evidenced pattern.)
+
 ---
 
 ## 6. The fill-in template
@@ -267,6 +280,17 @@ about the SUBJECT, not about the provenance method. Para 2: the consolidated
 Limitations (≤1 pp): edition-relativity, recall floor, measured-not-proven,
 effective-n, model-family bounds — ONE place. Close on the question, hedged.
 Optional closing primary-text quotation. -->
+
+## Findings of general importance (beyond this study's question)
+<!-- The discovery sweep's serendipity lane, walled off from the study's own
+thesis. The LAST reading-lane section (after VI, before the apparatus), so the
+operator finds it at the bottom of the page. One sub-entry per find; append-only;
+never silently dropped. Each: **what** (one plain sentence) · **where** (corpus
+ids / loci) · **whence** ([study], [date]) · confidence. -->
+
+### G1. [Plain title of the find]
+<!-- what it is in one sentence; the evidence ids; the field it matters to;
+whence (study + date); confidence. -->
 
 ---
 

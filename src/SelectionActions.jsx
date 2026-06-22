@@ -30,6 +30,7 @@ const DICTIONARY_MAX_LENGTH = 80;
 
 export function SelectionActions({
   containerRef,
+  scopeSelector,
   hide = [],
   onSearch,
   onCompare,
@@ -47,7 +48,10 @@ export function SelectionActions({
       const text = s.toString().trim();
       if (!text || text.length > MAX_SELECTION_LENGTH) { setSel(null); return; }
       const range = s.getRangeAt(0);
-      const container = containerRef?.current;
+      // Scope to an explicit ref when given, else fall back to a selector query
+      // (lets ref-less hosts like the Research/Exploration readers reuse this).
+      const container = containerRef?.current
+        || (scopeSelector && typeof document !== 'undefined' ? document.querySelector(scopeSelector) : null);
       if (!container || !container.contains(range.commonAncestorContainer)) {
         setSel(null);
         return;
@@ -63,7 +67,7 @@ export function SelectionActions({
     }
     document.addEventListener('selectionchange', onSelChange);
     return () => document.removeEventListener('selectionchange', onSelChange);
-  }, [containerRef]);
+  }, [containerRef, scopeSelector]);
 
   function clearSelection() {
     setSel(null);
@@ -268,7 +272,7 @@ function NoteEditor({ draft, onSave, onCancel }) {
 
 // ─────────────────────────────── LookupPanel ───────────────────────────────
 
-function LookupPanel({ lookup, onClose }) {
+export function LookupPanel({ lookup, onClose }) {
   const { term, pos, entries, loading, error, matchedVia } = lookup;
   // Center horizontally on the original selection x; clamp to viewport.
   const left = Math.max(160, Math.min((pos?.x || 200), (typeof window !== 'undefined' ? window.innerWidth - 160 : 1000)));

@@ -15,6 +15,7 @@ import useIsNarrow from './useIsNarrow.js';
 import useScrollHide from './useScrollHide.js';
 import { useAuth } from './useAuth.jsx';
 import ResearchNotes from './ResearchNotes.jsx';
+import { SelectionActions } from './SelectionActions.jsx';
 /* eslint-disable react-hooks/exhaustive-deps */
 
 const RESEARCH_ENTRIES = [
@@ -28,7 +29,7 @@ const RESEARCH_ENTRIES = [
   {
     slug: 'individual-guidance',
     title: 'How an Individual Is Guided Toward Awakening',
-    subtitle: 'A census of how the canon and its commentaries match a person to a teaching and a meditation object, with the calm-and-insight question settled on the evidence.',
+    subtitle: 'How the canon and its commentaries individuate a person and fit a teaching to them, traced across the textual layers from the mind’s present root to a fixed temperament.',
     data: '/research/individual-guidance.json',
   },
   {
@@ -306,8 +307,13 @@ export default function ResearchView({ collection = 'research' }) {
           onBack={() => { setOpenSlug(null); window.history.replaceState(null, '', `#/${base}`); }}
         />
         <StudyOutline openKey={collection + ':' + openSlug} />
-        {isAdmin && (
+        {isAdmin ? (
           <ResearchNotes collection={collection} slug={openSlug} studyTitle={entry.title} />
+        ) : (
+          // Public readers (Explorations) get the dictionary lookup + copy on any
+          // selection, the same multi-source popover as the main reader; notes and
+          // tab-switching actions are admin-only, so they are hidden here.
+          <SelectionActions scopeSelector="[data-scroll-root] article" hide={['search', 'compare', 'note']} />
         )}
       </>
     );
@@ -583,7 +589,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 Saṅgārava (<Cite id="mn85">MN 85</Cite>, <Cite id="mn100">MN 100</Cite>), the
                 Verañja discourse the Vinaya repeats as its first occasioning-story
                 (<Cite id="an8.11">AN 8.11</Cite>), and the breath-meditation account
-                (<Cite id="sn54.8">SN 54.8</Cite>). On this load-bearing category three readers working
+                (<Cite id="sn54.8">SN 54.8</Cite>). On this central category three readers working
                 independently from the Pāli agreed without a single exception (κ = 1.0). Nor does the
                 Buddha speak only of himself here: within the canonical rows he also declares another's
                 attainment ({data.v2 ? fmt(data.v2.attribution.buddha_declares_another) : '1'} such
@@ -721,7 +727,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 is classical commentary that the structural shelving nonetheless files as canonical
                 (<Cite id="cst-e0102n.mul-4_p042">Vism 4 §42</Cite>), the clearest case where a text's
                 structural file and its composition date pull in opposite directions. Its voice is the
-                compiler's flat note, a narrator simply telling us a listener's mind came free, the
+                compiler's flat note, a narrator simply reporting that a listener's mind came free, the
                 same plain frame that opens the early floor, now arriving many centuries later. By the
                 time genuine commentary appears the narrated mode has been running since the late
                 canon, layers earlier: the line between a spare doctrinal canon and an elaborating
@@ -1066,11 +1072,11 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
 // ---------------------------------------------------------------------------
 
 const FACETS = [
-  { key: 'F1-object-assign', heading: 'B. Assigning a meditation object', short: 'Object assignment' },
+  { key: 'F1-object-assign', heading: 'B. Assigning a meditation object', short: 'Object assignment (core)' },
   { key: 'F2-modes-types-agency', heading: 'A. The person and the mode of guidance', short: 'Modes, types, agency' },
-  { key: 'F3-commentary-carita', heading: 'F. The commentarial temperament matrix', short: 'The carita matrix' },
+  { key: 'F3-commentary-carita', heading: 'F. The commentarial temperament matrix', short: 'Object assignment by temperament (carita matrix)' },
   { key: 'F4-samatha-vipassana', heading: 'D. Calm and insight', short: 'Calm and insight' },
-  { key: 'F5-commentary-assignment', heading: 'G. The commentarial assignment narratives', short: 'Commentarial assignment narratives' },
+  { key: 'F5-commentary-assignment', heading: 'G. The commentarial assignment narratives', short: 'Object assignment (commentarial expansion)' },
 ];
 
 const CRITERION_ORDER = ['defilement', 'situation', 'temperament', 'capacity', 'unstated'];
@@ -1287,33 +1293,23 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
             <div style={articleBody}>
               {/* ABSTRACT */}
               <p style={abstractLead}>
-                <span style={abstractTag}>Abstract.</span> When a person in the Pāli tradition is turned
-                toward awakening, the tradition does not hand out one practice. It speaks in four registers:
-                a bare statement that frees the hearer at once, a brief saying the hearer expands alone, a
-                staged leading toward readiness, and the assignment of a definite meditation object. This
-                survey gathers those acts of guidance across the live corpus of {fmt(194710)} passages and
-                describes each one by its mode, the criterion behind it, the meditative function it serves, and
-                its textual layer. The {fmt(derived.inst.length)} instances kept here are drawn from a frame
-                of {fmt(frameN)} candidate passages, the assignments the corpus's vocabulary could surface;
-                each candidate was read more than once, as an instance or as a reasoned exclusion, and every
-                instance is tied to a passage that opens in the reader. What the data seem to say is, before
-                anything else, structural. Directed assignment looks largely like a commentarial act: the four
-                Nikāyas turn few named persons toward a specific object, while the commentaries record several
-                hundred. Of the {fmt(derived.inst.length)} instances, {fmt(data.aggregates?.by_tier?.commentary || 0)} stand
-                in the commentary and {fmt((data.aggregates?.by_tier?.sutta || 0) + (data.aggregates?.by_tier?.abhidhamma || 0) + (data.aggregates?.by_tier?.['para-canon'] || 0))} in
-                the canon and its para-canonical bridge, a contrast tempered by the difference in indexing grain
-                and weighed below in its own section. Three further things stand out. The canon seems to key a
-                meditation object to the hearer's <em>present defilement or situation</em> (lust to foulness,
-                ill will to love, discursive thought to the breath); the keying of an object to a fixed
-                <em>temperament</em>, the famous scheme of six <em>caritas</em>, pools in the commentaries and
-                in the para-canonical Niddesa, and is not in the four Nikāyas. Read cell by cell, the
-                commentarial assignment system appears faithful in principle and innovative in apparatus: of
-                fifteen decidable assignment cells, eight carry a canonical warrant and seven do not. And on
-                the long-disputed question of calm and insight, the canon seems to yoke <em>samatha</em> and
-                <em>vipassanā</em>; across the discourses the survey reached, it assigns insight alone, as a
-                standing practice, to no named person, and the two-vehicle, dry-insight split reads as a
-                commentarial construction. That last reading is consonant with, and puts numbers to, a case
-                argued most sharply by Cousins.
+                <span style={abstractTag}>Abstract.</span> A familiar piece of Buddhist meditation lore
+                sorts people into six temperaments and hands each its own practice. It is usually read as the
+                canon's own counsel. This survey began with a narrow question put to the live corpus of{' '}
+                {fmt(194710)} passages, where across the layers of the Pāli literature that six-temperament
+                scheme sits, and found the question was the wrong size. The scheme is real and late: its
+                central word, <em>carita</em>, carries the temperament sense zero times in the four Nikāyas and
+                the seven Abhidhamma books, enters at the para-canonical Khuddaka, and is fixed into a
+                person-by-object grid only in the commentaries. But a wider reading shows that scheme is the
+                late corner of a populous field the one-word question could not see. The canon individuates
+                persons robustly and early: by the mind's presently-active root, by the maturity of a person's
+                faculties, by how quickly they can be taught, and by a fully systematized roster of seven noble
+                persons sorted by their mode of liberation. What is late is not individuation but a particular
+                kind of it, the freezing of what a person presently <em>does</em> or leans toward into a fixed
+                type of what they <em>are</em>; the temperament scheme is one instance of that move. The survey
+                describes the field stratum by stratum, then reads the whole of it for the patterns that cross
+                the layers, and closes by marking the limits of saying so. Every count is reproducible from the
+                live database and every citation opens its passage.
               </p>
 
               <p style={methodNote}>
@@ -1327,84 +1323,132 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 the positives.
                 Recall is bounded by that vocabulary and by the corpus edition: an assignment phrased in terms
                 the frame did not cover could still be missed, which is why the frame is defined in full and is
-                extensible. Within the tradition's own closed lists (the four understanding-types, the antidote
-                formula, the six temperaments, the object inventory) the enumeration is saturated, repeated
-                passes surfacing no new member, and it was reconciled against the passages cited in the
-                secondary literature; saturation here measures structural completeness, not a proof that the
-                open corpus holds no further instance. Renderings of commentary and Abhidhamma are the author's
-                own, since the corpus carries no published English for those layers; they are checked against
-                Ñāṇamoli for the Visuddhimagga and B. C. Law for the Puggalapaññatti.
+                extensible. Beyond the temperament census, the wider reading reported below searched the rival
+                vocabularies of person-individuation the word <em>carita</em> does not name (the present-root
+                sort, faculty-maturity, learner-type, liberation-mode, dispositional diversity), and every such
+                family was sense-audited on sampled rows before its count was trusted, since an abstract term's
+                raw count is often a fixed doctrinal list rather than a way of telling persons apart. Within the
+                tradition's own closed lists (the four understanding-types, the antidote formula, the six
+                temperaments, the object inventory) the enumeration is saturated, repeated passes surfacing no
+                new member, and it was reconciled against the passages cited in the secondary literature;
+                saturation here measures structural completeness, not a proof that the open corpus holds no
+                further instance. Renderings of commentary and Abhidhamma are the author's own, since the corpus
+                carries no published English for those layers; they are checked against Ñāṇamoli for the
+                Visuddhimagga and B. C. Law for the Puggalapaññatti.
               </p>
 
-              {/* DIACHRONIC INTRO */}
+              {/* ROADMAP / DEMOTION INTRO */}
               <p>
-                What follows traces the matching of a person to a practice across the layers of this
-                literature, earliest to latest: in the early discourses, a practice keyed to a present
-                defilement, with no temperament word at all; in the Abhidhamma, still no temperament scheme; in
-                the para-canonical Khuddaka, the hinge where one word changes its job; in the commentaries, a
-                six-type scheme fixed as a person-by-object matrix that the apex manual then declines to
-                certify; in the sub-commentaries, temperament read off the body; and in reading it now, the
-                modern gloss of "personality type" and the limits of saying any of this. A trailing section
-                opens the full facet-by-facet data beneath that narrative, with every count, table, and warrant
-                ledger intact and every citation opening its passage.
+                This survey set out to place one scheme, the six temperaments, across the layers, and found
+                that the scheme is the late corner of a wider field. So it traces two things. First, by
+                ascending stratum, the vocabularies the tradition actually uses to individuate a person and fit
+                a teaching to them: in the early discourses, a person read by the mind's present root and by the
+                reach of their faculties; in the Abhidhamma, persons sorted under other words while the
+                temperament term stays absent; in the para-canonical Khuddaka, the hinge where one word changes
+                its job; in the commentaries, the temperament type fixed and a whole design vocabulary blooming;
+                in the sub-commentaries, temperament read off the body. Then, across the whole of it, the change
+                that runs underneath the rest, the slow turn from reading what is alive in a person now to naming
+                a fixed kind they belong to. A trailing section opens the full temperament
+                census and its tables beneath this narrative, with every citation opening its passage; a closing
+                section records findings of general importance that fell out of the wider reading.
               </p>
 
               {/* II. EARLY DISCOURSES */}
-              <h2 style={h2}>In the early discourses</h2>
+              <h2 style={h2}>In the early discourses: read by what is present, and what one can do</h2>
               <p>
-                Long before the six temperaments, the early discourses make a plainer move. They do not sort the
-                person; they read the defilement that is active and prescribe against it. To Meghiya, harassed
-                by thoughts of sense pleasure, ill will and cruelty, the Buddha gives four things to develop:
-                foulness to give up greed, love to give up hate, mindfulness of breathing to cut off thinking,
-                and the perception of impermanence to uproot the conceit "I am" (<Cite id="an9.3">AN 9.3</Cite>,
-                with the Udāna doublet <Cite id="ud4.1">Ud 4.1</Cite> and the de-personalised parallel{' '}
-                <Cite id="an9.1">AN 9.1</Cite>). The same logic appears as a three-root scheme, foulness against
-                greed, love against hate, wisdom against delusion (<Cite id="an6.107">AN 6.107</Cite>). The
+                Long before the six temperaments, the early discourses (the suttas) already individuate persons,
+                and richly, but not by a fixed type. They read what is presently active in a mind and what a
+                person is capable of. The plainest form keys an object to a present defilement: to Meghiya,
+                harassed by thoughts of sense pleasure, ill will, and cruelty, the Buddha gives four things to
+                develop, foulness (<em>asubha</em>) to give up greed, love (<em>mettā</em>) to give up hate,
+                mindfulness of breathing (<em>ānāpānassati</em>) to cut off thinking, the perception of
+                impermanence (<em>anicca-saññā</em>) to uproot the conceit "I am" (<Cite id="an9.3">AN 9.3</Cite>, with
+                the Udāna doublet <Cite id="ud4.1">Ud 4.1</Cite> and the de-personalised{' '}
+                <Cite id="an9.1">AN 9.1</Cite>; the three-root variant <Cite id="an6.107">AN 6.107</Cite>). The
                 pairing is functional, not characterological: it does not say the person is a lustful type, it
-                says that where lust is present, this is the practice that answers it. Alongside the antidote the
-                canon carries the second move the later apparatus leans on, the yoke of calm and insight, in
-                which tranquillity and insight are developed together rather than ranked or split into separate
-                vehicles (<Cite id="an4.170">AN 4.170</Cite>). What the early discourses do <em>not</em> carry is
-                the temperament scheme itself: the temperament-sense <em>carita</em> compound is not faint in the
-                four Nikāyas, it is simply not there, and what stands in its place is the verb <em>carati</em>,
-                "to course, to conduct oneself," with the ethical compounds <em>sucarita</em> and{' '}
-                <em>duccarita</em>. This absence is the negative the rest of the arc is built on.
+                says that where lust is present, this answers it. The same present-tense reading runs deeper in
+                the way the canon sorts a mind by its currently-active root, "a mind with lust, a mind without
+                lust; a mind with hate; a mind with delusion," the refrain of the contemplation of mind
+                (<Cite id="mn10">MN 10</Cite>), which the Abhidhamma will later carry word for word. The
+                commentary takes this present-tense reading and hardens it into a standing type, the noun{' '}
+                <em>rāgacarita</em>. That hardening is the engine of everything that follows.
+              </p>
+              <p>
+                Alongside this present-state reading the canon carries several genuine person-typologies, keyed
+                not to temperament but to capacity and to the route a person takes. It sorts people by how
+                quickly they can be taught: the four learners of the Ugghaṭitaññū-sutta, one who understands at a
+                hint, one who needs detail, one who must be led, one who only learns the words
+                (<Cite id="an4.133">AN 4.133</Cite>). It reads the maturity of a person's faculties as one of the
+                Realized One's own powers (<Cite id="mn12">MN 12</Cite>), the perception behind the lotus-pond
+                survey of beings with little dust and much (<Cite id="sn6.1">SN 6.1</Cite>,{' '}
+                <Cite id="mn26">MN 26</Cite>), and it waits for a mind made ready and pliable before it gives the
+                teaching peculiar to the Buddhas (<Cite id="mn56">MN 56</Cite>). Most systematized of all, it
+                carries a closed roster of seven noble persons (<em>satta ariyapuggalā</em>), graded by which
+                faculty leads a person and how deep their attainment runs: the one freed both ways
+                (<em>ubhatobhāgavimutta</em>, through the formless attainments and wisdom together), the one freed
+                by wisdom alone (<em>paññāvimutta</em>), the body-witness (<em>kāyasakkhi</em>, who has touched the
+                deep absorptions), the one attained-to-view (<em>diṭṭhippatta</em>, led by understanding), the
+                faith-freed (<em>saddhāvimutta</em>, led by faith), and the two still on the path, the
+                Dhamma-follower and the faith-follower (<em>dhammānusārī</em>, <em>saddhānusārī</em>)
+                (<Cite id="mn70">MN 70</Cite>, <Cite id="an7.14">AN 7.14</Cite>). That is seven, a fully built
+                person-typology, canonical and Buddha-voiced, and a study that searched only for <em>carita</em>
+                missed it entirely, because every term in it carries the long vowels and retroflexes a plain
+                search drops.
+              </p>
+              <p>
+                Two honest qualifications keep this from overreaching. First, the canon does also carry the yoke
+                of calm and insight, <em>yuganaddha</em>, developed together rather than split into vehicles
+                (<Cite id="an4.170">AN 4.170</Cite>), and across the discourses reached it never assigns insight
+                alone, as a standing practice, to a named person; the dry-insight worker is a later figure.
+                Second, two terms that look like early "disposition" vocabulary, <em>anusaya</em> (latent
+                tendency) and <em>cetopariya</em> (the knowledge of others' minds), are in the canon mostly fixed
+                doctrinal lists, the seven latent defilements every unawakened being carries and the
+                psychic-power item of knowing a mind's present state, not ways of telling one person's standing
+                type from another's, and are not counted here as individuation. What the early layer does, it
+                does by verb and present participle and by rosters keyed to capacity and route. The
+                temperament-type word is simply not here: the six-temperament <em>carita</em> compound is
+                attested zero times in the four Nikāyas.
               </p>
 
               {/* III. ABHIDHAMMA */}
-              <h2 style={h2}>In the Abhidhamma</h2>
+              <h2 style={h2}>In the Abhidhamma: persons sorted, temperament still absent</h2>
               <p>
-                If a six-temperament classification of persons were canonical anywhere, the natural home for it
-                would be the Abhidhamma, the seven books that are the canon's own analytical layer, given to
-                sorting and enumerating. It is not there either. The Abhidhamma does sort persons: the
-                Puggalapaññatti, the canonical designation of human types
-                (<Cite id="cst-abh03m2.mul-014">Pp §§148–151</Cite>), enumerates kinds of person, including the
-                four understanding-types, defining each by its trigger, realization together with the utterance,
-                realization when a brief saying is analysed, realization gradually, and no realization this life.
-                But it does not systematize persons into the six <em>caritas</em>, and where the Abhidhamma does
-                use the word <em>carita</em> (Vibhaṅga §817) it means kamma, the kinds of formation, not
-                temperament. Across the whole canonical shelf, the discourses and the canon's own scholastic
-                analysis alike, the temperament word is absent in any register. The scheme has to enter from
-                somewhere later.
+                If a six-temperament classification were canonical anywhere, its natural home would be the
+                Abhidhamma, the seven books that are the canon's own sorting-and-enumerating layer. It is not
+                there. The Abhidhamma sorts persons busily, but under other words. The Puggalapaññatti, the
+                canonical designation of human types (<Cite id="cst-abh03m2.mul-014">Pp §§148–151</Cite>),
+                enumerates kinds of person and defines the four understanding-types by the manner of their
+                realization. The Yamaka carries the present-root sort straight from the discourses, asking of a
+                person whose mind, with lust, arises, whose with hate, whose with delusion
+                (<Cite id="cst-abh03m5.mul-177">Yamaka §177</Cite>), the same momentary reading the commentary
+                will later set into a fixed type. And the diversity of beings' dispositions appears among the
+                Buddha's ten powers as <em>nānādhimuttikatā</em>, the knowledge of beings' various resolves.
+                What is absent in every register is the temperament word: zero in the seven Abhidhamma books,
+                and where the word <em>carita</em> does occur (Vibhaṅga §817) it means kamma, the kinds of
+                formation, not temperament. The lesson is exact and worth stating plainly: the silence of{' '}
+                <em>carita</em> is the absence of a term, not the absence of person-typing. The canon's most
+                classificatory layer typologizes persons richly; it simply does not do it by a six-temperament
+                grid.
               </p>
 
               {/* IV. PARA-CANONICAL KHUDDAKA + drift strip inline */}
-              <h2 style={h2}>In the para-canonical Khuddaka</h2>
+              <h2 style={h2}>In the para-canonical Khuddaka: a word changes its job</h2>
               <p>
-                The place the temperament reading first appears is the para-canonical Khuddaka, and a single word
-                changes its job here. The earliest place the full six-cell matrix appears is not a discourse but
-                a gloss: the Cūḷaniddesa, explaining a verse the brahmin student Mogharāja put to the Buddha, has
-                the Buddha <em>know</em> the type of each person before him and match the teaching to the type,
-                teaching the talk on foulness to the greed-temperament person and pointing out the development of
-                loving-kindness to the hate-temperament one, and so through the six. This is the birth
-                certificate of the apparatus, ascribed to the Buddha's knowing rather than spoken by him in any
-                Nikāya, and it sits in a layer the field places after the four-Nikāya prose. What makes the same
-                stratum the hinge is that the older sense is alive a few pages away: the Paṭisambhidāmagga, sibling
-                to the Niddesa, uses <em>cariyā</em> to mean exactly the older thing, a mode of conduct, listing
-                eight <em>cariyā</em>, the conduct of the postures, of the sense-bases, of mindfulness, and the
-                rest. The word had not yet settled on "temperament" even in the layer that first deployed it that
-                way, so the temperament sense is caught here mid-fork, a re-coinage in progress beside the older
-                conduct reading, not a stable canonical meaning the commentary merely tidied up.
+                The temperament reading is minted at the para-canonical hinge, and a single word can be watched
+                changing its job. The earliest place the full six-cell matrix appears is not a discourse but a
+                gloss: the Cūḷaniddesa, explaining a verse the brahmin Mogharāja put to the Buddha, has the
+                Buddha <em>know</em> the type of each person before him and match the teaching to the type, the
+                talk on foulness to the greed-temperament person, the development of love to the hate-temperament
+                one, and so through the six (<Cite id="cnd19">CND 19</Cite>). This is the birth certificate of
+                the apparatus, ascribed to the Buddha's knowing rather than spoken by him in any Nikāya, and it
+                sits in a layer the field places after the four-Nikāya prose. What makes the same stratum the
+                hinge is that the older sense is alive a few pages away: the Paṭisambhidāmagga, sibling to the
+                Niddesa, uses <em>cariyā</em> to mean exactly the older thing, a mode of conduct, listing eight{' '}
+                <em>cariyā</em>, of the postures, of the sense-bases, of mindfulness, and the rest
+                (<Cite id="ps3.5">PS 3.5</Cite>). The word has not yet settled on "temperament" even in the layer
+                that first deploys it that way. The temperament sense is caught here mid-fork, a re-coinage in
+                progress beside the older conduct sense, not a stable canonical meaning the commentary merely
+                tidied up.
               </p>
               {data.v2 && data.v2.drift_strip && (() => {
                 const ds = data.v2.drift_strip;
@@ -1412,7 +1456,12 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                   <>
                     <h3 style={h3}>The <em>{ds.term}</em> semantic-drift strip</h3>
                     <div style={tableWrap}>
-                      <table style={table}>
+                      <table style={{ ...table, tableLayout: 'fixed' }}>
+                        <colgroup>
+                          <col style={{ width: '20%' }} />
+                          <col style={{ width: '58%' }} />
+                          <col style={{ width: '22%' }} />
+                        </colgroup>
                         <thead>
                           <tr>
                             <th style={thLeft}>Stratum</th>
@@ -1444,98 +1493,379 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               })()}
 
               {/* V. COMMENTARIES */}
-              <h2 style={h2}>In the commentaries</h2>
+              <h2 style={h2}>In the commentaries: the type fixed, the design vocabulary blooms</h2>
               <p>
                 From the para-canonical fork the commentary keeps only the temperament sense and hardens it into
                 a fixed six-cell matrix of person against object, with the machinery for assigning one to the
-                other (<Cite id="cst-s0103a.att-dn3_11_p002">Sv-a 11 §2</Cite>,{' '}
-                <Cite id="cst-s0505a.att-10_p003">KN-a §10.3</Cite>). The Visuddhimagga is the manual that carries
-                most of it. Two features mark the scheme as the commentary's own. One is the
-                teacher-diagnosis-then-correction machinery: Sāriputta, reasoning that a young monk must have
-                excess lust, assigns foulness; it fails for three months; the Buddha, seeing that the monk had
-                been a goldsmith working red gold for five hundred lives, judges the repulsive subject unfit and
-                conjures a golden lotus instead, on which the monk attains at once
-                (<Cite id="cst-s0502a.att-234_p003">Dhp-a</Cite>). Neither this misassignment story nor the
-                fixed temperament keying has any canonical source. And the very manual that fixes the grid
-                declines, in its own words, to vouch for its most detailed part. The Visuddhimagga describes at
-                length how a teacher might read a pupil's temperament, from how he walks and stands and eats and
-                sleeps, and then takes it back: this method has come down neither in the canon nor in the old
-                commentary, is stated only following the teachers' opinion, and so is not to be relied on as
-                authoritative (<em>na sārato paccetabbaṃ</em>). The matching is held as serviceable scholastic
-                guidance, taught and kept; it is not staked as the kind of knowing the canon reserves for what is
-                directly seen, and the tradition draws that line itself, at the point where the apparatus is most
-                developed.
+                other (<Cite id="cst-s0103a.att-dn3_11_p002">Sv-a 11 §2</Cite>). The Visuddhimagga carries most
+                of it: of the fifty-three structurally-canonical rows that hold the disambiguated temperament
+                compound, thirty are the Visuddhimagga, and the technical sense of <em>kammaṭṭhāna</em>, the
+                meditation-subject, is effectively confined there too (134 of 148 rows), as is the closed list of
+                forty subjects. This is the layer where the apparatus is built.
+              </p>
+              <p>
+                What the wider reading adds is that the temperament grid does not bloom alone. A whole vocabulary
+                for designing a teaching around a person's standing disposition appears at exactly this stratum
+                and is near-absent below it. The word <em>ajjhāsaya</em>, a person's bent that the teaching is
+                fitted to, occurs four times in the four Nikāyas and then more than seven hundred times in the
+                aṭṭhakathā. The compound <em>āsayānusaya</em>, the knowledge of beings' underlying bent and
+                latent tendency, and <em>veneyya</em>, the beings to be guided, are flatly zero in the canon and
+                bloom only here (the aṭṭhakathā carries the first some fifty-five times, the second over two
+                hundred). The two-vehicle split itself, the calm-vehicle and insight-vehicle practitioner and the
+                dry-insight worker, is zero in the canon and appears only now. The commentary is not merely
+                fixing one grid; it is acquiring a general habit of reading persons as standing types to be
+                matched, a habit the canon did not have.
+              </p>
+              <p>
+                That the diagnosis is fallible the commentary shows in a scene it tells against its own foremost
+                analyst. A goldsmith's son ordains under Sāriputta, and the elder, reasoning that the young are
+                full of lust, assigns him the contemplation of foulness (<em>asubha-kammaṭṭhāna</em>). Three
+                months in the forest yield not a single moment of one-pointedness. The Buddha, seeing what
+                inference could not, that the monk had worked beautiful gold for five hundred past lives, judges
+                the repulsive object unfit and gives him a golden lotus to contemplate instead, on which he
+                attains at once (<Cite id="cst-s0502a.att-234_p003">Dhp-a</Cite>). Sāriputta is foremost among
+                the disciples in wisdom, and wisdom is exactly not what fails here: reading a person's disposition
+                is a different cognition, the knowledge of beings' bent and the ripeness of their faculties, which
+                belongs to the Buddha's powers and not to analysis. The story is the epistemic point in narrative
+                form.
+              </p>
+              <p>
+                And in the same breath the manual that fixes the grid declines to certify its most detailed part.
+                The Visuddhimagga describes at length how a teacher might read a pupil's temperament, from how he
+                walks and stands and eats and sleeps, and then takes it back: this method has come down neither
+                in the canon nor in the old commentary, is stated only following the teachers' opinion, and so is
+                not to be relied on as authoritative, <em>na sārato paccetabbaṃ</em>
+                (<Cite id="cst-e0101n.mul-36_p030">Vism §36.30</Cite>). What it offers in place of the disowned
+                method is telling: a teacher who can read minds directly will simply know the pupil's temperament,
+                and one who cannot should ask. The diagnostic is not staked as the kind of knowing the canon
+                reserves for what is directly seen; it is held as serviceable scholastic guidance, taught and
+                kept, and the tradition draws that line itself, at the very point where the apparatus is most
+                elaborate.
               </p>
 
               {/* VI. SUB-COMMENTARIES */}
-              <h2 style={h2}>In the sub-commentaries</h2>
+              <h2 style={h2}>In the sub-commentaries: temperament read off the body</h2>
               <p>
-                The sub-commentary takes the typology one step past the Visuddhimagga's matrix, and it is a vivid
-                one. Reading the heart-blood, the Vibhaṅga-aṭṭhakathā says the blood of a greed-type runs red,
-                of a hate-type dark, of a delusion-type the colour of water in which meat has been washed
+                The sub-commentary takes the typology one step past the matrix, and it is a vivid one. Reading
+                the heart-blood, the Vibhaṅga-aṭṭhakathā says the blood of a greed-type runs red, of a hate-type
+                dark, of a delusion-type the colour of water in which meat has been washed
                 (<Cite id="cst-abh02a.att-70_p058">Vibh-a §70.58</Cite>). Six heart-blood colours, keyed to the
-                six temperaments. A scheme that began as a way of keying a practice to a defilement has become,
-                at this end, a physiology: temperament is now something the body itself displays, diagnosable
-                from its fluids. There is no canonical warrant for this, and none in the old commentary either;
-                it is the apparatus enriching itself past any text it could appeal to. That is the endpoint of
-                the line the antidote formula began.
+                six temperaments. A scheme that began as a way of keying a practice to a present defilement has
+                become, at this end, a physiology: temperament is now something the body itself displays. There
+                is no canonical warrant for this and none in the old commentary either. It is also the stratum
+                where the language of fixed intrinsic nature peaks: <em>sabhāva</em>, own-nature, almost absent
+                in the canon, runs to several thousand occurrences here. The freezing of a person into a type is
+                one local case of a wider hardening of the tradition's whole vocabulary toward fixed essences,
+                a pattern taken up in its own right below.
               </p>
 
-              {/* VII. MODERN READING */}
-              <h2 style={h2}>In modern reading: what this means</h2>
+              {/* VII. PHASE B — THE SWEEP */}
+              <h2 style={h2}>Across the layers: divergence, addition, regression</h2>
               <p>
-                The modern translator, last in the line, renders <em>carita</em> through a category the Pāli
-                never carried, the stable, diagnosable "personality type." The Pāli word is built on{' '}
-                <em>carati</em>, "that which one courses in"; the psychology of fixed character types is imported,
-                not found. If one opens "the canon" to learn how a person is matched to a practice, the honest
-                answer is that the elaborate machinery one finds, the six temperaments, the closed forty
-                meditation subjects, the technical sense of <em>kammaṭṭhāna</em>, is later than the canon and
-                built on a much simpler canonical move. That older move is real and early: the discourses key a
-                practice to a present defilement, foulness against lust, love against ill will, the breath
-                against scattered thought, the perception of impermanence against the conceit "I am," and they
-                leave it there. The six-temperament grid is a scholastic construction laid over that seed; its
-                central word acquired the temperament sense late; and the tradition's own apex manual, having set
-                the grid out in full, declines to certify the most detailed part of it. For a reader, this is
-                worth knowing before reaching for "the canonical teaching on temperament types": the matching
-                machinery is later and softer in its own claims than its canonical shelving implies. What the
-                survey cannot settle is which object an angry or a scattered person <em>should</em> take up; that
-                is a normative question the texts make a teacher's business, openly provisional, and never one
-                the canon invites a person to diagnose in themselves.
+                Read stratum by stratum, the field above is a story about one axis more than about chronology.
+                The canon individuates a person by what is presently active or by what they are capable of, a
+                mind's current root, the reach of their faculties, how fast they learn, the route by which they
+                will be freed. The commentary, increasingly, individuates by what a person fixedly is, a standing
+                temperament, a diagnosable type. The deepest pattern is the move from the first to the second,
+                the freezing of a function into an essence. The six-temperament scheme is one instance of it, and
+                once seen this way the scheme stops being the headline and becomes an example.
+              </p>
+              <p>
+                Three things follow when the whole field is read at once. The first is a divergence. It is not
+                true that individuation is a late commentarial habit; the precise truth is that fixed-type
+                individuation is late while function-and-route individuation is early. The same split runs
+                through the calm-and-insight material: the yoke of calm and insight is early and shared across
+                the schools, while the two-vehicle and dry-insight typology is the late branch, zero in the canon
+                and blooming in the commentary, the same signature as <em>carita</em>. The second is an addition.
+                The canon already holds fully systematized person-typologies, the seven noble persons by mode of
+                liberation, the four learners by receptivity, the present-root sort, that a <em>carita</em>-shaped
+                search cannot see, every one of them canonical and several Buddha-voiced. The canon catalogues
+                persons by route and ceiling and speed; what it lacks is only the catalogue by temperament. The
+                third is a regression of confidence at the point of greatest elaboration: the Visuddhimagga,
+                having built the temperament diagnostic out in full, marks it as not to be relied on, while the
+                canon's own faculty for reading persons, the maturity of another's faculties and the knowledge of
+                their dispositions, is staked under a knowing-formula the temperament grid never claims.
               </p>
 
-              {/* ====================== THE FULL DATA ====================== */}
-              <h2 style={h2}>The full data</h2>
+              {/* CALM, INSIGHT, AND CONCENTRATION */}
+              <h3 style={h3}>Calm, insight, and how much concentration the path asks</h3>
+              <p>
+                The same function-to-essence shape governs the most-disputed corner of this material, the
+                relation of calm (<em>samatha</em>) to insight (<em>vipassanā</em>). The canon treats their
+                balance as a present situation to correct, not as a kind of person. Ānanda's discourse on the
+                pair (<Cite id="an4.170">AN 4.170</Cite>) lays out four routes to the same goal, calm before
+                insight, insight before calm, the two yoked together (<em>yuganaddha</em>), and the mind seized
+                by agitation about the teaching that then settles, and a practitioner takes whichever answers
+                what they presently have too much or too little of. So the canon does imply something like a dry
+                and a wet temperament, but only situationally, for the person who already leans one way; it is
+                never made explicit and never made a fixed type. The commentary is what freezes it, into the
+                calm-vehicle and insight-vehicle practitioner and the dry-insight worker
+                (<em>samathayānika</em>, <em>vipassanāyānika</em>, <em>sukkhavipassaka</em>), zero in the canon
+                and only in the commentary, the same late signature as <em>carita</em>.
+              </p>
+              <p>
+                How much concentration the path requires is read the same way. The graduated trainings
+                (<Cite id="an3.86">AN 3.86</Cite>) grade a person by how far each training is filled out: the
+                stream-enterer and the once-returner fulfil virtue (<em>sīlesu paripūrakārī</em>) but are only
+                doers "to a measure" in concentration and wisdom (<em>samādhismiṃ mattaso kārī</em>); the
+                non-returner fulfils concentration too; only the arahant fulfils all three. A limited
+                concentration suffices for the first two stages of awakening, a full one for the higher. The
+                phrase is not a passing turn: <em>samādhismiṃ mattaso kārī</em> recurs where the canon sorts the
+                nine noble persons who die "with a remainder" by exactly this measure
+                (<Cite id="an9.12">AN 9.12</Cite>, the Lion's Roar with Residue, which maps the gradient onto the
+                grades of non-returner), and the Abhidhamma's Puggalapaññatti then enumerates the persons by it.
+                A second, term-free reading of the same fact sits in the seven noble persons: the faith-follower
+                and Dhamma-follower reach the lower fruits without the deep attainments the body-witness has, so
+                the canon already lets a person enter the path on less than full absorption. What it never does
+                is fix how much less.
+              </p>
+              <p>
+                What that limited concentration is, the canon does not pin to a named tier. It enumerates the
+                four absorptions (<em>jhāna</em>) and the formless attainments as its levels, and it sorts
+                concentration by its object (the signless, the desireless, the empty) and by its reach (limited
+                or exalted, <em>paritta</em> or <em>mahaggata</em>), but it names no fixed rung between an
+                unconcentrated mind and the first absorption. The familiar ladder of preparatory, access, and
+                full concentration (<em>parikamma</em>, <em>upacāra</em>, <em>appanā</em>) is entirely the
+                commentary's: each of the three is attested zero times as a grade of concentration in the four
+                Nikāyas and the seven Abhidhamma books, and so is momentary concentration
+                (<em>khaṇika-samādhi</em>). The word <em>upacāra</em> is canonical, but there it means a vicinity
+                or an approach, the outskirts of a village, the near company of women; the sense "access
+                concentration," a sub-absorption threshold, is a commentarial coinage, found only from the
+                aṭṭhakathā onward (38 rows there, 39 in the Visuddhimagga, against zero in the canon). So whether
+                the concentration that carries a stream-enterer is a full absorption or a sub-absorption access
+                is a question the canon leaves open. It grades concentration by degree and stops there; the
+                naming of discrete levels below absorption is, once again, the work of the commentary.
+              </p>
+              <p>
+                What the absorptions themselves contain is read the same way. The canon's stock description of
+                the first absorption names four qualities: applied thought and its sustaining (<em>vitakka</em>,
+                <em>vicāra</em>), and the rapture and pleasure born of seclusion (<em>pīti</em>, <em>sukha</em>),
+                in the formula <em>savitakkaṃ savicāraṃ vivekajaṃ pītisukhaṃ</em>, set out in some two hundred
+                canonical rows. The familiar count of <em>five</em> jhāna factors, which adds one-pointedness
+                (<em>cittekaggatā</em>) as a fifth, and the collective term for them (<em>jhānaṅga</em>, "factor
+                of absorption") are the analysis of the Abhidhamma and the commentary, where <em>jhānaṅga</em>
+                outnumbers its scattered canonical uses about ten to one. One-pointedness is canonical in its own
+                right; what is added is its place in a closed inventory of the absorption. So the "limited
+                concentration" of the trainee, <em>samādhismiṃ mattaso kārī</em>, a doer "to a measure," sits in
+                a canon that describes the absorptions by a few felt qualities, beside a commentary that resolves
+                them into a fixed list of factors and a graded ladder of tiers. The difference between a
+                description and a tally runs through the concentration material as it runs through the rest.
+              </p>
+
+              <h3 style={h3}>How much concentration the lower path requires</h3>
+              <p>
+                One question sits next to this one and is among the most disputed in modern practice-scholarship:
+                how much concentration the lower fruits actually require. The canon answers with a gradient and
+                never with a floor. The maximalist side has real evidence: right concentration, the eighth factor
+                of the path, is defined in the stock formula as the four absorptions, <em>ayaṃ vuccati
+                sammāsamādhi</em>, "this is called right concentration," followed by the jhāna tetrad, in some
+                twenty-eight canonical rows. A reading that makes jhāna the path's concentration is not invented.
+                That stock formula is not the canon's only definition, though. Two others name no absorption at all:
+                noble right concentration is the mind's one-pointedness <em>equipped with the seven path-factors</em>
+                (<Cite id="mn117">MN 117</Cite>, <Cite id="an7.45">AN 7.45</Cite>), fixed by its companions rather than
+                its depth; and the concentration-faculty is the one-pointedness gained <em>by making release the
+                object</em> (<em>vossaggārammaṇaṃ karitvā</em>, <Cite id="sn48.10">SN 48.10</Cite>), fixed by where it is
+                aimed rather than how deep it runs.
+                But the canon constitutes the first fruit elsewhere and otherwise, and three structural facts pull
+                the floor for stream-entry and once-return below full absorption.
+              </p>
+              <p>
+                The first is what the lists of stream-entry leave out. The canon itemizes the first fruit more
+                than almost anything else, and jhāna is never a member. The four factors leading to stream-entry
+                are association with good people, hearing the true Dhamma, wise attention, and practice in
+                accordance (<Cite id="dn33">DN 33</Cite>); the four factors of a stream-enterer are confirmed
+                faith in the Buddha, the Dhamma, and the Saṅgha, and the virtues dear to the noble ones; the
+                three fetters dropped are identity-view, doubt, and clinging to rites. Concentration enters these
+                lists only as a direction the virtue points: the noble ones' virtues are described, ninety-two
+                times over, as <em>samādhisaṃvattanika</em>, "conducive to concentration," leading toward it
+                rather than presupposing it. Where the stream-entry factors and the absorptions do co-occur, it
+                is in the long enumerative discourses such as the Saṅgīti (<Cite id="dn33">DN 33</Cite>) that
+                list both among many sets, never one as a member of the other.
+              </p>
+              <p>
+                The second is that the canon's main account of how concentration arises makes it an effect, not
+                an entry-ticket. The recurring chain runs from virtue through non-remorse, gladness, rapture, and
+                tranquillity to the line <em>sukhino cittaṃ samādhiyati</em>, "of one who is happy, the mind
+                becomes concentrated" (forty-six rows; the mind "becomes concentrated," <em>samādhiyati</em>, in
+                the passive, sixty-three). The discourse that states it is spoken to Mahānāma the Sakyan, a lay
+                stream-enterer, about the recollections (<Cite id="an6.10">AN 6.10</Cite>): the concentration of
+                one who has seen the Dhamma is the by-product of the gladness that recollection and virtue
+                produce, not a separately-built absorption. And the proximate condition the canon names for
+                insight is a bare "concentrated mind," <em>samāhite citte yathābhūtaṃ pajānāti</em>, "with the
+                mind concentrated, one knows and sees as it really is" (fifty-eight rows), language of degree
+                rather than a named tier.
+              </p>
+              <p>
+                The third is an argument from the ceiling, and it needs stating precisely. The canon's highest
+                attainment is reached in a wisdom-liberated mode that lacks the attainments beyond the four
+                absorptions: the <em>paññāvimutta</em> arahant, who has destroyed the taints by wisdom but does
+                not dwell having touched the eight liberations, the peaceful formless states transcending form,
+                with the body. The wanderer Susīma is told of exactly such arahants and asks whether they dwell
+                in those liberations; the answer is flat, <em>"No hetaṃ, āvuso,"</em> "no, friend"
+                (<Cite id="sn12.70">SN 12.70</Cite>). The seven noble persons encode the same split, the
+                body-witness and the both-ways-freed on the side that touches the eight liberations, the
+                wisdom-freed and the rest on the side that does not (<Cite id="mn70">MN 70</Cite>). So the secure
+                point is bounded: if even arahantship can be reached without the formless attainments that lie
+                beyond the four jhānas, the lower two fruits can a fortiori dispense with them. Whether
+                arahantship can be reached without even the four jhānas, the fully dry-insight reading, is the
+                harder claim the canon leaves open and the commentary's <em>sukkhavipassaka</em> fills; the
+                weight on the lower-fruit floor is carried less by this a-fortiori than by the gradient, the
+                negative space, and the caused-fruit account above.
+              </p>
+              <p>
+                Between these stands the gradient: the trainee is a "doer to a measure" in concentration
+                (<em>samādhismiṃ mattaso kārī</em>, <Cite id="an3.86">AN 3.86</Cite>, <Cite id="an9.12">AN 9.12</Cite>),
+                placed below the concentration-fulfiller, the non-returner, on the very axis in question. The
+                canon's own scale therefore says the lower fruits take less than full concentration; it simply
+                never says how much. That open measure is what the commentary closes, and the terms it closes it
+                with are not in the canon: access concentration (<em>upacāra-samādhi</em>), momentary
+                concentration (<em>khaṇika-samādhi</em>), and absorption concentration as a named tier
+                (<em>appanā-samādhi</em>) are each zero canonical rows, and one-pointedness
+                (<em>cittekaggatā</em>), the depth-neutral genus of concentration, is canonical at sixty-four
+                rows but is made a property of every mind-moment only in the commentary and Abhidhamma, where it
+                nearly triples. What the canon does supply is a threshold state, not a named tier. Where the
+                Dhamma-eye opens on the spot, the graduated talk first leaves the listener "ready, malleable, free
+                of the hindrances" (<em>kallacitta</em>, <em>muducitta</em>, <em>vinīvaraṇacitta</em>, twenty-five
+                canonical rows), and only then does the dust-free vision arise (<Cite id="dn5">DN 5</Cite>,{' '}
+                <Cite id="dn14">DN 14</Cite>, and the Vinaya account of Yasa). That hindrance-free pliancy is the very
+                state the commentary later names access concentration; the canon describes the state and withholds the
+                label. And where the canon frames jhāna itself, it most often frames it as a pleasant abiding here and
+                now (<em>diṭṭhadhammasukhavihāra</em>, over a hundred canonical rows), a dwelling of the accomplished;
+                the doctrine that makes a jhāna the required base for insight (<em>pādaka-jjhāna</em>) is, once again,
+                commentarial and zero in the canon. So the honest description is this: the canon defines the path-factor of
+                concentration as jhāna in its stock formula, constitutes the first fruit by faith, virtue, and view with
+                concentration as a conducive fruit, grades the trainee below the concentration-fulfiller, and
+                reaches even arahantship in a mode without the deep attainments, and it states a gradient while
+                fixing no floor. The underdetermination is real, and it is why the question stays open; the
+                commentary's access concentration is one resolution of it, not a canonical finding.
+              </p>
+
+              {/* SYNTHESIS / WHAT THIS MEANS */}
+              <h2 style={h2}>What this means, and what it doesn't</h2>
+              <p>
+                If one opens "the canon" to learn how a person is matched to a practice, what gets handed over as
+                the canonical teaching, the six temperaments, the closed forty meditation subjects, the technical
+                sense of <em>kammaṭṭhāna</em>, turns out to be later than the canon and built over a much simpler
+                and much earlier move. That older move is real: the suttas read the root that is present now and
+                the faculties a person actually has, and they fit the teaching to that. The
+                six-temperament grid is a scholastic construction laid over that ground; its central word
+                acquired the temperament sense late; and the tradition's own apex manual, having set the grid out
+                in full, declines to certify its most detailed part. The matching machinery is later, and softer
+                in its own claims, than its canonical shelving implies.
+              </p>
+              <p>
+                Several limits bound how far this can be pressed. The dating is relative order, not calendar
+                date; the one firm exception is a hard count, the absence of the temperament compound from the
+                four Nikāyas and the Abhidhamma. The counts are floors recovered by a widening search, and they
+                are edition-relative to the CST recension as ingested; a different segmentation would move the
+                absolute numbers, not the shape. Two of the largest early "disposition" words,{' '}
+                <em>anusaya</em> and <em>cetopariya</em>, are mostly fixed doctrinal lists and are not read here
+                as person-typing; the genuinely individuating early vocabulary is the smaller, cleaner set above
+                (the present-root sort, faculty-maturity, the four-learner tetrad, the seven-person liberation
+                roster, and the explicit naming of difference in <em>puggalavemattatā</em>).
+                The function-versus-essence reading is the axis the data cleaves on most sharply, offered as the
+                most defensible description of the field, not as a proof.
+              </p>
+              <p>
+                One boundary is worth drawing carefully, because the early material draws it itself. Reading
+                one's own present state is canonical and self-directed: a practitioner who sees that lust is
+                presently active develops foulness against it, as Meghiya is taught to (<Cite id="an9.3">AN 9.3</Cite>),
+                and the contemplation of mind has one watch one's own arising root (<Cite id="mn10">MN 10</Cite>).
+                What the texts do not hand to the practitioner is the fixed type. Certifying that one is a
+                greed-temperament person is teacher-assigned, and by the Visuddhimagga's own admission not
+                reliably available even to a teacher without direct knowing. The canon invites a person to read
+                what is present in them; it does not invite them to read what they are. The further normative
+                question, which object best suits a given person, the sources, canon and commentary alike, make
+                a teacher's business and leave openly provisional.
+              </p>
+
+              {/* GENERAL-IMPORTANCE SECTION */}
+              <h2 style={h2}>Findings of general importance (beyond this study's question)</h2>
               <p style={tableCaption}>
-                The facet-by-facet survey beneath the narrative above: the question and its two readings, the
-                earlier scholarship, the sources and method, the per-facet tables and warrant ledger, the
-                reader's aid, the discussion, the stratigraphy and recension tables, and the full dataset with
-                every citation opening its passage.
+                Patterns the wider reading turned up that matter past the question of person-and-practice,
+                recorded here so they are not lost inside it. Each notes what it is and where it is grounded, and
+                each surfaced from this survey (June 2026); each is a found, evidenced pattern, not a conjecture.
+              </p>
+              <h3 style={h3}>G1. A corpus-wide drift from function-language to own-nature language</h3>
+              <p>
+                The word <em>sabhāva</em>, own-nature or intrinsic essence, is effectively absent from the canon
+                and runs to the thousands in the commentaries and sub-commentaries (roughly 1,900 in the
+                aṭṭhakathā and 3,950 in the ṭīkā, against a canonical floor near zero, once the unrelated
+                compounds <em>purisabhāva</em> and <em>ekaṃsa-bhāvita</em> are set aside). The freezing of a
+                person's present conduct into a fixed temperament is one local instance of a much larger
+                movement, measurable across the whole corpus, in which the tradition's vocabulary shifts from
+                describing what a thing does to asserting what it is by own-nature. This is a datum for the
+                long-running scholarly question of when Theravāda acquired a substantialist ontology. Confidence:
+                high.
+              </p>
+              <h3 style={h3}>G2. An early canonical law of assortative association</h3>
+              <p>
+                In the Saṃyutta the Buddha states, of beings in general, that by way of disposition beings flock
+                together and keep company (<em>dhātuso sattā saṃsandanti samenti</em>), the low-minded with the
+                low-minded, the virtuous with the virtuous, the faithless with the faithless
+                (<Cite id="sn14.14">SN 14.14</Cite>, with SN 14.22 and SN 14.25; seventeen canonical rows carry
+                the formula). The combining is associative, the company a being seeks and falls into, not kinship
+                or mating. It is an explicit homophily principle with a named mechanism, shared <em>dhātu</em> or
+                disposition, asserted as a continuous law of how beings assort before any finite catalogue of
+                person-types exists. It has nothing to do with matching a practice to a person; it is a canonical
+                sociology of association, of interest to anyone studying how a tradition theorizes social
+                grouping. Confidence: high.
+              </p>
+              <h3 style={h3}>G3. A reusable diacritic-and-substring trap in corpus search</h3>
+              <p>
+                A diacritic-naive substring search miscounts in both directions, and this study is a clean
+                demonstration. It over-recalls: a bare search for "carita" returns 224 canonical rows, every one
+                of them the ordinary conduct word (<em>sucarita</em>, <em>duccarita</em>) or the verb "having
+                wandered," with zero temperament-types among them. And it under-recalls: it is blind to the
+                entire seven-person liberation roster (<em>ubhatobhāgavimutta</em>, <em>paññāvimutta</em>,{' '}
+                <em>kāyasakkhi</em>, <em>diṭṭhippatta</em>, <em>saddhāvimutta</em>, <em>dhammānusārī</em>,{' '}
+                <em>saddhānusārī</em>), whose terms all carry long vowels and retroflexes a plain search drops. The lesson generalizes to any corpus with rich morphology: a high count of an
+                abstract term is a category or list word until its sense is read on sampled rows, and an early
+                systematized scheme can hide in plain sight under diacritics. Confidence: high.
+              </p>
+              <h3 style={h3}>G4. A describe-early, name-late signature in scholastic terminology</h3>
+              <p>
+                Repeatedly the practice is canonical while the technical noun that names it is commentarial. The
+                graduated talk is given in the discourses long before "graduated talk" becomes a fixed term; the
+                fitting of a teaching to a hearer's disposition is done before <em>āsayānusaya</em> and{' '}
+                <em>ajjhāsaya</em> name it as a design principle; the temperament types are read before{' '}
+                <em>carita</em> names them. The tradition first does a thing and only later coins a fixed label
+                and theorizes it, the nominalization itself being the late, datable event. Confidence: high.
+              </p>
+
+              {/* ====================== APPENDIX: THE TEMPERAMENT CENSUS ====================== */}
+              <h2 style={h2}>Appendix: the temperament census</h2>
+              <p style={tableCaption}>
+                The auditable data beneath the survey above, kept as an appendix: the original temperament-census
+                question and its pre-registered readings, the earlier scholarship, the sources and method, the
+                per-facet tables and warrant ledger, the calm-and-insight cells, the stratigraphy and recension
+                tables, and the full dataset with every citation opening its passage. These tables are the
+                record the narrative draws on, not the argument.
               </p>
 
               {/* 1. QUESTION */}
-              <h3 style={h3}>The question</h3>
+              <h3 style={h3}>The census question</h3>
               <p>
-                The question I want to put is narrow: how the Pāli tradition guides an individual toward
-                awakening, across the full range from a bare statement to a step-by-step leading with an
-                assigned object, and what, if anything, connects the kind of person, the kind of discourse
-                given, and the object or instruction assigned. The cross-cutting question, asked at every step,
-                is how the canon differs from the commentary.
+                The question this census puts is narrow: how the Pāli tradition guides an individual toward
+                awakening, across the full range from a bare statement to a step-by-step leading with an assigned
+                object, and what, if anything, connects the kind of person, the kind of discourse given, and the
+                object or instruction assigned. The question asked at every step is how the canon differs from
+                the commentary.
               </p>
               <p>
-                Two readings stand against each other, and I settled them before reading the instances rather
-                than after, so a comfortable answer could not shape the count. The reading I came to favour is
-                that the guidance apparatus is largely the commentary's own work, built on a genuinely
-                canonical seed: in the canon, identifying who should receive what looks like a perceptual
-                faculty rather than a checklist applied in advance; the matching is keyed to a present
-                defilement or situation, while the temperament matrix and the fixed ordering of objects are
-                later additions; the word <em>carita</em> does not seem to carry the temperament sense in the
-                four Nikāyas, though it does in the para-canonical Niddesa, which is why cells warranted there
-                are marked as resting outside the Nikāyas; and calm and insight read as a yoked pair, with the
-                dry-insight split a commentarial construction. The plainer reading I take as the null is that
-                the apparatus is uniformly commentarial against a uniformly canonical core, with every
-                commentarial assignment tracing to a canonical warrant. The honest prior expectation was a
-                split rather than a clean win for either, and that is roughly what the cell-by-cell reading
-                shows.
+                Two readings stand against each other. Both were settled before any instance was read, so that a
+                comfortable answer could not shape the count. The reading the data favour is that the guidance
+                apparatus is largely the commentary's own work, built on a genuinely canonical seed: in the
+                canon, identifying who should receive what looks like a perceptual faculty rather than a
+                checklist applied in advance; the matching is keyed to a present defilement or situation, while
+                the temperament matrix and the fixed ordering of objects are later additions; the word{' '}
+                <em>carita</em> does not seem to carry the temperament sense in the four Nikāyas, though it does
+                in the para-canonical Niddesa, which is why cells warranted there are marked as resting outside
+                the Nikāyas; and calm and insight read as a yoked pair, with the dry-insight split a
+                commentarial construction. The plainer reading, taken as the null, is that the apparatus is
+                uniformly commentarial against a uniformly canonical core, with every commentarial assignment
+                tracing to a canonical warrant. The prior expectation was a split rather than a clean win for
+                either, and that is roughly what the cell-by-cell reading shows.
               </p>
 
               {/* 2. LITERATURE */}
@@ -1558,12 +1888,18 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 subjects and keys them to the six temperaments. Bapat (1937), comparing the Visuddhimagga with
                 the Vimuttimagga preserved in Chinese, showed that the earlier manual counts thirty-eight, not
                 forty, and differs in detail, a difference taken from Bapat's comparison and not re-counted
-                here; the closed list of forty is therefore a settling, not a given. Ñāṇamoli's translation (1956) remains the standard reference for the Visuddhimagga and
+                here; the closed list of forty is therefore a settling, not a given. It is also a selection, not
+                an inventory: several meditation objects the canon itself names and assigns fall outside the
+                forty altogether, among them the perception-series of impermanence, non-self, and light
+                (<em>anicca-</em>, <em>anatta-</em>, and <em>ālokasaññā</em>, each attested dozens of times in
+                the Nikāyas and given to named persons, the ten perceptions to Girimānanda at AN 10.60), and the
+                seven factors of awakening (<em>bojjhaṅga</em>); the forty fixes a curated set rather than the
+                full canonical range. Ñāṇamoli's translation (1956) remains the standard reference for the Visuddhimagga and
                 is the control used here for the author's renderings. On the key term, Crosby, Skilton and Kyaw
                 (2019) document that <em>kammaṭṭhāna</em> in its technical sense, a meditation subject, is a
                 commentarial usage; in the canon the word means an occupation or place of work. A frozen
-                database count confirms this for our corpus and corrects an overstatement in earlier work of
-                ours: the word does occur in the four Nikāyas, but in the ordinary sense alone (a livelihood,
+                database count confirms this for the corpus and corrects an earlier overstatement here: the word
+                does occur in the four Nikāyas, but in the ordinary sense alone (a livelihood,
                 farming or trade or cattle-keeping; the household occupation), with the meditative sense
                 effectively confined to the Visuddhimagga.
               </p>
@@ -1571,12 +1907,143 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 On the typologies, the Puggalapaññatti, the Abhidhamma book of human types translated by Law
                 (1922), defines the four understanding-types by the manner in which each comes to realization,
                 and so supplies the canonical definition of the guidance modes used here. The reception of these
-                schemes in the Burmese insight tradition, through Ledi Sayadaw and the teachers who followed,
-                and the anthologies of Nyanaponika and Bodhi, frame how the typologies have been read in
-                practice. Shaw (2006) and Kuan (2008) survey the object inventory and the place of mindfulness;
-                Stuart (2015) extends the comparative horizon beyond the Pāli. The contribution is not a new
-                reading of any of these but an auditable, exhaustive census that confirms the field's prose
-                conclusions with counts and pins each to a passage.
+                schemes in the Burmese insight tradition, through Ledi Sayadaw and the teachers who followed, and
+                the anthologies of Nyanaponika and Bodhi, frame how the typologies have been read in practice.
+                Shaw (2006) and Kuan (2008) survey the object inventory and the place of mindfulness; Stuart
+                (2015) extends the comparative horizon beyond the Pāli.
+              </p>
+              <p>
+                The six-temperament scheme itself is Buddhaghosa's, set out in the third chapter of the
+                Visuddhimagga, and its closest relative, the cognate temperament scheme in the Vimuttimagga
+                preserved in Chinese, was placed beside it by Bapat (1937); the scheme's first canonical-shelf
+                appearance, in the Cūḷaniddesa, is older still. What the literature has not put on a measured
+                footing is how that one famous scheme sits against the canon's other, older ways of typing a
+                person, the seven noble persons sorted by their mode of liberation, the four learners sorted by
+                receptivity, the present-root analysis of the contemplation of mind. Read together, those are a
+                populous early apparatus the temperament scheme is usually discussed apart from. The standing
+                debate over <em>sabhāva</em>, whether and when Theravāda acquired a vocabulary of fixed intrinsic
+                natures, supplies the wider frame: the freezing of a person into a temperament is one local case
+                of it.
+              </p>
+              <p>
+                The contribution is therefore less a new reading of the calm-and-insight debate, which it joins
+                on the side of Cousins, than a relocation of the temperament question. It is a measured
+                demonstration, auditable passage by passage, that the six-<em>carita</em> scheme is one late
+                instance of a broader and largely commentarial habit of fixing persons into standing types, set
+                against an early canon that individuates a person richly but by present state, capacity, and
+                route rather than by a fixed temperament. The field's prose conclusions about calm and insight
+                are confirmed with counts and pinned to passages; the temperament scheme is given the wider
+                company it has usually been read without.
+              </p>
+
+              <h3 style={h3}>The forty meditation subjects, audited against the canon</h3>
+              <p>
+                Audited category by category, the forty is not a list of inventions: every one of its seven
+                classes has a canonical root. What the commentary does is re-select, re-number, and close. It
+                swaps members, putting a light-kasiṇa where the canon's ten end in a consciousness-kasiṇa;
+                re-counts others, ten corpse-types for the canon's nine charnel stages, ten recollections for the
+                canon's six; fixes a name on a canonical practice (<em>catudhātuvavatthāna</em> for the
+                element-analysis); and draws a hard boundary the canon does not, leaving outside it the
+                perception-series and the awakening-factors the suttas also assign. So the forty is neither simply
+                canonical nor simply invented: it is a canonical body of practice settled into a closed
+                commentarial inventory.
+              </p>
+              <p>
+                Carried down to the last member, the pattern is sharper still: of all forty, only one is a
+                meditation object the canon does not have at all, the light-kasiṇa (<em>ālokakasiṇa</em>, zero
+                canonical rows against nineteen in the Visuddhimagga). Every other member is canonically attested
+                as a term and a practice, each colour and element kasiṇa, every corpse-contemplation, all ten
+                recollections (the breath at 44 canonical rows, peace, the rarest, at six), the four
+                immeasurables, the four formless attainments (200 to 300 rows each), the perception of food's
+                repulsiveness, and the element-analysis. The canon's own ten kasiṇas are the eight elements and
+                colours plus a space- and a consciousness-kasiṇa (each canonical, twelve and fourteen rows); the
+                Visuddhimagga keeps the eight, drops the consciousness-kasiṇa, and puts the light-kasiṇa in its
+                place. The list differs, in object, by exactly that one slot, consciousness out and light in. The
+                ten <em>asubha</em> are the canon's own charnel vocabulary renumbered from nine cemetery-stages
+                to ten corpse-types, and the ten recollections are the canonical six (<Cite id="an6.10">AN 6.10</Cite>)
+                closed up with four that are each canonical on their own.
+              </p>
+              <p>
+                The kasiṇa is also used differently on each side, which is the deeper difference. In the canon it
+                is a perception-totality, a <em>kasiṇāyatana</em> listed among the attainments and tied mostly to
+                the absorptions (54 of its 74 canonical rows sit with <em>jhāna</em>), appearing also among the
+                eight bases of mastery (<em>abhibhāyatana</em>) and, less often, beside insight and the
+                destruction of the taints. What the canon does not have is a technique for it: the
+                counterpart-sign progression the commentary builds, from the preliminary sign through the
+                learning-sign to the counterpart-sign (<em>parikamma-</em>, <em>uggaha-</em>,
+                <em>paṭibhāganimitta</em>), is zero canonical rows against nearly two hundred in the commentary
+                and sub-commentary. The canon names the kasiṇa-objects and uses them as bases of attainment; the
+                commentary supplies the step-by-step method that makes them the standard road to absorption.
+              </p>
+              <p>
+                And the perception-series is less excluded from the forty than filed on the other side of it. The
+                forty is a list of calm-subjects (<em>samatha-kammaṭṭhāna</em>); the perceptions of impermanence,
+                non-self, and light belong to insight, where the canon does assign them (the ten perceptions to
+                Girimānanda, <Cite id="an10.60">AN 10.60</Cite>) and where they read as <em>vipassanā</em> rather
+                than as objects for absorption. The commentary occasionally treats the perception of impermanence
+                as a meditation subject in its own right, but not among the forty, because the forty inventories
+                concentration, not insight. So the perceptions are counted by the tradition as subjects; they are
+                just not calm-subjects, which is why an inventory of forty calm-subjects leaves them out.
+              </p>
+              <div style={tableWrap}>
+                <table style={{ ...table, tableLayout: 'fixed' }}>
+                  <colgroup>
+                    <col style={{ width: '26%' }} />
+                    <col style={{ width: '34%' }} />
+                    <col style={{ width: '40%' }} />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Class (Visuddhimagga)</th>
+                      <th style={thLeft}>In the canon?</th>
+                      <th style={thLeft}>How the commentary's list differs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={tr}>
+                      <td style={tdLeftSm}>Ten kasiṇa (devices)</td>
+                      <td style={tdLeftSm}>Yes, the ten <em>kasiṇāyatana</em> (<Cite id="mn77">MN 77</Cite>, <Cite id="an10.25">AN 10.25</Cite>–<Cite id="an10.26">26</Cite>, <Cite id="dn33">DN 33</Cite>)</td>
+                      <td style={tdLeftSm}>The canon's ten close with a space- and a consciousness-kasiṇa (each canonical); the Visuddhimagga keeps a space-kasiṇa but drops the consciousness-kasiṇa for a light-kasiṇa (0 canonical rows, 19 in the Visuddhimagga), the one object in the forty with no canonical attestation</td>
+                    </tr>
+                    <tr style={tr}>
+                      <td style={tdLeftSm}>Ten <em>asubha</em> (the unlovely)</td>
+                      <td style={tdLeftSm}>Yes, as the nine charnel-ground stages (<em>sīvathika</em>; <Cite id="dn22">DN 22</Cite>, <Cite id="mn10">MN 10</Cite>)</td>
+                      <td style={tdLeftSm}>The canon's nine become a different ten, the corpse-decomposition types, in the commentary</td>
+                    </tr>
+                    <tr style={tr}>
+                      <td style={tdLeftSm}>Ten <em>anussati</em> (recollections)</td>
+                      <td style={tdLeftSm}>Yes, as the six recollections (<Cite id="an6.10">AN 6.10</Cite>, <Cite id="an6.25">AN 6.25</Cite>); breath, death, body, and peace are added singly elsewhere</td>
+                      <td style={tdLeftSm}>The commentary closes the open canonical set at a fixed ten</td>
+                    </tr>
+                    <tr style={tr}>
+                      <td style={tdLeftSm}>Four <em>brahmavihāra</em></td>
+                      <td style={tdLeftSm}>Yes, in full</td>
+                      <td style={tdLeftSm}>Unchanged</td>
+                    </tr>
+                    <tr style={tr}>
+                      <td style={tdLeftSm}>Four <em>āruppa</em> (formless)</td>
+                      <td style={tdLeftSm}>Yes, in full</td>
+                      <td style={tdLeftSm}>Unchanged</td>
+                    </tr>
+                    <tr style={tr}>
+                      <td style={tdLeftSm}>Food's repulsiveness</td>
+                      <td style={tdLeftSm}>Yes (<em>āhāre paṭikūlasaññā</em>)</td>
+                      <td style={tdLeftSm}>Unchanged</td>
+                    </tr>
+                    <tr style={tr}>
+                      <td style={tdLeftSm}>Four-element analysis</td>
+                      <td style={tdLeftSm}>Yes, the practice (<em>dhātumanasikāra</em>; <Cite id="mn10">MN 10</Cite>, <Cite id="mn28">MN 28</Cite>, <Cite id="mn140">MN 140</Cite>)</td>
+                      <td style={tdLeftSm}>Only the fixed name <em>catudhātuvavatthāna</em> is the commentary's</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={tableCaption}>
+                The seven classes of the Visuddhimagga's forty, each against its canonical attestation. The
+                kasiṇa, <em>asubha</em>, and <em>anussati</em> rows are where the commentarial list visibly
+                re-draws the canonical one; the closed forty also omits canonical objects entirely, the
+                perception-series (<em>anicca-</em>, <em>anatta-</em>, <em>ālokasaññā</em>) and the seven
+                awakening-factors among them.
               </p>
 
               {/* 3. METHOD + Table 1 */}
@@ -1588,9 +2055,9 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 canon-versus-commentary comparison needs; its pagination differs from the PTS editions.
                 Searching combined exact and stemmed queries over the original-language field for the Pāli
                 object terms and antidote formulas, concept queries over the English field for discovery, and
-                the passage and commentary endpoints to follow a sutta to its Aṭṭhakathā. A load-bearing
-                negative claim, that a word or sense is absent from a layer, is confirmed by a direct database
-                count grouped by textual role rather than by a search impression, because the count is exact
+                the passage and commentary endpoints to follow a sutta to its Aṭṭhakathā. A negative claim, that
+                a word or sense is absent from a layer, is confirmed by a direct database count grouped by
+                textual role rather than by a search impression, because the count is exact
                 where the search lane is not; the sense-distribution of <em>kammaṭṭhāna</em> is established
                 this way.
               </p>
@@ -1624,6 +2091,17 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 not collapsed into the sutta tier. The four understanding-types, often read as a sutta
                 typology, are in fact from the Puggalapaññatti, an Abhidhamma book, and are placed there.
               </p>
+              <p>
+                One reading of the table needs a word first, because its rows divide object-assignment by how it
+                was gathered, not by where it sits. Assigning a meditation object to a named person runs to 29
+                canonical instances against roughly 204 commentarial ones. The canonical 29 are the first
+                object-assignment row; the commentarial side is split across three rows, the five curated
+                exemplars in that same first row, the ten cells of the temperament matrix, and the 189 narratives
+                of the expansion row. So the contrast the survey turns on is 29 against some 204, not the
+                29-against-5 that the first row, read by itself, might seem to say. The canon does assign objects
+                to named people, to Meghiya, Rāhula, Girimānanda, Nandā; it does so by present situation, and far
+                less often than the commentary, which assigns by temperament and at volume.
+              </p>
 
               <h3 style={h3}>Table 1. Guidance instances by analytic group and tier</h3>
               <div style={tableWrap}>
@@ -1656,7 +2134,9 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 Column key, the three-tier axis. Sutta = the four Nikāyas and the prose Khuddaka; Abhi. =
                 the Abhidhamma Piṭaka, the seven books, canonical but second; Para-c. = the para-canonical
                 Khuddaka analytical works (Nettippakaraṇa, Peṭakopadesa, Paṭisambhidāmagga, Niddesa); Comm. =
-                aṭṭhakathā, ṭīkā, and the Visuddhimagga.
+                aṭṭhakathā, ṭīkā, and the Visuddhimagga. The two object-assignment rows and the temperament
+                matrix are one category gathered three ways: their commentarial cells sum to about 204, against
+                the canon's 29 (see the note above the table), which is the contrast the survey turns on.
               </p>
 
               {/* A. PERSON & MODE + Table 3 */}
@@ -1679,8 +2159,10 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 out the meaning himself, and attains: elaboration. Upāli (<Cite id="mn56">MN 56</Cite>) is led
                 by graded talk, on giving, virtue, heaven, the danger of sense pleasures and the benefit of
                 renunciation, until his mind is ready and pliable, and only then is given the teaching peculiar
-                to the Buddhas: a leading. The fourth type, the one who does not break through this life, is a
-                limit case, not an act of guidance, and is recorded but not enumerated as an instance.
+                to the Buddhas: a leading. The fourth type, the one who only learns the words and does not break
+                through in this life (<em>padaparama</em>), is a limit case: because no breakthrough occurs there
+                is no completed act of guidance to record, so the type is noted here but not counted among the
+                instances.
               </p>
               <p>
                 Who may guide, and how does a guide know what to give? In the canon the answer is a faculty.
@@ -1813,7 +2295,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               {/* D. SAMATHA-VIPASSANA */}
               <h3 style={h3}>D. Calm and insight: yoked or split</h3>
               <p>
-                The load-bearing question is whether the canon prescribes calm and insight as two separate
+                The central question is whether the canon prescribes calm and insight as two separate
                 practices, or only as a yoked pair. The evidence is consistent. The Yuganaddha-sutta
                 (<Cite id="an4.170">AN 4.170</Cite>) lays out four ways to the goal, calm before insight,
                 insight before calm, the two in conjunction, and a mind seized by higher states, and all four
@@ -1886,7 +2368,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 reading of the person that the canon never offers.
               </p>
               <p>
-                Read cell by cell, the picture is the split I expected rather than a clean win for either side.
+                Read cell by cell, the picture is the expected split rather than a clean win for either side.
                 Of fifteen decidable assignment cells, eight carry a canonical warrant and seven do not. Four of the eight rest on the
                 four Nikāyas, chiefly the Meghiya antidote formula; the other four rest only on the Khuddaka
                 texts that lie outside the four primary Nikāyas, the Cūḷaniddesa (which already keys objects to
@@ -1977,9 +2459,17 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               <p>
                 These narratives share a shape. A person comes, or is ordained, and a teacher gives a
                 meditation subject. At the going-forth the standard gift is the contemplation of the first five
-                parts of the body, the skin-pentad, handed to novice after novice, among them the boy Revata
+                parts of the body (<em>kesā, lomā, nakhā, dantā, taco</em>, hair of the head, hair of the body,
+                nails, teeth, skin). Those five are canonical: they are the opening of the thirty-two-part body
+                contemplation taught in the suttas (the <em>dvattiṃsākāra</em> of <Cite id="dn22">DN 22</Cite>
+                and the mindfulness-of-the-body discourse <Cite id="mn119">MN 119</Cite>; the five-part phrase
+                carries 26 canonical rows). What is the commentary's own is the practice of giving just those
+                five, recited in order and in reverse, as a self-standing "root meditation subject"
+                (<em>mūlakammaṭṭhāna</em>, a term with no canonical occurrence at all, 0 of its 52 rows in the
+                canon) handed to novice after novice at ordination, among them the boy Revata
                 (<Cite id="cst-s0401a.att-an1_14_p248">Mp</Cite>), the seven-year-old Dabba, and the wanderer
-                Subhadda. Beyond that opening the teacher reads the person and corrects. Vakkali's insight does
+                Subhadda. "Standard" here means the commentary's codified ordination default, not a fixed first
+                gift the canon itself prescribes. Beyond that opening the teacher reads the person and corrects. Vakkali's insight does
                 not move because his faith runs too strong, and the Buddha, seeing the imbalance, purifies and
                 re-gives his subject (<Cite id="cst-s0510a.att-284_p006">Th-a</Cite>). A goldsmith's pupil,
                 given foulness by Sāriputta, makes no progress until the subject is changed to an agreeable
@@ -1997,7 +2487,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 with the canonical warrant named and checked against the corpus: {fmt(data.aggregates?.expansion_ledger?.H0 || 0)}{' '}
                 carry a canonical warrant, resting on a canonical object keyed as the canon keys it, and
                 {' '}{fmt(data.aggregates?.expansion_ledger?.H1 || 0)} do not, the keying being the commentary's
-                own. The split is close to even, and it falls about where I expected: the objects the
+                own. The split is close to even, and it falls about where expected: the objects the
                 commentary assigns are, in the main, the canon's own, but the apparatus that fits a standing
                 object to a standing temperament, and the teacher-diagnosis that reads it, carries no canonical
                 warrant. The {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
@@ -2167,39 +2657,8 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                       </>
                     )}
 
-                    {v.drift_strip && (
-                      <>
-                        <h3 style={h3}>The <em>{v.drift_strip.term}</em> semantic-drift strip</h3>
-                        <div style={tableWrap}>
-                          <table style={table}>
-                            <thead>
-                              <tr>
-                                <th style={thLeft}>Stratum</th>
-                                <th style={thLeft}>Sense at this stratum</th>
-                                <th style={thLeft}>Anchor</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {v.drift_strip.cells.map((c, i) => (
-                                <tr key={i} style={tr}>
-                                  <td style={tdLeftSm}>{c.stratum_label}</td>
-                                  <td style={tdLeftSm}>{c.sense}</td>
-                                  <td style={tdLeftSm}><Cite id={c.anchor?.id}>{c.anchor?.label}</Cite></td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                        <ol style={{ margin: '10px 0 0 0', paddingLeft: 20 }}>
-                          {v.drift_strip.drift_points.map((p, i) => (
-                            <li key={i} style={{ marginBottom: 6 }}>
-                              <strong>{p.classification}</strong> ({p.from} → {p.to}): {p.note}
-                            </li>
-                          ))}
-                        </ol>
-                        <p style={tableCaption}>{v.drift_strip.summary}</p>
-                      </>
-                    )}
+                    {/* The carita semantic-drift strip renders inline in the para-canonical section
+                        of the narrative above; it is not duplicated here. */}
 
                     {v.epistemic && (
                       <>
@@ -2646,7 +3105,7 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
 
               <h2 style={h2}>In the sub-commentaries</h2>
               <p>
-                The latest in-corpus layer is the one that dates the heart-base for us, by admitting it. A
+                The latest in-corpus layer is the one that dates the heart-base, by admitting it. A
                 sub-commentator stops the exposition and poses the sceptic's question: how is the heart-base to
                 be known at all, given that it does not come down in the canonical text? He answers in two
                 words, "from scripture and from reason," and then produces, as his scripture, the very
@@ -2836,7 +3295,7 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                             <strong>The claim left unspoken:</strong> {a.silent_claim}{' '}
                             <strong>Where it would have appeared:</strong> {a.expected_frame}.{' '}
                             <strong>How often the two fall together:</strong> {a.sql_cooccurrence}.{' '}
-                            <strong>What this allows us to say:</strong> {a.licensed}{' '}
+                            <strong>What this allows one to say:</strong> {a.licensed}{' '}
                             <strong>What it does not allow:</strong> {a.not_licensed}{' '}
                             <em>{a.contrast}</em>
                           </p>
@@ -3012,7 +3471,7 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
 
             <div style={articleBody}>
               <p style={abstractLead}>
-                <span style={abstractTag}>Abstract.</span> North of the world we stand on, in the geography
+                <span style={abstractTag}>Abstract.</span> North of the inhabited world, in the geography
                 the Pāli texts take for granted, lies Uttarakuru: the northern of the four great continents,
                 where no one owns anything, where rice ripens unsown, and where people live a fixed,
                 untroubled span. It is easy to file this with the heavens and hells, but the texts place it on
@@ -3085,7 +3544,7 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 SuttaCentral mūla rows) the rendering is Sujato's; the commentary and the Pāli-only
                 Visuddhimagga rows carry no English in the corpus, so those renderings are the author's own
                 gloss, marked as such and checked against the standard translations. Where the absence of a
-                feature is load-bearing, it was reconfirmed by direct database counts and searched
+                feature is decisive, it was reconfirmed by direct database counts and searched
                 concept-first, without the proper name. Three readers coded each feature independently and the
                 codings were reconciled; agreement was {rel.unanimous_h0h1} of {rel.features} on the
                 canon-versus-commentary reading (Fleiss <em>κ</em> = {rel.fleiss_kappa}, almost perfect) and
@@ -3100,7 +3559,7 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 more destiny in the cycle of rebirth beside the heavens and hells. The early texts draw both
                 lines differently. Uttarakuru is one of four continents set in a single ocean around one
                 central mountain, and the people born there are <em>manussā</em>, "humans," the same word the
-                texts use for us; in the comparison that ranks them, the gods are named as a separate class,
+                texts use for human beings here; in the comparison that ranks them, the gods are named as a separate class,
                 never folded in with the continent-dwellers. So the early cosmos has a horizontal axis, the
                 human plane spread across four continents in their salt sea, and a vertical one, the ladder of
                 rebirth-destinies. Uttarakuru sits on the horizontal axis, a far country on the same earth
@@ -3113,8 +3572,8 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 work: Uttarakuru is one entry in a nested cosmology of a thousand world-systems, named off as
                 one of the four and nothing more. The third, the Tiṭhānasutta (AN 9.21), is different in kind,
                 and already carries the asymmetry the whole question turns on. The Uttarakuru humans surpass
-                both the gods of the Thirty-Three and the humans of our own continent in three respects, while
-                our continent surpasses both in three respects of which the third is <em>idha
+                both the gods of the Thirty-Three and the humans of Jambudīpa in three respects, while
+                Jambudīpa surpasses both in three respects of which the third is <em>idha
                 brahmacariyavāso</em>, "the holy life is lived here." Even here the inhabitants get only bare
                 predicate-words, without mine-making, without possessions, of fixed life-span, and the span,
                 though fixed, is given no figure. The early canon offers a named continent, a propertyless
@@ -3157,9 +3616,9 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 Above the early floor the literal-place reading thickens, and on the corpus's stratum map it
                 begins to thicken before any commentary speaks. First the continent is described: located by
                 Mount Neru and peopled by humans who eat rice that ripens unsown, in the late protective chant
-                of the Āṭānāṭiya (DN 32). The register is the load-bearing fact here, since a protective chant
+                of the Āṭānāṭiya (DN 32). The register is the governing fact here, since a protective chant
                 tolerates a vivid concretisation that doctrinal-analytical prose does not, and the late canon's
-                first solid picture of the place comes to us inside one. Then the continent is visited: in the
+                first solid picture of the place appears inside one. Then the continent is visited: in the
                 verse of the Apadāna it is named in a roll of lands the arahants reach, and in the Vinaya's
                 frame-narratives it becomes a place the Buddha flies to for alms. In the famine at Verañjā the
                 elder Moggallāna offers to lift the whole community to Uttarakuru where the rice ripens unsown,
@@ -3240,8 +3699,8 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
               <p>
                 If the descriptive furniture is borrowed, the judgement built on it is, on the evidence to
                 hand, not. The whole soteriological load rests on AN 9.21, where the most fortunate humans in
-                the cosmos hold precisely the comforts of virtue while the path is reserved for our own
-                continent. In the corpus's reference table this load-bearing sutta has no non-Pāli parallel, so
+                the cosmos hold precisely the comforts of virtue while the path is reserved for Jambudīpa,
+                this continent. In the corpus's reference table this pivotal sutta has no non-Pāli parallel, so
                 the specific ranking reads as local to the Pāli, and the move that fixes it sharpest is the
                 commentary's. The guard belongs in print: "no linked parallel" is not "Theravāda-invented." A
                 missing parallel is evidence about the reference table, which under-covers exactly the
@@ -3417,7 +3876,7 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 by mindfulness, and by this: that the holy life is lived here (<em>idha brahmacariyavāso</em>).
                 The structure carries the thought by itself. Uttarakuru's three superiorities are exactly the
                 comforts; Jambudīpa's third is the path. The most fortunate humans in the cosmos hold
-                precisely the fruits of virtue, and the path is reserved for our own continent.
+                precisely the fruits of virtue, and the path is reserved for Jambudīpa.
               </p>
               <p>
                 What the commentary adds is not the paradox but its verdict. The canonical Abhidhamma, in the
@@ -3615,7 +4074,7 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 being: a serpent that keeps the sabbath, hears the Dhamma, and can take human shape, yet
                 cannot win the path while it remains a nāga. This study asks what the canon holds a nāga to be,
                 ontologically and soteriologically, and how the Aṭṭhakathā and Ṭīkā systematize that picture.
-                A first finding is lexical and load-bearing: <em>nāga</em> is a heteronym, and a bare search is
+                A first finding is lexical and central: <em>nāga</em> is a heteronym, and a bare search is
                 a trap. Of {candTotal} corpus rows carrying a genuine <em>nāga</em>-token, only {led.serpent.total}
                 {' '}({Math.round((led.serpent.total / candTotal) * 100)} percent) use it of the serpent-being;
                 the rest are the bull-elephant, the monk Nāgasena and his namesakes, the honorific of a sage,
@@ -3680,7 +4139,7 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 from the Pāli windows; a 124-row subsample was triple-coded to measure reliability, which was
                 almost perfect (Fleiss <em>κ</em> = {iaa.fleiss_kappa}, {iaa.all_three_agree} unanimous). The
                 remaining ambiguous rows and the commentary were single-coded against that validated codebook.
-                The fourteen load-bearing spine passages were quote-verified against the source; the other
+                The fourteen spine passages were quote-verified against the source; the other
                 rows are confirmed to exist as live passages but their quotes were not individually
                 re-confirmed. Every "no canonical warrant" verdict is read as located, not absolute; the
                 Limitations state the recall floor that bounds it.
@@ -3733,12 +4192,12 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
               <h2 style={h2}>In the late canon</h2>
               <p>
                 Above that floor two things the early discourses leave implicit are made explicit, and both come
-                to us inside the later canonical strata. First the cosmological place is fixed. The
+                down inside the later canonical strata. First the cosmological place is fixed. The
                 Āṭānāṭiya-sutta sets the nāga-host as one of the four guardian armies of the quarters, beside the
                 yakkhas, gandhabbas, and kumbhaṇḍas (<Cite id="dn32">DN 32</Cite>), and the Mahāsamaya lists the
                 nāgas among the orders of beings gathered before the Buddha and has him make peace between the
                 nāgas and their standing enemy the garuḷa (<Cite id="dn20">DN 20</Cite>). The register is
-                load-bearing here: both are protective and assembly texts, the late-canonical layer of the Dīgha,
+                decisive here: both are protective and assembly texts, the late-canonical layer of the Dīgha,
                 and the nāga's first solid placement in the cosmic census comes inside one.
               </p>
               <p>
@@ -3943,7 +4402,7 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
               <p style={tableCaption}>
                 Commentary rows take the structural layer as a coarse stratum (Aṭṭhakathā as classical
                 commentary, Ṭīkā as sub-commentary, extra-canonical as paracanonical); the independence is
-                load-bearing within the canonical rows, where {mulaS['classical-commentary']} mūla-shelved rows
+                decisive within the canonical rows, where {mulaS['classical-commentary']} mūla-shelved rows
                 are in fact the Visuddhimagga, {mulaS['late-canonical']} are late-canonical, {mulaS['abhidhamma-canonical'] || 0}
                 {' '}Abhidhamma, and {mulaS['paracanonical'] || 0} paracanonical. The register-relative
                 assignments are held at lower confidence, as the Limitations note.
@@ -3951,7 +4410,7 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
 
               <h3 style={h3}>Canon and commentary, cell by cell</h3>
               <p>
-                The distributional result has a qualitative mechanism, which a close reading of the load-bearing
+                The distributional result has a qualitative mechanism, which a close reading of the decisive
                 cells makes precise. These cells are the claims where both a canonical locus and a commentarial
                 treatment sit on the verified spine; they are an analyst-selected set, not a warrant-tally over
                 every commentarial claim, so the count characterizes the spine, not the whole census. For each
@@ -3961,7 +4420,7 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 innovations (H1) cluster, and they cluster tellingly, in the apparatus: the Abhidhamma
                 rebirth-linking, the physical habitat, the doctrinal ground of the ceiling, the expanded
                 reversion list, and the broadened category of the barred. Across the {hh.decidable_cells}
-                {' '}load-bearing cells, {hh.H0} are faithful and {hh.H1} are located innovations; each "none
+                {' '}decidable cells, {hh.H0} are faithful and {hh.H1} are located innovations; each "none
                 located" refutes a warrant search, not a doctrinal entailment.
               </p>
               <div style={tableWrap}>
@@ -4058,7 +4517,7 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 almost-perfect agreement; the rest of the ambiguous rows and the whole commentary were
                 single-coded against that validated codebook, so the commentary's sense-counts carry the
                 codebook's reliability but not a per-row second opinion. The warrant-by-cell test is a close
-                reading of the load-bearing spine, not a tally over every commentarial claim. The chronological
+                reading of the central spine, not a tally over every commentarial claim. The chronological
                 stratum is coded from each row's work and position; where the assignment rests on genre or
                 frame-position rather than a secured date (the Vinaya frame-narratives, the late Dīgha
                 protective and assembly texts, the archaic verse), it is held at lower confidence, so the

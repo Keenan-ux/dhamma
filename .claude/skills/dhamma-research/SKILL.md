@@ -94,15 +94,49 @@ a line for the Limitations section.
    **Search the morphological STEM, not the surface string** — Pāli declension lengthens the final vowel
    (`uttarakuru` → `uttarakurūnaṁ / -su`), so a short-vowel substring silently drops the long-vowel forms;
    and run a **concept-independent / periphrasis pass** for any "no canonical warrant" claim, because a
-   concept can be canonical without the name. **Log every query** (`term · mode · scope · pitaka · layer ·
+   concept can be canonical without the name. **Absence of a TERM is not absence of the PHENOMENON**:
+   before writing "X is purely commentarial," check whether the canon describes the thing in *other*
+   words (the commentary's *upacāra-samādhi* "access concentration", 0 canon, names a hindrance-free
+   pliant mind the canon already describes unlabelled — *vinīvaraṇacitta* / *kallacitta*, ~25 canon
+   rows). The label and tiering may be late while the phenomenon is canonical; keep the licence narrow
+   (this licenses "the label is late", not "the technical distinction is canonical"). And **pre-stage the
+   verification pass while the bulk count runs serially**: a long enumeration is a prep window, so author
+   the sense-audit samples, the stratum-splits, and the compound-vs-simplex checks before the numbers
+   land, so verification fires on arrival instead of reacting to a count that "looks wrong." **Log every
+   query** (`term · mode · scope · pitaka · layer ·
    endpoint · result-count`) and report the **search-depth ladder** (exact-FTS < short-substring < stem) as
    a first-class finding: recall is a measured variable, not an assumption.
+   **Recall must exceed the question: run the wide discovery sweep (`@PROVENANCE-SIGNATURE.md` §3.6).**
+   The morphological ladder widens *vertically* on the term the question names; the sweep widens
+   *horizontally* across the rival vocabularies it did not — concept-neighbourhood expansion, an
+   ASCII-invisibility check (long-ā / retroflex families a diacritic-naive search drops), co-text
+   bootstrapping, a negative-space pass, and at least one **serendipity pass** told to ignore the question
+   and report anything of general importance to another field. **Per-family sense-audit is mandatory:**
+   every family the sweep promotes climbs its own ladder and is sense-audited on sampled rows before its
+   count is believed — a high count of an abstract term is a doctrinal-list / homograph lexeme until proven
+   otherwise (`%carita%` = 224 canon rows, all conduct, 0 temperament; `anusaya` / `cetopariya` are mostly
+   fixed lists, not person-typing). A count whose sense you have not read is not yet a count.
+   **Scale to an enumeration fleet for contested points — the headline question AND any sub-question or
+   clarification that earns it** (a list to audit, a phrase to chase, a "how much is enough" debate).
+   Fan out ~12–20 reasoning lenses that *only enumerate* (hundreds to thousands of stems + loci + an
+   inference path per avenue; the limited-samādhi pass: 3,045 terms / 317 avenues), then take advantage
+   of **every** avenue, not a decisive subset. **Hard rule (the reason/execute split):** the fleet agents
+   reason about WHAT to search and never query; the orchestrator executes serially against `dhamma-pg`
+   via the proxy + `sql.py` (NEVER the live `/api/*`, which cold-starts ~38 s and has no concurrency
+   guard), sense-audits every count, and reads the priority loci. See `@PROVENANCE-SIGNATURE.md` §3.6.
 4. **Re-triage, then saturation stopping rule.** Run PASS B: re-evaluate the trip-wires on the *discovered*
    claims and add any fired axis with a logged warrant (an obviously-missing axis is a root gap to close
    here, not a Limitations line). Then loop-until-dry: keep adding strategies until **≥2 consecutive rounds
    find nothing new**; reconcile against external lists (secondary scholarship's cited passages, adjacent
    datasets); k≥3 blind coders sweep and union. Target "zero missed"; **claim only "saturated + measured"** —
    never assert unprovable completeness; report the residual recall risk.
+   **Cross-read the axes to find the spine, and let the question be demoted.** The signature axes are the
+   pattern substrate: read the wide field *across* axes (not down the one the question assumed) and let the
+   *data* pick the spine — the axis with the sharpest split; rivals reported as runners-up. If the wide
+   field shows the framing was searching one corner of a larger field, **re-spine and say so**: "demoted to
+   a special case" / "the real unit is X" is a first-class result, not a failure (the carita study's
+   chronology question was correct but demoted under the master function-vs-essence axis). Freeze the
+   *selection rule*, not the answer-axis, so this stays un-bucket-fittable.
 5. **Code blind, measure agreement.** k≥3 independent coders classify the per-instance fields; report IAA
    per field; adjudicate + log disagreements. **Per-claim-granularity gate:** a work→code lookup (e.g.
    `WORK_ATTRIBUTION[work]`) is a *recall aid for seeding candidates*, never the recorded code. Any
@@ -195,3 +229,14 @@ Confidence-tag every claim. Keep canon / commentary / secondary separate. State 
 they don't (e.g. the texts hold *carita* is teacher-assigned, not self-diagnosed — never output a single
 "your answer is X" verdict). When the tool was unavailable, say so; don't dress an unfound result as a
 proven negative.
+**Never discard a finding; the only question is where it is filed.** Include always, decide only where.
+A surprising, orthogonal, or off-question count is never dropped — it routes to an existing slot: the
+standing general-importance section for patterns beyond the question (`@WRITING-STANDARD-READABILITY.md`
+§5.8), a footnote/appendix for an in-scope-but-minor split, or an explicit "recorded, not used in the
+thesis" note for a count you discounted but want on record. This includes the **granularity surprise**:
+when a coarse code hides a boundary that is itself a finding about where a concept lives (a term
+near-zero in the suttas but heavy in Abhidhamma+commentary, masked by a bucket lumping Abhidhamma with
+the Nikāyas; cf. `@PROVENANCE-SIGNATURE.md` I.1), split it and file the split even though the study did
+not ask it. Every filed find still earns the §5.8 gate (what / where / whence + a confidence tag), so
+this stays a filing rule, not a dumping ground — never folded into the paper's own thesis, never
+silently dropped.
