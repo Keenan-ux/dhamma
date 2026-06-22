@@ -782,6 +782,30 @@ the flaky search lane (the search lane over/under-matches). Publish the ladder a
 a Methods table: one row per rung, columns = rung · query/strategy ·
 mode·scope·layer · yield · delta-over-prior · residual-risk note.
 
+**RUNG 5 — counting hazard: the corpus double-ingests the canon.** Canonical content
+is ingested under *two* id schemes, the SuttaCentral bilara-data ids and the CST ids,
+so a single early sutta is *two* passage-rows (the 84,000-yojana Sineru measure of
+AN 7.66 is `an7.66` **and** `cst-s0403m3.mul-an7_3`; the whole Khuddaka is re-ingested
+a second time under the `pli-kn` catch-all slug, duplicating the dedicated `pli-dhp` /
+`pli-nd` / `pli-mil` / … slugs). Counts are passage-rows, so two consequences bite:
+(a) **early-stratum counts are inflated ~2× by the SC+CST duplication**, while the
+commentary and sub-commentary strata are CST-only — so the duplication *understates*
+the canon-vs-commentary contrast rather than overstating it, never moves a
+zero-vs-present headline (a 0 stays 0), and where it bites it only thins the real
+canonical presence further, *strengthening* a "commentarial" verdict (the IG cosmology
+supports got cleaner once this was named). (b) **the `pli-kn` catch-all mixes strata
+and double-counts** — it holds the whole Khuddaka (early Dhp/Ud/… *and* late
+Niddesa/Apadāna *and* para Milinda/Netti), each sub-work also under its own slug, so
+re-bucketing `pli-kn` by sub-work would double-count against the dedicated slugs. The
+right fix is to **exclude it** and freeze the per-id disposition as a reviewable
+artifact (`KN-STRATUM-MAP.json`); the IG carita compound fell 53→43 once de-duplicated,
+headline (0 four-Nikāyas / 0 Abhidhamma) untouched. And `work_slug` **≠** `work_role`:
+the **Visuddhimagga is `work_slug='pli-vism'` but `work_role='mula'`** (structurally
+mula-tagged though commentarial in stratum), so the same term reports different
+attha/vism/tika splits under the two columns. Pick one grouping, declare it, and
+reconcile the other in a short note (the IG `RECONCILIATION.md` is the worked example).
+A passage-row count whose double-ingest you have not accounted for is not yet a count.
+
 **Honesty guard.** Never assert unprovable completeness; claim only "saturated +
 measured", and publish the ladder so the residual recall risk between the last
 rung and true totality is visible. Reconfirm every negative by SQL. A skipped

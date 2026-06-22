@@ -66,6 +66,12 @@ a line for the Limitations section.
 4. **Reconfirm load-bearing negatives by SQL** (via `flyctl proxy 15432:5432 --app dhamma-pg`). A claim
    like "X never appears in the canon" must be a `GROUP BY work_role` count, not a search impression —
    the search lane is flaky and over/under-matches (it has been wrong before; see the `kammaṭṭhāna` case).
+   Counts are **passage-rows**, and the corpus **double-ingests the canon** under two id schemes
+   (SuttaCentral + CST): early-stratum counts run ~2× (commentary is CST-only, so the contrast is
+   *understated*, never a moved headline), and the `pli-kn` Khuddaka catch-all mixes strata and
+   double-counts the per-work slugs (exclude it, don't re-bucket). Also `work_slug` ≠ `work_role` (the
+   Visuddhimagga is `pli-vism` but `work_role='mula'`). Account for all three — see `@PROVENANCE-SIGNATURE.md`
+   RUNG 5.
 5. **Drive the API serially and gently.** The box has no concurrency guard; fan-out crashes it. Within
    any agent, one request at a time; prefer `exact`/`stem` (FTS) over `meaning`; use `meaning` sparingly.
 6. **A study is a living document, not an append log — the reader meets one paper, not a changelog.**
@@ -124,6 +130,13 @@ a line for the Limitations section.
    reason about WHAT to search and never query; the orchestrator executes serially against `dhamma-pg`
    via the proxy + `sql.py` (NEVER the live `/api/*`, which cold-starts ~38 s and has no concurrency
    guard), sense-audits every count, and reads the priority loci. See `@PROVENANCE-SIGNATURE.md` §3.6.
+   **Enforce the split mechanically, do not merely instruct it:** default workflow/subagent tooling carries
+   Bash + flyctl + psycopg2, and an agent told to "verify against the rows" WILL extract `DATABASE_URL` and
+   fire its own concurrent full-scan queries — which wedges `dhamma-pg` (observed 2026-06-22: a 24-agent
+   adversarial-verify workflow left ~36 zombie `state='active'` backends, oldest 19 min). Forbid
+   Bash/flyctl/psycopg2 in the agent prompt (or use a read-only/no-tools agent type) and pass the rows and
+   counts **inline**; only the orchestrator touches the DB. Recovery if it happens:
+   `pg_terminate_backend` on the stale `pg_stat_activity` rows (lighter than a `dhamma-pg` restart).
 4. **Re-triage, then saturation stopping rule.** Run PASS B: re-evaluate the trip-wires on the *discovered*
    claims and add any fired axis with a logged warrant (an obviously-missing axis is a root gap to close
    here, not a Limitations line). Then loop-until-dry: keep adding strategies until **≥2 consecutive rounds
