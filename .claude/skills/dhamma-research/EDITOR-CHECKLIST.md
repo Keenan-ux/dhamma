@@ -30,6 +30,14 @@ tag exactly. Output the edited text plus a short list of the categories you chan
   into two plain sentences**, let one land flat, kill the antithesis-with-payoff rhythm. Treat any
   comma-spliced clever reversal as a rewrite target, not just any em-dash. (This is craft, not find/replace:
   vary the rhythm so no sentence is built to deliver a twist.)
+- **The comma-splice / stacked-appositive fallback (the em-dash's afterlife).** Removing an em-dash and
+  reaching for a comma is not a fix when the comma then carries a splice (two independent clauses joined by
+  a comma) or a third and fourth stacked appositive (`the body-witness, the one who has touched the
+  liberations, the deep attainments, the formless states, with the body`). The dash is gone but the same
+  breathless, clause-piled cadence remains, and it reads just as machine-made. **Recast with a period, a
+  semicolon, or a restructured sentence**, not a comma. A sentence that has grown three or more commas
+  doing structural work (not a simple list) is a rewrite target: split it, or promote one clause to its own
+  sentence. Test: read it aloud; if you cannot take a breath without the meaning collapsing, it is over-built.
 - **The "not just X, it's Y" / "isn't merely A but B" frame.** Over-used contrastive scaffolding. State
   the claim directly.
 - **Inflated diction:** delve, tapestry, underscore, multifaceted, nuanced (as filler), realm, landscape,

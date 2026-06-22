@@ -1295,8 +1295,8 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               <p style={abstractLead}>
                 <span style={abstractTag}>Background.</span> The Pāli canon's earliest layer teaches in one
                 register. Its later literature teaches in another. The early discourses read what is presently
-                the case and answer it as the situation needs. They watch the root now active in a mind. They
-                weigh how far a person's faculties have ripened. They place the whole world inside the
+                the case and answer it as the situation needs. They watch the root now active in a mind, weigh
+                how far a person's faculties have ripened, and place the whole world inside the
                 fathom-long body. The thousand years of Abhidhamma, commentary, and sub-commentary that follow
                 fix that supple teaching into closed systems: standing types and named tiers, closed lists and
                 measured quantities. This study began with a narrow question. It asked how the canon matches a
@@ -1368,7 +1368,14 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 vocabularies of person-individuation the word <em>carita</em> does not name (the present-root
                 sort, faculty-maturity, learner-type, liberation-mode, dispositional diversity), and every such
                 family was sense-audited on sampled rows before its count was trusted, since an abstract term's
-                raw count is often a fixed doctrinal list rather than a way of telling persons apart. Within the
+                raw count is often a fixed doctrinal list rather than a way of telling persons apart. A
+                diacritic-naive substring search compounds that risk in both directions. A bare search for{' '}
+                <em>carita</em> returns 224 canonical rows that are all the ordinary conduct word
+                (<em>sucarita</em>, <em>duccarita</em>) or the verb "having wandered," with no temperament-type
+                among them; the same search is blind to the whole seven-person liberation roster, whose terms
+                carry the long vowels and retroflexes a plain search drops, so an early systematized scheme can
+                hide in plain sight under the diacritics. The recall floor here is set by reading sampled rows and
+                by widening the search to the diacritic-bearing forms, not by any substring tally. Within the
                 tradition's own closed lists (the four understanding-types, the antidote formula, the six
                 temperaments, the object inventory) the enumeration is saturated, repeated passes surfacing no
                 new member, and it was reconciled against the passages cited in the secondary literature;
@@ -1376,7 +1383,12 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 further instance. The Khuddaka Nikāya is ingested twice in the corpus, once under each work
                 and once under a single catch-all slug; the counts here de-duplicate the catch-all, so the
                 disambiguated temperament compound stands at forty-three structurally-canonical rows rather
-                than the fifty-three a naive slug tally returns. Renderings of commentary and Abhidhamma are the author's own, since the corpus
+                than the fifty-three a naive slug tally returns. Where a count appears with different figures
+                across the project's working documents, the difference is one of grouping (the corpus carries both
+                a work-slug and a structural mula tag, and the Visuddhimagga is slug-Visuddhimagga but
+                structurally mula-tagged) or of edition vintage (the commentary and sub-commentary were later
+                subdivided into paragraph rows); the headline of each finding holds under every grouping.
+                Renderings of commentary and Abhidhamma are the author's own, since the corpus
                 carries no published English for those layers; they are checked against Ñāṇamoli for the
                 Visuddhimagga and B. C. Law for the Puggalapaññatti.
                 </p>
@@ -1443,11 +1455,11 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 of calm and insight, <em>yuganaddha</em>, developed together rather than split into vehicles
                 (<Cite id="an4.170">AN 4.170</Cite>), and across the discourses reached it never assigns insight
                 alone, as a standing practice, to a named person; the dry-insight worker is a later figure.
-                Second, two terms that look like early "disposition" vocabulary, <em>anusaya</em> (latent
-                tendency) and <em>cetopariya</em> (the knowledge of others' minds), are in the canon mostly fixed
-                doctrinal lists, the seven latent defilements every unawakened being carries and the
-                psychic-power item of knowing a mind's present state, not ways of telling one person's standing
-                type from another's, and are not counted here as individuation. What the early layer does, it
+                Second, two terms that look like early "disposition" vocabulary are in the canon mostly fixed
+                doctrinal lists. <em>Anusaya</em> (latent tendency) names the seven latent defilements every
+                unawakened being carries; <em>cetopariya</em> (the knowledge of others' minds) names the
+                psychic-power item of reading a mind's present state. Neither is a way of telling one person's
+                standing type from another's, and neither is counted here as individuation. What the early layer does, it
                 does by verb and present participle and by rosters keyed to capacity and route. The
                 temperament-type word is simply not here: the six-temperament <em>carita</em> compound is
                 attested zero times in the four Nikāyas.
@@ -1566,10 +1578,10 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 inference could not, that the monk had worked beautiful gold for five hundred past lives, judges
                 the repulsive object unfit and gives him a golden lotus to contemplate instead, on which he
                 attains at once (<Cite id="cst-s0502a.att-234_p003">Dhp-a</Cite>). Sāriputta is foremost among
-                the disciples in wisdom, and wisdom is exactly not what fails here: reading a person's disposition
-                is a different cognition, the knowledge of beings' bent and the ripeness of their faculties, which
-                belongs to the Buddha's powers and not to analysis. The story is the epistemic point in narrative
-                form.
+                the disciples in wisdom, and wisdom is not what fails him here. Reading a person's disposition is
+                a different cognition. It is the knowledge of beings' bent and the ripeness of their faculties,
+                which belongs to the Buddha's powers and not to analysis. The story is the epistemic point in
+                narrative form.
               </p>
               <p>
                 And in the same breath the manual that fixes the grid declines to certify its most detailed part.
@@ -1764,7 +1776,8 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 (<em>khaṇika-samādhi</em>). The word <em>upacāra</em> is canonical, but there it means a vicinity
                 or an approach, the outskirts of a village, the near company of women; the sense "access
                 concentration," a sub-absorption threshold, is a commentarial coinage, found only from the
-                aṭṭhakathā onward (38 rows there, 39 in the Visuddhimagga, against zero in the canon). So whether
+                aṭṭhakathā onward (38 rows in the aṭṭhakathā and 22 in the Visuddhimagga, 58 more in the
+                sub-commentary, against zero in the canon). So whether
                 the concentration that carries a stream-enterer is a full absorption or a sub-absorption access
                 is a question the canon leaves open. It grades concentration by degree and stops there; the
                 naming of discrete levels below absorption is, once again, the work of the commentary.
@@ -1979,32 +1992,27 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 long-running scholarly question of when Theravāda acquired a substantialist ontology. Confidence:
                 high.
               </p>
-              <h3 style={h3}>G2. An early canonical law of assortative association</h3>
+              <h3 style={h3}>G2. An early canonical principle of assortative association</h3>
               <p>
-                In the Saṃyutta the Buddha states, of beings in general, that by way of disposition beings flock
-                together and keep company (<em>dhātuso sattā saṃsandanti samenti</em>), the low-minded with the
-                low-minded, the virtuous with the virtuous, the faithless with the faithless
-                (<Cite id="sn14.14">SN 14.14</Cite>, with SN 14.22 and SN 14.25; seventeen canonical rows carry
-                the formula). The combining is associative, the company a being seeks and falls into, not kinship
-                or mating. It is an explicit homophily principle with a named mechanism, shared <em>dhātu</em> or
-                disposition, asserted as a continuous law of how beings assort before any finite catalogue of
-                person-types exists. It has nothing to do with matching a practice to a person; it is a canonical
-                sociology of association, of interest to anyone studying how a tradition theorizes social
-                grouping. Confidence: high.
+                In the Saṃyutta the Buddha states, of beings in general, that by disposition beings flock
+                together and keep company (<em>dhātuso sattā saṃsandanti samenti</em>): the low-minded consort
+                with the low-minded, the virtuous with the virtuous, the faithless with the faithless
+                (<Cite id="sn14.14">SN 14.14</Cite>, running on through the Dutiyavagga; seventeen canonical rows
+                carry the formula). The combining is associative, the company a being seeks and falls into, not
+                kinship or mating. The mechanism is named, a shared <em>dhātu</em> or disposition, and the formula
+                is run through some sixteen dispositions in turn, the faithless, the shameless, the
+                unconscientious, the unlearned, the lazy, the unmindful, the witless, and their opposites, so the
+                canon asserts it as a continuous regularity before any finite catalogue of person-types exists.
+                One guard is owed, because the same collection trades on two senses of the word. A few suttas
+                earlier the Dhātu-saṃyutta uses <em>dhātu</em> in its other, technical sense, the eighteen
+                elements of cognition (the eye-element, the form-element, the eye-consciousness-element, the
+                diversity-of-elements teaching of its first chapter); the homophily formula is the disposition
+                sense, not that one, and the seventeen rows counted here are the disposition formula read on the
+                page, not the element-diversity suttas. So read, the finding is a canonical sociology of
+                association, of interest to anyone studying how a tradition theorizes social grouping, and bearing
+                not at all on the matching of a practice to a person. Confidence: high.
               </p>
-              <h3 style={h3}>G3. A reusable diacritic-and-substring trap in corpus search</h3>
-              <p>
-                A diacritic-naive substring search miscounts in both directions, and this study is a clean
-                demonstration. It over-recalls: a bare search for "carita" returns 224 canonical rows, every one
-                of them the ordinary conduct word (<em>sucarita</em>, <em>duccarita</em>) or the verb "having
-                wandered," with zero temperament-types among them. And it under-recalls: it is blind to the
-                entire seven-person liberation roster (<em>ubhatobhāgavimutta</em>, <em>paññāvimutta</em>,{' '}
-                <em>kāyasakkhi</em>, <em>diṭṭhippatta</em>, <em>saddhāvimutta</em>, <em>dhammānusārī</em>,{' '}
-                <em>saddhānusārī</em>), whose terms all carry long vowels and retroflexes a plain search drops. The lesson generalizes to any corpus with rich morphology: a high count of an
-                abstract term is a category or list word until its sense is read on sampled rows, and an early
-                systematized scheme can hide in plain sight under diacritics. Confidence: high.
-              </p>
-              <h3 style={h3}>G4. A describe-early, name-late signature in scholastic terminology</h3>
+              <h3 style={h3}>G3. A describe-early, name-late signature in scholastic terminology</h3>
               <p>
                 Repeatedly the practice is canonical while the technical noun that names it is commentarial. The
                 graduated talk is given in the discourses long before "graduated talk" becomes a fixed term; the
