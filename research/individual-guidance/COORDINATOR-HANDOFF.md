@@ -70,6 +70,20 @@ CASE
   one AN 7.66 verse). Commentary strata are CST-only, so the contrast is understated, not overstated; no
   zero-vs-present headline affected. Relevant to ITEM 2 (pli-kn is also double-encoded).
 
+**ITEM 2 — DONE (2026-06-22, committed 562a86e, pushed + deployed, smoke green).**
+- `pli-kn` (267 rows) = a coarse CST re-ingest of the WHOLE Khuddaka; every sub-work also has a dedicated
+  slug (verified concretely on carita: pli-kn kn15/16/18/19/20 = cnd19/mnd14/mnd16/ne/pe/mil). The fine CASE
+  lumped all 267 into 2late, mis-bucketing 95 early-Khuddaka rows + double-counting 172 late/para rows.
+- Decision: because pli-kn is fully duplicated, "without double-counting" forces EXCLUSION (each Khuddaka row
+  counted once via its dedicated slug). Frozen `KN-STRATUM-MAP.json` (95 1early-dup / 150 2late-dup / 22
+  4para-dup). `run_cosmology.py --case fixed` -> `COSMOLOGY-COUNTS-FIXED.json`.
+- Re-run diff: ONLY 2late drops (by exactly the pli-kn contribution); 1early/3abh/4para/5comm/6tika untouched;
+  NO zero-vs-present headline moves; no cosmology verdict changes. Documented in `KN-REBUCKET.md`.
+- Paper magnitudes corrected: carita compound 53 -> **43** (de-dup; still 0 four-Nikāyas + 0 Abhidhamma, 30
+  Vism), kammaṭṭhāna 148 -> 147, in §V of FINDINGS-readable.md + ResearchView.jsx + the repro apparatus.
+  HARDENING-CENSUS sabhāva 2late 42 -> 18. **HANDOFF TO ITEM 3:** FINDINGS-v2.md still carries the old carita
+  53/30 in its recall ladder + abstract; propagate 53->43 there as part of the carita-framing reconciliation.
+
 ## 4. Verification commands + EXPECTED outputs
 - `curl -s https://dhamma.fly.dev/api/dbcheck` → `passages: 194710, pgvector: true`.
 - `curl -s -o /dev/null -w '%{http_code}' https://dhamma.fly.dev/api/research` → `401` (admin-gated; expected).
@@ -95,7 +109,8 @@ GOAL: a gated, sense-audited `COSMOLOGY-CENSUS.md` matching HARDENING-CENSUS rig
 - STOP WHEN: COSMOLOGY-CENSUS.md holds ≥15 sense-audited transitions each with stratum counts + a read-rows
   note + a verdict; prereg scored; §VII + both files updated and synced; build+deploy+smoke green.
 
-**ITEM 2 — Re-bucket the Khuddaka `pli-kn` slug.** GOAL: the late-canonical bucket no longer mixes strata.
+**ITEM 2 — Re-bucket the Khuddaka `pli-kn` slug. ✅ DONE — see §3 ledger (562a86e, deployed).**
+GOAL: the late-canonical bucket no longer mixes strata.
 - Investigate what `pli-kn` (267 rows) actually contains by citation/id, and check the Niddesa/Netti
   double-ingest (`pli-nd`/`pli-ne` vs `pli-kn` kn15/kn16/kn19). Re-code the harness CASE to assign by
   sub-work: early Khuddaka → 1early, late Khuddaka (Niddesa/Paṭis/Apadāna/Bv/Cp/Vv/Pv) → 2late,
@@ -151,7 +166,8 @@ sense-audit reasoning, per-section de-comma recasts) but apply edits yourself an
   "spot-check" (it never did; "freshly-counted sample" upgraded to "now counted the same way" + census
   pointer); smoke + new-citation 200s (an7.66, snp1.8). The 84k-Sineru correction is logged as a falsified
   prereg leg, not a silent fix.
-- ITEM 2: re-run a known cosmology term under the old vs new CASE and confirm only late-canonical magnitudes
-  move; headlines stable; mapping artifact committed.
+- ITEM 2 ✅: re-ran every census term under old vs new CASE (COSMOLOGY-COUNTS.json vs -FIXED.json) — only
+  2late moves, by exactly the pli-kn contribution; headlines stable; KN-STRATUM-MAP.json committed. Carita
+  53→43 and sabhāva 42→18 corrected; no headline overturned.
 - ITEM 3: grep the paper for the reconciled numbers (consistent); G3 no longer under "general importance";
   EDITOR-CHECKLIST carries the comma rule; a spot read of §§II–VI shows no comma-splice/stacked-appositive runs.
