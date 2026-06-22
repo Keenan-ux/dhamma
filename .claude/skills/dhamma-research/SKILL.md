@@ -48,9 +48,19 @@ a line for the Limitations section.
 
 ## Hard rules (the spine)
 
-1. **Pre-register before you look.** Freeze `RESEARCH-DESIGN.md` (master question, falsifiable
-   hypotheses incl. an explicit H0/H1 counter-hypothesis, a **codebook** defining every coded field,
-   scope, edition) *before* the full census. No post-hoc bucket-fitting.
+1. **Pre-register before you look — and if you already looked, pre-register the *rule*.** Freeze
+   `RESEARCH-DESIGN.md` (master question, falsifiable hypotheses incl. an explicit H0/H1
+   counter-hypothesis, a **codebook** defining every coded field, scope, edition) *before* the full
+   census. No post-hoc bucket-fitting. The discovery-sweep-first flow (§3.6) means a seed often *already
+   exists* when you write the prereg; that is fine and must be **disclosed** — the prereg's value is then
+   the frozen **decision rule + falsifiable predictions + audit protocol**, not data-blindness. Three
+   disciplines pay off: (a) **pre-commit a minimum count of disconfirming cases** as a falsification leg
+   (e.g. "≥3 of the audited transitions must run counter, or H0 wins") — this makes suppressing
+   counter-cases a pre-registered *failure*, not a choice, and is the single highest-yield honesty device;
+   (b) **score every prediction verbatim afterward**, PASS and FAIL alike; (c) **a falsified prediction is
+   a logged deliverable, not a silent fix** — when the data overturns a prereg leg (the IG cosmology's
+   AN 7.66 Sineru figure falsified the draft's "Sineru's height is sub-commentarial"), record it as a
+   scored-and-falsified leg and fold the correction openly; never quietly edit the number.
 2. **Every citation resolves to a real corpus row.** No invented passages, no half-remembered ids.
    Spot-check against `/api/passage/:id`. Fabricated evidence fails the study.
 3. **Canon vs commentary is the FIRST axis, not the only one — code the provenance signature.** The `layer`
