@@ -805,6 +805,14 @@ mula-tagged though commentarial in stratum), so the same term reports different
 attha/vism/tika splits under the two columns. Pick one grouping, declare it, and
 reconcile the other in a short note (the IG `RECONCILIATION.md` is the worked example).
 A passage-row count whose double-ingest you have not accounted for is not yet a count.
+**Use the in-DB primitives (added 2026-06-22):** `stratum(work_slug)` returns the fine
+6-stratum code (`1early`…`6tika`, `7other`=anya) from one declared place — `GROUP BY
+stratum(work_slug)` instead of re-typing the CASE — and **`WHERE is_primary`**
+de-duplicates the double-ingest in a single filter (the `pli-kn` catch-all and the
+redundant edition are flagged `is_primary=false`; both editions remain queryable, it
+is a counting aid only). Defined in `server/sql/schema.sql`; populated by
+`scripts/ingest/migrate-stratum-flags.sql`. A de-duplicated stratum count is then just
+`SELECT stratum(work_slug), count(*) FILTER (WHERE is_primary) … GROUP BY 1`.
 
 **Honesty guard.** Never assert unprovable completeness; claim only "saturated +
 measured", and publish the ladder so the residual recall risk between the last

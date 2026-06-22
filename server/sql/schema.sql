@@ -81,6 +81,41 @@ UPDATE passages SET source_edition = 'sc' WHERE source_edition IS NULL;
 CREATE INDEX IF NOT EXISTS idx_passages_edition ON passages(source_edition);
 CREATE INDEX IF NOT EXISTS idx_passages_role    ON passages(work_role);
 
+-- Research-support: a single, declared-once stratum coding + a de-dup flag.
+-- (Added 2026-06-22; see scripts/ingest/migrate-stratum-flags.sql and the
+-- research RECONCILIATION.md / KN-REBUCKET.md design notes.)
+--
+-- `stratum(work_slug)` is the fine 6-stratum chronological coding used by every
+-- corpus study (1early / 2late / 3abh / 4para / 5comm / 6tika / 7other=anya).
+-- It is a FUNCTION, not a stored/generated column, on purpose: passages is
+-- multi-GB once the embedding vectors (TOAST) are counted, so a GENERATED STORED
+-- column forces a full table rewrite that holds ACCESS EXCLUSIVE for minutes (the
+-- same cold-start hazard the HNSW comments below warn about). The function is
+-- instant, immutable, and keeps the CASE in ONE place. Use `GROUP BY stratum(work_slug)`.
+CREATE OR REPLACE FUNCTION stratum(ws TEXT) RETURNS TEXT
+  LANGUAGE sql IMMUTABLE PARALLEL SAFE AS $func$
+  SELECT CASE
+    WHEN ws IN ('pli-an','pli-sn','pli-mn','pli-dn','pli-vinaya','pli-dhp','pli-ud','pli-iti','pli-snp','pli-thag','pli-thig','pli-kp') THEN '1early'
+    WHEN ws IN ('pli-ap','pli-bv','pli-cp','pli-pv','pli-vv','pli-nd','pli-ps','pli-ja','pli-kn') THEN '2late'
+    WHEN ws = 'pli-abhidhamma' THEN '3abh'
+    WHEN ws IN ('pli-ne','pli-pe','pli-mil') THEN '4para'
+    WHEN ws LIKE '%-attha' OR ws = 'pli-vism' THEN '5comm'
+    WHEN ws LIKE '%-tika' THEN '6tika'
+    ELSE '7other'
+  END
+$func$;
+
+-- `is_primary` de-duplicates the corpus's double-ingest of the canon (the canon is
+-- ingested under BOTH source_edition='sc' = SuttaCentral and 'cst' = Chaṭṭha
+-- Saṅgāyana). To count each canonical text ONCE, filter `WHERE is_primary`. The
+-- non-primary rows are the redundant (smaller/less-complete) edition + the pli-kn
+-- Khuddaka catch-all. NOTHING is deleted; both editions stay queryable. The column
+-- (DEFAULT TRUE) is metadata-only here; the POPULATION (flipping the ~1.8k duplicate
+-- rows to FALSE) lives in scripts/ingest/migrate-stratum-flags.sql, run once outside
+-- the boot path so it never re-runs a full-table UPDATE on every server start.
+ALTER TABLE passages ADD COLUMN IF NOT EXISTS is_primary BOOLEAN NOT NULL DEFAULT TRUE;
+CREATE INDEX IF NOT EXISTS idx_passages_is_primary ON passages(is_primary) WHERE is_primary = FALSE;
+
 CREATE TABLE IF NOT EXISTS aliases (
   id          SERIAL PRIMARY KEY,
   term        TEXT NOT NULL UNIQUE,
