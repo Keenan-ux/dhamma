@@ -1706,7 +1706,13 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 body-witness and the both-ways-freed on the side that touches the eight liberations, the
                 wisdom-freed and the rest on the side that does not (<Cite id="mn70">MN 70</Cite>). So the secure
                 point is bounded: if even arahantship can be reached without the formless attainments that lie
-                beyond the four jhānas, the lower two fruits can a fortiori dispense with them. Whether
+                beyond the four jhānas, the lower two fruits can a fortiori dispense with them. The canon does not pin
+                even the jhāna route to the fourth absorption: the Jhānasutta makes the destruction of the taints
+                depend on the first jhāna and upward, each absorption and each formless base through the base of
+                nothingness a platform from which one sees the attainment's own factors as impermanent and turns the
+                mind to the deathless element (<Cite id="an9.36">AN 9.36</Cite>). The familiar sequence that mounts
+                insight from the fourth jhāna is the canon's fullest description of the route, not the lowest platform
+                it allows. Whether
                 arahantship can be reached without even the four jhānas, the fully dry-insight reading, is the
                 harder claim the canon leaves open and the commentary's <em>sukkhavipassaka</em> fills; the
                 weight on the lower-fruit floor is carried less by this a-fortiori than by the gradient, the
