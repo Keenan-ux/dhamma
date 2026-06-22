@@ -1,0 +1,729 @@
+{
+  "summary": "Enumerate Axis-2 (figurative/open -> literal/concrete) concretization candidates across the Pali cosmology and physical-claims domains, with stems for fresh stratum-verification, to scope whether the systematization study should broaden beyond person-and-practice",
+  "agentCount": 6,
+  "logs": [],
+  "result": {
+    "enumerated": [
+      {
+        "candidates": [
+          {
+            "name": "cakkavāḷa: the bounded, walled, measured world-sphere",
+            "open_form": "OPEN/hyperbolic. The bare word is all but absent from the early canon. Its ONE early-canonical occurrence (early-canon, DN 16 Mahāparinibbāna) is `cakkavāḷaparamparā`, 'a succession of world-spheres', inside a death-marvel verse about deity-crowds — a hyperbolic plurality gesture, not a delimited object. The early cosmos is gestured at as a vastness that 'shakes' (dasasahassī lokadhātu saṅkampati, MN 123/SN 56.11/DN 14), never bounded by a wall or measured.",
+            "literal_form": "LITERAL/bounded. cakkavāḷa becomes the technical bounded world-sphere: enclosed by a rim-mountain wall (cakkavāḷapabbata, 75 rows, ZERO early-canonical), with an inner ring-mountain (yugandhara, 101 rows, 2 early), a measured diameter, and a fixed inventory of continents/oceans. Concentrated in classical-commentary (attha 522) and sub-commentary (tika 214); Visuddhimagga supplies the gazetteer (vism-paracanon 25).",
+            "jump": "early-canonical hyperbolic plural (DN 16) -> classical-commentary + Visuddhimagga bounded measured sphere (Vism, Aṭṭhakathā). The materialisation is almost entirely post-canonical; the rim-wall (cakkavāḷapabbata) and ring-mountain (yugandhara) that make it a bounded object have no early-canonical warrant at all.",
+            "pali_stems": [
+              "cakkavāḷ",
+              "cakkavāḷapabbat",
+              "yugandhar",
+              "cakkavāḷaparampar"
+            ],
+            "verdict_guess": "supports",
+            "note": "Strongest single transition in the domain. Total cakkavāḷ = 831; only 2 'early-canon' bucket rows and inspection shows the genuine one (DN 16) is a hyperbolic plural in a marvel-verse, NOT the bounded sphere. cakkavāḷapabbata (the enclosing wall) = 75 rows with ZERO early-canon, isolating the bounding/measuring move as commentarial. Counts are CST-edition ILIKE totals I measured against dhamma-pg."
+          },
+          {
+            "name": "yojana-measurement of cosmic features (the measuring impulse itself)",
+            "open_form": "OPEN/unmeasured. The early canon gives cosmic features no dimensions. Continents, mountains, lakes, the cosmos are named or gestured at as vast/measureless (appamāṇa) but carry no yojana figure. yojana in the 4 Nikāyas + Vinaya = 379 of 9,084 rows (~4%), and there it measures ordinary travel distances, not cosmic architecture.",
+            "literal_form": "LITERAL/measured. Later strata pin exact yojana dimensions onto every cosmic object. yojana is overwhelmingly sub-commentarial + commentarial: tika 5,430, attha 2,458 (88% of all 9,084 rows). The specific large cosmic figures sit latest of all: caturāsīti-yojanasahassa (84,000 yojanas, the Sineru height/depth figure) = 5 rows, ALL tika; aṭṭhasahassa-yojana (8,000 yojanas, Uttarakuru) = 5 rows, attha+vism+anya, ZERO canonical.",
+            "jump": "early-canonical unmeasured vastness -> sub-commentary + classical-commentary exact yojana figures. The act of assigning a number is the concretization, and the named cosmic figures (84,000 / 8,000) appear ONLY in tika/attha/vism, never in canon.",
+            "pali_stems": [
+              "yojan",
+              "caturāsītiyojanasahass",
+              "aṭṭhasahassayojan",
+              "yojanasahass",
+              "yojanasata"
+            ],
+            "verdict_guess": "supports",
+            "note": "Cleanest measurement-concretization. The 84,000-yojana Sineru figure (caturāsīti yojanasahass) is 5/5 sub-commentarial; the 8,000-yojana continent figure is 0 canonical. Generalizes the Uttarakuru study's finding (8,000-yojana measure is para-canonical/commentarial) across the whole cosmic-architecture set. yojana overall 379/9084 early."
+          },
+          {
+            "name": "Sineru / Mahāmeru: the cosmic axis-mountain",
+            "open_form": "OPEN/sparse. The central mountain barely registers early: sineru = 13 of 434 rows early-canon; mahāmeru (the grand-Meru honorific compound) = only 2 of 12 early; sumeru (the Sanskritized form) = 0 early (6 total, all late/extracanonical). Where Sineru appears early it is a name/simile of greatness (e.g. 'like Sineru'), not a dimensioned structure.",
+            "literal_form": "LITERAL/measured + structured. Sineru acquires fixed height/depth (84,000 yojanas above, 84,000 below — see caturāsīti-yojanasahass, all sub-commentarial), a square/terraced base, encircling ring-mountains (yugandhara etc.), and a precise place at the centre of the bounded cakkavāḷa. Concentrated in attha 240 + tika 107 + vism 15.",
+            "jump": "early-canonical name-of-greatness/simile -> classical-commentary + sub-commentary measured axis-mountain with exact yojana dimensions and a ring-mountain system.",
+            "pali_stems": [
+              "sineru",
+              "mahāmeru",
+              "sumeru",
+              "yugandhar"
+            ],
+            "verdict_guess": "supports",
+            "note": "sineru 13/434 early; the grand compound mahāmeru and the Skt sumeru are essentially absent from the early canon, marking the systematized cosmic-mountain vocabulary as late. The measuring (84k yojanas) is sub-commentarial. Note sumeru's near-absence may also reflect the Pali tradition preferring sineru — flagged."
+          },
+          {
+            "name": "lokadhātu enumeration: thousand / ten-thousand / hundred-thousand-fold world-system",
+            "open_form": "OPEN/hyperbolic-counted. The early canon DOES carry the tiered figures — sahassī lokadhātu (thousandfold, 11 early-canon rows: AN 3.80, AN 10.29, MN 120, AN 3.125) and dasasahassī lokadhātu (ten-thousandfold, ~6 early: MN 123, SN 56.11, DN 14, DN 1) — BUT uses them HYPERBOLICALLY: the extent a brahmā's voice/radiance pervades, or the cosmos that 'shakes' (saṅkampati) and is flooded by a MEASURELESS light (appamāṇo obhāso) at the Buddha's birth/awakening. The number is a gesture of reach, paired with the open word appamāṇa, not an inventory.",
+            "literal_form": "LITERAL/systematized. The figures harden into a nested powers-of-a-thousand cosmography with named tiers — cūḷanikā (small, 1,000 cakkavāḷas), majjhimikā (middling, 10,000²), mahā (great, 10⁵) lokadhātu — each tier counted out as 'a thousand Jambudīpas, a thousand Sineru-kings...'. dasasahassī = 142 total but 91 attha / only 6 early; the named-tier terms cūḷanikā/dvisahassī/tisahassī/majjhimikā each have just 2 early-canonical rows (= AN 3.80 + its CST dup) against commentarial elaboration.",
+            "jump": "early-canonical hyperbolic number paired with appamāṇa (measureless light, shaking cosmos) -> abhidhamma + classical-commentary nested, counted, named-tier inventory (cūḷanikā/majjhimikā/mahā lokadhātu fully enumerated).",
+            "pali_stems": [
+              "sahassī lokadhāt",
+              "dasasahassī",
+              "cūḷanikā",
+              "majjhimikā lokadhāt",
+              "dvisahassī",
+              "tisahassī",
+              "koṭisatasahass"
+            ],
+            "verdict_guess": "mixed",
+            "note": "MIXED and the most interesting case. The big NUMBERS are genuinely early (sahassī/dasasahassī lokadhātu in the Nikāyas) — so this is NOT a clean 'number invented late'. The concretization is in the USE: early = hyperbolic reach/marvel beside appamāṇa obhāsa; late = a counted, named-tier, nested gazetteer. The named-tier scaffolding (cūḷanikā=2 early, dvisahassī=2, tisahassī=2, majjhimikā=2) is the late layer. This is the AN 3.80 seed the Uttarakuru study flagged."
+          },
+          {
+            "name": "appamāṇa (measureless) vs ananta (endless/infinite): the philological substitution",
+            "open_form": "OPEN/measureless. The early canon's quantity-word for cosmic scale is appamāṇa = 'without-an-applied-measure', explicitly paired with the world-shaking pericope (appamāṇo ca uḷāro obhāso loke pātubhavati, MN 123/SN 56.11/DN 14). appamāṇa is robust-to-reinterpretation: it refuses a number rather than naming a large one. Early-canon appamāṇ = 140 rows; the cognate appameyya ('immeasurable') = 31 early of 284.",
+            "literal_form": "LITERAL/specified OR shifted to ananta. Two later moves: (1) the measureless gesture is replaced by a specified count (the yojana figures, the named lokadhātu tiers above); (2) the vocabulary shifts toward ananta ('endless/infinite') and asaṅkheyya ('incalculable'), which scholasticism then itself quantifies. ananta explodes to 10,304 total dominated by abhidhamma (1,615) + tika (4,637) + attha (2,960); appamāṇa likewise becomes a technical term (tika 1,078, attha 890, abhidhamma 199).",
+            "jump": "early-canonical appamāṇa (measureless, number-refusing) -> abhidhamma/commentary technical proliferation of ananta + asaṅkheyya, AND replacement of the measureless gesture by specified yojana/tier counts. The key philological point: appamāṇa ('no applied measure') is NOT 'infinite'; the concretization either bounds it with a number or re-labels it ananta and then counts THAT.",
+            "pali_stems": [
+              "appamāṇ",
+              "appameyy",
+              "anant",
+              "asaṅkheyy",
+              "asaṅkhyeyy"
+            ],
+            "verdict_guess": "mixed",
+            "note": "Load-bearing for Axis 2's philology, hence flagged MIXED rather than supports. appamāṇa/ananta are domain-general (also pervade brahmavihāra, citta, paññā contexts), so the raw counts are not world-systems-specific — a real verification must restrict to cosmological co-occurrence (appamāṇa+lokadhātu/cakkavāḷa). The qualitative finding is secure: early cosmic scale = appamāṇa-measureless; late = either a number or the heavier ananta/asaṅkheyya machinery. Treat counts as upper bounds across senses."
+          },
+          {
+            "name": "The four mahādīpa continents as a measured, shaped, satellite-ringed map",
+            "open_form": "OPEN/named. The four continents are thin name-entries early: jambudīpa 29 early (but mostly as 'India' the place, not the cosmological continent), aparagoyāna 4, pubbavideha 6, uttarakuru 12 early — and at this stratum they are bare names in the four-continent / thousandfold list (AN 3.80, AN 10.29) with no shape, size, or satellite islands.",
+            "literal_form": "LITERAL/measured-and-shaped. The continents become a measured gazetteer: each a 'great continent' (mahādīpa, 118 rows, ZERO early-canon) of fixed yojana size and geometric shape, each ringed by 500 small islands (parittadīpa, 48 rows, ZERO early-canon), the set making the bounded cakkavāḷa. catudīpa (the four-continent technical compound, 52 rows, 0 early). Concentrated in attha+tika.",
+            "jump": "early-canonical bare continent-names-in-a-list -> classical-commentary measured/shaped continents + satellite-island system (mahādīpa, parittadīpa, catudīpa — all with zero early-canonical warrant).",
+            "pali_stems": [
+              "mahādīp",
+              "parittadīp",
+              "catudīp",
+              "aparagoyān",
+              "pubbavideh",
+              "jambudīp"
+            ],
+            "verdict_guess": "supports",
+            "note": "Generalizes the Uttarakuru study from one continent to the whole four-continent map. The systematizing terms mahādīpa (great-continent), parittadīpa (the 500 satellite islands), and catudīpa (the four-continent compound) ALL have ZERO early-canonical rows — the measured/shaped/ringed map is wholly post-canonical, while the bare continent-names are early. jambudīpa's 29 early are mostly the geographic India, inflating the early count."
+          },
+          {
+            "name": "Anotatta: the named cosmic lake reached by psychic power",
+            "open_form": "OPEN/near-absent. The cosmic Lake Anotatta barely exists in the early canon: anotatt = 4 early-canon rows of 151 total, and where present it is incidental, not a dimensioned feature of the world-map.",
+            "literal_form": "LITERAL/furnished. Anotatta becomes a fixed installation of the cakkavāḷa gazetteer — a great Himalayan lake of stated size, fed by named rivers, the place the Buddha/arahants fly to by iddhi and eat (the Vinaya alms-flight frame the Uttarakuru study cites). Concentrated in attha 95 + tika 24 + anya 17.",
+            "jump": "early-canonical near-absence -> classical-commentary furnished cosmic lake (named feeders, fixed location, iddhi-access narratives).",
+            "pali_stems": [
+              "anotatt"
+            ],
+            "verdict_guess": "supports",
+            "note": "anotatt 4/151 early. A clear case of a piece of named cosmic furniture that is essentially a commentarial installation. The 4 early rows should be hand-checked to confirm they are the cosmic lake and not a homonym/qualifier before the 'supports' verdict is final — flagged."
+          },
+          {
+            "name": "lokantarikā aghā: the dark void between world-spheres",
+            "open_form": "OPEN/figurative. lokantarik has a genuine early-canonical seed (8 of 51 rows early-canon): the pitch-dark inter-space (aghā) flooded by a measureless light at the Bodhisatta's conception/birth — a marvel-image of darkness overwhelmed, scale-gesturing, not a mapped location.",
+            "literal_form": "LITERAL/located. The void is systematized into a fixed structural slot: the dark gulfs sitting BETWEEN adjacent bounded cakkavāḷas (presupposing the bounded sphere those gulfs lie between), with the cold-hells placed there in some commentarial schemes. attha 28 + tika 9.",
+            "jump": "early-canonical marvel-image of dark space flooded by measureless light -> classical-commentary structural slot between bounded world-spheres.",
+            "pali_stems": [
+              "lokantarik",
+              "lokantar"
+            ],
+            "verdict_guess": "mixed",
+            "note": "MIXED: unlike cakkavāḷa, the void has a real early-canonical presence (8 early rows) as a figurative marvel-image. The concretization is that locating it 'between cakkavāḷas' is parasitic on the bounded-sphere that is itself commentarial — so the void's PLACEMENT concretizes even where the IMAGE is early. Depends on cakkavāḷa being bounded, which is the prior transition."
+          }
+        ]
+      },
+      {
+        "candidates": [
+          {
+            "name": "The length of a kappa: simile-that-refuses-number vs measured sub-division",
+            "open_form": "[stratum: early-canonical | locus: SN 15.5 Pabbatasutta (sn15.5), SN 15.6 Sāsapasutta (sn15.6), whole Anamatagga-saṃyutta] The Buddha is asked point-blank 'how long is an aeon?' (kīvadīgho kappo) and explicitly REFUSES a figure: 'Dīgho kho, bhikkhu, kappo. So na sukaro saṅkhātuṁ ettakāni vassāni iti vā, ettakāni vassasatāni... vassasahassāni... vassasatasahassāni iti vā' — it is NOT easy to reckon it as so-many years / hundreds / thousands / hundred-thousands. Only a SIMILE is offered (a one-yojana solid rock-mountain wiped once a century with fine cloth would wear away sooner than the kappa; a city of mustard-seed emptied one seed a century). The kappa is presented as deliberately measureless-by-simile.",
+            "literal_form": "[stratum: classical-commentary + sub-commentary | locus: the antarakappa-arithmetic gloss 'ekasmiṃ kappe catusaṭṭhi antarakappā nāma honti' at Ps-a 3 §104 (cst-s0202a.att-mn2_3_p104), Spk-a 3 §18 (cst-s0303a.att-sn3_3_p018), Abh-pṭ §131.16 (cst-abh07t.nrf-131_p016: catusaṭṭhiantarakappappamāṇo); and the four-asaṅkheyya division below] The single 'long' kappa is resolved into an exact nested arithmetic — one mahākappa = 4 asaṅkheyya-kappas, each containing 64 (or per keci 20) antarakappas — a counted machine in place of the un-countable.",
+            "jump": "early-canonical (open, number-refused, simile-only) -> classical-commentary / sub-commentary (exact 4×64 antarakappa arithmetic). The mūla antarakappa rows (12) carry the term but never the 64:1 equation; the equation is wholly attha/tika.",
+            "pali_stems": [
+              "kapp",
+              "antarakapp",
+              "sāsap",
+              "saṅkhātu",
+              "vassasatasahass",
+              "catusaṭṭhi"
+            ],
+            "verdict_guess": "supports",
+            "note": "STRONGEST candidate, fully corpus-confirmed. SN 15.5 verbatim refusal-of-number read from the DB. antarakappa role-split tika 26 / attha 14 / mula 12; the 64-per-kappa arithmetic appears only in attha/tika (Ps-a, Spk-a, Abh-pṭ). Caveat (same circularity as Uttarakuru study): a 'measuring text sorted late partly because it measures' — the asaṅkheyya/antarakappa machinery is sorted commentarial partly BY its measuring, so part of the gradient is definitional. But the canonical refusal-of-number in the Buddha's own voice (SN 15.5) is a hard early datum independent of that circularity."
+          },
+          {
+            "name": "The world-cycle: 'a time when the world contracts/expands' vs the four named incalculables (asaṅkheyya)",
+            "open_form": "[stratum: early-canonical | locus: DN 1 Brahmajāla, AN 7.66, AN 10.29, DN 27 Aggañña — the stock phrase 'hoti kho so, bhikkhave, samayo yaṁ... ayaṁ loko saṁvaṭṭati / vivaṭṭati'] The canon states only THAT there is a time when the world contracts (saṃvaṭṭati) and a time when it expands (vivaṭṭati). A bare bipartite gesture: long stretches, no boundaries fixed, no count, no named phases. saṃvaṭṭa/vivaṭṭa appears as a verb of cosmic process, not as a measured unit.",
+            "literal_form": "[stratum: classical-commentary + sub-commentary (with Vism as the para-canonical hinge) | locus: KN-a §2.30 (cst-s0512a.att-2_p030), Sp-ṭ §9.262 (cst-vin01t1.tik-9_p262), Vism §9.15 (cst-e0102n.mul-9_p015, structurally 'mula' but para-canonical), Mp-a an8.1.2 §30, KN-a §55.48/61/64] The cycle is articulated into FOUR named asaṅkheyya ('incalculables'), each bounded between named cosmic events: saṃvaṭṭa (destruction, 'from the aeon-destroying great cloud up to the cutting-off of the flame'), saṃvaṭṭaṭṭhāyī (the staying-destroyed), vivaṭṭa (re-evolution), vivaṭṭaṭṭhāyī (the staying-evolved). The 'four incalculables' (cattāri asaṅkheyyāni) become a precise four-phase structure with start/stop markers — paradoxically NAMING and bounding the 'incalculable.'",
+            "jump": "early-canonical (bare saṃvaṭṭati/vivaṭṭati verbs, two un-bounded phases) -> classical-commentary/sub-commentary (the four named, event-bounded asaṅkheyya-kappas). The fully-named four-phase set occurs 0× in early canon; 7 attha + 5 tika + 3 anya + 1 'mula'(=Vism §9.15).",
+            "pali_stems": [
+              "saṃvaṭṭ",
+              "vivaṭṭ",
+              "saṃvaṭṭaṭṭhāyī",
+              "vivaṭṭaṭṭhāyī",
+              "asaṅkheyy",
+              "asaṅkhyeyy"
+            ],
+            "verdict_guess": "supports",
+            "note": "Corpus-confirmed. saṃvaṭṭ/vivaṭṭ stem: attha 685 / tika 348 / mula 163 / anya 40 — present early but bare. The diagnostic test (all four phase-names co-present) returns mula 1 (=Vism, structurally-mula-but-para-canonical, the exact Uttarakuru disagree-pattern) vs attha 7 + tika 5 + anya 3, and 0 early-canonical. 'cattāri asaṅkheyyāni' enumeration is 100% attha/tika/anya. Note the philological irony the prompt flags: the commentary applies an exact MEASURE-frame (four bounded phases) to a unit it simultaneously labels asaṅkheyya = 'measureless'."
+          },
+          {
+            "name": "The four incalculables (asaṅkheyya): a hyperbole-word for 'uncountably many' vs a fixed structural unit/number",
+            "open_form": "[stratum: early-canonical | locus: AN 4.x and the 'four asaṅkheyyāni' of merit, e.g. the streams-of-merit; bare asaṅkheyya as adjective 'innumerable, beyond reckoning' in sutta prose] In the early canon asaṅkheyya is primarily an ADJECTIVE meaning 'incalculable / beyond counting' — robust to reinterpretation, gesturing at vastness, never a defined cardinal. (Philology per the prompt: asaṅkheyya = 'without-an-applied-reckoning', NOT 'infinite' = ananta.)",
+            "literal_form": "[stratum: late-canonical -> classical-commentary | locus: the bodhisatta-path figure 'cattāri asaṅkheyyāni kappānañ ca satasahassaṃ' (four incalculables AND one hundred thousand aeons) at Vism §87.55/§9.4 (cst-e0101n.mul-87_p055, -9_p004) and across the Buddhavaṃsa/Apadāna commentaries; plus asaṅkheyya hardened into a fixed place-value numeral (10^140 etc.) in the commentarial number-ladder] The 'measureless' word is reused as (a) a COUNTED structural unit — there are exactly FOUR asaṅkheyyas in a world-cycle, and the bodhisatta perfects the pāramī over exactly '4 asaṅkheyyas + 100,000 kappas' — and (b) a fixed place in the large-number ladder (koṭi, pakoṭi... asaṅkheyya as a definite power of ten).",
+            "jump": "early-canonical (asaṅkheyya = hyperbolic adjective 'uncountable') -> late-canonical/para-canonical/commentary (asaṅkheyya = a counted unit: exactly four per cycle, and the fixed '4 asaṅkheyya + 100,000 kappa' path-duration). The exact pāramī figure: 95 attha + 10 tika + 6 anya + 1 'mula'(=Vism), 0 early-canonical.",
+            "pali_stems": [
+              "asaṅkheyy",
+              "asaṃkheyy",
+              "asaṅkhyeyy",
+              "kappasatasahass",
+              "satasahass"
+            ],
+            "verdict_guess": "mixed",
+            "note": "Corpus-confirmed and rich. asaṅkheyya bare stem: mula 35 / attha 31 / anya 12 / tika 12 — genuinely present early. 'mixed' not 'supports' because the EARLY presence of asaṅkheyya is real and substantial (35 mula rows), so this is a sense-shift (adjective->counted-unit) within a word that exists across strata, not a term that only appears late. The fixed '4 asaṅkheyya + lakh of kappas' path-figure IS clean concretization (0 early-canonical, commentarial), but it rides on a word the early canon already used hyperbolically. The two senses must be split in any rigorous coding."
+          },
+          {
+            "name": "Lifespan (āyu): a fixed-but-unmeasured span vs an exact figure (āyuppamāṇa) for every realm",
+            "open_form": "[stratum: early-canonical | locus: AN 9.21 niyatāyukā (the Uttarakuru fixed-span with NO figure, per the sibling study); the human 'appamāyuka' / short-life framing; the deva lifespans where the early canon gives only the lowest realms by ratio] The early canon warrants THAT certain beings' spans are fixed (niyatāyuka) without saying how long, OR gives a lifespan only as a RATIO/comparison (a Cātumahārājika day = 50 human years) rather than an absolute total. The lifespan is bounded-in-principle but left unmeasured-in-figure.",
+            "literal_form": "[stratum: abhidhamma-canonical (Vibhaṅga) -> classical-commentary/sub-commentary | locus: the āyuppamāṇa tables; the Mp-a gloss on niyatāyukā as 'vassasahassameva' (exactly a thousand years, cst-s0404a.att-an9_p063 per the Uttarakuru study); the full 26-realm lifespan table in kappa-counts for the brahma/formless realms] Every realm gets an EXACT total: a closed table of āyuppamāṇa ('the measure-of-lifespan' — itself a measuring nominalization), e.g. Cātumahārājika 9,000,000 human years, Tāvatiṃsa 36,000,000, the brahma realms counted in fractions and multiples of asaṅkheyya-kappas (Vehapphala 500 kappas, Akaniṭṭha 16,000). The bare 'fixed span' is filled in with a number for every plane.",
+            "jump": "early-canonical (fixed-but-figureless span; lowest realms by ratio only) -> abhidhamma-canonical / commentary (the closed āyuppamāṇa table giving every realm an exact total, the brahma realms measured in counted kappas). āyuppamāṇa compound: attha 64 / tika 56 / mula 33.",
+            "pali_stems": [
+              "āyuppamāṇ",
+              "niyatāyuk",
+              "dibba",
+              "vassakoṭi",
+              "kappasahass",
+              "kappasat"
+            ],
+            "verdict_guess": "mixed",
+            "note": "Corpus-confirmed but genuinely mixed. The lower deva-realm lifespan FIGURES (AN 3.70 Uposathasutta, AN 8.42-45) ARE early-canonical and DO give the divine-day-to-human-year ratios — so the early canon is NOT figureless for those realms. The concretization is real for (a) the niyatāyuka->vassasahassa hardening (clean, commentarial, already shown in the Uttarakuru study) and (b) the brahma/formless realms counted in kappas (the full closed table is Vibhaṅga/Abhidhamma + commentary). The āyuppamāṇa NOMINALIZATION skews commentarial (attha/tika 120 vs mula 33), which is itself the DRIFT-nominalization signal. Code per-realm, not per-word: lower devas early-with-figures, brahmas late-with-figures."
+          },
+          {
+            "name": "The human lifespan: a moralized variable (rises and falls with virtue) vs a fixed cosmological figure",
+            "open_form": "[stratum: early-canonical | locus: DN 26 Cakkavatti-Sīhanāda — the span swings 80,000 years (asītivassasahassāyuka) DOWN to 10 (dasavassāyuka) and back up, driven by dhamma/adhamma; SN/AN 'now lifespan is short, appamāyuka'] The human lifespan in the early canon is a MORAL VARIABLE — it expands and contracts with the rise and fall of virtue across the antarakappa, a narrative device for impermanence and ethical causation, not a fixed datum. Even the figures (80,000 / 10) are endpoints of a swing, not a stable measurement.",
+            "literal_form": "[stratum: classical-commentary/sub-commentary | locus: the commentarial fixing of the antarakappa boundaries to exact lifespan-figures (the kappa-internal cycle runs from an 'incalculable' max down to a fixed 10-year min and back, each swing = one antarakappa, defined by the lifespan figure); the āyukappa gloss restricting DN 16's ambiguous 'kappa' to a fixed human-lifespan-unit] The variable swing is regularized into a defining UNIT: the antarakappa IS the lifespan-cycle, its bounds the fixed numbers; and the ambiguous kappa of DN 16 (the Buddha could live 'a kappa or the remainder of a kappa') is pinned by the commentary to āyukappa = the fixed human maximum (c. 100/120 years), not a mahākappa.",
+            "jump": "early-canonical (lifespan as moral swing, narrative) -> classical-commentary (lifespan-figures become the DEFINING bounds of the antarakappa unit; DN 16 kappa->āyukappa fixing). The DN 16 kappa/āyukappa disambiguation is the sharpest single instance.",
+            "pali_stems": [
+              "āyukapp",
+              "asītivassasahass",
+              "dasavassāyuk",
+              "appamāyuk",
+              "antarakapp"
+            ],
+            "verdict_guess": "mixed",
+            "note": "PARTIALLY confirmed; flag the āyukappa role-split as UNTESTED — the proxy/dhamma-pg wedged (ECONNREFUSED then query-timeout) before I could pull the āyukappa and mahākappa work_role distributions. DN 26 verbatim 80,000->10 swing IS confirmed from the DB (asītivassasahassāyukesu / dasavassāyukā puttā). 'āyukapp' confirmed to exist as a term but its str-distribution unverified. The candidate is sound on the literature (DN 16's kappam vā kappāvasesaṃ vā ambiguity, fixed to āyukappa by Sv/Sp) but I could not measure the stratum-distribution to grade it cleanly — hence 'mixed' and this flag. Re-run: select work_role,count(*) from passages where original ~* 'āyukapp' group by 1."
+          },
+          {
+            "name": "Beginningless saṃsāra (anamatagga): an un-trackable origin vs an enumerated kappa-ledger",
+            "open_form": "[stratum: early-canonical | locus: the Anamatagga-saṃyutta SN 15 — 'anamataggoyaṁ, bhikkhu, saṁsāro, pubbā koṭi na paññāyati', this saṃsāra is without-discoverable-beginning, a first point is NOT found; the tears/blood/bones similes that say 'more than the water of the four oceans' without a count] saṃsāra's extent is framed as un-trackable in principle — the whole rhetorical point is that NO beginning and NO total can be found; the figures offered (oceans of tears) are explicitly 'this is more than that', an un-measurable comparison aimed at saṃvega, not a ledger.",
+            "literal_form": "[stratum: late-canonical -> classical-commentary | locus: the commentarial kappa-ledger that counts elapsed and remaining aeons (e.g. the bhaddakappa = exactly 5 Buddhas; the 'in this kappa N Buddhas, so many kappas since Buddha X'; Buddhavaṃsa/Cariyāpiṭaka commentary dating each past Buddha to an exact number of kappas ago) and the asaṅkheyya number-ladder that puts an exact place-value on the 'beginningless'] The un-trackable becomes an ACCOUNTING: aeons are counted backward to dated past-Buddhas, the present kappa is typed and its Buddha-quota fixed, and the 'incalculable' saṃsāra is given a navigable arithmetic of named, counted kappas.",
+            "jump": "early-canonical (anamatagga: no first-point findable, un-measurable similes) -> late-canonical/commentary (counted kappa-ledger to dated past-Buddhas; bhaddakappa = 5 Buddhas; asaṅkheyya as a place-value). anamatagga stem: mula 45 but attha 94 / tika 46 — the bare claim is canonical, the counting-back apparatus is commentarial.",
+            "pali_stems": [
+              "anamatagg",
+              "bhaddakapp",
+              "buddhantar",
+              "koṭi",
+              "kappasatasahass"
+            ],
+            "verdict_guess": "mixed",
+            "note": "Corpus-confirmed at the stem level (anamatagg mula 45 / attha 94 / tika 46; koṭisatasahassa-family attha 324 / mula 72). 'mixed' because the early canon ALREADY counts some things (past-Buddha names in DN 14 Mahāpadāna, the 91-kappas-ago Vipassī figure is arguably early-canonical), so the kappa-ledger is not purely a late invention — it is an INTENSIFICATION (from one or two dated past-Buddhas in the canon to a full backward-dated lineage with fixed kappa-counts in the Buddhavaṃsa and its commentary). The pure-OPEN anamatagga claim (no first point) and the kappa-counting apparatus genuinely coexist in tension; the concretization is the growth of the ledger, not its origin."
+          },
+          {
+            "name": "The kappa as a single 'aeon' word vs a four-fold technical typology (āyu-/antara-/asaṅkheyya-/mahā-kappa)",
+            "open_form": "[stratum: early-canonical | locus: SN 15, DN 16, AN passim — 'kappa' used as ONE undifferentiated word for 'a very long time / aeon', context-resolved, never typed; DN 16's 'kappaṁ vā tiṭṭheyya kappāvasesaṁ vā' leaves which kappa unspecified] The early canon has a single lexeme kappa doing all the work — the saṃsāric aeon, the world-period, occasionally the lifespan — with no taxonomy and, in DN 16, a famous unresolved ambiguity about which scale is meant.",
+            "literal_form": "[stratum: classical-commentary/sub-commentary | locus: the four-fold kappa typology — āyukappa (lifespan-aeon), antarakappa (intermediate), asaṅkheyyakappa (incalculable), mahākappa (great) — defined and ranked in the Aṭṭhakathā/Ṭīkā; mahākappa as the explicit top unit = 4 asaṅkheyya = 256 antarakappa] The single word is split into a ranked set of FOUR technical magnitudes with fixed conversion ratios between them, and DN 16's ambiguous kappa is resolved (to āyukappa) by fiat.",
+            "jump": "early-canonical (one undifferentiated kappa, scale context-resolved, DN 16 ambiguous) -> classical-commentary (the four typed kappas with fixed inter-conversions; mahākappa as named top unit). The compound mahā-/antara-/āyu-/asaṅkheyya-kappa technical forms cluster in attha/tika.",
+            "pali_stems": [
+              "mahākapp",
+              "antarakapp",
+              "āyukapp",
+              "asaṅkheyyakapp",
+              "sārakapp"
+            ],
+            "verdict_guess": "mixed",
+            "note": "PARTIALLY confirmed; flag mahākappa/sārakappa role-splits as UNTESTED (same proxy outage that blocked āyukappa). Confirmed: antarakappa skews tika/attha; asaṅkheyyakappa-family skews tika/attha (16/10 vs mula 5); the four-fold typology's defining equations are attha/tika (the 64-antarakappa and 4-asaṅkheyya glosses read from the DB). 'mixed'/flagged because (a) the bare word kappa is overwhelmingly present early (mula 2017 rows) so this is differentiation-of-an-existing-word, and (b) I could not measure mahākappa's own distribution. The technical COMPOUNDS (mahākappa, antarakappa) are the right test-stems and the partial data points commentarial, but grade as 'mixed' pending the untested counts. Sārakappa/asuññakappa (empty vs fruitful aeons — kappas typed by how many Buddhas arise) is a further commentarial typology I flag as a likely 'supports' sub-candidate but did not get to measure."
+          }
+        ]
+      },
+      {
+        "candidates": [
+          {
+            "name": "Fathom-wide body-aura (byāmappabhā) given a fixed one-fathom radius",
+            "open_form": "early-canonical (4 Nikāyas): the Buddha's/great being's body is described as radiant, shining, outshining (pabhāseti / obhāseti / virocati; ~12 such 4-Nikāya mūla rows) with NO fixed radius — an open, unmeasured glow. The 32-marks list itself (DN 30 Lakkhaṇasutta, cst-s0103m.mul-dn3_7) describes golden skin (suvaṇṇavaṇṇa) but assigns the radiance no extent.",
+            "literal_form": "late-canonical → para-canonical → classical-commentary: the aura is fixed at exactly one byāma (a fathom / armspan). The compound byāmappabhā has ZERO 4-Nikāya hits but appears in mūla-tagged late strata — Buddhavaṃsa (bv1, bv27), Apadāna (cst-s0510m1.mul-kn10_13, kn10_53, kn10_55), and para-canonical Milinda (cst-s0518m.nrf-kn18_2) — and is dense in commentary (attha 68, tika 35, anya 16).",
+            "jump": "early-canonical (open radiance) → late-canonical Buddhavaṃsa/Apadāna + para-canonical Milinda (the fathom-measure first appears) → classical-commentary (becomes a stock fixed epithet, 68 attha rows). The figurative glow is replaced by a bounded one-fathom measure.",
+            "pali_stems": [
+              "byāmappabh",
+              "byāmapabh",
+              "byāma",
+              "vyāma",
+              "pabhāset",
+              "obhāset",
+              "ketumāl"
+            ],
+            "verdict_guess": "supports",
+            "note": "Strongest fully-verified case. byāmappabhā: 4-Nikāya SuttaCentral-id hits = 0 (confirmed); mūla hits are all late-canonical (BV/Apadāna) or para-canonical (Milinda); 68 attha. The unit byāma = a fathom/armspan, a bounded human-scale measure. The open radiance verbs are present early (12 rows) without any radius. NOTE the philology distinction the axis flags: this is a CONCRETE measure (one fathom), not an 'infinite' light — appamāṇa is not used here."
+          },
+          {
+            "name": "The great being's body-height fixed to an exact cubit-count (aṭṭhārasahattha; pamāṇavemattaṃ)",
+            "open_form": "early-canonical: the canon never numbers a Buddha's height. DN 30 gives qualitative marks — upright/erect frame (brahmujugatta), well-proportioned (the banyan-proportion mark), Brahmā-like body — but no cubit figure. The anchored check found only 2 mūla 4-Nikāya rows carrying both ubbedh- (height) and hatth- (cubit), and on inspection these are not the body (well/tree measures); the Buddha's stature is left unmeasured.",
+            "literal_form": "classical-commentary: the Sumaṅgalavilāsinī fixes exact cubit measures. Sv-a 1 §58 (cst-s0102a.att-dn2_1_p058) states the 'difference-in-measure' (pamāṇavemattaṃ): Dīpaṅkara was 80 cubits (asītihattho), Sumana 90 cubits (navutihattho), 'our Blessed One 18 cubits' (aṭṭhārasahattho). Sv-a 2 §25 (cst-s0102a.att-dn2_2_p025) measures the body part-by-part: span-between-arms 18 cubits, forehead 5 cubits, hands-and-feet 11 cubits.",
+            "jump": "early-canonical (no height stated) → classical-commentary (each Buddha's body assigned an exact cubit-number, and a doctrine, pamāṇavemattaṃ, built to systematize the per-Buddha differences). aṭṭhārasahattha has 0 mūla rows, 31 attha.",
+            "pali_stems": [
+              "aṭṭhārasahatth",
+              "asītihatth",
+              "navutihatth",
+              "pamāṇavemat",
+              "ubbedh",
+              "ubbedhato"
+            ],
+            "verdict_guess": "supports",
+            "note": "Cleanest figurative→literal jump in the domain: an utterly unmeasured early body becomes a bounded object measured in cubits, with each of the 28 Buddhas given a different exact height. aṭṭhārasahattha: mūla=0, attha=31 (confirmed). Sv-a loci read directly (confirmed). pamāṇavemat full-scan timed out so its layer-distribution is unconfirmed numerically, but the term was read in-context at an attha locus and is, by content, a commentarial systematization."
+          },
+          {
+            "name": "The 80 minor marks (asīti-anubyañjana) as a fixed set of eighty",
+            "open_form": "early-canonical: the 4 Nikāyas know only the THIRTY-TWO marks of a great man (dvattiṃsa-mahāpurisalakkhaṇa; 44 mūla rows, DN 30 the locus classicus). There is no named set of eighty minor marks. The bare word anubyañjana/anuvyañjana IS common in mūla (71 rows) but in the unrelated sense-restraint idiom (na nimittaggāhī nānubyañjanaggāhī, 'not grasping at sign or detail'), not the body-marks sense.",
+            "literal_form": "para-canonical → commentary: the closed set of eighty minor marks (asīti-anubyañjana) appears, enumerated as a fixed list complementing the 32. The 3 mūla-tagged hits are all NON-4-Nikāya: Visuddhimagga (cst-e0101n.mul-81_p045, classical-commentary tagged mūla) and Peṭakopadesa (pe8 / cst-s0520m.nrf-kn20_7, para-canonical); the live use is commentarial (40 attha, 22 tika).",
+            "jump": "early-canonical (only the 32, the 80-set absent) → para-canonical Peṭakopadesa / Visuddhimagga (the eighty first counted) → commentary (the 80 become a standard companion-list to the 32). An open body becomes more finely enumerated.",
+            "pali_stems": [
+              "asītianubyañjan",
+              "asītianuvyañjan",
+              "anubyañjan",
+              "anuvyañjan",
+              "anubyañjanalakkhaṇ"
+            ],
+            "verdict_guess": "supports",
+            "note": "Verified: asīti+anubyañjana within ~3 chars has 0 4-Nikāya hits; the 3 'mūla' hits are Vism (commentary) + Peṭakopadesa (para-canon). This is an ADDITION/finer-enumeration rather than a measure being put on a previously-measureless thing, so it sits slightly off the pure 'figurative→measured' axis (it is open-count→fixed-count-of-80), but it is the same concretization impulse and is fully corpus-supported. Caveat: bare anubyañjana is a heteronym — must use the asīti- compound to isolate the marks sense (the bare-string mūla 71 is mostly sense-restraint)."
+          },
+          {
+            "name": "The wheel-mark on the soles given 108 specified auspicious figures (aṭṭhuttarasata-maṅgala)",
+            "open_form": "early-canonical: DN 30 (and parallels) gives the first of the 32 marks as soles bearing wheels 'with a thousand spokes, rim and hub' (cakkāni sahassārāni sanemikāni sanābhikāni). sahassāra ('thousand-spoked') is genuinely canonical: 23 mūla rows. 'A thousand' here is the open, round, hyperbolic-completeness number, not an inventory.",
+            "literal_form": "commentary → extra-canonical: the wheel is filled with a fixed catalogue of one-hundred-and-eight (aṭṭhuttarasata) distinct auspicious figures (maṅgala) — conch, svastika, etc. The aṭṭhuttarasata+maṅgala/cakka combination has ZERO mūla rows (5 attha, 4 anya, 1 tika), e.g. KN-a cst-s0515a.att-5_p096, cst-s0503a.att-3_p109.",
+            "jump": "early-canonical (a thousand-spoked wheel, round hyperbolic number) → commentary/extra-canonical (the wheel resolved into an exact inventory of 108 named figures). The open 'thousand' is replaced by a bounded, itemized 108.",
+            "pali_stems": [
+              "aṭṭhuttarasata",
+              "aṭṭhuttaraṃsata",
+              "sahassār",
+              "maṅgalalakkhaṇ",
+              "cakkalakkhaṇ"
+            ],
+            "verdict_guess": "supports",
+            "note": "Verified: sahassāra (thousand-spoked) canonical (23 mūla); the 108-auspicious-figures specification absent from mūla (0), present only in attha/anya/tika. Good open→literal contrast WITHIN a single mark. Mild caveat: 'a thousand spokes' is itself a number, so the open_form is hyperbolic-round rather than purely qualitative; the move is round-hyperbolic-number → exact-itemized-inventory, which is squarely the AXIS-2 concretization shape."
+          },
+          {
+            "name": "The relic-corpus: from a measured eight-portion division to a fixed intact-vs-scattered inventory",
+            "open_form": "early-canonical: DN 16 (dn16, Mahāparinibbāna) already measures the relics — divided into eight portions (aṭṭhadoṇa, confirmed present in dn16) shared among eight claimants. So the QUANTITY is canonical and already measured (doṇa appears in 16 mūla rows). What the canon does NOT do is itemize which relics survived whole, their exact sizes, or rank Buddhas by relic-dispersal.",
+            "literal_form": "commentary → extra-canonical: the relic-catalogue. The doctrine that some Buddhas' relics remain a single un-scattered mass (asambhinna / avippakiṇṇa-dhātu) while Gotama's scattered because his dispensation is short — plus the enumeration of which seven (or so) relics stayed intact and their measures — is essentially commentarial/para-canonical (avippakiṇṇa etc.: 19 attha, 19 tika, 7 anya; only 3 mūla, non-4-Nikāya).",
+            "jump": "early-canonical (relics measured as 8 doṇa, DN 16) → commentary/extra-canonical (the relic-body itemized: intact vs scattered, per-relic sizes, per-Buddha dispersal rule). The measured-but-open relic-mass becomes a fixed inventory.",
+            "pali_stems": [
+              "avippakiṇṇ",
+              "asambhinnadhāt",
+              "vippakiṇṇadhāt",
+              "sarīradhāt",
+              "aṭṭhadoṇ",
+              "doṇa"
+            ],
+            "verdict_guess": "mixed",
+            "note": "MIXED and flagged: the headline relic-measure (8 doṇa) is genuinely early-canonical (DN 16 confirmed), so this is NOT a case of a measure first appearing late. The concretization is the SECONDARY inventory (avippakiṇṇa intact-relic doctrine + per-relic sizes), which is commentarial (3 mūla, all non-4-Nikāya; 19 attha / 19 tika). Include as a partial/mixed case: the quantity was always literal, the itemization concretizes later."
+          },
+          {
+            "name": "The banyan-proportion mark (nigrodhaparimaṇḍala): height equals armspan",
+            "open_form": "early-canonical: DN 30 already states the proportion mark — the great being is 'proportioned like a banyan tree' (nigrodhaparimaṇḍalo), i.e. body-height equals the span of his outstretched arms, a fixed 1:1 ratio. This is genuinely canonical: 8 mūla rows carry nigrodhaparimaṇḍal-.",
+            "literal_form": "commentary: the ratio is retained and then absorbed into the fully-cubitized body (Sv-a's 18-cubit height / 18-cubit armspan, cst-s0102a.att-dn2_2_p025, which makes the 1:1 explicit by giving both as 18 cubits). The commentary converts the canonical RATIO into absolute cubit values.",
+            "jump": "early-canonical (a 1:1 proportion stated qualitatively as 'like a banyan') → commentary (the same proportion expressed as 18 cubits = 18 cubits, i.e. plugged into the absolute cubit body). The open ratio is given concrete units.",
+            "pali_stems": [
+              "nigrodhaparimaṇḍal",
+              "parimaṇḍal",
+              "samavibhatt",
+              "brahmujugatt"
+            ],
+            "verdict_guess": "counter",
+            "note": "COUNTER / flagged. This is the important negative control: a bodily PROPORTION (a ratio, not a vague gesture) is already LITERAL in the early canon (8 mūla rows; DN 30). It shows the early canon was willing to state exact proportions when it had one to state — what it withheld was ABSOLUTE measures (cubit-counts, fathom-radii), supplied only later. So nigrodhaparimaṇḍala counters a naive 'all body-specifics are late' reading and sharpens the real axis: the late move is from open/absolute-less to absolute-bounded, not from no-detail to detail."
+          }
+        ]
+      },
+      {
+        "candidates": [
+          {
+            "name": "Avīci: 'without-interval/wave' qualifier → the proper-name great hell with fixed architecture",
+            "open_form": "early-canonical (mula): avīci used as an ordinary adjective — AN 3.56 'pubbe sudaṁ ayaṁ loko avīci maññe phuṭo ahosi manussehi' (the world was once, methinks, jam-packed / without-gaps with people, an3.56); the root vīci='wave' surfaces in the ocean-image savīciṁ at ITI 69 (iti69). No hell named.",
+            "literal_form": "late-canonical → para-canon: Avīci as the proper-name eighth great hell with literal architecture — ITI 89 'Avīcinirayaṁ patto, catudvāraṁ bhayānakaṁ' (reached the four-gated terrifying Avīci-hell, iti89); JA 530 lists it among the eight (mahāvīci, ja530); Vism measures it, 'avīcimahānirayo' set in the yojana-cosmography (cst-e0101n.mul-73_p057).",
+            "jump": "early-canonical adjective/figure → late-canonical (Itivuttaka/Jātaka) proper-name hell → para-canonical (Visuddhimagga) measured great hell. The common word avīci ('no-interval', built on vīci 'wave') is reified into a named, four-gated, located, measured place.",
+            "pali_stems": [
+              "avīc",
+              "avīcinaray",
+              "avīcimahāniray",
+              "vīci"
+            ],
+            "verdict_guess": "supports",
+            "note": "Clean open→literal. Recall trap flagged: bare avīc-hits in the early canon are dominantly the qualifier/wave sense, not the hell; the named-hell sense is late. Truncated mula text used (left 6000 chars), so a few long-row tails may be unscanned — a final pass should re-pull full originals for the iti/ja/Vism loci."
+          },
+          {
+            "name": "The hells: open woeful destination (niraya) → the closed, named, counted Eight Great Hells",
+            "open_form": "early-canonical (mula): niraya as the generic destination of woe with no count and no proper names — pervasive 'apāyaṁ duggatiṁ vinipātaṁ nirayaṁ' formula; nerayika 'hell-bound' (27 early-canonical mula rows, e.g. an10.39, an3.23). Hell-imagery exists in early verse but unsystematized (SN 1.10, snp3.11).",
+            "literal_form": "late-canonical: the closed enumerated list of eight named hells — JA 530 'Sañjīvo kāḷasutto ca, saṅghāto dve ca roruvā; Athāparo mahāvīci, tāpano ca patāpano. Iccete aṭṭha nirayā ... paccekā soḷasussadā ... catukkaṇṇā catudvārā, vibhattā bhāgaso mitā' (these eight hells, each with sixteen subsidiaries, four-cornered, four-gated, measured by portions, ja530); systematized in Vism 'aṭṭhamahāniraya-soḷasaussadaniraya' (cst-e0101n.mul-87_p037).",
+            "jump": "early-canonical generic niraya → late-canonical Jātaka verse that names all eight + counts the sixteen ussada each + says 'measured by portions' → classical-commentary fixes the apparatus. The names Kāḷasutta/Mahāroruva/Patāpana have essentially ZERO early-canonical mula attestation (kāḷasutt 0 early; patāpan 0 early; mahāror only sn3.20).",
+            "pali_stems": [
+              "sañjīv",
+              "kāḷasutt",
+              "saṅghāt",
+              "roruv",
+              "mahāror",
+              "tāpan",
+              "patāpan",
+              "aṭṭhamahāniray"
+            ],
+            "verdict_guess": "supports",
+            "note": "Strong. Caveat: saṅghāt and tāpan are heavy homonyms (saṅghāta='aggregate/cutting'; tāpana='torment/ascetic-heat'), so their raw early counts overstate the named-hell sense — the technical compound aṭṭhamahāniraya is the clean discriminator and it is Vism-only here. The single canonical locus enumerating all eight is the LATE Jātaka ja530, not the four Nikāyas."
+          },
+          {
+            "name": "The sixteen subsidiary 'overflow' hells (ussada-niraya) as a counted ring",
+            "open_form": "early-canonical: ussada appears but in unrelated senses ('prominence/abundance of qualities', e.g. DN 1 cst-s0101m.mul-dn1_3); the lurid subsidiary-torment imagery (razor-path khuradhāra, sword-leaf forest asipattavana, Vetaraṇī river, hot-ash kukkuḷa) exists in early VERSE (Snp 3.10 Kokālika, snp3.10; SN 1.33) but un-numbered and un-assigned.",
+            "literal_form": "late→para-canon: each great hell ringed by sixteen ussada — JA 530 'paccekā soḷasussadā' (ja530); Vism 'soḷasaussadaniraya' and the compound ussadaniraya (cst-e0101n.mul-87_p037, cst-e0101n.mul-87_p037; the literal term ussadaniraya is Vism-only, cst-e0101n.mul-87_p037).",
+            "jump": "early-canonical scattered torment-imagery (in verse, no count) → late-canonical 'sixteen each' count → classical-commentary names/assigns each ussada feature to a hell. The number sixteen and the term ussada-niraya are absent from early-canonical mula.",
+            "pali_stems": [
+              "ussadaniray",
+              "soḷasaussad",
+              "khuradhār",
+              "asipattavan",
+              "vetaraṇ",
+              "kukkuḷ"
+            ],
+            "verdict_guess": "supports",
+            "note": "Template-vs-systematization split (parallel to the uttarakuru rice finding): the torment IMAGERY is early-canonical verse; the COUNT (16) and the named-apparatus are late/commentarial. The hell-feature stems (khuradhāra etc.) are early as free imagery, so they are the 'template'; ussadaniraya is the 'systematization'."
+          },
+          {
+            "name": "Hell-wardens (nirayapāla): narrative figures → debated literal beings, then real torturers",
+            "open_form": "early-canonical (mula): the wardens act in the Devadūta narrative without their ontology raised — MN 130 'nirayapālā nānābāhāsu gahetvā yamassa rañño dassenti' (the wardens seize him by the arms and show him to King Yama, mn130; also mn97, an3.36).",
+            "literal_form": "abhidhamma-canonical → commentary: the Kathāvatthu stages the controversy 'Are there wardens in the hells?' and cites the verse 'Sakāni kammāni hananti tattha' (one's own deeds strike there) — Nirayapālakathā (kv20.3, dup kv20.6); the commentary later affirms wardens as actual kamma-produced beings.",
+            "jump": "early-canonical narrative presence → abhidhamma-canonical explicit ontological debate (does the warden literally exist, or is 'warden' a figure for the kammic mechanism?) → classical-commentary literalizes them. The reification is on the epistemic/ontological axis, and the canon itself (Kathāvatthu) flags the dispute.",
+            "pali_stems": [
+              "nirayapāl",
+              "kammakāraṇ",
+              "yamarāj"
+            ],
+            "verdict_guess": "mixed",
+            "note": "Supports the open→literal axis but as an ontological-status concretization rather than a measure. The figurative reading ('your own deeds are the warden') is canonically attested AGAINST the literal reading inside KV 20.3, so the tradition harmonizes rather than simply hardening — hence 'mixed'."
+          },
+          {
+            "name": "The in-between existence (antarābhava): the figurative 'in-between attainer' non-returner → a reified between-lives state (which Theravāda then denies)",
+            "open_form": "early-canonical (mula): antarā-parinibbāyī, an OPEN agent-term for one of the five kinds of non-returner who 'attains final nibbāna in-between' (timing/manner unfixed) — AN 3.87/3.88, AN 7.16, an3.87 (24 early-canonical mula rows). No 'existence' is posited; antarā qualifies the attainment.",
+            "literal_form": "abhidhamma-canonical: antarābhava reified as a noun, a literal 'intermediate existence' between bhavas — Kathāvatthu Antarābhavakathā 'Atthi antarābhavo?' debated against kāma/rūpa/arūpa-bhava (kv8.2, dup kv8.11); Yamaka rows (cst-abh03m3.mul-111). Zero early- and zero late-canonical mula attestation of the noun.",
+            "jump": "early-canonical adjectival/agent term (antarā-parinibbāyī, 'in-between attainer') → abhidhamma-canonical reified substantive antarā-bhava ('a between-state of existence'), debated in the Kathāvatthu. A descriptor of WHEN/HOW a person finishes is concretized into an ontological STATE one passes through.",
+            "pali_stems": [
+              "antarābhav",
+              "antarāparinibbāy",
+              "upahaccaparinibbāy"
+            ],
+            "verdict_guess": "mixed",
+            "note": "The cleanest reification in the domain, BUT the Theravāda Kathāvatthu REJECTS the literal antarābhava — so this is a concretization the tradition resists, not adopts (other schools, e.g. Sarvāstivāda, asserted it). Coded mixed: the open→literal MOVE is real and canon-flagged, but the literal form is the rejected position within Theravāda. A genuinely load-bearing, defensible candidate precisely because the corpus stages the dispute."
+          },
+          {
+            "name": "Aeon-time: the hyperbolic 'incalculable' (asaṅkheyya/appameyya) → the enumerated 'four incalculables and 100,000 aeons'",
+            "open_form": "early-canonical (mula): asaṅkhyeyya/appameyya as an open hyperbole for what cannot be counted — AN 4.51 'asaṅkhyeyyo appameyyo mahāpuññakkhandho' (an incalculable, immeasurable mass of merit), with the explicit ocean-water 'you cannot reckon the gallons' simile (an4.51). The mountain/mustard-seed and dust similes for the kappa likewise gesture at vastness without a number (SN 15.5–8).",
+            "literal_form": "late-canonical → para-canon: the bodhisatta path fixed at a counted quantity — Buddhavaṃsa 'Cattāro te asaṅkheyyā, koṭi yesaṁ na nāyati' (those four incalculables, bv1); Vism 'cattāri asaṅkhyeyyāni kappasatasahassañca pāramiyo pūrayamāno' (fulfilling the perfections for four incalculables and a hundred-thousand aeons, cst-e0101n.mul-87_p055).",
+            "jump": "early-canonical hyperbole ('incalculable, like the ocean's water') → late-canonical enumeration ('FOUR incalculables + 100,000 aeons') as a fixed path-duration. The very word for 'uncountable' is pressed into a count of uncountables.",
+            "pali_stems": [
+              "asaṅkheyy",
+              "asaṅkhyeyy",
+              "appameyy",
+              "kappasatasahass",
+              "caturāsaṅkheyy"
+            ],
+            "verdict_guess": "supports",
+            "note": "Note the philology the prompt flags: appameyya/asaṅkhyeyya = 'without applied measure / not-to-be-counted' (open), distinct from ananta 'endless'. bv1 even pairs the count with 'cakkavāḷā canantakā' (endless world-systems) — late-canon stacking of the measured and the boundless. Clean supports."
+          },
+          {
+            "name": "Deva-lifespans: 'long-lived for an aeon' → exact divine-year and aeon tables (the partial counter-case)",
+            "open_form": "early-canonical, but ALREADY partly numerical: lower-deva spans given by a day-ratio formula — AN 8.42 'mānusakāni paññāsa vassāni cātumahārājikānaṁ devānaṁ eso eko rattindivo ... dibbāni pañca vassasatāni ... āyuppamāṇaṁ' (human 50 yrs = 1 divine day; 500 divine years = the Cātumahārājika lifespan, an8.42); even the formless span is numbered, AN 3.116 'vīsati kappasahassāni āyuppamāṇaṁ' (20,000 aeons, an3.116).",
+            "literal_form": "para-canon: the full single 31-tier āyuppamāṇa table consolidated and cross-tabulated in the Visuddhimagga (cst-e0101n.mul-87_p018 region; vassasata/vassasahassa/kappa figures throughout the e0101n cosmology chapter).",
+            "jump": "Weak/partial: the NUMBERS are largely already in the early canon (the day-ratio lifespan formula is buddha-vacana in AN 8.42 and the aeon-spans in AN 3.116). What is late is the CONSOLIDATION into one closed 31-row table and its avacara scaffolding — not the act of measuring.",
+            "pali_stems": [
+              "āyuppamāṇ",
+              "rattindiv",
+              "dibbavass",
+              "kappasahass",
+              "vassasahass"
+            ],
+            "verdict_guess": "counter",
+            "note": "Honest counter-case: the prompt's 'deva-lifespan tables' are a place the early canon ALREADY concretizes (AN 8.42, AN 3.116 give exact numbers in the Buddha's voice). The concretization gradient here is in CONSOLIDATION and SCAFFOLDING, not in the introduction of measure. Including as a counter keeps the thesis honest — the open→literal move is NOT universal across the cosmology."
+          },
+          {
+            "name": "The three-realm classification (kāmāvacara / rūpāvacara / arūpāvacara) as the closed plane-taxonomy",
+            "open_form": "early-canonical: the realms EXIST and are reached individually, but the tripartite -avacara classification term is essentially absent from the four Nikāyas in mula. Brahmā-worlds, Ābhassara (an10.29, an4.123), Suddhāvāsa (dn2, dn20, an4.124) appear as named destinations, not as members of a labelled 3-tier system.",
+            "literal_form": "abhidhamma-canonical → para-canon: kāmāvacara/rūpāvacara/arūpāvacara as the exhaustive classifier of consciousness and rebirth-planes — overwhelmingly Dhammasaṅgaṇi/Vibhaṅga (cst-abh01m.mul-014; ds2.1.1) and Vism (cst-e0101n), with 185/223/214 abhidhamma-canonical mula rows vs near-zero early-canonical.",
+            "jump": "early-canonical scattered named realms → abhidhamma-canonical closed tripartite -avacara taxonomy that sorts every plane into sense-sphere / fine-material / immaterial. The realms predate the grid; the grid is the systematization.",
+            "pali_stems": [
+              "kāmāvacar",
+              "rūpāvacar",
+              "arūpāvacar",
+              "tedhātuk",
+              "bhavaggabh"
+            ],
+            "verdict_guess": "supports",
+            "note": "Supports as a SCAFFOLDING concretization (open scatter → closed taxonomy) rather than a numeric measure. The famous 'thirty-one planes' round number (ekatiṃsa-bhūmi) is NOT cleanly attested in this corpus's mula — the only ekatiṃsa hits are ekatiṃsa-koṭṭhāsa (31 body-parts in the foulness meditation, cst-e0101n.mul-83), a recall trap. So the closed LIST is the avacara-tripartition, and the precise count '31' is a later manual convention not verifiable here — flagged uncertain."
+          },
+          {
+            "name": "The world-system as a measured, bounded disc (cakkavāḷa) and Mount Sineru in yojanas",
+            "open_form": "early-canonical: Sineru/Neru as a tall mountain in similes and the 'thousandfold world-element' (sahassī lokadhātu) as an open multiplicity — AN 3.80, AN 10.29 set the four continents around Sineru with NO measure (sineru 8 early mula rows: an3.80, sn13.11). The bounded ring-term cakkavāḷa is absent from early-canonical mula.",
+            "literal_form": "para-canon: the cakkavāḷa as a measured enclosed disc with Sineru and every body in yojanas — Vism 'candamaṇḍalaṃ ekūnapaññāsayojanaṃ ... tāvatiṃsabhavanaṃ dasasahassayojanaṃ ... taṃ sabbampi ekaṃ cakkavāḷaṃ ekā lokadhātu' (moon-disc 49 yojanas, Tāvatiṃsa 10,000 yojanas, all one cakkavāḷa, cst-e0101n.mul-73_p057).",
+            "jump": "early-canonical unmeasured Sineru + open thousandfold world → para-canonical bounded cakkavāḷa with every feature pinned to a yojana figure. cakkavāḷa: 0 early-canonical mula (only Buddhavaṃsa/Apadāna late + Vism, cst-e0101n).",
+            "pali_stems": [
+              "cakkavāḷ",
+              "sineru",
+              "yojanasahass",
+              "lokadhāt",
+              "parikkhepayojan"
+            ],
+            "verdict_guess": "supports",
+            "note": "Supports. Sineru is early (as mountain-simile, unmeasured); cakkavāḷa as the measured ring-boundary is late/commentarial. The yojana-table is concentrated in Vism §73 — the same metrological impulse the uttarakuru study found (commentary materialises by measuring)."
+          },
+          {
+            "name": "The inter-world dark voids (lokantarika) as figurative gulf → located, measured between-world hells",
+            "open_form": "early-canonical (mula): the lokantarikā as the dark gaps flooded with light at the Bodhisatta's birth — the marvel pericope, MN 123 (mn123), AN 4.127 (an4.127), SN 56.46 (sn56.46); 'aghā asaṁvutā andhakāra' dark unenclosed gloom, gesturing at scale without a figure or a fixed inhabitant.",
+            "literal_form": "para-canon: lokantarika-niraya as a located, populated, measured between-world hell — Vism places 'tadantaresu lokantarikanirayā' (in the gaps between cakkavāḷas, the lokantarika-hells) right after the yojana-cosmography (cst-e0101n.mul-73_p057).",
+            "jump": "early-canonical figurative dark gulf (a place of measureless gloom in a birth-marvel) → para-canonical lokantarika-niraya, a definite class of hell between world-systems with location and inhabitants. The void becomes a furnished, sized place.",
+            "pali_stems": [
+              "lokantarik",
+              "lokantarikaniray",
+              "aghā",
+              "andhakāratimisa"
+            ],
+            "verdict_guess": "mixed",
+            "note": "Mixed: lokantarika is genuinely early (the birth-marvel), but already a vivid dark-gulf there; the move is from 'dark gulf, lit by the Bodhisatta' (un-located, un-populated) to 'lokantarika-NIRAYA' (a hell-class between world-systems). The 'measureless light fills even the gulfs' framing is itself an appamāṇa/hyperbole datum. Worth coding but the open form is less austere than the others."
+          },
+          {
+            "name": "Measureless vs measured radiance of the brahmās (appamāṇābha / parittābha)",
+            "open_form": "early-canonical (mula): rebirth-tier set by the MEASURE of radiance one pervades — MN 127 'parittābhā' (limited radiance) vs 'appamāṇābhā' (without-applied-measure radiance) as contrasting rebirth-destinies reached by how one suffuses light in meditation (mn127). appamāṇa here = without-an-applied-measure, the exact philological sense, not 'infinite'.",
+            "literal_form": "abhidhamma-canonical → para-canon: Parittābha/Appamāṇābha/Ābhassara fixed as named rūpāvacara tiers with assigned aeon-lifespans and ordinal positions in the plane-table — Vibhaṅga (cst-abh02m.mul-379, cst-abh03m3.mul-053) and Vism (ābhassar in cst-e0102n.mul-9 region).",
+            "jump": "early-canonical functional contrast (limited- vs measureless-radiance as a meditative attainment that determines rebirth) → abhidhamma-canonical fixed tier-names slotted into the rūpāvacara grid with numbered spans. A description of the QUALITY of one's absorption becomes a fixed ADDRESS in the cosmos with a lifespan figure.",
+            "pali_stems": [
+              "appamāṇābh",
+              "parittābh",
+              "appamāṇasubh",
+              "ābhassar"
+            ],
+            "verdict_guess": "mixed",
+            "note": "Mixed: the names are early (MN 127), so this is less 'new measure' than 'open functional contrast → fixed slotted tier'. Directly exhibits the appamāṇa='without-applied-measure' philology the brief flags — the measureless-radiance attainer is concretized into the 'Appamāṇābha plane, Nth tier, X aeons'. The function→essence sibling-axis overlaps here, so partial."
+          }
+        ]
+      },
+      {
+        "candidates": [
+          {
+            "name": "asankheyya/appamana aeons -> the fixed 'four-incalculables-and-a-hundred-thousand-aeons' bodhisatta career",
+            "open_form": "OPEN: the bodhisatta's striving and the run of past Buddhas gestured at with measureless / incalculable quantity-words (appamana, asankheyya) and the open hyperbole 'many hundreds of thousands of aeons' (kappasatasahassa as an open intensifier). Stratum: early-canonical bare uses of asankheyya/appamana of time + late-canonical Buddhavamsa/Apadana 'kappasatasahassa' verse-hyperbole (kappasatasahass total 415: mula 71 of which most are late-paracanon Bv/Apadana, vs attha 285). Locus pattern: bv*, tha-ap*, cp* verse rolls; early-canon asankheyy only 9 rows.",
+            "literal_form": "LITERAL: the closed scholastic figure 'cattari asankheyyani kappasatasahassa(ni) ca' (four incalculable-periods plus a hundred thousand aeons) as the EXACT measured length of Gotama's perfection-career, and the graded three-classes of bodhisatta (4 / 8 / 16 asankheyya+100k). Stratum: classical-commentary (Buddhavamsa-atthakatha / Jataka-nidana / Visuddhimagga circle). Locus: the compound 'cattari asankheyyani' returns attha 7 / tika 3 / MULA 0 -- it does not occur in canon at all.",
+            "jump": "late-canonical open hyperbole (asankheyya/appamana/'kappasatasahassa') -> classical-commentary fixed enumerated period 'four asankheyyas and 100,000 aeons' as a definite measured career-length, plus the numbered 4/8/16 bodhisatta-grades.",
+            "pali_stems": [
+              "asankheyy",
+              "asankhyeyy",
+              "appamāṇ",
+              "kappasatasahass",
+              "cattāri asaṅkheyy",
+              "asaṅkheyyakapp"
+            ],
+            "verdict_guess": "supports",
+            "note": "Strongest single candidate. 'cattari asankheyyani' = 0 canonical rows (attha 7/tika 3) is a clean measured-zero in canon; asankheyy itself is 87% commentary (mula 58 vs attha 264 + tika 142). NOTE the philology the brief flags: appamana = 'without-applied-measure', asankheyya = 'un-count-up-able'; the commentary CLOSES the un-count-up-able by counting it (four of them, plus exactly 100k). DB-verified counts. The exact figure '4 asankheyya + 100k aeons' should be read directly in a Bv-a / Jataka-nidana row to confirm wording (DB was congested by a parallel session; counts are confirmed, the verbatim string read is the residual check)."
+          },
+          {
+            "name": "yojana-metrology: open vastness of place -> the place measured in yojanas",
+            "open_form": "OPEN: cosmic/continental places, mountains, and lakes named or gestured at without dimension -- a great continent, a mighty mountain, a vast lake, given by name and epithet (mahanta, ulara) not by figure. Stratum: early-canonical place-naming (Sineru/Neru, the four mahadipa, Uttarakuru) with NO measure (per the Uttarakuru study, the Nikaya gives no number). Locus: dn32 (Uttarakuru by Mt Neru, unmeasured), an3.80/an10.29 (name-in-list).",
+            "literal_form": "LITERAL: the same places assigned exact yojana figures -- Uttarakuru = 8,000 yojanas, Sineru's height/depth, each great continent ringed by exactly 500 small islands. Stratum: para-canonical/classical-commentary (Visuddhimagga and atthakatha). Locus: cst-e0101n.mul-73_p057 (Vism, 8,000 yojanas) per the Uttarakuru study; yojan total 9,084 is 90% commentary (mula 897 vs attha 2,458 + tika 5,430; only 270 early-canon).",
+            "jump": "early-canonical named-but-unmeasured place -> para-canonical/commentarial yojana-measured place; the metrological impulse that turns a described place into a figured one.",
+            "pali_stems": [
+              "yojan",
+              "aṭṭhasahassayojan",
+              "yojanasahass",
+              "yojanasata"
+            ],
+            "verdict_guess": "supports",
+            "note": "DB-verified: yojana is overwhelmingly a commentarial counting-unit (90% attha+tika, only 270 early-canon rows over the whole corpus). The Uttarakuru study already SQL-confirmed the 8,000-yojana figure is para-canonical (Vism) with no Nikaya number. This is the place-measurement sibling of the aeon-measurement candidate; both are the 'metrological impulse' the Uttarakuru paper names. Strong support."
+          },
+          {
+            "name": "appamana cetovimutti -> measured radius/limit of the brahmavihara suffusion",
+            "open_form": "OPEN: the boundless (appamana / appamanena) heart-release of the brahmaviharas -- radiating loving-kindness 'measurelessly' (appamanena) to all quarters, with appamana as a positive soteriological value (the appamana-cetovimutti, the measureless awareness-release). Stratum: early-canonical (the suffusion pericope, appamanena pharitva). Locus: appamana cetovimutti early-canon rows (e.g. dn/mn/sn suffusion suttas); appamanena is the canonical adverb of the radiation.",
+            "literal_form": "LITERAL: commentarial gradation that BOUNDS the boundless -- the karuna/metta-jhana given a defined limited-vs-unlimited (odhiso/anodhiso) scheme, fixed directions, and the Visuddhimagga's staged 'breaking the boundaries' (sima-sambheda) with enumerated person-classes, turning 'measureless' into a graded technical attainment with countable stages and objects. Stratum: classical-commentary (Visuddhimagga brahmavihara-niddesa).",
+            "jump": "early-canonical positive 'measureless' release (appamana as the un-bounded quality itself) -> commentarial bounding into graded, directioned, enumerated jhana-stages -- concretization not of a number but of a once-unbounded scope.",
+            "pali_stems": [
+              "appamāṇā cetovimutti",
+              "appamāṇa",
+              "appamāṇena",
+              "odhiso",
+              "sīmāsambheda"
+            ],
+            "verdict_guess": "mixed",
+            "note": "DB partial: 'appamana cetovimutti' surface phrase = only 14 rows (early-canon 3, attha 5, tika 3, cst-mul 3) -- thin but present in early canon. This is the subtlest candidate and the one I am LEAST sure the corpus cleanly supports as a measureless->numbered move: the commentary bounds the SCOPE (limited/unlimited persons) rather than substituting a number, so it is concretization-of-scope, not concretization-into-a-figure. Flagged mixed. The appamanena/appameyya counts (heavily commentary) support the general 'appamana is a word the commentary loves to gloss/grade' reading, but the specific brahmavihara-radius claim needs the Vism brahmavihara-niddesa read directly (DB congested; not yet confirmed verbatim)."
+          },
+          {
+            "name": "asiti-anubyanjana: open beauty/perfection of the Buddha-body -> the counted 80 minor marks",
+            "open_form": "OPEN: the open praise of the Tathagata's bodily splendour and the canonical sense-restraint context where 'features/marks' (anubyanjana) are merely the secondary details one should NOT grasp at -- anubyanjana as an open word for 'minor features', uncounted. Plus the 32 great-man marks (dvattimsa mahapurisalakkhana) which ARE canonically counted but stand alone. Stratum: early-canonical (anubyanjana in the indriya-samvara formula: 'na nimittaggahi hoti nanubyanjanaggahi'). Locus: mn33, sn35.235, an10.34 (the restraint context, NOT a marks-list).",
+            "literal_form": "LITERAL: the fixed enumerated catalogue 'asiti anubyanjanani' -- the EIGHTY secondary/minor marks of a Great Man, a closed numbered list paired with the canonical 32. Stratum: classical-commentary. Locus: 'asiti anubyanjan' counted form = attha 18 / tika 7 / MULA 0; the bare 'anubyanjan' early-canon hits (14) are all the sense-restraint context, not the 80-list.",
+            "jump": "early-canonical open 'minor features' (a thing not to grasp) + the standalone canonical 32 -> classical-commentary closed catalogue of exactly 80 named minor marks, completing the 32+80 systematized iconography.",
+            "pali_stems": [
+              "anubyañjan",
+              "asīti anubyañjan",
+              "asītānubyañjan",
+              "dvattiṃsa",
+              "mahāpurisalakkhaṇ"
+            ],
+            "verdict_guess": "supports",
+            "note": "DB-verified: the COUNTED '80 minor marks' (asiti anubyanjana) = 0 canonical rows (attha 18 / tika 7); the bare anubyanjana in canon (14 early rows) is the sense-restraint pericope, a different sense entirely. Clean concretization: an open word for 'minor features' is closed into a numbered list of exactly eighty. The 32 marks (dvattimsa) ARE canonical so the move is specifically the ADDITION of the counted 80 to fill out the iconographic system. Strong support; the homograph split (restraint-sense vs marks-list-sense) must be respected -- bare anubyanjan over-counts."
+          },
+          {
+            "name": "cakkavala / world-system count: open 'thousandfold world' -> the enumerated cakkavala as a counted cosmographic unit",
+            "open_form": "OPEN: the early thousandfold-cosmology where the multiplicity of worlds is given as open powers-of-a-thousand (sahassi culanika lokadhatu, dasasahassi, the thousand suns/moons) -- 'world-system' (lokadhatu) as an open vastness-gesture, and the cosmos described by nesting, not by a named counting-unit. Stratum: early-canonical (an3.80 Culanika, an10.29). Locus: an3.80, an10.29 (lokadhatu nested by thousands).",
+            "literal_form": "LITERAL: 'cakkavala' as the standardized, named, measured world-sphere unit (with its own yojana dimensions and fixed furniture -- one Sineru, four square continents, 500 islands each), counted in fixed sets (the cakkavala one inhabits, the ten-thousand cakkavalas that quake, the standard cosmographic atlas). Stratum: classical-commentary. Locus: cakkavala total 831 = attha 522 + tika 214, mula 48, EARLY-CANON only 1 -- the counting-unit is a commentarial coinage.",
+            "jump": "early-canonical open thousandfold nesting (lokadhatu by powers of a thousand) -> commentarial standardized 'cakkavala' unit with fixed dimensions and counted in definite sets; the open cosmos closed into an enumerable atlas of identical measured spheres.",
+            "pali_stems": [
+              "cakkavāḷ",
+              "lokadhāt",
+              "dasasahassi",
+              "sahassī cūḷanikā",
+              "dasasahassī"
+            ],
+            "verdict_guess": "supports",
+            "note": "DB-verified: cakkavala is essentially absent from early canon (1 early-canon row out of 831; 89% attha+tika), while lokadhatu/sahassi-nesting IS the early form. The word that turns the open nested cosmos into a counting-unit ('one cakkavala', 'ten-thousand cakkavalas') is commentarial. Supports. The Uttarakuru study independently confirms the per-cakkavala furniture (square continents, 500 islands, yojana sizes) is para-canonical/commentarial."
+          },
+          {
+            "name": "niyatayuka / digha-ayuka: open 'fixed/long lifespan' -> the numbered exact lifespan (vassasahassa etc.)",
+            "open_form": "OPEN: the canon warrants THAT a lifespan is fixed or long without saying HOW long -- niyatayuka ('of settled lifespan'), dighayuka ('long-lived'), the bare assertion of fixity/length with no figure. Stratum: early-canonical. Locus: an9.21 (Uttarakurukas niyatayuka, no number, per the Uttarakuru study, SQL-confirmed the canon gives no figure).",
+            "literal_form": "LITERAL: the exact numbered span supplied later -- 'vassasahassameva' (just a thousand years) for the Uttarakurukas; and more broadly the closed atlas of numbered deva/hell/being lifespans counted in years, aeons, and the nirabbuda/abbuda hell-number system. Stratum: classical-commentary (Manorathapurani glossing niyatayuka = 'nibaddham ayu vassasahassameva'). Locus: cst-s0404a.att-an9_p063 (per Uttarakuru study, SQL-confirmed); vassasahassa is the numbered counterpart.",
+            "jump": "early-canonical open 'fixed/long-lived' (niyatayuka/dighayuka, no figure) -> classical-commentary exact numbered span (vassasahassa, the graded lifespan-atlas); the canon's open 'fixed' narrowed to an exact 'thousand years'. The Uttarakuru study calls this 'drift-by-specification'.",
+            "pali_stems": [
+              "niyatāyuk",
+              "dīghāyuk",
+              "vassasahass",
+              "āyuppamāṇ",
+              "appamāṇāyuk"
+            ],
+            "verdict_guess": "supports",
+            "note": "Already SQL-confirmed in the Uttarakuru study (feature A6): canon gives niyatayuka with NO figure; the 'thousand years' (vassasahassameva) is Manorathapurani-only, and the one canonical vassasahassa+uttarakuru co-occurrence is the spurious Asavati-creeper. I could not re-run vassasahass counts fresh (DB congested), so I rest this candidate on the Uttarakuru study's already-audited SQL plus the early-canonical status of niyatayuka/dighayuka. Strong support but partly inherited from the sibling study rather than freshly re-counted -- flagged."
+          },
+          {
+            "name": "aneka-satasahassa hyperbole -> a definite count of past lives / past Buddhas",
+            "open_form": "OPEN: open hyperbolic enumeration -- 'many hundred-thousand' (anekasatasahassa), 'many aeons' -- used as an UNbounded intensifier for past lives recollected, beings taught, or aeons elapsed; the figure is rhetorically huge, not a real count (anekasatasahass = 74 rows). Stratum: early-canonical (pubbenivasa recollection 'aneka...pi jatiyo') through late-canonical Apadana verse. Locus: the pubbenivasanussati pericope; tha-ap* verse rolls.",
+            "literal_form": "LITERAL: closed definite counts -- the exact number of past Buddhas (24/27/28 named in Buddhavamsa), the exact 550 Jataka births, the enumerated and named sequence replacing the open 'many hundred-thousand births'. Stratum: late-canonical (Buddhavamsa's named series) hardening in classical-commentary (the fixed Jataka count and the closed Buddha-list).",
+            "jump": "early/late-canonical open hyperbole ('many hundred-thousand' lives/aeons/Buddhas) -> a definite enumerated and named series (24-28 Buddhas, a fixed Jataka tally); open multitude closed into a countable, named canon.",
+            "pali_stems": [
+              "anekasatasahass",
+              "anekāni jātisahass",
+              "kappasatasahass",
+              "satasahass"
+            ],
+            "verdict_guess": "mixed",
+            "note": "Partly supported, partly definitional. anekasatasahassa (74 rows, mostly attha 37 + tika 22, late-paracanon 6) confirms 'many-hundred-thousand' is a real open intensifier that skews late/commentary. But the 'definite Buddha-count' literal form is itself a LATE-CANONICAL development (Buddhavamsa), not strictly a commentarial closure, so the jump is intra-canonical (early hyperbole -> late-canon enumeration) more than canon->commentary. Honest flag: the closing here is real but happens earlier (inside the late canon) than the yojana/cakkavala/anubyanjana cases, so verdict mixed. The named-Buddha-count and Jataka-550 figures need a direct read to fix their exact stratum."
+          }
+        ]
+      }
+    ],
+    "counter": [
+      {
+        "name": "The avyākata-vatthu — the deliberately UNDECLARED questions (incl. finite/infinite world)",
+        "open_form": "OPEN/refusal-of-measure. early-canonical, 4-Nikaya. The 10 (or 14) undeclared points — antavā loko / anantavā loko (is the world finite or infinite), and the after-death tetralemma — are set aside ON PURPOSE. Loci: SN 56.8 Cintasutta, the Avyākata-saṃyutta (SN 44), Diṭṭhi-saṃyutta (SN 33/Diṭṭhisaṃyutta), the Cūḷamālukya frame (MN 63), MN 72; ~30 mula rows of the genuine undeclared-QUESTIONS sense concentrated in pli-sn (11) / pli-dn (3) / pli-an (3) / pli-mn (2). The finite/infinite-world pair antavā loko is itself 62 mula rows. The Buddha refuses to assign the cosmos a bounded vs unbounded measure because the question is soteriologically idle and category-mistaken (it does not lead to nibbida/viraga).",
+        "literal_form": "No later concretization of the finite/infinite-world answer is licensed — the silence is held as silence. (The contrast is the commentary's harmonization apparatus, which explains WHY the question is set aside rather than answering it.) The closest thing to a 'literal' move is the homograph trap: avyākata in the 7 Abhidhamma books = the technical ethical class 'karmically-indeterminate' (kusala/akusala/avyākata), 984 of the 1108 raw-stem mula hits — a DIFFERENT sense that must be excluded (RUNG-4 sense-audit). That Abhidhamma mass is determinacy-machinery, not a measure of the world.",
+        "jump": "NONE on the world-measure axis — the canon's refusal is never concretized into a bounded/unbounded answer at any later stratum; this is the paradigm counter-current. (Beware the false 'jump' from the avyākata-vatthu refusal to the Abhidhamma avyākata ethical category — a homograph, not a concretization.)",
+        "pali_stems": [
+          "avyākat",
+          "abyākat",
+          "antavā lok",
+          "anantavā lok",
+          "sassato lok",
+          "hoti tathāgato paraṁ maraṇā"
+        ],
+        "verdict_guess": "counter",
+        "note": "Clean counter-current type (1): a Buddha-voiced, early-canonical, deliberate refusal of measure that the tradition never fills in with a bounded answer. HOMOGRAPH GUARD is load-bearing: 984/1108 mula avyākata hits are the Abhidhamma ethical-indeterminate sense, NOT the undeclared questions — count only the ~30 rows co-occurring with sassato/antavā loko or the after-death formula. The antavā-loko mula count (62) is the honest measure of the world-finitude refusal."
+      },
+      {
+        "name": "appameyya — the Tathāgata as beyond-measure (the after-death tetralemma refused)",
+        "open_form": "OPEN/immeasurable. early-canonical. MN 72 Aggivacchagotta: 'Rūpasaṅkhayavimutto kho, vaccha, tathāgato gambhīro appameyyo duppariyogāḷho — seyyathāpi mahāsamuddo' — freed from reckoning-in-form, the Tathāgata is deep, IMMEASURABLE, unfathomable, like the great ocean — followed by the four-fold na upeti (he does-not-apply to is-reborn / is-not-reborn / both / neither). appameyya is 284 rows total, 31 in the 4 Nikayas (pli-an 12 / pli-mn 10 / pli-sn 9), and appears in the deep-immeasurable-Tathagata formula at MN 72, SN (Anurādha SN 22.86 region, SN 1.x). The point is a positive refusal: the awakened one cannot be taken as a bounded measurable object.",
+        "literal_form": "No concretization is doctrinally licensed; the immeasurability is the teaching. Where appameyya/appamāṇa DOES bloom upward (attha 120 > mula 105) it is mostly the merit-praise register (the immeasurable merit of giving to the Sangha, the Buddha's appameyya qualities) — an amplification of the open form, not its replacement by a number.",
+        "jump": "NONE for the Tathāgata-after-death case; the early canon already states the immeasurability and the later layers preserve/amplify it rather than supplying a measure. Counter to the concretization direction.",
+        "pali_stems": [
+          "appameyy",
+          "gambhīr",
+          "duppariyogāḷh",
+          "atulya",
+          "appamāṇaguṇ"
+        ],
+        "verdict_guess": "counter",
+        "note": "Counter-current type (1)+(2): an early-canonical positive immeasurability (the deep-as-ocean Tathagata) that is never concretized and is amplified-but-not-bounded in commentary. appameyya is a truncation-safe root (the -eyy floor catches declined siblings); 284 total is robust. Distinguish from appamāṇa below: appameyya leans Tathagata/merit, appamāṇa leans brahmavihāra."
+      },
+      {
+        "name": "appamāṇā cetovimutti — the MEASURELESS mind-deliverance (brahmavihāra pervasion)",
+        "open_form": "OPEN/measureless (NOT infinite). early-canonical, very dense. The brahmavihāra pervasion radiates mettā/karuṇā/muditā/upekkhā 'vipulena mahaggatena APPAMĀṆENA averena abyāpajjena' — abundant, exalted, MEASURELESS, without enmity — in all directions. appamāṇā cetovimutti as the named 'measureless deliverance' is ~75 mula rows (MN 20, SN 13, AN 10, DN 8); appamāṇena in the pervasion formula is 63 rows across the 4 Nikayas (pli-an 22 / pli-mn 20 / pli-dn 14 / pli-sn 7). appamāṇa = without-an-applied-measure (a refusal to bound the radiation), philologically distinct from ananta=endless.",
+        "literal_form": "MN 43 Mahāvedalla and MN 127 Anuruddhasutta are the canon's OWN analytic of the term: MN 43 groups appamāṇā with ākiñcaññā/suññatā/animittā cetovimutti and asks whether they differ in meaning or only in name; MN 127 sharply DIFFERENTIATES appamāṇā cetovimutti from mahaggatā (exalted) cetovimutti — 'these states differ in meaning AND in letter' (nānātthā ceva nānābyañjanā ca). The measureless one is held apart from the measured/bounded one BY THE CANON, not by the commentary.",
+        "jump": "NONE — and this is the sharpest counter: the canon does its own concretization-vs-openness sorting INTERNALLY (MN 127), keeping appamāṇā explicitly un-bounded against mahaggatā's bounded extents. The commentary's kasiṇa-appamāṇa (12 vism / 32 attha) RETAINS the boundlessness as a practice instruction (extend the sign without limit) rather than fixing a number — counter-current type (2).",
+        "pali_stems": [
+          "appamāṇ",
+          "appamāṇacetovimutt",
+          "appamāṇena",
+          "mettāsahagat"
+        ],
+        "verdict_guess": "counter",
+        "note": "Counter-current type (1)+(2): a heavily early-canonical, robust 'measureless' category that the canon itself protects against bounding (MN 127's appamāṇā-vs-mahaggatā split), and that the commentary keeps open (kasiṇa extended 'without limit') rather than numbering. KEY PHILOLOGY honored: appamāṇa = without-applied-measure, not ananta=infinite."
+      },
+      {
+        "name": "MN 127 mahaggatā cetovimutti — the early canon is ALREADY giving a graded SPATIAL measure",
+        "open_form": "Not an open form — this is the converse. The 'exalted/expanded deliverance' is the term one might expect to be vaguely vast.",
+        "literal_form": "LITERAL/measured, early-canonical (MN 127 Anuruddhasutta, mula, pli-mn). The mahaggatā cetovimutti is given an explicit GRADED, BOUNDED spatial extent: 'pervading the extent of one tree-root (ekaṁ rukkhamūlaṁ) ... two or three tree-roots ... one village-field (ekaṁ gāmakkhettaṁ) ... two or three village-fields ... one kingdom ... two or three kingdoms ... this ocean-girt land (sasamuddapariyantaṁ pathaviṁ)'. A concrete ascending ruler of pervaded area, stated in the EARLIEST stratum.",
+        "jump": "NO inter-stratum jump needed — concretization-by-spatial-extent is present in the early canon itself, not introduced late. This breaks the 'concretization is late' direction at the source.",
+        "pali_stems": [
+          "mahaggat",
+          "rukkhamūl",
+          "gāmakkhett",
+          "pharitvā adhimuccitvā",
+          "sasamuddapariyant"
+        ],
+        "verdict_guess": "counter",
+        "note": "Counter-current type (3): the EARLY canon is already concrete/measured. MN 127 explicitly measures the exalted-deliverance by graded pervaded area, AND explicitly contrasts it with the measureless one — so the same early sutta carries both the bounded reading and the deliberate non-bounding, defeating any claim that 'measured = late, measureless = early.'"
+      },
+      {
+        "name": "anamatagga saṁsāra — saṁsāra has no discoverable beginning (refusal of a temporal count)",
+        "open_form": "OPEN/refusal-of-count. early-canonical, dense in SN (the Anamatagga-saṃyutta, SN 15): 'anamataggo kho, bhikkhave, saṁsāro; pubbā koṭi na paññāyati' — saṁsāra is without-discoverable-beginning; a FIRST POINT IS NOT DISCERNED. The famous similes amplify the vastness WITHOUT a number: the grass-and-sticks of Jambudīpa, the great mountain wiped by cloth once a century, the tears/mother's-milk greater than the four oceans. 45 mula rows, 27 in pli-sn. A Buddha-voiced refusal to put a measure on the duration of wandering.",
+        "literal_form": "The similes are deliberately UN-numbered ('longer than that the eon would not be exhausted'). No canonical or commentarial figure replaces 'a first point is not discerned' for saṁsāra itself.",
+        "jump": "NONE — the refusal-of-beginning persists; commentary (attha 94 / tika 46) glosses and illustrates the openness rather than supplying a start-date. Counter to concretization.",
+        "pali_stems": [
+          "anamatagg",
+          "pubbā koṭi na paññāyati",
+          "tiṇakaṭṭha",
+          "sāsap"
+        ],
+        "verdict_guess": "counter",
+        "note": "Counter-current type (1)+(2): an early-canonical, Buddha-voiced refusal to bound the past, with similes engineered to gesture at the incalculable WITHOUT a figure, retained openly through the commentary. The closest concretization (cattāri asaṅkheyyāni, see below) is a SEPARATE bodhisatta-career formula, not a count of saṁsāra."
+      },
+      {
+        "name": "Early-canonical exact cosmological/biographical NUMBERS (DN 14, DN 26)",
+        "open_form": "n/a — these terms enter the corpus already numbered; the counter is that there is no earlier 'open' phase to concretize from.",
+        "literal_form": "LITERAL/measured, EARLY-canonical. DN 14 Mahāpadāna and DN 26 Cakkavattisīhanāda give EXACT figures in the earliest stratum: human lifespans of 80,000 years (asītivassasahassa), the descending/ascending lifespan ladder (80,000 → 40,000 → ... → 10 years), Vipassī Buddha's exact era. 42 rows in the 4 Nikayas carry precise vassasahassa / vassasatasahassa (thousand / hundred-thousand-year) figures (pli-an 17 / pli-sn 11 / pli-dn 8 / pli-mn 6).",
+        "jump": "NO jump — concretization-by-exact-number is native to the early canon. The early Nikayas stake precise cosmological and biographical digits, so 'the early canon gestures, the late canon measures' is false as a blanket rule.",
+        "pali_stems": [
+          "asītivassasahass",
+          "vassasatasahass",
+          "vassasahass",
+          "dasavassasahass",
+          "cakkavattī"
+        ],
+        "verdict_guess": "counter",
+        "note": "Counter-current type (3): the early canon is already richly, exactly numbered for lifespans and cosmic eras (DN 14/DN 26). Concretization is not a purely late event; the diachronic claim must be restricted to terms that are OPEN early (appamāṇa, anamatagga, appameyya, the avyākata-vatthu), not generalized to all cosmology."
+      },
+      {
+        "name": "Metta Sutta aparimāṇā mettā — the boundless radiation kept boundless (archaic stratum)",
+        "open_form": "OPEN/boundless. archaic-/late-canonical (Snp 1.8 Mettasutta = Khp 9; the Karaṇīyametta). 'Mettañca sabbalokasmi, mānasaṁ bhāvaye aparimāṇaṁ' — develop a BOUNDLESS heart of mettā toward the whole world; 'as a mother would protect her only child with her life, so toward all beings cultivate a measureless mind, above, below, across, without obstruction (asambādhaṁ), without enmity.' The radiation is explicitly unbounded by space, number of beings, or partiality.",
+        "literal_form": "No concretization: the commentary on the Mettasutta (KN-a) preserves the aparimāṇa/measureless framing and the directional-without-limit pervasion; it does not assign a radius or a being-count. Where commentary elaborates, it is the technical sīmā-sambheda ('breaking the boundary' between self/friend/neutral/enemy) — which DEEPENS the boundlessness rather than bounding it.",
+        "jump": "NONE — boundless mettā stays boundless from the archaic verse through the commentary. Counter to concretization (type 2).",
+        "pali_stems": [
+          "aparimāṇ",
+          "mettañca sabbalokasmi",
+          "asambādh",
+          "sīmāsambhed"
+        ],
+        "verdict_guess": "counter",
+        "note": "Counter-current type (2): an archaic open form (boundless mettā) that the LATER layer keeps open and even radicalizes (sīmā-sambheda = dissolving the last residual boundary). aparimāṇa here is the deliberate non-measure; the commentary's move is toward MORE boundlessness, not a figure."
+      },
+      {
+        "name": "cattāri asaṅkheyyāni — counting the un-countable (the case that LOOKS like a counter but SUPPORTS)",
+        "open_form": "OPEN/incalculable. asaṅkheyya = 'un-countable' is itself a refusal-of-count word; in the early canon (e.g. AN's four asaṅkheyyas of beings, the incalculable eons) it gestures at the un-enumerable. 35 mula rows for the bare stem.",
+        "literal_form": "LITERAL/measured-as-a-fixed-unit. The phrase 'cattāri asaṅkheyyāni (kappānaṁ) satasahassañca' — FOUR incalculables and a hundred thousand eons — turns 'incalculable' into a COUNTED quantity (a fixed number of incalculables) for the bodhisatta career. This is 0 in the 4 Nikayas; it appears only late: the 3 mula hits are all late-canonical pli-kn (Buddhavaṁsa/Apadāna), then attha 7 / tika 3 / anya. The uncountable is reified into a unit you can multiply.",
+        "jump": "late-canonical (Buddhavaṁsa) → classical-commentary: the jump where 'incalculable' becomes a countable measure of the bodhisatta path-length.",
+        "pali_stems": [
+          "asaṅkheyy",
+          "cattāri asaṅkheyy",
+          "caturasaṅkheyy",
+          "kappasatasahass"
+        ],
+        "verdict_guess": "mixed",
+        "note": "INCLUDED FOR HONEST CALIBRATION — this one SUPPORTS the concretization thesis, not counters it: asaṅkheyya starts as a refusal-of-count and is later reified into 'four incalculables + 100k eons,' 0 in the 4 Nikayas and only late-canonical (pli-kn) onward. Flagged 'mixed' because the SAME word's bare early use is genuinely open; only the late COUNTED-unit form concretizes. Useful as the boundary case that shows the counter-set is not cherry-picked: where the early form is open AND the late form numbers it, the thesis holds — the genuine counters are the cases (avyākata, anamatagga, appameyya, appamāṇā, Metta) where the late form does NOT number it, plus MN 127/DN 14-26 where the EARLY form already does."
+      }
+    ]
+  }
+}
