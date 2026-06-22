@@ -68,3 +68,9 @@ research/individual-guidance/_samadhi_run.log
 research/individual-guidance/ABSTRACT-PROPOSAL.md
 
 research/individual-guidance/_review_flags.txt
+
+# cosmology-census scratch: the sampled-row dumps (row text, large/regenerable).
+# COSMOLOGY-COUNTS.json + COSMOLOGY-ENUMERATION.json + run_cosmology.py are the
+# committed reproducibility artifacts; the _COSMOLOGY-* dumps are scratch.
+research/individual-guidance/_COSMOLOGY-*
+*.jsonl
