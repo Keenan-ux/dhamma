@@ -28,8 +28,8 @@ const RESEARCH_ENTRIES = [
   },
   {
     slug: 'individual-guidance',
-    title: 'How an Individual Is Guided Toward Awakening',
-    subtitle: 'How the canon and its commentaries individuate a person and fit a teaching to them, traced across the textual layers from the mind’s present root to a fixed temperament.',
+    title: 'From Function to Essence',
+    subtitle: 'How the early Buddhist teaching is systematized across the textual layers, in the guidance of persons and the description of the world.',
     data: '/research/individual-guidance.json',
   },
   {
@@ -1293,31 +1293,57 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
             <div style={articleBody}>
               {/* ABSTRACT */}
               <p style={abstractLead}>
-                <span style={abstractTag}>Abstract.</span> A familiar piece of Buddhist meditation lore
-                sorts people into six temperaments and hands each its own practice, and it is usually read as
-                the canon's own counsel. It is late, and at first not even a temperament scheme: its central
-                word, <em>carita</em>, carries the temperament sense zero times in the four Nikāyas and the
-                seven Abhidhamma books, enters at the para-canonical Khuddaka still meaning conduct, and is
-                fixed into a person-by-object grid only in the commentaries. That finding is one instance of a
-                pattern that runs through every level examined here: at each, the early canon works by present
-                function, by gradient, and by felt quality, and the later literature systematizes it into fixed
-                types, named tiers, and closed lists.
+                <span style={abstractTag}>Background.</span> The Pāli canon's earliest layer teaches in one
+                register. Its later literature teaches in another. The early discourses read what is presently
+                the case and answer it as the situation needs. They watch the root now active in a mind. They
+                weigh how far a person's faculties have ripened. They place the whole world inside the
+                fathom-long body. The thousand years of Abhidhamma, commentary, and sub-commentary that follow
+                fix that supple teaching into closed systems: standing types and named tiers, closed lists and
+                measured quantities. This study began with a narrow question. It asked how the canon matches a
+                person to a practice. That question opened onto a larger one, and the larger one became the
+                subject. How is an adaptive teaching turned into a fixed one? And is the hardening a single late
+                break, or a tendency that recurs as the literature grows?
               </p>
               <p style={abstractLead}>
-                The canon individuates a person by the mind's presently-active root, by the maturity of the
-                faculties, and by the route to liberation, in a fully built roster of seven noble persons; the
-                commentary freezes what a person presently <em>does</em> into a standing type of what they{' '}
-                <em>are</em>. The canon treats calm and insight as a balance yoked to a present need; the
-                commentary splits them into fixed vehicles and a dry-insight worker, none named in the canon.
-                The canon grades the concentration the path asks as a measure (<em>samādhismiṃ mattaso kārī</em>)
-                without fixing a floor, and names the threshold for the first awakening as a hindrance-free,
-                pliant mind rather than a numbered attainment; the commentary supplies the sub-jhānic tiers,
-                access, momentary, and absorption concentration, each zero in the canon. Even the objects
-                follow: the canonical kasiṇa is a boundless perception, the commentary's a manufactured disc.
-                The lower fruits, then, ask less than the lore implies. What is late is not individuation, nor
-                system, since the canon's own typologies are fully built; it is one move, repeated, a present
-                function set into a fixed essence, a gradient closed into a floor, a quality resolved into a
-                list.
+                <span style={abstractTag}>Methods.</span> The relevant vocabulary is traced across six textual
+                strata. They run from the four Nikāyas through the late canon and the Abhidhamma, then the
+                para-canonical works, the commentaries, and the sub-commentaries. Two domains are followed: the
+                guidance of persons and the description of the world. Every count comes from a query grouped on
+                textual stratum against the live corpus. Every term is read in sampled rows before it is trusted.
+              </p>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Results.</span> The move is real. It takes one form, and it recurs at
+                more than one jump. Take the guidance of persons first. The canon sorts a mind by its present
+                root, and it carries closed rosters keyed to capacity and route; the seven noble persons are one
+                such roster. The six-temperament scheme built on <em>carita</em> (a person's settled character)
+                is a different thing. It is attested zero times in the four Nikāyas and the seven Abhidhamma
+                books. It fixes only in the commentaries. The other threads run the same way. The yoke of calm
+                and insight becomes a set of named vehicles. The graded measure of concentration
+                (<em>samādhismiṃ mattaso kārī</em>) becomes the named tiers of access and absorption. The first
+                absorption, once given as a few felt qualities, becomes a closed inventory of factors. The
+                description of the world hardens by the same logic. The kasiṇa that the canon offers as a
+                measureless perception (<em>appamāṇa</em>, a refusal of measure rather than a claim of the
+                infinite) becomes a manufactured disc. The bounded world-sphere (<em>cakkavāḷa</em>) is almost
+                absent from the canon and becomes a commentarial fixture. What was measureless or hyperbolic is
+                later counted in <em>yojana</em>s and dated by world-cycles. The hardening is staged rather than
+                single. It intensifies again in the sub-commentaries, where the language of own-nature
+                (<em>sabhāva</em>) reaches its peak. Most of these transitions localize to a single jump. A
+                minority run the other way, because the canon already holds fully built typologies, and the
+                tradition now and then refuses a measure or disowns its own system.
+              </p>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Conclusion.</span> So the systematization of the teaching is gradual
+                and many-staged. It is not a single break between canon and commentary, and it is a tendency
+                rather than a law. What stays consistently late is one move, worked in two registers. A present
+                function is set into a fixed essence. An open and measureless formulation is closed into a
+                concrete and bounded one. The texts themselves would notice the tension here. A teaching of
+                non-self and impermanence comes, in its later scholarship, to rest on the language of own-nature
+                and fixed measure. Why the tendency runs as it does is a further question. It may answer to the
+                needs of oral transmission. It may answer to a wider human pull toward concrete and permanent
+                knowledge. That lies beyond what the texts can settle, and it is left open. For the practical
+                matter this began with, the lower reaches of the path ask less than the later lore implies. The
+                machinery that fits a person to a practice is later and firmer in its claims than its canonical
+                shelving suggests. So is the cosmos it sits within.
               </p>
 
               <details style={{ margin: '18px 0 8px' }}>
@@ -1350,20 +1376,18 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 </p>
               </details>
 
-              {/* ROADMAP / DEMOTION INTRO */}
+              {/* ROADMAP */}
               <p>
-                This survey set out to place one scheme, the six temperaments, across the layers, and found
-                that the scheme is the late corner of a wider field. So it traces two things. First, by
-                ascending stratum, the vocabularies the tradition actually uses to individuate a person and fit
-                a teaching to them: in the early discourses, a person read by the mind's present root and by the
-                reach of their faculties; in the Abhidhamma, persons sorted under other words while the
-                temperament term stays absent; in the para-canonical Khuddaka, the hinge where one word changes
-                its job; in the commentaries, the temperament type fixed and a whole design vocabulary blooming;
-                in the sub-commentaries, temperament read off the body. Then, across the whole of it, the change
-                that runs underneath the rest, the slow turn from reading what is alive in a person now to naming
-                a fixed kind they belong to. A trailing section opens the full temperament
-                census and its tables beneath this narrative, with every citation opening its passage; a closing
-                section records findings of general importance that fell out of the wider reading.
+                The study began at one corner of this field and widened. It first walks the guidance of persons
+                by ascending stratum. In the early discourses a person is read by the mind's present root and by
+                the reach of the faculties. In the Abhidhamma persons are sorted under other words while the
+                temperament term stays absent. At the para-canonical Khuddaka one word changes its job. In the
+                commentaries the temperament type is fixed and a whole design vocabulary blooms. In the
+                sub-commentaries temperament is read off the body. Then the survey drops the partition and reads
+                the whole field at once, across both domains, for the pattern that crosses the layers: where the
+                hardening happens, at which jump, and where it does not. A later section marks the limits of
+                saying so. A final section records findings of general importance that fell out of the wider
+                reading.
               </p>
 
               {/* II. EARLY DISCOURSES */}
@@ -1600,6 +1624,51 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 their dispositions, is staked under a knowing-formula the temperament grid never claims.
               </p>
 
+              {/* VII.b — THE MULTI-JUMP CENSUS */}
+              <h3 style={h3}>Where the hardening happens, and where it does not</h3>
+              <p>
+                The divergence, the addition, and the regression can be put more precisely once the vocabulary
+                is counted across the six strata rather than two. The hardening is not one event. It happens at
+                four separate jumps, and it happens in the description of the world as much as in the guidance of
+                persons.
+              </p>
+              <p>
+                Some of it is already the Abhidhamma's work. The closed factor-analysis of the absorption
+                (<em>jhānaṅga</em>) is absent from the four Nikāyas. It appears first in the seven Abhidhamma
+                books, then multiplies in the commentaries. The change-of-lineage moment (<em>gotrabhū</em>) is
+                barely present in the suttas and becomes a fixture of the Abhidhamma's analysis of the mind, at
+                two hundred occurrences there against six in the early canon. Other hardenings wait for the
+                commentaries. Access and absorption concentration (<em>upacāra</em>, <em>appanā</em>) are named
+                there for the first time, each zero before. The temperament compound enters at the late-canonical
+                and para-canonical hinge and fixes only in the commentary. And the own-nature language
+                (<em>sabhāva</em>) climbs at every step, from a handful of canonical occurrences to two thousand
+                in the commentaries and over four thousand in the sub-commentaries, where it peaks. The latest
+                layer hardens the hardest.
+              </p>
+              <p>
+                The description of the world follows the same line, and the counts are as clean. The kasiṇa that
+                the canon offers as a measureless perception (<em>appamāṇa</em>) becomes a manufactured disc in
+                the commentary. The bounded world-sphere (<em>cakkavāḷa</em>), almost absent from the canon,
+                becomes a commentarial fixture at over five hundred occurrences. The cycle by which a world is
+                destroyed and reformed (<em>kappavināsa</em>) is absent from the entire canon and is built in the
+                commentaries. What the early texts left measureless or hyperbolic is later counted in
+                <em> yojana</em>s and Mount Meru and dated in world-ages. Even the goal is not quite exempt: the
+                canon defines nibbāna only in the negative, the unmade and the unborn, and declines to call it a
+                place, while the later cosmology fills the afterworld with tiered and measured realms. The same
+                move that sets a present function into a standing type closes an open cosmos into a measured one.
+              </p>
+              <p>
+                Of the two dozen or so transitions counted this way, most localize to a single jump. A clear
+                minority run against the trend, and they are not few. The canon already carries fully built
+                typologies, so systematization is not simply late. The Abhidhamma sometimes carries an early
+                present-tense reading forward unchanged rather than hardening it. The Visuddhimagga disowns its
+                own most detailed diagnostic. And one canonical signature runs the other way entirely: the
+                explicit declaration that persons differ (<em>puggalavemattatā</em>) is loudest in the early
+                canon and fades in the later layers. So the pattern is a strong tendency with named exceptions,
+                not a law, and the exceptions are the divergence, the addition, and the regression seen from the
+                side of the count.
+              </p>
+
               {/* CALM, INSIGHT, AND CONCENTRATION */}
               <h3 style={h3}>Calm, insight, and how much concentration the path asks</h3>
               <p>
@@ -1803,6 +1872,29 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 what is present in them; it does not invite them to read what they are. The further normative
                 question, which object best suits a given person, the sources, canon and commentary alike, make
                 a teacher's business and leave openly provisional.
+              </p>
+              <p>
+                Two further questions sit outside what the corpus can settle, and are left as questions. The
+                first is when the systematizing began. The trend traced here is within the written record, which
+                starts at the redacted canon and cannot see behind it. It is possible that an even simpler
+                teaching was already being systematized in the centuries of oral transmission before writing, for
+                the plain reason that a teaching must be formulaic and listed to survive memorization at all. If
+                so, the earliest recoverable layer is already a systematized one, and what is measured here is a
+                later, scholastic systematization laid over an earlier, mnemonic one. The second question is why
+                the tendency runs as it does. It may answer to the needs of transmission. It may answer to a
+                wider human pull toward a concrete, permanent, and universal account of things. Neither can be
+                decided from the texts, and neither is claimed.
+              </p>
+              <p>
+                One last boundary the study should draw around itself. To trace a tradition's hardening into
+                fixed systems is itself an act of systematization. It reduces a living and many-voiced literature
+                to counts, to axes, and to named jumps, and there is no neutral place to stand. The guard against
+                doing to the texts what the commentators are charged with doing is built into the findings rather
+                than asserted over them. The pattern is reported as a tendency and not a law. The counter-cases
+                are counted rather than waved away. The proposed drivers are left open. The early texts hold even
+                their own teaching as a raft, to be set down once it has carried one across
+                (<Cite id="mn22">MN 22</Cite>), and a study of their later hardening does well to hold its own
+                result the same way.
               </p>
 
               {/* GENERAL-IMPORTANCE SECTION */}

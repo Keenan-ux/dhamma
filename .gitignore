@@ -60,3 +60,9 @@ tmp/
 # Mangled-path junk: scripts that wrote to a literal C:\Users\isaac path
 # instead of $HOME create these in-repo. Never commit them.
 *Usersisaac*
+
+# research scratch (regenerable / large dumps)
+research/cosmology/
+research/individual-guidance/_SAMADHI-*.md
+research/individual-guidance/_samadhi_run.log
+research/individual-guidance/ABSTRACT-PROPOSAL.md
