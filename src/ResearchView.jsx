@@ -1325,12 +1325,13 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 kasiṇa the canon offers as a measureless perception (<em>appamāṇa</em>, the boundless pole set
                 against the limited) becomes a manufactured disc. The world-sphere (<em>cakkavāḷa</em>), named
                 twice in the four Nikāyas, acquires the bounding rim-wall that makes it an object, and its
-                measured dimensions, only in the commentary. What the early texts leave as hyperbolic scale is
+                measured dimensions, only in the commentary. What the early texts often leave as hyperbolic scale is
                 later pinned to exact figures, the world-cycle dated into counted aeons. The hardening is staged
                 rather than single. It intensifies again in the sub-commentaries, where the language of own-nature
-                (<em>sabhāva</em>) reaches its peak. Most of these transitions localize to a single jump. A
-                minority run the other way, because the canon already holds fully built typologies, and the
-                tradition now and then refuses a measure or disowns its own system.
+                (<em>sabhāva</em>) reaches its peak. Most of these transitions localize cleanly to one jump or
+                another. A minority run the other way, because the canon already holds fully built typologies
+                and sometimes states an exact measure itself, and the tradition now and then refuses a measure
+                or disowns its own system.
               </p>
               <p style={abstractLead}>
                 <span style={abstractTag}>Conclusion.</span> So the systematization of the teaching is gradual
@@ -1653,37 +1654,55 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 latest layer hardens the hardest.
               </p>
               <p>
-                The description of the world shows the same shape, on a thinner and freshly-counted sample. The
-                kasiṇa that the canon offers as a measureless perception (<em>appamāṇa</em>, the boundless pole
-                set against the limited, <em>paritta</em>) becomes a manufactured clay disc in the commentary,
-                fitted with a counterpart-sign progression the canon does not have. The cosmos itself follows. The
-                early discourses gesture at scale rather than measuring it, as in the ten-thousandfold world-system
-                that shakes under a measureless light (<em>appamāṇo obhāso</em>) at the awakening, vast but
-                unbounded. The later layers pin it down. The bounded world-sphere (<em>cakkavāḷa</em>) is named
-                twice in the four Nikāyas; the enclosing rim-wall that makes it a bounded object
-                (<em>cakkavāḷapabbata</em>) has no canonical warrant at all, and the commentary carries the sphere
-                at over five hundred rows. Mount Sineru is an early simile of greatness whose exact height,
-                eighty-four thousand <em>yojana</em>, is sub-commentarial. The unit <em>yojana</em> is itself
-                thoroughly canonical, used for ordinary distance; what is late is the systematic measuring of
-                cosmic architecture by it, and the dating of the world-cycle into named, counted aeons. The
-                destruction-phase compound <em>kappavināsa</em> is absent from the four Nikāyas and the Abhidhamma
-                and is built in the commentary.
+                The description of the world shows the same shape, on a thinner sample now counted the same way
+                (the gated census is named in the reproducibility note). The kasiṇa that the canon offers as a
+                measureless perception (<em>appamāṇa</em>, the boundless pole set against the limited,{' '}
+                <em>paritta</em>) becomes a manufactured clay disc in the commentary, fitted with a counterpart-sign
+                progression the canon does not have. The cosmos follows, and at more than one jump. The early
+                discourses gesture at scale, as in the ten-thousandfold world-system that shakes under a measureless
+                light (<em>appamāṇo obhāso</em>) at the awakening, vast but unbounded; the later layers bound and
+                furnish it. The world-sphere (<em>cakkavāḷa</em>) is named twice in the four Nikāyas, and there it is
+                an open plurality, a succession of world-spheres in a verse of marvels. The enclosing rim-wall that
+                makes it a bounded object (<em>cakkavāḷapabbata</em>) has no canonical warrant at all. It blooms in
+                the commentary and densifies again in the sub-commentary. The eight great hells are named and counted
+                only in a late Jātaka and fixed in the commentary, where Avīci acquires its four gates and
+                heated-iron floor (<em>avīcimahāniraya</em>) and each great hell its ring of sixteen subsidiaries
+                (<em>ussada-niraya</em>). The bare hell-names that look early are homonyms, the disciple Sañjīva, a
+                discourse on times, the king Mahāpatāpa, and not the places. The Buddha's body, left unmeasured in
+                the canon, is given a one-fathom aura (<em>byāmappabhā</em>) in the late verse and an exact
+                eighteen-cubit height in the commentary, each past Buddha drawn to a different cubit-figure. The
+                three realms, named one by one in the suttas, are closed into the exhaustive sense-sphere,
+                fine-material, and immaterial taxonomy (<em>kāmāvacara</em>, <em>rūpāvacara</em>,{' '}
+                <em>arūpāvacara</em>) only in the Abhidhamma. And the in-between attainer of the canon, an adjective
+                for one kind of non-returner (<em>antarā-parinibbāyī</em>), hardens into a reified intermediate
+                existence (<em>antarābhava</em>) that the Abhidhamma stages as a dispute and the sub-commentary takes
+                up most of all. The destruction-phase compound <em>kappavināsa</em> is likewise absent from the four
+                Nikāyas and the Abhidhamma, built in the commentary, and carried further in the sub-commentary.
               </p>
               <p>
-                This register has its own counter-currents, and they matter as much as in the guidance of persons.
-                The canon sometimes states an exact figure already: the lifespans of beings and the lengths of past
-                aeons are numbered in the Buddha's own voice (<Cite id="dn14">DN 14</Cite>, <Cite id="dn26">DN 26</Cite>).
-                It sometimes keeps a thing open and the commentary keeps it open too. Whether the world is finite or
-                infinite is a question the Buddha set aside, and no later layer fills it in (the <em>avyākata</em>,{' '}
-                <Cite id="an10.95">AN 10.95</Cite>). One early discourse already sorts a measured mind-deliverance
-                from a measureless one and guards the measureless from being bounded (<Cite id="mn127">MN 127</Cite>),
-                and the canon names an explicitly infinite object of its own, the base of the infinity of space
-                (<em>ākāsānañcāyatana</em>). Even the goal divides this way. The canon's word for the unconditioned
-                is largely privative, the unborn and the unmade (<Cite id="ud8.3">Ud 8.3</Cite>), though it also
-                carries a set of positive epithets (the Asaṅkhata-saṃyutta, SN 43); what the later cosmology adds is
-                the tiered and measured afterworld the early texts do not draw. So the world-description register
-                confirms the persons register's tendency on a smaller sample, with the same honest mixture of cases
-                that harden, cases the canon already fixed, and cases it refuses to fix.
+                This register has its own counter-currents, and the census keeps them counted. The canon often
+                states an exact figure already: the lifespans of beings and the lengths of past aeons are numbered
+                in the Buddha's own voice (<Cite id="dn14">DN 14</Cite>, <Cite id="dn26">DN 26</Cite>), and Mount
+                Sineru is given its exact measure, eighty-four thousand <em>yojana</em> broad and deep, in the four
+                Nikāyas themselves (<Cite id="an7.66">AN 7.66</Cite>). What the later strata add is the systematizing
+                of such figures, the dimensioning of the whole cosmic architecture in <em>yojana</em>; the first
+                figure for Sineru is already canonical. The unit <em>yojana</em> is thoroughly canonical, used for
+                ordinary distance. The canon also keeps some things open and the commentary keeps them open too.
+                Whether the world is finite or infinite is a question the Buddha set aside, and no later layer fills
+                it in (the <em>avyākata</em>, <Cite id="an10.95">AN 10.95</Cite>). One early discourse already sorts
+                a measured mind-deliverance from a measureless one and guards the measureless from being bounded
+                (<Cite id="mn127">MN 127</Cite>), and the canon names an explicitly infinite object of its own, the
+                base of the infinity of space (<em>ākāsānañcāyatana</em>). The beginning of saṃsāra is refused a
+                figure (<em>anamatagga</em>) and stays refused; the boundless heart of mettā
+                (<Cite id="snp1.8">Snp 1.8</Cite>) stays boundless, and where the commentary develops it the move is
+                toward more boundlessness rather than less. Even the goal divides this way. The canon's word for the
+                unconditioned is largely privative, the unborn and the unmade (<Cite id="ud8.3">Ud 8.3</Cite>),
+                though it also carries a set of positive epithets (the Asaṅkhata-saṃyutta, SN 43); what the later
+                cosmology adds is the tiered and measured afterworld the early texts do not draw. So the
+                world-description register confirms the persons register's tendency on a smaller sample. Of about two
+                dozen transitions counted this way, roughly three in four localize to a jump and the jumps are
+                several, not one, while a real minority run the other way, the cases the canon already fixed and the
+                cases it refuses to fix.
               </p>
               <p>
                 Two limits bound this reading and are owed to the reader. The stratum coding is done from a work's

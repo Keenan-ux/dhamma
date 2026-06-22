@@ -1,0 +1,30 @@
+{
+  "_meta": "Deduplicated cosmology-census transitions (ITEM 1). Stems are truncated roots (a 0 is robust only on the truncated root); test the technical compound, not the bare simplex. homograph=true means the bare form needs a row-level sense audit. kind: support|mixed|counter (the pre-registered guess, scored after).",
+  "transitions": [
+    {"key": "cakkavalapabbata", "label": "the bounding rim-wall of the world-sphere", "stems": ["cakkavalapabbat"], "context_stems": ["cakkaval"], "homograph": false, "kind": "support"},
+    {"key": "cosmic_yojana", "label": "yojana-measuring of cosmic architecture", "stems": ["caturasitiyojanasahass", "atthasahassayojan"], "context_stems": ["yojan", "yojanasahass"], "homograph": false, "kind": "support"},
+    {"key": "four_continent_map", "label": "the measured/shaped/ringed four-continent map", "stems": ["mahadip", "parittadip", "catudip"], "context_stems": [], "homograph": false, "kind": "support"},
+    {"key": "cosmic_mountain", "label": "the systematized cosmic axis-mountain", "stems": ["mahameru", "sumeru"], "context_stems": ["sineru"], "homograph": false, "kind": "support"},
+    {"key": "anotatta", "label": "the named cosmic lake Anotatta", "stems": ["anotatt"], "context_stems": [], "homograph": true, "kind": "support"},
+    {"key": "lokantarika", "label": "the dark void to located between-world hell", "stems": ["lokantarikaniray", "lokantarik"], "context_stems": [], "homograph": true, "kind": "mixed"},
+    {"key": "antarakappa", "label": "the 64-per-kappa aeon arithmetic", "stems": ["antarakapp"], "context_stems": ["catusatthi"], "homograph": false, "kind": "support"},
+    {"key": "counted_career", "label": "the counted bodhisatta career (four asankheyya + 100k kappa)", "stems": ["cattari asankheyy", "caturasankheyy"], "context_stems": ["asankheyy"], "homograph": false, "kind": "mixed"},
+    {"key": "world_cycle_phases", "label": "the four named asankheyya world-cycle phases", "stems": ["vivattatthayi", "samvattatthayi"], "context_stems": ["samvatt", "vivatt"], "homograph": false, "kind": "support"},
+    {"key": "kappavinasa", "label": "the destruction-phase compound", "stems": ["kappavinas"], "context_stems": [], "homograph": false, "kind": "support"},
+    {"key": "byamappabha", "label": "the fathom-wide body-aura", "stems": ["byamappabh", "byamapabh", "vyamappabh"], "context_stems": [], "homograph": false, "kind": "support"},
+    {"key": "cubit_body", "label": "the 18-cubit body height and per-Buddha height doctrine", "stems": ["attharasahatth", "pamanavemat"], "context_stems": ["asitihatth", "navutihatth"], "homograph": false, "kind": "support"},
+    {"key": "eighty_marks", "label": "the eighty minor marks", "stems": ["asitianubyanjan", "asitanubyanjan", "asiti anubyanjan", "asitianuvyanjan"], "context_stems": ["anubyanjan"], "homograph": true, "kind": "support"},
+    {"key": "avici_hell", "label": "Avici as the named eighth hell", "stems": ["avicinaray", "avicimahaniray"], "context_stems": ["avic"], "homograph": true, "kind": "support"},
+    {"key": "eight_great_hells", "label": "the closed set of Eight Great Hells", "stems": ["atthamahaniray"], "context_stems": ["sanjiv", "kalasutt", "patapan"], "homograph": false, "kind": "support"},
+    {"key": "ussada_hells", "label": "the sixteen subsidiary overflow-hells", "stems": ["ussadaniray", "solasaussad", "solasa ussad"], "context_stems": ["ussad"], "homograph": true, "kind": "support"},
+    {"key": "antarabhava", "label": "the reified intermediate existence", "stems": ["antarabhav"], "context_stems": ["antaraparinibbay"], "homograph": true, "kind": "mixed"},
+    {"key": "avacara_taxonomy", "label": "the closed three-realm plane taxonomy", "stems": ["kamavacar", "rupavacar", "arupavacar"], "context_stems": ["tedhatuk"], "homograph": false, "kind": "support"}
+  ],
+  "counter": [
+    {"key": "C1_early_numbers", "label": "DN 14 / DN 26 exact lifespans already numbered early", "stems": ["asitivassasahass", "vassasatasahass", "dasavassasahass"], "context_stems": ["vassasahass"], "homograph": false, "kind": "counter"},
+    {"key": "C2_avyakata_world", "label": "the finite/infinite-world refusal, never concretized", "stems": ["antava lok", "anantava lok"], "context_stems": ["avyakat", "abyakat"], "homograph": true, "kind": "counter"},
+    {"key": "C3_appamana_ceto", "label": "measureless deliverance kept open; MN 127 graded-spatial early", "stems": ["appamanacetovimutt", "appamana cetovimutt"], "context_stems": ["mahaggat", "appamanen"], "homograph": true, "kind": "counter"},
+    {"key": "C4_anamatagga", "label": "samsara's refused beginning, kept open", "stems": ["anamatagg"], "context_stems": ["pubba koti"], "homograph": false, "kind": "counter"},
+    {"key": "C5_metta_aparimana", "label": "boundless metta kept boundless", "stems": ["apariman"], "context_stems": ["simasambhed"], "homograph": true, "kind": "counter"}
+  ]
+}

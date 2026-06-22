@@ -74,3 +74,9 @@ research/individual-guidance/_review_flags.txt
 # committed reproducibility artifacts; the _COSMOLOGY-* dumps are scratch.
 research/individual-guidance/_COSMOLOGY-*
 *.jsonl
+
+# Safety net: underscore-prefixed scratch in research/ and ad-hoc server/ probe
+# scripts (ndjson, dipa_* and _q*.mjs one-shots). Never commit DSN dumps.
+research/individual-guidance/_*
+server/_*
+server/dipa_*
