@@ -18,9 +18,11 @@ every positive early count. Raw counts: `COSMOLOGY-COUNTS.json`. Enumeration: `C
 1early (four Nikāyas + early Khuddaka) · 2late (late Khuddaka) · 3abh (Abhidhamma) · 4para
 (Netti/Peṭaka/Milinda) · 5comm (commentary + Visuddhimagga) · 6tika (sub-commentary). A 7th bucket,
 7other, holds the extra-canonical *anya* works; it is reported in the raw counts but does not carry the
-verdict. (The `pli-kn` Khuddaka-catch-all sits in 2late here; ITEM 2 re-buckets it. Its effect on this
-census is bounded: every compound support is 0 in *both* 1early and 2late, so re-bucketing pli-kn cannot
-move a zero-vs-present headline.)
+verdict. (The `pli-kn` Khuddaka-catch-all sits in 2late here. ITEM 2 since re-ran the census with `pli-kn`
+excluded as a redundant duplicate — `COSMOLOGY-COUNTS-FIXED.json`, `KN-REBUCKET.md` — and confirmed that
+only the 2late magnitudes drop, by exactly the `pli-kn` contribution; no 1early/3abh/4para/5comm/6tika
+count and no zero-vs-present headline changes, and no verdict in this table moves. The 2late column below
+is the pre-dedup fine measurement; the de-duplicated 2late values are in the FIXED file.)
 
 ## The data (passage-rows per stratum; compound unless noted)
 

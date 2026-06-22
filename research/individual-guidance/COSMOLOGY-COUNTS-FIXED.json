@@ -1,0 +1,1273 @@
+{
+ "_meta": {
+  "nrows": 194710,
+  "case": "fixed",
+  "strata": [
+   "1early",
+   "2late",
+   "3abh",
+   "4para",
+   "5comm",
+   "6tika",
+   "7other"
+  ],
+  "watch_slugs": [
+   "pli-kn",
+   "pli-nd",
+   "pli-ps",
+   "pli-ap",
+   "pli-bv",
+   "pli-cp",
+   "pli-pv",
+   "pli-vv",
+   "pli-ja",
+   "pli-ne",
+   "pli-pe",
+   "pli-mil"
+  ]
+ },
+ "stems": {
+  "cakkavalapabbat": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 36,
+    "6tika": 34,
+    "7other": 5
+   },
+   "total": 75,
+   "byslug": {}
+  },
+  "cakkaval": {
+   "strata": {
+    "1early": 2,
+    "2late": 12,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 547,
+    "6tika": 215,
+    "7other": 47,
+    "2late-dup": 9
+   },
+   "total": 832,
+   "byslug": {
+    "pli-ap": 10,
+    "pli-kn": 9,
+    "pli-bv": 2
+   }
+  },
+  "caturasitiyojanasahass": {
+   "strata": {
+    "1early": 2,
+    "2late": 1,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 23,
+    "6tika": 6,
+    "7other": 0,
+    "2late-dup": 1
+   },
+   "total": 33,
+   "byslug": {
+    "pli-nd": 1,
+    "pli-kn": 1
+   }
+  },
+  "atthasahassayojan": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 4,
+    "6tika": 0,
+    "7other": 1
+   },
+   "total": 5,
+   "byslug": {}
+  },
+  "yojan": {
+   "strata": {
+    "1early": 433,
+    "2late": 101,
+    "3abh": 159,
+    "4para": 30,
+    "5comm": 2530,
+    "6tika": 5430,
+    "7other": 300,
+    "1early-dup": 28,
+    "4para-dup": 17,
+    "2late-dup": 57
+   },
+   "total": 9085,
+   "byslug": {
+    "pli-vv": 14,
+    "pli-pe": 8,
+    "pli-kn": 102,
+    "pli-ne": 7,
+    "pli-ap": 39,
+    "pli-pv": 5,
+    "pli-bv": 17,
+    "pli-nd": 16,
+    "pli-mil": 15,
+    "pli-ja": 10
+   }
+  },
+  "yojanasahass": {
+   "strata": {
+    "1early": 2,
+    "2late": 2,
+    "3abh": 0,
+    "4para": 2,
+    "5comm": 113,
+    "6tika": 41,
+    "7other": 1,
+    "2late-dup": 2,
+    "4para-dup": 2
+   },
+   "total": 165,
+   "byslug": {
+    "pli-nd": 1,
+    "pli-kn": 4,
+    "pli-mil": 2,
+    "pli-ap": 1
+   }
+  },
+  "mahadip": {
+   "strata": {
+    "1early": 0,
+    "2late": 1,
+    "3abh": 0,
+    "4para": 1,
+    "5comm": 74,
+    "6tika": 23,
+    "7other": 21,
+    "2late-dup": 1,
+    "4para-dup": 1
+   },
+   "total": 122,
+   "byslug": {
+    "pli-mil": 1,
+    "pli-kn": 2,
+    "pli-ap": 1
+   }
+  },
+  "parittadip": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 1,
+    "5comm": 31,
+    "6tika": 13,
+    "7other": 3,
+    "4para-dup": 1
+   },
+   "total": 49,
+   "byslug": {
+    "pli-mil": 1,
+    "pli-kn": 1
+   }
+  },
+  "catudip": {
+   "strata": {
+    "1early": 0,
+    "2late": 10,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 14,
+    "6tika": 13,
+    "7other": 9,
+    "2late-dup": 6
+   },
+   "total": 52,
+   "byslug": {
+    "pli-kn": 6,
+    "pli-bv": 1,
+    "pli-ap": 9
+   }
+  },
+  "mahameru": {
+   "strata": {
+    "1early": 2,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 7,
+    "6tika": 1,
+    "7other": 2
+   },
+   "total": 12,
+   "byslug": {}
+  },
+  "sumeru": {
+   "strata": {
+    "1early": 0,
+    "2late": 1,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 1,
+    "6tika": 0,
+    "7other": 4,
+    "2late-dup": 1
+   },
+   "total": 7,
+   "byslug": {
+    "pli-kn": 1,
+    "pli-ap": 1
+   }
+  },
+  "sineru": {
+   "strata": {
+    "1early": 13,
+    "2late": 11,
+    "3abh": 4,
+    "4para": 7,
+    "5comm": 259,
+    "6tika": 107,
+    "7other": 28,
+    "4para-dup": 2,
+    "2late-dup": 10
+   },
+   "total": 441,
+   "byslug": {
+    "pli-ja": 1,
+    "pli-mil": 7,
+    "pli-nd": 2,
+    "pli-bv": 1,
+    "pli-ap": 6,
+    "pli-cp": 1,
+    "pli-kn": 12
+   }
+  },
+  "anotatt": {
+   "strata": {
+    "1early": 5,
+    "2late": 3,
+    "3abh": 0,
+    "4para": 1,
+    "5comm": 97,
+    "6tika": 24,
+    "7other": 17,
+    "1early-dup": 1,
+    "2late-dup": 2,
+    "4para-dup": 1
+   },
+   "total": 151,
+   "byslug": {
+    "pli-nd": 1,
+    "pli-mil": 1,
+    "pli-kn": 4,
+    "pli-ap": 2
+   }
+  },
+  "lokantarikaniray": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 16,
+    "6tika": 6,
+    "7other": 0
+   },
+   "total": 22,
+   "byslug": {}
+  },
+  "lokantarik": {
+   "strata": {
+    "1early": 8,
+    "2late": 1,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 29,
+    "6tika": 9,
+    "7other": 3,
+    "2late-dup": 1
+   },
+   "total": 51,
+   "byslug": {
+    "pli-kn": 1,
+    "pli-bv": 1
+   }
+  },
+  "antarakapp": {
+   "strata": {
+    "1early": 10,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 1,
+    "5comm": 15,
+    "6tika": 26,
+    "7other": 8,
+    "4para-dup": 1
+   },
+   "total": 61,
+   "byslug": {
+    "pli-ne": 1,
+    "pli-kn": 1
+   }
+  },
+  "catusatthi": {
+   "strata": {
+    "1early": 2,
+    "2late": 8,
+    "3abh": 4,
+    "4para": 0,
+    "5comm": 76,
+    "6tika": 36,
+    "7other": 19,
+    "2late-dup": 7
+   },
+   "total": 152,
+   "byslug": {
+    "pli-ps": 3,
+    "pli-kn": 7,
+    "pli-ap": 5
+   }
+  },
+  "cattari asankheyy": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 7,
+    "6tika": 3,
+    "7other": 0
+   },
+   "total": 10,
+   "byslug": {}
+  },
+  "caturasankheyy": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 0,
+    "6tika": 0,
+    "7other": 0
+   },
+   "total": 0,
+   "byslug": {}
+  },
+  "asankheyy": {
+   "strata": {
+    "1early": 8,
+    "2late": 9,
+    "3abh": 0,
+    "4para": 5,
+    "5comm": 31,
+    "6tika": 12,
+    "7other": 11,
+    "2late-dup": 8,
+    "4para-dup": 3,
+    "1early-dup": 2
+   },
+   "total": 89,
+   "byslug": {
+    "pli-ne": 3,
+    "pli-ap": 4,
+    "pli-pe": 1,
+    "pli-kn": 13,
+    "pli-mil": 1,
+    "pli-bv": 2,
+    "pli-nd": 1,
+    "pli-ja": 2
+   }
+  },
+  "vivattatthayi": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 12,
+    "6tika": 16,
+    "7other": 4
+   },
+   "total": 32,
+   "byslug": {}
+  },
+  "samvattatthayi": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 11,
+    "6tika": 14,
+    "7other": 3
+   },
+   "total": 28,
+   "byslug": {}
+  },
+  "samvatt": {
+   "strata": {
+    "1early": 436,
+    "2late": 20,
+    "3abh": 31,
+    "4para": 13,
+    "5comm": 590,
+    "6tika": 481,
+    "7other": 67,
+    "4para-dup": 9,
+    "1early-dup": 4,
+    "2late-dup": 12
+   },
+   "total": 1663,
+   "byslug": {
+    "pli-pe": 5,
+    "pli-ne": 4,
+    "pli-kn": 25,
+    "pli-mil": 4,
+    "pli-ja": 2,
+    "pli-nd": 11,
+    "pli-ps": 7
+   }
+  },
+  "vivatt": {
+   "strata": {
+    "1early": 120,
+    "2late": 24,
+    "3abh": 8,
+    "4para": 6,
+    "5comm": 719,
+    "6tika": 342,
+    "7other": 42,
+    "1early-dup": 5,
+    "4para-dup": 6,
+    "2late-dup": 11
+   },
+   "total": 1283,
+   "byslug": {
+    "pli-ja": 6,
+    "pli-ap": 2,
+    "pli-pe": 3,
+    "pli-ne": 3,
+    "pli-kn": 22,
+    "pli-vv": 3,
+    "pli-nd": 4,
+    "pli-ps": 9
+   }
+  },
+  "kappavinas": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 27,
+    "6tika": 32,
+    "7other": 3
+   },
+   "total": 62,
+   "byslug": {}
+  },
+  "byamappabh": {
+   "strata": {
+    "1early": 0,
+    "2late": 7,
+    "3abh": 0,
+    "4para": 3,
+    "5comm": 68,
+    "6tika": 35,
+    "7other": 14,
+    "2late-dup": 7,
+    "4para-dup": 3
+   },
+   "total": 137,
+   "byslug": {
+    "pli-mil": 2,
+    "pli-bv": 4,
+    "pli-pe": 1,
+    "pli-ap": 3,
+    "pli-kn": 10
+   }
+  },
+  "byamapabh": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 0,
+    "6tika": 0,
+    "7other": 2
+   },
+   "total": 2,
+   "byslug": {}
+  },
+  "vyamappabh": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 0,
+    "6tika": 0,
+    "7other": 0
+   },
+   "total": 0,
+   "byslug": {}
+  },
+  "attharasahatth": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 31,
+    "6tika": 2,
+    "7other": 3
+   },
+   "total": 36,
+   "byslug": {}
+  },
+  "pamanavemat": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 1,
+    "5comm": 9,
+    "6tika": 0,
+    "7other": 0,
+    "4para-dup": 1
+   },
+   "total": 11,
+   "byslug": {
+    "pli-mil": 1,
+    "pli-kn": 1
+   }
+  },
+  "asitihatth": {
+   "strata": {
+    "1early": 0,
+    "2late": 6,
+    "3abh": 0,
+    "4para": 1,
+    "5comm": 112,
+    "6tika": 16,
+    "7other": 9,
+    "4para-dup": 1,
+    "2late-dup": 6
+   },
+   "total": 151,
+   "byslug": {
+    "pli-bv": 6,
+    "pli-kn": 7,
+    "pli-pe": 1
+   }
+  },
+  "navutihatth": {
+   "strata": {
+    "1early": 0,
+    "2late": 1,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 13,
+    "6tika": 2,
+    "7other": 1,
+    "2late-dup": 1
+   },
+   "total": 18,
+   "byslug": {
+    "pli-bv": 1,
+    "pli-kn": 1
+   }
+  },
+  "asitianubyanjan": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 1,
+    "5comm": 31,
+    "6tika": 21,
+    "7other": 4,
+    "4para-dup": 1
+   },
+   "total": 58,
+   "byslug": {
+    "pli-kn": 1,
+    "pli-pe": 1
+   }
+  },
+  "asitanubyanjan": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 10,
+    "6tika": 2,
+    "7other": 2
+   },
+   "total": 14,
+   "byslug": {}
+  },
+  "asiti anubyanjan": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 4,
+    "6tika": 2,
+    "7other": 5
+   },
+   "total": 11,
+   "byslug": {}
+  },
+  "asitianuvyanjan": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 0,
+    "6tika": 0,
+    "7other": 0
+   },
+   "total": 0,
+   "byslug": {}
+  },
+  "anubyanjan": {
+   "strata": {
+    "1early": 75,
+    "2late": 8,
+    "3abh": 13,
+    "4para": 5,
+    "5comm": 99,
+    "6tika": 113,
+    "7other": 27,
+    "2late-dup": 7,
+    "4para-dup": 5
+   },
+   "total": 352,
+   "byslug": {
+    "pli-kn": 12,
+    "pli-ne": 1,
+    "pli-ap": 4,
+    "pli-nd": 3,
+    "pli-bv": 1,
+    "pli-pe": 1,
+    "pli-mil": 3
+   }
+  },
+  "avicinaray": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 0,
+    "6tika": 0,
+    "7other": 0
+   },
+   "total": 0,
+   "byslug": {}
+  },
+  "avicimahaniray": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 1,
+    "5comm": 39,
+    "6tika": 15,
+    "7other": 0,
+    "4para-dup": 1
+   },
+   "total": 56,
+   "byslug": {
+    "pli-mil": 1,
+    "pli-kn": 1
+   }
+  },
+  "avic": {
+   "strata": {
+    "1early": 284,
+    "2late": 63,
+    "3abh": 409,
+    "4para": 28,
+    "5comm": 1194,
+    "6tika": 1236,
+    "7other": 132,
+    "2late-dup": 37,
+    "1early-dup": 6,
+    "4para-dup": 16
+   },
+   "total": 3405,
+   "byslug": {
+    "pli-vv": 1,
+    "pli-ps": 16,
+    "pli-ap": 7,
+    "pli-mil": 10,
+    "pli-ja": 9,
+    "pli-ne": 11,
+    "pli-pe": 7,
+    "pli-nd": 28,
+    "pli-bv": 2,
+    "pli-kn": 59
+   }
+  },
+  "atthamahaniray": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 1,
+    "6tika": 2,
+    "7other": 1
+   },
+   "total": 4,
+   "byslug": {}
+  },
+  "sanjiv": {
+   "strata": {
+    "1early": 6,
+    "2late": 6,
+    "3abh": 2,
+    "4para": 0,
+    "5comm": 33,
+    "6tika": 9,
+    "7other": 4,
+    "2late-dup": 7
+   },
+   "total": 67,
+   "byslug": {
+    "pli-kn": 7,
+    "pli-bv": 1,
+    "pli-ja": 3,
+    "pli-ps": 1,
+    "pli-ap": 1
+   }
+  },
+  "kalasutt": {
+   "strata": {
+    "1early": 3,
+    "2late": 1,
+    "3abh": 2,
+    "4para": 1,
+    "5comm": 27,
+    "6tika": 17,
+    "7other": 2,
+    "4para-dup": 1,
+    "2late-dup": 1
+   },
+   "total": 55,
+   "byslug": {
+    "pli-ja": 1,
+    "pli-kn": 2,
+    "pli-mil": 1
+   }
+  },
+  "patapan": {
+   "strata": {
+    "1early": 0,
+    "2late": 9,
+    "3abh": 1,
+    "4para": 0,
+    "5comm": 26,
+    "6tika": 24,
+    "7other": 8,
+    "2late-dup": 8
+   },
+   "total": 76,
+   "byslug": {
+    "pli-ja": 3,
+    "pli-ap": 3,
+    "pli-ps": 2,
+    "pli-vv": 1,
+    "pli-kn": 8
+   }
+  },
+  "ussadaniray": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 33,
+    "6tika": 11,
+    "7other": 2
+   },
+   "total": 46,
+   "byslug": {}
+  },
+  "solasaussad": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 3,
+    "6tika": 2,
+    "7other": 0
+   },
+   "total": 5,
+   "byslug": {}
+  },
+  "solasa ussad": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 3,
+    "6tika": 4,
+    "7other": 0
+   },
+   "total": 7,
+   "byslug": {}
+  },
+  "ussad": {
+   "strata": {
+    "1early": 119,
+    "2late": 29,
+    "3abh": 3,
+    "4para": 7,
+    "5comm": 406,
+    "6tika": 371,
+    "7other": 65,
+    "2late-dup": 26,
+    "1early-dup": 7,
+    "4para-dup": 5
+   },
+   "total": 1038,
+   "byslug": {
+    "pli-ne": 2,
+    "pli-vv": 2,
+    "pli-mil": 3,
+    "pli-nd": 5,
+    "pli-kn": 38,
+    "pli-pe": 2,
+    "pli-pv": 4,
+    "pli-bv": 1,
+    "pli-ja": 9,
+    "pli-ap": 8
+   }
+  },
+  "antarabhav": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 5,
+    "4para": 0,
+    "5comm": 37,
+    "6tika": 133,
+    "7other": 24
+   },
+   "total": 199,
+   "byslug": {}
+  },
+  "antaraparinibbay": {
+   "strata": {
+    "1early": 33,
+    "2late": 1,
+    "3abh": 18,
+    "4para": 1,
+    "5comm": 26,
+    "6tika": 19,
+    "7other": 6,
+    "2late-dup": 1,
+    "4para-dup": 1
+   },
+   "total": 106,
+   "byslug": {
+    "pli-kn": 2,
+    "pli-ps": 1,
+    "pli-pe": 1
+   }
+  },
+  "kamavacar": {
+   "strata": {
+    "1early": 2,
+    "2late": 8,
+    "3abh": 259,
+    "4para": 0,
+    "5comm": 641,
+    "6tika": 915,
+    "7other": 39,
+    "2late-dup": 6
+   },
+   "total": 1870,
+   "byslug": {
+    "pli-ps": 4,
+    "pli-kn": 6,
+    "pli-nd": 4
+   }
+  },
+  "rupavacar": {
+   "strata": {
+    "1early": 0,
+    "2late": 10,
+    "3abh": 308,
+    "4para": 0,
+    "5comm": 435,
+    "6tika": 659,
+    "7other": 21,
+    "2late-dup": 7
+   },
+   "total": 1440,
+   "byslug": {
+    "pli-kn": 7,
+    "pli-nd": 6,
+    "pli-ps": 4
+   }
+  },
+  "arupavacar": {
+   "strata": {
+    "1early": 0,
+    "2late": 9,
+    "3abh": 298,
+    "4para": 0,
+    "5comm": 277,
+    "6tika": 341,
+    "7other": 14,
+    "2late-dup": 7
+   },
+   "total": 946,
+   "byslug": {
+    "pli-kn": 7,
+    "pli-ps": 4,
+    "pli-nd": 5
+   }
+  },
+  "tedhatuk": {
+   "strata": {
+    "1early": 0,
+    "2late": 4,
+    "3abh": 4,
+    "4para": 4,
+    "5comm": 32,
+    "6tika": 12,
+    "7other": 1,
+    "4para-dup": 3,
+    "2late-dup": 4
+   },
+   "total": 64,
+   "byslug": {
+    "pli-pe": 2,
+    "pli-ne": 2,
+    "pli-nd": 4,
+    "pli-kn": 7
+   }
+  },
+  "asitivassasahass": {
+   "strata": {
+    "1early": 6,
+    "2late": 2,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 20,
+    "6tika": 3,
+    "7other": 1,
+    "2late-dup": 2
+   },
+   "total": 34,
+   "byslug": {
+    "pli-ja": 1,
+    "pli-kn": 2,
+    "pli-bv": 1
+   }
+  },
+  "vassasatasahass": {
+   "strata": {
+    "1early": 21,
+    "2late": 18,
+    "3abh": 2,
+    "4para": 2,
+    "5comm": 121,
+    "6tika": 18,
+    "7other": 7,
+    "2late-dup": 12,
+    "4para-dup": 2,
+    "1early-dup": 2
+   },
+   "total": 205,
+   "byslug": {
+    "pli-nd": 2,
+    "pli-bv": 8,
+    "pli-kn": 16,
+    "pli-ap": 8,
+    "pli-mil": 2
+   }
+  },
+  "dasavassasahass": {
+   "strata": {
+    "1early": 4,
+    "2late": 9,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 28,
+    "6tika": 0,
+    "7other": 3,
+    "2late-dup": 9
+   },
+   "total": 53,
+   "byslug": {
+    "pli-ap": 2,
+    "pli-kn": 9,
+    "pli-bv": 7
+   }
+  },
+  "vassasahass": {
+   "strata": {
+    "1early": 47,
+    "2late": 51,
+    "3abh": 4,
+    "4para": 4,
+    "5comm": 350,
+    "6tika": 60,
+    "7other": 26,
+    "2late-dup": 42,
+    "1early-dup": 2,
+    "4para-dup": 4
+   },
+   "total": 590,
+   "byslug": {
+    "pli-mil": 2,
+    "pli-pe": 1,
+    "pli-vv": 3,
+    "pli-nd": 2,
+    "pli-ne": 1,
+    "pli-ja": 10,
+    "pli-bv": 24,
+    "pli-kn": 48,
+    "pli-ap": 9,
+    "pli-pv": 3
+   }
+  },
+  "antava lok": {
+   "strata": {
+    "1early": 31,
+    "2late": 7,
+    "3abh": 15,
+    "4para": 1,
+    "5comm": 9,
+    "6tika": 9,
+    "7other": 0,
+    "1early-dup": 1,
+    "2late-dup": 6,
+    "4para-dup": 1
+   },
+   "total": 80,
+   "byslug": {
+    "pli-ps": 2,
+    "pli-kn": 8,
+    "pli-nd": 5,
+    "pli-mil": 1
+   }
+  },
+  "anantava lok": {
+   "strata": {
+    "1early": 30,
+    "2late": 7,
+    "3abh": 15,
+    "4para": 1,
+    "5comm": 4,
+    "6tika": 8,
+    "7other": 0,
+    "4para-dup": 1,
+    "1early-dup": 1,
+    "2late-dup": 6
+   },
+   "total": 73,
+   "byslug": {
+    "pli-ps": 2,
+    "pli-nd": 5,
+    "pli-kn": 8,
+    "pli-mil": 1
+   }
+  },
+  "avyakat": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 0,
+    "6tika": 0,
+    "7other": 0
+   },
+   "total": 0,
+   "byslug": {}
+  },
+  "abyakat": {
+   "strata": {
+    "1early": 46,
+    "2late": 12,
+    "3abh": 1018,
+    "4para": 5,
+    "5comm": 373,
+    "6tika": 601,
+    "7other": 47,
+    "2late-dup": 8,
+    "4para-dup": 5
+   },
+   "total": 2115,
+   "byslug": {
+    "pli-kn": 13,
+    "pli-ps": 5,
+    "pli-ne": 1,
+    "pli-nd": 7,
+    "pli-mil": 3,
+    "pli-pe": 1
+   }
+  },
+  "appamanacetovimutt": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 0,
+    "6tika": 3,
+    "7other": 0
+   },
+   "total": 3,
+   "byslug": {}
+  },
+  "appamana cetovimutt": {
+   "strata": {
+    "1early": 6,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 5,
+    "6tika": 2,
+    "7other": 1
+   },
+   "total": 14,
+   "byslug": {}
+  },
+  "mahaggat": {
+   "strata": {
+    "1early": 101,
+    "2late": 9,
+    "3abh": 185,
+    "4para": 1,
+    "5comm": 132,
+    "6tika": 430,
+    "7other": 26,
+    "2late-dup": 8,
+    "4para-dup": 1
+   },
+   "total": 893,
+   "byslug": {
+    "pli-vv": 2,
+    "pli-ap": 1,
+    "pli-ja": 1,
+    "pli-kn": 9,
+    "pli-nd": 2,
+    "pli-ps": 3,
+    "pli-mil": 1
+   }
+  },
+  "appamanen": {
+   "strata": {
+    "1early": 68,
+    "2late": 4,
+    "3abh": 3,
+    "4para": 1,
+    "5comm": 67,
+    "6tika": 100,
+    "7other": 10,
+    "2late-dup": 4,
+    "4para-dup": 1,
+    "1early-dup": 1
+   },
+   "total": 259,
+   "byslug": {
+    "pli-ps": 1,
+    "pli-ja": 1,
+    "pli-nd": 2,
+    "pli-kn": 6,
+    "pli-mil": 1
+   }
+  },
+  "anamatagg": {
+   "strata": {
+    "1early": 28,
+    "2late": 2,
+    "3abh": 2,
+    "4para": 2,
+    "5comm": 101,
+    "6tika": 48,
+    "7other": 29,
+    "2late-dup": 1,
+    "4para-dup": 2,
+    "1early-dup": 1
+   },
+   "total": 216,
+   "byslug": {
+    "pli-kn": 4,
+    "pli-pe": 2,
+    "pli-nd": 2
+   }
+  },
+  "pubba koti": {
+   "strata": {
+    "1early": 19,
+    "2late": 1,
+    "3abh": 0,
+    "4para": 4,
+    "5comm": 9,
+    "6tika": 7,
+    "7other": 3,
+    "2late-dup": 1,
+    "4para-dup": 4
+   },
+   "total": 48,
+   "byslug": {
+    "pli-ne": 3,
+    "pli-kn": 5,
+    "pli-pe": 1,
+    "pli-nd": 1
+   }
+  },
+  "apariman": {
+   "strata": {
+    "1early": 23,
+    "2late": 2,
+    "3abh": 2,
+    "4para": 5,
+    "5comm": 327,
+    "6tika": 272,
+    "7other": 57,
+    "1early-dup": 3,
+    "4para-dup": 3,
+    "2late-dup": 2
+   },
+   "total": 696,
+   "byslug": {
+    "pli-ne": 3,
+    "pli-pv": 1,
+    "pli-ja": 1,
+    "pli-mil": 1,
+    "pli-pe": 1,
+    "pli-kn": 8
+   }
+  },
+  "simasambhed": {
+   "strata": {
+    "1early": 0,
+    "2late": 0,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 11,
+    "6tika": 37,
+    "7other": 4
+   },
+   "total": 52,
+   "byslug": {}
+  }
+ }
+}

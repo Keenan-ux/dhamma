@@ -40,7 +40,7 @@ granularity rule), truncated stems (positives re-verifiable), technical compound
 | basis-jhāna (*pādaka-jjhāna*) | 0 | 0 | 0 | 0 | 131 | 134 | canon→commentary | support |
 | kasiṇa disc + counterpart-sign (*paṭibhāga-nimitta*) | 0 | 0 | 0 | 0 | 38 | 117 | canon→commentary→ṭīkā | support |
 | design-noun (*ajjhāsaya*) | 4 | 17 | 0 | 4 | 709 | 679 | canon→commentary | support |
-| own-nature (*sabhāva*) | 6 | 42 | 5 | 29 | 2004 | **4406** | **every jump, peaks ṭīkā** | support |
+| own-nature (*sabhāva*) | 6 | 18 | 5 | 29 | 2004 | **4406** | **every jump, peaks ṭīkā** | support |
 | heart-blood temperament physiology (Vibh-a §70.58) | — | — | — | — | qual. | qual. | commentary→**sub-commentary** | support (qual.) |
 | — STRAYS — | | | | | | | | |
 | declared person-difference (*puggalavemattatā*) | **15** | 1 | 0 | 0 | 4 | 2 | INVERSE: peaks early, fades late | **stray** |
@@ -53,7 +53,12 @@ granularity rule), truncated stems (positives re-verifiable), technical compound
 Recall caveats: *saragaṃ cittaṁ* early=0 is an artifact (the canonical refrain inserts *vā*: "sarāgaṃ
 vā cittaṃ"), so the early refrain is present but not contiguous-matched; this cell is preservation, not
 absence. Heart-blood physiology is a single vivid Vibhaṅga-aṭṭhakathā/ṭīkā passage, not a distributed
-countable term (absence of a term-count ≠ absence of the passage).
+countable term (absence of a term-count ≠ absence of the passage). The **2late column de-duplicates the
+`pli-kn` Khuddaka re-ingest** (ITEM 2, `KN-REBUCKET.md`): the corpus ingests the late Khuddaka twice, once
+under each work's slug and once under the `pli-kn` catch-all, so the raw 2late figures were inflated. The
+*sabhāva* 2late above is corrected (42→18, removing 24 `pli-kn` duplicates); the other 2late cells carry a
+similar inflation and should be read as upper bounds. No 1early/3abh/5comm/6tika cell, and no zero-vs-present
+verdict, is affected — the early-canonical and commentary contrasts the census rests on are unchanged.
 
 ## The count
 

@@ -60,6 +60,9 @@ def main():
     enum = json.load(open(ENUM, encoding="utf-8"))
     stems = collect_stems(enum)
 
+    out_path = OUT.replace(".json", "-FIXED.json") if use_fixed else OUT
+    samp_path = SAMP
+
     dsn = os.environ.get("DATABASE_URL")
     if not dsn:
         sys.exit("DATABASE_URL not set")
@@ -83,7 +86,7 @@ def main():
         cur.execute("CREATE TEMP TABLE fixm (id text PRIMARY KEY, stratum text);")
         from psycopg2.extras import execute_values
         execute_values(cur, "INSERT INTO fixm (id, stratum) VALUES %s",
-                       [(k, v) for k, v in fixmap.items()])
+                       [(k, v) for k, v in fixmap.items() if not k.startswith("_")])
         cur.execute("UPDATE cos c SET stratum = f.stratum FROM fixm f WHERE c.id = f.id;")
         cur.execute("SELECT count(*) FROM fixm;")
         print(f"[fix] re-bucketed {cur.fetchone()[0]} ids via KN-STRATUM-MAP.json", flush=True)
@@ -124,8 +127,13 @@ def main():
            "stems": {}}
     for s in stems:
         out["stems"][s] = {"strata": counts[s], "total": sum(counts[s].values()), "byslug": byslug[s]}
-    json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print(f"[counts] -> {OUT}", flush=True)
+    json.dump(out, open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    print(f"[counts] -> {out_path}", flush=True)
+
+    if use_fixed:
+        print("[samples] skipped for --case fixed", flush=True)
+        print(f"[done] {time.time()-t0:.1f}s total", flush=True)
+        return
 
     samples = {}
     ts = time.time()

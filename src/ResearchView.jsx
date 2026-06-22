@@ -1373,7 +1373,10 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 temperaments, the object inventory) the enumeration is saturated, repeated passes surfacing no
                 new member, and it was reconciled against the passages cited in the secondary literature;
                 saturation here measures structural completeness, not a proof that the open corpus holds no
-                further instance. Renderings of commentary and Abhidhamma are the author's own, since the corpus
+                further instance. The Khuddaka Nikāya is ingested twice in the corpus, once under each work
+                and once under a single catch-all slug; the counts here de-duplicate the catch-all, so the
+                disambiguated temperament compound stands at forty-three structurally-canonical rows rather
+                than the fifty-three a naive slug tally returns. Renderings of commentary and Abhidhamma are the author's own, since the corpus
                 carries no published English for those layers; they are checked against Ñāṇamoli for the
                 Visuddhimagga and B. C. Law for the Puggalapaññatti.
                 </p>
@@ -1537,9 +1540,9 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 From the para-canonical fork the commentary keeps only the temperament sense and hardens it into
                 a fixed six-cell matrix of person against object, with the machinery for assigning one to the
                 other (<Cite id="cst-s0103a.att-dn3_11_p002">Sv-a 11 §2</Cite>). The Visuddhimagga carries most
-                of it: of the fifty-three structurally-canonical rows that hold the disambiguated temperament
+                of it: of the forty-three structurally-canonical rows that hold the disambiguated temperament
                 compound, thirty are the Visuddhimagga, and the technical sense of <em>kammaṭṭhāna</em>, the
-                meditation-subject, is effectively confined there too (134 of 148 rows), as is the closed list of
+                meditation-subject, is effectively confined there too (134 of 147 rows), as is the closed list of
                 forty subjects. This is the layer where the apparatus is built.
               </p>
               <p>
