@@ -81,8 +81,31 @@ CASE
   NO zero-vs-present headline moves; no cosmology verdict changes. Documented in `KN-REBUCKET.md`.
 - Paper magnitudes corrected: carita compound 53 -> **43** (de-dup; still 0 four-Nikāyas + 0 Abhidhamma, 30
   Vism), kammaṭṭhāna 148 -> 147, in §V of FINDINGS-readable.md + ResearchView.jsx + the repro apparatus.
-  HARDENING-CENSUS sabhāva 2late 42 -> 18. **HANDOFF TO ITEM 3:** FINDINGS-v2.md still carries the old carita
-  53/30 in its recall ladder + abstract; propagate 53->43 there as part of the carita-framing reconciliation.
+  HARDENING-CENSUS sabhāva 2late 42 -> 18. (ITEM 3 propagated 53->43 to FINDINGS-v2.)
+
+**ITEM 3 — DONE (2026-06-22, committed 42d6d0f, pushed + deployed, smoke green).**
+- **Reconciliations** (`RECONCILIATION.md`): the cross-doc number differences are grouping (the corpus carries
+  `work_slug` AND a structural `work_role` tag; the Visuddhimagga is `pli-vism` but `work_role='mula'`) or
+  edition vintage (the commentary/sub-commentary were later subdivided). carita 43 (de-dup) vs old 40/49/59;
+  sabhāva 2000/4000 (work_slug fine-stratum) vs 1906/553/3951 (work_role/pre-subdivision); access-concentration
+  by scope (38 attha / 22 Vism / 58 ṭīkā / 64 5comm-combine / 135 all-commentary). Paper's stale "39 Vism"
+  corrected to 22 (+58 ṭīkā). 53->43 propagated to FINDINGS-v2. Repro apparatus (readable + JSX) states the
+  caveat.
+- **G2** audited: SN 14 splits into the Nānattavagga (SN 14.1-13, *dhātu* = the 18 cognition-elements) and the
+  Dutiyavagga (SN 14.14-29, *dhātu* = disposition, run through ~16 dispositions); the homophily formula is the
+  disposition sense. "Law" softened to "principle"; the "It is…" anaphora recast. (Earned, not downgraded.)
+- **G3** (the diacritic/substring trap) moved to the recall apparatus (it is a method lesson); old G4 → G3.
+- **De-comma sweep**: abstract Background "They…" anaphora collapsed; §§II/V comma-chains (anusaya/cetopariya,
+  Sāriputta) split into plain sentences. EDITOR-CHECKLIST gained the comma-splice/stacked-appositive rule.
+- Both files synced; build+deploy+smoke green; new SN 14 citations resolve 200.
+
+**CAMPAIGN COMPLETE.** All three §5 items met their STOP conditions; live state matches this doc; build/
+deploy/smoke green. Open follow-ons (not in scope, logged for a future pass): the within-stratum
+double-encoding (SuttaCentral + CST ids under the same canonical slug) inflates 1early counts ~2x — a
+caveat, not a headline risk (recorded in COSMOLOGY-CENSUS.md); the other HARDENING-CENSUS 2late cells beyond
+sabhāva carry the same pli-kn inflation and are flagged as upper bounds (not paper-cited); residual
+load-bearing/first-person in the *other four* dhamma-research studies (not this one) per the writing-rules
+memory note.
 
 ## 4. Verification commands + EXPECTED outputs
 - `curl -s https://dhamma.fly.dev/api/dbcheck` → `passages: 194710, pgvector: true`.
@@ -121,7 +144,7 @@ GOAL: the late-canonical bucket no longer mixes strata.
   the change documented in this doc. (Zero-vs-present headlines must NOT change; if one does, that is a
   finding — log it.)
 
-**ITEM 3 — Reconciliations + G2/G3 + de-comma §§II–VI.**
+**ITEM 3 — Reconciliations + G2/G3 + de-comma §§II–VI. ✅ DONE — see §3 ledger (42d6d0f, deployed).**
 - Reconcile cross-doc count framings with a one-line note each: sabhāva (structural-mūla-tag vs work_role
   vs fine-stratum: 2000/4000 vs 1906/553/3951), carita (53/30 vs 40/49/59), access-concentration
   (upacāra-samādhi compound 38/39 vs the 135 HANDOFF floor vs the 64 HARDENING split). Make the paper and
@@ -169,5 +192,7 @@ sense-audit reasoning, per-section de-comma recasts) but apply edits yourself an
 - ITEM 2 ✅: re-ran every census term under old vs new CASE (COSMOLOGY-COUNTS.json vs -FIXED.json) — only
   2late moves, by exactly the pli-kn contribution; headlines stable; KN-STRATUM-MAP.json committed. Carita
   53→43 and sabhāva 42→18 corrected; no headline overturned.
-- ITEM 3: grep the paper for the reconciled numbers (consistent); G3 no longer under "general importance";
-  EDITOR-CHECKLIST carries the comma rule; a spot read of §§II–VI shows no comma-splice/stacked-appositive runs.
+- ITEM 3 ✅: paper greps clean for the reconciled numbers (carita 43, access-concentration 38/22/58; no stray
+  "fifty-three" except the de-dup explanation, no "39 in the Visuddhimagga", no "law of assortative", no G4);
+  G3 is the diacritic trap moved to the recall apparatus (Findings now G1/G2/G3 = drift/homophily/describe-late);
+  EDITOR-CHECKLIST carries the comma rule; §§II–VI spot read clean. RECONCILIATION.md holds the three notes.
