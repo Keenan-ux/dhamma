@@ -1321,12 +1321,13 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 and insight becomes a set of named vehicles. The graded measure of concentration
                 (<em>samādhismiṃ mattaso kārī</em>) becomes the named tiers of access and absorption. The first
                 absorption, once given as a few felt qualities, becomes a closed inventory of factors. The
-                description of the world hardens by the same logic. The kasiṇa that the canon offers as a
-                measureless perception (<em>appamāṇa</em>, a refusal of measure rather than a claim of the
-                infinite) becomes a manufactured disc. The bounded world-sphere (<em>cakkavāḷa</em>) is almost
-                absent from the canon and becomes a commentarial fixture. What was measureless or hyperbolic is
-                later counted in <em>yojana</em>s and dated by world-cycles. The hardening is staged rather than
-                single. It intensifies again in the sub-commentaries, where the language of own-nature
+                description of the world shows the same shape, on a thinner and freshly-counted sample. The
+                kasiṇa the canon offers as a measureless perception (<em>appamāṇa</em>, the boundless pole set
+                against the limited) becomes a manufactured disc. The world-sphere (<em>cakkavāḷa</em>), named
+                twice in the four Nikāyas, acquires the bounding rim-wall that makes it an object, and its
+                measured dimensions, only in the commentary. What the early texts leave as hyperbolic scale is
+                later pinned to exact figures, the world-cycle dated into counted aeons. The hardening is staged
+                rather than single. It intensifies again in the sub-commentaries, where the language of own-nature
                 (<em>sabhāva</em>) reaches its peak. Most of these transitions localize to a single jump. A
                 minority run the other way, because the canon already holds fully built typologies, and the
                 tradition now and then refuses a measure or disowns its own system.
@@ -1334,11 +1335,12 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               <p style={abstractLead}>
                 <span style={abstractTag}>Conclusion.</span> So the systematization of the teaching is gradual
                 and many-staged. It is not a single break between canon and commentary, and it is a tendency
-                rather than a law. What stays consistently late is one move, worked in two registers. A present
-                function is set into a fixed essence. An open and measureless formulation is closed into a
-                concrete and bounded one. The texts themselves would notice the tension here. A teaching of
-                non-self and impermanence comes, in its later scholarship, to rest on the language of own-nature
-                and fixed measure. Why the tendency runs as it does is a further question. It may answer to the
+                rather than a law. What stays consistently late is one move: a present function becomes a
+                standing type, and an open or hyperbolic formulation becomes a counted, bounded one. The first is
+                shown here in detail, across the guidance of persons. The second, in the description of the world,
+                is shown on a thinner sample that points the same way. There is a tension internal to the
+                tradition in this. A teaching of non-self and impermanence comes, in its later scholarship, to
+                lean on the language of own-nature and fixed measure. Why the tendency runs as it does is a further question. It may answer to the
                 needs of oral transmission. It may answer to a wider human pull toward concrete and permanent
                 knowledge. That lies beyond what the texts can settle, and it is left open. For the practical
                 matter this began with, the lower reaches of the path ask less than the later lore implies. The
@@ -1424,7 +1426,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 faculty leads a person and how deep their attainment runs: the one freed both ways
                 (<em>ubhatobhāgavimutta</em>, through the formless attainments and wisdom together), the one freed
                 by wisdom alone (<em>paññāvimutta</em>), the body-witness (<em>kāyasakkhi</em>, who has touched the
-                deep absorptions), the one attained-to-view (<em>diṭṭhippatta</em>, led by understanding), the
+                eight liberations with the body), the one attained-to-view (<em>diṭṭhippatta</em>, led by understanding), the
                 faith-freed (<em>saddhāvimutta</em>, led by faith), and the two still on the path, the
                 Dhamma-follower and the faith-follower (<em>dhammānusārī</em>, <em>saddhānusārī</em>)
                 (<Cite id="mn70">MN 70</Cite>, <Cite id="an7.14">AN 7.14</Cite>). That is seven, a fully built
@@ -1462,10 +1464,9 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 Buddha's ten powers as <em>nānādhimuttikatā</em>, the knowledge of beings' various resolves.
                 What is absent in every register is the temperament word: zero in the seven Abhidhamma books,
                 and where the word <em>carita</em> does occur (Vibhaṅga §817) it means kamma, the kinds of
-                formation, not temperament. The lesson is exact and worth stating plainly: the silence of{' '}
-                <em>carita</em> is the absence of a term, not the absence of person-typing. The canon's most
-                classificatory layer typologizes persons richly; it simply does not do it by a six-temperament
-                grid.
+                formation, not temperament. The lesson is exact. What is missing from the Abhidhamma is the
+                temperament word. The typing of persons is not missing at all; this most classificatory layer of
+                the canon does it busily, only never by a six-temperament grid.
               </p>
 
               {/* IV. PARA-CANONICAL KHUDDAKA + drift strip inline */}
@@ -1628,45 +1629,71 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               <h3 style={h3}>Where the hardening happens, and where it does not</h3>
               <p>
                 The divergence, the addition, and the regression can be put more precisely once the vocabulary
-                is counted across the six strata rather than two. The hardening is not one event. It happens at
-                four separate jumps, and it happens in the description of the world as much as in the guidance of
-                persons.
+                is counted across the six strata rather than two. One caution first. Each figure below is a count
+                of passages, the paragraph-rows of the ingested edition, that contain the term, not a tally of raw
+                occurrences, and the later strata are several times larger than the canon. So what carries the
+                argument is the qualitative contrast, a term present versus near-absent and the stratum at which
+                it first appears, and not the bare magnitudes. With that held in view, the hardening is not one
+                event. It happens at more than one jump, and it happens in the description of the world as well as
+                in the guidance of persons. Of about two dozen transitions traced this way, roughly two in three
+                localize cleanly to a jump while a real minority run against the trend, so the pattern is a strong
+                tendency, not a law.
               </p>
               <p>
                 Some of it is already the Abhidhamma's work. The closed factor-analysis of the absorption
                 (<em>jhānaṅga</em>) is absent from the four Nikāyas. It appears first in the seven Abhidhamma
                 books, then multiplies in the commentaries. The change-of-lineage moment (<em>gotrabhū</em>) is
                 barely present in the suttas and becomes a fixture of the Abhidhamma's analysis of the mind, at
-                two hundred occurrences there against six in the early canon. Other hardenings wait for the
-                commentaries. Access and absorption concentration (<em>upacāra</em>, <em>appanā</em>) are named
-                there for the first time, each zero before. The temperament compound enters at the late-canonical
-                and para-canonical hinge and fixes only in the commentary. And the own-nature language
-                (<em>sabhāva</em>) climbs at every step, from a handful of canonical occurrences to two thousand
-                in the commentaries and over four thousand in the sub-commentaries, where it peaks. The latest
-                layer hardens the hardest.
+                some two hundred rows there against six in the early canon. Other hardenings wait for the
+                commentaries. Access and absorption concentration (<em>upacāra-samādhi</em>, <em>appanā-samādhi</em>)
+                are named there for the first time, at zero canonical rows before. The temperament compound enters
+                at the late-canonical and para-canonical hinge and fixes only in the commentary. And the own-nature
+                language (<em>sabhāva</em>) climbs at every step, from a handful of canonical rows to some two
+                thousand in the commentaries and near four thousand in the sub-commentaries, where it peaks. The
+                latest layer hardens the hardest.
               </p>
               <p>
-                The description of the world follows the same line, and the counts are as clean. The kasiṇa that
-                the canon offers as a measureless perception (<em>appamāṇa</em>) becomes a manufactured disc in
-                the commentary. The bounded world-sphere (<em>cakkavāḷa</em>), almost absent from the canon,
-                becomes a commentarial fixture at over five hundred occurrences. The cycle by which a world is
-                destroyed and reformed (<em>kappavināsa</em>) is absent from the entire canon and is built in the
-                commentaries. What the early texts left measureless or hyperbolic is later counted in
-                <em> yojana</em>s and Mount Meru and dated in world-ages. Even the goal is not quite exempt: the
-                canon defines nibbāna only in the negative, the unmade and the unborn, and declines to call it a
-                place, while the later cosmology fills the afterworld with tiered and measured realms. The same
-                move that sets a present function into a standing type closes an open cosmos into a measured one.
+                The description of the world shows the same shape, on a thinner and freshly-counted sample. The
+                kasiṇa that the canon offers as a measureless perception (<em>appamāṇa</em>, the boundless pole
+                set against the limited, <em>paritta</em>) becomes a manufactured clay disc in the commentary,
+                fitted with a counterpart-sign progression the canon does not have. The cosmos itself follows. The
+                early discourses gesture at scale rather than measuring it, as in the ten-thousandfold world-system
+                that shakes under a measureless light (<em>appamāṇo obhāso</em>) at the awakening, vast but
+                unbounded. The later layers pin it down. The bounded world-sphere (<em>cakkavāḷa</em>) is named
+                twice in the four Nikāyas; the enclosing rim-wall that makes it a bounded object
+                (<em>cakkavāḷapabbata</em>) has no canonical warrant at all, and the commentary carries the sphere
+                at over five hundred rows. Mount Sineru is an early simile of greatness whose exact height,
+                eighty-four thousand <em>yojana</em>, is sub-commentarial. The unit <em>yojana</em> is itself
+                thoroughly canonical, used for ordinary distance; what is late is the systematic measuring of
+                cosmic architecture by it, and the dating of the world-cycle into named, counted aeons. The
+                destruction-phase compound <em>kappavināsa</em> is absent from the four Nikāyas and the Abhidhamma
+                and is built in the commentary.
               </p>
               <p>
-                Of the two dozen or so transitions counted this way, most localize to a single jump. A clear
-                minority run against the trend, and they are not few. The canon already carries fully built
-                typologies, so systematization is not simply late. The Abhidhamma sometimes carries an early
-                present-tense reading forward unchanged rather than hardening it. The Visuddhimagga disowns its
-                own most detailed diagnostic. And one canonical signature runs the other way entirely: the
-                explicit declaration that persons differ (<em>puggalavemattatā</em>) is loudest in the early
-                canon and fades in the later layers. So the pattern is a strong tendency with named exceptions,
-                not a law, and the exceptions are the divergence, the addition, and the regression seen from the
-                side of the count.
+                This register has its own counter-currents, and they matter as much as in the guidance of persons.
+                The canon sometimes states an exact figure already: the lifespans of beings and the lengths of past
+                aeons are numbered in the Buddha's own voice (<Cite id="dn14">DN 14</Cite>, <Cite id="dn26">DN 26</Cite>).
+                It sometimes keeps a thing open and the commentary keeps it open too. Whether the world is finite or
+                infinite is a question the Buddha set aside, and no later layer fills it in (the <em>avyākata</em>,{' '}
+                <Cite id="an10.95">AN 10.95</Cite>). One early discourse already sorts a measured mind-deliverance
+                from a measureless one and guards the measureless from being bounded (<Cite id="mn127">MN 127</Cite>),
+                and the canon names an explicitly infinite object of its own, the base of the infinity of space
+                (<em>ākāsānañcāyatana</em>). Even the goal divides this way. The canon's word for the unconditioned
+                is largely privative, the unborn and the unmade (<Cite id="ud8.3">Ud 8.3</Cite>), though it also
+                carries a set of positive epithets (the Asaṅkhata-saṃyutta, SN 43); what the later cosmology adds is
+                the tiered and measured afterworld the early texts do not draw. So the world-description register
+                confirms the persons register's tendency on a smaller sample, with the same honest mixture of cases
+                that harden, cases the canon already fixed, and cases it refuses to fix.
+              </p>
+              <p>
+                Two limits bound this reading and are owed to the reader. The stratum coding is done from a work's
+                place in the tradition's own development, independently of how essentializing its language is, so
+                "essence increases with lateness" is not simply assumed; yet the two are not wholly separable, and
+                the gradient is best read as partly definitional. And the move tracked here, from an open function
+                to a fixed type or measure, is not always sharply distinct from ordinary scholastic elaboration.
+                What marks it as essentialization rather than housekeeping is the shift from a present-tense or
+                relational reading to a standing-property one, plain in the <em>carita</em> and <em>sabhāva</em>{' '}
+                cases and visible only by direction in the thinner ones.
               </p>
 
               {/* CALM, INSIGHT, AND CONCENTRATION */}
@@ -1699,7 +1726,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 (<Cite id="pp1.3">PP 1.3</Cite>). A second, term-free reading of the same fact sits in the seven
                 noble persons (<Cite id="mn70">MN 70</Cite>, <Cite id="an7.14">AN 7.14</Cite>): the faith-follower
                 and Dhamma-follower reach the lower fruits without the eight liberations (<em>aṭṭha vimokkhā</em>,
-                the deep absorptions through the formless states) that the body-witness has touched with the body,
+                the deep attainments running from the form-contemplations through the formless states to cessation) that the body-witness has touched with the body,
                 so the canon already lets a person enter the path on less than full absorption. What it never does
                 is fix how much less.
               </p>
@@ -1811,10 +1838,10 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 never says how much. That open measure is what the commentary closes, and the terms it closes it
                 with are not in the canon: access concentration (<em>upacāra-samādhi</em>), momentary
                 concentration (<em>khaṇika-samādhi</em>), and absorption concentration as a named tier
-                (<em>appanā-samādhi</em>) are each zero canonical rows, and one-pointedness
-                (<em>cittekaggatā</em>), the depth-neutral genus of concentration, is canonical at sixty-four
-                rows but is made a property of every mind-moment only in the commentary and Abhidhamma, where it
-                nearly triples. What the canon does supply is a threshold state, not a named tier. Where the
+                (<em>appanā-samādhi</em>) are each zero canonical rows, and one-pointedness, the depth-neutral genus
+                of concentration, is canonical in its own right (the broad <em>ekaggatā</em> stem at sixty-four
+                rows; the full compound <em>cittekaggatā</em> is rarer) but is made a property of every mind-moment
+                only in the commentary and Abhidhamma, where the count multiplies. What the canon does supply is a threshold state, not a named tier. Where the
                 Dhamma-eye opens on the spot, the graduated talk first leaves the listener "ready, malleable, free
                 of the hindrances" (<em>kallacitta</em>, <em>muducitta</em>, <em>vinīvaraṇacitta</em>, twenty-five
                 canonical rows), and only then does the dust-free vision arise (<Cite id="dn5">DN 5</Cite>,{' '}
@@ -1872,6 +1899,20 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 what is present in them; it does not invite them to read what they are. The further normative
                 question, which object best suits a given person, the sources, canon and commentary alike, make
                 a teacher's business and leave openly provisional.
+              </p>
+              <p>
+                A word on where this sits in the scholarship, since the disputes it touches are old and
+                well-worked. Whether stream-entry requires jhāna has been argued at length, by Cousins, Gombrich,
+                Gethin, and Shankman among others, and in the exchange between Brahmāli, Sujāto, and Anālayo. The
+                rise of own-nature (<em>sabhāva</em>) language and the charge of a commentarial and Abhidhamma
+                substantialism is the subject of Ronkin's study of early Buddhist metaphysics. The mnemonic
+                shaping of oral transmission is the theme of Allon and Wynne. The lateness of the meditation-subject
+                apparatus has been noted in Cousins's work on the <em>kammaṭṭhāna</em>. The contribution here is
+                not the direction of any of these findings, which is broadly known, but the reproducible
+                cross-stratum count: a single auditable measure of where in the textual layers each move first
+                appears, run the same way for the register of persons and the register of the world, so the
+                gradient can be inspected rather than asserted. The added claim, that these moves share one shape
+                and recur at more than one jump, is what the count is offered to support.
               </p>
               <p>
                 Two further questions sit outside what the corpus can settle, and are left as questions. The
