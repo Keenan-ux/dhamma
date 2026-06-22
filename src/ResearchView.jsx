@@ -1294,26 +1294,38 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               {/* ABSTRACT */}
               <p style={abstractLead}>
                 <span style={abstractTag}>Abstract.</span> A familiar piece of Buddhist meditation lore
-                sorts people into six temperaments and hands each its own practice. It is usually read as the
-                canon's own counsel. This survey began with a narrow question put to the live corpus of{' '}
-                {fmt(194710)} passages, where across the layers of the Pāli literature that six-temperament
-                scheme sits, and found the question was the wrong size. The scheme is real and late: its
-                central word, <em>carita</em>, carries the temperament sense zero times in the four Nikāyas and
-                the seven Abhidhamma books, enters at the para-canonical Khuddaka, and is fixed into a
-                person-by-object grid only in the commentaries. But a wider reading shows that scheme is the
-                late corner of a populous field the one-word question could not see. The canon individuates
-                persons robustly and early: by the mind's presently-active root, by the maturity of a person's
-                faculties, by how quickly they can be taught, and by a fully systematized roster of seven noble
-                persons sorted by their mode of liberation. What is late is not individuation but a particular
-                kind of it, the freezing of what a person presently <em>does</em> or leans toward into a fixed
-                type of what they <em>are</em>; the temperament scheme is one instance of that move. The survey
-                describes the field stratum by stratum, then reads the whole of it for the patterns that cross
-                the layers, and closes by marking the limits of saying so. Every count is reproducible from the
-                live database and every citation opens its passage.
+                sorts people into six temperaments and hands each its own practice, and it is usually read as
+                the canon's own counsel. It is late, and at first not even a temperament scheme: its central
+                word, <em>carita</em>, carries the temperament sense zero times in the four Nikāyas and the
+                seven Abhidhamma books, enters at the para-canonical Khuddaka still meaning conduct, and is
+                fixed into a person-by-object grid only in the commentaries. That finding is one instance of a
+                pattern that runs through every level examined here: at each, the early canon works by present
+                function, by gradient, and by felt quality, and the later literature systematizes it into fixed
+                types, named tiers, and closed lists.
+              </p>
+              <p style={abstractLead}>
+                The canon individuates a person by the mind's presently-active root, by the maturity of the
+                faculties, and by the route to liberation, in a fully built roster of seven noble persons; the
+                commentary freezes what a person presently <em>does</em> into a standing type of what they{' '}
+                <em>are</em>. The canon treats calm and insight as a balance yoked to a present need; the
+                commentary splits them into fixed vehicles and a dry-insight worker, none named in the canon.
+                The canon grades the concentration the path asks as a measure (<em>samādhismiṃ mattaso kārī</em>)
+                without fixing a floor, and names the threshold for the first awakening as a hindrance-free,
+                pliant mind rather than a numbered attainment; the commentary supplies the sub-jhānic tiers,
+                access, momentary, and absorption concentration, each zero in the canon. Even the objects
+                follow: the canonical kasiṇa is a boundless perception, the commentary's a manufactured disc.
+                The lower fruits, then, ask less than the lore implies. What is late is not individuation, nor
+                system, since the canon's own typologies are fully built; it is one move, repeated, a present
+                function set into a fixed essence, a gradient closed into a floor, a quality resolved into a
+                list.
               </p>
 
-              <p style={methodNote}>
-                Reproducibility and recall. Every count below is reproducible from the live database, and
+              <details style={{ margin: '18px 0 8px' }}>
+                <summary style={{ fontVariant: 'small-caps', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--bc-accent)', cursor: 'pointer', fontSize: 13 }}>
+                  Reproducibility and recall
+                </summary>
+                <p style={{ ...methodNote, marginTop: 8 }}>
+                Every count below is reproducible from the live database, and
                 every citation opens its passage. The enumeration does not rest on the search service alone. A
                 frame of {fmt(frameN)} candidate passages was drawn by direct database query over the assignment
                 vocabulary: the develop-imperatives paired with a named meditation object, the
@@ -1335,7 +1347,8 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 further instance. Renderings of commentary and Abhidhamma are the author's own, since the corpus
                 carries no published English for those layers; they are checked against Ñāṇamoli for the
                 Visuddhimagga and B. C. Law for the Puggalapaññatti.
-              </p>
+                </p>
+              </details>
 
               {/* ROADMAP / DEMOTION INTRO */}
               <p>
@@ -1613,10 +1626,12 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 phrase is not a passing turn: <em>samādhismiṃ mattaso kārī</em> recurs where the canon sorts the
                 nine noble persons who die "with a remainder" by exactly this measure
                 (<Cite id="an9.12">AN 9.12</Cite>, the Lion's Roar with Residue, which maps the gradient onto the
-                grades of non-returner), and the Abhidhamma's Puggalapaññatti then enumerates the persons by it.
-                A second, term-free reading of the same fact sits in the seven noble persons: the faith-follower
-                and Dhamma-follower reach the lower fruits without the deep attainments the body-witness has, so
-                the canon already lets a person enter the path on less than full absorption. What it never does
+                grades of non-returner), and the Abhidhamma's Puggalapaññatti then enumerates the persons by it
+                (<Cite id="pp1.3">PP 1.3</Cite>). A second, term-free reading of the same fact sits in the seven
+                noble persons (<Cite id="mn70">MN 70</Cite>, <Cite id="an7.14">AN 7.14</Cite>): the faith-follower
+                and Dhamma-follower reach the lower fruits without the eight liberations (<em>aṭṭha vimokkhā</em>,
+                the deep absorptions through the formless states) that the body-witness has touched with the body,
+                so the canon already lets a person enter the path on less than full absorption. What it never does
                 is fix how much less.
               </p>
               <p>
@@ -1688,7 +1703,8 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 tranquillity to the line <em>sukhino cittaṃ samādhiyati</em>, "of one who is happy, the mind
                 becomes concentrated" (forty-six rows; the mind "becomes concentrated," <em>samādhiyati</em>, in
                 the passive, sixty-three). The discourse that states it is spoken to Mahānāma the Sakyan, a lay
-                stream-enterer, about the recollections (<Cite id="an6.10">AN 6.10</Cite>): the concentration of
+                stream-enterer, about the recollections (<em>anussati</em>, the AN 6.10 set led by
+                <em> buddhānussati</em>; <Cite id="an6.10">AN 6.10</Cite>): the concentration of
                 one who has seen the Dhamma is the by-product of the gladness that recollection and virtue
                 produce, not a separately-built absorption. And the proximate condition the canon names for
                 insight is a bare "concentrated mind," <em>samāhite citte yathābhūtaṃ pajānāti</em>, "with the
@@ -1741,7 +1757,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 commentarial and zero in the canon. So the honest description is this: the canon defines the path-factor of
                 concentration as jhāna in its stock formula, constitutes the first fruit by faith, virtue, and view with
                 concentration as a conducive fruit, grades the trainee below the concentration-fulfiller, and
-                reaches even arahantship in a mode without the deep attainments, and it states a gradient while
+                reaches even arahantship in a mode without the formless attainments beyond the four jhānas, and it states a gradient while
                 fixing no floor. The underdetermination is real, and it is why the question stays open; the
                 commentary's access concentration is one resolution of it, not a canonical finding.
               </p>
@@ -1779,7 +1795,11 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 and the contemplation of mind has one watch one's own arising root (<Cite id="mn10">MN 10</Cite>).
                 What the texts do not hand to the practitioner is the fixed type. Certifying that one is a
                 greed-temperament person is teacher-assigned, and by the Visuddhimagga's own admission not
-                reliably available even to a teacher without direct knowing. The canon invites a person to read
+                reliably available to a teacher without the direct knowledge of another's mind
+                (<em>cetopariyañāṇa</em>): the manual's own fallback is that a teacher who can read minds knows the
+                pupil's temperament directly, while one who cannot is told to ask. So the diagnosis is reliable only
+                with an attainment the canon reserves for what is directly seen, not by the outward reading the
+                manual itself sets out. The canon invites a person to read
                 what is present in them; it does not invite them to read what they are. The further normative
                 question, which object best suits a given person, the sources, canon and commentary alike, make
                 a teacher's business and leave openly provisional.
