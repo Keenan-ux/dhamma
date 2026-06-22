@@ -66,6 +66,12 @@ export function aliasesReady() {
   return _readyPromise;
 }
 
+// Synchronous "are the aliases loaded?" check for the /api/ready probe. True
+// once the boot/lazy load has populated the maps; does not trigger a load.
+export function aliasesLoaded() {
+  return _byTerm !== null;
+}
+
 export function aliasesFor(term) {
   if (!_byTerm) return [];
   const key = normalizeKey(term);

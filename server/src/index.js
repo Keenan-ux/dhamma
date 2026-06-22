@@ -15,7 +15,8 @@ import { fileURLToPath } from 'node:url';
 
 import { applySchema, health as dbHealth, sql, vtBare } from './db.js';
 import { embedReady, embedWarmState } from './embed.js';
-import { aliasesReady } from './aliases.js';
+import { aliasesReady, aliasesLoaded } from './aliases.js';
+import { Semaphore } from './concurrency.js';
 import { runSearch } from './search.js';
 import { runCorpus, getPassage, getPassages, getPassageGroup, getPassageGroupTranslations, getCommentaryFor } from './corpus.js';
 import { runCompareStats } from './compareStats.js';
@@ -36,7 +37,33 @@ const STATIC_DIR = process.env.STATIC_DIR || path.resolve(ROOT, 'dist');
 
 const app = new Hono();
 
+// F6 concurrency guard for the heavy (Meaning) search path. The box has no
+// concurrency guard of its own and a burst of BGE-M3 + vector-ANN queries wedges
+// it (dhamma-concurrency-wedge note). Cap how many run at once; the rest queue
+// briefly then shed (503). Serial / light (Exact, Stem) use is never gated.
+// Tunable by env without a code change.
+const HEAVY_MAX     = Number(process.env.SEARCH_HEAVY_CONCURRENCY) || 2;
+const HEAVY_WAIT_MS = Number(process.env.SEARCH_QUEUE_TIMEOUT_MS)  || 30000;
+const heavySem = new Semaphore(HEAVY_MAX);
+
 app.get('/api/healthz', (c) => c.json({ ok: true, ts: Date.now() }));
+
+// Readiness probe (distinct from /api/healthz liveness and /api/dbcheck). Ready
+// = DB reachable AND the alias map loaded (Stem/Meaning expansion works). The
+// embed warm state + search-guard occupancy are reported for observability but
+// are NOT required for ready (Exact/Stem serve without the model). Returns 503
+// until ready so a future Fly readiness check / load-balancer can gate traffic.
+app.get('/api/ready', async (c) => {
+  let dbOk = false;
+  try { dbOk = (await dbHealth()).connected; } catch { dbOk = false; }
+  const aliases = aliasesLoaded();
+  const ready = dbOk && aliases;
+  return c.json({
+    ready, db: dbOk, aliases,
+    embed: embedWarmState().warm,
+    search: heavySem.stats(),
+  }, ready ? 200 : 503);
+});
 
 // Warm the BGE-M3 embedding model. The first Meaning query after a machine
 // wake loads the ONNX model (tens of seconds to ~100s on shared CPU). The
@@ -485,6 +512,14 @@ app.get('/api/compare', async (c) => {
 });
 
 app.get('/api/search', async (c) => {
+  // Gate only the heavy Meaning path (BGE-M3 + vector ANN) behind the concurrency
+  // guard; Exact/Stem are cheap FTS and pass straight through. A burst beyond the
+  // cap queues up to HEAVY_WAIT_MS, then sheds with 503 instead of wedging the box.
+  const heavy = (c.req.query('mode') === 'meaning');
+  if (heavy) {
+    try { await heavySem.acquire(HEAVY_WAIT_MS); }
+    catch { return c.json({ error: 'busy', retry_after_s: 5 }, 503); }
+  }
   try {
     // Stem/Meaning modes expand the query through the in-memory alias map,
     // which loads in the background at boot (start()). A search can race that
@@ -513,6 +548,8 @@ app.get('/api/search', async (c) => {
     return c.json(out);
   } catch (err) {
     return c.json({ error: err.message }, 500);
+  } finally {
+    if (heavy) heavySem.release();
   }
 });
 
