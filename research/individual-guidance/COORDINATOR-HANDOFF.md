@@ -44,7 +44,31 @@ CASE
 ```
 
 ## 3. Sub-chat ledger
-(none yet — populate as you delegate. This campaign is small; prefer a few long-queue workflows over many chats.)
+
+**ITEM 1 — DONE (2026-06-22, committed 8d8e3e7, pushed + deployed, smoke green).**
+- Prereg frozen first (`COSMOLOGY-PREREG.md`, commit b64429b) then scored verbatim.
+- Census run by `run_cosmology.py` (serial: one connection, temp table + trgm, fine 6-stratum CASE +
+  per-slug breakdown for ITEM 2). Output `COSMOLOGY-COUNTS.json`; samples `_COSMOLOGY-SAMPLES.json` (gitignored).
+- `COSMOLOGY-CENSUS.md`: 24 transitions (14 support / 4 mixed / 6 counter), each with 7-stratum counts +
+  read-rows sense-audit note + verdict. Supports land at four distinct jumps. Prereg scored (P1 PASS with
+  one falsified leg, P2-P5 PASS).
+- **Correction produced:** AN 7.66 gives Sineru's 84,000-yojana measure in the four Nikāyas — the paper's
+  "Sineru height is sub-commentarial" flipped to a counter-case. §VII (MD + JSX) rewritten census-backed;
+  abstract + reproducibility pointer updated. New citations an7.66 + snp1.8 curl 200.
+- **INCIDENT (logged, do not repeat):** the adversarial verification *workflow* was aborted mid-run. The
+  default workflow agents have full tool access and tried to re-measure against dhamma-pg with their own
+  concurrent psycopg2/flyctl connections, leaving ~36 zombie full-scan backends (oldest 19 min) and forming
+  the concurrency wedge. Killed the workflow (TaskStop), terminated the stale backends
+  (`pg_terminate_backend` on age>100s), confirmed app health (dbcheck 194710 / 401 / 200), and deleted the
+  agents' scratch files (including a `_pgurl.txt` DSN dump). The verdicts rest on the coordinator's own
+  direct serial row-audit; the two agents that did complete confirmed the coding and surfaced the
+  double-encoding caveat. **Lesson: for any verification workflow on this project, agents must NOT have DB
+  access — forbid Bash/flyctl/psycopg2 explicitly or use a read-only agentType. Reason-only over inlined
+  data.** Gitignore hardened (`research/individual-guidance/_*`, `server/_*`, `server/dipa_*`).
+- **Double-encoding caveat** (recorded in the census): canonical content is ingested under both SuttaCentral
+  and CST id schemes, so early-stratum row counts double-count unique suttas (the 2 early 84k-Sineru rows are
+  one AN 7.66 verse). Commentary strata are CST-only, so the contrast is understated, not overstated; no
+  zero-vs-present headline affected. Relevant to ITEM 2 (pli-kn is also double-encoded).
 
 ## 4. Verification commands + EXPECTED outputs
 - `curl -s https://dhamma.fly.dev/api/dbcheck` → `passages: 194710, pgvector: true`.
@@ -56,8 +80,8 @@ CASE
 
 ## 5. Open queue (the 3 approved items; concentration-split is DENIED — see §6)
 
-**ITEM 1 — Cosmology pre-registered census (research-grade).** GOAL: a gated, sense-audited
-`COSMOLOGY-CENSUS.md` matching HARDENING-CENSUS rigor, then folded into §VII.
+**ITEM 1 — Cosmology pre-registered census (research-grade). ✅ DONE — see §3 ledger (8d8e3e7, deployed).**
+GOAL: a gated, sense-audited `COSMOLOGY-CENSUS.md` matching HARDENING-CENSUS rigor, then folded into §VII.
 - (a) Freeze a pre-registration (`COSMOLOGY-PREREG.md`): H1 (figurative/open → literal/measured recurs,
   jump-localized) + the explicit H0 (concentration is one-jump / counter-cases dominate) + falsifiable
   predictions, BEFORE running.
@@ -123,8 +147,10 @@ clobber. Within an item, use ultracode workflows for the parallelizable parts (c
 sense-audit reasoning, per-section de-comma recasts) but apply edits yourself and keep the DB serial.
 
 ## 8. Per-pending-item: what to check when it lands
-- ITEM 1: COSMOLOGY-CENSUS.md every row resolves; the prereg is scored verbatim; §VII no longer says
-  "spot-check"; smoke + new-citation 200s.
+- ITEM 1 ✅: COSMOLOGY-CENSUS.md every row resolves; the prereg is scored verbatim; §VII no longer says
+  "spot-check" (it never did; "freshly-counted sample" upgraded to "now counted the same way" + census
+  pointer); smoke + new-citation 200s (an7.66, snp1.8). The 84k-Sineru correction is logged as a falsified
+  prereg leg, not a silent fix.
 - ITEM 2: re-run a known cosmology term under the old vs new CASE and confirm only late-canonical magnitudes
   move; headlines stable; mapping artifact committed.
 - ITEM 3: grep the paper for the reconciled numbers (consistent); G3 no longer under "general importance";
