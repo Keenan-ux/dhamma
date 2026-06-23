@@ -113,6 +113,21 @@ judgment-heavy and operator-reviewed, so serial/coordinator-direct has been the 
   count must be unchanged (`grep -oc "<Cite"`).
 - HEAD at handoff: `8b67ac9`. Working tree clean.
 
+## 4b. INTERLEAVED: adversarial content review (2026-06-23, operator-commissioned)
+A no-holds-barred peer review of all five studies landed before the writing rollout resumes. 22
+agents + a coordinator DB-verification layer. Full report: **`research/ADVERSARIAL-REVIEW-2026-06-23.md`**
+(harness: `research/_adv_db_check.py`; workflow `wf_fd14f07b-e12`). Headline: every central thesis
+SURVIVES (the present/absent 0-canon negatives hold, DB-re-confirmed), but the quantitative apparatus
+has two systemic defects — (T1) the "chronological stratum" axis is a `work_slug→stratum` lookup so
+every early-vs-late gradient and "N disagreements" count is circular (verified: 0/24 naga works
+multi-valued, 299/299 awakening disagree==not-early); (T2) the "85% commentarial" magnitude is a
+row-granularity artifact (canon is 9% of rows but 44% by character) — per-character the commentary is
+3.5–5.5× denser (direction holds, magnitude wrong). Grades: Awakening B, IG B, Heart-base B, Naga B,
+Uttarakuru C (one CRITICAL: "6 of 26 mula early" double-counts 3 suttas). A P0/P1/P2 correction queue
+is in the report. These corrections are CONTENT fixes (different territory from the writing-quality
+rules below) but several overlap the same prose, so reconcile before the rollout edits land. NOT yet
+applied to live pages — pending operator decisions on the queue. NOTHING deployed.
+
 ## 5. Open queue (in order)
 1. **[BLOCKED on operator] Lock the IG abstract texture.** Operator is reviewing the live abstract (commit
    `8b67ac9`). Pull any new research-notes (§2 read path) and apply their fixes. When they sign off, the
