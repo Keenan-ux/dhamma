@@ -1335,60 +1335,86 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
             <div style={articleBody}>
               {/* ABSTRACT */}
               <p style={abstractLead}>
-                <span style={abstractTag}>Background.</span> The Pāli canon's earliest layer teaches in one
-                register, its later literature in another. The early discourses read what is presently
-                the case and answer it as the situation needs. They watch the root now active in a mind, weigh
-                how far a person's faculties have ripened, and place the whole world inside the
-                fathom-long body. The thousand years of Abhidhamma, commentary, and sub-commentary that follow
-                fix that supple teaching into closed systems: standing types and named tiers, closed lists and
-                measured quantities. This study began with a narrow question: how the canon matches a
-                person to a practice. That question opened onto a larger one, and the larger one became the
-                subject. How is an adaptive teaching turned into a fixed one? And is the hardening a single late
-                break, or a tendency that recurs as the literature grows?
+                <span style={abstractTag}>Background.</span> The Pāli canon was not composed all at once, and its
+                layers stand centuries apart. Its earliest stratum, the discourses (the <em>suttas</em>), is
+                ascribed to the Buddha himself, who taught in roughly the fifth century BCE. At his death (the
+                <em> parinibbāna</em>), some five hundred arahants are said to have gathered at the First Council
+                to recite and fix what he had taught; the discourses were then carried orally, by communal
+                recitation, for some four centuries, and committed to writing only around the first century BCE,
+                in Sri Lanka. The systematizing layers come later still, accumulating across roughly the thousand
+                years between the Buddha and Buddhaghosa: the Abhidhamma, the commentaries (<em>aṭṭhakathā</em>,
+                the classical layer largely redacted by Buddhaghosa around the fifth century CE), and the
+                sub-commentaries (<em>ṭīkā</em>). Over that long span the way the texts teach gradually shifts.
+                The early discourses read what is in front of them and answer it as the moment needs: they name
+                which unwholesome root (<em>akusala-mūla</em>: greed, hate, or delusion) is active in a mind
+                (<em>citta</em>) at a given moment, weigh how far a person's five spiritual faculties
+                (<em>indriya</em>: faith, energy, mindfulness, concentration, and wisdom) have matured, and
+                locate the whole world (<em>loka</em>) within present experience, in the image the
+                Rohitassa-sutta makes famous of the cosmos as findable inside one's own fathom-long body. The
+                later literature increasingly systematizes: it sorts persons into standing character-types, names
+                tiers where the discourses gave degrees, and settles open or hyperbolic formulations into fixed
+                lists and measured quantities. This study began with one narrow question, how the canon matches a
+                person to a meditation practice, and that opened onto the subject it took up. The pattern it kept
+                meeting was one recurring move. A teaching given as a present function (which defilement is
+                active now, how ripe a person's faculties are, where the world stands in present experience) is,
+                over time, recast as a standing property: a fixed character-type, a named tier, a measured
+                quantity. The question is how far that move reaches: whether it is a single late development or a
+                graded tendency recurring across the strata, and whether it shapes the description of the world
+                as fully as the guidance of persons.
               </p>
               <p style={abstractLead}>
                 <span style={abstractTag}>Methods.</span> The relevant vocabulary is traced across six textual
-                strata, running from the four Nikāyas through the late canon and the Abhidhamma, then the
-                para-canonical works, the commentaries, and the sub-commentaries. Two domains are followed: the
-                guidance of persons and the description of the world. Every count comes from a query grouped on
-                textual stratum against the live corpus, and every term is read in sampled rows before it is trusted.
+                strata, running from the four Nikāyas through the late canon and the Abhidhamma Piṭaka, then the
+                para-canonical works, the commentaries (<em>aṭṭhakathā</em>), and the sub-commentaries
+                (<em>ṭīkā</em>). Two domains are followed: the guidance of persons (how a teaching is fitted to an
+                individual) and the description of the world (the canon's cosmology, its account of the physical
+                and rebirth cosmos). Every count comes from a query grouped on textual stratum against the live
+                corpus, and every term is read in sampled rows before it is trusted.
               </p>
               <p style={abstractLead}>
-                <span style={abstractTag}>Results.</span> The move is real: it takes one form and recurs at
-                more than one jump. Take the guidance of persons first. The canon sorts a mind by its present
-                root, and it carries closed rosters keyed to capacity and route; the seven noble persons are one
-                such roster. The six-temperament scheme built on <em>carita</em> (a person's settled character)
-                is a different thing: attested zero times in the four Nikāyas and the seven Abhidhamma
-                books, it fixes only in the commentaries. The other threads run the same way. The yoke of calm
-                and insight becomes a set of named vehicles; the graded measure of concentration
-                (<em>samādhismiṃ mattaso kārī</em>) becomes the named tiers of access and absorption; the first
-                absorption, once given as a few felt qualities, becomes a closed inventory of factors. The
-                description of the world shows the same shape, on a thinner and freshly-counted sample. The
-                kasiṇa the canon offers as a measureless perception (<em>appamāṇa</em>, the boundless pole set
-                against the limited) becomes a manufactured disc. The world-sphere (<em>cakkavāḷa</em>), named
-                twice in the four Nikāyas, acquires the bounding rim-wall that makes it an object, and its
-                measured dimensions, only in the commentary. What the early texts often leave as hyperbolic scale is
-                later pinned to exact figures, the world-cycle dated into counted aeons. The hardening is staged
-                rather than single, intensifying again in the sub-commentaries, where the language of own-nature
-                (<em>sabhāva</em>) reaches its peak. Most of these transitions localize cleanly to one jump or
-                another. A minority run the other way, because the canon already holds fully built typologies
-                and sometimes states an exact measure itself, and the tradition now and then refuses a measure
-                or disowns its own system.
+                <span style={abstractTag}>Results.</span> The tendency is real, and it takes one form, recurring
+                at more than one point. Take the guidance of persons first. The canon already individuates
+                people, and in several ways: it reads a mind (<em>citta</em>) by which unwholesome root
+                (<em>akusala-mūla</em>) is presently active in it, and it carries fixed rosters of person-types
+                keyed to a person's capacity and to the route by which they reach awakening. One such roster is
+                the seven noble persons (<em>satta ariyapuggalā</em>), the canon's seven kinds of noble disciple
+                graded by which spiritual faculty leads them and how deep their meditative attainment runs. What
+                comes late is the six-temperament scheme built on <em>carita</em> (a person's settled
+                character-type): attested zero times in the four Nikāyas and the seven books of the Abhidhamma,
+                it is fixed only in the commentaries. The neighbouring threads run the same way. The yoke of calm
+                and insight (<em>samatha</em> and <em>vipassanā</em> developed together, <em>yuganaddha</em>) is
+                named into a set of vehicles; the graded measure of concentration (<em>samādhismiṃ mattaso
+                kārī</em>, "a doer to a measure" in concentration) is named into the tiers of access and
+                absorption (<em>upacāra-</em> and <em>appanā-samādhi</em>); and the first absorption
+                (<em>paṭhama-jhāna</em>), once given as a few felt qualities, is resolved into a closed inventory
+                of factors (<em>jhānaṅga</em>). The description of the world shows the same shape, on a thinner
+                and freshly counted sample. The kasiṇa (a meditation object) the canon offers as a measureless
+                perception (<em>appamāṇa</em>, the boundless set against the limited) becomes a manufactured disc;
+                the world-sphere (<em>cakkavāḷa</em>), named twice in the four Nikāyas, gains the bounding
+                rim-wall that makes it a fixed object, and its measured dimensions, only in the commentary; and
+                what the early texts leave as open or hyperbolic scale is later pinned to exact figures, the
+                world-cycle counted into aeons (<em>kappa</em>). The hardening is staged rather than sudden, and
+                it intensifies again in the sub-commentaries, where the language of own-nature (<em>sabhāva</em>)
+                is most pronounced. Most of these transitions localize cleanly to one jump. A real minority run
+                the other way: the canon already holds fully built typologies, sometimes states an exact measure
+                in its own voice, and now and then the later tradition declines a measure or sets aside a system
+                of its own.
               </p>
               <p style={abstractLead}>
-                <span style={abstractTag}>Conclusion.</span> So the systematization of the teaching is gradual
-                and many-staged. It is not a single break between canon and commentary, and it is a tendency
-                rather than a law. What stays consistently late is one move: a present function becomes a
-                standing type, and an open or hyperbolic formulation becomes a counted, bounded one. The first is
-                shown here in detail, across the guidance of persons. The second, in the description of the world,
-                is shown on a thinner sample that points the same way. There is a tension internal to the
-                tradition in this: a teaching of non-self and impermanence comes, in its later scholarship, to
-                lean on the language of own-nature and fixed measure. Why the tendency runs as it does is a further
-                question: it may answer to the needs of oral transmission, or to a wider human pull toward concrete
-                and permanent knowledge. That lies beyond what the texts can settle, and it is left open. For the practical
-                matter this began with, the lower reaches of the path ask less than the later lore implies. The
-                machinery that fits a person to a practice is later and firmer in its claims than its canonical
-                shelving suggests. So is the cosmos it sits within.
+                <span style={abstractTag}>Conclusion.</span> So the systematization is gradual and many-staged,
+                not a single break between canon and commentary, and a tendency rather than a law. What stays
+                consistently late is the one move: a present function becomes a standing type, and an open or
+                hyperbolic formulation becomes a counted, bounded one. The first is shown here in detail, across
+                the guidance of persons; the second, in the description of the world, on a thinner sample that
+                points the same way. There is a tension internal to the tradition in this, noted without
+                reproach: a teaching of non-self (<em>anattā</em>) and impermanence (<em>anicca</em>) comes, in
+                its later scholarship, to lean on the language of own-nature (<em>sabhāva</em>) and fixed measure.
+                Why the tendency runs as it does is a further question, left open: it may answer to the needs of
+                oral transmission, which rewards what is formulaic and listed, or to a wider human pull toward
+                concrete and settled knowledge. For the practical matter this began with, the lower fruits of the
+                path (stream-entry and once-return) appear to ask less of concentration than the later lore
+                implies, and the machinery that fits a person to a practice is later, and firmer in its claims,
+                than its canonical shelving suggests. So, on its thinner sample, is the cosmos it sits within.
               </p>
 
               <details style={{ margin: '18px 0 8px' }}>
