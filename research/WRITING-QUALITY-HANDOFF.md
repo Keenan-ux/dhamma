@@ -125,8 +125,23 @@ row-granularity artifact (canon is 9% of rows but 44% by character) — per-char
 3.5–5.5× denser (direction holds, magnitude wrong). Grades: Awakening B, IG B, Heart-base B, Naga B,
 Uttarakuru C (one CRITICAL: "6 of 26 mula early" double-counts 3 suttas). A P0/P1/P2 correction queue
 is in the report. These corrections are CONTENT fixes (different territory from the writing-quality
-rules below) but several overlap the same prose, so reconcile before the rollout edits land. NOT yet
-applied to live pages — pending operator decisions on the queue. NOTHING deployed.
+rules below) but several overlap the same prose, so reconcile before the rollout edits land.
+
+**APPLIED + DEPLOYED 2026-06-23 (commit `73a77e0`, live, smoke green: dbcheck 194710, ready 200,
+frontend asset hash matches build).** The full P0/P1/P2 queue was applied across all five studies
+(live page + datasets + build scripts) + the method docs, by an 11-agent fix workflow + a coordinator
+gate. Per-study: awakening BV 17/9→15/7 (dataset regenerated after a verifier reverted it); IG H0/H1
+reframed + vism 553 removed; heart-base "never verified" softened with the eye-base negative control +
+counts-snapshot committed; uttarakuru 6/26 double-count fixed + subtitle canon→commentary + divine-eye
+surfaced; naga lopsidedness→per-row rates + 32→39% + disagree 103→23. Method docs: PROVENANCE-SIGNATURE
+I.1 stratum axis relabelled + SKILL rules 7-11 (forking-paths, per-char density, IAA-scope,
+negative-control, span-aware). No em-dash added (7 baseline held); every `<Cite>` preserved (137→138).
+
+**RESIDUALS for the writing-quality rollout (pre-existing, NOT review findings, out of this pass's
+scope):** the page still renders a few standing writing-rule violations — `src/ResearchView.jsx` ~3245
+(heart-base `v2.method_note`) carries "load-bearing"; `public/research/naga.json` data fields
+(records[].claim ×34, spine ×3) carry em-dashes that render; and `research/{individual-guidance,naga}/
+FINDINGS*.md` (secondary docs) still carry "load-bearing"/"cross-cutting". Fold these into the rollout.
 
 ## 5. Open queue (in order)
 1. **[BLOCKED on operator] Lock the IG abstract texture.** Operator is reviewing the live abstract (commit
