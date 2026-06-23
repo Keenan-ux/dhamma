@@ -36,9 +36,23 @@ complete (leave them, like IG).
   existing "verified column is empty" claim. Plain-text cites (page style); no new Cite ids.
 - **Naga — ALREADY COMPLETE, no change.** Reader covers §5/§6/§7 fully (abhabba reason, disguise 2→5, down-to-
   Sakka, the H0/H1 cell split, modern reading). FINDINGS.md-vs-SPINE wrinkle moot. Leave it.
-- **Awakening — PENDING diagnosis.** Most data-bound reader (~45 `{fmt}`/`{data.v2}` bindings woven into prose);
-  any merge MUST preserve those live bindings (do not freeze to MD literals). Likely complete or a small gap;
-  assess the recall-ladder/attribution detail vs MD §§VII–VIII before deciding.
+- **Awakening — DONE, deployed, pushed (7eb4389).** Reader walked the strata + census but had no closing
+  interpretation; folded in MD §VIII (the "mostly a late/devotional layer" payoff + five scholarly limits) as a
+  new "What this means, and what it does not" section before the census. Live data-bindings preserved
+  (`{fmt(colTotals.mula)}`, early-floor + recollection counts via `data.v2`); no new Cite ids.
+
+### ITEM A COMPLETE (2026-06-22)
+All four assessed: HeartBase + Uttarakuru + Awakening got additive completeness merges (deployed); Naga was
+already complete (left, like IG). Each live page now carries the most complete version of its research, lost
+no content, kept its live data tables. Verification per study: `npm run build` green, every `<Cite>` curls 200,
+no em-dash/first-person/"load-bearing"/"cross-cutting" in the touched regions, deploy smoke green
+(passages 194710, ready/root 200, research 401). Commits: 113d96e (HeartBase), 34c03dc (Uttarakuru),
+7eb4389 (Awakening), plus 959c450 (this doc). NOTE: the disk `FINDINGS-readable.md` / `FINDINGS.md` files are
+now SECONDARY drafts, no longer in sync with the canonical live pages (they keep first-person + apparatus the
+pages drop, and lack the pages' own additions e.g. HeartBase modern-practice). If a future PDF-export wants a
+paper, regenerate it FROM the page, not the stale MD. ITEM B (de-AI scrub of residual first-person in the
+non-IG studies) is partly absorbed: the regions touched this pass are already house-voice; untouched regions of
+those studies may still carry residual first-person (the original ITEM-B concern).
 
 ## 1. Mission
 The IG study cleanup (ITEMs 1-3) and a 10-item skill/tool/DB improvement pass are DONE, deployed, and live at
