@@ -63,6 +63,19 @@ If any of these fails, the prose built on it is wrong; fix the data first.
 - [ ] New claims carry a confidence tag and a stated limit; nothing tool-degraded is dressed as proven.
 - [ ] The change introduced no process leak and no em-dash (the de-AI gates still hold).
 - [ ] Canon / commentary / Abhidhamma / secondary voices stayed separated.
+- [ ] **"Disagree == not-early" tautology check.** Wherever the prose reports a structural-layer vs
+      chronological-stratum *disagreement* as evidence (e.g. "a `mūla` row coded late-canonical confirms
+      the lateness"), confirm the stratum was coded **per row** (per-row philological features + κ), not
+      assigned by the `work_slug → stratum` table. If it came from the table, the "disagreement" is true
+      by construction (the work is simply late) and may NOT be narrated as independent corroboration —
+      relabel it as a bucketing flag or cut the claim. (PROVENANCE-SIGNATURE §I.1 honesty box +
+      per-claim-granularity guard; SKILL Method step 5.)
+- [ ] **Raw-layer-magnitude-without-density check.** Any canon-vs-commentary magnitude claim ("the
+      commentary says far more", "X is overwhelmingly commentarial") must report **density per million
+      characters** (or per event/frame), not raw passage-row counts. Flag any magnitude headline standing
+      on a row-ratio: the commentary was subdivided to ~330-char rows vs the canon's ~2,975-char rows, so a
+      row count mostly measures segmentation (canon = ~9% of rows but ~44% by character). Direction-correct
+      is not enough; the unit must be per-character. (SKILL standing rule 8.)
 
 ## The whole-read
 - [ ] Read it straight through once. Does it read as one paper, or can you feel the phase boundaries?

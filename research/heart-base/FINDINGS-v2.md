@@ -37,8 +37,8 @@ The recall ladder separates two questions the name-substring conflates. The name
 (hadaya-vatthu) runs from 240 rows at the naive surface search, to 272 once the inflected and
 compound-medial forms and the hadaya-rupa compound are folded in, to 283 once the concept search is
 added. The concept search is the decisive rung. The named term is zero in the four Nikayas and zero
-in the seven canonical Abhidhamma books, reconfirmed by GROUP BY: the eighteen structurally-mula
-hits are all Visuddhimagga, plus one Niddesa and one Milindapanha, none of them early-canonical or
+in the seven canonical Abhidhamma books, reconfirmed by GROUP BY: the twenty structurally-root-text
+hits are eighteen Visuddhimagga, one Niddesa, and one Milindapanha, none of them early-canonical or
 canonical-Abhidhamma. But the unnamed posit, the Patthana's matter dependent on which the
 mind-element and mind-consciousness-element occur (yam rupam nissaya manodhatu ca manovinnanadhatu
 ca), is canonical-Abhidhamma in seven rows. So the concept is canonical even though the name is not.
@@ -47,7 +47,15 @@ confirms it is the canon's whole contribution, an unnamed base.
 
 The other two arms behave the same way under the ladder. Bhavanga is zero in the four Nikayas and
 present as a bare relatum thirty-eight times in canonical Abhidhamma; the cognitive-process model is
-the commentary's surplus, not the term's existence. The named insight-nana ladder is zero across the
+the commentary's surplus, not the term's existence. One caveat on the rising bhavanga ramp across
+the layers (38 canonical-Abhidhamma, 48 Visuddhimagga, 235 atthakatha, 569 tika): the raw counts
+partly track text bulk, since the commentary was ingested at paragraph granularity (about 58 million
+characters across atthakatha + tika) against the canon's whole-sutta rows (53.5 million characters).
+Normalized per million characters the ramp keeps its direction but loses much of its magnitude:
+roughly 0.7 in the canon, 8.0 in the atthakatha, 20.0 in the tika. The signal is genuine and not a
+pure artifact, since the atthakatha holds more rows than the tika (about 92,000 against 82,000) yet
+fewer raw hits (235 against 569), so density climbs independently of row count; only the missing
+normalization was the defect, and the zero-based claims do not ride the confound at all. The named insight-nana ladder is zero across the
 four Nikayas and zero across the seven Abhidhamma books; the lived practice it maps, contemplating
 the rise-and-fall of the aggregates (udayabbayanupassi viharati), is early-canonical in twenty-five
 Nikaya rows, but as a present-participle practice, never as a numbered station. The early canon has
@@ -89,6 +97,16 @@ nissaya). There the heart-base is the posited support that a knowing-citta runs 
 knowing confirms. The heart-base is introduced everywhere by the grammar of a posit, an
 existence-and-support analysis (atthibhavo, the support-characteristic), never by the first-person
 aorist of realization.
+
+A negative control sets the bound on what the zero shows. A matched material support, the eye-base
+(cakkhuvatthu), also never co-occurs in-window with a verification formula (0), exactly like the
+heart-base, while bhavanga, which names an experienced state rather than a posited seat, does
+co-occur 8 times. So "posited, never verified" partly reflects the non-verified grammar of material
+supports as a class, a reading consistent with a doctrine-specific epistemic downgrade but not by
+itself a proof of one. The stronger, independent in-corpus support for "posited" is the
+harmonization witness below: the sub-commentary itself records the heart-base as Paliyam anagata,
+not handed down in the text. (Both control counts are recorded in research/heart-base/counts-snapshot.json
+and asserted on every build.)
 
 ## The structured absence
 

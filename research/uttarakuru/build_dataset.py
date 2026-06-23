@@ -291,6 +291,15 @@ CONTEXT = {
    "claim": "The soteriological bar is not in the canonical inopportune-birth list. AN 8.29 and DN 33 enumerate the eight akkhaṇā asamayā brahmacariyavāsāya ('inopportune, untimely moments for the holy life': hell, animal, ghost, long-lived deva, border-region, wrong-view, dullness, no-Buddha-arisen); none names Uttarakuru. The long-lived-deva moment is the nearest, and the commentary extends that reasoning to take in the Uttarakurukas. The Uttarakuru disqualification is therefore commentarial, not a canonical inopportune birth.",
    "cites": [cite("AN 8.29", "an8.29"), cite("DN 33", "dn33")],
  },
+ "divine_eye_control": {
+   "claim": "The divine-eye pericope (dibbena cakkhunā visuddhena atikkantamānusakena, the speaker reporting that with the purified eye surpassing the human he sees beings passing away and being reborn by their deeds) is attested 176 times across the corpus, and its object is always vertical: who is reborn where, low or high, by their conduct. It never ranges over geography. Exactly 5 mūla rows carry both this formula and the name Uttarakuru, and in every one the two sit far apart in the same edited volume (the nearest pair separated by nearly five thousand characters, the farthest by more than two hundred thousand), so there is no short adjacency window in which the formula takes the continent as its object. The geography is assumed background, never staked under the canon's test of directly-verified knowledge.",
+   "cites": [],
+   "counts": {"divine_eye_attestations": 176, "mula_rows_with_both": 5, "short_adjacency_windows": 0},
+ },
+ "thousand_year_creeper": {
+   "claim": "The commentary's exact thousand-year span (vassasahassa) is the figure the canon does not supply for the inhabitants. The one canonical context that does pair 'a thousand years' (vassasahassa) with Uttarakuru by name assigns those years to a flowering creeper, not to the people; the rows are an Apadāna verse and its paracanonical neighbour.",
+   "cites": [cite("KN 1", "cst-s0510m1.mul-kn10_1"), cite("KN 2", "cst-s0518m.nrf-kn18_2")],
+ },
 }
 
 # ---------- aggregates (DATA-BOUND) ----------
@@ -319,6 +328,32 @@ for r in census_src:
         mula_stratum[st] = mula_stratum.get(st, 0) + 1
 mula_early = sum(v for k, v in mula_stratum.items() if k in EARLY)
 mula_late = sum(v for k, v in mula_stratum.items() if k not in EARLY)
+
+# Recension dedup. The mula census counts one row per recension, so a SuttaCentral row
+# and its Chaṭṭha-Saṅgāyana sibling are two rows for one discourse. Report the distinct-work
+# figure alongside the row count so the early share is not double-counted.
+SC_CST_SIBLINGS = {  # SuttaCentral id -> CST recension sibling, same discourse
+ "an3.80": "cst-s0402m2.mul-an3_2_3",
+ "an9.21": "cst-s0404m2.mul-an9_1_3",
+ "an10.29": "cst-s0404m3.mul-an10_1_3",
+ "mil1": "cst-s0518m.nrf-kn18_1",
+ "mil3.7.9": "cst-s0518m.nrf-kn18_2",
+ "dn32": "cst-s0103m.mul-dn3_9",        # Āṭānāṭiyasutta, late-canonical pair
+ "pli-tv-kd1": "cst-vin02m2.mul-vin3_1",  # Vinaya Mahākhandhaka, Kd 1
+ "pli-tv-bu-vb-pj1": "cst-vin01m.mul-vin1_1",  # Vinaya Verañjā / first Pārājika frame
+}
+_mula_ids = {r["id"] for r in census_src if r["layer"] == "mula"}
+_early_ids = {r["id"] for r in census_src if r["layer"] == "mula" and r.get("stratum") in EARLY}
+# collapse each sibling pair to its SuttaCentral representative
+_drop = {cst for sc, cst in SC_CST_SIBLINGS.items() if sc in _early_ids and cst in _early_ids}
+mula_early_distinct = len(_early_ids - _drop)
+_drop_all_mula = {cst for sc, cst in SC_CST_SIBLINGS.items() if sc in _mula_ids and cst in _mula_ids}
+mula_distinct = len(_mula_ids - _drop_all_mula)
+# Milindapañha: pli-mil rows and their cst-s0518m siblings collapse to distinct passages
+_mil_ids = {r["id"] for r in census_src
+            if r["work_slug"] == "pli-mil" or r["id"].startswith("cst-s0518m")}
+_mil_drop = {cst for sc, cst in SC_CST_SIBLINGS.items() if sc in _mil_ids and cst in _mil_ids}
+milindapanha_distinct = len(_mil_ids - _mil_drop)
 feat_stratum = {}
 for f in FEATURES:
     st = (f.get("signature") or {}).get("chronological_stratum", "indeterminate")
@@ -336,13 +371,13 @@ for f in FEATURES:
 DATA = {
  "meta": {
   "title": "The People of Uttarakuru",
-  "subtitle": "A survey of how the northern continent's inhabitants are described across the layers of the Pali canon and commentaries: the cosmos's most fortunate humans, and, by the canon's own reckoning, the worst placed for awakening.",
+  "subtitle": "A survey of how the northern continent's inhabitants are described across the layers of the Pali canon and commentaries: the cosmos's most fortunate humans, and whom the commentary judges the worst placed for awakening.",
   "version": "1.3",
   "corpus_snapshot": "194,710 passages (2026-06-19)",
   "generated": None,
   "unit": "passage-row (mula + per-paragraph commentary)",
   "headline": "A small early-canonical seed (a named, propertyless, long-lived people, with no measure and no figure) grows into a described place inside a late-canonical protective chant, then a place flown to for alms in the Apadana and the Vinaya frame-narratives, then a measured place at the commentarial boundary. The ethnographic template appears to be shared across the early Buddhist traditions; the soteriological judgement built on it has, on the evidence to hand, no parallel outside the Pali. At no rung does the canon place the geography under its own test of directly-verified knowledge. The picture grows more concrete without ever growing more warranted, and only the first of those two moves. The full write-up is research/uttarakuru/FINDINGS-readable.md.",
-  "version_note": "v1.3: each feature is now coded for its chronological stratum (the composition layer of the text), judged independently of where the row is shelved in the edited corpus. The headline finding is that of 26 structurally-canonical rows only 6 are early-canonical, and the literal-place reading is more concrete in the later and more narrative registers (a gradient that is partly definitional, as the readable write-up discusses). v1.2: corrected the short-u substring (144) to the honest stem '%uttarakur%' (161), recovering the canonical four-continent cosmology (AN 3.80 / AN 10.29).",
+  "version_note": "v1.3: each feature is now coded for its chronological stratum (the composition layer of the text), judged independently of where the row is shelved in the edited corpus. The headline finding is that of the distinct canonical works behind the 26 structurally-canonical rows, only 3 are early-canonical (the 6 early-canonical rows are those 3 Anguttara discourses, AN 3.80 / AN 9.21 / AN 10.29, each counted in two recensions), and the literal-place reading is more concrete in the later and more narrative registers (a gradient that is partly definitional and confounded with genre, since the early-canonical works are all Anguttara, as the readable write-up discusses). v1.2: corrected the short-u substring (144) to the honest stem '%uttarakur%' (161 rows / 152 distinct passages), recovering the canonical four-continent cosmology (AN 3.80 / AN 10.29).",
   "framing_note": "Two distinct findings are kept apart. The quantitative finding is one of text mass: of the rows that speak of Uttarakuru, the great majority are commentarial. The conceptual finding is one of origin: the core frame (a four-continent place, a propertyless long-lived people who surpass the gods in non-grasping yet lack the holy life) is canonical, and the commentary amplifies it and adds the decisive soteriological verdict. Text mass is not concept-origin; the paper states each separately.",
   "provenance_note": "Every citation resolves to a live corpus row. Where the corpus carries English (the SuttaCentral mula rows) the rendering is Sujato's; the Aṭṭhakathā, Ṭīkā, and Pali-only Visuddhimagga rows carry no English in the corpus, so those renderings are the author's own gloss, marked tr_provenance='author' and checked against the standard published translations. Verbatim Pali carries full diacritics and matches the cited row.",
   "edition": "Chaṭṭha Saṅgāyana (CST/VRI) as ingested into dhamma-pg; SuttaCentral ids as cross-walk.",
@@ -389,7 +424,14 @@ DATA = {
   "stratum_split": stratum_split,
   "mula_stratum": mula_stratum,
   "mula_early_vs_late": {"early-canonical": mula_early, "late-or-later": mula_late,
-    "note": "Of the structurally-mula rows, the genuinely early-canonical share versus everything stratified later (late-canonical paritta/Apadana/Vinaya-frame, Abhidhamma, paracanonical, commentary-era). The layer/stratum disagreement is the headline."},
+    "early_distinct_works": mula_early_distinct, "mula_distinct_works": mula_distinct,
+    "note": "Of the structurally-mula rows, the genuinely early-canonical share versus everything stratified later (late-canonical paritta/Apadana/Vinaya-frame, Abhidhamma, paracanonical, commentary-era). Rows are counted per recension, so the early-canonical figure of 6 rows is 3 distinct discourses each counted twice (a SuttaCentral row and its Chaṭṭha-Saṅgāyana sibling: AN 3.80, AN 9.21, AN 10.29). Deduplicated, the early share is " + str(mula_early_distinct) + " of " + str(mula_distinct) + " distinct canonical works."},
+  "recension_dedup": {
+    "census_rows": len(census_src), "distinct_passages": 152,
+    "mula_rows": layer_count["mula"], "mula_distinct_works": mula_distinct,
+    "early_canonical_rows": mula_early, "early_canonical_distinct_works": mula_early_distinct,
+    "milindapanha_rows": para_sub["milindapanha"], "milindapanha_distinct": milindapanha_distinct,
+    "note": "The census counts one row per recension. Of 161 rows, 152 are distinct passages once each SuttaCentral row is collapsed with its Chaṭṭha-Saṅgāyana sibling. The early-canonical floor is 3 distinct discourses (AN 3.80, AN 9.21, AN 10.29), each appearing twice; the 4 Milindapañha rows are 2 distinct passages counted twice. The distinct_passages total is the database-confirmed figure for the corrected stem '%uttarakur%'."},
   "feature_stratum": feat_stratum,
   "cross_recension": {
    "note": "Link-level from the corpus passage_parallels table (sutta-to-sutta; under-covers the Abhidharma cosmology where an Uttarakuru three-distinctions parallel would live, so a null is a known genre blind-spot).",

@@ -2,18 +2,22 @@
  "_doc": "A1 attribution per-claim re-code audit record. Replaces the per-work-class WORK_ATTRIBUTION shortcut that hard-zeroed buddha-vacana. Each BV row read directly around its attainment marker; codes confirmed by k=3 independent blind coders (IAA). See research/awakening/_attr_worksheet.json (marker windows), _iaa_packet.json (blind-coding packet).",
  "method": {
   "recall_anchor": "BV discriminator = strings only ever spoken by the Buddha of his own bodhi: 'anabhisambuddho bodhisattova' | 'anabhisambuddhassa bodhisattasseva' | 'sammasambodhim abhisambuddho..paccannasim' | first-person 'kho me, <voc>, rattiya pacchime yame tatiya vijja'. Run over all 299 census rows.",
-  "iaa": "k=3 independent blind coders, fixed 6-value codebook, judged from Pali excerpts only. On the 17 BV candidate rows: 3/3 unanimous buddha-vacana (kappa=1.0 on the load-bearing category). Boundary rows: sn8.12 + sn52.24 unanimous named-disciple-self-report; sn47.29 + sn47.30 unanimous named-disciple-dialogue; sn55.39 buddha-declares-another (2/3, 1 indeterminate). Rows coded indeterminate by all three (dn5, mn74, mn147, sn35.121) were packet-excerpt-truncation artifacts: read in full they are redactor-frame (dhammacakkhu / mind-freed narrated flatly).",
+  "iaa": "k=3 independent blind coders, fixed 6-value codebook, judged from Pali excerpts only. kappa=1.0 is scoped to the 15 retained BV attribution rows, not the 9-bucket precipitating-condition coding. Of the original 17 BV candidate rows, 15 are 3/3 unanimous buddha-vacana on the catalogued attainment-claim; the 2 large work-level rows cst-s0304m.mul-sn4_1 (a 311,658-char SN volume row) and cst-vin02m2.mul-vin3_1 (a 243,393-char Vinaya volume row) are RECODED redactor-frame: the kappa packet excerpted the whole monolithic work-level row, not the catalogued span, and the catalogued attainment-event in each is a third party (Rahula, Yasa) narrated flatly, with the Buddha's first-person self-claim sitting elsewhere in the same large row. Boundary rows: sn8.12 + sn52.24 unanimous named-disciple-self-report; sn47.29 + sn47.30 unanimous named-disciple-dialogue; sn55.39 buddha-declares-another (2/3, 1 indeterminate). Rows coded indeterminate by all three (dn5, mn74, mn147, sn35.121) were packet-excerpt-truncation artifacts: read in full they are redactor-frame (dhammacakkhu / mind-freed narrated flatly).",
   "relational_test": "Named search for the Buddha declaring ANOTHER's attainment, mula: 29 rows carry the destiny-declaration formula (byakareyya + sotapanno); 10 carry 'annam byakasi'; the Nadika mirror-of-Dhamma post-mortem declarations (opapatiko..parinibbayi with bhagava) span DN/MN/SN/AN. The claim 'the Buddha asserts only his own awakening, never another's' is REFUTED: the Buddha both asserts his own bodhi (first person) and authoritatively declares others' attainments (byakarana)."
  },
  "buddha_vacana_rows_within_299": [
   "mn4","mn19","mn36","mn85","mn100","an8.11","sn54.8",
   "cst-s0201m.mul-mn1_1","cst-s0201m.mul-mn1_2","cst-s0202m.mul-mn2_4","cst-s0202m.mul-mn2_5",
-  "cst-s0304m.mul-sn4_1","cst-s0305m.mul-sn5_10","cst-s0404m1.mul-an8_1_2",
-  "cst-vin01m.mul-vin1_1","cst-vin02m2.mul-vin3_1","pli-tv-bu-vb-pj1"
+  "cst-s0305m.mul-sn5_10","cst-s0404m1.mul-an8_1_2",
+  "cst-vin01m.mul-vin1_1","pli-tv-bu-vb-pj1"
  ],
+ "recoded_to_redactor_frame": {
+  "note": "Two rows formerly coded buddha-vacana, recoded redactor-frame after the 2026-06-23 review: their catalogued attainment-event is a third party narrated flatly, and the kappa packet excerpted the whole large work-level row rather than the catalogued span. buddha-vacana 17 -> 15; redactor-frame 46 -> 48; dedup recollections 9 -> 7.",
+  "rows": ["cst-s0304m.mul-sn4_1","cst-vin02m2.mul-vin3_1"]
+ },
  "buddha_declares_another_rows_within_299": ["sn55.39"],
  "dedup_distinct_recollections": {
-  "count": 9,
+  "count": 7,
   "groups": {
    "MN4-Bhayabherava": ["mn4","cst-s0201m.mul-mn1_1"],
    "MN19-Dvedhavitakka": ["mn19","cst-s0201m.mul-mn1_2"],
@@ -21,12 +25,10 @@
    "MN85-Bodhirajakumara": ["mn85","cst-s0202m.mul-mn2_4"],
    "MN100-Sangarava": ["mn100","cst-s0202m.mul-mn2_5"],
    "Veranja(AN8.11=Vinaya-Parajika-nidana)": ["an8.11","cst-s0404m1.mul-an8_1_2","pli-tv-bu-vb-pj1","cst-vin01m.mul-vin1_1"],
-   "SN54.8-Padipopama": ["sn54.8","cst-s0305m.mul-sn5_10"],
-   "SN35.13-Pubbesambodha": ["cst-s0304m.mul-sn4_1"],
-   "Vinaya-Mahavagga-bodhi/Dhammacakka": ["cst-vin02m2.mul-vin3_1"]
+   "SN54.8-Padipopama": ["sn54.8","cst-s0305m.mul-sn5_10"]
   }
  },
  "recall_observation": {
-  "note": "The census under-enumerated the Buddha's own-awakening corpus. The bodhisatta-before-awakening first-person frame appears in 48 mula rows corpus-wide (incl. mn26 Ariyapariyesana, mn14, mn128, an3.103, an5.68, an5.196, an8.64, an9.41, sn12.4/10/65, sn14.31, sn22.26, sn35.13/14/117, sn36.24, sn51.11/21, ps2.2), most outside the 299 census universe. The within-299 figure (17 rows / 9 recollections) is therefore a floor bounded by the original census's recall, not the canon's full count. Reported as a measured recall observation, not a re-census (regression gate: the 299 stays fixed)."
+  "note": "The census under-enumerated the Buddha's own-awakening corpus. The bodhisatta-before-awakening first-person frame appears in 48 mula rows corpus-wide (incl. mn26 Ariyapariyesana, mn14, mn128, an3.103, an5.68, an5.196, an8.64, an9.41, sn12.4/10/65, sn14.31, sn22.26, sn35.13/14/117, sn36.24, sn51.11/21, ps2.2), most outside the 299 census universe. The within-299 figure (15 rows / 7 recollections) is therefore a floor bounded by the original census's recall, not the canon's full count. Reported as a measured recall observation, not a re-census (regression gate: the 299 stays fixed)."
  }
 }

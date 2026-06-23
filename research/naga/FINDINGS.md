@@ -9,17 +9,23 @@ The nāga is the Pāli canon's exemplary liminal being: a serpent that keeps the
 and can take human shape, yet cannot win the path while it remains a nāga. This study asks what the canon
 holds a nāga to be and how its commentaries develop that account, with canon versus commentary as the
 cross-cutting axis. A first result is lexical and load-bearing. *Nāga* is a heteronym, and a bare search is
-a trap: of 3,910 corpus rows that carry a genuine *nāga*-token, only 1,267 (32 percent) use the word of the
-serpent-being, and in the canon proper the serpent sense is just 159 of 935 such rows (17 percent), or
-7 percent of the 2,282 rows that merely contain the string. The rival senses are the bull-elephant, the
-monk Nāgasena and his namesakes, the honorific of a sinless sage, the citizen (*nāgara*), and the ironwood
-tree, over a base of morphological accidents (*samannāgata*, *anāgāmī*) that swamp the raw string.
+a trap: of 3,270 corpus rows that carry a genuine *nāga*-morpheme, only 1,267 (39 percent) use the word of the
+serpent-being, and in the canon proper the serpent sense is just 159 of 843 genuine-morpheme rows
+(19 percent), or 7 percent of the 2,282 rows that merely contain the string. (3,910 is the raw *nāg*-substring count after the
+coarse filter; a further 640 of those are nonlexical false friends (*samannāgata*, *anāgāmī*), in which the
+letters carry no nāga morpheme, and the noise regex strips that family before coding.) The rival senses are
+the bull-elephant, the monk Nāgasena and his namesakes, the honorific of a sinless sage, the citizen
+(*nāgara*), and the ironwood tree.
 
 On the 1,267 serpent rows, 666 of which assert an ontological or soteriological claim, the picture is best
 put as *faithful on the bare facts, innovative in the apparatus*. Two kinds of evidence carry that claim.
 The first is distributional and census-wide: across the claim-bearing serpent passages the commentary holds
-the great bulk of every facet, and most heavily the facets of furnishing (realm and habitat, power). The
-second is a close reading of the load-bearing canon-to-commentary cells. The canon fixes, in the Buddha's
+the great bulk of every facet by raw count, because it carries 819 serpent rows to the canon's 159, and per
+character of corpus it discusses the serpent-nāga roughly 5.5 times as densely. Normalized per serpent row,
+though, the canon is the denser layer on several facets (per 1,000 serpent rows: power 195 vs 128,
+class-and-plane 82 vs 50, the path-and-fruit ceiling 31 vs 15, mode of birth 19 vs 8.5); the genuinely
+commentary-denser facets per row are realm-and-habitat, taking human form, the uposatha, and the ordination
+bar, which is where there is most to supply. The second is a close reading of the canon-to-commentary cells. The canon fixes, in the Buddha's
 own voice, the four modes of nāga-birth (SN 29), the animal (*tiracchāna*) destination, and the
 soteriological ceiling, which it even names (*nāgā aviruḷhidhammā*, "of non-growth-nature") and enacts in
 the Vinaya's bar on ordaining animals. The commentary supplies the machinery: an Abhidhamma rebirth-linking
@@ -135,9 +141,10 @@ layers:
 | epithet of a sage | 91 | 120 | 38 | 15 | 264 |
 | tree (ironwood / betel) | 40 | 79 | 18 | 11 | 148 |
 | undecidable | 11 | 6 | 6 | 9 | 32 |
-| **All genuine *nāga* rows** | **935** | **2,028** | **672** | **275** | **3,910** |
+| **All genuine *nāga*-morpheme rows** (nonlexical excluded) | **843** | **1,764** | **447** | **216** | **3,270** |
+| All *nāg*-substring rows (after the coarse filter) | 935 | 2,028 | 672 | 275 | 3,910 |
 
-The serpent-being is 1,267 of 3,910 genuine rows, and 159 of the canon's 935. The two largest rivals are
+The serpent-being is 1,267 of 3,270 genuine-morpheme rows (3,910 counting the 640 nonlexical false friends), and 159 of the canon's 843. The two largest rivals are
 instructive: *person* is dominated by the monk Nāgasena of the Milindapañha, and *elephant* is the noble
 tusker of simile, "the king's nāga." Both are why a bare count of "nāga in the canon" overstates the
 serpent by an order of magnitude. That the same word names the serpent, the elephant, and the sinless one
@@ -172,11 +179,16 @@ rebirth-linking consciousness rooted in the result of bad kamma, so that for all
 nāga is technically a woeful rebirth; and it furnishes the habitat the suttas leave blank, a creature that
 moves in water and eats frogs. The four-births commentary (the Catuyonivaṇṇanā) sets the nāga's four
 *yoni* into a full cosmological scheme of who is born how, and cross-refers the canonical four
-supaṇṇa-births. By the full enumeration the imbalance is plain: across the claim-bearing serpent passages
-the commentary carries the great bulk of every ontological facet, and most heavily those of furnishing.
-Counting the canon (mula) against the principal commentary (aṭṭhakathā), realm and habitat runs 15 against
-94 and power 31 against 105; the sub-commentary and extra-canonical layers add more commentarial weight
-still. The canon states that the nāga is born four ways and is an animal; the commentary explains,
+supaṇṇa-births. By the full enumeration the raw imbalance is plain: across the claim-bearing serpent
+passages the commentary carries the great bulk of every ontological facet, because it holds 819 serpent rows
+to the canon's 159. Counting the canon (mula) against the principal commentary (aṭṭhakathā), realm and
+habitat runs 15 against 94 and power 31 against 105; the sub-commentary and extra-canonical layers add more
+commentarial weight still. Read per serpent row, though, that raw lopsidedness narrows and in places
+reverses: per 1,000 serpent rows the canon is the denser layer on power (195 vs 128), class-and-plane
+(82 vs 50), the path-and-fruit ceiling (31 vs 15), and mode of birth (19 vs 8.5), and only realm-and-habitat,
+taking human form, the uposatha, and the ordination bar are genuinely commentary-denser per row, which is
+where there is most to supply. The canon states that the nāga is born four ways and is an animal; the
+commentary explains,
 classifies, and furnishes.
 
 ## 6. The ceiling, and who explained it

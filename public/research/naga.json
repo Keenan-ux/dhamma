@@ -888,7 +888,8 @@
   "mula_early_vs_late": {
    "early-canonical": 56,
    "late-or-later": 103,
-   "layer_stratum_disagree": 103
+   "layer_stratum_disagree": 23,
+   "late-but-correctly-shelved": 80
   }
  },
  "records": [
@@ -23489,7 +23490,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Buddhavaṃsa, a late-canonical KN stratum (the lineage of past Buddhas)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "bv21",
@@ -23515,7 +23516,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Buddhavaṃsa, a late-canonical KN stratum (the lineage of past Buddhas)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "bv6",
@@ -23542,7 +23543,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Buddhavaṃsa, a late-canonical KN stratum (the lineage of past Buddhas)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cnd7",
@@ -23567,7 +23568,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Mahā-/Cūḷa-niddesa, a canonical exegesis of the Suttanipāta, late-canonical",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cp13",
@@ -23593,7 +23594,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Cariyāpiṭaka, a late-canonical KN stratum",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-abh03m3.mul-159",
@@ -23617,7 +23618,7 @@
    "stratum": "abhidhamma-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Abhidhamma Piṭaka mula, the latest canonical stratum",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-e0101n.mul-36_p008",
@@ -24235,7 +24236,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "A recognised late composition shelved in the Dīgha (the Āṭānāṭiya protective chant, the Mahāsamaya assembly, the Lakkhaṇa marks-text); a register/position label, not a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0102m.mul-dn2_8",
@@ -24288,7 +24289,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "A recognised late composition shelved in the Dīgha (the Āṭānāṭiya protective chant, the Mahāsamaya assembly, the Lakkhaṇa marks-text); a register/position label, not a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0103m.mul-dn3_9",
@@ -24321,7 +24322,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "A recognised late composition shelved in the Dīgha (the Āṭānāṭiya protective chant, the Mahāsamaya assembly, the Lakkhaṇa marks-text); a register/position label, not a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0202m.mul-mn2_3",
@@ -24520,7 +24521,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Khuddakapāṭha, a late-canonical KN compilation",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0503m.mul-kn3_2",
@@ -24670,7 +24671,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0510m2.mul-kn10_55",
@@ -24700,7 +24701,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0510m2.mul-kn10_56",
@@ -24728,7 +24729,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0510m2.mul-kn11_2",
@@ -24758,7 +24759,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0510m2.mul-kn11_4",
@@ -24783,7 +24784,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0511m.mul-kn12_11",
@@ -24808,7 +24809,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Buddhavaṃsa, a late-canonical KN stratum (the lineage of past Buddhas)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0511m.mul-kn12_21",
@@ -24834,7 +24835,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Buddhavaṃsa, a late-canonical KN stratum (the lineage of past Buddhas)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0511m.mul-kn12_29",
@@ -24858,7 +24859,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Buddhavaṃsa, a late-canonical KN stratum (the lineage of past Buddhas)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0511m.mul-kn12_6",
@@ -24885,7 +24886,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Buddhavaṃsa, a late-canonical KN stratum (the lineage of past Buddhas)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0512m.mul-kn13_2",
@@ -24913,7 +24914,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Cariyāpiṭaka, a late-canonical KN stratum",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0513m.mul-kn14_10",
@@ -24940,7 +24941,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0513m.mul-kn14_12",
@@ -24964,7 +24965,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0513m.mul-kn14_15",
@@ -25004,7 +25005,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0513m.mul-kn14_2",
@@ -25031,7 +25032,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0513m.mul-kn14_7",
@@ -25055,7 +25056,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0514m.mul-kn14_17",
@@ -25089,7 +25090,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0514m.mul-kn14_22",
@@ -25169,7 +25170,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0515m.mul-kn15_13",
@@ -25193,7 +25194,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Mahā-/Cūḷa-niddesa, a canonical exegesis of the Suttanipāta, late-canonical",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0515m.mul-kn15_16",
@@ -25218,7 +25219,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Mahā-/Cūḷa-niddesa, a canonical exegesis of the Suttanipāta, late-canonical",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0515m.mul-kn15_4",
@@ -25244,7 +25245,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Mahā-/Cūḷa-niddesa, a canonical exegesis of the Suttanipāta, late-canonical",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-s0520m.nrf-kn20_2",
@@ -25268,7 +25269,7 @@
    "stratum": "paracanonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Peṭakopadesa, paracanonical (outside the Tipiṭaka proper)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-vin01m.mul-vin1_2",
@@ -25296,7 +25297,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-vin01m.mul-vin1_3",
@@ -25325,7 +25326,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-vin02m2.mul-vin3_1",
@@ -25363,7 +25364,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-vin02m2.mul-vin3_6",
@@ -25391,7 +25392,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "cst-vin02m3.mul-vin4_9",
@@ -25415,7 +25416,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "dhp179-196",
@@ -25525,7 +25526,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "A recognised late composition shelved in the Dīgha (the Āṭānāṭiya protective chant, the Mahāsamaya assembly, the Lakkhaṇa marks-text); a register/position label, not a secured date",
-   "layer_stratum_disagree": true,
+   "layer_stratum_disagree": false,
    "tr_provenance": "sujato",
    "warrant": null,
    "evidence_en": "In the Great Assembly the nāgas are named among the orders of beings gathered before the Buddha (DN 20). Canonical placement of the nāga in the cosmic census."
@@ -25581,7 +25582,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "A recognised late composition shelved in the Dīgha (the Āṭānāṭiya protective chant, the Mahāsamaya assembly, the Lakkhaṇa marks-text); a register/position label, not a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "dn32",
@@ -25614,7 +25615,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "A recognised late composition shelved in the Dīgha (the Āṭānāṭiya protective chant, the Mahāsamaya assembly, the Lakkhaṇa marks-text); a register/position label, not a secured date",
-   "layer_stratum_disagree": true,
+   "layer_stratum_disagree": false,
    "tr_provenance": "sujato",
    "warrant": null,
    "evidence_en": "Having set a guard over the four quarters with a great army of yakkhas, of gandhabbas, of kumbhaṇḍas, and of nāgas. The nāga-host is one of the four canonical guardian armies (Āṭānāṭiya)."
@@ -25642,7 +25643,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja253",
@@ -25666,7 +25667,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja290",
@@ -25690,7 +25691,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja330",
@@ -25714,7 +25715,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja357",
@@ -25739,7 +25740,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja405",
@@ -25763,7 +25764,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja441",
@@ -25790,7 +25791,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja472",
@@ -25814,7 +25815,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja493",
@@ -25838,7 +25839,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja506",
@@ -25875,7 +25876,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja518",
@@ -25903,7 +25904,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja520",
@@ -25927,7 +25928,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja524",
@@ -25958,7 +25959,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja533",
@@ -25982,7 +25983,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja543",
@@ -26016,7 +26017,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja546",
@@ -26064,7 +26065,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ja86",
@@ -26088,7 +26089,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Jātaka canonical gāthā, shelved in a late-canonical KN collection (the prose stories themselves are commentarial)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "kp8",
@@ -26112,7 +26113,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Khuddakapāṭha, a late-canonical KN compilation",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "kv12.9",
@@ -26136,7 +26137,7 @@
    "stratum": "abhidhamma-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Kathāvatthu, a book of the Abhidhamma Piṭaka, the latest canonical stratum",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "mn129",
@@ -26235,7 +26236,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Mahā-/Cūḷa-niddesa, a canonical exegesis of the Suttanipāta, late-canonical",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "mnd16",
@@ -26260,7 +26261,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Mahā-/Cūḷa-niddesa, a canonical exegesis of the Suttanipāta, late-canonical",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "mnd4",
@@ -26286,7 +26287,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Mahā-/Cūḷa-niddesa, a canonical exegesis of the Suttanipāta, late-canonical",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "pe2",
@@ -26310,7 +26311,7 @@
    "stratum": "paracanonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Peṭakopadesa, paracanonical (outside the Tipiṭaka proper)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "pli-tv-bu-vb-pc51",
@@ -26336,7 +26337,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "pli-tv-bu-vb-pj4",
@@ -26361,7 +26362,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "pli-tv-bu-vb-ss6",
@@ -26389,7 +26390,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "pli-tv-kd1",
@@ -26426,7 +26427,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true,
+   "layer_stratum_disagree": false,
    "tr_provenance": "author",
    "evidence_en": "A nāga, disgusted with the nāga-birth and seeking human state, took the form of a youth and was ordained; discovered in serpent form, he was told: ‘You nāgas are of non-growth-nature (aviruḷhidhamma) in this Dhamma-Vinaya.’ The Buddha named the two occasions a nāga’s true form appears, when it mates with its own kind and when it falls asleep relaxed, and ruled: an animal, not ordained, is not to be ordained; if ordained, expelled. (Author’s gloss; corpus has no English. Cf. Horner, BD IV.)"
   },
@@ -26452,7 +26453,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "pli-tv-kd6",
@@ -26480,7 +26481,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "contested",
    "stratum_warrant": "Vinaya frame-narrative / Khandhaka / Suttavibhaṅga origin-story position; late by occasioning-story position, a genre label rather than a secured date",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "ps3.2",
@@ -26504,7 +26505,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Paṭisambhidāmagga, a late-canonical analytical KN treatise",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "sn24.8",
@@ -27259,7 +27260,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "tha-ap24",
@@ -27283,7 +27284,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "tha-ap4",
@@ -27307,7 +27308,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "tha-ap402",
@@ -27331,7 +27332,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "tha-ap521",
@@ -27355,7 +27356,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "tha-ap545",
@@ -27380,7 +27381,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "tha-ap546",
@@ -27404,7 +27405,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "tha-ap562",
@@ -27429,7 +27430,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "thi-ap17",
@@ -27455,7 +27456,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "thi-ap19",
@@ -27482,7 +27483,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "thi-ap32",
@@ -27506,7 +27507,7 @@
    "stratum": "late-canonical",
    "stratum_confidence": "secure",
    "stratum_warrant": "Apadāna, a recognised late-canonical KN stratum (autobiographical merit-and-rebirth verse)",
-   "layer_stratum_disagree": true
+   "layer_stratum_disagree": false
   },
   {
    "id": "thig12.1",

@@ -1,0 +1,28 @@
+{
+  "_about": "DB-verified keystone counts for the heart-base study, snapshot 194,710 passages (2026-06-19), re-verified against the live dhamma-pg on 2026-06-23. This file is the committed audit record for the load-bearing zeros: build_dataset.py reads it and asserts the dataset literals against it (the consistency gate fails the build on any drift). The page references it as the source of the keystone counts. Per-million-character figures use the authoritative per-layer character totals (mula 53.5M, attha 29.5M, tika 28.4M, anya 9.9M).",
+  "snapshot": "194,710 passages (2026-06-19); keystone zeros re-verified 2026-06-23",
+  "heart_base_named": {
+    "total_corpus": 272,
+    "in_four_nikayas": 0,
+    "in_seven_abhidhamma_books": 0,
+    "root_text_layer_total": 20,
+    "root_text_breakdown": {"visuddhimagga": 18, "niddesa": 1, "milindapanha": 1},
+    "by_work_role_stem": {"tika": 162, "attha": 51, "mula": 18, "anya": 15, "_note": "hadayavatth%/hadayarup% by work_role; mula 18 is the Visuddhimagga only, the Niddesa (anya/kn) and Milindapanha (anya) sit outside the mula role, hence the 20-row root-text total above is layer-by-composition, not the mula work_role count"}
+  },
+  "unnamed_posit": {
+    "in_seven_abhidhamma_books": 7,
+    "_note": "the Patthana's yam-rupam-nissaya clause; the concept the name-search can never find. The posit appears across roughly 5-7 Patthana rows by phrasing variant; 7 is the count under the stem search of record."
+  },
+  "verification_register": {"sacchikatva": 654, "sayam_abhinna_sacchikatva": 190, "yathabhutam_pajanati": 264},
+  "negative_control": {
+    "cakkhuvatthu_x_verification_cooccurrence": 0,
+    "bhavanga_x_verification_cooccurrence": 8,
+    "_note": "cakkhu-vatthu, a matched material support, co-occurs with a verification formula 0 times, exactly like the heart-base; bhavanga, an experienced state, co-occurs 8 times. So 'posited, never verified' partly reflects the grammar of material supports as a class, not a downgrade peculiar to the heart-base."
+  },
+  "bhavanga_by_layer": {
+    "raw_hits": {"sutta_nikaya": 0, "abhidhamma_canonical": 38, "vism": 48, "attha": 235, "tika": 569},
+    "per_million_chars": {"canon": 0.7, "atthakatha": 8.0, "tika": 20.0},
+    "_note": "the raw ramp partly tracks the ~58M-char commentary bulk against the 53.5M-char canon; normalized per million characters the direction holds but the magnitude shrinks. The signal is genuine: the atthakatha has more rows than the tika (about 92k vs 82k) yet fewer raw hits (235 vs 569), so density climbs independently of row count."
+  },
+  "layer_char_totals": {"mula": 53500000, "attha": 29500000, "tika": 28400000, "anya": 9900000}
+}

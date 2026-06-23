@@ -15,9 +15,18 @@ from v1.1 and are NOT recoded (regression gate)."""
 import json, sys, io, os
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # research/
+HERE = os.path.dirname(os.path.abspath(__file__))                    # research/heart-base/
+ROOT = os.path.dirname(HERE)                                         # research/
 REPO = os.path.dirname(ROOT)
 OUT = os.path.join(REPO, 'public', 'research', 'heart-base-and-insight.json')
+SNAP = os.path.join(HERE, 'counts-snapshot.json')                   # committed DB-verified audit record
+
+# The committed counts snapshot is the audit record for the load-bearing zeros. This script stores
+# no count it does not also assert against SNAP, so the keystone figures (the heart-base name 0 in the
+# four Nikayas + 0 in the seven Abhidhamma books, the Patthana posit, the negative-control eye-base 0
+# vs bhavanga 8, the bhavanga ramp) are auditable from the repo without a DB connection. The
+# consistency gate below fails the build on any drift between a dataset literal and SNAP.
+SNAPSHOT = json.load(open(SNAP, encoding='utf-8'))
 
 # ---------------------------------------------------------------------------
 # 1. The frozen three-tier matrix (v1.1) -- the regression baseline, carried verbatim.
@@ -86,14 +95,25 @@ HB_R3 = 283   # + the unnamed-base periphrasis '%yaṃ rūpaṃ nissāya%'
 # answer a different sub-question (the posit, not the named heart). NO row subtracted.
 HB_R4 = HB_R3
 
-# By work_role, the named heart-base term (RUNG 2 stem), reconfirmed by GROUP BY work_role.
-HB_BY_ROLE = {"tika": 162, "attha": 51, "mula": 18, "anya": 15}   # hadayavatth% (+hadayarup at mula=18)
-# The mula hits drilled by work_slug: ALL Vism + para-canon, ZERO in the four Nikayas, ZERO in the
-# seven canonical Abhidhamma books.
-HB_MULA_BY_SLUG = {"pli-vism": 18, "pli-kn": 1, "pli-mil": 1}
-HB_ABHIDHAMMA_NAMED = 0   # hadayavatthu in pli-abhidhamma (the seven books) -- SQL-confirmed zero
+# By work_role, the named heart-base stem (RUNG 2 = 272), reconfirmed by GROUP BY work_role. These four
+# role-buckets sum to the 272 stem total (162 + 51 + 18 + 15 = 246 named-term rows under the bare
+# hadayavatth% stem, plus the 26 rows the -rupa compound and inflected-medial forms add at rung 2).
+HB_BY_ROLE = SNAPSHOT["heart_base_named"]["by_work_role_stem"]   # {"tika":162,"attha":51,"mula":18,"anya":15}
+HB_STEM_TOTAL = SNAPSHOT["heart_base_named"]["total_corpus"]      # 272
+# The ROOT-TEXT layer (by composition, not the mula work_role): 20 hits = 18 Visuddhimagga + 1 Niddesa
+# + 1 Milindapanha. The 18 sit in the mula work_role (Vism); the Niddesa and Milindapanha sit in anya/kn,
+# so the layer total (20) exceeds the mula-role count (18). ZERO in the four Nikayas, ZERO in the seven
+# canonical Abhidhamma books.
+HB_ROOT_TEXT_TOTAL = SNAPSHOT["heart_base_named"]["root_text_layer_total"]      # 20
+HB_ROOT_TEXT_BY_WORK = SNAPSHOT["heart_base_named"]["root_text_breakdown"]      # {visuddhimagga:18, niddesa:1, milindapanha:1}
+HB_ABHIDHAMMA_NAMED = SNAPSHOT["heart_base_named"]["in_seven_abhidhamma_books"]    # 0 -- SQL-confirmed zero
 # The CONCEPT (the unnamed posit) IS canonical-Abhidhamma:
-HB_ABHIDHAMMA_CONCEPT = 7   # 'yaṃ rūpaṃ nissāya' in pli-abhidhamma (the Paṭṭhāna posit)
+HB_ABHIDHAMMA_CONCEPT = SNAPSHOT["unnamed_posit"]["in_seven_abhidhamma_books"]     # 7 'yaṃ rūpaṃ nissāya' (the Paṭṭhāna posit)
+
+# Negative control (II.7 bound): a matched material support, the eye-base, co-occurs with a verification
+# formula 0 times -- exactly like the heart-base; bhavanga (an experienced state) co-occurs 8 times. So
+# 'posited, never verified' partly reflects the grammar of material supports, not a heart-base-specific downgrade.
+NEG_CONTROL = SNAPSHOT["negative_control"]   # {cakkhuvatthu...: 0, bhavanga...: 8}
 
 # Insight-nana ladder, named stations, by stratum (the three most diagnostic stations).
 # 0-sutta-nikaya / 1-abhidhamma-canonical / 2-patisambhida(+ CST pli-kn Patis) / vism / comm
@@ -106,7 +126,10 @@ LADDER_BY_STRATUM = {
 }
 
 # bhavanga by stratum (the other arm): zero in the four Nikayas, present as a bare term in canonical Abhidhamma.
-BHAVANGA = {"sutta_nikaya": 0, "abhidhamma_canonical": 38, "vism": 48, "attha": 235, "tika": 569}
+# Raw hits ride the per-paragraph subdivision of the commentary, so the gate also carries a per-million-char
+# normalization (the granularity-robust ramp). The zero-based claims do not ride this confound.
+BHAVANGA = SNAPSHOT["bhavanga_by_layer"]["raw_hits"]   # {sutta_nikaya:0, abhidhamma_canonical:38, vism:48, attha:235, tika:569}
+BHAVANGA_PER_MCHAR = SNAPSHOT["bhavanga_by_layer"]["per_million_chars"]   # {canon:0.7, atthakatha:8.0, tika:20.0}
 
 # ---------------------------------------------------------------------------
 # 3. The v2 provenance-signature retrofit block.
@@ -119,7 +142,7 @@ STRATIGRAPHY = [
  {"element": "Heart-base, named (hadaya-vatthu)", "stratum": "classical-commentary", "structural_layer": "mūla (Vism) + aṭṭhakathā/ṭīkā",
   "four_nikaya_abhidhamma_hits": 0, "layer_stratum_disagree": True,
   "anchor": c("cst-abh03a.att-370_p002", "Pañca-a §370"),
-  "note": "Zero in the four Nikayas and zero in the seven canonical Abhidhamma books; the 18 mula hits are all Visuddhimagga (mula role, commentary-era stratum) plus one Niddesa and one Milindapanha."},
+  "note": "Zero in the four Nikayas and zero in the seven canonical Abhidhamma books; the 20 root-text hits are 18 Visuddhimagga (mula role, commentary-era stratum), 1 Niddesa, and 1 Milindapanha."},
  {"element": "Material base, unnamed (yaṃ rūpaṃ nissāya)", "stratum": "abhidhamma-canonical", "structural_layer": "mūla",
   "four_nikaya_abhidhamma_hits": 7, "layer_stratum_disagree": False,
   "anchor": c("cst-abh03m7.mul-002", "Paṭṭhāna (Abh §2)"),
@@ -152,7 +175,15 @@ STRATIGRAPHY.sort(key=lambda r: _STRATUM_RANK.get(r["stratum"], 9))
 #     cognitive SUPPORT that knowing-cittas run on, never the thing a knowing-formula verifies.
 EPISTEMIC = {
  "verdict": "posited, never verified",
- "claim": "The heart-base is stated flat, as the assumed material support of mind. Across the whole corpus it is never the object of the canon's own register of direct knowing. Where a knowing-word falls in the same row it is either far away (in a separate passage) or it names the very faculty (abhiññā 'direct knowledge', the divine eye) whose mind the heart-base is said to support, not a knowing that confirms the heart-base.",
+ "claim": "The heart-base is stated flat, as the assumed material support of mind. Across the whole corpus it is never the object of the canon's own register of direct knowing. Where a knowing-word falls in the same row it is either far away (in a separate passage) or it names the very faculty (abhiññā 'direct knowledge', the divine eye) whose mind the heart-base is said to support; on inspection these read as support-relations, not as a knowing that confirms the heart-base. The eye-base (cakkhu-vatthu), a matched material support, behaves the same way, which sets the bound on what this shows: the heart-base shares the non-verified grammar of material supports generally, a reading consistent with a doctrine-specific downgrade but not by itself a proof of one.",
+ "negative_control": {
+  "frame": "A matched material support coded the same way. If a material seat of cognition simply never enters the verification register, that is the grammar of supports, not a downgrade peculiar to the heart-base.",
+  "control_support": {"term": "cakkhu-vatthu (the eye-base)", "verification_cooccurrence": NEG_CONTROL["cakkhuvatthu_x_verification_cooccurrence"],
+    "reading": "Never falls in-window with a verification formula either, exactly like the heart-base; a material support is posited, not verified, as a class."},
+  "contrast_relatum": {"term": "bhavaṅga (the life-continuum)", "verification_cooccurrence": NEG_CONTROL["bhavanga_x_verification_cooccurrence"],
+    "reading": "Does co-occur with a verification formula in 8 rows, so the zero is not an artifact of every Abhidhamma-adjacent term: terms that name an experienced state can enter the register; a posited material seat does not."},
+  "bound": "The control narrows the claim: 'posited, never verified' for the heart-base is firmly established, but it partly reflects the non-verified grammar of material supports rather than a downgrade unique to the heart-base. The independent and stronger support for 'posited' is the harmonization witness below, where the sub-commentary itself records the heart-base as Pāḷiyaṃ anāgata, not handed down in the text.",
+ },
  "verification_register_attestation": {"sacchikatvā": 654, "sayaṃ_abhiññā_sacchikatvā": 190, "yathābhūtaṃ_pajānāti": 264,
    "note": "The verification register is abundant in the same corpus, so the silence around the heart-base is patterned, not a thin-corpus gap."},
  "cooccurrence": [
@@ -175,12 +206,21 @@ EPISTEMIC = {
 ABSENCE = [
  {"silent_claim": "The heart-base (hadaya-vatthu) is the verified seat of mind.",
   "expected_frame": "the canon's verification formulae (sacchikatvā 654 · sayaṃ abhiññā sacchikatvā 190 · yathābhūtaṃ pajānāti 264)",
-  "sql_cooccurrence": "0 in-window (named heart-base × verification formula; nearest gap 70 chars, and that one is the heart-base as the support of a knowing-faculty, not its object)",
-  "licensed": "The heart-base is assumed-as-given (a posited material support), not asserted-as-verified.",
-  "not_licensed": "This does NOT license 'the tradition doubted the heart-base'; it is stated flat and built upon, just never staked under the test of direct knowledge.",
+  "sql_cooccurrence": "No in-window verification of the named heart-base. The handful of close co-occurrences read, on inspection, as support-relations (the nearest, at 70 chars, has the heart-base as the support a knowing-faculty runs on, not its object); a matched material support, the eye-base (cakkhu-vatthu), shows the same 0 verification co-occurrence, so the zero partly reflects the grammar of material supports",
+  "licensed": "The heart-base is assumed-as-given (a posited material support), not asserted-as-verified; it shares this non-verified grammar with material supports as a class (the eye-base control reads the same way).",
+  "not_licensed": "This does NOT license 'the tradition doubted the heart-base'; nor, given the eye-base control, does the zero alone prove an epistemic downgrade peculiar to the heart-base. It is stated flat and built upon, just never staked under the test of direct knowledge.",
   "confidence": "structured-absence-licenses-inference",
-  "contrast": "Contrast class: the four truths, rebirth-by-kamma, and the destruction of the taints ARE repeatedly staked under exactly these formulae; the heart-base never is."},
+  "contrast": "Contrast class: the four truths, rebirth-by-kamma, and the destruction of the taints ARE repeatedly staked under exactly these formulae; the heart-base never is. Negative control: cakkhu-vatthu (a material support) co-occurs with a verification formula 0 times, while bhavaṅga (an experienced state) does so 8 times."},
 ]
+
+# 3c-bis. Gradient normalization caveat (T2) -- the rising bhavanga ramp partly tracks the per-paragraph
+#     subdivision of the commentary, so the gate carries a per-million-char rate alongside the raw ramp.
+#     The signal is genuine (attha has more rows but fewer raw hits than tika), only the magnitude is confounded.
+GRADIENT_CAVEAT = {
+ "note": "One caution on the rising bhavaṅga ramp across the layers. The commentary was ingested at paragraph granularity and the canon at whole-sutta granularity, so a raw hit-count ramp partly tracks text bulk: the aṭṭhakathā and ṭīkā together hold roughly 58 million characters against the canon's 53.5 million, and the commentary's hits are spread over far more, far smaller rows. Normalizing to a per-million-character rate keeps the direction but cuts the magnitude.",
+ "bhavanga_per_million_chars": BHAVANGA_PER_MCHAR,
+ "genuine_signal": "The ramp is not a pure bulk artifact. The aṭṭhakathā carries more rows than the ṭīkā (about 92,000 against 82,000) yet fewer raw bhavaṅga hits (235 against 569), so density still climbs from aṭṭhakathā to ṭīkā independently of row count. The zero-based claims carry the finding (bhavaṅga absent in the four Nikāyas, the heart-base name absent in the seven Abhidhamma books), and the granularity confound does not touch those.",
+}
 
 # 3d. Harmonization (I.8) -- the tradition's OWN reconciliation of the sutta silence with the
 #     Abhidhamma placeholder. Two independent tika witnesses flag the silence (Pāḷiyaṃ anāgata,
@@ -234,7 +274,7 @@ META = {
  "version": "2.0",
  "corpus_snapshot": "194,710 passages (2026-06-19)",
  "generated": None,
- "note": "Companion to the individual-guidance census. Corpus claims are verbatim-grounded by direct fetch; every id resolves to a real corpus row. Abhidhamma-status and modern-practice material is secondary or attributed, marked as such.",
+ "note": "Companion to the individual-guidance census. Corpus claims are verbatim-grounded by direct fetch; every id resolves to a real corpus row. Abhidhamma-status and modern-practice material is secondary or attributed, marked as such. The load-bearing keystone counts (the heart-base name 0 in the four Nikayas and 0 in the seven Abhidhamma books, the Patthana posit, the eye-base/bhavanga negative control, the bhavanga ramp) are recorded in the committed audit file research/heart-base/counts-snapshot.json and asserted against it on every build.",
  "version_note": "v2.0 (2026-06-19): provenance-signature retrofit (R3). The three-tier matrix is carried verbatim from v1.1 (regression baseline). Added: II.7 epistemic marking (the heart-base is posited, never verified, with char-gap evidence), I.8 harmonization (the sub-commentary's own 'from scripture and reason' reconciliation of the sutta silence with the Abhidhamma placeholder), III.10 structured-absence (the heart-base under the verification formula), and I.4 cross-recension (heart-base Theravāda-specific; the named-ñāṇa ladder Pāli-local). Recall re-checked on a four-rung ladder; the named heart-base stays 0 in the four Nikayas and 0 in the seven Abhidhamma books, while RUNG 3 confirms the unnamed posit is canonical-Abhidhamma.",
  "edition": "Chaṭṭha Saṅgāyana (CST/VRI) as ingested into dhamma-pg; SuttaCentral ids as cross-walk.",
 }
@@ -251,9 +291,10 @@ V2 = {
   "named_nana_station_in_four_nikayas": 0, "named_nana_station_in_seven_abhidhamma": 0,
   "lived_rise_fall_practice_in_nikayas": LADDER_BY_STRATUM["udayabbaya_practice_sutta"],
   "bhavanga_in_four_nikayas": BHAVANGA["sutta_nikaya"], "bhavanga_in_seven_abhidhamma": BHAVANGA["abhidhamma_canonical"],
-  "note": "Reconfirmed by grouping on the work rather than the raw row count. The 18 named heart-base hits at the root-text layer are all Visuddhimagga, plus one Niddesa and one Milindapañha; all are structurally root-text yet commentary-era or para-canonical by composition, the point where the structural layer and the chronological stratum disagree.",
+  "note": "Reconfirmed by grouping on the work rather than the raw row count. 20 root-text hits: 18 Visuddhimagga, 1 Niddesa, 1 Milindapañha; all are structurally root-text yet commentary-era or para-canonical by composition, the point where the structural layer and the chronological stratum disagree.",
  },
  "stratigraphy": STRATIGRAPHY,
+ "gradient_caveat": GRADIENT_CAVEAT,
  "epistemic": EPISTEMIC,
  "absence": ABSENCE,
  "harmonization": HARMONIZATION,
@@ -293,6 +334,22 @@ if not _hb_named_row or _hb_named_row["four_nikaya_abhidhamma_hits"] != 0: errs.
 
 # The posit must be canonical-Abhidhamma (the RUNG-3 sharpening).
 if HB_ABHIDHAMMA_CONCEPT <= 0: errs.append("unnamed posit must be present in canonical Abhidhamma")
+
+# Auditability gate: every load-bearing keystone literal must equal the committed snapshot, and the
+# root-text breakdown must sum to its stated total (the 18 + 1 + 1 = 20 reconciliation).
+SN_HB = SNAPSHOT["heart_base_named"]
+if HB_STEM_TOTAL != SN_HB["total_corpus"]: errs.append("stem total drifted from snapshot")
+if sum(HB_ROOT_TEXT_BY_WORK.values()) != HB_ROOT_TEXT_TOTAL: errs.append("root-text breakdown does not sum to 20")
+if HB_ROOT_TEXT_TOTAL != 20: errs.append("root-text layer total must be 20 (18 Vism + 1 Niddesa + 1 Milindapanha)")
+if SN_HB["in_four_nikayas"] != 0 or SN_HB["in_seven_abhidhamma_books"] != 0: errs.append("snapshot keystone zeros drifted")
+if HB_ABHIDHAMMA_CONCEPT != SNAPSHOT["unnamed_posit"]["in_seven_abhidhamma_books"]: errs.append("posit count drifted from snapshot")
+if NEG_CONTROL["cakkhuvatthu_x_verification_cooccurrence"] != 0: errs.append("negative-control eye-base must be 0")
+if NEG_CONTROL["bhavanga_x_verification_cooccurrence"] != 8: errs.append("bhavanga control must be 8")
+if EPISTEMIC["verification_register_attestation"]["sacchikatvā"] != SNAPSHOT["verification_register"]["sacchikatva"]:
+    errs.append("verification register drifted from snapshot")
+# bhavanga per-million-char ramp must be monotone non-decreasing (the granularity-robust direction).
+_bp = BHAVANGA_PER_MCHAR
+if not (_bp["canon"] <= _bp["atthakatha"] <= _bp["tika"]): errs.append("normalized bhavanga ramp not monotone")
 
 # Regression gate: exactly the seven baseline rows, four tier keys each, no cell text emptied.
 if len(ROWS) != 7: errs.append("regression: row count != 7")

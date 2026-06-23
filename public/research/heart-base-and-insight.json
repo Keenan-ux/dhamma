@@ -5,7 +5,7 @@
   "version": "2.0",
   "corpus_snapshot": "194,710 passages (2026-06-19)",
   "generated": null,
-  "note": "Companion to the individual-guidance census. Corpus claims are verbatim-grounded by direct fetch; every id resolves to a real corpus row. Abhidhamma-status and modern-practice material is secondary or attributed, marked as such.",
+  "note": "Companion to the individual-guidance census. Corpus claims are verbatim-grounded by direct fetch; every id resolves to a real corpus row. Abhidhamma-status and modern-practice material is secondary or attributed, marked as such. The load-bearing keystone counts (the heart-base name 0 in the four Nikayas and 0 in the seven Abhidhamma books, the Patthana posit, the eye-base/bhavanga negative control, the bhavanga ramp) are recorded in the committed audit file research/heart-base/counts-snapshot.json and asserted against it on every build.",
   "version_note": "v2.0 (2026-06-19): provenance-signature retrofit (R3). The three-tier matrix is carried verbatim from v1.1 (regression baseline). Added: II.7 epistemic marking (the heart-base is posited, never verified, with char-gap evidence), I.8 harmonization (the sub-commentary's own 'from scripture and reason' reconciliation of the sutta silence with the Abhidhamma placeholder), III.10 structured-absence (the heart-base under the verification formula), and I.4 cross-recension (heart-base Theravāda-specific; the named-ñāṇa ladder Pāli-local). Recall re-checked on a four-rung ladder; the named heart-base stays 0 in the four Nikayas and 0 in the seven Abhidhamma books, while RUNG 3 confirms the unnamed posit is canonical-Abhidhamma.",
   "edition": "Chaṭṭha Saṅgāyana (CST/VRI) as ingested into dhamma-pg; SuttaCentral ids as cross-walk."
  },
@@ -325,7 +325,7 @@
    "lived_rise_fall_practice_in_nikayas": 25,
    "bhavanga_in_four_nikayas": 0,
    "bhavanga_in_seven_abhidhamma": 38,
-   "note": "Reconfirmed by grouping on the work rather than the raw row count. The 18 named heart-base hits at the root-text layer are all Visuddhimagga, plus one Niddesa and one Milindapañha; all are structurally root-text yet commentary-era or para-canonical by composition, the point where the structural layer and the chronological stratum disagree."
+   "note": "Reconfirmed by grouping on the work rather than the raw row count. 20 root-text hits: 18 Visuddhimagga, 1 Niddesa, 1 Milindapañha; all are structurally root-text yet commentary-era or para-canonical by composition, the point where the structural layer and the chronological stratum disagree."
   },
   "stratigraphy": [
    {
@@ -386,12 +386,35 @@
      "id": "cst-abh03a.att-370_p002",
      "label": "Pañca-a §370"
     },
-    "note": "Zero in the four Nikayas and zero in the seven canonical Abhidhamma books; the 18 mula hits are all Visuddhimagga (mula role, commentary-era stratum) plus one Niddesa and one Milindapanha."
+    "note": "Zero in the four Nikayas and zero in the seven canonical Abhidhamma books; the 20 root-text hits are 18 Visuddhimagga (mula role, commentary-era stratum), 1 Niddesa, and 1 Milindapanha."
    }
   ],
+  "gradient_caveat": {
+   "note": "One caution on the rising bhavaṅga ramp across the layers. The commentary was ingested at paragraph granularity and the canon at whole-sutta granularity, so a raw hit-count ramp partly tracks text bulk: the aṭṭhakathā and ṭīkā together hold roughly 58 million characters against the canon's 53.5 million, and the commentary's hits are spread over far more, far smaller rows. Normalizing to a per-million-character rate keeps the direction but cuts the magnitude.",
+   "bhavanga_per_million_chars": {
+    "canon": 0.7,
+    "atthakatha": 8.0,
+    "tika": 20.0
+   },
+   "genuine_signal": "The ramp is not a pure bulk artifact. The aṭṭhakathā carries more rows than the ṭīkā (about 92,000 against 82,000) yet fewer raw bhavaṅga hits (235 against 569), so density still climbs from aṭṭhakathā to ṭīkā independently of row count. The zero-based claims carry the finding (bhavaṅga absent in the four Nikāyas, the heart-base name absent in the seven Abhidhamma books), and the granularity confound does not touch those."
+  },
   "epistemic": {
    "verdict": "posited, never verified",
-   "claim": "The heart-base is stated flat, as the assumed material support of mind. Across the whole corpus it is never the object of the canon's own register of direct knowing. Where a knowing-word falls in the same row it is either far away (in a separate passage) or it names the very faculty (abhiññā 'direct knowledge', the divine eye) whose mind the heart-base is said to support, not a knowing that confirms the heart-base.",
+   "claim": "The heart-base is stated flat, as the assumed material support of mind. Across the whole corpus it is never the object of the canon's own register of direct knowing. Where a knowing-word falls in the same row it is either far away (in a separate passage) or it names the very faculty (abhiññā 'direct knowledge', the divine eye) whose mind the heart-base is said to support; on inspection these read as support-relations, not as a knowing that confirms the heart-base. The eye-base (cakkhu-vatthu), a matched material support, behaves the same way, which sets the bound on what this shows: the heart-base shares the non-verified grammar of material supports generally, a reading consistent with a doctrine-specific downgrade but not by itself a proof of one.",
+   "negative_control": {
+    "frame": "A matched material support coded the same way. If a material seat of cognition simply never enters the verification register, that is the grammar of supports, not a downgrade peculiar to the heart-base.",
+    "control_support": {
+     "term": "cakkhu-vatthu (the eye-base)",
+     "verification_cooccurrence": 0,
+     "reading": "Never falls in-window with a verification formula either, exactly like the heart-base; a material support is posited, not verified, as a class."
+    },
+    "contrast_relatum": {
+     "term": "bhavaṅga (the life-continuum)",
+     "verification_cooccurrence": 8,
+     "reading": "Does co-occur with a verification formula in 8 rows, so the zero is not an artifact of every Abhidhamma-adjacent term: terms that name an experienced state can enter the register; a posited material seat does not."
+    },
+    "bound": "The control narrows the claim: 'posited, never verified' for the heart-base is firmly established, but it partly reflects the non-verified grammar of material supports rather than a downgrade unique to the heart-base. The independent and stronger support for 'posited' is the harmonization witness below, where the sub-commentary itself records the heart-base as Pāḷiyaṃ anāgata, not handed down in the text."
+   },
    "verification_register_attestation": {
     "sacchikatvā": 654,
     "sayaṃ_abhiññā_sacchikatvā": 190,
@@ -444,11 +467,11 @@
    {
     "silent_claim": "The heart-base (hadaya-vatthu) is the verified seat of mind.",
     "expected_frame": "the canon's verification formulae (sacchikatvā 654 · sayaṃ abhiññā sacchikatvā 190 · yathābhūtaṃ pajānāti 264)",
-    "sql_cooccurrence": "0 in-window (named heart-base × verification formula; nearest gap 70 chars, and that one is the heart-base as the support of a knowing-faculty, not its object)",
-    "licensed": "The heart-base is assumed-as-given (a posited material support), not asserted-as-verified.",
-    "not_licensed": "This does NOT license 'the tradition doubted the heart-base'; it is stated flat and built upon, just never staked under the test of direct knowledge.",
+    "sql_cooccurrence": "No in-window verification of the named heart-base. The handful of close co-occurrences read, on inspection, as support-relations (the nearest, at 70 chars, has the heart-base as the support a knowing-faculty runs on, not its object); a matched material support, the eye-base (cakkhu-vatthu), shows the same 0 verification co-occurrence, so the zero partly reflects the grammar of material supports",
+    "licensed": "The heart-base is assumed-as-given (a posited material support), not asserted-as-verified; it shares this non-verified grammar with material supports as a class (the eye-base control reads the same way).",
+    "not_licensed": "This does NOT license 'the tradition doubted the heart-base'; nor, given the eye-base control, does the zero alone prove an epistemic downgrade peculiar to the heart-base. It is stated flat and built upon, just never staked under the test of direct knowledge.",
     "confidence": "structured-absence-licenses-inference",
-    "contrast": "Contrast class: the four truths, rebirth-by-kamma, and the destruction of the taints ARE repeatedly staked under exactly these formulae; the heart-base never is."
+    "contrast": "Contrast class: the four truths, rebirth-by-kamma, and the destruction of the taints ARE repeatedly staked under exactly these formulae; the heart-base never is. Negative control: cakkhu-vatthu (a material support) co-occurs with a verification formula 0 times, while bhavaṅga (an experienced state) does so 8 times."
    }
   ],
   "harmonization": {

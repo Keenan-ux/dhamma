@@ -67,12 +67,17 @@ a line for the Limitations section.
    (mula/attha/tika/anya) is a structural ROLE, not a date and not an authority; treating it as the whole
    provenance question hides the within-canon chronological gradient and the verified-vs-assumed asymmetry.
    Import `@PROVENANCE-SIGNATURE.md` and run its triage at design time to pick the load-bearing axes
-   (chronological stratum coded *independently* of layer, attribution, epistemic marking, cross-recensional
-   reach, pre-Buddhist provenance, harmonization). The single canon-vs-commentary bit is demoted to one
-   signal of a fuller signature. *(The Uttarakuru study is the cautionary case: 20 of 26 structurally
-   "canonical" rows coded late-canonical or later, and the geography is never placed under the canon's own
-   verification formula — both invisible to the layer axis alone.)* Keep canonical / commentarial /
-   modern-scholar voices rigorously separate via the confidence tags.
+   (chronological stratum, attribution, epistemic marking, cross-recensional reach, pre-Buddhist
+   provenance, harmonization). The single canon-vs-commentary bit is demoted to one signal of a fuller
+   signature. **Stratum is a FROZEN `work_slug → stratum` reference table, not a per-row coding independent
+   of layer** (§I.1 honesty box): a layer-vs-stratum disagreement is true by construction when the work is
+   late, so it is a bucketing flag, never convergent evidence; a *load-bearing* within-canon chronology
+   claim must escape the table and code its contested rows (Vism-as-`mūla`, Vinaya nidāna, Thera/Therīgāthā)
+   per row with a real κ. *(The Uttarakuru study is the cautionary case: of 26 structurally "canonical" rows
+   the work→stratum table buckets 20 as late-canonical-or-later, and the geography is never placed under the
+   canon's own verification formula — the second is a genuine finding the layer axis misses; the first is a
+   table relabel, load-bearing only if the contested rows are re-coded per row.)* Keep canonical /
+   commentarial / modern-scholar voices rigorously separate via the confidence tags.
 4. **Reconfirm load-bearing negatives by SQL** (via `flyctl proxy 15432:5432 --app dhamma-pg`). A claim
    like "X never appears in the canon" must be a `GROUP BY work_role` count, not a search impression —
    the search lane is flaky and over/under-matches (it has been wrong before; see the `kammaṭṭhāna` case).
@@ -92,6 +97,61 @@ a line for the Limitations section.
    elsewhere), and **amend in place, then renumber** (the whole document is the edit unit — weave the new
    material into the arc, write its transitions, fix the section/table numbering and the abstract's
    roadmap; never bolt a phase onto the end).
+
+## Standing guards (the 2026-06-23 adversarial review — these defects recurred across all five studies)
+
+These five rules close holes an adversarial re-read found in every deployed study. They bind the same way
+the spine rules above do.
+
+7. **Forking-paths guard.** When a study is **re-spined after the discovery sweep** (§3.6) and the new
+   headline is named by a *rule that operationalises the chosen thesis* — an H0/H1 warrant split, a
+   function-vs-essence cut, "early = function, late = essence" — present that split as a **descriptive
+   coding output**, not as an independent test the data could have failed. The split partitions the rows
+   by the very definition the thesis supplies, so it cannot disconfirm the thesis; reporting it as a passed
+   test is a forking-paths illusion (the analysis path was chosen *after* seeing where the data clustered).
+   The honest frame is "coded this way, the corpus sorts thus", with the genuine falsification leg living
+   elsewhere — a **pre-committed disconfirming-case count** (Hard rule 1a) on rows the rule did *not*
+   define, or a held-out prediction the data could actually break. (The individual-guidance re-spine onto
+   function-vs-essence is the live case: the verb-vs-fixed-noun-type cut *describes* the drift; it does not
+   *test* it, because the cut and the thesis are the same statement.)
+8. **Density rule — magnitude in characters, not rows.** Any canon-vs-commentary **magnitude** claim ("the
+   commentary says far more about X", "X is overwhelmingly commentarial") must be reported as **density per
+   million characters** (or per narrated event / per attested frame), **never as raw passage-row counts**.
+   The ingest makes raw rows a confounded unit: the commentary was subdivided to ~330-char paragraph rows
+   while the canon stays at whole-sutta rows of ~2,975 chars, so the canon is ~9% of *rows* but ~44% by
+   *character*. A row-count contrast is then mostly measuring the segmentation, not the corpus. **Per-row
+   normalization is itself confounded** (the two strata have different row sizes by construction);
+   per-character is the robust unit. Compute char-mass with `sum(length(original))` grouped by
+   `stratum(work_slug)` (and `FILTER (WHERE is_primary)` for the double-ingest, RUNG 5); report the
+   density and the unit in the sentence that makes the magnitude claim. A bare row-ratio headline is a
+   defect even when the *direction* is right.
+9. **IAA scope — scope every κ to its unit, in the sentence that prints it.** A published kappa is only
+   meaningful for the exact unit it was computed on. Print the scope inline: "κ=0.82 *on the 41 contested
+   stratum rows*", "κ=1.0 *on the attribution recode*", not a free-floating "κ=0.82". And **state where no
+   per-row κ exists** — if a column was assigned by a work-level lookup (e.g. a stratum table, RUNG-5
+   bucketing) rather than blind-coded per row, say so explicitly ("stratum assigned by the frozen
+   work→stratum table; no per-row κ") rather than letting a headline κ from a *different* axis stand in for
+   it. A reader must never infer that an unmeasured column inherited a measured column's reliability.
+10. **Negative control on every "never under the formula" leg.** Any structured-absence claim of the form
+    "X is posited but **never** verified / never appears under the verification formula / never takes the
+    formula as object" (III.10) requires a **matched negative control** before it is leaned on: does the
+    formula *ever* take a comparable item as object? Establish the contrast presence (the formula DOES
+    verify rebirth-destiny) *and* confirm the formula's object-slot is the kind of thing that *could* have
+    held X, so the silence is a refusal, not a type-mismatch. An absence without its matched control is
+    inadmissible (it may be measuring "the formula never takes geography-shaped objects at all", a
+    grammatical fact, not "the tradition declines to verify *this* geography"). This operationalises the
+    III.10 "contrast class is mandatory" rule as a gate, not a suggestion.
+11. **Span-aware coding on monolithic / work-level rows.** A per-claim code on a monolithic or work-level
+    row (a pre-subdivision commentary monolith, a whole-Vinaya CST row, any row holding many claims) must
+    **excerpt and code the specific catalogued span** — the char-window the claim actually lives in — not
+    the whole row. Coding the row wholesale re-imports the per-work shortcut the granularity gate (rule 5)
+    forbids, and corrupts char-gap / co-occurrence evidence (a "verification formula 43,133 chars from the
+    target" is meaningless if the target span was never isolated). Record the span offsets with the code.
+    And **route hand-injected and prefix-rule rows through the same blind gate as auto-discovered rows**:
+    a row added by hand (a known locus the search missed) or selected by a structural prefix rule
+    (`^cst-…m\.mul-…` uddāna rows, a citation-prefix bucket) is coded blind by the same k≥3 crew on the
+    same excerpted span, never waved through as "obviously X" because the analyst chose it. Hand-selection
+    is exactly where confirmation bias enters; the blind gate is what neutralises it.
 
 ## Method (run in this order)
 
@@ -162,12 +222,14 @@ a line for the Limitations section.
    *selection rule*, not the answer-axis, so this stays un-bucket-fittable.
 5. **Code blind, measure agreement.** k≥3 independent coders classify the per-instance fields; report IAA
    per field; adjudicate + log disagreements. **Per-claim-granularity gate:** a work→code lookup (e.g.
-   `WORK_ATTRIBUTION[work]`) is a *recall aid for seeding candidates*, never the recorded code. Any
-   per-claim axis (attribution, epistemic, harmonization) must be coded from the *row's own* content;
-   before freezing a count, spot-audit ≥8 coded rows across work-classes and confirm each code is a
-   function of that row, not of its work. A category that comes out exactly 0 or exactly = a work's size
-   is the signature of a per-work shortcut: re-code it per row. (The awakening R1 retrofit published a
-   false "0 buddha-vacana" precisely because it skipped this gate; see PROVENANCE-SIGNATURE §2.)
+   `WORK_ATTRIBUTION[work]`, the `work_slug → stratum` table) is a *recall aid for seeding candidates*,
+   never the recorded code. Any per-claim axis (attribution, epistemic, harmonization, **and
+   chronological stratum** — the stratum axis is IN this gate, not exempt; see PROVENANCE-SIGNATURE §I.1)
+   must be coded from the *row's own* content; before freezing a count, spot-audit ≥8 coded rows across
+   work-classes and confirm each code is a function of that row, not of its work. A category that comes out
+   exactly 0 or exactly = a work's size is the signature of a per-work shortcut: re-code it per row. (The
+   awakening R1 retrofit published a false "0 buddha-vacana" precisely because it skipped this gate; see
+   PROVENANCE-SIGNATURE §2.)
 6. **Adversarially verify.** For load-bearing claims, an independent skeptic agent re-fetches the passage
    and tries to refute. Distinguish "unsupported" from "unavailable" (tool down ≠ claim false).
 

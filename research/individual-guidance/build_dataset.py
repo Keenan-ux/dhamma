@@ -91,9 +91,11 @@ APPARATUS = [
                    "Its earliest carrier is the para-canonical Khuddaka analytical layer (Cuḷaniddesa), then "
                    "the Visuddhimagga, then the aṭṭhakathā/ṭīkā. Structural layer (some carriers are tagged "
                    "mula) and chronological stratum disagree.",
+        # 43 de-duplicated structurally-mula rows (30 Visuddhimagga + 13 para-canonical Khuddaka rollup),
+        # zero in the four Nikayas and zero in the Abhidhamma. pli-kn is the de-duplicated Khuddaka rollup;
+        # the Patisambhidamagga (pli-ps) carries none. The earlier 53 double-counted the catch-all re-ingest.
         "sql_mula_by_work": {
-            "pli-vism": 30, "pli-kn": 10, "pli-ne": 4, "pli-nd": 3,
-            "pli-pe": 3, "pli-mil": 2, "pli-ps": 1,
+            "pli-vism": 30, "pli-kn": 13, "pli-ps": 0,
             "pli-an": 0, "pli-sn": 0, "pli-mn": 0, "pli-dn": 0, "pli-abhidhamma": 0,
         },
         "anchor": cite("CND 19 (Cuḷaniddesa, Mogharajamaṇavapucchaniddesa)", "cnd19"),
@@ -107,16 +109,26 @@ APPARATUS = [
         "layer_tag": "mula-tagged (Visuddhimagga)",
         "disagree": True,
         "warrant": "Of 148 mula rows carrying kammaṭṭhāna, 134 are the Visuddhimagga (classical-commentary "
-                   "stratum, mula-tagged). The handful in AN/MN/DN carry the ORDINARY sense (livelihood, "
-                   "occupation, place-of-work; e.g. gharāvāsa-kammaṭṭhāna), not the meditation-subject sense. "
-                   "The technical sense is effectively confined to the Visuddhimagga (confirms Crosby/Skilton/Kyaw 2019).",
+                   "stratum, mula-tagged). The remaining 14 in AN/MN/DN (and a few para-canonical rows) carry "
+                   "the ORDINARY sense (livelihood, occupation, place-of-work; e.g. gharāvāsa-kammaṭṭhāna), not "
+                   "the meditation-subject sense, on a per-row reading recorded in technical_sense_audit below. "
+                   "The technical sense concentrates in the Visuddhimagga (confirms Crosby/Skilton/Kyaw 2019); "
+                   "the 0 reported for the four Nikayas + Abhidhamma is a per-row sense judgement over those "
+                   "14 rows, not a raw stem count (raw stem hits = 11 outside the Visuddhimagga).",
         "sql_mula_by_work": {
             "pli-vism": 134, "pli-an": 7, "pli-mn": 2, "pli-dn": 2,
             "pli-kn": 1, "pli-dhp": 1, "pli-pe": 1,
         },
         # the four-Nikaya/Abhidhamma hits carry the ORDINARY sense, not the technical one;
-        # the stratigraphy column reports the technical-sense count, which is 0.
+        # the stratigraphy column reports the technical-sense count, which is 0. The override
+        # from 11 raw outside-Vism stem-hits to 0 technical is a per-row sense judgement, audited here.
         "technical_nikaya_hits": 0,
+        "technical_sense_audit": (
+            "The 14 non-Visuddhimagga mula rows (7 AN, 2 MN, 2 DN, 1 KN, 1 Dhp, 1 Pe) were read individually; "
+            "each uses kammaṭṭhāna in the ordinary sense (a livelihood / occupation / place of work, e.g. "
+            "gharāvāsa-kammaṭṭhāna, the household occupation), with none carrying the meditation-subject sense. "
+            "Hence technical-sense count outside the Visuddhimagga = 0 by sense judgement, against 11 raw stem-hits."
+        ),
         "anchor": cite("Vism §37.1 (Cattālīsakammaṭṭhānavaṇṇanā)", "cst-e0101n.mul-37_p001"),
         "anchor_pali": "Cattālīsakammaṭṭhānavaṇṇanā.",
     },
@@ -401,11 +413,15 @@ V2 = {
          "note": "The stem over-collects: 'carit' also catches the verb caritā / past participle. Must "
                  "disambiguate to the temperament-compound."},
         {"rung": "RUNG 3: temperament-compound (sense-disambiguated)",
-         "query": "(raga|dosa|moha|vitakka|saddha|nana|panna)carit, GROUP BY work_slug, mula only",
-         "yield": {"pli-vism": 30, "pli-kn": 10, "pli-ne": 4, "pli-nd": 3, "pli-pe": 3, "pli-mil": 2,
-                   "pli-ps": 1, "pli-an": 0, "pli-sn": 0, "pli-mn": 0, "pli-dn": 0, "pli-abhidhamma": 0},
-         "note": "The load-bearing rung: 53 mula temperament-carita rows, NONE in the four Nikayas or "
-                 "Abhidhamma; all para-canonical Khuddaka + Visuddhimagga."},
+         "query": "original ~* '(rāga|dosa|moha|vitakka|saddhā|ñāṇa|paññā)carit', GROUP BY work_slug, mula only "
+                  "(diacritic-correct: long-ā, ñ, retroflex ṇ; the bare ASCII forms saddha/nana/panna miss the rows)",
+         "yield": {"pli-vism": 30, "pli-kn": 13, "pli-ps": 0, "pli-an": 0, "pli-sn": 0, "pli-mn": 0,
+                   "pli-dn": 0, "pli-abhidhamma": 0},
+         "note": "The decisive rung: 43 mula temperament-carita rows (30 Visuddhimagga + 13 para-canonical "
+                 "Khuddaka, de-duplicated for the corpus's Khuddaka double-ingest), NONE in the four Nikayas or "
+                 "the Abhidhamma. pli-kn is the de-duplicated Khuddaka rollup (Niddesa, Nettippakarana, "
+                 "Petakopadesa, Milindapanha); the Patisambhidamagga (pli-ps) carries none. An earlier count of "
+                 "53 double-counted the pli-kn catch-all against its per-work re-ingest (KN-REBUCKET.md)."},
         {"rung": "RUNG 4: concept/periphrasis (the canonical seed, name-independent)",
          "query": "the antidote formula 'asubhā bhāvetabbā' / 'vitakkupacchedāya' etc., GROUP BY work_role",
          "yield": {"mula_total": 35, "pli-an": 5, "pli-ud": 1},

@@ -116,9 +116,15 @@ WORK_STRATUM = {
 # (a recall aid), NOT a per-work verdict. The earlier pass used it wholesale and
 # mis-filed every nikaya-prose / vinaya-nidana row as redactor-frame, which
 # hard-zeroed buddha-vacana and published a false "0 of 299" headline. The
-# load-bearing buddha-vacana category is now coded PER ROW (PER_ROW_ATTRIBUTION
+# buddha-vacana category is now coded PER ROW (PER_ROW_ATTRIBUTION
 # below), recall-anchored by the bodhisatta-frame / paccaññāsiṃ discriminator and
-# confirmed by k=3 blind coders (IAA kappa=1.0). The non-BV classes
+# confirmed by k=3 blind coders (IAA kappa=1.0, scoped to the 15 retained
+# attribution rows, not the precipitating-condition buckets). The 2026-06-23
+# review recoded 2 large work-level rows (cst-s0304m.mul-sn4_1, cst-vin02m2.mul-vin3_1)
+# from buddha-vacana to redactor-frame: the kappa packet excerpted the whole
+# monolithic work-level row, not the catalogued span, whose event is a third
+# party. buddha-vacana 17->15, redactor-frame 46->48, dedup recollections 9->7.
+# The non-BV classes
 # (apadana=elder self-narration, thera/therigatha=disciple self-report, etc.)
 # were spot-read and remain class-homogeneous. See _attribution_audit.json.
 WORK_ATTRIBUTION = {

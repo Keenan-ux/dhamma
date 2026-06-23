@@ -115,19 +115,35 @@ speakers, registers, and epistemic statuses; the unit of coding is the
 load-bearing claim, with its supporting passage and char-window cited.
 
 > **Per-claim-granularity guard (enforce, don't just state).** A work→code
-> lookup (a `WORK_ATTRIBUTION[work]` / work→register map) is a **recall aid for
-> seeding candidate codes**, *never* the recorded per-claim code. The recorded
-> code must be a function of the *row's own* content, verified by reading the row.
-> Before any per-claim count (attribution, epistemic, harmonization) is frozen,
-> spot-audit ≥8 coded rows across work-classes and confirm each code matches that
-> row, not its work-class; a category that comes out exactly 0, or exactly equal
-> to a work's row-count, is the diagnostic signature of a per-work shortcut and
-> must be re-coded per row. **Failure case on record:** the awakening census R1
-> retrofit coded attribution by work-class (`nikāya-prose → redactor-frame`
-> wholesale), which hard-zeroed `buddha-vacana` and published a false "0 of 299"
-> headline; per-claim re-coding found 17 rows (9 deduplicated recollections) of
-> the Buddha asserting his own awakening. The rule below existed; the *verification
-> step* did not. This guard is that step.
+> lookup (a `WORK_ATTRIBUTION[work]` / work→register / **work→stratum** map) is a
+> **recall aid for seeding candidate codes**, *never* the recorded per-claim code.
+> The recorded code must be a function of the *row's own* content, verified by
+> reading the row. Before any per-claim count (attribution, epistemic,
+> harmonization, **and chronological stratum**) is frozen, spot-audit ≥8 coded
+> rows across work-classes and confirm each code matches that row, not its
+> work-class; a category that comes out exactly 0, or exactly equal to a work's
+> row-count, is the diagnostic signature of a per-work shortcut and must be
+> re-coded per row.
+>
+> **The stratum axis (I.1) is IN this gate, not exempt from it.** An earlier
+> version of this guard listed only attribution/epistemic/harmonization, and a
+> study's design audit (the awakening "A2" pass) explicitly *cleared* the stratum
+> axis from per-claim scrutiny on the reasoning that "stratum is a cheap
+> work-level lookup, so per-row coding does not apply." That exemption was the
+> hole: it is *precisely* the work-level shortcut this guard exists to catch. The
+> frozen `work_slug → stratum` table is a per-work code by definition; whenever a
+> within-canon chronology claim is **load-bearing**, its contested rows
+> (Visuddhimagga-as-`mūla`, Vinaya nidāna vs rule, Thera/Therīgāthā verse, uddāna
+> vs body) must be re-coded per row from philological features, with a real per-row
+> κ. A stratum column that simply equals "what work each row is in" has not been
+> coded; it has been relabelled.
+>
+> **Failure case on record:** the awakening census R1 retrofit coded attribution
+> by work-class (`nikāya-prose → redactor-frame` wholesale), which hard-zeroed
+> `buddha-vacana` and published a false "0 of 299" headline; per-claim re-coding
+> found 17 rows (9 deduplicated recollections) of the Buddha asserting his own
+> awakening. The rule below existed; the *verification step* did not. This guard
+> is that step — now covering stratum too.
 
 > **Axes considered and rejected** (per the Step-5 discipline, exclusions are
 > justified in writing, not silently dropped):
@@ -149,23 +165,58 @@ load-bearing claim, with its supporting passage and char-window cited.
 #### I.1 — Chronological stratum  ·  CHEAP
 
 **Definition.** The relative time-depth of a passage within the textual history
-of the tradition, coded *independently* of its structural layer. A canonical
-row is not chronologically flat; a commentary is not a single moment. This axis
-answers *when* a formulation entered, using the consensus relative
-stratigraphy of Pāli philology, and explicitly distrusts the structural layer
-as a proxy for time.
+of the tradition. A canonical row is not chronologically flat; a commentary is
+not a single moment. This axis answers *when* a formulation entered, using the
+consensus relative stratigraphy of Pāli philology.
+
+> **What this axis is, honestly — a FROZEN reference table, not an independent
+> per-row coding.** The default operationalisation below is a `work_slug →
+> stratum` **lookup**: it assigns a stratum by which *work* the row belongs to.
+> That is a **recall / bucketing aid**, not a per-row philological judgement
+> coded independently of the structural layer. Earlier drafts of this axis
+> claimed both ("coded *independently* of its structural layer" *and* "build a
+> work→stratum lookup") — those are contradictory, and that contradiction was
+> the program's single biggest systemic defect: it let studies present a
+> layer-vs-stratum *agreement* as if it were two independent measurements
+> converging, when the second measurement was a deterministic relabel of the
+> first. **State the table for what it is and obey two rules:**
+>
+> 1. **"Layer/stratum disagreement" is true BY CONSTRUCTION whenever the work is
+>    not early-canonical-prose, and may NEVER be presented as convergent
+>    evidence.** Because the table maps `work → stratum`, every Visuddhimagga row
+>    (structural `mūla`, table stratum `classical-commentary`) "disagrees" — but
+>    that disagreement is just the table restating that Vism is commentarial in
+>    date. It is one fact reported twice, not two facts agreeing. Report the
+>    disagreement as *the bucketing flag it is* ("structural layer and the
+>    work→stratum table disagree because this work is late"), never as
+>    independent corroboration of lateness.
+> 2. **Any LOAD-BEARING within-canon chronology claim must escape the table.** If
+>    a finding rests on a row being early vs late *and* the row sits on a
+>    contested boundary the table papers over — Visuddhimagga-as-`mūla`, the
+>    Vinaya frame-narrative (nidāna) vs the rule it wraps, Theragāthā/Therīgāthā
+>    verse, an uddāna vs its doctrinal body, archaic vs late SN verse — then code
+>    *those rows* from **per-row philological features** (verse metre, sandhi
+>    archaism, frame-position, Apadāna/Buddhavaṁsa membership, named-late
+>    vocabulary), independently of the work label, with **k ≥ 3 blind coders and
+>    a real per-row κ reported on the contested set**. The frozen table seeds the
+>    candidate stratum; the per-row coding is what a load-bearing chronology claim
+>    actually stands on.
 
 **Diagnostic question.** When, in the tradition's own development, did this
-formulation enter — and is its structural layer misleading me about its age?
+formulation enter — and is the frozen work→stratum table misleading me about
+*this row's* age?
 
 **Coding values.** `archaic-canonical` · `early-canonical` · `late-canonical` ·
 `abhidhamma-canonical` · `paracanonical` · `classical-commentary` ·
 `sub-commentary` · `reception` · `indeterminate`
 
-**Operationalisation.** Do *not* derive stratum from the `mūla/attha/ṭīkā`
-column — that is the conflation this axis breaks. Code from the **work +
-position**:
-- Build a work→stratum lookup seeded from the citation prefix. AN/SN/MN/DN
+**Operationalisation.** The frozen `work_slug → stratum` table is the default
+recall aid; it is **not** a coding independent of the structural layer (see the
+honesty box above). Treat its output as the *candidate* stratum, to be escaped
+by per-row coding for any contested, load-bearing row.
+
+Build the table from the **work + position**:
+- Seed the work→stratum lookup from the citation prefix. AN/SN/MN/DN
   prose → `early-canonical`; Sn (Aṭṭhaka-/Pārāyana-vagga = Snp 4–5) and archaic
   SN verse → `archaic-canonical`; DN 32 (Āṭānāṭiya), DN 30, Buddhavaṁsa,
   Cariyāpiṭaka, Apadāna, Vimāna-/Petavatthu, Niddesa, Paṭisambhidāmagga, the
@@ -178,9 +229,13 @@ position**:
 - **Within** a work, refine by position/genre: a nidāna-frame or uddāna sits
   later than the doctrinal body it wraps. SQL sketch:
   `SELECT id, citation, layer, position FROM passages WHERE original ~* 'X'`,
-  then JOIN the work→stratum map; **flag any row whose structural layer and
-  stratum disagree** (e.g. `layer='mūla' AND stratum='late-canonical'`) as the
-  analytically interesting case.
+  then JOIN the work→stratum map. A row whose structural layer and the
+  work→stratum table disagree (e.g. `layer='mūla' AND stratum='late-canonical'`,
+  or any Vism `mūla` row) is **flagged as a bucketing artifact** — the table is
+  restating that this work is late, which is true by construction and is **not**
+  a second independent measurement agreeing with the first. Such a flag marks a
+  row as *candidate* for the per-row coding above; it is never, on its own,
+  evidence *for* lateness in the paper.
 - **Bind the count-harness to this stratum set.** When recall runs as a batched
   count (a `CASE`/bucket over `work_slug`), the bucket definition *is* a coding
   decision: declare it as a frozen, reviewable artifact (`work_slug → stratum`)
@@ -211,12 +266,16 @@ disagrees, code `indeterminate` rather than picking a side. Never let a single
 late-canonical instance be averaged into "the canon says."
 
 **Paper implication.** Drives the **stratigraphy table** as a first-class paper
-object (rows = instances; columns = work, structural layer, stratum, with
-layer/stratum disagreements highlighted). The narrative is organised by
+object (rows = instances; columns = work, structural layer, stratum). Where the
+stratum column is the frozen table's output, label it as such; a layer/stratum
+disagreement is highlighted only as a bucketing flag, never captioned or
+narrated as independent corroboration of date. The narrative is organised by
 ascending stratum so the reader sees the gradient. A "within-canon chronology"
 subsection becomes mandatory whenever any canonical instance codes
-late-canonical. When a single term is tracked across strata, the axis also
-emits the **semantic-drift strip** (§3.3).
+late-canonical — and if that subsection is **load-bearing** (the finding turns
+on the within-canon ordering), its contested rows carry per-row stratum codes
+and a per-row κ, not the table label. When a single term is tracked across
+strata, the axis also emits the **semantic-drift strip** (§3.3).
 
 ---
 
@@ -1062,10 +1121,13 @@ bit a prior study:
    answer.
 2. **§3.1 Recall-completeness ladder** — recall is a measured variable; a study
    with no documented ladder is unauditable regardless of its question.
-3. **I.1 Chronological stratum** — code the full I.1 stratum set, not a coarse
-   early/late tag, and bind the count-harness bucket-`CASE` to it (never a
-   canon/para/comm/tika lump that folds Abhidhamma into "canon" or late-Khuddaka
-   into "para"). "Layer" is structural role and silently swallows time.
+3. **I.1 Chronological stratum** — apply the full I.1 stratum **table** (the
+   frozen `work_slug → stratum` lookup), not a coarse early/late tag, and bind the
+   count-harness bucket-`CASE` to it (never a canon/para/comm/tika lump that folds
+   Abhidhamma into "canon" or late-Khuddaka into "para"). "Layer" is structural
+   role and silently swallows time. This floor is a recall/bucketing aid; if a
+   within-canon chronology claim becomes load-bearing, its contested rows escape
+   the table into per-row coding with a κ (§I.1 honesty box).
 
 (And the CHEAP automatic checks fire freely whenever a load-bearing English term
 appears: I.6 reception word-check; I.7 edition flag on any count or absence.)
@@ -1243,8 +1305,9 @@ a compact signature drawn from its coded axes, e.g.:
 **The stratigraphy table** (first-class paper object). Rows = instances; columns
 = the coded axes (work · structural layer · chronological stratum · genre/register
 · speaker · **epistemic status** · recension · provenance · edition-flag), with
-layer/stratum disagreements highlighted. The narrative is organised by **ascending
-stratum** so the reader sees the gradient.
+layer/stratum disagreements highlighted **as bucketing flags** (true by
+construction when the work is late; never captioned as convergent evidence — §I.1).
+The narrative is organised by **ascending stratum** so the reader sees the gradient.
 
 **Standing sections, included when their axis was coded:**
 - a **within-canon chronology** subsection (mandatory if any canonical instance

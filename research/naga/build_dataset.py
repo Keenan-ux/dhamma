@@ -157,7 +157,12 @@ def code_stratum(rid, sc, title, layer):
     if layer == "mula":
         w = work_of(rid, sc, title)
         st, conf, warr = WORK_STRATUM[w]
-        return w, st, conf, warr, (st not in EARLY)
+        # A GENUINE layer/stratum disagreement is a row shelved as mula whose stratum
+        # is a commentary stratum (the Visuddhimagga shelved as root text). A mula row
+        # that reads late-canonical / abhidhamma-canonical / paracanonical is still
+        # genuinely canonical on the shelf, only late, so it is NOT a shelf disagreement.
+        disagree = st in ("classical-commentary", "sub-commentary")
+        return w, st, conf, warr, disagree
     st, conf, warr = LAYER_COARSE.get(layer, ("indeterminate", "none", "unresolved"))
     return ("commentary-" + layer), st, conf, warr, False
 
@@ -211,7 +216,8 @@ out = {"facet_x_layer": facet_x_layer, "segment_x_layer": seg_x_layer,
        "stratum_split": dict(stratum_split), "mula_stratum": dict(mula_stratum),
        "mula_work_split": dict(work_split),
        "mula_early_vs_late": {"early-canonical": mula_early, "late-or-later": mula_late,
-                              "layer_stratum_disagree": disagree},
+                              "layer_stratum_disagree": disagree,
+                              "late-but-correctly-shelved": mula_late - disagree},
        "n_serpent": len(records), "n_claim": sum(1 for r in records if r["claim_bearing"]),
        "records": records}
 json.dump(out, open(f"{base}/_census_assembled.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
@@ -238,7 +244,11 @@ if bad_work: errs.append(f"{len(bad_work)} mula rows with work=indeterminate: {b
 # 3. stratum tally sums to the record count; mula split reconciles
 if sum(stratum_split.values()) != len(records): errs.append("stratum tally != record count")
 if mula_early + mula_late != n_mula: errs.append("mula early+late != mula count")
-if disagree != mula_late: errs.append(f"disagree ({disagree}) != mula_late ({mula_late})")
+# A genuine layer/stratum disagreement (mula row whose stratum is commentary-era,
+# e.g. Visuddhimagga) is a SUBSET of the not-early rows, not identical to them — a
+# late-canonical sutta shelved mula is correctly shelved, only late. (Adversarial
+# review 2026-06-23, T1: "disagree == not-early" was the old tautology.)
+if disagree > mula_late: errs.append(f"genuine disagree ({disagree}) exceeds mula_late ({mula_late})")
 # 4. every stratum is one of the seven named strata (or the commentary proxies)
 NAMED = {"archaic-canonical","early-canonical","late-canonical","abhidhamma-canonical",
          "paracanonical","classical-commentary","sub-commentary"}

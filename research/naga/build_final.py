@@ -211,7 +211,11 @@ mula_work_split = dict(Counter(r.get("work") for r in recs if r["layer"] == "mul
 n_mula = sum(1 for r in recs if r["layer"] == "mula")
 mula_early = sum(v for k, v in mula_stratum.items() if k in EARLY)
 mula_late = n_mula - mula_early
+# A GENUINE shelf disagreement is a mula row whose stratum is a commentary stratum
+# (the Visuddhimagga shelved as root text). The remaining not-early mula rows are
+# late-but-correctly-shelved canon (late-canonical / abhidhamma-canonical / paracanonical).
 disagree = sum(1 for r in recs if r["layer"] == "mula" and r.get("layer_stratum_disagree"))
+mula_late_canonical = mula_late - disagree
 # work -> philological warrant, read back from the records (DRY: no re-import)
 strat_warrants = {}
 for r in recs:
@@ -247,7 +251,8 @@ out = {"meta": meta,
                       "claim_stratum": claim_stratum,
                       "mula_work_split": mula_work_split,
                       "mula_early_vs_late": {"early-canonical": mula_early, "late-or-later": mula_late,
-                                             "layer_stratum_disagree": disagree}},
+                                             "layer_stratum_disagree": disagree,
+                                             "late-but-correctly-shelved": mula_late_canonical}},
        "records": recs}
 json.dump(out, open("public/research/naga.json","w",encoding="utf-8"), ensure_ascii=False, indent=1)
 import os, sys
@@ -271,7 +276,13 @@ if sum(stratum_split.values()) != len(recs): errs.append("stratum_split != recor
 if sum(stratum_by_layer.get(k, {}).get(l, 0) for k in stratum_split for l in ('mula','attha','tika','anya')) != len(recs):
     errs.append("stratum_by_layer != record count")
 if mula_early + mula_late != n_mula: errs.append("mula early+late != mula count")
-if disagree != mula_late: errs.append(f"disagree ({disagree}) != mula_late ({mula_late})")
+# the genuine shelf-disagreements are exactly the mula rows on a commentary stratum
+genuine_disagree = sum(1 for r in recs if r["layer"] == "mula"
+                       and r.get("stratum") in ("classical-commentary", "sub-commentary"))
+if disagree != genuine_disagree:
+    errs.append(f"disagree ({disagree}) != mula-on-commentary-stratum ({genuine_disagree})")
+if disagree + mula_late_canonical != mula_late:
+    errs.append(f"disagree + late-correctly-shelved ({disagree}+{mula_late_canonical}) != mula_late ({mula_late})")
 if n_mula != serp_by_layer.get("mula", 0): errs.append("mula count != serpent_by_layer mula")
 # 4. no em-dash in the stratigraphy block / warrants we author here
 authored = json.dumps(meta["stratigraphy"], ensure_ascii=False)

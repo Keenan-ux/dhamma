@@ -41,7 +41,7 @@ const RESEARCH_ENTRIES = [
   {
     slug: 'uttarakuru',
     title: 'The People of Uttarakuru',
-    subtitle: 'A canon-versus-commentary study of the northern continent’s inhabitants: the cosmos’s most fortunate humans, and by the canon’s own reckoning the worst placed for awakening.',
+    subtitle: 'A canon-versus-commentary study of the northern continent’s inhabitants: the cosmos’s most fortunate humans, and whom the commentary judges the worst placed for awakening.',
     data: '/research/uttarakuru.json',
   },
   {
@@ -580,17 +580,22 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 flat note that a mind was freed has no speaker inside it claiming the event. Counting
                 only the passages whose words are unmistakably the Buddha's, spoken of his own
                 awakening,{' '}
-                {data.v2 ? fmt(data.v2.attribution.buddha_vacana) : '17'} rows do this; once the
+                {data.v2 ? fmt(data.v2.attribution.buddha_vacana) : '15'} rows do this; once the
                 duplicate edition-copies of a single discourse are merged they resolve to{' '}
-                {data.v2 ? fmt(data.v2.attribution.buddha_vacana_dedup_recollections) : '9'} distinct
+                {data.v2 ? fmt(data.v2.attribution.buddha_vacana_dedup_recollections) : '7'} distinct
                 recollections, among them the Bhayabherava and Dvedhāvitakka accounts
                 (<Cite id="mn4">MN 4</Cite>, <Cite id="mn19">MN 19</Cite>), the long autobiography to
                 Aggivessana (<Cite id="mn36">MN 36</Cite>), the accounts to Prince Bodhi and to
                 Saṅgārava (<Cite id="mn85">MN 85</Cite>, <Cite id="mn100">MN 100</Cite>), the
                 Verañja discourse the Vinaya repeats as its first occasioning-story
                 (<Cite id="an8.11">AN 8.11</Cite>), and the breath-meditation account
-                (<Cite id="sn54.8">SN 54.8</Cite>). On this central category three readers working
-                independently from the Pāli agreed without a single exception (κ = 1.0). Nor does the
+                (<Cite id="sn54.8">SN 54.8</Cite>). On this attribution category, scored row by row,
+                three readers working independently from the Pāli agreed without a single exception on
+                the {data.v2 ? fmt(data.v2.attribution.buddha_vacana) : '15'} retained rows (κ = 1.0);
+                the agreement figure covers the attribution coding, not the precipitating-condition
+                buckets. Two further rows an earlier pass had filed here, both monolithic work-level
+                volumes whose catalogued attainment is a third party (Rāhula, Yasa) narrated flatly,
+                are read back to the redactor's frame. Nor does the
                 Buddha speak only of himself here: within the canonical rows he also declares another's
                 attainment ({data.v2 ? fmt(data.v2.attribution.buddha_declares_another) : '1'} such
                 row, the Buddha telling Mahānāma that Kāḷigodhā's son has entered the stream,{' '}
@@ -638,16 +643,21 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 <Cite id="pli-tv-kd1">Vin Mahāvagga nidāna</Cite>), where an awakening is staged inside
                 a frame-story that explains how a monastic rule came to be laid down. The shape of this
                 list is the finding: the place the canon most often files an awakening is not its old
-                doctrinal prose but its late autobiographical verse.
+                doctrinal prose but its late autobiographical verse. The lateness, it should be said, is
+                concentrated rather than spread: the Apadāna alone holds 162 of the{' '}
+                {fmt(data.v2 ? data.v2.stratigraphy.mula_early_vs_late['late-or-later'] : 261)}{' '}
+                late-or-later events, so the reading that the canonical census is mostly late is largely
+                a one-anthology effect, not an even gradient running across the canon.
               </p>
               <p>
-                The structural mūla tag is a position in the edited corpus, not a date. Coding each
-                canonical event by the chronological stratum of its work, independently of the
-                mūla / aṭṭhakathā / ṭīkā layer, makes the gradient explicit: only{' '}
+                The structural mūla tag is a position in the edited corpus, not a date. Assigning each
+                canonical event the chronological stratum of its source work, from a fixed
+                work-to-stratum reference table rather than the mūla / aṭṭhakathā / ṭīkā layer, makes
+                the gradient explicit: only{' '}
                 {fmt(data.v2 ? data.v2.stratigraphy.mula_early_vs_late['early-canonical'] : 38)} of the{' '}
                 {fmt(colTotals.mula)} canonical awakening events are early-canonical; the other{' '}
                 {fmt(data.v2 ? data.v2.stratigraphy.mula_early_vs_late['late-or-later'] : 261)} carry
-                the mūla tag while coding late-canonical, paracanonical, or commentary-era.
+                the mūla tag while their work codes late-canonical, paracanonical, or commentary-era.
               </p>
 
               {/* Table 2b relocated: the by-stratum re-split lives in the late-canon section. */}
@@ -665,7 +675,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                           <th style={thLeft}>Work (canonical class)</th>
                           <th style={thNum}>Events</th>
                           <th style={thLeft}>Chronological stratum</th>
-                          <th style={thLeft}>Layer/stratum disagree</th>
+                          <th style={thLeft}>Disagrees with layer (= not early)</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -691,6 +701,15 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                       </tbody>
                     </table>
                   </div>
+                  <p style={methodNote}>
+                    The stratum here is a reference-table value: each canonical event takes the stratum
+                    of its source work, read off a fixed work-to-stratum table, not a layer-by-layer
+                    judgement made afresh per row. The disagree column is therefore the same re-split
+                    seen from the other side. Every row whose stratum is not early-canonical (or
+                    archaic-canonical) counts as a disagreement by construction, so its{' '}
+                    {fmt(data.v2.stratigraphy.mula_early_vs_late.layer_stratum_disagree)} total is
+                    identical to the late-or-later count above, not an independent measurement.
+                  </p>
                 </>
               )}
 
@@ -748,8 +767,9 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                     deduplicated recollections) are the Buddha asserting his own awakening in the first
                     person, and the Buddha also declares others' attainments
                     ({fmt(data.v2.attribution.buddha_declares_another)} within this set; the Nādika
-                    destiny declarations across 29 mūla rows beyond it). Confirmed per-row by three
-                    independent blind coders (κ = 1.0).
+                    destiny declarations across 29 mūla rows beyond it). The {fmt(data.v2.attribution.buddha_vacana)} retained
+                    attribution rows were confirmed per-row by three independent blind coders (κ = 1.0);
+                    that figure scopes the attribution coding, not the precipitating-condition buckets.
                   </p>
                   <div style={tableWrap}>
                     <table style={table}>
@@ -777,10 +797,10 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                   <p style={methodNote}>
                     The voices sorted across the five layers resolve into four ways of telling. The
                     elder's own life-verse of the Apadāna carries 162; the disciple's own report of the
-                    Theragāthā and Therīgāthā, 59; the compiler's flat note, 46; and the lineage and
+                    Theragāthā and Therīgāthā, 59; the compiler's flat note, 48; and the lineage and
                     dialogue verse, 14 (the 10 lineage and frame verse of the Buddhavaṁsa and
                     Vimānavatthu, joined by the 4 dialogue rows of the Milindapañha). These four
-                    together carry 281 of the {fmt(colTotals.mula)}. Add the
+                    together carry 283 of the {fmt(colTotals.mula)}. Add the
                     {' '}{fmt(data.v2.attribution.buddha_vacana)} rows of the Buddha's own word and the
                     single row in which he declares another's stream-entry, and the
                     {' '}{fmt(colTotals.mula)} close. In each of the four, the awakening is something a
@@ -814,7 +834,7 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 {fmt(data.v2 ? data.v2.stratigraphy.mula_early_vs_late['early-canonical'] : 38)}. The census
                 reaches only awakenings told with one of the stock phrases, so every count is best read as a
                 measured floor rather than a proven-complete total. The{' '}
-                {fmt(data.v2 ? data.v2.attribution.buddha_vacana_dedup_recollections : 9)} recollections of the
+                {fmt(data.v2 ? data.v2.attribution.buddha_vacana_dedup_recollections : 7)} recollections of the
                 Buddha's own awakening are themselves a floor: the same first-person frame, searched in its own
                 right, turns up in some 48 places across the canon, most of them outside the {fmt(colTotals.mula)}.
                 The check against other textual traditions is a matter of whether a parallel exists, not of
@@ -930,8 +950,23 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
               <p style={tableCaption}>
                 Column key: Canon = Tipiṭaka (mūla); Comm. = aṭṭhakathā; Sub-comm. = ṭīkā;
                 Extra = extra-canonical. {fmt(colTotals.attha + colTotals.tika)} of {fmt(data.totals.events)} events
-                ({pct(colTotals.attha + colTotals.tika, data.totals.events)}) are commentarial;
-                only {fmt(colTotals.mula)} ({pct(colTotals.mula, data.totals.events)}) are in the canon itself.
+                ({pct(colTotals.attha + colTotals.tika, data.totals.events)}) are commentarial,{' '}
+                {fmt(colTotals.mula)} ({pct(colTotals.mula, data.totals.events)}) are in the canon itself,
+                and {fmt(colTotals.anya)} ({pct(colTotals.anya, data.totals.events)}) are extra-canonical, so the
+                three sum to the full {fmt(data.totals.events)}.
+              </p>
+              <p style={methodNote}>
+                One caveat governs how far the {pct(colTotals.attha + colTotals.tika, data.totals.events)} commentarial
+                share can be pressed. The event count is taken at the granularity of the row, and the
+                commentary was subdivided into roughly 330-character paragraph rows while the canon was
+                left at whole-sutta rows averaging some 2,975 characters, nine times larger; the
+                commentary also leans on stock markers the canon does not use (the closing formula
+                desanāpariyosāne, "at the conclusion of the talk", returns 0 mūla rows against 206 in the
+                aṭṭhakathā). A raw row count therefore reads as an upper bound on the commentarial lead.
+                Measured per million characters, which is robust to how finely each layer was cut, the
+                tilt is gentler but real: the commentary carries roughly 5.1 awakening events per million
+                characters against the canon, the aṭṭhakathā alone about 10.7 times the canonical density.
+                The direction holds; the raw magnitude rides the subdivision.
               </p>
 
               {/* A third lens: who attains, not what occasions it. Built from
@@ -1525,7 +1560,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 );
               })()}
               <h2 style={h2}>In the commentaries: the type fixed, the design vocabulary blooms</h2>
-              <p>From the para-canonical fork the commentary keeps only the temperament sense and hardens it into a fixed six-cell matrix of person against object, with the machinery for assigning one to the other (<Cite id="cst-s0103a.att-dn3_11_p002">Sv-a 11 §2</Cite>). The Visuddhimagga carries most of it: of the forty-three structurally-canonical rows that hold the disambiguated temperament compound, thirty are the Visuddhimagga, and the technical sense of <em>kammaṭṭhāna</em>, the meditation-subject, is effectively confined there too (134 of 147 rows), as is the closed list of forty subjects. This is the layer where the apparatus is built.</p>
+              <p>From the para-canonical fork the commentary keeps only the temperament sense and hardens it into a fixed six-cell matrix of person against object, with the machinery for assigning one to the other (<Cite id="cst-s0103a.att-dn3_11_p002">Sv-a 11 §2</Cite>). The Visuddhimagga carries most of it: of the forty-three structurally-canonical rows that hold the disambiguated temperament compound, thirty are the Visuddhimagga, and the technical sense of <em>kammaṭṭhāna</em>, the meditation-subject, appears to concentrate there as well (134 of 148 mūla rows carrying the word are the Visuddhimagga; the remaining fourteen, in AN, MN, and DN, read in the ordinary sense of an occupation or place of work rather than the meditative one, on a per-row reading recorded in the dataset), as does the closed list of forty subjects. This is the layer where the apparatus is built.</p>
               <p>What the wider reading adds is that the temperament grid does not bloom alone. A whole vocabulary for designing a teaching around a person's standing disposition appears at exactly this stratum and is near-absent below it. The word <em>ajjhāsaya</em>, a person's bent that the teaching is fitted to, occurs four times in the four Nikāyas and then more than seven hundred times in the aṭṭhakathā. The compound <em>āsayānusaya</em>, the knowledge of beings' underlying bent and latent tendency, and <em>veneyya</em>, the beings to be guided, are flatly zero in the canon and bloom only here (the aṭṭhakathā carries the first some fifty-five times, the second over two hundred). The two-vehicle split itself, the calm-vehicle and insight-vehicle practitioner and the dry-insight worker, is zero in the canon and appears only now. The commentary is not merely fixing one grid; it is acquiring a general habit of reading persons as standing types to be matched, a habit the canon did not have.</p>
               <p>That the diagnosis is fallible the commentary shows in a scene it tells against its own foremost analyst. A goldsmith's son ordains under Sāriputta, and the elder, reasoning that the young are full of lust, assigns him the contemplation of foulness (<em>asubha-kammaṭṭhāna</em>). Three months in the forest yield not a single moment of one-pointedness. The Buddha, seeing what inference could not, that the monk had worked beautiful gold for five hundred past lives, judges the repulsive object unfit and gives him a golden lotus to contemplate instead, on which he attains at once (<Cite id="cst-s0502a.att-234_p003">Dhp-a</Cite>, KN-a §234.3). Sāriputta is foremost among the disciples in wisdom, and wisdom is not what fails him here. Reading a person's disposition is a different cognition. It is the knowledge of beings' bent and the ripeness of their faculties, which belongs to the Buddha's powers and not to analysis. The story is the epistemic point in narrative form.</p>
               <p>And in the same breath the manual that fixes the grid declines to certify its most detailed part. The Visuddhimagga describes at length how a teacher might read a pupil's temperament, from how he walks and stands and eats and sleeps, and then takes it back: this method has come down neither in the canon nor in the old commentary, is stated only following the teachers' opinion, and so is not to be relied on as authoritative, <em>na sārato paccetabbaṃ</em> (<Cite id="cst-e0101n.mul-36_p030">Vism §36.30</Cite>). What it offers in place of the disowned method is telling: a teacher who can read minds directly will simply know the pupil's temperament, and one who cannot should ask. The diagnostic is not staked as the kind of knowing the canon reserves for what is directly seen; it is held as serviceable scholastic guidance, taught and kept. The tradition draws that line itself, at the very point where the apparatus is most elaborate.</p>
@@ -1539,7 +1574,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               <p>Some of it is already the Abhidhamma's work. The closed factor-analysis of the absorption (<em>jhānaṅga</em>) is absent from the four Nikāyas. It appears first in the seven Abhidhamma books, then multiplies in the commentaries. The change-of-lineage moment (<em>gotrabhū</em>) is barely present in the suttas and becomes a fixture of the Abhidhamma's analysis of the mind, at some two hundred rows there against six in the early canon. Other hardenings wait for the commentaries. Access and absorption concentration (<em>upacāra-samādhi</em>, <em>appanā-samādhi</em>) are named there for the first time, at zero canonical rows before. The temperament compound enters at the late-canonical and para-canonical hinge and fixes only in the commentary. And the own-nature language (<em>sabhāva</em>) climbs at every step, from a handful of canonical rows to some two thousand in the commentaries and near four thousand in the sub-commentaries, where it peaks. The latest layer hardens the hardest.</p>
               <p>The description of the world shows the same shape, on a thinner sample now counted the same way (the gated census is named in the reproducibility note). The kasiṇa that the canon offers as a measureless perception (<em>appamāṇa</em>, the boundless pole set against the limited, <em>paritta</em>) becomes a manufactured clay disc in the commentary, fitted with a counterpart-sign progression the canon does not have. The cosmos follows, and at more than one jump. The early discourses gesture at scale, as in the ten-thousandfold world-system that shakes under a measureless light (<em>appamāṇo obhāso</em>) at the awakening, vast but unbounded; the later layers bound and furnish it. The world-sphere (<em>cakkavāḷa</em>) is named twice in the four Nikāyas, and there it is an open plurality, a succession of world-spheres in a verse of marvels. The enclosing rim-wall that makes it a bounded object (<em>cakkavāḷapabbata</em>) has no canonical warrant at all. It blooms in the commentary and densifies again in the sub-commentary. The eight great hells are named and counted only in a late Jātaka and fixed in the commentary, where Avīci acquires its four gates and heated-iron floor (<em>avīcimahāniraya</em>) and each great hell its ring of sixteen subsidiaries (<em>ussada-niraya</em>). The bare hell-names that look early are homonyms, the disciple Sañjīva, a discourse on times, the king Mahāpatāpa, and not the places. The Buddha's body, left unmeasured in the canon, is given a one-fathom aura (<em>byāmappabhā</em>) in the late verse and an exact eighteen-cubit height in the commentary, each past Buddha drawn to a different cubit-figure. The three realms, named one by one in the suttas, are closed into the exhaustive sense-sphere, fine-material, and immaterial taxonomy (<em>kāmāvacara</em>, <em>rūpāvacara</em>, <em>arūpāvacara</em>) only in the Abhidhamma. And the in-between attainer of the canon, an adjective for one kind of non-returner (<em>antarā-parinibbāyī</em>), hardens into a reified intermediate existence (<em>antarābhava</em>) that the Abhidhamma stages as a dispute and the sub-commentary takes up most of all. The destruction-phase compound <em>kappavināsa</em> is likewise absent from the four Nikāyas and the Abhidhamma, built in the commentary, and carried further in the sub-commentary.</p>
               <p>This register has its own counter-currents, and the census keeps them counted. The canon often states an exact figure already: the lifespans of beings and the lengths of past aeons are numbered in the Buddha's own voice (<Cite id="dn14">DN 14</Cite>, <Cite id="dn26">DN 26</Cite>), and Mount Sineru is given its exact measure, eighty-four thousand <em>yojana</em> broad and deep, in the four Nikāyas themselves (<Cite id="an7.66">AN 7.66</Cite>). What the later strata add is the systematizing of such figures, the dimensioning of the whole cosmic architecture in <em>yojana</em>; the first figure for Sineru is already canonical. The unit <em>yojana</em> is thoroughly canonical, used for ordinary distance. The canon also keeps some things open and the commentary keeps them open too. Whether the world is finite or infinite is a question the Buddha set aside, and no later layer fills it in (the <em>avyākata</em>, <Cite id="an10.95">AN 10.95</Cite>). One early discourse already sorts a measured mind-deliverance from a measureless one and guards the measureless from being bounded (<Cite id="mn127">MN 127</Cite>), and the canon names an explicitly infinite object of its own, the base of the infinity of space (<em>ākāsānañcāyatana</em>). The beginning of saṃsāra is refused a figure (<em>anamatagga</em>) and stays refused; the boundless heart of mettā (<Cite id="snp1.8">Snp 1.8</Cite>) stays boundless, and where the commentary develops it the move is toward more boundlessness rather than less. Even the goal divides this way. The canon's word for the unconditioned is largely privative, the unborn and the unmade (<Cite id="ud8.3">Ud 8.3</Cite>), though it also carries a set of positive epithets (the Asaṅkhata-saṃyutta, SN 43); what the later cosmology adds is the tiered and measured afterworld the early texts do not draw. So the world-description register confirms the persons register's tendency on a smaller sample. Of about two dozen transitions counted this way, roughly three in four localize to a jump and the jumps are several, not one, while a real minority run the other way, the cases the canon already fixed and the cases it refuses to fix.</p>
-              <p>Two limits bound this reading and are owed to the reader. The stratum coding is done from a work's place in the tradition's own development, independently of how essentializing its language is, so "essence increases with lateness" is not simply assumed; yet the two are not wholly separable, and the gradient is best read as partly definitional. And the move tracked here, from an open function to a fixed type or measure, is not always sharply distinct from ordinary scholastic elaboration. What marks it as essentialization rather than housekeeping is the shift from a present-tense or relational reading to a standing-property one, plain in the <em>carita</em> and <em>sabhāva</em> cases and visible only by direction in the thinner ones.</p>
+              <p>Two limits bound this reading and are owed to the reader. The stratum coding is done from a work's place in the tradition's own development, independently of how essentializing its language is, so "essence increases with lateness" is not simply assumed; yet the two are not wholly separable, and the gradient is best read as partly definitional. This caution applies most directly to the climb of own-nature (<em>sabhāva</em>) language traced in finding G1 below, where the count rises from near-zero in the canon to thousands in the aṭṭhakathā and peaks in the ṭīkā: the stratum a row belongs to is itself a work-slug lookup, so a reader should hold the essence-rises-with-lateness reading of that climb against the concession that stratum and essentializing language partly co-vary by construction. And the move tracked here, from an open function to a fixed type or measure, is not always sharply distinct from ordinary scholastic elaboration. What marks it as essentialization rather than housekeeping is the shift from a present-tense or relational reading to a standing-property one, plain in the <em>carita</em> and <em>sabhāva</em> cases and visible only by direction in the thinner ones.</p>
               <p>Of the two dozen or so transitions counted this way, most localize to a single jump. A clear minority run against the trend, and they are not few. The canon already carries fully built typologies, so systematization is not simply late. The Abhidhamma sometimes carries an early present-tense reading forward unchanged rather than hardening it. The Visuddhimagga disowns its own most detailed diagnostic. And one canonical signature runs the other way entirely: the explicit declaration that persons differ (<em>puggalavemattatā</em>) is loudest in the early canon and fades in the later layers. So the pattern is a strong tendency with named exceptions, not a law, and the exceptions are the divergence, the addition, and the regression seen from the side of the count.</p>
               <h3 style={h3}>Calm, insight, and how much concentration the path asks</h3>
               <p>The same function-to-essence shape governs the most-disputed corner of this material, the relation of calm (<em>samatha</em>) to insight (<em>vipassanā</em>). The canon treats their balance as a present situation to correct, not as a kind of person. Ānanda's discourse on the pair (<Cite id="an4.170">AN 4.170</Cite>) lays out four routes to the same goal: calm before insight, insight before calm, the two yoked together (<em>yuganaddha</em>), and the mind seized by agitation about the teaching that then settles. A practitioner takes whichever answers what they presently have too much or too little of. So the canon does imply something like a dry and a wet temperament, but only situationally, for the person who already leans one way; it is never made explicit and never made a fixed type. The commentary is what freezes it, into the calm-vehicle and insight-vehicle practitioner and the dry-insight worker (<em>samathayānika</em>, <em>vipassanāyānika</em>, <em>sukkhavipassaka</em>). These are zero in the canon and only in the commentary, the same late signature as <em>carita</em>.</p>
@@ -1562,7 +1597,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               <h2 style={h2}>Findings of general importance (beyond this study's question)</h2>
               <p>Patterns the wider reading turned up that matter past the question of person-and-practice, recorded here so they are not lost inside it. Each notes what it is and where it is grounded, and each surfaced from this survey (June 2026); each is a found, evidenced pattern, not a conjecture.</p>
               <h3 style={h3}>G1. A corpus-wide drift from function-language to own-nature language</h3>
-              <p>The word <em>sabhāva</em>, own-nature or intrinsic essence, is effectively absent from the canon and runs to the thousands in the commentaries and sub-commentaries (roughly 1,900 in the aṭṭhakathā and 3,950 in the ṭīkā, against a canonical floor near zero, once the unrelated compounds <em>purisabhāva</em> and <em>ekaṃsa-bhāvita</em> are set aside). The freezing of a person's present conduct into a fixed temperament is one local instance of a much larger movement, measurable across the whole corpus, in which the tradition's vocabulary shifts from describing what a thing does to asserting what it is by own-nature. This is a datum for the long-running scholarly question of when Theravāda acquired a substantialist ontology. <em>Where:</em> <em>sabhāva</em> layer split, canon ≈ 0 / attha 1,906 / vism 553 / tika 3,951. <em>Confidence:</em> high.</p>
+              <p>The word <em>sabhāva</em>, own-nature or intrinsic essence, is effectively absent from the canon in the technical sense and runs to the thousands in the commentaries and sub-commentaries (roughly 1,900 in the aṭṭhakathā, and the count peaks in the ṭīkā), once the unrelated compounds <em>purisabhāva</em> and <em>ekaṃsa-bhāvita</em> are set aside. The few canonical stem-hits (some 65 raw rows in the mūla) carry those other compounds, not the own-nature term, so the technical sense reads as near-zero in the canon rather than literally nil. The freezing of a person's present conduct into a fixed temperament is one local instance of a much larger movement, measurable across the whole corpus, in which the tradition's vocabulary shifts from describing what a thing does to asserting what it is by own-nature. This is a datum for the long-running scholarly question of when Theravāda acquired a substantialist ontology. The climb is read against the partly-definitional caution stated above: because the stratum a row sits in is a work-slug lookup, the rise of <em>sabhāva</em> across the strata and the lateness coding partly co-vary by construction, so the gradient is reported as a measured tendency, not a proof that essence-language tracks calendar date. <em>Where:</em> <em>sabhāva</em> by stratum (census of record), canon ≈ 0 in the technical sense (65 raw mūla stem-hits, all other compounds) / aṭṭhakathā ≈ 1,900, of which the Visuddhimagga ≈ 98 / ṭīkā ≈ 4,406, where it peaks. <em>Confidence:</em> high.</p>
               <h3 style={h3}>G2. An early canonical principle of assortative association</h3>
               <p>In the Saṃyutta the Buddha states, of beings in general, that by disposition beings flock together and keep company (<em>dhātuso sattā saṃsandanti samenti</em>): the low-minded consort with the low-minded, the virtuous with the virtuous, the faithless with the faithless (<Cite id="sn14.14">SN 14.14</Cite>, running on through the Dutiyavagga; seventeen canonical rows carry the formula). The combining is associative, the company a being seeks and falls into, not kinship or mating. The mechanism is named, a shared <em>dhātu</em> or disposition, and the formula is run through some sixteen dispositions in turn, the faithless, the shameless, the unconscientious, the unlearned, the lazy, the unmindful, the witless, and their opposites, so the canon asserts it as a continuous regularity before any finite catalogue of person-types exists. One guard is owed, because the same collection trades on two senses of the word. A few suttas earlier the Dhātu-saṃyutta uses <em>dhātu</em> in its other, technical sense, the eighteen elements of cognition (the eye-element, the form-element, the eye-consciousness-element, the diversity-of-elements teaching of its first chapter); the homophily formula is the disposition sense, not that one, and the seventeen rows counted here are the disposition formula read on the page, not the element-diversity suttas. So read, the finding is a canonical sociology of association, of interest to anyone studying how a tradition theorizes social grouping, and bearing not at all on the matching of a practice to a person. <em>Where:</em> <Cite id="sn14.14">SN 14.14</Cite> to SN 14.29 (the Dutiyavagga), e.g. <Cite id="sn14.14">SN 14.14</Cite>, SN 14.17, SN 14.25; distinct from the eighteen-element <em>dhātu</em> of SN 14.1 to SN 14.13. <em>Confidence:</em> high.</p>
               <h3 style={h3}>G3. A describe-early, name-late signature in scholastic terminology</h3>
@@ -1598,8 +1633,10 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 the Nikāyas; and calm and insight read as a yoked pair, with the dry-insight split a
                 commentarial construction. The plainer reading, taken as the null, is that the apparatus is
                 uniformly commentarial against a uniformly canonical core, with every commentarial assignment
-                tracing to a canonical warrant. The prior expectation was a split rather than a clean win for
-                either, and that is roughly what the cell-by-cell reading shows.
+                tracing to a canonical warrant. The warrant-tier figures that follow are a descriptive coding
+                output rather than a test of these readings: each decidable assignment cell is coded as
+                warrant-present or warrant-absent, and the split that results is read off the coding, not won
+                against an independent prediction.
               </p>
 
               {/* 2. LITERATURE */}
@@ -1633,9 +1670,9 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 (2019) document that <em>kammaṭṭhāna</em> in its technical sense, a meditation subject, is a
                 commentarial usage; in the canon the word means an occupation or place of work. A frozen
                 database count confirms this for the corpus and corrects an earlier overstatement here: the word
-                does occur in the four Nikāyas, but in the ordinary sense alone (a livelihood,
-                farming or trade or cattle-keeping; the household occupation), with the meditative sense
-                effectively confined to the Visuddhimagga.
+                does occur in the four Nikāyas, but in the ordinary sense (a livelihood,
+                farming or trade or cattle-keeping; the household occupation) on a per-row reading of those
+                rows, with the meditative sense concentrating in the Visuddhimagga.
               </p>
               <p>
                 On the typologies, the Puggalapaññatti, the Abhidhamma book of human types translated by Law
@@ -1827,14 +1864,16 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               </p>
               <p>
                 One reading of the table needs a word first, because its rows divide object-assignment by how it
-                was gathered, not by where it sits. Assigning a meditation object to a named person runs to 29
-                canonical instances against roughly 204 commentarial ones. The canonical 29 are the first
+                was gathered, not by where it sits. Object-assignment on the canonical side runs to 29
+                instances against roughly 204 commentarial ones. The canonical 29 are the first
                 object-assignment row; the commentarial side is split across three rows, the five curated
                 exemplars in that same first row, the ten cells of the temperament matrix, and the 189 narratives
                 of the expansion row. So the contrast the survey turns on is 29 against some 204, not the
-                29-against-5 that the first row, read by itself, might seem to say. The canon does assign objects
-                to named people, to Meghiya, Rāhula, Girimānanda, Nandā; it does so by present situation, and far
-                less often than the commentary, which assigns by temperament and at volume.
+                29-against-5 that the first row, read by itself, might seem to say. Most of the 29 are spoken to a
+                named pupil in a present situation, to Meghiya, Rāhula, Girimānanda, Nandā; a minority, roughly
+                nine, are addressed to the assembly or are past-life narrative verses of the Apadāna rather than
+                a present one-to-one assignment. The canon does assign objects to named people by present
+                situation, then, and far less often than the commentary, which assigns by temperament and at volume.
               </p>
 
               <h3 style={h3}>Table 1. Guidance instances by analytic group and tier</h3>
@@ -2102,8 +2141,8 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 reading of the person that the canon never offers.
               </p>
               <p>
-                Read cell by cell, the picture is the expected split rather than a clean win for either side.
-                Of fifteen decidable assignment cells, eight carry a canonical warrant and seven do not. Four of the eight rest on the
+                Read cell by cell, the coding sorts the cells as follows. Of fifteen decidable assignment
+                cells, eight trace to a canonical warrant and seven do not. Four of the eight rest on the
                 four Nikāyas, chiefly the Meghiya antidote formula; the other four rest only on the Khuddaka
                 texts that lie outside the four primary Nikāyas, the Cūḷaniddesa (which already keys objects to
                 the temperament types of greed, delusion and the rest) and the Paṭisambhidāmagga, and the table
@@ -2218,13 +2257,17 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 Read by warrant, this larger body does not overturn the ledger; it extends it. Each of the
                 {' '}{fmt(data.aggregates?.expansion_ledger?.total || 0)} added instances was read again, by two
                 independent readers, against the same warranted-or-not question the fifteen-cell ledger asks,
-                with the canonical warrant named and checked against the corpus: {fmt(data.aggregates?.expansion_ledger?.H0 || 0)}{' '}
-                carry a canonical warrant, resting on a canonical object keyed as the canon keys it, and
+                with the canonical warrant named and checked against the corpus. The two figures below report how
+                that one coding rule, a canonical object with no temperament-typing and no Visuddhimagga-only
+                technique counts as warranted, sorts the expansion rows: {fmt(data.aggregates?.expansion_ledger?.H0 || 0)}{' '}
+                trace to a canonical warrant, resting on a canonical object keyed as the canon keys it, and
                 {' '}{fmt(data.aggregates?.expansion_ledger?.H1 || 0)} do not, the keying being the commentary's
-                own. The split is close to even, and it falls about where expected: the objects the
-                commentary assigns are, in the main, the canon's own, but the apparatus that fits a standing
+                own. The distribution is close to even: the objects the
+                commentary assigns are, in the main, the canon's own, while the apparatus that fits a standing
                 object to a standing temperament, and the teacher-diagnosis that reads it, carries no canonical
-                warrant. The {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
+                warrant. Since the rule is the study's own object-versus-apparatus distinction, the split
+                describes how that distinction partitions the rows; it is not an independent confirmation of it.
+                The {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
                 instances the two readers disagreed on were resolved by one stated rule: a canonical object with
                 no temperament-typing and no Visuddhimagga-only technique counts as warranted. Each figure below
                 opens the full list of its instances, every warrant resolving to a passage.
@@ -2450,9 +2493,14 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 enumeration rests on a candidate frame built by direct database query rather than on the search
                 service; within the tradition's closed lists and the secondary literature it is saturated, but
                 that saturation is structural, not a proof that the open corpus holds no further instance
-                phrased in terms the frame did not cover. Two notes on method. The warrant ledger for the
+                phrased in terms the frame did not cover. Two notes on method. The agreement reported here is
+                qualitative, not a numeric coefficient: whether a candidate belonged in the frame at all was
+                multi-coded, with the disagreements adjudicated; the warrant-tier calls that assign a cell to
+                sutta, para-canon, or none are single-investigator, named and checked against the corpus rather
+                than independently re-scored, so the eight-and-seven split is reported as an auditable coding,
+                not as a measured inter-coder result. The warrant ledger for the
                 commentarial additions was re-checked against the warranted-or-not test by two independent
-                readers, with each warrant named and checked against the corpus; the {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
+                readers; the {fmt(data.aggregates?.expansion_ledger?.split_resolved || 0)}{' '}
                 cells they split on were resolved by one stated rule rather than a third pass, and every cell is
                 exposed per instance for inspection. And several gaps named in the earlier pass are now closed
                 and carried in the dataset: the forty objects of the Visuddhimagga
@@ -2470,8 +2518,9 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 range, coded on a fixed scheme, split canon against commentary, with each instance resolving to
                 a passage a reader can open and check. On top of that the study offers three results. It
                 quantifies the canon-versus-commentary difference in object-assignment as a clean contrast of
-                keys, defilement and situation against temperament. It puts a count to the warranted-or-not question,
-                eight cells warranted and seven not, and it reports the warrant tier rather than collapsing the
+                keys, defilement and situation against temperament. It reports, as a descriptive coding output,
+                how the warranted-or-not question sorts the fifteen decidable cells, eight tracing to a warrant
+                and seven not, and it reports the warrant tier rather than collapsing the
                 eight into a single canonical voice. And for this corpus the calm-and-insight evidence leans
                 toward the yoked reading, on the evidence enumerated, including the absence across
                 the enumerated discourses of any insight-alone assignment to a named person, which is
@@ -2484,8 +2533,9 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 Khuddaka's analytical and para-canonical works: the Mahā- and Cūḷaniddesa, the Nettippakaraṇa,
                 the Peṭakopadesa, and the Milindapañha. The Paṭisambhidāmagga, sometimes taken as the home of
                 this terminology, carries none. The remaining occurrences are the verb and the
-                good-or-bad-conduct senses. The meditative sense of <em>kammaṭṭhāna</em>, likewise confirmed by
-                an exact count, is effectively confined to the Visuddhimagga.
+                good-or-bad-conduct senses. The meditative sense of <em>kammaṭṭhāna</em>, likewise counted,
+                concentrates in the Visuddhimagga: of the 148 mūla rows that carry the word, 134 are the
+                Visuddhimagga, and the remaining fourteen, read row by row, carry the ordinary occupation sense.
               </p>
 
               {/* REFERENCES */}
@@ -2707,8 +2757,9 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 companion to the guidance census sorts where a term and a concept sit across the three
                 composition layers of this literature, the discourses, the seven analytic Abhidhamma books, and
                 the commentaries. What the data seem to say, in brief: the name of the heart-base is absent
-                from the canon, while the bare concept it names is present in one late canonical book, the
-                Paṭṭhāna, left unnamed; the commentary supplies the name and seats the life-continuum upon it.
+                from the canon, while the bare concept it names is present in the late canonical Abhidhamma,
+                left unnamed: the Paṭṭhāna posits a material support for mind, and the Dhammasaṅgaṇī leaves the
+                mind-base indeterminate; the commentary supplies the name and seats the life-continuum upon it.
                 The same shape, an early practice with its route-map drawn late, recurs for the life-continuum
                 (bhavaṅga) and for the named insight-ladder. For two other structures, the three roots and the
                 analytical categories, the suttas already carry the material and the Abhidhamma systematizes
@@ -2793,7 +2844,7 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 process-model built on it, the citta-vīthi, is the commentary's surplus, not the canonical
                 term. The analytical ground the insight works on, the aggregates, sense-bases, elements and
                 dependent origination, is Abhidhamma, the Vibhaṅga's chapters (<Cite id="vb1">Vibh 1</Cite>,{' '}
-                <Cite id="vb2">Vibh 2</Cite>, <Cite id="vb6">Vibh 6</Cite>); the three roots are Abhidhamma
+                <Cite id="vb2">Vibh 2</Cite>, <Cite id="vb3">Vibh 3</Cite>, <Cite id="vb6">Vibh 6</Cite>); the three roots are Abhidhamma
                 too, the three unwholesome roots of the Dhammasaṅgaṇī and the Vibhaṅga
                 (<Cite id="cst-abh02m.mul-226">Vibh §226</Cite>). But the named graded ladder, rise-and-fall
                 knowledge, dissolution knowledge, comprehension, equanimity about formations, returns nothing
@@ -2877,12 +2928,20 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 name to the concept, and the count held. It is not corpus size, since 654, 190, and 264
                 attestations are room enough for the heart-base to have entered the register had the texts wanted
                 it there. It is not a synonym hiding the hit, since the concept search reached only the unnamed
-                Abhidhamma posit, and that posit is itself never verified either. So the seat of mind is assumed as
-                given, posited and leaned upon, never once put to the canon's own test of direct knowing that it
-                reserves for the four truths and the ending of the taints. The silence does not license the
-                stronger and quite different claim that the tradition doubted the heart-base; there is no sign of
-                doubt, and no sign of testing. It is stated flat, built upon heavily, and never staked under the
-                register the canon keeps for what it says it knows.
+                Abhidhamma posit, and that posit is itself never verified either. A further check sets the bound
+                more carefully. One might read the zero as a downgrade peculiar to the heart-base; a matched
+                control shows it is partly the grammar of material supports in general. The eye-base
+                (<em>cakkhu-vatthu</em>), a material seat coded the same way, also never falls in the same window
+                as a verification formula, while bhavaṅga, which names an experienced state rather than a posited
+                seat, does so in eight rows. So the seat of mind is assumed as given, posited and leaned upon,
+                never once put to the canon's own test of direct knowing that it reserves for the four truths and
+                the ending of the taints, and it shares that non-verified grammar with material supports as a
+                class. The silence does not license the stronger and quite different claim that the tradition
+                doubted the heart-base; there is no sign of doubt, and no sign of testing. The firmer in-corpus
+                witness that the heart-identification is a posit comes from the sub-commentary's own admission,
+                read below, that the heart-base is <em>Pāḷiyaṃ anāgata</em>, not handed down in the canonical text.
+                It is stated flat, built upon heavily, and never staked under the register the canon keeps for
+                what it says it knows.
               </p>
 
               <h2 style={h2}>In the sub-commentaries</h2>
@@ -2953,7 +3012,11 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 reader. Column key as in the guidance census: Sutta = the four Nikāyas and prose Khuddaka;
                 Abhi. = the Abhidhamma Piṭaka; Para-c. = the para-canonical Khuddaka analytical works
                 (Nettippakaraṇa, Peṭakopadesa, Paṭisambhidāmagga, Niddesa); Comm. = aṭṭhakathā, ṭīkā, and the
-                Visuddhimagga.
+                Visuddhimagga. A cell reading only "Present." marks a structure the suttas carry pervasively
+                rather than at one locus (the three unwholesome roots; the aggregate, sense-base, element and
+                dependent-origination categories); these contrast-class cells are exempt from the per-cell
+                anchor rule, the analytic point being the later layers' systematization, not the sutta
+                attestation, which is not in question.
               </p>
               <div style={tableWrap}>
                 <table style={table}>
@@ -3048,6 +3111,25 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                             <span key={i}>{i ? ' · ' : ''}<Cite id={r.anchor?.id}>{r.anchor?.label}</Cite></span>
                           ))}
                         </p>
+                        {v.gradient_caveat && (
+                          <p style={methodNote}>
+                            One caution on reading the rising bhavaṅga presence across the layers as a pure
+                            measure of interest. The commentary was ingested at paragraph granularity and the
+                            canon at whole-sutta granularity, so a raw hit-count ramp partly tracks text bulk:
+                            the aṭṭhakathā and ṭīkā together hold roughly 58 million characters against the
+                            canon's 53.5 million, spread over far more, far smaller rows. Normalized to a rate
+                            per million characters the ramp keeps its direction but loses much of its
+                            magnitude: bhavaṅga runs at about{' '}
+                            {v.gradient_caveat.bhavanga_per_million_chars.canon} per million characters in the
+                            canon, {v.gradient_caveat.bhavanga_per_million_chars.atthakatha} in the
+                            aṭṭhakathā, and {v.gradient_caveat.bhavanga_per_million_chars.tika} in the ṭīkā.
+                            The signal is genuine, not an artifact: the aṭṭhakathā holds more rows than the
+                            ṭīkā yet fewer raw bhavaṅga hits (235 against 569), so the density still climbs
+                            from one to the next independently of row count. The zero-based claims, bhavaṅga
+                            absent in the four Nikāyas and the heart-base name absent in the seven Abhidhamma
+                            books, do not ride this confound at all.
+                          </p>
+                        )}
                       </>
                     )}
 
@@ -3081,6 +3163,28 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                               </tbody>
                             </table>
                           </div>
+                        )}
+                        {v.epistemic.negative_control && (
+                          <>
+                            <p style={{ marginTop: 12 }}>
+                              A negative control sets the bound on what this absence shows. If a material
+                              seat of cognition simply never enters the verification register, that is the
+                              grammar of supports rather than a downgrade peculiar to the heart-base. A
+                              matched material support, the eye-base (<em>cakkhu-vatthu</em>), behaves the
+                              same way: it co-occurs with a verification formula{' '}
+                              {v.epistemic.negative_control.control_support.verification_cooccurrence} times,
+                              exactly like the heart-base. By contrast bhavaṅga, which names an experienced
+                              state rather than a posited seat, does enter the register in{' '}
+                              {v.epistemic.negative_control.contrast_relatum.verification_cooccurrence} rows,
+                              so the zero is not an artifact of every Abhidhamma-adjacent term. The reading
+                              that survives this control is the firmer and narrower one: the heart-base
+                              shares the non-verified grammar of material supports as a class, a finding
+                              consistent with a doctrine-specific downgrade but not by itself a proof of one.
+                              The stronger and independent support for "posited" is the harmonization
+                              witness below, where the sub-commentary itself records the heart-base as{' '}
+                              <em>Pāḷiyaṃ anāgata</em>, "not handed down in the text."
+                            </p>
+                          </>
                         )}
                       </>
                     )}
@@ -3146,7 +3250,11 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
               <h3 style={h3}>Limits and sources</h3>
               <p>
                 The not-in-the-Abhidhamma verdicts rest on negative controls, searches that return nothing
-                across the seven books; reliable here but sensitive to spelling and stemming. The dating of the
+                across the seven books; reliable here but sensitive to spelling and stemming. The keystone
+                counts those verdicts turn on, the heart-base name absent from the four Nikāyas and the seven
+                Abhidhamma books, the Paṭṭhāna posit, and the eye-base and bhavaṅga verification controls, are
+                recorded in a committed audit file (research/heart-base/counts-snapshot.json) and checked
+                against it on every build, so the load these zeros carry is auditable from the repository. The dating of the
                 Abhidhamma and the account of its origin are secondary and scholarly, not corpus-verified. The
                 long-course claim is attributed testimony about confidential material. Three rows an earlier
                 pass left partial are now grounded per row in the table above: the cognitive-process vocabulary
@@ -3278,8 +3386,11 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 passage in the corpus ({nCensus} rows), reads {nFeat} distinct features of the continent, and
                 asks where the picture of it actually sits and how firmly the texts commit to it. The shape
                 that emerges qualifies the familiar division between a thin canon and a thick commentary. The
-                picture grows more concrete as the texts grow later, and that deepening seems to be under way
-                inside the late canon rather than waiting for the commentary; the geography is stated as
+                picture grows more concrete as the texts grow later, and that deepening appears to begin inside
+                the late canon rather than waiting for the commentary; the gradient is best read as
+                register-relative rather than as a proven chronology, since the strata are sorted partly by
+                genre and the early-canonical rows are all Aṅguttara, so the trend is confounded with both; the
+                geography is stated as
                 assumed background and never staked under the canon's own test of directly-verified knowledge;
                 and the ethnography is inherited and broadly shared, while the soteriological judgement built
                 on it appears, on the evidence to hand, only in the Pāli. The canon supplies the frame, a
@@ -3307,16 +3418,23 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                   </p>
                   <p style={{ margin: '0 0 8px' }}>
                     The structural tag "canonical" marks a row's position in the edited corpus, not its date,
-                    and the canon is itself layered. Once a row's chronological stratum is read from its work
-                    and register rather than from its shelf, the canonical frame divides: of the{' '}
+                    and the canon is itself layered. The mūla rows are counted one per recension, so a
+                    SuttaCentral row and its Chaṭṭha-Saṅgāyana sibling are two rows for one discourse; the
+                    figures below are reported both ways. Once a row's chronological stratum is read from its
+                    work and register rather than from its shelf, the canonical frame divides: of the{' '}
+                    {ag.recension_dedup.mula_distinct_works} distinct canonical works behind the{' '}
                     {ag.layer_count.mula} structurally-mūla rows, only{' '}
-                    <strong>{ag.mula_early_vs_late['early-canonical']}</strong> read as genuinely
-                    early-canonical (the bare name in a list or a comparison); the other{' '}
-                    <strong>{ag.mula_early_vs_late['late-or-later']}</strong> carry the canonical tag while
-                    reading late-canonical, Abhidhamma, paracanonical, or commentary-era by composition. The
-                    literal-place reading is thinner in the terse early registers and more concrete in the
-                    later and more narrative ones, a gradient that is partly a restatement of how the strata
-                    were defined, and so not, by itself, a proof of change over time.
+                    <strong>{ag.mula_early_vs_late.early_distinct_works}</strong> read as genuinely
+                    early-canonical (the bare name in a list or a comparison): the three discourses AN 3.80,
+                    AN 9.21, and AN 10.29, which surface as{' '}
+                    {ag.mula_early_vs_late['early-canonical']} rows because each is counted in two recensions.
+                    That is roughly one early work in six, a clear minority; the remaining works carry the
+                    canonical tag while reading late-canonical, Abhidhamma, paracanonical, or commentary-era by
+                    composition. The literal-place reading is thinner in the terse early registers and more
+                    concrete in the later and more narrative ones, a gradient that is partly a restatement of
+                    how the strata were defined, and so not, by itself, a proof of change over time. The
+                    early-canonical works are, moreover, all Aṅguttara, so the gradient is confounded with
+                    genre as well as with the stratum coding.
                   </p>
                   <p style={{ margin: '0 0 8px' }}>
                     The ethnographic template seems to be shared across traditions (the Aggañña rice has
@@ -3327,10 +3445,15 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                     concrete without ever growing more warranted.
                   </p>
                   <p style={{ ...tinyNote, margin: 0 }}>
-                    Three readers coded each row's textual layer and stratum independently and reconciled the
-                    codings; agreement was high, and highest on the chronological-stratum reading the gradient
-                    turns on:{' '}
+                    A note on what was measured against what. The per-row stratum is assigned by a fixed
+                    work-to-stratum reference table (every row of a given work takes that work's stratum), so
+                    no inter-annotator statistic attaches to the {ag.layer_count.mula}-row split itself; there
+                    is no row-level κ for it. The agreement figures below are the feature-level coding, where
+                    three readers independently coded each of the {rel.features} features for its chronological
+                    stratum and the related signature properties:{' '}
                     {Object.entries(rel.signature_iaa || {}).map(([k, v], i) => `${i ? ' · ' : ''}${k.replace(/_/g, ' ')} ${v}`).join('')}.
+                    The {rel.signature_iaa && rel.signature_iaa.chronological_stratum} on chronological stratum
+                    is therefore agreement over the 16 features, not over the row split the panel above reports.
                   </p>
                 </div>
               )}
@@ -3377,10 +3500,11 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 though fixed, is given no figure. The early canon offers a named continent, a propertyless
                 people, a fixed-but-unmeasured life, and the bare soteriological ranking; nothing is located
                 precisely, measured, visited, or described. Once a row's stratum is read from its work rather
-                than its shelf, this early floor is the{' '}
-                <strong>{ag.mula_early_vs_late['early-canonical']}</strong> of the {ag.layer_count.mula}{' '}
-                structurally-canonical rows where shelving and composition agree; the other{' '}
-                {ag.mula_early_vs_late['late-or-later']} read later than they are filed.
+                than its shelf, this early floor is{' '}
+                <strong>{ag.mula_early_vs_late.early_distinct_works}</strong> distinct discourses (counted as{' '}
+                {ag.mula_early_vs_late['early-canonical']} rows, since each is shelved in two recensions) of the{' '}
+                {ag.recension_dedup.mula_distinct_works} distinct canonical works behind the{' '}
+                {ag.layer_count.mula} structurally-mūla rows; the rest read later than they are filed.
               </p>
               <p>
                 A bare search is a trap, in two ways, and the way the continent was searched is itself part of
@@ -3483,8 +3607,10 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 descriptive side the continent is finally measured: the Visuddhimagga gives it eight thousand
                 yojanas across, each great continent ringed by five hundred small islands, and the canon's bare
                 "fixed span" is closed to a figure, "settled at just a thousand years," a number the commentary
-                supplied rather than recovered (the one canonical row pairing "a thousand years" with the
-                continent assigns those years to a flowering creeper, not to the people). On the soteriological
+                supplied rather than recovered (where the canon does pair "a thousand years"
+                (<em>vassasahassa</em>) with Uttarakuru by name, as at{' '}
+                {data.context.thousand_year_creeper.cites.map((c, i) => <span key={c.id}>{i ? ' and ' : ''}<Cite id={c.id}>{c.label}</Cite></span>)},
+                it assigns those years to a flowering creeper, not to the people). On the soteriological
                 side the commentary at last names the verdict, identifying the Uttarakurukas with the
                 disqualifying category the Abhidhamma had left unattached. This is the layer where the picture
                 is most concrete, and so the right place to gather the thread that has run flat under every
@@ -3500,14 +3626,18 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 pericope, in which the speaker reports seeing, with the purified eye that surpasses the human,
                 beings passing away and being reborn, faring according to their deeds. The object of that seeing
                 is fixed, and it is vertical, who is reborn where, low or high, fair or foul, by their conduct.
-                Attested on the order of 124 times across the corpus, the formula never once ranges over
-                geography. The honest objection is that the divine eye and the continent might still fall in one
-                passage, and that such a meeting would license reading the place as verified. Five canonical rows
-                do carry both the divine-eye formula and the name Uttarakuru, but in every one the two sit far
-                apart, the nearest separated by nearly five thousand characters and the farthest by more than two
-                hundred thousand, the eye verifying rebirth-destiny in one pericope while the continent sits
-                chapters away in the same edited volume. There is no window in which the formula takes the
-                continent as its object. So across every register where the tradition asks where beings are
+                Attested {data.context.divine_eye_control.counts.divine_eye_attestations} times across the
+                corpus by database count, the formula never once ranges over geography. The honest objection is
+                that the divine eye and the continent might still fall in one passage, and that such a meeting
+                would license reading the place as verified. Exactly{' '}
+                {data.context.divine_eye_control.counts.mula_rows_with_both} mūla rows do carry both the
+                divine-eye formula and the name Uttarakuru, but in every one the two sit far apart, the nearest
+                separated by nearly five thousand characters and the farthest by more than two hundred thousand,
+                the eye verifying rebirth-destiny in one pericope while the continent sits chapters away in the
+                same edited volume;{' '}
+                {data.context.divine_eye_control.counts.short_adjacency_windows === 0 ? 'in none of them' : `in ${data.context.divine_eye_control.counts.short_adjacency_windows}`}{' '}
+                is there a short adjacency window in which the formula takes the continent as its object. So
+                across every register where the tradition asks where beings are
                 reborn and whether that reckoning is verified, the northern continent is absent by name at full
                 search depth: the silence licenses the modest reading that the geography is assumed background
                 rather than directly-verified knowledge, and not the stronger and false claim that the canon
@@ -3676,8 +3806,12 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 The same shape shows in the raw enumeration. Of {nCensus} Uttarakuru-bearing rows, only{' '}
                 {vs.canonical} are canonical Tipiṭaka, {vs['para-canon']} are para-canonical
                 ({ag.para_subsplit.visuddhimagga} Visuddhimagga, {ag.para_subsplit.milindapanha} Milindapañha,
-                which the Burmese tradition counts as canonical, and {ag.para_subsplit['extra-canonical']}{' '}
-                other extra-canonical), and {vs.commentary} are commentary or sub-commentary. Two findings
+                which the Burmese tradition counts as canonical and which are{' '}
+                {ag.recension_dedup.milindapanha_distinct} distinct passages counted once per recension, and{' '}
+                {ag.para_subsplit['extra-canonical']}{' '}
+                other extra-canonical), and {vs.commentary} are commentary or sub-commentary. These are rows,
+                counted one per recension; deduplicated to distinct passages the {nCensus} rows are{' '}
+                {ag.recension_dedup.distinct_passages}. Two findings
                 must be kept apart here. By text mass the picture is overwhelmingly commentarial. By concept,
                 the frame is canonical: the frame-bearing DN 32 and the paradox-bearing AN 9.21 both sit among
                 those {vs.canonical} rows. Uttarakuru is best described as a small canonical frame carrying a
@@ -3872,12 +4006,43 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
           const stratOrder = (strat.order && strat.order.length ? strat.order : NSTRAT_ORDER);
           const nSerp = data.records.length;
           const nClaim = claimRows.length;
+          const nSpine = data.spine.length;
           const candTotal = NREF_ORDER.reduce((s, k) => s + (led[k] ? led[k].total : 0), 0);
+          // The genuine-token frame excludes the nonlexical rows: by the codebook a
+          // nonlexical row carries no nāga morpheme (it is a sandhi/prefix artefact),
+          // so it is not a "genuine nāga-token" row. candTotal is the raw nāg-substring
+          // count after the coarse noise filter; genuineTotal is the morpheme-bearing set.
+          const nNonlex = (led.nonlexical && led.nonlexical.total) || 0;
+          const genuineTotal = candTotal - nNonlex;
+          const genuineSerpentPct = Math.round((led.serpent.total / genuineTotal) * 100);
           const mulaLayer = (ag.serpent_by_layer && ag.serpent_by_layer.mula) || ((ev['early-canonical'] || 0) + (ev['late-or-later'] || 0));
           const fxl = ag.facet_x_layer;
+          // serpent rows per structural layer, for per-row facet density (per 1000 serpent rows)
+          const serpByLayer = ag.serpent_by_layer || {};
+          const claimByLayer = ag.claim_by_layer || {};
+          const ratePer1000 = (f, layer) => {
+            const denom = serpByLayer[layer] || 0;
+            if (!denom) return 0;
+            return Math.round(((fxl[f] && fxl[f][layer]) || 0) / denom * 1000);
+          };
+          const claimSharePct = (layer) => {
+            const denom = serpByLayer[layer] || 0;
+            if (!denom) return 0;
+            return Math.round((claimByLayer[layer] || 0) / denom * 100);
+          };
           const spineBy = (seg) => data.spine.filter((s) => s.segment === seg);
           const spineByStrata = (arr) => data.spine.filter((s) => arr.indexOf(s.stratum) !== -1);
           const facetTotal = (f) => nLayerCols.reduce((s, k) => s + ((fxl[f] && fxl[f][k]) || 0), 0);
+          // The early bucket carries non-claim-bearing paratext (uddāna catchwords,
+          // Himavanta growth-similes), so the substantive early floor is the
+          // claim-bearing subset: derived from records so it cannot drift.
+          const EARLY_STRATA = ['early-canonical', 'archaic-canonical'];
+          const mulaRecs = data.records.filter((r) => r.layer === 'mula');
+          const mulaEarlyRecs = mulaRecs.filter((r) => EARLY_STRATA.indexOf(r.stratum) !== -1);
+          const mulaEarlyClaim = mulaEarlyRecs.filter((r) => r.claim_bearing).length;
+          const mulaClaim = mulaRecs.filter((r) => r.claim_bearing).length;
+          const mulaEarlyFiller = mulaEarlyRecs.length - mulaEarlyClaim;
+          const mulaEarlyClaimPct = mulaClaim ? Math.round((mulaEarlyClaim / mulaClaim) * 100) : 0;
           return (
           <>
             <header style={articleHeader}>
@@ -3892,17 +4057,21 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 cannot win the path while it remains a nāga. This study asks what the canon holds a nāga to be,
                 ontologically and soteriologically, and how the Aṭṭhakathā and Ṭīkā systematize that picture.
                 A first finding is lexical and central: <em>nāga</em> is a heteronym, and a bare search is
-                a trap. Of {candTotal} corpus rows carrying a genuine <em>nāga</em>-token, only {led.serpent.total}
-                {' '}({Math.round((led.serpent.total / candTotal) * 100)} percent) use it of the serpent-being;
-                the rest are the bull-elephant, the monk Nāgasena and his namesakes, the honorific of a sage,
-                the citizen (<em>nāgara</em>), and the ironwood tree, over a base of morphological false friends
-                (<em>samannāgata</em>, <em>anāgāmī</em>) that swamp the raw string. On the {led.serpent.total}
+                a trap. Of {genuineTotal} corpus rows carrying a genuine <em>nāga</em>-morpheme, only {led.serpent.total}
+                {' '}({genuineSerpentPct} percent) use it of the serpent-being; the rest are the bull-elephant,
+                the monk Nāgasena and his namesakes, the honorific of a sage, the citizen (<em>nāgara</em>), and
+                the ironwood tree. ({candTotal} is the raw <em>nāg</em>-substring count after the coarse filter;
+                a further {nNonlex} rows are nonlexical, the morphological false friends such as
+                {' '}<em>samannāgata</em> ("endowed with") and <em>anāgāmī</em> ("non-returner"), in which the
+                letters carry no nāga and which the noise regex strips before coding.) On the {led.serpent.total}
                 {' '}serpent rows ({nClaim} of them asserting an ontological or soteriological claim), the result
                 is a measured split, best put as <em>faithful on the bare facts, innovative in the apparatus</em>.
                 The canon fixes, in the Buddha's own voice, the four modes of nāga-birth (SN 29), the animal
-                (<em>tiracchāna</em>) destination, and the ceiling itself, which it even names
-                (<em>nāgā aviruḷhidhammā</em>, "incapable of growth") and enacts in the Vinaya's bar on
-                ordaining animals. The commentary supplies the machinery: an Abhidhamma rebirth-linking rooted
+                (<em>tiracchāna</em>) destination, and the soteriological ceiling. The ceiling is implicit in the
+                early discourses and is made explicit only later in the canon, where the Vinaya's Mahākhandhaka
+                names it (<em>nāgā aviruḷhidhammā</em>, "incapable of growth") and enacts the bar on ordaining
+                animals; that naming sits in a late, frame-position locus held at lower confidence, not in the
+                early stratum of SN 29. The commentary supplies the machinery: an Abhidhamma rebirth-linking rooted
                 in bad kamma, a water-dwelling frog-eating habitat, the expansion of the disguise-failure
                 occasions from two to five, the broadening of "animal" to any non-human down to Sakka, and the
                 doctrinal reason for the ceiling, that the nāga is <em>abhabba</em>, incapable of jhāna, insight,
@@ -3952,14 +4121,25 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 carries English (the SuttaCentral mūla rows) the rendering is Sujato's, who translates
                 {' '}<em>nāga</em> as "dragon"; the Vinaya Mahākhandhaka and all commentary carry no English in
                 the corpus, so those renderings are the author's own gloss, marked as such and checked against
-                Horner's <em>Book of the Discipline</em>. The ambiguous canonical rows were classified blind
-                from the Pāli windows; a 124-row subsample was triple-coded to measure reliability, which was
-                almost perfect (Fleiss <em>κ</em> = {iaa.fleiss_kappa}, {iaa.all_three_agree} unanimous). The
-                remaining ambiguous rows and the commentary were single-coded against that validated codebook.
-                The fourteen spine passages were quote-verified against the source; the other
-                rows are confirmed to exist as live passages but their quotes were not individually
-                re-confirmed. Every "no canonical warrant" verdict is read as located, not absolute; the
-                Limitations state the recall floor that bounds it.
+                Horner's <em>Book of the Discipline</em>. The reliability measure is narrow in scope: the
+                {' '}{iaa.fleiss_kappa} Fleiss <em>κ</em> ({iaa.all_three_agree} unanimous) covers only the
+                124-row subsample of canon-ambiguous rows that was triple-coded. Roughly two in five serpent rows
+                are deterministic regex auto-codes (a token such as <em>nāgarāja</em> or <em>nāgayoni</em>
+                {' '}fixing the sense), which were never human-checked; the commentary, about 87 percent of the
+                serpent rows, was single-coded against the validated codebook; and the facet coding that drives
+                the distributional result carries no reliability measure of its own. So the <em>κ</em> warrants
+                the referent gate on the hard canonical cases, not the facet assignments and not the auto-coded
+                or commentarial bulk. Three coding choices are disclosed in full. The nāga-toponym rows of
+                Nāgadīpa are auto-classed serpent by the <em>nāgadīp</em>-prefix rule, a mixed set in which some
+                rows are genuine
+                nāga-king episodes and some are the place-name alone; a small number of canonical serpent rows
+                were hand-injected past the blind referent gate from the named-king reconciliation, so they are
+                quote-verified but not blind-coded; and the noise regex that strips the morphological false
+                friends over-strips a tail of genuine nāga compounds, so the {led.serpent.total} serpent total is
+                a lower bound. The {nSpine} spine passages were quote-verified against the source; the other rows
+                are confirmed to exist as live passages but their quotes were not individually re-confirmed.
+                Every "no canonical warrant" verdict is read as located, not absolute; the Limitations state the
+                recall floor that bounds it.
               </p>
 
               <h2 style={h2}>In the early discourses</h2>
@@ -3997,7 +4177,10 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 is the {ev['early-canonical']} of the {mulaLayer} structurally-canonical serpent rows where
                 shelving and composition agree, the four-births suttas, the Udāna, and the oldest verse of the
                 Suttanipāta and the gāthā collections; the other {ev['late-or-later']} read later than they are
-                filed.
+                filed. About half of that early bucket is non-substantive paratext: {mulaEarlyFiller} of the
+                {' '}{ev['early-canonical']} early rows are uddāna catchwords or Himavanta growth-similes that
+                assert no ontological claim, so the substantive early floor is the {mulaEarlyClaim} claim-bearing
+                early rows, {mulaEarlyClaimPct} percent of the {mulaClaim} claim-bearing canonical serpent rows.
               </p>
               {spineByStrata(['early-canonical', 'archaic-canonical']).length > 0 && (
                 <div style={{ marginTop: 14 }}>
@@ -4088,9 +4271,19 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 Moggallāna taming the nāga-king Nandopananda, and its other nāga passages, are shelved in the
                 corpus as mūla, root-text, yet they are Buddhaghosa's own fifth-century composition;
                 {' '}{mulaS['classical-commentary']} of the canonical-tagged serpent rows are in fact classical
-                commentary. Across the full enumeration the same shape holds: the commentary carries the great
-                bulk of every facet, and most heavily the facets of furnishing, habitat and power, where there is
-                most to invent. The facet-by-layer table is given under <em>The full data</em> below.
+                commentary. Across the full enumeration the commentary carries the great bulk of every facet by
+                raw count, since it holds {serpByLayer.attha} serpent rows to the canon's {serpByLayer.mula}; per
+                character of corpus it discusses the serpent-nāga roughly 5.5 times as densely. Once the counts
+                are normalized per serpent row, though, the picture is more even, and on several facets the canon
+                is the denser of the two: per thousand serpent rows the canon outweighs the commentary on powers
+                ({ratePer1000('power', 'mula')} to {ratePer1000('power', 'attha')}), on class and plane
+                ({ratePer1000('classification', 'mula')} to {ratePer1000('classification', 'attha')}), on the
+                path-and-fruit ceiling ({ratePer1000('magga_phala_ceiling', 'mula')} to
+                {' '}{ratePer1000('magga_phala_ceiling', 'attha')}), and on mode of birth
+                ({ratePer1000('birth_mode', 'mula')} to {ratePer1000('birth_mode', 'attha')}). The facets that
+                are genuinely commentary-denser per row are the furnishing details, the realm and habitat, the
+                disguise that takes human form, the uposatha observance, and the ordination bar, which is where
+                there is most to supply. The facet-by-layer table is given under <em>The full data</em> below.
               </p>
               {spineByStrata(['classical-commentary']).length > 0 && (
                 <div style={{ marginTop: 14 }}>
@@ -4167,8 +4360,13 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                         <td style={tdNum}>{k === 'serpent' ? <strong>{led[k].total}</strong> : led[k].total}</td>
                       </tr>
                     ))}
+                    <tr style={tr}>
+                      <td style={tdLeft}>All genuine <em>nāga</em>-morpheme rows (nonlexical excluded)</td>
+                      {nLayerCols.map((c) => <td key={c} style={tdNum}>{NREF_ORDER.reduce((s, k) => s + (k !== 'nonlexical' && led[k] ? led[k][c] : 0), 0)}</td>)}
+                      <td style={tdNum}>{genuineTotal}</td>
+                    </tr>
                     <tr style={trTotal}>
-                      <td style={tdLeft}>All genuine <em>nāga</em>-token rows</td>
+                      <td style={tdLeft}>All <em>nāg</em>-substring rows (after the coarse filter)</td>
                       {nLayerCols.map((c) => <td key={c} style={tdNum}>{NREF_ORDER.reduce((s, k) => s + (led[k] ? led[k][c] : 0), 0)}</td>)}
                       <td style={tdNum}>{candTotal}</td>
                     </tr>
@@ -4176,8 +4374,10 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 </table>
               </div>
               <p style={tableCaption}>
-                The serpent-being is {led.serpent.total} of {candTotal} genuine rows, and {led.serpent.mula} of
-                the canon's {NREF_ORDER.reduce((s, k) => s + (led[k] ? led[k].mula : 0), 0)}. The two largest
+                The serpent-being is {led.serpent.total} of {genuineTotal} genuine-morpheme rows ({candTotal}
+                {' '}counting the {nNonlex} nonlexical false friends), and {led.serpent.mula} of the canon's
+                {' '}{NREF_ORDER.reduce((s, k) => s + (k !== 'nonlexical' && led[k] ? led[k].mula : 0), 0)}
+                {' '}genuine-morpheme rows. The two largest
                 rival senses are instructive. <em>Person</em> is dominated by the monk Nāgasena of the
                 Milindapañha; <em>elephant</em> is the noble tusker of simile, "the king's nāga." Both are why a
                 bare count of "nāga in the canon" overstates the serpent by an order of magnitude. That the same
@@ -4192,8 +4392,11 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 stratum, earliest to latest, with the structural layers each stratum draws from. The
                 analytically interesting cells are the canonical (mūla) rows that do not read early: of the
                 {' '}{mulaLayer} structurally-mūla serpent rows, {ev['early-canonical']} are early-canonical and
-                {' '}{ev['late-or-later']} read later than they are shelved ({ev['layer_stratum_disagree']} carry
-                a layer-stratum disagreement).
+                {' '}{ev['late-or-later']} read later than the early floor. Most of those, {ev['late-but-correctly-shelved']},
+                are late-but-correctly-shelved canon (late-canonical, Abhidhamma, or paracanonical works that are
+                genuinely on the canonical shelf, only late in composition); a genuine shelf disagreement, where
+                a row tagged mūla is in fact a commentary, occurs in {ev['layer_stratum_disagree']} rows, the
+                Visuddhimagga passages shelved as root text.
               </p>
               <div style={tableWrap}>
                 <table style={table}>
@@ -4261,9 +4464,21 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
               <p>
                 The same shape appears in the full enumeration, not just the curated cells. Across the
                 {' '}{nClaim} claim-bearing serpent passages, the commentary carries the great bulk of every
-                facet, and most heavily the facets of furnishing. The table reads the claim-bearing census by
-                facet and layer; the ontological facets of habitat and power, where there is most to invent,
-                are the most lopsided toward the commentary.
+                facet by raw count, because it holds far more serpent rows to begin with ({serpByLayer.attha} to
+                the canon's {serpByLayer.mula}). The raw column totals therefore measure the size of each shelf
+                as much as its interest in any one facet. Read per serpent row, the lopsidedness narrows and in
+                places reverses: per thousand serpent rows the canon is the denser layer on powers
+                ({ratePer1000('power', 'mula')} to {ratePer1000('power', 'attha')}), on class and plane
+                ({ratePer1000('classification', 'mula')} to {ratePer1000('classification', 'attha')}), on the
+                path-and-fruit ceiling ({ratePer1000('magga_phala_ceiling', 'mula')} to
+                {' '}{ratePer1000('magga_phala_ceiling', 'attha')}), and on mode of birth
+                ({ratePer1000('birth_mode', 'mula')} to {ratePer1000('birth_mode', 'attha')}). The facets that
+                are genuinely commentary-denser per row are the realm and habitat, the taking of human form, the
+                uposatha, and the ordination bar, the furnishing where there is most to supply. The claim-bearing
+                share of serpent rows is itself highest in the canon ({claimSharePct('mula')} percent of mūla
+                serpent rows assert a claim) and falls through the commentary ({claimSharePct('attha')} percent)
+                to the sub-commentary ({claimSharePct('tika')} percent). The table reads the claim-bearing census
+                by facet and layer in raw counts.
               </p>
               <div style={tableWrap}>
                 <table style={table}>
