@@ -790,6 +790,48 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 </>
               )}
 
+              <h2 style={h2}>What this means, and what it does not</h2>
+              <p>
+                To ask how "the canon" describes awakening is, on this evidence, mostly to read a late and
+                devotional layer of the canon rather than its old core. The bare early notices, a listener's eye
+                opening at the close of a talk, are real but few. Most of what the shelving files as canonical
+                awakening is the Apadāna's and the Buddhavaṁsa's biographical verse, a later tradition's catalogue
+                of who, across the ages, had awoken, with a thin seam of the Buddha's own first-person account of
+                his bodhi at its base. The familiar division between an early canon that states the Dhamma and a
+                later commentary that supplies the biography is not wrong here; it is only partial. The
+                biographical impulse does not wait for the commentary to begin. It is already at work inside the
+                late canon, in the verse, before any commentary speaks. The weight of the material is later, and
+                more celebratory, than its canonical label implies.
+              </p>
+              <p>
+                Several limits bound how far that reading can be pressed. The dating is relative order, not
+                calendar date; it rests on standard philological grounds for placing the Apadāna, Buddhavaṁsa, and
+                Niddesa late and the Visuddhimagga later still, and imports no absolute years. Two cells are held
+                at lower confidence because register or position stands in for a date, the elders' verse, late by
+                the cast of its biographical frame rather than the age of its verse, and the Vinaya notices, late
+                by their position in an occasioning-story; the lopsided shape survives the removal of both, since
+                the Apadāna alone keeps the late bulk larger than the entire early floor of{' '}
+                {fmt(data.v2 ? data.v2.stratigraphy.mula_early_vs_late['early-canonical'] : 38)}. The census
+                reaches only awakenings told with one of the stock phrases, so every count is best read as a
+                measured floor rather than a proven-complete total. The{' '}
+                {fmt(data.v2 ? data.v2.attribution.buddha_vacana_dedup_recollections : 9)} recollections of the
+                Buddha's own awakening are themselves a floor: the same first-person frame, searched in its own
+                right, turns up in some 48 places across the canon, most of them outside the {fmt(colTotals.mula)}.
+                The check against other textual traditions is a matter of whether a parallel exists, not of
+                reading those parallels feature by feature, and is offered as corroboration of the early floor
+                rather than a finding in its own right. And the surface-string counts depend on the spelling
+                conventions of the edition used, though the line between what a reporter tells and what the Buddha
+                speaks does not.
+              </p>
+              <p>
+                What the data cannot do is say why the shape is as it is. To ask how the canon describes awakening
+                is already to ask about a body of text that is mostly late and mostly narrated, with the Buddha's
+                own account of his bodhi as its small early heart. Whether that heart is the historical seed the
+                later verse grew up around, or simply the part the tradition chose to keep in his own voice, the
+                present count cannot decide. It can show only, in the texts as they stand, how much was sung about
+                the awakened and how little was staked by the one who awoke.
+              </p>
+
               {/* ----------------------------------------------------------------
                   The complete census. The data-explorer blocks (by-circumstance
                   tables, who-awakens tables, and the per-bucket cited lists) sit
