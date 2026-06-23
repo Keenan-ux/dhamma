@@ -3434,6 +3434,25 @@ function UttarakuruStudy({ entry, onBack, backLabel = 'Research' }) {
                 about Uttarakuru, the verified column is empty.
               </p>
               <p>
+                That empty column is a measured result, not an unsearched gap, and it is worth showing how. The
+                canon has a precise marker for a claim staked as seen rather than supposed: the divine-eye
+                pericope, in which the speaker reports seeing, with the purified eye that surpasses the human,
+                beings passing away and being reborn, faring according to their deeds. The object of that seeing
+                is fixed, and it is vertical, who is reborn where, low or high, fair or foul, by their conduct.
+                Attested on the order of 124 times across the corpus, the formula never once ranges over
+                geography. The honest objection is that the divine eye and the continent might still fall in one
+                passage, and that such a meeting would license reading the place as verified. Five canonical rows
+                do carry both the divine-eye formula and the name Uttarakuru, but in every one the two sit far
+                apart, the nearest separated by nearly five thousand characters and the farthest by more than two
+                hundred thousand, the eye verifying rebirth-destiny in one pericope while the continent sits
+                chapters away in the same edited volume. There is no window in which the formula takes the
+                continent as its object. So across every register where the tradition asks where beings are
+                reborn and whether that reckoning is verified, the northern continent is absent by name at full
+                search depth: the silence licenses the modest reading that the geography is assumed background
+                rather than directly-verified knowledge, and not the stronger and false claim that the canon
+                denies or doubts the place.
+              </p>
+              <p>
                 If the descriptive furniture is borrowed, the judgement built on it is, on the evidence to
                 hand, not. The whole soteriological load rests on AN 9.21, where the most fortunate humans in
                 the cosmos hold precisely the comforts of virtue while the path is reserved for Jambudīpa,
