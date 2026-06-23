@@ -6,6 +6,40 @@ Created 2026-06-22. NOT to be confused with `research/COORDINATOR-HANDOFF.md` (a
 Auditable Translation study) or `research/individual-guidance/COORDINATOR-HANDOFF.md` (the COMPLETED "From
 Function to Essence" campaign, whose §3 ledger records everything that already shipped).*
 
+## 0. REFRAME (2026-06-22) — READ THIS, IT SUPERSEDES THE SINGLE-SOURCE FRAMING BELOW
+The operator clarified the goal. **There is no PDF deliverable. The live website page (the "reader") is the
+ONLY deliverable** (a PDF-export button is a maybe-later, deprioritized). The original ITEM-A premise — "edit
+the MD once, regenerate the reader" — rested on a false assumption for the four un-IG studies: their deployed
+reader is NOT the same prose as their `FINDINGS-readable.md`; it is a separate, often condensed/differently-
+cited write-up (paper-sync drift 148–584 sentences; only IG round-trips EQUIVALENT, having been hand-reconciled
+last session). Proof: `node research/individual-guidance/gen-narrative.mjs --check` → EQUIVALENT both regions.
+
+**New job = additive completeness merge, per study.** Make each live page the MOST COMPLETE version, LOSING NO
+content: where the disk paper has substantive research the page compresses or omits, fold it into the page (in
+the page's house voice — no first person / no em-dash / no "load-bearing"/"cross-cutting"; every new `<Cite>`
+must curl 200); where the page has content the paper lacks (e.g. HeartBase modern-practice), keep it. KEEP the
+page's live data-bound abstract / aidPanels / census tables / drill-downs. The MD/single-source generator is
+now SECONDARY (optional future tidy); do NOT run gen-narrative over a non-IG study (it would replace the page
+with the long paper, freeze live counts, and break on MD furniture). **IG is correct — do not touch it.**
+
+Diagnosis pattern observed: most readers state the "assumed/posited, never *verified*" CONCLUSION but COMPRESS
+the evidence for it. Diagnose each study first; merge only what's genuinely missing; some readers are already
+complete (leave them, like IG).
+
+### Status (2026-06-22, this session)
+- **HeartBase — DONE, deployed, pushed (113d96e).** Folded in §IV verification-register near-miss analysis
+  (the study's central "posited not verified" argument, previously one sentence) + the limits paragraph; 3 new
+  Cites resolve (cst-e0301n.nrf-010, cst-abh08t.nrf-96_p019, cst-abh09t.nrf-237_p002). Modern-practice + census
+  untouched.
+- **Uttarakuru — DONE, deployed, pushed (34c03dc).** Folded in §V divine-eye "measured zero" evidence (124
+  uses, object always rebirth-by-kamma, five near-miss rows 5,000–200,000 chars apart) behind the page's
+  existing "verified column is empty" claim. Plain-text cites (page style); no new Cite ids.
+- **Naga — ALREADY COMPLETE, no change.** Reader covers §5/§6/§7 fully (abhabba reason, disguise 2→5, down-to-
+  Sakka, the H0/H1 cell split, modern reading). FINDINGS.md-vs-SPINE wrinkle moot. Leave it.
+- **Awakening — PENDING diagnosis.** Most data-bound reader (~45 `{fmt}`/`{data.v2}` bindings woven into prose);
+  any merge MUST preserve those live bindings (do not freeze to MD literals). Likely complete or a small gap;
+  assess the recall-ladder/attribution detail vs MD §§VII–VIII before deciding.
+
 ## 1. Mission
 The IG study cleanup (ITEMs 1-3) and a 10-item skill/tool/DB improvement pass are DONE, deployed, and live at
 https://dhamma.fly.dev. This campaign is the OPEN follow-ons: chiefly **roll the new MD→JSX single-source
