@@ -102,7 +102,7 @@ Strongest permitted body verbs: **suggests · indicates · seems · appears · t
 
 ### 3.2 Unpack dense multi-number / multi-clause sentences
 
-Rule: **a body sentence carries at most ONE number and ZERO raw citations.** If it has more, split it, move numbers to a table/figure, move citations to footnotes.
+Rule: **a body sentence carries at most ONE number and ZERO raw citations.** If it has more, unpack it: move the numbers to a table or figure and the citations to footnotes, then re-base what remains as one clean sentence rather than fragmenting it (this is density relief; for how to recompose the residue without chopping, re-base, do not break, see §3.4).
 
 *Before (awakening, the worst sentence found — ~9 clauses, 3 Pāli strings, 9 citations, an inline κ):*
 > "…are the Buddha asserting his OWN awakening in the first person: the bodhisatta-before-awakening frame (`pubbeva me…`), the claim-of-awakening (`anuttaraṁ…`), and the bodhi-night autobiography (`ayaṁ kho me…`), in MN 4, MN 19, MN 36, MN 85, MN 100, AN 8.11, SN 54.8, SN 35.13, and the Vinaya bodhi-narrative [canon, IAA kappa=1.0]."
@@ -126,6 +126,31 @@ Each section CLOSES with an "In sum" recap and the next OPENS having been handed
 - "To the progression from impermanence to dukkha and beyond I now turn."
 
 Don't end a section on a signature block and open the next cold. Don't make the reader synthesize alone — hand them the takeaway ("In sum, …") before turning.
+
+### 3.4 Rhythm and the cumulative sentence (de-densify without chopping)
+
+Removing a connector is not the same as deleting its work. An em-dash, a semicolon, or a colon carries a load: the relation between two parts of one thought, a payoff or a pivot or a parallel. Strike the mark and let that load fall onto a comma, and the sentence piles up; let it fall onto a full stop, and the prose chops into staccato. Both read as machine-made for one reason: the connector was removed without being regraded by function. So regrade it; do not dump it. (This is the root of the two failures this project has hit. The em-dash purge dumped the load onto commas and produced pile-ups; the comma purge dumped it onto sentence boundaries and produced the staccato chop. One error, seen twice.)
+
+**Regrade a removed em-dash by what it was doing.** The marks form a scale of break-strength (comma, then semicolon, then colon, then period); match the mark to the size of the break.
+
+- The second part *delivers* the first (a payoff, a list, an explanation): use a **colon**.
+- Two related *full clauses* stand as equals: use a **semicolon**, which keeps them in one breath.
+- A true mid-sentence *aside*: use paired **commas** or **parentheses**.
+- A hard *pivot* to a separate thought: use a **period, and recast** so the twist is gone.
+
+A single comma fits only a short, non-emphatic aside. It cannot join two independent clauses (that is a splice) and it cannot announce a payoff. The comma and the period are the two ends of the scale; reaching straight for them, and skipping the semicolon and the colon in the middle, is precisely what produces the pile-up and the chop.
+
+**De-densify by re-basing, not by fragmenting: the cumulative sentence.** When a sentence is clause-piled, find its kernel (the subject, the verb, the one essential idea), set that first as a clean main clause, then hang the rest off the right edge as trailing modifiers: a participle, an appositive, a "where …" or "so that …" tail. The sentence can stay long and still flow, because the reader is handed the anchor at once and each added phrase is one comprehensible step. This is parse cost, not preference. A reader pays for the unfinished grammatical dependencies held open at one time (Gibson's dependency-locality), so a long right-branching tail is cheap while a clause jammed between subject and verb is dear. Length is not the cost; center-embedding is. The repair for a dense sentence is usually to re-base it, not to break it. A cumulative tail earns its place only when each trailing phrase adds information; a modifier that adds only music is padding, and the de-AI pass cuts it (the inflated-diction list in EDITOR-CHECKLIST still applies). The aim is a long sentence that is load-light, not an ornate one.
+
+**A comma-piled sentence can often be saved without splitting** by promoting its major joint to a semicolon, the "super-comma": the semicolon marks the big break, the commas drop to minor work, and one sentence carries a clear two-level structure. Try this before reaching for the period.
+
+**Variance is the testable target.** A paragraph wants an audible mix of short, medium, and at least one longer cumulative sentence. A run of three or more short, near-equal, single-clause sentences is a staccato defect, not concision. The anaphoric stutter is the loudest signature ("It may answer … It may answer …"; "In the early discourses … In the Abhidhamma …"), but the run need not be anaphoric: three short, same-length sentences in a row is the defect even when each opens differently ("This study began … It asked … That question opened …"). Repair it by rejoining (a coordinating conjunction for a light parallel join, a semicolon for a heavier parallel, a colon for an assertion and its unpacking) or by folding a fragment into a cumulative tail, and keep one longer breath per cluster. The short sentence remains a tool, the deliberate landing after a dense passage; the defect is the *run* of them, not the single one.
+
+**Land the stress.** A sentence is weighted at its end; put the word worth remembering there, and never let a throwaway phrase ("in this context", "over time") hold that slot. An em-dash often existed precisely to throw a term into that final position; a colon or a cumulative tail preserves the arrival, where a chopped pair scatters it. When rejoining a chopped pair, prefer the mark that also lands the stress: a colon keeps an assertion's payoff last, where a semicolon between equals or a flat recast can bury it. When a dense sentence genuinely must split, thread the seam: open the second sentence on a word or idea from the end of the first, so the rhythm carries across the period.
+
+**Academic prose is not short copy.** The benchmark here is Anālayo, not a landing page. Scholarly sentences run longer and carry more subordination, so the controlling targets are flow, right-branching, and variance, not a word-count ceiling. The global design.md governs published user-facing copy (marketing, landing pages, store listings); a scholar-facing paper falls outside its remit. Its long-form guidance tunes to a 14-to-18-word average with a 22-to-28-word complex-clause band, and a paper benchmarked to Anālayo legitimately sits above that average: scholarly sentences run longer and carry more subordination, so the controlling targets here are flow, right-branching, and variance, not the average. The well-built cumulative sentence is the house style, and the short sentence is an occasional landing, not the default.
+
+**The closing gate is the ear.** Read each edited paragraph aloud, or sub-vocally. If it sounds like a list of clipped commands, it is chopped: rejoin and re-base. If it forces a breathless run with nowhere to rest, it is over-dense: re-base or break. The ear catches both failures the eye skims past. This is the two-directional form of the older "can you take a breath" test, which flags only over-density and is blind to the chop.
 
 ---
 

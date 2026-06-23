@@ -6,8 +6,12 @@ and you fix mechanics. Preserve every citation, every Pāli term, every hyperlin
 tag exactly. Output the edited text plus a short list of the categories you changed.
 
 ## Hard gates (must be zero in the output)
-- **Em-dashes** (`—`, `--`). Recast with a comma, colon, semicolon, parentheses, or a full stop. This is
-  the operator's explicit standing rule; an em-dash in the final paper is a failure.
+- **Em-dashes** (`—`, `--`). Regrade by what the dash was DOING; do not default to a comma or a full stop.
+  A colon for a delivered payoff, list, or explanation; a semicolon for two related full clauses; paired
+  commas or parentheses for a true aside; a period (and a recast) only for a hard pivot. A single comma fits
+  only a short non-emphatic aside, never a clause-join (that is a splice) or a payoff. Full method, and the
+  rhythm the recast must preserve, is WRITING-STANDARD-READABILITY.md §3.4. An em-dash in the final paper is
+  a failure (the operator's explicit standing rule).
 - **First-person `I` / `we` / `my` / `our` / `me`.** No first person in a published paper. Recast in the
   impersonal voice ("the survey finds", "this reading holds", "the data show"). (This reverses an earlier,
   mistaken instruction that told the author to "own conclusions in the first person"; the operator
@@ -34,10 +38,18 @@ tag exactly. Output the edited text plus a short list of the categories you chan
   reaching for a comma is not a fix when the comma then carries a splice (two independent clauses joined by
   a comma) or a third and fourth stacked appositive (`the body-witness, the one who has touched the
   liberations, the deep attainments, the formless states, with the body`). The dash is gone but the same
-  breathless, clause-piled cadence remains, and it reads just as machine-made. **Recast with a period, a
-  semicolon, or a restructured sentence**, not a comma. A sentence that has grown three or more commas
-  doing structural work (not a simple list) is a rewrite target: split it, or promote one clause to its own
-  sentence. Test: read it aloud; if you cannot take a breath without the meaning collapsing, it is over-built.
+  breathless, clause-piled cadence remains, and it reads just as machine-made. **Regrade by function
+  (WRITING-STANDARD §3.4), not by a comma.** A sentence that has grown three or more commas doing structural
+  work (not a simple list) is usually saved WITHOUT splitting: promote its major joint to a semicolon (the
+  super-comma) so the commas drop to minor work, or re-base it as a cumulative sentence; split into separate
+  sentences only where two genuinely separate propositions are jammed together. Test: read it aloud; if you
+  cannot take a breath without the meaning collapsing, it is over-built.
+- **The staccato chop (the over-correction's afterlife, symmetric to the pile-up above).** Splitting a clause
+  into its own short flat sentence to remove a comma trades one machine cadence for another: the deleted
+  connector carried the logic (contrast, consequence, parallel), and dumping it on a sentence boundary
+  discards that logic. **Regrade, do not dump:** rejoin with a coordinating conjunction, a semicolon, or a
+  colon, or fold the fragment into a cumulative tail; removing a chop must NOT reintroduce an em-dash. The
+  signature, the run threshold, and the read-aloud test are the single canonical home in WRITING-STANDARD §3.4.
 - **The "not just X, it's Y" / "isn't merely A but B" frame.** Over-used contrastive scaffolding. State
   the claim directly.
 - **Inflated diction:** delve, tapestry, underscore, multifaceted, nuanced (as filler), realm, landscape,
@@ -58,9 +70,15 @@ tag exactly. Output the edited text plus a short list of the categories you chan
 - **Title-case headings** if the venue uses sentence case; consistent heading style throughout.
 
 ## Mechanics
-- Vary sentence length and opening structure; break up uniform medium-length sentences.
-- Active voice by default; passive only when the agent is genuinely unknown or irrelevant.
-- One idea per sentence; split run-ons created by the removed em-dashes.
+- Vary sentence length on purpose: each paragraph wants short, medium, and at least one longer cumulative
+  sentence; a run of short near-equal sentences is a staccato defect, not concision (the staccato tell above;
+  WRITING-STANDARD §3.4).
+- Active voice by default; passive only when the agent is genuinely unknown or irrelevant. Un-bury actions
+  ("there was a deepening of" becomes "deepened") to cut density without chopping.
+- One idea per sentence means one idea, not one clause: de-densify a packed sentence by moving apparatus to
+  footnotes and by re-basing it (a cumulative tail, the super-comma), not by fragmenting. Split a run-on only
+  where two separate propositions are jammed together, and thread the seam (open the next sentence on a word
+  from the end of the last).
 - Numbers, diacritics (IAST/ISO, consistent ṁ/ṃ), and citation format consistent throughout.
 - Oxford comma consistent; quotation marks consistent.
 
