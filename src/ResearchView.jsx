@@ -2769,11 +2769,59 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 (<Cite id="cst-e0104n.att-76_p012">Vism-mhṭ §76</Cite>), and the commentary even states the
                 weave: two purifications as root, five as body, operating on the aggregates, sense-bases,
                 elements and dependent origination as their ground
-                (<Cite id="cst-abh08t.nrf-100_p024">Abh-pṭ §100</Cite>). At this layer one can also ask with
-                what force the claim is made. The heart-base is introduced by the grammar of a posit, an
-                analysis of its existence and its supporting function, never under the canon's own test of
-                direct knowing that it reserves for the four truths and the ending of the taints; it is stated
-                flat and leaned upon.
+                (<Cite id="cst-abh08t.nrf-100_p024">Abh-pṭ §100</Cite>).
+              </p>
+              <p>
+                A sharper question than where the term sits is with what force it is claimed at this layer. The
+                texts do not assert everything in one key. Some claims are staked under a register of direct
+                knowledge, a small family of stock phrases that mark a thing as tested and found so:{' '}
+                <em>sacchikatvā</em>, "having directly realized it for oneself"; <em>sayaṁ abhiññā sacchikatvā</em>,
+                "by one's own direct knowledge, having realized"; and <em>yathābhūtaṁ pajānāti</em>, "one knows it
+                as it really is." These are not rare. They saturate the corpus, the first in 654 rows, the second
+                in 190, the third in 264, and they carry the four noble truths, rebirth governed by deeds, and the
+                destruction of the taints. Other claims are simply stated as background, the furniture a teaching
+                stands on.
+              </p>
+              <p>
+                Against that frame the heart-base is silent. Across the whole corpus the named <em>hadaya-vatthu</em>{' '}
+                never falls in the same window as any of the three verification phrases. It is introduced,
+                everywhere it is introduced, by a different grammar: an analysis of its existence,{' '}
+                <em>atthibhāvo</em>, "its being-there," and of its supporting function, <em>nissaya-lakkhaṇa</em>,
+                the way a thing serves as the ground another rests on. That is the grammar of a posit, something
+                laid down so the rest of the analysis can stand, not the grammar of a thing realized.
+              </p>
+              <p>
+                A flat zero invites mistrust, so the careful move is to walk to the rows where the count comes
+                nearest to failing and read each. Three near-misses bear reading. The first is barely a
+                co-occurrence: one row carries both <em>sacchikatvā</em> and the heart-base, but the two stand
+                87,102 characters apart, in separate pericopes of one long passage
+                (<Cite id="cst-e0301n.nrf-010">Vism-ṭ §10</Cite>). The second is genuinely close, about 120
+                characters, and looks at first like the thing the absence would forbid: the divine eye, one of the
+                higher knowings, sitting beside the heart-base. Reading the window dissolves the appearance. The
+                divine eye there is the faculty being glossed in its own right, <em>dibbacakkhuvasen'eva</em>, "by
+                way of the divine eye," not a knowing predicated of the heart-base
+                (<Cite id="cst-abh08t.nrf-96_p019">Abh-pṭ §96</Cite>). The third is the closest of all, about
+                seventy characters, and it runs the other way from what one would expect of the strongest hit. The
+                line reads that the fifth jhāna, occurring by way of direct knowledge, runs dependent on the
+                heart-base alone, <em>abhiññāvasena pavattaṁ pañcamajjhānaṁ … hadayavatthuññeva nissāya</em>
+                (<Cite id="cst-abh09t.nrf-237_p002">Abh-pṭ §237</Cite>). The direct knowledge is real and the
+                heart-base sits right beside it, but the heart-base is what the knowing-mind stands on, the floor
+                under the act of knowing, not the object the act of knowing confirms. Even pressed as close as the
+                corpus ever presses them, the grammar of a posit holds at the very point one would expect it to
+                break.
+              </p>
+              <p>
+                What that patterned silence licenses is bounded, and the bound is worth stating exactly. It is not
+                a recall miss, since the search was widened to the inflected and compound forms and then past the
+                name to the concept, and the count held. It is not corpus size, since 654, 190, and 264
+                attestations are room enough for the heart-base to have entered the register had the texts wanted
+                it there. It is not a synonym hiding the hit, since the concept search reached only the unnamed
+                Abhidhamma posit, and that posit is itself never verified either. So the seat of mind is assumed as
+                given, posited and leaned upon, never once put to the canon's own test of direct knowing that it
+                reserves for the four truths and the ending of the taints. The silence does not license the
+                stronger and quite different claim that the tradition doubted the heart-base; there is no sign of
+                doubt, and no sign of testing. It is stated flat, built upon heavily, and never staked under the
+                register the canon keeps for what it says it knows.
               </p>
 
               <h2 style={h2}>In the sub-commentaries</h2>
@@ -2820,6 +2868,22 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                 Abhidhamma posits a seat without naming it, and the heart-identification is a later, scholastic
                 naming, stated flat and built upon, and never once put to the canon's own test of direct
                 knowing.
+              </p>
+              <p>
+                Several limits bound how far this reading can be pressed, and they are best said plainly. The
+                dating is relative order, not calendar date; the decisive point, that the Visuddhimagga reads
+                later than its root-text shelving implies, rests on standard philological grounds for placing that
+                work and the Paṭisambhidāmagga, not on absolute years. Every count is a floor, since a claim
+                phrased outside the markers searched would not be caught. The cross-recensional reach is untested
+                rather than shown to be unique to the Pāli: the Paṭṭhāna, where the posit lives, carries no
+                parallel rows of any kind, but that is a known blind-spot of a parallels apparatus built
+                sutta-to-sutta and thin on the Abhidhamma, not a finding that the doctrine is absent elsewhere.
+                That seating mind in the heart is a Theravāda differentia, with the northern Abhidharma not
+                localizing mind there, is taken from comparative scholarship, not from this corpus. And the
+                numbered insight-ladder's external status is feature-unconfirmed: the Paṭisambhidāmagga has some
+                Āgama parallels at the level of content, but the graded sequence as such has no clean parallel, so
+                it reads as a Theravāda systematization pending feature-level confirmation, while the lived
+                rise-and-fall contemplation beneath it does sit across recensions.
               </p>
 
               <h2 style={h2}>The full data</h2>
