@@ -79,7 +79,7 @@ Not-yet-run clusters (cross-reference the 317 avenues in `SAMADHI-ENUMERATION.js
 - **Degree/partiality vocab (Lens 8):** `padesa` / `paritta` vs `appamāṇa` / `mahaggata`; the comparative morphology on samādhi vs on sīla/paññā.
 - **Commentary glosses (Lens 10):** how the aṭṭhakathā/ṭīkā gloss `mattaso kārī`, and the `vipassanā-` / `magga-` / `phala-samādhi` categories.
 
-Run these in batched serial queries, sense-audit, read the priority loci, then **fold the confirmed findings into the existing subsection** — sharpen or add a sentence/footnote each; do not bloat or duplicate. Keep `ResearchView.jsx` and `FINDINGS-readable.md` synced.
+Run these in batched serial queries, sense-audit, read the priority loci, then **fold the confirmed findings into the existing subsection** — sharpen or add a sentence/footnote each; do not bloat or duplicate. Edit the live page (`ResearchView.jsx`) directly; it is canonical, and `FINDINGS-readable.md` is a secondary/stale draft no longer kept in sync.
 
 ## Standing constraints
 No first person (`I`/`we`/`our`); banned words `load-bearing`, `cross-cutting`; show curated Pāli (italic + gloss) for key/recurring/no-1:1 terms; academic tone; every citation resolves to a real row. Editorial rules: `@.claude/skills/dhamma-research/EDITOR-CHECKLIST.md` + `WRITING-STANDARD-READABILITY.md`.

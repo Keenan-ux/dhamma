@@ -55,6 +55,7 @@ fly.toml                 dhamma.fly.dev, region iad, shared-cpu-1x / 256MB
 - **No analytics, no telemetry.** The tool helps the user *find*; the scholar *interprets*. We track nothing.
 - **No LLM summary by default.** A future opt-in "✨ Synthesize" button could call an external LLM on a curated set of passages, labeled clearly as AI-generated. Off until earned.
 - **Curated aliases beat embeddings for technical terms.** `paliStem.js` ALIASES (sati ↔ smṛti ↔ 念, dhamma ↔ dharma ↔ 法) stays even after pgvector ships — it's the scholar-asserted authority overlay that vectors approximate.
+- **Research study pages are hand-maintained.** The live study page in `src/ResearchView.jsx` is canonical; edit it directly. The `research/<study>/FINDINGS*.md` papers are secondary and may be stale — they are NOT a source the page is generated from (the former MD→JSX generator was retired 2026-06-22). This holds for all studies including individual-guidance.
 
 ## Deploy
 

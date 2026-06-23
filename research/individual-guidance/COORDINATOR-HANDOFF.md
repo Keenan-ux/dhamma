@@ -9,7 +9,7 @@ Bring the cosmology arm of the individual-guidance study ("From Function to Esse
 `individual-guidance`) up to the persons-domain rigor, fix one stratum-bucketing artifact, reconcile
 the count framings across the doc set, and finish the prose de-AI sweep — closing the operator-approved
 peer-review findings. The study is live at https://dhamma.fly.dev (admin-gated Research tab) and is the
-deployed JSX `src/ResearchView.jsx` mirrored by the readable `research/individual-guidance/FINDINGS-readable.md`.
+canonical, hand-maintained JSX page `src/ResearchView.jsx`; `research/individual-guidance/FINDINGS-readable.md` is a secondary draft, no longer kept in sync with the page.
 
 ## 2. File / artifact map (READ FIRST, in this order)
 - **This doc.**
@@ -18,7 +18,7 @@ deployed JSX `src/ResearchView.jsx` mirrored by the readable `research/individua
 - `research/individual-guidance/COSMOLOGY-CENSUS-RAW.json` — a 47-candidate DB-grounded cosmology census (the seed for ITEM 1; not yet gated/sense-audited).
 - `research/individual-guidance/HARDENING-CENSUS.md` — the persons-domain census of record (the rigor bar ITEM 1 must match) + the fine 6-stratum CASE.
 - `research/individual-guidance/SAMADHI-COUNTS.json` — the 3,045-stem matrix (carita/upacara/cittekaggata source counts; note inflection-final-stem undercount caveat in §6).
-- `research/individual-guidance/FINDINGS-readable.md` and `src/ResearchView.jsx` — the study; the two MUST stay in sync (MD is the readable/PDF source, JSX is deployed).
+- `src/ResearchView.jsx` — the study's canonical, hand-maintained live page; edit it directly. `research/individual-guidance/FINDINGS-readable.md` is a secondary/stale draft, no longer kept in sync.
 - `research/individual-guidance/DISCOVERY-PASS.md`, `research/individual-guidance/FINDINGS-v2.md` — the rigor lane + discovery method; carita/sabhava counts live here too (the reconciliation targets).
 - Skill: `.claude/skills/dhamma-research/{SKILL.md,PROVENANCE-SIGNATURE.md,WRITING-STANDARD-READABILITY.md,EDITOR-CHECKLIST.md}` — the method + writing gates. ITEM 3 adds a rule to EDITOR-CHECKLIST.
 - `research/naga/sql.py` — the serial SQL runner. `research/individual-guidance/run_samadhi.py` / `analyze_samadhi.py` — the temp-table+trigram bulk-count pattern to copy.
