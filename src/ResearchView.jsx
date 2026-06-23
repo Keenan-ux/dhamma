@@ -1336,32 +1336,32 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               {/* ABSTRACT */}
               <p style={abstractLead}>
                 <span style={abstractTag}>Background.</span> The Pāli canon's earliest layer teaches in one
-                register. Its later literature teaches in another. The early discourses read what is presently
+                register, its later literature in another. The early discourses read what is presently
                 the case and answer it as the situation needs. They watch the root now active in a mind, weigh
                 how far a person's faculties have ripened, and place the whole world inside the
                 fathom-long body. The thousand years of Abhidhamma, commentary, and sub-commentary that follow
                 fix that supple teaching into closed systems: standing types and named tiers, closed lists and
-                measured quantities. This study began with a narrow question. It asked how the canon matches a
+                measured quantities. This study began with a narrow question: how the canon matches a
                 person to a practice. That question opened onto a larger one, and the larger one became the
                 subject. How is an adaptive teaching turned into a fixed one? And is the hardening a single late
                 break, or a tendency that recurs as the literature grows?
               </p>
               <p style={abstractLead}>
                 <span style={abstractTag}>Methods.</span> The relevant vocabulary is traced across six textual
-                strata. They run from the four Nikāyas through the late canon and the Abhidhamma, then the
+                strata, running from the four Nikāyas through the late canon and the Abhidhamma, then the
                 para-canonical works, the commentaries, and the sub-commentaries. Two domains are followed: the
                 guidance of persons and the description of the world. Every count comes from a query grouped on
-                textual stratum against the live corpus. Every term is read in sampled rows before it is trusted.
+                textual stratum against the live corpus, and every term is read in sampled rows before it is trusted.
               </p>
               <p style={abstractLead}>
-                <span style={abstractTag}>Results.</span> The move is real. It takes one form, and it recurs at
+                <span style={abstractTag}>Results.</span> The move is real: it takes one form and recurs at
                 more than one jump. Take the guidance of persons first. The canon sorts a mind by its present
                 root, and it carries closed rosters keyed to capacity and route; the seven noble persons are one
                 such roster. The six-temperament scheme built on <em>carita</em> (a person's settled character)
-                is a different thing. It is attested zero times in the four Nikāyas and the seven Abhidhamma
-                books. It fixes only in the commentaries. The other threads run the same way. The yoke of calm
-                and insight becomes a set of named vehicles. The graded measure of concentration
-                (<em>samādhismiṃ mattaso kārī</em>) becomes the named tiers of access and absorption. The first
+                is a different thing: attested zero times in the four Nikāyas and the seven Abhidhamma
+                books, it fixes only in the commentaries. The other threads run the same way. The yoke of calm
+                and insight becomes a set of named vehicles; the graded measure of concentration
+                (<em>samādhismiṃ mattaso kārī</em>) becomes the named tiers of access and absorption; the first
                 absorption, once given as a few felt qualities, becomes a closed inventory of factors. The
                 description of the world shows the same shape, on a thinner and freshly-counted sample. The
                 kasiṇa the canon offers as a measureless perception (<em>appamāṇa</em>, the boundless pole set
@@ -1369,7 +1369,7 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 twice in the four Nikāyas, acquires the bounding rim-wall that makes it an object, and its
                 measured dimensions, only in the commentary. What the early texts often leave as hyperbolic scale is
                 later pinned to exact figures, the world-cycle dated into counted aeons. The hardening is staged
-                rather than single. It intensifies again in the sub-commentaries, where the language of own-nature
+                rather than single, intensifying again in the sub-commentaries, where the language of own-nature
                 (<em>sabhāva</em>) reaches its peak. Most of these transitions localize cleanly to one jump or
                 another. A minority run the other way, because the canon already holds fully built typologies
                 and sometimes states an exact measure itself, and the tradition now and then refuses a measure
@@ -1382,10 +1382,10 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
                 standing type, and an open or hyperbolic formulation becomes a counted, bounded one. The first is
                 shown here in detail, across the guidance of persons. The second, in the description of the world,
                 is shown on a thinner sample that points the same way. There is a tension internal to the
-                tradition in this. A teaching of non-self and impermanence comes, in its later scholarship, to
-                lean on the language of own-nature and fixed measure. Why the tendency runs as it does is a further question. It may answer to the
-                needs of oral transmission. It may answer to a wider human pull toward concrete and permanent
-                knowledge. That lies beyond what the texts can settle, and it is left open. For the practical
+                tradition in this: a teaching of non-self and impermanence comes, in its later scholarship, to
+                lean on the language of own-nature and fixed measure. Why the tendency runs as it does is a further
+                question: it may answer to the needs of oral transmission, or to a wider human pull toward concrete
+                and permanent knowledge. That lies beyond what the texts can settle, and it is left open. For the practical
                 matter this began with, the lower reaches of the path ask less than the later lore implies. The
                 machinery that fits a person to a practice is later and firmer in its claims than its canonical
                 shelving suggests. So is the cosmos it sits within.
@@ -1439,14 +1439,14 @@ function IndividualGuidanceStudy({ entry, onBack, backLabel = 'Research' }) {
               {/* ROADMAP */}
               <p>
                 The study began at one corner of this field and widened. It first walks the guidance of persons
-                by ascending stratum. In the early discourses a person is read by the mind's present root and by
-                the reach of the faculties. In the Abhidhamma persons are sorted under other words while the
-                temperament term stays absent. At the para-canonical Khuddaka one word changes its job. In the
-                commentaries the temperament type is fixed and a whole design vocabulary blooms. In the
+                by ascending stratum: in the early discourses a person is read by the mind's present root and by
+                the reach of the faculties; in the Abhidhamma persons are sorted under other words while the
+                temperament term stays absent; at the para-canonical Khuddaka one word changes its job; in the
+                commentaries the temperament type is fixed and a whole design vocabulary blooms; in the
                 sub-commentaries temperament is read off the body. Then the survey drops the partition and reads
                 the whole field at once, across both domains, for the pattern that crosses the layers: where the
                 hardening happens, at which jump, and where it does not. A later section marks the limits of
-                saying so. A final section records findings of general importance that fell out of the wider
+                saying so; a final section records findings of general importance that fell out of the wider
                 reading.
               </p>
               <h2 style={h2}>In the early discourses: read by what is present, and what one can do</h2>
