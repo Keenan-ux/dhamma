@@ -1,0 +1,208 @@
+{
+ "meta": {
+  "as_of": "2026-06-24",
+  "corpus": "194,710 passages (postgres 16.14, pgvector)",
+  "note": "Auditability backfill for the 2026-06-23 adversarial review (finding S4). Each entry is a corpus-level fact a study's published claim rests on but does not store in its served dataset; the SQL + result is the committed audit record so the count re-derives from the repo without a fresh DB run. Heart-base has its own research/heart-base/counts-snapshot.json.",
+  "snapshots": [
+   {
+    "study": "shared",
+    "claim": "Per-layer row + character totals (the base rate behind every per-character density claim).",
+    "sql": "SELECT CASE WHEN work_role='mula' THEN '1_mula(canon)' WHEN work_slug LIKE '%-tika' THEN '3_tika' WHEN work_slug LIKE '%-attha' OR work_slug='pli-vism' THEN '2_attha' ELSE '4_anya' END layer, count(*) rows, sum(char_length(original)) chars, round(avg(char_length(original))) avg_chars FROM passages GROUP BY 1 ORDER BY 1",
+    "result": [
+     {
+      "layer": "1_mula(canon)",
+      "rows": 17996,
+      "chars": 53543921,
+      "avg_chars": "2975"
+     },
+     {
+      "layer": "2_attha",
+      "rows": 91843,
+      "chars": 29488533,
+      "avg_chars": "321"
+     },
+     {
+      "layer": "3_tika",
+      "rows": 81841,
+      "chars": 28357746,
+      "avg_chars": "346"
+     },
+     {
+      "layer": "4_anya",
+      "rows": 3030,
+      "chars": 9880513,
+      "avg_chars": "3261"
+     }
+    ]
+   },
+   {
+    "study": "individual-guidance",
+    "claim": "carita (temperament) = 0 in the four Nikayas (mula) — the load-bearing negative, diacritic-correct.",
+    "sql": "SELECT count(*) FROM passages WHERE work_role='mula' AND work_slug IN ('pli-dn','pli-mn','pli-sn','pli-an') AND original ~* 'rāgacarit|dosacarit|mohacarit|vitakkacarit|saddhācarit|buddhicarit|ñāṇacarit|samacarit'",
+    "result": [
+     {
+      "count": 0
+     }
+    ]
+   },
+   {
+    "study": "individual-guidance",
+    "claim": "carita = 0 in the canonical Abhidhamma (mula).",
+    "sql": "SELECT count(*) FROM passages WHERE work_role='mula' AND (work_slug LIKE 'pli-abh%' OR work_slug LIKE '%abhidhamma%') AND original ~* 'rāgacarit|dosacarit|mohacarit|vitakkacarit|saddhācarit|buddhicarit|ñāṇacarit'",
+    "result": [
+     {
+      "count": 0
+     }
+    ]
+   },
+   {
+    "study": "individual-guidance",
+    "claim": "carita = 0 in the Patisambhidamagga (the para-canonical work sometimes taken as its home).",
+    "sql": "SELECT count(*) FROM passages WHERE id LIKE 'cst-s0517m%' AND original ~* 'rāgacarit|dosacarit|mohacarit|saddhācarit|buddhicarit|vitakkacarit|ñāṇacarit'",
+    "result": [
+     {
+      "count": 0
+     }
+    ]
+   },
+   {
+    "study": "individual-guidance",
+    "claim": "sabhava (own-nature) by layer bucket, excluding purisabhava/ekamsabhavita (the G1 climb: canon~0 / attha / vism / tika).",
+    "sql": "SELECT CASE WHEN work_slug='pli-vism' THEN 'vism' WHEN work_slug LIKE '%-tika' THEN 'tika' WHEN work_slug LIKE '%-attha' THEN 'attha' WHEN work_role='mula' THEN 'mula(raw-stem)' ELSE 'other' END b, count(*) FROM passages WHERE original ~* 'sabhāv' AND original !~* 'purisabhāv|ekaṃsabhāvit' GROUP BY 1 ORDER BY 2 DESC",
+    "result": [
+     {
+      "b": "tika",
+      "count": 3981
+     },
+     {
+      "b": "attha",
+      "count": 1548
+     },
+     {
+      "b": "other",
+      "count": 222
+     },
+     {
+      "b": "vism",
+      "count": 84
+     },
+     {
+      "b": "mula(raw-stem)",
+      "count": 65
+     }
+    ]
+   },
+   {
+    "study": "individual-guidance",
+    "claim": "kammatthana raw stem-hits in the four Nikayas (mula): 11 raw, all ordinary sense (technical=0 by per-row audit).",
+    "sql": "SELECT work_slug, count(*) FROM passages WHERE work_role='mula' AND work_slug IN ('pli-an','pli-mn','pli-dn') AND original ~* 'kammaṭṭhān' GROUP BY 1 ORDER BY 2 DESC",
+    "result": [
+     {
+      "work_slug": "pli-an",
+      "count": 7
+     },
+     {
+      "work_slug": "pli-dn",
+      "count": 2
+     },
+     {
+      "work_slug": "pli-mn",
+      "count": 2
+     }
+    ]
+   },
+   {
+    "study": "individual-guidance",
+    "claim": "kammatthana in the Visuddhimagga (the 134-of-148 confinement numerator).",
+    "sql": "SELECT count(*) FROM passages WHERE work_slug='pli-vism' AND original ~* 'kammaṭṭhān'",
+    "result": [
+     {
+      "count": 134
+     }
+    ]
+   },
+   {
+    "study": "uttarakuru",
+    "claim": "Divine-eye pericope attestations (the 'never under the verification formula' backbone): 176x.",
+    "sql": "SELECT count(*) FROM passages WHERE original ILIKE '%dibbena cakkhunā visuddhena atikkantamānusakena%'",
+    "result": [
+     {
+      "count": 176
+     }
+    ]
+   },
+   {
+    "study": "uttarakuru",
+    "claim": "Mula rows carrying BOTH the divine-eye formula and the name Uttarakuru: exactly 5.",
+    "sql": "SELECT count(*) FROM passages WHERE work_role='mula' AND original ILIKE '%dibbena cakkhu%' AND original ~* 'uttarakur'",
+    "result": [
+     {
+      "count": 5
+     }
+    ]
+   },
+   {
+    "study": "uttarakuru",
+    "claim": "Mula rows naming Uttarakuru at all (context for the canon-vs-commentary split).",
+    "sql": "SELECT count(*) FROM passages WHERE work_role='mula' AND original ~* 'uttarakur'",
+    "result": [
+     {
+      "count": 26
+     }
+    ]
+   },
+   {
+    "study": "awakening",
+    "claim": "Marker availability by layer (the cross-layer confound): desanapariyosane (mass 'at the close of the talk') 0 mula / many attha.",
+    "sql": "SELECT CASE WHEN work_role='mula' THEN 'mula' WHEN work_slug LIKE '%-tika' THEN 'tika' WHEN work_slug LIKE '%-attha' OR work_slug='pli-vism' THEN 'attha' ELSE 'anya' END layer, count(*) FROM passages WHERE original ~* 'desanāpariyosāne' GROUP BY 1 ORDER BY 2 DESC",
+    "result": [
+     {
+      "layer": "attha",
+      "count": 206
+     },
+     {
+      "layer": "tika",
+      "count": 9
+     },
+     {
+      "layer": "anya",
+      "count": 5
+     }
+    ]
+   },
+   {
+    "study": "awakening",
+    "claim": "Marker availability: arahatta(ṃ) papuni ('attained arahatship') by layer.",
+    "sql": "SELECT CASE WHEN work_role='mula' THEN 'mula' WHEN work_slug LIKE '%-tika' THEN 'tika' WHEN work_slug LIKE '%-attha' OR work_slug='pli-vism' THEN 'attha' ELSE 'anya' END layer, count(*) FROM passages WHERE original ~* 'arahatta.{0,3}pāpuṇi|arahatta.{0,3}patt' GROUP BY 1 ORDER BY 2 DESC",
+    "result": [
+     {
+      "layer": "attha",
+      "count": 956
+     },
+     {
+      "layer": "tika",
+      "count": 141
+     },
+     {
+      "layer": "mula",
+      "count": 132
+     },
+     {
+      "layer": "anya",
+      "count": 34
+     }
+    ]
+   },
+   {
+    "study": "naga",
+    "claim": "Snake-synonym recall floor: mula rows whose nāga-being material might hide under ahi/sappa/āsīvisa/uraga (the disclosed <=6 floor).",
+    "sql": "SELECT count(*) FROM passages WHERE work_role='mula' AND original ~* '\\mahi|\\msapp|āsīvis|uraga'",
+    "result": [
+     {
+      "count": 1352
+     }
+    ]
+   }
+  ]
+ }
+}
