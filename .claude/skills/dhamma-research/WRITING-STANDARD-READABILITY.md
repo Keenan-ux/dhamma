@@ -152,6 +152,45 @@ A single comma fits only a short, non-emphatic aside. It cannot join two indepen
 
 **The closing gate is the ear.** Read each edited paragraph aloud, or sub-vocally. If it sounds like a list of clipped commands, it is chopped: rejoin and re-base. If it forces a breathless run with nowhere to rest, it is over-dense: re-base or break. The ear catches both failures the eye skims past. This is the two-directional form of the older "can you take a breath" test, which flags only over-density and is blind to the chop.
 
+### 3.5 First-contact precision (a named concept is a citation; it must be auditable)
+
+The rationale is auditability, not hand-holding. A named concept must be confirmable to its source, exactly like a citation. A vague English label ("the root", "the mind", "the world") cannot be audited: the reader cannot check it against anything. Even a scholar wants the Pāli pinned so the claim is confirmable. On first contact with a concept:
+
+- **Present before you refer.** Define a thing the first time; never lean on it as already shared *on first contact*. Once a term is defined with its gloss, a later bare-Pāli use is correct and preferred (the Pāli-display gate). An early individual-guidance abstract asserted "The move is real" before the move had been named; the fix defines "the recurring move" first, then refers to it.
+- **Pin a Pāli word when the claim turns on its precise sense**, and especially the cover-words that hide a specific term: mind = *citta* (not *mano* / *viññāṇa* / *ceto* where *citta* is meant), world = *loka*, feeling = *vedanā*, element = *dhātu*. The dangerous word is the one that looks ordinary while covering a precise, often multiple, Pāli referent. **Test for pinning:** pin it if a single specific Pāli term is the real referent and a reader would want to confirm the claim against that term (*citta*, *loka*, *indriya*, *anusaya*); exempt it only when no one Pāli word is meant, where the English ranges over several or none ("a person", "a teaching", "the texts", "the path"). When unsure, pin: a needless gloss costs a parenthetical, a missing one costs auditability.
+- **Hand over the precise referent, not a synonym.** Enumerate or give the function: root → *akusala-mūla* (greed, hate, delusion); faculties → *indriya* (faith, energy, mindfulness, concentration, wisdom); seven noble persons → *satta ariyapuggalā* (graded by leading faculty and depth of attainment). A looser English synonym ("the underlying tendency" for *anusaya*) is not a referent; the reader still cannot audit it.
+- **Plain, concrete diction for the rest.** Kill the oblique or precious word ("register", "ripened") where a plain one carries the sense.
+
+**Form, so precision does not re-chop the rhythm (§3.4).** A pinned Pāli gloss is *not* a §3.2 citation: §3.2 governs raw corpus ids and loci, which still go to footnotes, while first-contact pins ride in the body. Pins still cost reading, so the Pāli rides a *skimmable parenthetical* the fluent reader glides past, and the conceptual handhold is *woven as a clause*, not bolted on. The defect is parentheticals **stacked on one referent or jammed into one clause**, not their count across a sentence. Test: at most one parenthetical per clause; distribute a run of glosses across parallel verb-clauses, or carry them on a colon or semicolon series, never as three or more consecutive parentheticals on one clause.
+
+  - **PASS (the deployed IG Background, the texture this standard is benchmarked to):** "they name which unwholesome root (*akusala-mūla*: greed, hate, or delusion) is active in a mind (*citta*) at a given moment, weigh how far a person's five spiritual faculties (*indriya*: faith, energy, mindfulness, concentration, and wisdom) have matured, and locate the whole world (*loka*) within present experience" — four glosses, one per clause, skimmable.
+  - **FAIL:** "the mind (*citta*) (*mano*) names a root (*akusala-mūla*) (greed) (hate) ..." — stacked on one referent; recast as a colon series.
+
+If a paragraph already carries a parallel-clause series of glosses (the exemplar Results paragraph sits at the readable maximum), pin only the terms the next claim audits against, and let the rest ride on a prior gloss or the Pāli alone. The mechanical half of this rule is the EDITOR-CHECKLIST "Pāli display" gate, which owns the trigger-term list and the synonym rule; this subsection is the compositional half.
+
+### 3.6 Measured register (describe the systematizing; do not indict it)
+
+The finding across these studies is an observable trend of systematization and hardening, not a fall from grace. Describe it; do not prosecute it. (The operator's calibration: "not the move from Christ to the Mormon church, not THAT alienated"; the wanted tone is "warm but mainly academic.")
+
+- **Drop the early-pure / late-fallen binary.** No "supple teaching" against "closed systems", no "the living word frozen into doctrine". The Visuddhimagga is a masterwork, not a degradation, and systematizing is what a living scholastic tradition does.
+- **Neutral verbs, not loaded ones.** systematizes, organizes, names, settles into, is resolved into, comes to be read as; not freezes, calcifies, fixes-into, turns-into. ("Hardening" survives as a named, hedged noun for the trend, not as a verb of blame.)
+- **Keep the hedges and name the counter-currents.** A tendency, not a law; count the cases that run the other way rather than waving them away (the individual-guidance paper keeps *puggalavemattatā* as a counted counter-trend). The trend is noted without reproach.
+- **Measured is not toothless.** A strong, counted trend may be stated at full strength through the magnitude and the data, not through a verb of blame: name the size of the shift, the count, the clean localization to one stratum jump. Force-carrying verbs that stay neutral: intensifies, sharpens, deepens, recurs, and "hardens" used as the hedged trend-noun's verb where the count supports it. The test is whether the force comes from the evidence or from a moral verb; the former ships. *Before:* "the living teaching freezes into closed commentarial doctrine." *After (the deployed IG):* "the later literature increasingly systematizes ... settles open or hyperbolic formulations into fixed lists and measured quantities", with the internal tension "noted without reproach".
+- This sharpens, it does not replace, §3.1 (de-assert / no forced thesis): §3.1 governs how hard a claim is pressed; §3.6 governs the moral colour of the verbs that carry it.
+
+### 3.7 Timeline precision (place each stratum, hedged)
+
+The auditability of §3.5 applied to time: a reader must be able to place each stratum, with concrete hedged anchors. The agreed frame is rendered in full in the deployed individual-guidance abstract (the Background paragraph): the *suttas* ascribed to the Buddha (~5th c. BCE); the First Council of some five hundred arahants near the *parinibbāna*; some four centuries oral; written down ~1st c. BCE in Sri Lanka; the commentaries (*aṭṭhakathā*) largely redacted by Buddhaghosa ~5th c. CE; so roughly a thousand years between the oldest stratum and the commentary. Reuse those anchors rather than restating them here (single source, §1.1), and always hedge: exact dates are contested, and the findings rest on relative order, not absolute date.
+
+- **FAIL:** "the commentaries, written in 430 CE, ..." (false precision, unhedged).
+- **PASS:** "the commentaries (*aṭṭhakathā*), largely redacted by Buddhaghosa around the fifth century CE."
+
+### 3.8 Question-sharpening (name the real spine) — author-time, not a copy-edit gate
+
+Name each study's spine for the axis its *frozen* finding actually turned on; do not ship a question that misses a lot while saying little. This re-describes a settled result, it does not re-choose the hypothesis after seeing the data. (For individual-guidance the spine is *function → essence*: a teaching given as a present function, which unwholesome root is active now, how ripe a person's faculties are, where the world stands in present experience, is recast over the strata as a standing property, a fixed character-type, a named tier, a measured quantity; the question is then how far that one move reaches.) The subtitle and the abstract carry the sharpened question, not the seed's first guess.
+
+**This is presentation only.** The H1/H0 split was frozen at pre-registration (SKILL.md); §3.8 sharpens how that frozen axis is *named* in the title and abstract, never which axis was tested. If sharpening the spine would change what was tested, that is a forking-paths violation, not a writing edit. Because §3.8 acts at framing time, the EDITOR copy-edit pass does not apply it to finished prose.
+
 ---
 
 ## 4. The table standard

@@ -69,6 +69,30 @@ tag exactly. Output the edited text plus a short list of the categories you chan
   evidence hasn't earned. Let the data carry it.
 - **Title-case headings** if the venue uses sentence case; consistent heading style throughout.
 
+## Precision & register gates (WRITING-STANDARD §3.5–§3.7; §3.8 is author-time, not a copy-edit gate)
+- **Unpinned cover-word.** A concept the claim turns on, named only in English where the Pāli is the
+  real referent. *Scan trigger:* a bare English mind / world / root / feeling / element / faculty / "the
+  move" with no italic Pāli in the clause. Pin it on first contact. *Decision test:* pin if a single
+  specific Pāli term is the real referent and a reader would want to confirm against it; exempt only
+  when no one Pāli word is meant (a person, a teaching, the texts, the path); when unsure, pin. The
+  trigger-term list and the synonym rule live in the Pāli-display gate below (the sole home); the
+  compositional rule is WRITING-STANDARD §3.5.
+- **Refer-before-present.** A concept leaned on as already shared before it has been defined on first
+  contact. Define it first, then refer. (A later bare-Pāli use after a first-contact gloss is correct.)
+- **Stacked-parenthetical pile-up.** *Three or more parentheticals consecutive on one clause or
+  referent.* Recast as a colon or semicolon parallel-clause series (§3.5 form). Glosses *distributed*
+  one-per-clause across a sentence are the PASS case, not the defect (the deployed IG Background carries
+  four, one per clause, and is compliant); the defect is the stack, not the sentence-wide count.
+- **Indicting register.** A loaded verb of blame (freezes, calcifies, "the living word frozen into
+  doctrine") or an early-pure / late-fallen binary. Regrade to a neutral verb (systematizes, names,
+  settles into), keep the hedge, and let the trend be noted rather than prosecuted (§3.6). Force is fine
+  when it comes from the evidence (the count, the size of the shift, the clean stratum localization;
+  verbs intensifies / sharpens / deepens), not from a moral verb. "Hardening" may stay only as a hedged
+  trend-noun, never as a verb of verdict.
+- **Unplaced stratum / false date precision.** A stratum referenced with no time anchor, or an unhedged
+  absolute date ("written in 430 CE"). Give the hedged anchor ("around the fifth century CE") and rest
+  the claim on relative order (§3.7).
+
 ## Mechanics
 - Vary sentence length on purpose: each paragraph wants short, medium, and at least one longer cumulative
   sentence; a run of short near-equal sentences is a staccato defect, not concision (the staccato tell above;

@@ -21,13 +21,18 @@ flip, AI-synthesis go-live) autonomously.*
       totals) so the corpus facts re-derive from the repo. Heart-base keeps its own counts-snapshot.json.
 - [x] 1c. QA: build compiles; re-review confirmed page↔dataset reconciliation; my edits prose-only.
       Full auth'd browser QA needs admin secrets (out of autonomous reach) → post-deploy smoke instead.
-- [~] 1-SHIP: commit + push + deploy + smoke (decision: full-ship per project pattern; pushes the
-      session's local commits too, resolving the flagged pending item).
+- [x] 1-SHIP: committed 323fb31, PUSHED (b8a9ca6..323fb31, all session commits synced), deployed +
+      smoked green (dbcheck 194710, ready 200, live hash CvJDqobh == build). PENDING-PUSH item resolved.
+
+## PHASE 1.5 — note: ship policy decided = full-ship (commit+push+deploy+smoke per project pattern).
 
 ## PHASE 2 — Tier B (writing-quality rollout, the original campaign)
-- [ ] 2a. Encode rules 2 (first-contact precision) + 3 (measured register) + riders A/B into
-      WRITING-STANDARD §3.5/§3.6 + EDITOR-CHECKLIST tells/gates; adversarial-verify; update memory
-      `writing-rules-from-ig-notes`. (Doc-only.)
+- [x] 2a. DONE: WRITING-STANDARD §3.5 (precision) / §3.6 (register) / §3.7 (timeline) / §3.8
+      (question-sharpening, author-time) + EDITOR "Precision & register gates" encoded; adversarially
+      verified (workflow w444ol0fk, 3 lenses, ship-with-edits) and ALL fixes applied (need-gated pinning,
+      §3.2 carve-out, distribution-test PASS/FAIL on the exemplar, measured-not-toothless, §3.7 single-
+      source, §3.8 forking-paths firewall, threshold reconciled, banned word removed). Memory
+      writing-rules-from-ig-notes updated. Skill-docs only (not bundled) -> no deploy.
 - [ ] 2b. Clean pre-existing rendered residuals: heart-base `v2.method_note` "load-bearing"
       (ResearchView ~3245); naga.json ~37 data-field em-dashes (records[].claim ×34 + spine ×3);
       IG/naga FINDINGS banned words (secondary).
@@ -54,5 +59,18 @@ flip, AI-synthesis go-live) autonomously.*
 ## PENDING OPERATOR ITEMS (logged, not blocking the rest)
 - Push the session's local commits (73a77e0 fixes + ae12762/df2d54a/32429fd review/PDF) — will push at 1-SHIP.
 
+## Phase 2 scoping (done 2026-06-24, before execution)
+- 2a DRAFTED: WRITING-STANDARD §3.5 (first-contact precision), §3.6 (measured register), §3.7 (timeline
+  precision), §3.8 (question-sharpening) + EDITOR-CHECKLIST "Precision & register gates". In adversarial
+  verify (workflow w444ol0fk, 3 lenses) before commit. Then update memory writing-rules-from-ig-notes.
+- 2b/2c residuals SCOPED: the 7 ResearchView em-dashes are ALL in code comments (rendered prose is
+  em-dash-clean). The real rendered em-dashes live in naga.json DATA (34 records[].claim + 3 spine) +
+  5 non-rendered meta "load-bearing" → fold into the 2c naga pass. Register-pass targets: ~5
+  "freezes/frozen" instances (IG L1514/1580/1671, heart-base L2576/3301) to evaluate per §3.6. No
+  early-pure/late-fallen binary phrasing found (already clean). IG/naga FINDINGS banned words stay
+  (secondary/internal docs per the rule). So 2c = a targeted precision+register polish per study, not a
+  rewrite (prior campaigns already de-chopped + glossed much).
+
 ## Run log (newest first)
-- 2026-06-24: ledger created; starting Phase 1a.
+- 2026-06-24: Phase 1 DONE+shipped (323fb31, deployed, smoke green). Phase 2a drafted + in verify.
+- 2026-06-24: ledger created; Phase 1a.
