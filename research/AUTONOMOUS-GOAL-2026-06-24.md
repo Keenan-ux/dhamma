@@ -50,8 +50,10 @@ flip, AI-synthesis go-live) autonomously.*
       email (Cologne has no bulk download; only DPD's scraped 29,734-entry SQLite with no licence claim;
       PTS still sells volumes). Buddhadatta low-priority/redundant with DPD. Cone is PTS-copyright. No
       clean autonomous source. Artifact = this assessment; needs operator licensing decision.
-- [!] 3c. Access-to-Insight outreach: drafts ALREADY EXIST (ATI_EMAIL_DRAFT.md, OUTREACH-EMAIL-DRAFT.md).
-      Review/polish at Phase 3; DO NOT send (outward, needs operator).
+- [!] 3c. Access-to-Insight outreach: DONE TO THE GATE (2026-06-24). Consolidated the two drafts into one
+      clean OUTREACH-EMAIL-DRAFT.md (scholarly register, no feature-dump, no em-dash), FIXED a factual
+      error (old draft claimed 6 dictionaries incl 'CPED'; live set is 5), added an operator send-checklist.
+      ATI_EMAIL_DRAFT.md banner-marked superseded. NOT sent (outward, needs operator name + send).
 - [!] 3d. AI-draft translations: blocked on operator decisions (model/UX/storage + the no-LLM-default
       rule). TRANSLATIONS-AI.md is the design. Document decisions needed; do not ship synthesis.
 - NOTE: Tier C's only substantial AUTONOMOUS item is 3a (the counter-thesis study). 3b/3c/3d are at-gate.

@@ -1,3 +1,7 @@
+> **SUPERSEDED 2026-06-24** by the consolidated draft in `OUTREACH-EMAIL-DRAFT.md`. Kept for
+> reference only. This version overstated the dictionary count ("six ... CPED"); the live set is five
+> (DPD, DPPN, PED, Monier-Williams, BHS). Use the consolidated draft.
+
 # Draft email to Access to Insight / Barre Center for Buddhist Studies
 
 **To:** contact@buddhistinquiry.org
