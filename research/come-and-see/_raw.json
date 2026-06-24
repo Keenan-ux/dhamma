@@ -1,0 +1,825 @@
+{
+ "meta": {
+  "as_of": "2026-06-24",
+  "corpus": "194710 passages",
+  "char_totals_Mc": {
+   "mula": 53.543921,
+   "attha": 29.488533,
+   "tika": 28.357746
+  }
+ },
+ "canon_formula": [
+  {
+   "id": "an10.92",
+   "citation": "AN 10.92",
+   "work_slug": "pli-an",
+   "chars": 3581,
+   "edition": "sc",
+   "snippet": "ena samannāgato hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti; saṅghe aveccappasādena samannāgato hoti: ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sāv"
+  },
+  {
+   "id": "an11.11",
+   "citation": "AN 11.11",
+   "work_slug": "pli-an",
+   "chars": 7033,
+   "edition": "sc",
+   "snippet": "hammaṁ anussareyyāsi: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Yasmiṁ, mahānāma, samaye ariyasāvako dhammaṁ anussarati, nevassa tasmiṁ samaye rāgapariyuṭṭhitaṁ cittaṁ ho"
+  },
+  {
+   "id": "an11.13",
+   "citation": "AN 11.13",
+   "work_slug": "pli-an",
+   "chars": 3854,
+   "edition": "sc",
+   "snippet": "hammaṁ anussareyyāsi: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Iti kho te, nandiya, dhammaṁ ārabbha ajjhattaṁ sati upaṭṭhāpetabbā. Puna caparaṁ tvaṁ, nandiya, kalyāṇamit"
+  },
+  {
+   "id": "an3.40",
+   "citation": "AN 3.40",
+   "work_slug": "pli-an",
+   "chars": 4450,
+   "edition": "sc",
+   "snippet": "takiriyā paññāyethāti. Svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhīti. Santi kho pana me sabrahmacārī jānaṁ passaṁ viharanti. Ahañceva kho pana evaṁ svākkhāte dhammavinaye pabbaj"
+  },
+  {
+   "id": "an3.53",
+   "citation": "AN 3.53",
+   "work_slug": "pli-an",
+   "chars": 2458,
+   "edition": "sc",
+   "snippet": "uccati. Kittāvatā nu kho, bho gotama, sandiṭṭhiko dhammo hoti akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī”ti? “Ratto kho, brāhmaṇa, rāgena abhibhūto pariyādinnacitto attabyābādhāyapi ceteti, parabyābādhāyapi ceteti, "
+  },
+  {
+   "id": "an3.54",
+   "citation": "AN 3.54",
+   "work_slug": "pli-an",
+   "chars": 2381,
+   "edition": "sc",
+   "snippet": "uccati. Kittāvatā nu kho, bho gotama, sandiṭṭhiko dhammo hoti akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī”ti? “Ratto kho, brāhmaṇa, rāgena abhibhūto pariyādinnacitto attabyābādhāyapi ceteti, parabyābādhāyapi ceteti, "
+  },
+  {
+   "id": "an3.55",
+   "citation": "AN 3.55",
+   "work_slug": "pli-an",
+   "chars": 1560,
+   "edition": "sc",
+   "snippet": "ti. Kittāvatā nu kho, bho gotama, sandiṭṭhikaṁ nibbānaṁ hoti akālikaṁ ehipassikaṁ opaneyyikaṁ paccattaṁ veditabbaṁ viññūhī”ti? Ratto kho, brāhmaṇa, rāgena abhibhūto pariyādinnacitto attabyābādhāyapi ceteti, parabyābādhāyapi ceteti"
+  },
+  {
+   "id": "an3.70",
+   "citation": "AN 3.70",
+   "work_slug": "pli-an",
+   "chars": 17938,
+   "edition": "sc",
+   "snippet": "o dhammaṁ anussarati: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Tassa dhammaṁ anussarato cittaṁ pasīdati, pāmojjaṁ uppajjati, ye cittassa upakkilesā te pahīyanti, seyyath"
+  },
+  {
+   "id": "an3.74",
+   "citation": "AN 3.74",
+   "work_slug": "pli-an",
+   "chars": 2478,
+   "edition": "sc",
+   "snippet": "āṇañca kammaṁ phussa phussa byantīkaroti. Sandiṭṭhikā nijjarā akālikā ehipassikā opaneyyikā paccattaṁ veditabbā viññūhīti. Sa kho so, abhaya, bhikkhu evaṁ sīlasampanno vivicceva kāmehi …pe… catutthaṁ jhānaṁ upasampajja viharati. S"
+  },
+  {
+   "id": "an3.75",
+   "citation": "AN 3.75",
+   "work_slug": "pli-an",
+   "chars": 2041,
+   "edition": "sc",
+   "snippet": "abbā patiṭṭhāpetabbā: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti, saṅghe aveccappasāde samādapetabbā nivesetabbā patiṭṭhāpetabbā: ‘suppaṭipanno bhagavato sāvakasaṅgho ujupp"
+  },
+  {
+   "id": "an4.195",
+   "citation": "AN 4.195",
+   "work_slug": "pli-an",
+   "chars": 6466,
+   "edition": "sc",
+   "snippet": "āṇañca kammaṁ phussa phussa byantīkaroti, sandiṭṭhikā nijjarā akālikā ehipassikā opaneyyikā paccattaṁ veditabbā viññūhi. Passasi no tvaṁ, vappa, taṁ ṭhānaṁ yatonidānaṁ purisaṁ dukkhavedaniyā āsavā assaveyyuṁ abhisamparāyan”ti? “No"
+  },
+  {
+   "id": "an4.52",
+   "citation": "AN 4.52",
+   "work_slug": "pli-an",
+   "chars": 2300,
+   "edition": "sc",
+   "snippet": "ena samannāgato hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Ayaṁ, bhikkhave, dutiyo puññābhisando kusalābhisando sukhassāhāro sovaggiko sukhavipāko saggasaṁvattaniko "
+  },
+  {
+   "id": "an5.179",
+   "citation": "AN 5.179",
+   "work_slug": "pli-an",
+   "chars": 4358,
+   "edition": "sc",
+   "snippet": "ena samannāgato hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Ayamassa dutiyo ābhicetasiko diṭṭhadhammasukhavihāro adhigato hoti avisuddhassa cittassa visuddhiyā apariy"
+  },
+  {
+   "id": "an6.10",
+   "citation": "AN 6.10",
+   "work_slug": "pli-an",
+   "chars": 6493,
+   "edition": "sc",
+   "snippet": "o dhammaṁ anussarati: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Yasmiṁ, mahānāma, samaye ariyasāvako dhammaṁ anussarati nevassa tasmiṁ samaye rāgapariyuṭṭhitaṁ cittaṁ hot"
+  },
+  {
+   "id": "an6.47",
+   "citation": "AN 6.47",
+   "work_slug": "pli-an",
+   "chars": 1689,
+   "edition": "sc",
+   "snippet": "e, vuccati. Kittāvatā nu kho, bhante, sandiṭṭhiko dhammo hoti akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī”ti? “Tena hi, sīvaka, taññevettha paṭipucchāmi. Yathā te khameyya tathā naṁ byākareyyāsi. Taṁ kiṁ maññasi, sīv"
+  },
+  {
+   "id": "an6.48",
+   "citation": "AN 6.48",
+   "work_slug": "pli-an",
+   "chars": 1693,
+   "edition": "sc",
+   "snippet": "uccati. Kittāvatā nu kho, bho gotama, sandiṭṭhiko dhammo hoti akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī”ti? “Tena hi, brāhmaṇa, taññevettha paṭipucchissāmi. Yathā te khameyya tathā naṁ byākareyyāsi. Taṁ kiṁ maññasi"
+  },
+  {
+   "id": "an9.27",
+   "citation": "AN 9.27",
+   "work_slug": "pli-an",
+   "chars": 2815,
+   "edition": "sc",
+   "snippet": "ena samannāgato hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgato hoti: ‘suppaṭipanno bhagavato sāvakasaṅgho ujuppaṭipanno bhagavato sāva"
+  },
+  {
+   "id": "cst-s0402m2.mul-an3_1_4",
+   "citation": "AN an3.1.4",
+   "work_slug": "pli-an",
+   "chars": 30431,
+   "edition": "cst",
+   "snippet": "takiriyā paññāyethāti. Svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhīti. Santi kho pana me sabrahmacārī jānaṃ passaṃ viharanti. Ahañceva kho pana evaṃ svākkhāte dhammavinaye pabbaj"
+  },
+  {
+   "id": "cst-s0402m2.mul-an3_2_1",
+   "citation": "AN an3.2.1",
+   "work_slug": "pli-an",
+   "chars": 33821,
+   "edition": "cst",
+   "snippet": "uccati. Kittāvatā nu kho, bho gotama, sandiṭṭhiko dhammo hoti akāliko ehipassiko opaneyyiko (opanayiko (sī. syā. kaṃ. pī.) pañcamasuttassa ṭīkā oloketabbā) paccattaṃ veditabbo viññūhī’’ti? ‘‘Ratto kho, brāhmaṇa, rāgena abhibhūto p"
+  },
+  {
+   "id": "cst-s0402m2.mul-an3_2_2",
+   "citation": "AN an3.2.2",
+   "work_slug": "pli-an",
+   "chars": 75975,
+   "edition": "cst",
+   "snippet": " dhammaṃ anussarati – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. Tassa dhammaṃ anussarato cittaṃ pasīdati, pāmojjaṃ uppajjati, ye cittassa upakkilesā te pahīyanti, seyyath"
+  },
+  {
+   "id": "cst-s0402m2.mul-an3_2_3",
+   "citation": "AN an3.2.3",
+   "work_slug": "pli-an",
+   "chars": 24150,
+   "edition": "cst",
+   "snippet": "āṇañca kammaṃ phussa phussa byantīkaroti. Sandiṭṭhikā nijjarā akālikā ehipassikā opaneyyikā paccattaṃ veditabbā viññūhīti. ‘‘Sa kho so, abhaya, bhikkhu evaṃ sīlasampanno vivicceva kāmehi vivicca akusalehi dhammehi savitakkaṃ savic"
+  },
+  {
+   "id": "cst-s0402m3.mul-an4_2_1",
+   "citation": "AN an4.2.1",
+   "work_slug": "pli-an",
+   "chars": 18247,
+   "edition": "cst",
+   "snippet": "na samannāgato hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. Ayaṃ, bhikkhave, dutiyo puññābhisando kusalābhisando sukhassāhāro sovaggiko sukhavipāko saggasaṃvattaniko "
+  },
+  {
+   "id": "cst-s0402m3.mul-an4_4_5",
+   "citation": "AN an4.4.5",
+   "work_slug": "pli-an",
+   "chars": 61830,
+   "edition": "cst",
+   "snippet": "āṇañca kammaṃ phussa phussa byantīkaroti, sandiṭṭhikā nijjarā akālikā ehipassikā opaneyyikā paccattaṃ veditabbā viññūhi (viññūhīti (sī. pī. ka.) saṃ. ni. 4.364 passitabbaṃ). Passasi no tvaṃ, vappa, taṃ ṭhānaṃ yatonidānaṃ purisaṃ d"
+  },
+  {
+   "id": "cst-s0403m1.mul-an5_4_3",
+   "citation": "AN an5.4.3",
+   "work_slug": "pli-an",
+   "chars": 24322,
+   "edition": "cst",
+   "snippet": "na samannāgato hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. Ayamassa dutiyo ābhicetasiko diṭṭhadhammasukhavihāro adhigato hoti avisuddhassa cittassa visuddhiyā apariy"
+  },
+  {
+   "id": "cst-s0403m2.mul-an6_1_1",
+   "citation": "AN an6.1.1",
+   "work_slug": "pli-an",
+   "chars": 14083,
+   "edition": "cst",
+   "snippet": " dhammaṃ anussarati – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. Yasmiṃ, mahānāma, samaye ariyasāvako dhammaṃ anussarati nevassa tasmiṃ samaye rāgapariyuṭṭhitaṃ cittaṃ hot"
+  },
+  {
+   "id": "cst-s0403m2.mul-an6_1_5",
+   "citation": "AN an6.1.5",
+   "work_slug": "pli-an",
+   "chars": 43467,
+   "edition": "cst",
+   "snippet": "e, vuccati. Kittāvatā nu kho, bhante, sandiṭṭhiko dhammo hoti akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’ti? ‘‘Tena hi, sīvaka, taññevettha paṭipucchāmi. Yathā te khameyya tathā naṃ byākareyyāsi. Taṃ kiṃ maññasi, s"
+  },
+  {
+   "id": "cst-s0404m2.mul-an9_1_3",
+   "citation": "AN an9.1.3",
+   "work_slug": "pli-an",
+   "chars": 19820,
+   "edition": "cst",
+   "snippet": "na samannāgato hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgato hoti – ‘suppaṭipanno bhagavato sāvakasaṅgho ujuppaṭipanno bhagavato sāv"
+  },
+  {
+   "id": "cst-s0404m3.mul-an10_2_5",
+   "citation": "AN an10.2.5",
+   "work_slug": "pli-an",
+   "chars": 49662,
+   "edition": "cst",
+   "snippet": "na samannāgato hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti; saṅghe aveccappasādena samannāgato hoti – ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sā"
+  },
+  {
+   "id": "cst-s0404m4.mul-an11_2",
+   "citation": "AN 2",
+   "work_slug": "pli-an",
+   "chars": 47396,
+   "edition": "cst",
+   "snippet": "ammaṃ anussareyyāsi – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko (opanayiko (sī. syā. kaṃ. pī.)) paccattaṃ veditabbo viññūhī’ti. Yasmiṃ, mahānāma, samaye ariyasāvako dhammaṃ anussarati, nevassa tasmiṃ sa"
+  },
+  {
+   "id": "cst-s0102m.mul-dn2_3",
+   "citation": "DN 3",
+   "work_slug": "pli-dn",
+   "chars": 140548,
+   "edition": "cst",
+   "snippet": "na samannāgato hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. ‘‘Saṅghe aveccappasādena samannāgato hoti – ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato "
+  },
+  {
+   "id": "cst-s0102m.mul-dn2_5",
+   "citation": "DN 5",
+   "work_slug": "pli-dn",
+   "chars": 27014,
+   "edition": "cst",
+   "snippet": "mā vadamāno vadeyya – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhi apārutā amatassa dvārā’ti idameva taṃ sammā vadamāno vadeyya. Svākkhāto hi, bho, bhagavatā dhammo sandiṭṭhiko,"
+  },
+  {
+   "id": "cst-s0102m.mul-dn2_6",
+   "citation": "DN 6",
+   "work_slug": "pli-dn",
+   "chars": 42161,
+   "edition": "cst",
+   "snippet": "avatā. ‘‘Svākkhāto kho pana tena bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhi. Evaṃ opaneyyikassa dhammassa desetāraṃ imināpaṅgena samannāgataṃ satthāraṃ neva atītaṃse samanupassāma, na pa"
+  },
+  {
+   "id": "cst-s0103m.mul-dn3_1",
+   "citation": "DN 1",
+   "work_slug": "pli-dn",
+   "chars": 50171,
+   "edition": "cst",
+   "snippet": "ṇo bhāsito vajjigāme – svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhīti. Iti kho te, sunakkhatta, anekapariyāyena dhammassa vaṇṇo bhāsito vajjigāme. ‘Anekapariyāyena kho te, sunakk"
+  },
+  {
+   "id": "cst-s0103m.mul-dn3_10",
+   "citation": "DN 10",
+   "work_slug": "pli-dn",
+   "chars": 82447,
+   "edition": "cst",
+   "snippet": "na samannāgato hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko (opanayiko (syā. kaṃ.)) paccattaṃ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgato hoti – ‘suppaṭipanno bhagavato sāvakasaṅgho uju"
+  },
+  {
+   "id": "dn16",
+   "citation": "DN 16",
+   "work_slug": "pli-dn",
+   "chars": 135265,
+   "edition": "sc",
+   "snippet": "ena samannāgato hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgato hoti: ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sāv"
+  },
+  {
+   "id": "dn18",
+   "citation": "DN 18",
+   "work_slug": "pli-dn",
+   "chars": 25968,
+   "edition": "sc",
+   "snippet": "mmā vadamāno vadeyya: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhi apārutā amatassa dvārā’ti idameva taṁ sammā vadamāno vadeyya. Svākkhāto hi, bho, bhagavatā dhammo sandiṭṭhiko,"
+  },
+  {
+   "id": "dn19",
+   "citation": "DN 19",
+   "work_slug": "pli-dn",
+   "chars": 41112,
+   "edition": "sc",
+   "snippet": "agavatā. Svākkhāto kho pana tena bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhi. Evaṁ opaneyyikassa dhammassa desetāraṁ imināpaṅgena samannāgataṁ satthāraṁ neva atītaṁse samanupassāma, na pa"
+  },
+  {
+   "id": "dn24",
+   "citation": "DN 24",
+   "work_slug": "pli-dn",
+   "chars": 47987,
+   "edition": "sc",
+   "snippet": "ṇṇo bhāsito vajjigāme— svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhīti. Iti kho te, sunakkhatta, anekapariyāyena dhammassa vaṇṇo bhāsito vajjigāme. Anekapariyāyena kho te, sunakkh"
+  },
+  {
+   "id": "dn33",
+   "citation": "DN 33",
+   "work_slug": "pli-dn",
+   "chars": 79006,
+   "edition": "sc",
+   "snippet": "ena samannāgato hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgato hoti: ‘suppaṭipanno bhagavato sāvakasaṅgho ujuppaṭipanno bhagavato sāva"
+  },
+  {
+   "id": "cst-s0516m.mul-kn16_1",
+   "citation": "KN 1",
+   "work_slug": "pli-kn",
+   "chars": 343923,
+   "edition": "cst",
+   "snippet": "ṭhe dhamme kathayissāmi. Atha vā, diṭṭhe dhamme sandiṭṭhikaṃ akālikaṃ ehipassikaṃ opaneyyikaṃ paccattaṃ veditabbaṃ viññūhīti – evampi diṭṭhe dhamme kathayissāmīti diṭṭhe dhamme. Anītihanti na itihītihaṃ na itikirāya na paramparāya"
+  },
+  {
+   "id": "cst-s0519m.mul-kn19_4",
+   "citation": "KN 4",
+   "work_slug": "pli-kn",
+   "chars": 145384,
+   "edition": "cst",
+   "snippet": "hammānussatiyaṃ vuttaṃ svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko (opanayiko (sī.)) paccattaṃ veditabbo viññūhi. Yadidaṃ madanimmadano pipāsavinayo ālayasamugghāṭo vaṭṭūpacchedo suññato atidullabho taṇhak"
+  },
+  {
+   "id": "cst-s0519m.mul-kn19_6",
+   "citation": "KN 6",
+   "work_slug": "pli-kn",
+   "chars": 88098,
+   "edition": "cst",
+   "snippet": "ana niṭṭhaṃ gato hoti, svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhi, yadidaṃ madanimmadano…pe… nirodho nibbānaṃ, saha dhammiyā kho panassa honti iṭṭhā kantā piyā manāpā gihī ceva"
+  },
+  {
+   "id": "cst-s0201m.mul-mn1_1",
+   "citation": "MN 1",
+   "work_slug": "pli-mn",
+   "chars": 158478,
+   "edition": "cst",
+   "snippet": "na samannāgato hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti; saṅghe aveccappasādena samannāgato hoti – ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sā"
+  },
+  {
+   "id": "cst-s0201m.mul-mn1_4",
+   "citation": "MN 4",
+   "work_slug": "pli-mn",
+   "chars": 166162,
+   "edition": "cst",
+   "snippet": "anītā kho me tumhe, bhikkhave, iminā sandiṭṭhikena dhammena akālikena ehipassikena opaneyyikena paccattaṃ veditabbena viññūhi. Sandiṭṭhiko ayaṃ, bhikkhave, dhammo akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhi – iti yan"
+  },
+  {
+   "id": "mn38",
+   "citation": "MN 38",
+   "work_slug": "pli-mn",
+   "chars": 30334,
+   "edition": "sc",
+   "snippet": "anītā kho me tumhe, bhikkhave, iminā sandiṭṭhikena dhammena akālikena ehipassikena opaneyyikena paccattaṁ veditabbena viññūhi. Sandiṭṭhiko ayaṁ, bhikkhave, dhammo akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhi— iti yant"
+  },
+  {
+   "id": "mn7",
+   "citation": "MN 7",
+   "work_slug": "pli-mn",
+   "chars": 9249,
+   "edition": "sc",
+   "snippet": "ena samannāgato hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti; saṅghe aveccappasādena samannāgato hoti: ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sāv"
+  },
+  {
+   "id": "cnd22",
+   "citation": "CND 22",
+   "work_slug": "pli-nd",
+   "chars": 45609,
+   "edition": "sc",
+   "snippet": "e dhammamadesesi. <b>Sandiṭṭhikamakālikan</b>ti sandiṭṭhikaṁ akālikaṁ ehipassikaṁ opaneyyikaṁ paccattaṁ veditabbaṁ viññūhīti— evaṁ sandiṭṭhikaṁ. Atha vā, yo diṭṭheva dhamme ariyaṁ aṭṭhaṅgikaṁ maggaṁ bhāveti, tassa maggassa anantar"
+  },
+  {
+   "id": "cnd8",
+   "citation": "CND 8",
+   "work_slug": "pli-nd",
+   "chars": 46972,
+   "edition": "sc",
+   "snippet": "ṭṭhe dhamme kathayissāmi. Atha vā diṭṭhe dhamme sandiṭṭhikaṁ akālikaṁ ehipassikaṁ opaneyyikaṁ paccattaṁ veditabbaṁ viññūhīti— evampi diṭṭhe dhamme kathayissāmīti diṭṭhe dhamme. <b>Anītihan</b>ti na itihītihaṁ na itikirāya na param"
+  },
+  {
+   "id": "cnd9",
+   "citation": "CND 9",
+   "work_slug": "pli-nd",
+   "chars": 20542,
+   "edition": "sc",
+   "snippet": "ayissāmīti, evampi— diṭṭhe dhamme …pe…. Atha vā sandiṭṭhikaṁ akālikaṁ ehipassikaṁ opaneyyikaṁ paccattaṁ veditabbaṁ viññūhīti, evampi— diṭṭhe dhamme. <b>Anītihan</b>ti na itihītihaṁ na itikirāya na paramparāya na piṭakasampadāya na"
+  },
+  {
+   "id": "ne13",
+   "citation": "NE 13",
+   "work_slug": "pli-ne",
+   "chars": 4872,
+   "edition": "sc",
+   "snippet": "hammānussatiyaṁ vuttaṁ svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhi. Yadidaṁ madanimmadano pipāsavinayo ālayasamugghāṭo vaṭṭūpacchedo suññato atidullabho taṇhakkhayo virāgo nirod"
+  },
+  {
+   "id": "ne37",
+   "citation": "NE 37",
+   "work_slug": "pli-ne",
+   "chars": 81911,
+   "edition": "sc",
+   "snippet": "ana niṭṭhaṁ gato hoti, svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhi, yadidaṁ madanimmadano …pe… nirodho nibbānaṁ, saha dhammiyā kho panassa honti iṭṭhā kantā piyā manāpā gihī cev"
+  },
+  {
+   "id": "cst-s0301m.mul-sn1_1",
+   "citation": "SN 1",
+   "work_slug": "pli-sn",
+   "chars": 49172,
+   "edition": "cst",
+   "snippet": "khā bahupāyāsā; ādīnavo ettha bhiyyo. Sandiṭṭhiko ayaṃ dhammo akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’ti. ‘‘Kathañca, bhikkhu, kālikā kāmā vuttā bhagavatā bahudukkhā bahupāyāsā, ādīnavo ettha bhiyyo? Kathaṃ sand"
+  },
+  {
+   "id": "cst-s0301m.mul-sn1_11",
+   "citation": "SN 11",
+   "work_slug": "pli-sn",
+   "chars": 36079,
+   "edition": "cst",
+   "snippet": "mmaṃ anussareyyātha – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. Dhammañhi vo, bhikkhave, anussarataṃ yaṃ bhavissati bhayaṃ vā chambhitattaṃ vā lomahaṃso vā, so pahīyissat"
+  },
+  {
+   "id": "cst-s0301m.mul-sn1_4",
+   "citation": "SN 4",
+   "work_slug": "pli-sn",
+   "chars": 36398,
+   "edition": "cst",
+   "snippet": "khā bahupāyāsā, ādīnavo ettha bhiyyo. Sandiṭṭhiko ayaṃ dhammo akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’ti. Evaṃ vutte, māro pāpimā sīsaṃ okampetvā jivhaṃ nillāletvā tivisākhaṃ nalāṭe nalāṭikaṃ vuṭṭhāpetvā daṇḍamo"
+  },
+  {
+   "id": "cst-s0302m.mul-sn2_1",
+   "citation": "SN 1",
+   "work_slug": "pli-sn",
+   "chars": 195536,
+   "edition": "cst",
+   "snippet": "na samannāgato hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’’ti. ‘‘Saṅghe aveccappasādena samannāgato hoti – ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavat"
+  },
+  {
+   "id": "cst-s0302m.mul-sn2_5",
+   "citation": "SN 5",
+   "work_slug": "pli-sn",
+   "chars": 45924,
+   "edition": "cst",
+   "snippet": "esaṃ dhammaṃ deseti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhīti (viññūhi (?)). Aho, vata me dhammaṃ suṇeyyuṃ, sutvā ca pana dhammaṃ ājāneyyuṃ, ājānitvā ca pana tathattāya p"
+  },
+  {
+   "id": "cst-s0304m.mul-sn4_1",
+   "citation": "SN 1",
+   "work_slug": "pli-sn",
+   "chars": 311658,
+   "edition": "cst",
+   "snippet": ", vuccati. Kittāvatā nu kho, bhante, sandiṭṭhiko dhammo hoti, akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’ti? ‘‘Idha pana, upavāṇa, bhikkhu cakkhunā rūpaṃ disvā rūpappaṭisaṃvedī ca hoti rūparāgappaṭisaṃvedī ca. Sant"
+  },
+  {
+   "id": "cst-s0304m.mul-sn4_6",
+   "citation": "SN 6",
+   "work_slug": "pli-sn",
+   "chars": 29428,
+   "edition": "cst",
+   "snippet": "samannāgamanaṃ hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. Dhamme aveccappasādena samannāgamanahetu kho, devānaminda, evamidhekacce sattā kāyassa bhedā paraṃ maraṇā "
+  },
+  {
+   "id": "cst-s0304m.mul-sn4_7",
+   "citation": "SN 7",
+   "work_slug": "pli-sn",
+   "chars": 34588,
+   "edition": "cst",
+   "snippet": "annāgatā bhavissāma – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgatā bhavissāma – ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagav"
+  },
+  {
+   "id": "cst-s0304m.mul-sn4_8",
+   "citation": "SN 8",
+   "work_slug": "pli-sn",
+   "chars": 79680,
+   "edition": "cst",
+   "snippet": "īhi ṭhānehi pāsaṃso. ‘‘Tisso imā, gāmaṇi, sandiṭṭhikā nijjarā akālikā ehipassikā opaneyyikā paccattaṃ veditabbā viññūhi. Katamā tisso? Yaṃ ratto rāgādhikaraṇaṃ attabyābādhāyapi ceteti, parabyābādhāyapi ceteti, ubhayabyābādhāyapi c"
+  },
+  {
+   "id": "cst-s0305m.mul-sn5_11",
+   "citation": "SN 11",
+   "work_slug": "pli-sn",
+   "chars": 108467,
+   "edition": "cst",
+   "snippet": "na samannāgato hoti – ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgato hoti – ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sā"
+  },
+  {
+   "id": "sn11.3",
+   "citation": "SN 11.3",
+   "work_slug": "pli-sn",
+   "chars": 3424,
+   "edition": "sc",
+   "snippet": "ammaṁ anussareyyātha: “svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī”ti. Dhammañhi vo, bhikkhave, anussarataṁ yaṁ bhavissati bhayaṁ vā chambhitattaṁ vā lomahaṁso vā, so pahīyissat"
+  },
+  {
+   "id": "sn1.20",
+   "citation": "SN 1.20",
+   "work_slug": "pli-sn",
+   "chars": 5824,
+   "edition": "sc",
+   "snippet": "khā bahupāyāsā; ādīnavo ettha bhiyyo. Sandiṭṭhiko ayaṁ dhammo akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī”ti. “Kathañca, bhikkhu, kālikā kāmā vuttā bhagavatā bahudukkhā bahupāyāsā, ādīnavo ettha bhiyyo? Kathaṁ sandiṭ"
+  },
+  {
+   "id": "sn12.41",
+   "citation": "SN 12.41",
+   "work_slug": "pli-sn",
+   "chars": 3865,
+   "edition": "sc",
+   "snippet": "ena samannāgato hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgato hoti: ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sāv"
+  },
+  {
+   "id": "sn16.3",
+   "citation": "SN 16.3",
+   "work_slug": "pli-sn",
+   "chars": 3170,
+   "edition": "sc",
+   "snippet": "resaṁ dhammaṁ deseti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhīti. Aho vata me dhammaṁ suṇeyyuṁ, sutvā ca pana dhammaṁ ājāneyyuṁ, ājānitvā ca pana tathattāya paṭipajjeyyun’ti"
+  },
+  {
+   "id": "sn35.70",
+   "citation": "SN 35.70",
+   "work_slug": "pli-sn",
+   "chars": 2912,
+   "edition": "sc",
+   "snippet": ", vuccati. Kittāvatā nu kho, bhante, sandiṭṭhiko dhammo hoti, akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī”ti? “Idha pana, upavāṇa, bhikkhu cakkhunā rūpaṁ disvā rūpappaṭisaṁvedī ca hoti rūparāgappaṭisaṁvedī ca. Santañ"
+  },
+  {
+   "id": "sn40.10",
+   "citation": "SN 40.10",
+   "work_slug": "pli-sn",
+   "chars": 19039,
+   "edition": "sc",
+   "snippet": " samannāgamanaṁ hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Dhamme aveccappasādena samannāgamanahetu kho, devānaminda, evam’idhekacce sattā kāyassa bhedā paraṁ maraṇā"
+  },
+  {
+   "id": "sn41.10",
+   "citation": "SN 41.10",
+   "work_slug": "pli-sn",
+   "chars": 3053,
+   "edition": "sc",
+   "snippet": "mannāgatā bhavissāma: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgatā bhavissāma: ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagava"
+  },
+  {
+   "id": "sn4.21",
+   "citation": "SN 4.21",
+   "work_slug": "pli-sn",
+   "chars": 2445,
+   "edition": "sc",
+   "snippet": "khā bahupāyāsā, ādīnavo ettha bhiyyo. Sandiṭṭhiko ayaṁ dhammo akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī”ti. Evaṁ vutte, māro pāpimā sīsaṁ okampetvā jivhaṁ nillāletvā tivisākhaṁ nalāṭe nalāṭikaṁ vuṭṭhāpetvā daṇḍamol"
+  },
+  {
+   "id": "sn42.12",
+   "citation": "SN 42.12",
+   "work_slug": "pli-sn",
+   "chars": 14062,
+   "edition": "sc",
+   "snippet": "dvīhi ṭhānehi pāsaṁso. Tisso imā, gāmaṇi, sandiṭṭhikā nijjarā akālikā ehipassikā opaneyyikā paccattaṁ veditabbā viññūhi. Katamā tisso? Yaṁ ratto rāgādhikaraṇaṁ attabyābādhāyapi ceteti, parabyābādhāyapi ceteti, ubhayabyābādhāyapi c"
+  },
+  {
+   "id": "sn55.1",
+   "citation": "SN 55.1",
+   "work_slug": "pli-sn",
+   "chars": 1854,
+   "edition": "sc",
+   "snippet": "ena samannāgato hoti: ‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṁ veditabbo viññūhī’ti. Saṅghe aveccappasādena samannāgato hoti: ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sāv"
+  },
+  {
+   "id": "cst-e0101n.mul-74_p002",
+   "citation": "Vism §74.2",
+   "work_slug": "pli-vism",
+   "chars": 261,
+   "edition": "cst",
+   "snippet": "gatena paṭisallīnena ‘‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’ti (a. ni. 6.10) evaṃ pariyattidhammassa ceva navavidhassa ca lokuttaradhammassa guṇā anussaritabbā."
+  },
+  {
+   "id": "cst-e0101n.mul-74_p017",
+   "citation": "Vism §74.17",
+   "work_slug": "pli-vism",
+   "chars": 145,
+   "edition": "cst",
+   "snippet": "ayaṃ dhammo. Kasmā? Sandiṭṭhikattā. Sandiṭṭhiko, akālikattā. Akāliko, ehipassikattā. Yo ca ehipassiko, so nāma opaneyyiko hotīti."
+  }
+ ],
+ "canon_edition_split": {
+  "sc": 39,
+  "cst": 32
+ },
+ "commentary_ehipassika": [
+  {
+   "id": "cst-s0402a.att-an3_2_1_p007",
+   "citation": "Mp-a an3.2.1 §7",
+   "work_slug": "pli-an-attha",
+   "layer": "attha",
+   "chars": 615,
+   "snippet": "54. Tatiye sammodanīyanti sammodajananiṃ. Sāraṇīyanti saritabbayuttakaṃ. Vītisāretvāti pariyosāpetvā. Kittāvatāti kittakena. Sandiṭṭhiko dhammo hotīti sāmaṃ passitabbo hoti. Akālikoti na kālantare phaladāyako. Ehipassikoti ‘‘ehi passā’’ti evaṃ dassetuṃ sakkāti āgamanīyapaṭipadaṃ pucchati. Opaneyyikoti attano cittaṃ upanetabbo. Paccattaṃ veditabboti sāmaṃyeva jānitabbo. Viññūhīti paṇḍitehi. Pariyādinnacittoti ādinnagahitaparāmaṭṭhacitto hutvā. Cetetīti cinteti. Sesamettha uttānameva. Imasmiṃ pana sutte brāhmaṇena lokuttaramaggo pucchito, satthārāpi soyeva kathito. So hi sāmaṃ passitabbattā sandiṭṭhiko nāmāti.",
+   "akalika_gloss": "o hoti. Akālikoti na kālantare phaladāyako. Ehipassikoti ‘‘ehi passā’’ti evaṃ "
+  },
+  {
+   "id": "cst-s0402a.att-an3_2_3_p010",
+   "citation": "Mp-a an3.2.3 §10",
+   "work_slug": "pli-an-attha",
+   "layer": "attha",
+   "chars": 1226,
+   "snippet": "āyūhitakammaṃ. Phussa phussa byantī karotīti phusitvā phusitvā vigatantaṃ karoti, vipākaphassaṃ phusitvā phusitvā taṃ kammaṃ khepetīti attho. Sandiṭṭhikāti sāmaṃ passitabbā. Akālikāti na kālantare kiccakārikā. Ehipassikāti ‘‘ehi passā’’ti evaṃ dassetuṃ yuttā. Opaneyyikāti upanaye yuttā allīyitabbayuttā. Paccattaṃ veditabbā viññūhīti paṇḍitehi attano attano santāneyeva jānitabbā, bālehi pana dujjānā. Iti sīlavasena dve maggā, dve ca phalāni kathitāni. Sotāpannasakadāgāmino hi sīlesu paripūrakārinoti. Vivicceva kāmehītiādikāya pana samādhisampadāya tayo maggā, tīṇi ca phalāni kathitāni. Anāgāmī ariyasāvako hi samādhimhi paripūrakārīti",
+   "akalika_gloss": "itabbā. Akālikāti na kālantare kiccakārikā. Ehipassikāti ‘‘ehi passā’’ti evaṃ "
+  },
+  {
+   "id": "cst-s0401t.tik-an1_p062",
+   "citation": "Mp-pṭ vol.1 §62",
+   "work_slug": "pli-an-tika",
+   "layer": "tika",
+   "chars": 1559,
+   "snippet": "tiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi, ‘‘sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi. ‘‘Gatamala’’nti iminā saṃkilesābhāvadīpanena dhammassa parisuddhataṃ dasseti, ‘‘anuttara’’nti etena aññassa visiṭṭhassa abhāvadīpanena vipulaparipuṇṇataṃ. Paṭhamena vā pahānasampadaṃ dhammassa dasseti, dutiyena pabhavasampadaṃ. Bhāvetabbatāya vā dhammassa gatamalabhāvo yojetabbo. Bhāvanāguṇena hi so dosānaṃ samugghātako hotīti. Sacc",
+   "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa"
+  },
+  {
+   "id": "cst-s0101t.tik-dn1_0_p035",
+   "citation": "Sv-pṭ 1.intro §35",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "chars": 900,
+   "snippet": "tiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi, ‘‘sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi.",
+   "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa"
+  },
+  {
+   "id": "cst-s0104t.nrf-2_p050",
+   "citation": "Sv-pṭ §2.50",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "chars": 1106,
+   "snippet": "utiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi, ‘‘sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā paṭhamena akālikatāya, dutiyena ehipassikatāya. Paṭhamena vā opaneyyikatāya, dutiyena paccattaṃveditabbatāya. Paṭhamena vā saha pubbabhāgasīlādīhi sekkhehi sīlasamādhipaññākkhandhehi, dutiyena saha asaṅkhatadhātuyā asekkhehi dhammaṃ thometi.",
+   "akalika_gloss": "ṭhamena akālikatāya, dutiyena ehipassikatāya. Paṭhamena vā opaneyyikatāya, dut"
+  },
+  {
+   "id": "cst-s0105t.nrf-75_p003",
+   "citation": "Sv-pṭ §75.3",
+   "work_slug": "pli-dn-tika",
+   "layer": "tika",
+   "chars": 1001,
+   "snippet": "‘‘Ehi bhadanto’’ti vutte upagamanasaṅkhāto vidhi ehibhaddanto, taṃ caratīti ehibhaddantiko, ruḷhisaddena cettha taddhitasiddhi yathā ‘‘ehipassiko’’ti, (ma. ni. 1.74) tappaṭikkhepena naehibhaddantiko, tadevatthaṃ dasseti ‘‘bhikkhāgahaṇattha’’ntiādinā. Na etīti na āgacchati. Evaṃ natiṭṭhabhaddantikoti etthāpi. Samaṇena nāma sayaṃvacanakareneva bhavitabbaṃ, na paravacanakarenāti adhippāyena tadubhayampi…pe… na karoti. Puretaranti taṃ ṭhānaṃ attanā upagamanato paṭhamataraṃ, taṃ kira so ‘‘bhikkhunā nāma yādicchakī eva bhikkhā gahetabbā’’ti adhippāyena na gaṇhāti. ",
+   "akalika_gloss": null
+  },
+  {
+   "id": "cst-s0511a.att-30_p078",
+   "citation": "KN-a §30.78",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "chars": 87,
+   "snippet": "‘‘Eso hi sammāsambuddho, appameyyo durāsado; Eso hi dhammaratano, svākkhāto ehipassiko.",
+   "akalika_gloss": null
+  },
+  {
+   "id": "cst-s0516a.att-19_p026",
+   "citation": "KN-a §19.26",
+   "work_slug": "pli-kn-attha",
+   "layer": "attha",
+   "chars": 653,
+   "snippet": "alaṃdānaṃ sandhāya nāssa kāloti akālo, akāloyeva akāliko. Yo ettha ariyamaggadhammo, so attano samanantarameva phalaṃ detīti attho, taṃ akālikaṃ. Ehi passa imaṃ dhammanti evaṃ pavattaṃ ehipassavidhiṃ arahatīti ehipassiko, taṃ ehipassikaṃ. Ādittaṃ celaṃ vā sīsaṃ vā ajjhupekkhitvāpi attano citte upanayaṃ arahatīti opaneyyiko, taṃ opaneyyikaṃ. Sabbehipi ugghaṭitaññūādīhi ‘‘bhāvito me maggo, adhigataṃ phalaṃ, sacchikato nirodho’’ti attani attani veditabbanti paccattaṃ veditabbaṃ viññūhi.",
+   "akalika_gloss": "āloyeva akāliko. Yo ettha ariyamaggadhammo, so attano samanantarameva phalaṃ d"
+  },
+  {
+   "id": "cst-s0519t.tik-1_p033",
+   "citation": "KN-pṭ §1.33",
+   "work_slug": "pli-kn-tika",
+   "layer": "tika",
+   "chars": 1006,
+   "snippet": "atibhāvena, dutiyena amatabhāvena dhammaṃ thometi. Atha vā paṭhamena niyyānikabhāvadassanato svākkhātatāya dhammaṃ thometi, dutiyena sacchikātabbabhāvato sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi.",
+   "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa"
+  },
+  {
+   "id": "cst-s0201t.tik-mn1_0_p036",
+   "citation": "Ps-pṭ 1.intro §36",
+   "work_slug": "pli-mn-tika",
+   "layer": "tika",
+   "chars": 1559,
+   "snippet": "tiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi. ‘‘Sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi. ‘‘Gatamala’’nti iminā saṃkilesābhāvadīpanena dhammassa parisuddhataṃ dasseti, ‘‘anuttara’’nti etena aññassa visiṭṭhassa abhāvadīpanena vipulaparipuṇṇataṃ. Paṭhamena vā pahānasampadaṃ dhammassa dasseti, dutiyena sabhāvasampadaṃ. Bhāvetabbatāya vā dhammassa gatamalabhāvo yojetabbo. Bhāvanāguṇena hi so dosānaṃ samugghātako hotīti. Sacc",
+   "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa"
+  },
+  {
+   "id": "cst-s0301a.att-sn1_1_p163",
+   "citation": "Spk-a 1 §163",
+   "work_slug": "pli-sn-attha",
+   "layer": "attha",
+   "chars": 1098,
+   "snippet": "o phaladānaṃ sandhāya nāssa kāloti akālo, akāloyeva akāliko. Yo ettha ariyamaggadhammo, so attano pavattisamanantarameva phalaṃ detīti attho. ‘‘Ehi passa imaṃ dhamma’’nti evaṃ pavattaṃ ehipassavidhiṃ arahatīti ehipassiko. Ādittaṃ celaṃ vā sīsaṃ vā ajjhupekkhitvāpi bhāvanāvasena attano citte upanayaṃ arahatīti opaneyyiko. Sabbehi ugghaṭitaññūādīhi viññūhi ‘‘bhāvito me maggo, adhigataṃ phalaṃ, sacchikato nirodho’’ti attani attani veditabboti paccattaṃ veditabbo viññūhīti. Ayamettha saṅkhepo, vitthāro pana visuddhimagge (visuddhi. 1.146 ādayo) dhammānussativaṇṇanāyaṃ vutto.",
+   "akalika_gloss": "āloyeva akāliko. Yo ettha ariyamaggadhammo, so attano pavattisamanantarameva p"
+  },
+  {
+   "id": "cst-s0301t.tik-sn1_0_p032",
+   "citation": "Spk-pṭ 1.intro §32",
+   "work_slug": "pli-sn-tika",
+   "layer": "tika",
+   "chars": 1558,
+   "snippet": "tiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi, ‘‘sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi. ‘‘Gatamala’’nti iminā saṃkilesābhāvadīpanena dhammassa parisuddhataṃ dasseti. ‘‘Anuttara’’nti etena aññassa visiṭṭhassa abhāvadīpanena vipulaparipuṇṇataṃ. Paṭhamena vā pahānasampadaṃ dhammassa dasseti, dutiyena sabhāvasampadaṃ. Bhāvetabbatāya vā dhammassa gatamalabhāvo yojetabbo. Bhāvanābalena hi so dosānaṃ samugghātako hotīti. Sacc",
+   "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa"
+  },
+  {
+   "id": "cst-vin01a.att-31_p026",
+   "citation": "Sp §31.26",
+   "work_slug": "pli-vin-attha",
+   "layer": "attha",
+   "chars": 749,
+   "snippet": "Dhammaṃ paccakkhāmīti na vevacanena paccakkhānaṃ, yathārutameva. ‘‘Svākkhātaṃ dhammaṃ paccakkhāmi, sandiṭṭhikaṃ, akālikaṃ, ehipassikaṃ, opaneyyikaṃ, paccattaṃ veditabbaṃ viññūhi dhammaṃ paccakkhāmi. Asaṅkhataṃ dhammaṃ paccakkhāmi; virāgaṃ, nirodhaṃ, amataṃ dhammaṃ paccakkhāmi, dīghanikāyaṃ paccakkhāmi, brahmajālaṃ majjhimanikāyaṃ, mūlapariyāyaṃ, saṃyuttanikāyaṃ, oghataraṇaṃ, aṅguttaranikāyaṃ, cittapariyādānaṃ, khuddakanikāyaṃ, jātakaṃ, abhidhammaṃ, kusalaṃ dhammaṃ, akusalaṃ dhammaṃ, abyākataṃ dhammaṃ, satipaṭṭhānaṃ, sammappadhānaṃ, iddhipādaṃ, ind",
+   "akalika_gloss": "ṭhikaṃ, akālikaṃ, ehipassikaṃ, opaneyyikaṃ, paccattaṃ veditabbaṃ viññūhi dhamm"
+  },
+  {
+   "id": "cst-vin01t2.tik-10_p041",
+   "citation": "Sp-ṭ §10.41",
+   "work_slug": "pli-vin-tika",
+   "layer": "tika",
+   "chars": 716,
+   "snippet": "‘‘Ehi passa imaṃ dhamma’’nti evaṃ pavattaṃ ehipassavidhiṃ arahatīti ehipassiko. Kasmā panesa taṃ vidhiṃ arahatīti? Paramatthato vijjamānattā parisuddhattā ca. Rittamuṭṭhiyañhi hiraññaṃ vā suvaṇṇaṃ vā atthīti vatvāpi ‘‘ehi passa ima’’nti na sakkā vattuṃ. Kasmā? Avijjamānattā. Vijjamānampi ca gūthaṃ vā muttaṃ vā manuññabhāvappakāsanena cittasampahaṃsanatthaṃ ‘‘ehi passa ima’’nti na sakkā vattuṃ, apica kho naṃ tiṇehi vā paṇṇehi vā paṭicchādetabbameva hoti. Kasmā? Aparisuddhattā. Ayaṃ pana navavid",
+   "akalika_gloss": null
+  },
+  {
+   "id": "cst-e0101n.mul-74_p002",
+   "citation": "Vism §74.2",
+   "work_slug": "pli-vism",
+   "layer": "mula",
+   "chars": 261,
+   "snippet": "146. Dhammānussatiṃ bhāvetukāmenāpi rahogatena paṭisallīnena ‘‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’ti (a. ni. 6.10) evaṃ pariyattidhammassa ceva navavidhassa ca lokuttaradhammassa guṇā anussaritabbā.",
+   "akalika_gloss": "iṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’ti (a. ni. "
+  },
+  {
+   "id": "cst-e0101n.mul-74_p013",
+   "citation": "Vism §74.13",
+   "work_slug": "pli-vism",
+   "layer": "mula",
+   "chars": 706,
+   "snippet": "150. ‘‘Ehi passa imaṃ dhamma’’nti evaṃ pavattaṃ ehipassavidhiṃ arahatīti ehipassiko. Kasmā panesa taṃ vidhiṃ arahatīti? Vijjamānattā parisuddhattā ca. Rittamuṭṭhiyaṃ hi hiraññaṃ vā suvaṇṇaṃ vā atthīti vatvāpi ‘‘ehi passa ima’’nti na sakkā vattuṃ. Kasmā? Avijjamānattā. Vijjamānampi ca gūthaṃ vā muttaṃ vā manuññabhāvappakāsanena cittasampahaṃsanatthaṃ ‘‘ehi passa ima’’nti na sakkā vattuṃ. Apica kho pana tiṇehi vā paṇṇehi vā paṭicchādetabbameva hoti. Kasmā? Aparisuddhattā. Ayaṃ pana navavidhopi lokutt",
+   "akalika_gloss": null
+  },
+  {
+   "id": "cst-e0101n.mul-74_p017",
+   "citation": "Vism §74.17",
+   "work_slug": "pli-vism",
+   "layer": "mula",
+   "chars": 145,
+   "snippet": "Apica svākkhāto ayaṃ dhammo. Kasmā? Sandiṭṭhikattā. Sandiṭṭhiko, akālikattā. Akāliko, ehipassikattā. Yo ca ehipassiko, so nāma opaneyyiko hotīti.",
+   "akalika_gloss": "ṭṭhiko, akālikattā. Akāliko, ehipassikattā. Yo ca ehipassiko, so nāma opaneyyi"
+  },
+  {
+   "id": "cst-e0103n.att-76_p003",
+   "citation": "Vism-mhṭ §76.3",
+   "work_slug": "pli-vism-tika",
+   "layer": "tika",
+   "chars": 1577,
+   "snippet": "; a. ni. 8.53), ‘‘dhammāpi vo, bhikkhave, pahātabbā, pageva adhammā’’ti (ma. ni. 1.240) ca evamādīhi suttapadehi vibhāvetabbo. Akālikādhigamupāyatāya akāliko. Vijjamānatāparisuddhatāhi ehipassavidhiṃ arahatīti ehipassiko. Tato eva vaṭṭadukkhanittharaṇatthikehi attano citte upanayanaṃ, cittassa vā tattha upanayanaṃ arahatīti opaneyyiko. Vimuttāyatanasīse ṭhatvā paricayena sammadeva atthavedaṃ, dhammavedañca labhantehi paccattaṃ veditabbo viññūhīti. Evaṃ sandiṭṭhikādipadesu pariyattidhammampi pakkhipitvā manasikāro yujjateva.",
+   "akalika_gloss": "etabbo. Akālikādhigamupāyatāya akāliko. Vijjamānatāparisuddhatāhi ehipassavidh"
+  }
+ ],
+ "quality_density": {
+  "svakkhata": {
+   "mula": 138,
+   "attha": 90,
+   "tika": 67,
+   "canon_per_Mc": 2.58,
+   "comm_per_Mc": 2.71,
+   "canon_comm_ratio": 0.95
+  },
+  "sanditthika": {
+   "mula": 114,
+   "attha": 67,
+   "tika": 45,
+   "canon_per_Mc": 2.13,
+   "comm_per_Mc": 1.94,
+   "canon_comm_ratio": 1.1
+  },
+  "akalika": {
+   "mula": 151,
+   "attha": 200,
+   "tika": 600,
+   "canon_per_Mc": 2.82,
+   "comm_per_Mc": 13.83,
+   "canon_comm_ratio": 0.2
+  },
+  "ehipassika": {
+   "mula": 73,
+   "attha": 9,
+   "tika": 9,
+   "canon_per_Mc": 1.36,
+   "comm_per_Mc": 0.31,
+   "canon_comm_ratio": 4.39
+  },
+  "opaneyyika": {
+   "mula": 71,
+   "attha": 11,
+   "tika": 11,
+   "canon_per_Mc": 1.33,
+   "comm_per_Mc": 0.38,
+   "canon_comm_ratio": 3.5
+  },
+  "paccattam_veditabbo": {
+   "mula": 31,
+   "attha": 7,
+   "tika": 3,
+   "canon_per_Mc": 0.58,
+   "comm_per_Mc": 0.17,
+   "canon_comm_ratio": 3.41
+  }
+ },
+ "canon_distinct_works": [
+  "pli-an",
+  "pli-dn",
+  "pli-kn",
+  "pli-mn",
+  "pli-nd",
+  "pli-ne",
+  "pli-sn",
+  "pli-vism"
+ ]
+}

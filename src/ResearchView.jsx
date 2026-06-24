@@ -50,6 +50,12 @@ const RESEARCH_ENTRIES = [
     subtitle: 'What the canon holds a nāga to be, its births, its place in the cosmos, and the ceiling that bars it from awakening, and how the commentaries systematize, harden, and explain that picture.',
     data: '/research/naga.json',
   },
+  {
+    slug: 'come-and-see',
+    title: 'Come and See',
+    subtitle: 'A canon-versus-commentary study of the Dhamma’s invitational register, and how selective the later systematization turns out to be.',
+    data: '/research/come-and-see.json',
+  },
 ];
 
 // Public worked examples — the same renderer, ungated, served from /explorations/*.json
@@ -298,6 +304,7 @@ export default function ResearchView({ collection = 'research' }) {
       : entry.slug === 'heart-base-and-insight' ? HeartBaseStudy
       : entry.slug === 'uttarakuru' ? UttarakuruStudy
       : entry.slug === 'naga' ? NagaStudy
+      : entry.slug === 'come-and-see' ? ComeAndSeeStudy
       : AwakeningStudy;
     return (
       <>
@@ -2716,6 +2723,370 @@ function TierCell({ cell }) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Come and See study. A canon-versus-commentary look at the Dhamma's
+// invitational register (the six-quality dhammānussati formula), chosen as a
+// deliberate counter-thesis: here the canon, not the commentary, is the dense
+// layer for the invitational terms. Reads public/research/come-and-see.json
+// (quality_density rows + the canon-formula and commentary-ehipassika censuses,
+// each row resolving to a live corpus id). Counts in the prose are read from
+// the dataset's aggregates. Cloned from HeartBaseStudy.
+// ---------------------------------------------------------------------------
+
+// The six qualities of the formula, in formula order, with their pinned Pāli
+// and a short English gloss for the density table's row labels.
+const CAS_QUALITIES = [
+  { key: 'svakkhata', pali: 'svākkhāta', gloss: 'well-proclaimed', invitational: false },
+  { key: 'sanditthika', pali: 'sandiṭṭhika', gloss: 'directly visible', invitational: true },
+  { key: 'akalika', pali: 'akālika', gloss: 'timeless', invitational: false },
+  { key: 'ehipassika', pali: 'ehipassika', gloss: 'come-and-see', invitational: true },
+  { key: 'opaneyyika', pali: 'opaneyyika', gloss: 'onward-leading', invitational: true },
+  { key: 'paccattam_veditabbo', pali: 'paccattaṃ veditabbo viññūhi', gloss: 'to be known by the wise each for themselves', invitational: true },
+];
+
+// Human labels for the treatment codes used in the commentary census.
+const CAS_TREATMENT = {
+  'word-gloss': 'Word-gloss (pada-by-pada definition)',
+  'correlate': 'Correlate (maps the qualities onto another phrase)',
+  'grammatical': 'Grammatical (a derivation note)',
+  'quotation': 'Quotation (a bare citation of the formula)',
+  'recollection-gloss': 'Recollection-gloss (inside the recollection meditation)',
+};
+const CAS_TREATMENT_ORDER = ['word-gloss', 'correlate', 'recollection-gloss', 'quotation', 'grammatical'];
+
+// Display order for the canonical formula's source works.
+const CAS_WORK_LABEL = {
+  'pli-dn': 'Dīgha Nikāya',
+  'pli-mn': 'Majjhima Nikāya',
+  'pli-sn': 'Saṃyutta Nikāya',
+  'pli-an': 'Aṅguttara Nikāya',
+  'pli-kn': 'Khuddaka Nikāya',
+  'pli-nd': 'Niddesa (para-canonical)',
+  'pli-ne': 'Nettippakaraṇa (para-canonical)',
+};
+const CAS_WORK_ORDER = ['pli-dn', 'pli-mn', 'pli-sn', 'pli-an', 'pli-kn', 'pli-nd', 'pli-ne'];
+
+function ComeAndSeeStudy({ entry, onBack, backLabel = 'Research' }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [openTreat, setOpenTreat] = useState({});
+  const [openWork, setOpenWork] = useState({});
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  // Group the two censuses for the compact, expandable row lists.
+  const canonByWork = useMemo(() => {
+    const m = {};
+    (data?.canon_formula || []).forEach((r) => { (m[r.work_slug] || (m[r.work_slug] = [])).push(r); });
+    return m;
+  }, [data]);
+  const commByTreatment = useMemo(() => {
+    const m = {};
+    (data?.commentary_ehipassika || []).forEach((r) => { (m[r.treatment] || (m[r.treatment] = [])).push(r); });
+    return m;
+  }, [data]);
+
+  const qd = data?.quality_density || {};
+  const agg = data?.aggregates || {};
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to {backLabel}</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Abstract.</span> Five earlier studies in this program found one
+                recurring shape: the early discourses read as supple and functional, and the later literature
+                systematizes, names, and settles into fixed lists what they left open. A standing worry about
+                that result is that the framing manufactures it, that any topic run through the method will
+                return "the commentary systematizes." This study was chosen to test that worry, on a topic where
+                the prior points the other way. The canon describes the Dhamma with a fixed six-quality phrase,
+                recited as a recollection (the <em>dhammānussati</em>): well-proclaimed (<em>svākkhāta</em>),
+                directly visible (<em>sandiṭṭhika</em>), timeless (<em>akālika</em>),
+                come-and-see (<em>ehipassika</em>), onward-leading (<em>opaneyyika</em>), and to be known by the
+                wise each for themselves (<em>paccattaṃ veditabbo viññūhi</em>). Four of the six are
+                invitational: they present the Dhamma as something to be verified here and now, by anyone, for
+                oneself. The pre-committed counter (H0) holds. Per million characters, the invitational terms
+                run several times denser in the canon than in the commentary: <em>ehipassika</em>{' '}
+                {fmtRatio(qd.ehipassika?.canon_comm_ratio)} times, <em>opaneyyika</em>{' '}
+                {fmtRatio(qd.opaneyyika?.canon_comm_ratio)}, <em>paccattaṃ veditabbo</em>{' '}
+                {fmtRatio(qd.paccattam_veditabbo?.canon_comm_ratio)}, <em>sandiṭṭhika</em>{' '}
+                {fmtRatio(qd.sanditthika?.canon_comm_ratio)}. The signature pair <em>ehipassika</em> with{' '}
+                <em>opaneyyika</em> occurs in {agg.canon_formula_rows} canonical rows,{' '}
+                {agg.canon_by_stratum?.['early-canonical']} of them in the four Nikāyas and spread across all
+                four, against {agg.commentary_ehipassika_rows} commentarial rows. And where the commentary does
+                treat <em>ehipassika</em>, it word-glosses or correlates it, or merely quotes it; it never
+                builds a standing scheme, tier, or doctrine on any quality of the formula (amplify ={' '}
+                {agg.amplify_count}). Within the formula the commentary glosses all six qualities at the same
+                low level, <em>akālika</em> "timeless" included: its in-formula gloss, "not bearing fruit at a
+                later time" (<em>na kālantare phaladāyako</em>), is as short as the <em>ehipassika</em> gloss.
+                The method, run honestly on this topic, returns a non-house verdict: a canonical register the
+                later literature preserves by brief gloss rather than systematizing.
+              </p>
+
+              <p style={methodNote}>
+                A note on method. Every corpus claim is grounded in a passage that opens in the reader, and
+                every count is best read as a measured floor: a claim phrased outside the markers searched would
+                not be caught. The density figures are per-character rates, the granularity-robust measure this
+                program adopted after the 2026-06-23 review, with per-layer denominators of mūla{' '}
+                {fmtMc(data.meta?.char_totals_Mc?.mula)}, aṭṭhakathā{' '}
+                {fmtMc(data.meta?.char_totals_Mc?.attha)}, and ṭīkā{' '}
+                {fmtMc(data.meta?.char_totals_Mc?.tika)} million characters. The two Visuddhimagga rows that
+                carry the formula are commentary shelved as mūla and are counted with the commentary, not the
+                canon. The chronological stratum is a frozen work-to-stratum reference value, a bucketing aid
+                rather than an independent per-row chronology. The study is pre-registered
+                (<code style={casCode}>{data.meta?.prereg}</code>, frozen before coding), with the enumeration
+                committed query-to-result (<code style={casCode}>{data.meta?.enumeration}</code>).
+              </p>
+
+              <h2 style={h2}>The question, and why it is a fair test</h2>
+              <p>
+                The program's house finding is that the commentary systematizes the canon. The fair test of
+                whether that finding is real or manufactured is to pick a topic where the discovery signal
+                points the other way, pre-commit to reporting the counter-result, and then read the instances. A
+                discovery sweep ranked twenty-three candidate canonical-formulaic terms by per-character
+                canon-versus-commentary density. Most ran the house direction, some of them strongly: urgency
+                (<em>saṃvega</em>) at about a tenth the canonical density, the graduated talk
+                (<em>anupubbikathā</em>) lower still, the provisional-abandonment pair{' '}
+                <em>tadaṅga</em> and <em>vikkhambhana</em> lower again. The commentary dwells on these far more
+                densely than the canon, exactly as the house finding expects. That the same instrument finds
+                both directions is itself the answer to the manufactured-result worry. The topic taken up here
+                is the one cluster that ran hardest the other way: the invitational qualities of the Dhamma.
+              </p>
+
+              <h2 style={h2}>The formula in the canon</h2>
+              <p>
+                The signature pair of the formula, <em>ehipassika</em> together with <em>opaneyyika</em>, occurs
+                in {agg.canon_formula_rows} canonical rows. Those rows are two overlapping editions of the same
+                texts: {agg.canon_edition_split?.sc} fine-grained SuttaCentral sutta-rows and{' '}
+                {agg.canon_edition_split?.cst} coarse Chaṭṭha-Saṅgāyana vagga-rows that re-cover the same suttas,
+                so the raw count overstates the number of distinct discourses. What the rows establish is
+                distribution, not abundance: the formula sits across {(agg.canon_distinct_works || []).length}{' '}
+                works, with {agg.canon_by_stratum?.['early-canonical']} in the four Nikāyas (Aṅguttara{' '}
+                {agg.canon_by_work?.['pli-an']}, Saṃyutta {agg.canon_by_work?.['pli-sn']}, Dīgha{' '}
+                {agg.canon_by_work?.['pli-dn']}, Majjhima {agg.canon_by_work?.['pli-mn']}),{' '}
+                {agg.canon_by_work?.['pli-kn']} in the Khuddaka, and{' '}
+                {(agg.canon_by_work?.['pli-nd'] || 0) + (agg.canon_by_work?.['pli-ne'] || 0)} in the
+                para-canonical Niddesa and Nettippakaraṇa. The four Nikāyas are the early-canonical stratum, so
+                the formula is an early and broadly distributed canonical fixture. The breadth rests on this
+                distribution and on the per-character density below, not on the raw row count. One caveat the
+                pre-registration named: almost all canonical <em>ehipassika</em> sits inside this one formula, so
+                the canon-density is recitation-driven, a high count of one recited formula rather than many
+                independent uses. The full census opens in the reader below.
+              </p>
+
+              <h2 style={h2}>What the commentary does with it</h2>
+              <p>
+                Density alone does not settle the question: a term could be canon-dense and still be
+                systematized by the commentary wherever it appears. So each of the{' '}
+                {agg.commentary_ehipassika_rows} commentarial <em>ehipassika</em> rows was coded for what the
+                commentary actually does, against a codebook fixed in the pre-registration.
+              </p>
+              <ul style={casBullets}>
+                <li style={casLi}>
+                  <strong>Word-gloss ({agg.treatment_split?.['word-gloss']} rows).</strong> The standard
+                  pada-by-pada definition. "<em>Ehipassikāti 'ehi passā'ti evaṃ dassetuṃ yuttā</em>": come-and-see
+                  means, fit to show "come, see." Or the etymological form, "fit for the procedure 'come, see this
+                  Dhamma', therefore come-and-see."
+                </li>
+                <li style={casLi}>
+                  <strong>Correlate ({agg.treatment_split?.['correlate']} rows).</strong> A sub-commentarial move
+                  that maps the six qualities onto the parts of another phrase ("by the former, timelessness; by
+                  the latter, the come-and-see quality"). It is a structural note about the formula's symmetry,
+                  not an apparatus built on the invitational quality itself. All six are the same ṭīkā passage
+                  recurring across the four Nikāya sub-commentaries.
+                </li>
+                <li style={casLi}>
+                  <strong>Grammatical ({agg.treatment_split?.['grammatical']}), quotation
+                  ({agg.treatment_split?.['quotation']}), recollection-gloss
+                  ({agg.treatment_split?.['recollection-gloss']}).</strong> One taddhita-derivation note; two
+                  bare quotations of the formula; and the three Visuddhimagga rows, which gloss the formula inside
+                  the recollection-of-the-Dhamma meditation, again by etymology and a short chain of reasons
+                  ("directly visible, therefore timeless; come-and-see, therefore onward-leading").
+                </li>
+                <li style={casLi}>
+                  <strong>Amplify ({agg.amplify_count} rows).</strong> Nowhere does the commentary build a
+                  standing scheme on the invitational quality: no enumerated types of <em>ehipassika</em>, no
+                  tiered classification, no doctrine of the come-and-see. This is the falsifier the
+                  pre-registration named, and it does not fire.
+                </li>
+              </ul>
+
+              <h2 style={h2}>What about akālika</h2>
+              <p>
+                One quality of the formula does run denser in the commentary: <em>akālika</em>, "timeless", at{' '}
+                {fmtRate(qd.akalika?.comm_per_Mc)} rows per million characters against{' '}
+                {fmtRate(qd.akalika?.canon_per_Mc)} in the canon, peaking in the sub-commentary at{' '}
+                {qd.akalika?.tika} rows. An earlier reading of this study took that for selective systematization,
+                the commentary elaborating the one part of the formula that rewards it. That reading does not
+                hold. The <em>akālika</em> figure is a corpus-wide count: of the roughly eight hundred
+                commentarial rows that carry the stem, only the {agg.commentary_ehipassika_rows} that also carry{' '}
+                <em>ehipassika</em> can be inside the formula, so the great majority are <em>akālika</em> used
+                elsewhere as a free-standing doctrinal adjective, in the arguments about the timelessness of{' '}
+                <em>nibbāna</em> and the no-interval relation of path to fruit. Inside the formula <em>akālika</em>{' '}
+                takes the same brief pada-gloss as the invitational terms, and in two of the Aṅguttara rows a
+                shorter one. So the honest within-formula picture is the simple one: the commentary glosses all
+                six qualities briefly and builds apparatus on none of them. <em>akālika</em> earns its apparatus
+                elsewhere, for reasons that have nothing to do with the come-and-see formula.
+              </p>
+
+              <h2 style={h2}>What this means, and what it does not</h2>
+              <p>
+                The result is a genuine non-house verdict: a canonical register the later literature does not
+                amplify, and on the granularity-robust per-character measure the program adopted after the
+                2026-06-23 review, not a row-count artifact. It demonstrates that the method can return a result
+                against its own prior, which is the point of running it.
+              </p>
+              <p>
+                It does not show that the canon is everywhere denser than the commentary; the discovery sweep is
+                full of terms that run the house direction, and this study is about one formula, not the whole
+                corpus. It does not claim the commentary is hostile or indifferent to the invitation; it
+                word-glosses it faithfully and recites it in the recollection meditation. And the "invitational"
+                label is the author's gloss for the experiential, here-and-now sense; the coding is on the Pāli
+                terms, not on that English word. The claim is narrow and the more defensible for it: the Dhamma's
+                come-and-see register is one place where the canon, not the commentary, is the dense one, and the
+                commentary, for all that it systematizes elsewhere, only briefly glosses it.
+              </p>
+
+              <h2 style={h2}>The quality-density table</h2>
+              <p style={tableCaption}>
+                The six qualities of the formula, with raw counts in the three composition layers (mūla,
+                aṭṭhakathā, ṭīkā) and the per-million-character rates that normalize for text bulk. The four
+                invitational terms run denser in the canon (ratio above 1); the one abstract, temporal term,{' '}
+                <em>akālika</em>, runs about five times denser in the commentary (ratio 0.21). Rates per million
+                characters; ratio is canon rate over commentary rate.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Quality</th>
+                      <th style={thNum} title="Raw count in the canon (mūla)">Mūla</th>
+                      <th style={thNum} title="Raw count in the aṭṭhakathā">Aṭṭha.</th>
+                      <th style={thNum} title="Raw count in the ṭīkā">Ṭīkā</th>
+                      <th style={thNum} title="Rate per million characters in the canon">Canon /Mc</th>
+                      <th style={thNum} title="Rate per million characters in the commentary">Comm. /Mc</th>
+                      <th style={thNum} title="Canon rate over commentary rate">Ratio</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {CAS_QUALITIES.map((q) => {
+                      const row = qd[q.key] || {};
+                      return (
+                        <tr key={q.key} style={tr}>
+                          <td style={tdLeftSm}>
+                            <em>{q.pali}</em>{' '}
+                            <span style={casGloss}>{q.gloss}</span>
+                            {q.invitational ? <span style={casFlag} title="Invitational quality">inv.</span> : null}
+                          </td>
+                          <td style={tdNum}>{fmt(row.mula)}</td>
+                          <td style={tdNum}>{fmt(row.attha)}</td>
+                          <td style={tdNum}>{fmt(row.tika)}</td>
+                          <td style={tdNum}>{fmtRate(row.canon_per_Mc)}</td>
+                          <td style={tdNum}>{fmtRate(row.comm_per_Mc)}</td>
+                          <td style={tdNum}>{fmtRate(row.canon_comm_ratio)}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 style={h2}>The commentary's treatment of come-and-see</h2>
+              <p style={tableCaption}>
+                The {agg.commentary_ehipassika_rows} commentarial rows that treat <em>ehipassika</em>, sorted by
+                what the commentary does. The key figure is the bottom one: amplify = {agg.amplify_count}. The
+                commentary defines, correlates, quotes, and recites the come-and-see quality; it never builds a
+                standing scheme on it. Expand a treatment to open each row in the reader.
+              </p>
+              {CAS_TREATMENT_ORDER.filter((t) => commByTreatment[t]).map((t) => {
+                const rows = commByTreatment[t];
+                return (
+                  <div key={t} style={{ marginBottom: 4 }}>
+                    <button style={evToggle} onClick={() => setOpenTreat((o) => ({ ...o, [t]: !o[t] }))} aria-expanded={!!openTreat[t]}>
+                      {openTreat[t] ? '▾' : '▸'} {CAS_TREATMENT[t] || t} ({rows.length})
+                    </button>
+                    {openTreat[t] && (
+                      <ul style={casRowList}>
+                        {rows.map((r) => (
+                          <li key={r.id} style={casRowLi}>
+                            <Cite id={r.id}>{r.citation || r.id}</Cite>
+                            <span style={{ ...tinyNote, marginLeft: 6 }}>[{r.layer}]</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })}
+
+              <h2 style={h2}>The canonical formula, in full</h2>
+              <p style={tableCaption}>
+                The {agg.canon_formula_rows} canonical rows carrying the signature pair, grouped by source work.
+                Each citation opens the passage in the reader. Expand a work to see its rows.
+              </p>
+              {CAS_WORK_ORDER.filter((w) => canonByWork[w]).map((w) => {
+                const rows = canonByWork[w];
+                return (
+                  <div key={w} style={{ marginBottom: 4 }}>
+                    <button style={evToggle} onClick={() => setOpenWork((o) => ({ ...o, [w]: !o[w] }))} aria-expanded={!!openWork[w]}>
+                      {openWork[w] ? '▾' : '▸'} {CAS_WORK_LABEL[w] || w} ({rows.length})
+                    </button>
+                    {openWork[w] && (
+                      <ul style={casRowList}>
+                        {rows.map((r) => (
+                          <li key={r.id} style={casRowLi}>
+                            <Cite id={r.id}>{r.citation || r.id}</Cite>
+                            <span style={{ ...tinyNote, marginLeft: 6 }}>[{r.stratum}]</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })}
+
+              <p style={footNote}>
+                Counter-thesis study, version {data.meta?.version}, snapshot {data.meta?.corpus_snapshot}. Every
+                corpus citation resolves to a passage in the reader.
+              </p>
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  );
+}
+
 function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -4889,6 +5260,11 @@ function ExplorationStudy({ entry, onBack, backLabel = 'Explorations' }) {
 
 function fmt(n) { return (n ?? 0).toLocaleString('en-US'); }
 function pct(n, d) { if (!d) return '·'; return `${Math.round((100 * (n || 0)) / d)}%`; }
+// Come-and-See number formatting: per-Mc rates and canon/comm ratios carry two
+// decimals; the abstract reads ratios as "N.N" without a trailing unit.
+function fmtRate(n) { return n == null ? '·' : Number(n).toFixed(2); }
+function fmtRatio(n) { return n == null ? '·' : Number(n).toFixed(1); }
+function fmtMc(n) { return n == null ? '·' : Number(n).toFixed(1); }
 
 // --- styles (mirrors Docs / Library academic typesetting) ---
 const SERIF = '"Noto Serif", Georgia, serif';
@@ -4975,6 +5351,15 @@ const qHits = { fontSize: 11.5, color: 'var(--bc-text-tertiary)', fontVariantNum
 const tdNumStrong = { ...tdNum, fontWeight: 600 };
 const catLink = { background: 'transparent', border: 'none', padding: 0, margin: 0, font: 'inherit', color: 'var(--bc-accent)', cursor: 'pointer', textAlign: 'left', textDecoration: 'underline', textDecorationColor: 'rgba(var(--bc-accent-rgb), 0.4)', textUnderlineOffset: 3 };
 const tinyNote = { fontSize: 11, fontStyle: 'italic', color: 'var(--bc-text-tertiary)' };
+
+// Come-and-See study tokens.
+const casCode = { fontFamily: 'ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace', fontSize: 11.5, color: 'var(--bc-text-secondary)', wordBreak: 'break-word' };
+const casBullets = { margin: '8px 0 12px', paddingLeft: 20 };
+const casLi = { marginBottom: 8, lineHeight: 1.7 };
+const casGloss = { fontStyle: 'italic', color: 'var(--bc-text-secondary)' };
+const casFlag = { marginLeft: 6, fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--bc-accent)', border: '1px solid rgba(var(--bc-accent-rgb), 0.30)', borderRadius: 3, padding: '0 4px' };
+const casRowList = { margin: '4px 0 8px 16px', padding: 0, listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '3px 16px' };
+const casRowLi = { fontSize: 13.5, lineHeight: 1.5 };
 const typeTag = { marginLeft: 8, fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--bc-text-tertiary)', border: '1px solid rgba(var(--bc-accent-rgb), 0.2)', borderRadius: 4, padding: '1px 5px', fontWeight: 400, verticalAlign: 'middle' };
 
 const bucketSection = { scrollMarginTop: 64, borderTop: '1px solid rgba(var(--bc-accent-rgb), 0.12)' };

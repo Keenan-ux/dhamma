@@ -45,13 +45,19 @@ flip, AI-synthesis go-live) autonomously.*
       +1 gloss (akusala-mūla); uttarakuru +1 gloss (pakati-sīla, the soteriological hinge); naga 42 data edits.
       Awakening 0 (already clean from prior campaigns). Conservative: 0 over-edits, every <Cite> preserved
       (138), em-dash held at 7 (all comments). Applied via research/_apply_2c.py.
-- [~] 2-SHIP: build green; committing + push + deploy + smoke now.
+- [x] 2-SHIP: committed 965ed49, pushed, deployed + smoked green (dbcheck 194710, live hash Crk_P0rU == build). PHASE 2 DONE.
 
 ## PHASE 3 — Tier C (decisions/outward — autonomous to the gate)
-- [ ] 3a. New counter-thesis study: pick a topic where the prior runs AGAINST the house thesis (a
-      doctrine the suttas enumerate exhaustively and the commentary simplifies/drops). Run the
-      dhamma-research method (prereg → enumerated dataset → paper → de-AI → adversarial review), build
-      the live study page + dataset, deploy. (The referee's strongest recommendation for external validity.)
+- [x] 3a. Counter-thesis study "COME AND SEE" — DONE (corrected after review; building to ship). Topic found empirically via a 23-term
+      per-char density sweep (_discovery_counter.py): the Dhamma's invitational qualities (ehipassika
+      4.6x / opaneyyika 3.7x / paccattaṃ-veditabbo 3.7x canon-denser) vs akālika "timeless" (5x
+      COMMENTARY-denser) — a NON-HOUSE verdict that refines the house thesis (systematization is
+      SELECTIVE). Done: PREREGISTRATION.md (frozen H0 pre-committed), _enumerate.py (71 canon formula rows
+      across all 4 Nikāyas + 18 commentary rows), come-and-see.json dataset (treatment-coded: amplify=0,
+      CONSISTENCY PASS), FINDINGS.md paper. RUNNING: adversarial review (wzyfg58hs, 3 lenses) + page
+      component builder (ComeAndSeeStudy, editing ResearchView). NEXT: address review findings, integrate
+      page, build+commit+push+deploy. Discovery ALSO confirmed the harness finds the house direction too
+      (saṃvega 0.10x, anupubbikathā 0.07x = strongly commentary-dense) — not rigged.
 - [!] 3b. Dictionary expansion — BLOCKED (assessed 2026-06-24): CPD blocked on LICENSING, not just an
       email (Cologne has no bulk download; only DPD's scraped 29,734-entry SQLite with no licence claim;
       PTS still sells volumes). Buddhadatta low-priority/redundant with DPD. Cone is PTS-copyright. No
@@ -87,3 +93,22 @@ flip, AI-synthesis go-live) autonomously.*
 ## Run log (newest first)
 - 2026-06-24: Phase 1 DONE+shipped (323fb31, deployed, smoke green). Phase 2a drafted + in verify.
 - 2026-06-24: ledger created; Phase 1a.
+
+## 3a REVIEW LANDED (wzyfg58hs) — rework queue before deploy
+Verdict: core H0 SOUND (invitational canon-dense, amplify=0, not massaged), but §IV over-read.
+- [DROP] §IV "selective systematization on akālika" — INVALID: the 5x akālika density is corpus-wide
+  (~782/800 rows are akālika OUTSIDE the formula); IN-formula akālika gets the SAME brief gloss as
+  ehipassika. Corrected thesis (cleaner): the commentary word-glosses ALL six qualities briefly and
+  amplifies NONE; akālika earns apparatus ELSEWHERE for reasons independent of this formula.
+- [FIX] "13 of 18" -> "12 of 18" (word-gloss 6 + correlate 6); "eight works" -> "seven".
+- [FIX] 71 rows double-counts SC+CST editions of the same suttas (~42 distinct discourses) -> add the
+  dedup/distinct-discourse count; lean breadth on per-char density + 4-Nikaya distribution, not raw rows.
+- [FIX] exclude pli-vism from the canon density numerator (_enumerate.py step 3); re-derive (ratios
+  barely move; ehipassika stays ~4.6x).
+- [FIX] discovery figures (saṃvega etc.) -> label discovery-phase (not in served dataset).
+- [FIX] foreground that ehipassika canon-density is recitation-driven (one formula, broadly distributed,
+  ~96% of canonical ehipassika is in-formula) = high token-count, not many independent uses.
+- [FIX] store fuller text (~400-600 chars) for the 18 commentary rows so amplify=0 is auditable; note
+  the prereg κ descoped in favor of the full-text dump (the call is mechanical: presence of a scheme).
+Then: rewrite FINDINGS, rebuild dataset, fix the page prose, build + commit + push + deploy.
+
