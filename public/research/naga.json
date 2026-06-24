@@ -5,7 +5,7 @@
   "generated": null,
   "corpus_snapshot": "194,710 passages (2026-06-19)",
   "design": "research/naga/RESEARCH-DESIGN.md",
-  "thesis": "The canon fixes the load-bearing facts in Buddha-voice — the four nāgayoni, the animal (tiracchāna) destination, and the soteriological ceiling, which it even NAMES (nāgā aviruḷhidhammā, 'incapable of growth') and enacts (the ordination bar). The commentary's work is apparatus: the Abhidhammic akusala-vipāka rebirth-linking, the realm/diet detail (water-dwelling, frog-eating), the 2→5 expansion of disguise-failure occasions, the broadening of tiracchāna to any non-human (even Sakka), and the doctrinal rationale for the ceiling (abhabba for jhāna, insight, and path-and-fruit). Faithful on the bare facts, innovative in the apparatus.",
+  "thesis": "The canon fixes the central facts in Buddha-voice: the four nāgayoni, the animal (tiracchāna) destination, and the soteriological ceiling, which it even NAMES (nāgā aviruḷhidhammā, 'incapable of growth') and enacts (the ordination bar). The commentary's work is apparatus: the Abhidhammic akusala-vipāka rebirth-linking, the realm/diet detail (water-dwelling, frog-eating), the 2→5 expansion of disguise-failure occasions, the broadening of tiracchāna to any non-human (even Sakka), and the doctrinal rationale for the ceiling (abhabba for jhāna, insight, and path-and-fruit). Faithful on the bare facts, innovative in the apparatus.",
   "h_lex": {
    "finding": "nāga is a canonical heteronym; the serpent-being is a minority sense.",
    "canon_substring_nāga_rows": {
@@ -34,13 +34,13 @@
    "snake_synonym_floor": "≤6 canon rows carry nāga-being markers (phaṇa / bhavana / nāgarāja) under a snake-synonym (āsīvisa / uraga / bhujaga) without a nāga-token — the measured recall floor for being-material hidden under the literal-snake words (ahi, sappa, āsīvisa, uraga, bhujaga; mula counts 47 / 1003 / 75 / 52 / 5, overwhelmingly literal).",
    "dppn_reconciliation": "the named canonical nāga-kings all resolve in the corpus: Mucalinda 84, Bhūridatta 81, Erakapatta 68, Saṅkhapāla 44, Nandopananda 42, Apalāla 33, Campeyya 18."
   },
-  "verification_note": "The load-bearing spine rows were re-fetched and quote-matched (verification='verified'); the remaining serpent rows are confirmed to exist as live corpus rows and were sense-coded from their windows (verification='exists'), but their quotes were not individually re-confirmed.",
+  "verification_note": "The central spine rows were re-fetched and quote-matched (verification='verified'); the remaining serpent rows are confirmed to exist as live corpus rows and were sense-coded from their windows (verification='exists'), but their quotes were not individually re-confirmed.",
   "h0_h1": {
    "decidable_cells": 11,
    "H0": 6,
    "H1": 5,
-   "scope": "A close reading of the load-bearing spine cells (the claims where both a canonical locus and a commentarial treatment sit on the verified spine), NOT a census-wide warrant tally; it is the qualitative mechanism behind the distributional result (facet×layer), not an independent quantitative claim.",
-   "reading": "Across the 11 load-bearing cells, H0 (faithful) = 6, H1 (innovation) = 5. The faithful cells are the bare facts (the four births, lifespan, uposatha, the cause, the shape-shift); the located innovations are the apparatus (Abhidhammic paṭisandhi, realm/diet, the abhabba rationale, the 2→5 reversion list, the tiracchāna→amanussa broadening). Each 'no canonical warrant' is read as located, not absolute."
+   "scope": "A close reading of the central spine cells (the claims where both a canonical locus and a commentarial treatment sit on the verified spine), NOT a census-wide warrant tally; it is the qualitative mechanism behind the distributional result (facet×layer), not an independent quantitative claim.",
+   "reading": "Across the 11 decidable cells, H0 (faithful) = 6, H1 (innovation) = 5. The faithful cells are the bare facts (the four births, lifespan, uposatha, the cause, the shape-shift); the located innovations are the apparatus (Abhidhammic paṭisandhi, realm/diet, the abhabba rationale, the 2→5 reversion list, the tiracchāna→amanussa broadening). Each 'no canonical warrant' is read as located, not absolute."
   },
   "referent_ledger": {
    "serpent": {
@@ -108,7 +108,7 @@
   },
   "data_availability": "Codebook, query log, coder outputs, and the IAA computation are in research/naga/ (HANDOFF.md, CODEBOOK-referent.md, data/coded_*.json, aggregate.py). Every record id resolves via /api/passage/:id (#/read/<id>).",
   "stratigraphy": {
-   "note": "Chronological stratum is coded INDEPENDENTLY of the mula/attha/tika structural layer, from each row's work and within-work position (PROVENANCE-SIGNATURE.md I.1), exactly as the awakening and uttarakuru studies. A row shelved as mula whose stratum is not early-canonical is the analytically interesting layer/stratum disagree case (the Visuddhimagga rows tagged mula, the late-canonical Jataka/Apadana/Vinaya/Niddesa rows, the Abhidhamma rows). Commentary rows take the structural layer as a coarse stratum proxy (atthakatha = classical-commentary, tika = sub-commentary, anya = paracanonical); the independence is load-bearing within the canonical rows. Strata judged early or archaic are coded at lower confidence where the assignment is register-relative (the Vinaya frame-narratives, the late Digha protective/assembly texts, the archaic verse collections).",
+   "note": "Chronological stratum is coded INDEPENDENTLY of the mula/attha/tika structural layer, from each row's work and within-work position (PROVENANCE-SIGNATURE.md I.1), exactly as the awakening and uttarakuru studies. A row shelved as mula whose stratum is not early-canonical is the analytically interesting layer/stratum disagree case (the Visuddhimagga rows tagged mula, the late-canonical Jataka/Apadana/Vinaya/Niddesa rows, the Abhidhamma rows). Commentary rows take the structural layer as a coarse stratum proxy (atthakatha = classical-commentary, tika = sub-commentary, anya = paracanonical); the independence is decisive within the canonical rows. Strata judged early or archaic are coded at lower confidence where the assignment is register-relative (the Vinaya frame-narratives, the late Digha protective/assembly texts, the archaic verse collections).",
    "order": [
     "archaic-canonical",
     "early-canonical",
@@ -227,7 +227,7 @@
    "stratum_warrant": "Saṃyutta Nikāya sutta prose, the early-canonical floor",
    "layer_stratum_disagree": false,
    "tr_provenance": "sujato",
-   "evidence_en": "Some egg-born nāgas keep the sabbath, having released their bodies; they resolve to do good now so as to be reborn in a heaven. The ceiling is shown by what they aspire to — a good rebirth, never the path."
+   "evidence_en": "Some egg-born nāgas keep the sabbath, having released their bodies; they resolve to do good now so as to be reborn in a heaven. The ceiling is shown by what they aspire to: a good rebirth, never the path."
   },
   {
    "id": "sn29.7",
@@ -475,7 +475,7 @@
    "layer_stratum_disagree": false,
    "tr_provenance": "author",
    "warrant": "pli-tv-kd1",
-   "evidence_en": "Though by good-kamma-result he enjoys a deva-like lordship, because his rebirth-linking is by bad-kamma-result his nāga body — moving in water, eating frogs — appears. (H1: Abhidhammic paṭisandhi + realm/diet detail absent from the sutta.)"
+   "evidence_en": "Though by good-kamma-result he enjoys a deva-like lordship, because his rebirth-linking is by bad-kamma-result his nāga body, moving in water, eating frogs, appears. (H1: Abhidhammic paṭisandhi + realm/diet detail absent from the sutta.)"
   },
   {
    "id": "cst-vin02a2.att-36_p003",
@@ -517,7 +517,7 @@
    "claim_bearing": true,
    "segment": "B_soteriology",
    "facet": "ordination_bar",
-   "claim": "Sp broadens 'animal' (tiracchānagata) to ANY non-human — supaṇṇas, even Sakka king of devas — none may be ordained.",
+   "claim": "Sp broadens 'animal' (tiracchānagata) to ANY non-human, supaṇṇas, even Sakka king of devas, so none may be ordained.",
    "tokens": [
     "nāgo"
    ],
@@ -531,7 +531,7 @@
    "layer_stratum_disagree": false,
    "tr_provenance": "author",
    "warrant": "pli-tv-kd1",
-   "evidence_en": "Whether a nāga, or a supaṇṇa-youth, or anyone of non-human birth down to Sakka king of the devas — all are ‘animal’ here; none may be ordained. (H1: tiracchāna → amanussa category broadening.)"
+   "evidence_en": "Whether a nāga, or a supaṇṇa-youth, or anyone of non-human birth down to Sakka king of the devas, all are ‘animal’ here; none may be ordained. (H1: tiracchāna → amanussa category broadening.)"
   },
   {
    "id": "cst-s0201a.att-mn1_2_p136",
@@ -2055,7 +2055,7 @@
    "claim_bearing": true,
    "segment": "B_soteriology",
    "facet": "magga_phala_ceiling",
-   "claim": "no marriage was ever made with nāgas before — how can we wed nāgas? (na no vivāho nāgehi katapubbo)",
+   "claim": "no marriage was ever made with nāgas before; how can we wed nāgas? (na no vivāho nāgehi katapubbo)",
    "tokens": [
     "nāgehi"
    ],
@@ -2333,7 +2333,7 @@
    "claim_bearing": true,
    "segment": "B_soteriology",
    "facet": "magga_phala_ceiling",
-   "claim": "Even nāgas do not partake of the seven Himalayan lakes / the uposatha — gloss reads 'neither nāgas nor noble ones nor the observant'.",
+   "claim": "Even nāgas do not partake of the seven Himalayan lakes / the uposatha: gloss reads 'neither nāgas nor noble ones nor the observant'.",
    "tokens": [
     "nāgāpi"
    ],
@@ -2794,7 +2794,7 @@
    "claim_bearing": true,
    "segment": "B_soteriology",
    "facet": "ordination_bar",
-   "claim": "a nāga of the nāgayoni took human form to ordain and was expelled; the Buddha declared nāgas 'incapable of growth (avirūḷhidhammā) in this Dhamma-Vinaya' — animal/nāga ordination barred",
+   "claim": "a nāga of the nāgayoni took human form to ordain and was expelled; the Buddha declared nāgas 'incapable of growth (avirūḷhidhammā) in this Dhamma-Vinaya', and animal/nāga ordination is barred",
    "tokens": [
     "nammadānāgarājā",
     "nāga",
@@ -7596,7 +7596,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "realm_habitat",
-   "claim": "Among great beings of the ocean are nagas — both wave-crest dwellers and mansion-dwelling (vimana) nagas.",
+   "claim": "Among great beings of the ocean are nagas, both wave-crest dwellers and mansion-dwelling (vimana) nagas.",
    "tokens": [
     "nāgāti",
     "vimānaṭṭhakanāgāpi"
@@ -7814,7 +7814,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "karma_cause",
-   "claim": "A naga (deva-naga) asked what vow/brahmacariya yielded his iddhi, splendour and great mansion — the karma behind naga power.",
+   "claim": "A naga (deva-naga) asked what vow/brahmacariya yielded his iddhi, splendour and great mansion: the karma behind naga power.",
    "tokens": [
     "nāga"
    ],
@@ -7838,7 +7838,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "classification",
-   "claim": "Nagas have very long bodies (many fathoms) — among the 'long' creatures of the great ocean alongside fish and monitor lizards; Rahu cited for largest body.",
+   "claim": "Nagas have very long bodies (many fathoms), among the 'long' creatures of the great ocean alongside fish and monitor lizards; Rahu cited for largest body.",
    "tokens": [
     "hatthināgādayo",
     "nāgamacchagodhādayo",
@@ -9759,7 +9759,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "classification",
-   "claim": "distinguishing kinds of being: a nāga sinks into the earth, a devatā goes through the air, a man eats alms — diagnostic test of the bodhisatta's nature",
+   "claim": "distinguishing kinds of being: a nāga sinks into the earth, a devatā goes through the air, a man eats alms; a diagnostic test of the bodhisatta's nature",
    "tokens": [
     "nāgo"
    ],
@@ -13678,7 +13678,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "Quarrelling nāga-kings make the water turbid; their concord clears it — nāgas affect the water.",
+   "claim": "Quarrelling nāga-kings make the water turbid; their concord clears it; nāgas affect the water.",
    "tokens": [
     "nāgarājāno"
    ],
@@ -15000,7 +15000,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "classification",
-   "claim": "She declares 'I am not a goddess, gandhabbī, or human — I am a nāga-maiden.'",
+   "claim": "She declares 'I am not a goddess, gandhabbī, or human; I am a nāga-maiden.'",
    "tokens": [
     "nāgakaññāsmi"
    ],
@@ -15728,7 +15728,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "realm_habitat",
-   "claim": "Verse: 'You, mighty nāga-king possessed of all sense-pleasures — is the human world better than this?'",
+   "claim": "Verse: 'You, mighty nāga-king possessed of all sense-pleasures, is the human world better than this?'",
    "tokens": [
     "nāgarājetamatthaṃ"
    ],
@@ -16115,7 +16115,7 @@
    "claim_bearing": true,
    "segment": "B_soteriology",
    "facet": "bodhisatta_as_naga",
-   "claim": "Verse: 'she was then the princess; I was then the nāga-king' — the bodhisatta identifies as the nāga.",
+   "claim": "Verse: 'she was then the princess; I was then the nāga-king': the bodhisatta identifies as the nāga.",
    "tokens": [
     "nāgarājā"
    ],
@@ -16139,7 +16139,7 @@
    "claim_bearing": true,
    "segment": "B_soteriology",
    "facet": "bodhisatta_as_naga",
-   "claim": "Verse: 'I was there then, monks; I was then the nāga-king' — the bodhisatta was the nāga.",
+   "claim": "Verse: 'I was there then, monks; I was then the nāga-king': the bodhisatta was the nāga.",
    "tokens": [
     "nāgarājā"
    ],
@@ -17660,7 +17660,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "The king reasons: if a deva, he will fly up; if a nāga, he will sink into the earth — distinguishing nāga by its earth-entering power",
+   "claim": "The king reasons: if a deva, he will fly up; if a nāga, he will sink into the earth; distinguishing nāga by its earth-entering power",
    "tokens": [
     "nāgo"
    ],
@@ -19233,7 +19233,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "The nāga-king (Bhūridatta) is summoned to dance; nāgas look over the crowd for two reasons — supaṇṇa-danger or kinsfolk; fearing supaṇṇa they will not dance, ashamed before kin they will not dance",
+   "claim": "The nāga-king (Bhūridatta) is summoned to dance; nāgas look over the crowd for two reasons, supaṇṇa-danger or kinsfolk; fearing supaṇṇa they will not dance, ashamed before kin they will not dance",
    "tokens": [
     "mahānāgā",
     "nāgarājānaṃ",
@@ -19381,7 +19381,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "'With a venomless nāga (avisena nāgena) you greatly deceive people' — implies an ordinary nāga would have venom",
+   "claim": "'With a venomless nāga (avisena nāgena) you greatly deceive people': implies an ordinary nāga would have venom",
    "tokens": [
     "nāgena"
    ],
@@ -19429,7 +19429,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "There may be venom in the silutta, deḍḍubha, silābhu (lesser snakes), but the red-headed nāga has none — comparing venom across snake-kinds",
+   "claim": "There may be venom in the silutta, deḍḍubha, silābhu (lesser snakes), but the red-headed nāga has none; comparing venom across snake-kinds",
    "tokens": [
     "nāgassa"
    ],
@@ -19798,7 +19798,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "diet_predation",
-   "claim": "The supaṇṇa-king: 'this nāga is my chief food (aggabhakkha), yet I forbear from killing it for food's sake' — nāga as the garuḷa's prey",
+   "claim": "The supaṇṇa-king: 'this nāga is my chief food (aggabhakkha), yet I forbear from killing it for food's sake': nāga as the garuḷa's prey",
    "tokens": [
     "nāgo"
    ],
@@ -20139,7 +20139,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "classification",
-   "claim": "'Which gandhabbas, rakkhasas, nāgas, kimpurisas, or humans... who is the wise one?' — nāga enumerated among classes of being who might be a suitor/husband",
+   "claim": "'Which gandhabbas, rakkhasas, nāgas, kimpurisas, or humans... who is the wise one?': nāga enumerated among classes of being who might be a suitor/husband",
    "tokens": [
     "nāge"
    ],
@@ -20163,7 +20163,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "classification",
-   "claim": "Gloss: 'which gandhabba or rakkhasa or nāga... which among them is wise enough to give all desires' — nāga as a class of being",
+   "claim": "Gloss: 'which gandhabba or rakkhasa or nāga... which among them is wise enough to give all desires': nāga as a class of being",
    "tokens": [
     "nāgeti",
     "nāgo"
@@ -20649,7 +20649,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "Coming in the guises of yakkha, lion, elephant and nāga-king, raising storms and shaking mountains — all this is Puṇṇaka's shapeshifting display.",
+   "claim": "Coming in the guises of yakkha, lion, elephant and nāga-king, raising storms and shaking mountains: all this is Puṇṇaka's shapeshifting display.",
    "tokens": [
     "yakkhasīhahatthināgarājavesehi"
    ],
@@ -20745,7 +20745,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "realm_habitat",
-   "claim": "'With your Dhamma-won heart, the nāgas give you Irandhatī the nāga-maiden (nāgakaññā)' — the nāgas give a nāga-maiden in marriage",
+   "claim": "'With your Dhamma-won heart, the nāgas give you Irandhatī the nāga-maiden (nāgakaññā)': the nāgas give a nāga-maiden in marriage",
    "tokens": [
     "nāgakaññaṃ",
     "nāgā"
@@ -23336,7 +23336,7 @@
    "layer_stratum_disagree": false,
    "tr_provenance": "author",
    "warrant": "pli-tv-kd1",
-   "evidence_en": "Though by good-kamma-result he enjoys a deva-like lordship, because his rebirth-linking is by bad-kamma-result his nāga body — moving in water, eating frogs — appears. (H1: Abhidhammic paṭisandhi + realm/diet detail absent from the sutta.)"
+   "evidence_en": "Though by good-kamma-result he enjoys a deva-like lordship, because his rebirth-linking is by bad-kamma-result his nāga body, moving in water, eating frogs, appears. (H1: Abhidhammic paṭisandhi + realm/diet detail absent from the sutta.)"
   },
   {
    "id": "cst-vin02a2.att-36_p003",
@@ -23378,7 +23378,7 @@
    "claim_bearing": true,
    "segment": "B_soteriology",
    "facet": "ordination_bar",
-   "claim": "Sp broadens 'animal' (tiracchānagata) to ANY non-human — supaṇṇas, even Sakka king of devas — none may be ordained.",
+   "claim": "Sp broadens 'animal' (tiracchānagata) to ANY non-human, supaṇṇas, even Sakka king of devas, so none may be ordained.",
    "tokens": [
     "nāgo"
    ],
@@ -23392,7 +23392,7 @@
    "layer_stratum_disagree": false,
    "tr_provenance": "author",
    "warrant": "pli-tv-kd1",
-   "evidence_en": "Whether a nāga, or a supaṇṇa-youth, or anyone of non-human birth down to Sakka king of the devas — all are ‘animal’ here; none may be ordained. (H1: tiracchāna → amanussa category broadening.)"
+   "evidence_en": "Whether a nāga, or a supaṇṇa-youth, or anyone of non-human birth down to Sakka king of the devas, all are ‘animal’ here; none may be ordained. (H1: tiracchāna → amanussa category broadening.)"
   },
   {
    "id": "cst-vin02a2.att-4_p002",
@@ -24302,7 +24302,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "classification",
-   "claim": "nāgas have their own social orders — nāgo/nāgī/nāgapotaka/nāgamahāmatto/nāgapārisajja/nāgapacāra (lord, female, young, minister, councillor); parallel to gandhabba and kumbhaṇḍa hierarchies who may harass monks",
+   "claim": "nāgas have their own social orders: nāgo/nāgī/nāgapotaka/nāgamahāmatto/nāgapārisajja/nāgapacāra (lord, female, young, minister, councillor); parallel to gandhabba and kumbhaṇḍa hierarchies who may harass monks",
    "tokens": [
     "nāgamahāmatto",
     "nāgapacāro",
@@ -25405,7 +25405,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "realm_habitat",
-   "claim": "the great ocean is the abode of great beings — timi, asurā, nāgā, gandhabbā — with bodies up to many leagues",
+   "claim": "the great ocean is the abode of great beings (timi, asurā, nāgā, gandhabbā) with bodies up to many leagues",
    "tokens": [
     "nāgā"
    ],
@@ -25631,7 +25631,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "a nāga ferries a faithful lay-devotee across by boat (Nāgo nāvāya vaṇṇena saddhaṃ vahatupāsakaṃ) — fruit of faith/virtue",
+   "claim": "a nāga ferries a faithful lay-devotee across by boat (Nāgo nāvāya vaṇṇena saddhaṃ vahatupāsakaṃ): fruit of faith/virtue",
    "tokens": [
     "nāgavarena",
     "nāgo"
@@ -25680,7 +25680,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "diet_predation",
-   "claim": "even a venomous nāga (ghoraviso nāgo) is not killed because it is virtuous (sīlavā) — virtue protects",
+   "claim": "even a venomous nāga (ghoraviso nāgo) is not killed because it is virtuous (sīlavā): virtue protects",
    "tokens": [
     "nāgo"
    ],
@@ -25704,7 +25704,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "diet_predation",
-   "claim": "a venomous nāga (ghoraviso nāgo), being virtuous, is not slain — virtue spares it",
+   "claim": "a venomous nāga (ghoraviso nāgo), being virtuous, is not slain: virtue spares it",
    "tokens": [
     "nāgo"
    ],
@@ -25728,7 +25728,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "a nāga-king is destroyed by weak creatures (crow, frog, fly) banding together — even a mighty nāga falls to enmity",
+   "claim": "a nāga-king is destroyed by weak creatures (crow, frog, fly) banding together: even a mighty nāga falls to enmity",
    "tokens": [
     "nāgarājā",
     "nāgaṁ"
@@ -25777,7 +25777,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "classification",
-   "claim": "the nāga-king (with garuḷa/venateyya, gandhabba-king, the Kuru king) declares his virtue is khanti (patience) — nāga as one of four exemplary kings",
+   "claim": "the nāga-king (with garuḷa/venateyya, gandhabba-king, the Kuru king) declares his virtue is khanti (patience): nāga as one of four exemplary kings",
    "tokens": [
     "nāgadantaṁ",
     "nāgarājā",
@@ -25828,7 +25828,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "nāgas emerge fully armed (sannaddhā paṇḍavīsati) with archers to attack tree-fellers — a nāga host guarding/avenging",
+   "claim": "nāgas emerge fully armed (sannaddhā paṇḍavīsati) with archers to attack tree-fellers: a nāga host guarding/avenging",
    "tokens": [
     "nāgā"
    ],
@@ -26078,7 +26078,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "diet_predation",
-   "claim": "a venomous nāga (ghoraviso nāgo), being virtuous, is not killed — virtue protects it",
+   "claim": "a venomous nāga (ghoraviso nāgo), being virtuous, is not killed: virtue protects it",
    "tokens": [
     "nāgo"
    ],
@@ -26174,7 +26174,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "classification",
-   "claim": "Vammika riddle: digging the anthill one finds a nāga; 'leave the nāga, do not strike it, pay homage' — the nāga = the arahant (allegory), literal referent a serpent in the mound",
+   "claim": "Vammika riddle: digging the anthill one finds a nāga; 'leave the nāga, do not strike it, pay homage': the nāga = the arahant (allegory), literal referent a serpent in the mound",
    "tokens": [
     "nāgassā",
     "nāgassāti",
@@ -26697,7 +26697,7 @@
    "stratum_warrant": "Saṃyutta Nikāya sutta prose, the early-canonical floor",
    "layer_stratum_disagree": false,
    "tr_provenance": "sujato",
-   "evidence_en": "Some egg-born nāgas keep the sabbath, having released their bodies; they resolve to do good now so as to be reborn in a heaven. The ceiling is shown by what they aspire to — a good rebirth, never the path."
+   "evidence_en": "Some egg-born nāgas keep the sabbath, having released their bodies; they resolve to do good now so as to be reborn in a heaven. The ceiling is shown by what they aspire to: a good rebirth, never the path."
   },
   {
    "id": "sn29.4",
@@ -30046,7 +30046,7 @@
    "claim_bearing": true,
    "segment": "A_ontology",
    "facet": "power",
-   "claim": "A nāga-king produces violent winds, lightning, and a rain of weapons — terrifying disturbances",
+   "claim": "A nāga-king produces violent winds, lightning, and a rain of weapons: terrifying disturbances",
    "tokens": [
     "nāgarājassa"
    ],
@@ -32481,7 +32481,7 @@
    "claim_bearing": true,
    "segment": "B_soteriology",
    "facet": "magga_phala_ceiling",
-   "claim": "A nāga-female is incapable of jhāna (and the path) — animal incapacity",
+   "claim": "A nāga-female is incapable of jhāna (and the path): animal incapacity",
    "tokens": [
     "nāgiyā",
     "nāgī"

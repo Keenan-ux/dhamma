@@ -33,13 +33,19 @@ flip, AI-synthesis go-live) autonomously.*
       §3.2 carve-out, distribution-test PASS/FAIL on the exemplar, measured-not-toothless, §3.7 single-
       source, §3.8 forking-paths firewall, threshold reconciled, banned word removed). Memory
       writing-rules-from-ig-notes updated. Skill-docs only (not bundled) -> no deploy.
-- [ ] 2b. Clean pre-existing rendered residuals: heart-base `v2.method_note` "load-bearing"
-      (ResearchView ~3245); naga.json ~37 data-field em-dashes (records[].claim ×34 + spine ×3);
-      IG/naga FINDINGS banned words (secondary).
-- [ ] 2c. Roll the three rules + riders through the IG body + the other four studies' prose (precision:
-      gloss every load-bearing term, present-before-refer; register: de-indict; rhythm: no chop/pile-up).
-      Serial per study on the shared file.
-- [ ] 2-SHIP: build + deploy + smoke per study.
+- [x] 2b. DONE: heart-base method_note "load-bearing" cleared in Phase 1 (323fb31); naga.json 37 rendered
+      data-field em-dashes regraded + 5 meta "load-bearing" swapped (in 2c). Rendered residuals clear.
+      Non-rendered residuals LEFT by design: 8 naga evidence_pali em-dashes are verbatim Pāli QUOTES (never
+      edit the evidence); meta.title "— census v1.0" + IG/naga FINDINGS banned words are non-rendered /
+      secondary-internal (allowed). NOTE: naga claim regrades live in the SERVED json; a full naga regen
+      (DB-dependent, not routine) would need them re-applied at the build source.
+- [x] 2c. DONE: scan workflow w0s4i2285 (5 read-only scanners, propose-then-coordinator-applies, to protect
+      operator-reviewed prose). Applied: IG 6 register regrades (freezes/freezing -> fixes/fixing/recasting,
+      keeping the function-into-type force; methodological "frozen"=pre-registered correctly LEFT); heart-base
+      +1 gloss (akusala-mūla); uttarakuru +1 gloss (pakati-sīla, the soteriological hinge); naga 42 data edits.
+      Awakening 0 (already clean from prior campaigns). Conservative: 0 over-edits, every <Cite> preserved
+      (138), em-dash held at 7 (all comments). Applied via research/_apply_2c.py.
+- [~] 2-SHIP: build green; committing + push + deploy + smoke now.
 
 ## PHASE 3 — Tier C (decisions/outward — autonomous to the gate)
 - [ ] 3a. New counter-thesis study: pick a topic where the prior runs AGAINST the house thesis (a
@@ -54,8 +60,13 @@ flip, AI-synthesis go-live) autonomously.*
       clean OUTREACH-EMAIL-DRAFT.md (scholarly register, no feature-dump, no em-dash), FIXED a factual
       error (old draft claimed 6 dictionaries incl 'CPED'; live set is 5), added an operator send-checklist.
       ATI_EMAIL_DRAFT.md banner-marked superseded. NOT sent (outward, needs operator name + send).
-- [!] 3d. AI-draft translations: blocked on operator decisions (model/UX/storage + the no-LLM-default
-      rule). TRANSLATIONS-AI.md is the design. Document decisions needed; do not ship synthesis.
+- [!] 3d. AI-draft translations: DOCUMENTED TO THE GATE (2026-06-24). The design is TRANSLATIONS-AI.md
+      ("Auditable Translation" / choice-point detection; prior validated-with-caveats work per memory
+      choice-point-detection-study). Exact operator decisions blocking a build: (1) GO/NO-GO on shipping
+      ANY LLM synthesis (the standing no-LLM-by-default hard rule must be explicitly waived, opt-in +
+      AI-labeled); (2) MODEL for the judgment-staging role; (3) UX of the decision-workbench / opt-in
+      labeling; (4) STORAGE of committed lemma-level choices. No autonomous build (the hard rule forbids
+      it). Artifact = TRANSLATIONS-AI.md.
 - NOTE: Tier C's only substantial AUTONOMOUS item is 3a (the counter-thesis study). 3b/3c/3d are at-gate.
 
 ## PENDING OPERATOR ITEMS (logged, not blocking the rest)
