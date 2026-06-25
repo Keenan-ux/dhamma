@@ -7,10 +7,18 @@ deliverable prose. Update IN PLACE (snapshot, not append-log).*
 ## 1. Where things stand (one screen)
 Live at **https://dhamma.fly.dev/** (admin-gated Research tab). HEAD = latest on `origin/master`
 (run `git log --oneline -20`; this handoff is the newest commit). Working tree clean EXCEPT `sn2259.json`
-(another live chat's empty placeholder — leave it, do NOT `git clean`). Origin in sync. **There are now SEVEN Research studies** (awakening, individual-guidance,
-heart-base-and-insight, uttarakuru, naga, come-and-see, **the-commentarial-register**) plus two public
+(another live chat's empty placeholder — leave it, do NOT `git clean`). Origin in sync. **There are now EIGHT Research studies** (awakening, individual-guidance,
+heart-base-and-insight, uttarakuru, naga, come-and-see, the-commentarial-register, **sankhara**) plus two public
 Explorations. The 2026-06-23 adversarial review + corrections shipped earlier; the 2026-06-25 EXPANSION
 CAMPAIGN (below) added the 7th study + two program-wide method corrections.
+
+**Latest (2026-06-25, successor coordinator):** the 8th study, **"Saṅkhāra and the Translator"**
+(slug `sankhara`, `SankharaStudy`), shipped + deployed (`a7911ee`, live asset `index-Bqmyuy6O.js`). It is
+§9 queue item 1 (the saṅkhāra translator-divergence study) built to the dhamma-research bar: prereg frozen
+(`558a07d`), full serial enumeration, blind k=5 sense IAA (Fleiss κ=0.69), all four editorial passes, P1-P3
+PASS / P4 REPORTED. Deduped counts reproduce DR-4 exactly (Sujato 513/choices 317; Thanissaro
+155/fabrications 142). Memory `sankhara-study`. Queue item 1 is now DONE; its only open follow-on is the
+[DATA] Bodhi+Horner full SN/MN ingest (Horner currently 0 own-text saṅkhāra rows).
 
 ## 1b. Expansion campaign (2026-06-25) — read `EXPANSION-SLATE-2026-06-24.md` + `EXPANSION-BUILD-STATUS.md`
 A 72-agent sweep produced a ranked slate of corpus-tractable open problems; 9 were probed end-to-end
@@ -70,7 +78,7 @@ IAA-scope, negative-control, span-aware coding), `COHERENCE-CHECKLIST.md` two ga
 - live frontend asset hash == local `npm run build` hash (currently `index-BGQEl_SR.js`) confirms the
   deploy shipped the working tree.
 - `git status` clean, HEAD `a0f7c37` == `origin/master`.
-- Six study components: `grep -nE "^function (Awakening|IndividualGuidance|HeartBase|Uttarakuru|Naga|ComeAndSee)Study" src/ResearchView.jsx` (line anchors SHIFT, re-grep).
+- Eight study components: `grep -nE "^function (Awakening|IndividualGuidance|HeartBase|Uttarakuru|Naga|ComeAndSee|CommentarialRegister|Sankhara)Study" src/ResearchView.jsx` (line anchors SHIFT, re-grep).
 - DB work is SERIAL ONLY (dhamma-pg wedges under concurrent load): proxy `flyctl proxy 15432:5432 --app
   dhamma-pg`, then `research/naga/sql.py` or a one-connection script. NEVER fan agents at the DB.
 
@@ -148,13 +156,19 @@ tree — do NOT `git clean` the tree, it deleted one chat's probe scripts). Inde
 `research/deep-research/README.md`. Synthesis + every follow-up: `research/DEEP-RESEARCH-FOLLOWUPS-2026-06-25.md`.
 
 **Chat ledger:** DR-1 vitakka DONE (memory `jhana-vitakka-deep-research.md`); DR-4 saṅkhāra DONE
-(`research/deep-research/sankhara.md`); DR-5 Abhidhamma DONE (`research/deep-research/abhidhamma.md`);
-DR-3 anattā likely RUNNING (empty `sn2259.json` placeholder); DR-2 sati UNKNOWN (check that chat).
+(`research/deep-research/sankhara.md`) and now BUILT into the `sankhara` study (item 1); DR-5 Abhidhamma DONE
+(`research/deep-research/abhidhamma.md`); DR-3 anattā likely RUNNING (empty `sn2259.json` placeholder); DR-2
+sati UNKNOWN (check that chat). **As of 2026-06-25 (successor coordinator):** `sn2259.json` is still 0 bytes
+and no `sati.md` / `anatta.md` have landed in `research/deep-research/`; standing duty (item 8) is still a
+no-op, the placeholder is left untouched.
 
 **Open queue (priority order), all from the deep-research + expansion findings:**
-1. [BUILD] saṅkhāra translator-divergence study (Sujato-splits / Thanissaro-collapses) — proven-viable,
-   clean null, sharp finding; flips the campaign's "saṅkhāra not established". Needs Bodhi+Horner full SN/MN
-   ingest for full coverage (Horner currently n=2).
+1. ~~[BUILD] saṅkhāra translator-divergence study~~ **DONE 2026-06-25** (`a7911ee`, deployed, 8th study
+   `sankhara`; memory `sankhara-study`). Built to bar: prereg frozen, serial enumeration, blind k=5 IAA
+   κ=0.69, all 4 editorial passes, P1-P3 PASS / P4 REPORTED; deduped counts reproduce DR-4 exactly. **Open
+   follow-on (now the next [DATA] item):** ingest Bodhi's + Horner's full SN/MN to add the documented
+   context-splitter (Horner, currently 0 own-text saṅkhāra rows) + fixed-word advocate (Bodhi, 2) to the
+   panel. The Sujato/Thanissaro headline does NOT need it (already saturated); it broadens the typology.
 2. [BUILD] vitakka apparatus-provenance study (access/absorption apparatus measurably commentarial;
    no prior computational study). Scope fixed in DR-1 (e).
 3. [CORRECT] sabhāva prereg + the shipped "Commentarial Register" Ronkin attribution: aṭṭhakathā → ṭīkā
@@ -164,7 +178,9 @@ DR-3 anattā likely RUNNING (empty `sn2259.json` placeholder); DR-2 sati UNKNOWN
 5. [FOLLOW-ON] recompute the five HOUSE studies' per-character magnitudes deduped (SKILL rule 8 fix; the
    un-deduped 53.5M inflated them ~1.3-2x). come-and-see's counter is only strengthened.
 6. [VERIFY] Brahmāli on cetanā; Hamilton superlative + loci; Bucknell/Shankman scan quotes.
-7. [REGEN] research/sankhara/probe.py + probe2.py (deleted; method preserved in sankhara.md).
+7. ~~[REGEN] research/sankhara/probe.py + probe2.py~~ **SUPERSEDED 2026-06-25** by
+   `research/sankhara/_enumerate.py` (committed query->result; the full enumeration the study is built on,
+   reproducing DR-4's numbers exactly). No need to regenerate the old probe scripts.
 8. When DR-2 (sati) / DR-3 (anattā) land: pull their final reports into `research/deep-research/` as
    `sati.md` / `anatta.md`; fold their follow-ups into the queue.
 
