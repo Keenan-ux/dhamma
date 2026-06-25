@@ -1,0 +1,124 @@
+{
+ "meta": {
+  "as_of": "2026-06-25",
+  "method": "canon DEDUPED (is_primary) apples-to-apples; corrects the SC+CST canon double-ingest",
+  "mchar_dedup": {
+   "mula": 25.737,
+   "attha": 30.691,
+   "tika": 28.358,
+   "commentary": 59.049
+  }
+ },
+ "terms": [
+  {
+   "term": "sabhava (ex purisabhava/ekamsabhavita)",
+   "regex": "sabhāv",
+   "canon": 45,
+   "attha": 1632,
+   "tika": 3981,
+   "canon_per_Mc": 1.748,
+   "comm_per_Mc": 95.057,
+   "ratio": 0.018,
+   "direction": "house(comm-denser)"
+  },
+  {
+   "term": "paramattha",
+   "regex": "paramatth",
+   "canon": 60,
+   "attha": 510,
+   "tika": 782,
+   "canon_per_Mc": 2.331,
+   "comm_per_Mc": 21.88,
+   "ratio": 0.107,
+   "direction": "house(comm-denser)"
+  },
+  {
+   "term": "matika",
+   "regex": "mātik",
+   "canon": 75,
+   "attha": 436,
+   "tika": 880,
+   "canon_per_Mc": 2.914,
+   "comm_per_Mc": 22.287,
+   "ratio": 0.131,
+   "direction": "house(comm-denser)"
+  },
+  {
+   "term": "cetasika",
+   "regex": "cetasik",
+   "canon": 235,
+   "attha": 432,
+   "tika": 632,
+   "canon_per_Mc": 9.131,
+   "comm_per_Mc": 18.019,
+   "ratio": 0.507,
+   "direction": "house(comm-denser)"
+  },
+  {
+   "term": "iddhi",
+   "regex": "iddh",
+   "canon": 1259,
+   "attha": 4268,
+   "tika": 4931,
+   "canon_per_Mc": 48.918,
+   "comm_per_Mc": 155.786,
+   "ratio": 0.314,
+   "direction": "house(comm-denser)"
+  },
+  {
+   "term": "patihariya",
+   "regex": "pāṭihār",
+   "canon": 48,
+   "attha": 376,
+   "tika": 174,
+   "canon_per_Mc": 1.865,
+   "comm_per_Mc": 9.314,
+   "ratio": 0.2,
+   "direction": "house(comm-denser)"
+  },
+  {
+   "term": "abhinna",
+   "regex": "abhiññ",
+   "canon": 680,
+   "attha": 1062,
+   "tika": 737,
+   "canon_per_Mc": 26.421,
+   "comm_per_Mc": 30.466,
+   "ratio": 0.867,
+   "direction": "house(comm-denser)"
+  },
+  {
+   "term": "maxim sabbe dhamma anatta",
+   "regex": "sabbe dhammā anattā",
+   "canon": 24,
+   "attha": 21,
+   "tika": 14,
+   "canon_per_Mc": 0.933,
+   "comm_per_Mc": 0.593,
+   "ratio": 1.573,
+   "direction": "counter(canon-denser)"
+  },
+  {
+   "term": "anatta (stem)",
+   "regex": "anatt",
+   "canon": 556,
+   "attha": 5131,
+   "tika": 5982,
+   "canon_per_Mc": 21.603,
+   "comm_per_Mc": 188.2,
+   "ratio": 0.115,
+   "direction": "house(comm-denser)"
+  },
+  {
+   "term": "natthi atta (existential denial)",
+   "regex": "natthi attā|natthattā",
+   "canon": 3,
+   "attha": 18,
+   "tika": 44,
+   "canon_per_Mc": 0.117,
+   "comm_per_Mc": 1.05,
+   "ratio": 0.111,
+   "direction": "house(comm-denser)"
+  }
+ ]
+}
