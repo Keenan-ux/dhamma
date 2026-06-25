@@ -125,6 +125,15 @@ the spine rules above do.
    `stratum(work_slug)` (and `FILTER (WHERE is_primary)` for the double-ingest, RUNG 5); report the
    density and the unit in the sentence that makes the magnitude claim. A bare row-ratio headline is a
    defect even when the *direction* is right.
+   **`is_primary` is MANDATORY on BOTH the numerator and the denominator of every canon-side density, not
+   optional.** The canon is double-ingested (SuttaCentral + Chaṭṭha-Saṅgāyana); commentary is single-edition.
+   Un-deduped `mūla` char-mass is ~52.3 Mchar but the apples-to-apples deduped figure is **25.74 Mchar**
+   (deduped denominators: mūla 25.74, aṭṭha 30.69, ṭīkā 28.36 Mchar). Numerators double-count
+   *non-uniformly*, so an un-deduped canon density understates the canon and inflates house ratios ~1.3-2x
+   (sabhāva read 98x un-deduped, **55x deduped**; verified 2026-06-25 expansion campaign). The earlier
+   `mūla 53.5M` convention was the un-deduped total and is retired. A counter-result (canon-denser) is only
+   *strengthened* by the correction; a house-result magnitude shrinks. Re-derive any pre-2026-06-25
+   per-character ratio deduped before re-citing it.
 9. **IAA scope — scope every κ to its unit, in the sentence that prints it.** A published kappa is only
    meaningful for the exact unit it was computed on. Print the scope inline: "κ=0.82 *on the 41 contested
    stratum rows*", "κ=1.0 *on the attribution recode*", not a free-floating "κ=0.82". And **state where no
