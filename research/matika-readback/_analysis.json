@@ -1,0 +1,290 @@
+{
+ "slug": "matika-readback",
+ "title": "Matika read-back: does the Abhidhamma cross-classification grid get imported into matika-poor suttas?",
+ "verdict": "mixed (null-leaning headline). The per-stratum read-back claim does not stand: its negative control moved more than the signal. The matched-pair Prong B result has no tested artifact floor and rests on a halved canon denominator, so it cannot be promoted to a surviving positive.",
+ "analyst": {
+  "slug": "matika-readback",
+  "verdict": "mixed",
+  "needs_coding": true,
+  "coding_query_label": "12_coding_sample_rows_attha_readback_candidates",
+  "coding_ref_field": "id",
+  "key_numbers": [
+   {
+    "layer": "per-stratum",
+    "name": "matika_paramattha canon to comm delta",
+    "value": "+174.37 (10.92 to 185.29)"
+   },
+   {
+    "layer": "per-stratum",
+    "name": "matika_cetasika_def canon to comm delta",
+    "value": "+95.67 (72.77 to 168.44)"
+   },
+   {
+    "layer": "per-stratum",
+    "name": "katame_frame canon to comm delta INVERTS",
+    "value": "-36.69 (73.08 to 36.39)"
+   },
+   {
+    "layer": "per-stratum",
+    "name": "POSITIVE lexicon canon to comm delta",
+    "value": "+57.84 (32.30 to 90.14)"
+   },
+   {
+    "layer": "per-stratum",
+    "name": "NEG CONTROL names/similes canon to comm delta",
+    "value": "+289.94 (155.39 to 445.33)"
+   },
+   {
+    "layer": "concentration",
+    "name": "Gini matika vs positive",
+    "value": "0.486 vs 0.437 gap +0.049 predicted ~0.6+"
+   },
+   {
+    "layer": "prongB",
+    "name": "matika_delta vs pos_delta dn/mn/an/sn",
+    "value": "93.64>63.16; 86.41>52.26; 62.31>33.61; 71.64>26.93"
+   },
+   {
+    "layer": "prongB",
+    "name": "scaffold 2of3 KAD delta dn/mn/an/sn",
+    "value": "+12.95 / +14.63 / +20.88 / +13.61"
+   },
+   {
+    "layer": "denominator",
+    "name": "q00 mula Mchar reproduction",
+    "value": "26.94 vs 53.543921 published 1.99x; attha & tika exact"
+   },
+   {
+    "layer": "corroboration",
+    "name": "q14 embedding centroid validation",
+    "value": "ERROR timeout untested"
+   }
+  ],
+  "control_check": "The negative control DID move, and it moved MORE than the signal. The names/similes control (q05) lifts from 155.39 per Mchar in canon (1early mula) to 445.33 in commentary (5comm attha), a delta of +289.94, larger than the best matika delta (+174.37, matika_paramattha) and far larger than the positive-doctrine delta (+57.84). Per the rule that a finding stands only if its negative control did not move with it, the per-stratum read-back claim does not stand: doctrinal and onomastic vocabulary alike inflate from canon to commentary, so the matika lift is generic commentarial lengthening / register shift, not specific Abhidhamma-grid importation. The structural tag control (q06) returned only 1early mula rows (name 45.67, simile 44.92 per Mchar) with no commentary-side rows, so it cannot corroborate or rebut the regex control on the commentary side. Lean null/artifact for the per-stratum headline; PRONG B's matched-pair signal survives only because it was never tested against this control.",
+  "codebook": "Blind read-back coding for q12 rows (work_role/stratum/work_slug HIDDEN). Key on the row id column. One code per row from original_snippet (Pali) plus translation_snippet if present. READBACK_GRID = passage applies the katame-dhamma/idam-vuccati frame OR a khandha x ayatana x dhatu cross-classification to material the commented sutta did not itself state in that classified form (commentary imports the grid; e.g. an attha gloss re-filing a plain term into vinnanakkhandha + manayatana + vinnanadhatu + manindriya, as in cst-s0519a.att-34). PRESENT_IN_SOURCE = the grid/katame frame merely restates or quotes classification the source sutta already states (citing a Dhammasangani/Vibhanga passage the mula itself contains, or a sutta already a list-sutta); no importation beyond source. NEITHER = katame/idam-vuccati or khandha/ayatana/dhatu strings present but in non-classificatory or incidental use (narrative, etymological gloss, unrelated enumeration). SECOND SCHEME (sense audit, q13 rows, key on id, code per the term column). term=vitakka: TECHNICAL_cetasika = vitakka as the Abhidhamma mental factor (cetaso abhiniropana, jhana-anga, sampayutta-dhamma context); ORDINARY_thought = vitakka as ordinary thought/intention (kama/byapada/vihimsa-vitakka as defilement, parivitakka meaning it occurred to him, sankappa sense). term=dhatu: TECHNICAL_element_axis = dhatu as one of the 18 dhatus / element-classification axis (cakkhudhatu to manovinnanadhatu, the khandha-ayatana-dhatu cross-classification); OTHER_relic_or_firewood_or_general = dhatu as relic (sarira-dhatu, thupa, dhatuvibhaga), the four primary elements in a non-axis gloss, a gold/silver-dhatu simile, or a grammatical verbal root (dhatu in the e0xxx grammar texts). Report Cohen's kappa per scheme; require kappa >= 0.6 before any density claim depending on coded sense is reported; if kappa < 0.6 for vitakka or dhatu, drop that term from the headline matika density and report its raw stem count as uninterpretable (the carita rule). Adjudicate disagreements by a third pass on the full passage text.",
+  "density_finding": "Per-stratum and matched-pair passes disagree; per program ethos the per-stratum read-back claim fails its control while PRONG B survives weakly. PER-STRATUM (q01-05; canon=1early mula, comm=5comm attha; per-Mchar): MATIKA_PARAMATTHA 10.92 to 185.29 (delta +174.37); MATIKA_CETASIKA_DEF 72.77 to 168.44 (+95.67); POSITIVE 32.30 to 90.14 (+57.84); NEG CONTROL names/similes 155.39 to 445.33 (+289.94). Matika delta beats positive but NOT the negative control (+174.37 under +289.94), so per falsifier 3 the lift is a length/register artifact, not grid importation. The flagship katame-dhamma/idam-vuccati frame (q03) INVERTS at stratum grain: 73.08 to 36.39 (delta -36.69). CONCENTRATION (Gini, q07/08): Gini(matika) 0.486 vs Gini(positive) 0.437, gap only +0.049 (excl pli-abhidhamma 0.427 vs 0.401); predicted ~0.6+ and materially above positive, so concentration not supported (falsifier 1 leans null). Top matika mass sits in pli-abhidhamma (434.5) and pli-sn (210.7), not the predicted Sangiti/Dasuttara/Mahasatipatthana list-suttas (pli-dn near bottom at 18.94). PRONG B (matched mula-attha pairs, q10/11): matika_delta beats pos_delta on all four nikayas (dn 93.64 vs 63.16; mn 86.41 vs 52.26; an 62.31 vs 33.61; sn 71.64 vs 26.93), scaffold_delta positive everywhere (dn +12.95, mn +14.63, an +20.88, sn +13.61). This supports H1 within the matched-pair design, but PRONG B was never tested against the names/similes negative control on the same pairs (q06 returned only 1early mula tag rows), so it has no artifact floor and cannot overturn the per-stratum failure. DENOMINATOR (q00): attha (29.488533) and tika (28.357746) reproduce published per-layer Mchar exactly; mula does NOT (is_primary mula 26.94 Mchar vs published 53.543921, 1.99x mismatch, likely un-deduped sc/cst double-ingest or canon-subset mismatch), a flagged caveat on canon-side magnitudes. CORROBORATION: q14 embedding centroid validation ERRORED (timeout), so the distributional falsifier is untested. q15: 8 attha works, 95462 primary rows, 0 dup-edition rows (clean commentary dedupe). Net: H1 holds only inside PRONG B; the stronger per-stratum guard fails its negative control and the Gini and katame-frame predictions do not hold, so the headline read-back density claim does not stand as stated. Verdict mixed, pending coding and an embedding re-run."
+ },
+ "skeptics": [
+  {
+   "lens": "artifact",
+   "holds": false,
+   "verdict": "caveat",
+   "refutation": "covered above",
+   "required_caveats": [
+    "The per-stratum read-back claim FAILS its negative control: the names/similes control (q05) rose +289.94 per Mchar canon-to-commentary, larger than every matika delta (+174.37 max) and ~5x the positive-doctrine delta (+57.84); per falsifier 3 the per-stratum lift is generic commentarial register expansion, not specific Abhidhamma-grid importation. The per-stratum headline must be reported null/artifact.",
+    "PRONG B was NEVER tested against the names/similes negative control on the matched mula-attha pairs (q06 returned only 1early mula tag rows). Its win over the positive lexicon (DN +30.5, SN +44.7 margin) has no artifact floor and cannot overturn the per-stratum control failure. State PRONG B as untested-against-control, not as a surviving signal.",
+    "The MATIKA_CETASIKA_DEF numerator (q02, +95.67) depends on polysemous stems (vitakka, sanna, sankhara); the q13 sense audit is uncoded and Cohen kappa is uncomputed. Per the carita rule these stems are uninterpretable until kappa>=0.6, so any density claim that relies on q02 is provisional and the matika delta is currently overstated.",
+    "The mula denominator does NOT reproduce: published 53.543921 Mchar vs ~26.94 reproduced (1.99x shortfall), a halting condition the run ignored, likely sc/cst double-ingest or canon-subset mismatch. attha/tika reproduce exactly, but every canon-side magnitude is on a denominator half its published size, so all stated canon-to-commentary deltas are wrong in magnitude. Resolve the dedupe before any magnitude is published.",
+    "Concentration is NOT supported: Gini(matika) 0.486 vs Gini(positive) 0.437 (gap +0.049, predicted ~0.6+). Top matika mass is in pli-abhidhamma (434.5, near-tautological since the lexicon is the Abhidhamma register) and pli-sn (210.7), not the predicted Sangiti/Dasuttara/Mahasatipatthana list-suttas (pli-dn near bottom at 18.94). Report falsifier 1 as leaning null.",
+    "The katame-frame stratum split (q03 inversion -36.69) is a work_slug LOOKUP (T1) and a register/role partition; it must not be presented as independent chronological or read-back evidence.",
+    "The embedding centroid corroboration (q14) ERRORED on timeout; the distributional falsifier is untested. No distributional cross-check supports the lexical signal.",
+    "Findings are corpus-linguistic density/register only; no doctrinal verdict, no authorial-intent or chronology claim. Magnitudes are per-character; raw-row counts are never the headline."
+   ]
+  },
+  {
+   "lens": "overread-priorwork",
+   "holds": false,
+   "verdict": "caveat",
+   "refutation": "The headline per-stratum read-back claim is dead on arrival under the protocol's own rule, and the surviving Prong B fragment is both already-known scholarship and untested against its control. Two independent kills.\n\nKILL 1 (control moved more than the signal). The raw confirms the arithmetic: the names/similes negative control (q05) lifts canon-to-commentary by +289.94 per Mchar (155.39 at 1early mula to 445.33 at 5comm attha), which exceeds the best matika lift (+174.37, matika_paramattha q01) and dwarfs the positive-doctrine lift (+57.84, q04). Falsifier 3 is explicit: if the matika delta does not exceed the names/similes delta, the effect is length/register artifact. It does not exceed it. The flagship katame-dhamma / idam-vuccati frame (q03) actually INVERTS canon-to-commentary (73.08 to 36.39, delta -36.69), the opposite of the predicted signal. The concentration prong also fails: Gini(matika) 0.486 vs Gini(positive) 0.437 is a +0.049 gap against a predicted ~0.6-plus and \"materially above positive,\" and the Lorenz mass sits in pli-abhidhamma and pli-sn, NOT the predicted Sangiti/Dasuttara/Mahasatipatthana list-suttas (pli-dn is near the floor at 18.94, q07). Three of the four per-stratum falsifiers fire.\n\nKILL 2 (Prong B is unguarded AND not new). Prong B (q10/q11) does show matika_delta beating pos_delta on all four nikayas (dn 93.64>63.16; mn 86.41>52.26; an 62.31>33.61; sn 71.64>26.93) with positive scaffold_delta everywhere. But the structural negative control (q06) returned ONLY 1early mula tag rows and zero commentary-side rows, so Prong B was never run against any artifact floor on the same matched pairs. By the program's non-negotiable rule (a finding stands only if its control did not move with it), an untested control is not a passed control. Prong B has no demonstrated negative-control separation; it cannot be promoted to \"survives.\" Worse for novelty: the qualitative content of Prong B is textbook Theravada philology. Buddhaghosa's own programmatic statement is that the suttas classify the khandha/ayatana/dhatu categories only PARTLY while the Abhidhamma classifies them FULLY, and the commentaries apply that fuller scheme; the Sangiti and Dasuttara suttas are the standard \"proto-matika\" list-suttas in the secondary literature, and K.R. Norman's \"the Abhidhamma is later than the rest of the canon\" is the received frame. The protocol even pre-loaded these very loci into primary_loci, so the design encodes the known answer. The density measurement is at best a quantitative restatement of an already-published qualitative consensus, not a discovery. No prior corpus-linguistic per-character operationalization surfaced, so the METHOD is plausibly new; the FINDING is not.\n\nDENOMINATOR INTEGRITY. q00 does not reproduce the published canon Mchar: summed mula primary across strata is far below the published 53.543921 (the analyst's 1.99x is generous; 1early mula alone is 13.10, total mula well under half of 53.54), while attha (29.49) and tika (28.36) reproduce exactly. The protocol's density_method says the run HALTS if q00 does not reproduce the published denominators \"within rounding.\" It does not reproduce them, so by its own gate every canon-side magnitude is suspect, which independently undercuts both the per-stratum canon baseline and the mula side of the Prong B deltas.\n\nCATEGORY-ERROR CHECK. The distribution does bear on a real philological dispute (commentary systematization), so this is not a category error. But the verdict as drafted (\"H1 holds only inside Prong B\") claims more than density can show: density cannot distinguish commentary IMPORTING a grid the sutta lacked from commentary CITING Dhammasangani/Vibhanga material the source already entails, and the q12 coding that would adjudicate this returned only 5 rows (not the planned 120) with the embedding corroboration (q14) timed out and untested. The single richest q12 exemplar (cst-s0519a.att-34) is a Nettippakarana-style hara gloss, itself a para-canonical exegetical method, which muddies \"the sutta did not state it.\" Density shows register difference; it cannot license \"reads the grid BACK INTO.\"\n\nNet: the headline does not stand. Keep only as a NULL-leaning corpus-linguistic register result with the method (not the finding) as the contribution. Do not let the write-up phrase Prong B as a surviving positive.",
+   "required_caveats": [
+    "Headline per-stratum read-back FAILS its own negative control: the names/similes control lifts +289.94 per Mchar canon-to-commentary, exceeding the best matika lift +174.37; under protocol falsifier 3 this is generic commentarial lengthening / register shift, not specific Abhidhamma-grid importation. Report as null-leaning.",
+    "The flagship katame-dhamma / idam-vuccati frame (q03) INVERTS canon-to-commentary (73.08 to 36.39, delta -36.69), contradicting the predicted monotone rise; state this inversion explicitly rather than burying it.",
+    "Concentration prong unsupported: Gini(matika) 0.486 vs Gini(positive) 0.437 (gap +0.049) against a predicted ~0.6-plus; Lorenz mass sits in pli-abhidhamma and pli-sn, not the predicted Sangiti/Dasuttara/Mahasatipatthana list-suttas (pli-dn near floor at 18.94).",
+    "Prong B was NEVER tested against a negative control: the structural control q06 returned only 1early mula rows and zero commentary-side rows. An untested control is not a passed control; Prong B must not be presented as a surviving positive finding.",
+    "Denominator gate FAILED: q00 does not reproduce the published canon mula Mchar (53.543921); summed primary mula is under half of it (1early alone 13.10), while attha 29.49 and tika 28.36 reproduce exactly. Per the protocol's own halt rule, all canon-side magnitudes (per-stratum baselines and the mula side of Prong B deltas) are suspect pending a dedupe/stratum-mapping fix.",
+    "PRIOR WORK: the qualitative claim (commentary applies the fuller khandha/ayatana/dhatu classification to suttas that state it only partly; Sangiti/Dasuttara as proto-matika list-suttas; Abhidhamma later than the canon) is established Theravada scholarship (Buddhaghosa's partly-vs-fully principle; K.R. Norman). Frame any positive result as a quantitative restatement of a known consensus, with the per-character method (not the finding) as the only candidate novelty. No prior per-character corpus-linguistic operationalization was found.",
+    "Adjudicating coding is essentially absent: q12 returned 5 rows not the planned 120, no Cohen's kappa was computed, and q14 embedding corroboration timed out (untested). Density alone cannot distinguish grid IMPORTATION from CITATION of source-entailed Dhammasangani/Vibhanga material; do not phrase results as commentary reading the grid 'back into' suttas.",
+    "Magnitudes are per-character register differences only (T1/T2); stratum is a work_slug lookup, never independent chronology; this is corpus-linguistic register/structure, not a doctrinal verdict on whether the commentary is correct to apply the grid."
+   ]
+  }
+ ],
+ "page_spec": {
+  "abstract": "A corpus-linguistic test of whether the Abhidhamma matika register (paramattha/cetasika idiom, the katame-dhamma/idam-vuccati frame, and a windowed khandha x ayatana x dhatu co-occurrence) is imported into matika-poor suttas by their commentaries. The fair test is a delta-of-deltas: the canon-to-commentary lift of the matika register must exceed both a positive sutta-native lexicon and a names-and-similes negative control. The headline per-stratum test fails its own negative control: names and similes lift +289.94 per million characters from canon to commentary, larger than the best matika lift (+174.37) and roughly five times the positive-doctrine lift (+57.84). The matched-pair Prong B does show the matika delta beating the positive delta on all four nikayas, but it was never tested against the negative control on the same pairs and rests on a canon denominator that reproduces at half its published size, so it cannot be reported as a surviving positive. Verdict: mixed, leaning null on the headline.",
+  "sections": [
+   {
+    "heading": "The question and why it is a fair test",
+    "paragraphs": [
+     "Commentary is longer and more explicatory than canon, so almost any doctrinal vocabulary reads denser in the commentary layer. The test is therefore not whether the matika register rises (it will) but whether it rises more than two yardsticks that also rise.",
+     "POSITIVE comparison lexicon: Four Noble Truths, paticca-samuppada, jhana. Sutta-native yet heavily glossed; controls for the fact that commentary expands all doctrine. NEGATIVE control: proper names and simile frames; commentary adds these freely, so if the control rises as much as the matika register the matika lift is a length or register artifact.",
+     "The protocol freezes the falsifiers in advance. The matika canon-to-commentary delta must exceed both the positive delta and the names-and-similes delta; the matika per-work concentration (Gini) must materially exceed the positive lexicon's; and Prong B must show matched-attha carrying the scaffold at higher density than its mula, beyond the positive lexicon's own commentarial expansion. All magnitudes are per character. Stratum is a work_slug lookup, never independent chronology."
+    ]
+   },
+   {
+    "heading": "What the canon shows, and the denominator caveat",
+    "paragraphs": [
+     "A halting check sits at the front of the protocol: query 00 must reproduce the published per-layer character totals within rounding, or the run halts. The commentary side reproduces exactly: attha 29.488533 and tika 28.357746 million chars match the published figures to six places.",
+     "The canon side does not. Summing the is_primary mula characters across strata gives 26.94 million against a published 53.543921, a 1.99x shortfall, most likely an un-deduped sc/cst double-ingest or a canon-subset mismatch on the mula side only.",
+     "This is a flagged caveat on every canon-side magnitude, including the mula side of the Prong B deltas. The comparisons are reported as the run produced them, with this caveat carried throughout."
+    ]
+   },
+   {
+    "heading": "Per-stratum deltas (canon = 1early mula, commentary = 5comm attha)",
+    "paragraphs": [
+     "The matika paramattha lift (+174.37) beats the positive lift (+57.84) but not the names-and-similes control (+289.94). The flagship katame-dhamma / idam-vuccati frame inverts: it is denser in canon than in commentary (-36.69). Three of the four per-stratum falsifiers fire."
+    ],
+    "table": {
+     "caption": "Per-Mchar density, canon (1early mula) to commentary (5comm attha), queries 01 to 05",
+     "columns": [
+      "lexicon",
+      "canon",
+      "commentary",
+      "delta"
+     ],
+     "rows": [
+      [
+       "MATIKA_PARAMATTHA (q01)",
+       "10.92",
+       "185.29",
+       "+174.37"
+      ],
+      [
+       "MATIKA_CETASIKA_DEF (q02)",
+       "72.77",
+       "168.44",
+       "+95.67"
+      ],
+      [
+       "MATIKA_KATAME_FRAME (q03)",
+       "73.08",
+       "36.39",
+       "-36.69 (inverts)"
+      ],
+      [
+       "POSITIVE doctrine (q04)",
+       "32.30",
+       "90.14",
+       "+57.84"
+      ],
+      [
+       "NEG control names/similes (q05)",
+       "155.39",
+       "445.33",
+       "+289.94"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "The negative-control result (the call)",
+    "paragraphs": [
+     "A finding stands only if its negative control did not move with it. Here the names-and-similes control did not merely move; it moved more than every matika lift. The +289.94 control delta exceeds the +174.37 best matika delta and dwarfs the +57.84 positive-doctrine delta.",
+     "Under falsifier 3 this makes the per-stratum lift generic commentarial lengthening and register shift, not specific Abhidhamma-grid importation. The per-stratum read-back headline is reported null.",
+     "The regex-independent structural control via passage_tags (query 06) cannot rescue or rebut this: it returned only 1early mula rows (name 45.67, simile 44.92 per-Mchar) with zero commentary-side tagged rows, so the per-stratum failure holds."
+    ]
+   },
+   {
+    "heading": "Concentration does not hold (queries 07, 08)",
+    "paragraphs": [
+     "The thesis predicts Gini around 0.6 or higher and materially above the positive lexicon, with Lorenz mass in the Sangiti / Dasuttara / Mahasatipatthana list-suttas. The per-work vectors give Gini(matika) 0.486 versus Gini(positive) 0.437, a gap of only +0.049.",
+     "The matika mass sits in pli-abhidhamma (434.48 per-Mchar) and pli-sn (210.67), which is near-tautological since the lexicon is the Abhidhamma register, while pli-dn, the home of the predicted list-suttas, sits near the floor at 18.94. Falsifier 1 leans null."
+    ]
+   },
+   {
+    "heading": "Prong B: matched pairs survive only as untested (queries 10, 11)",
+    "paragraphs": [
+     "On all four nikayas the matched mula-to-attha matika delta beats the positive delta, and the 2-of-3 scaffold delta is positive everywhere. Within the matched-pair design this supports H1.",
+     "But Prong B was never tested against the names-and-similes negative control on the same pairs, because the structural control (query 06) returned only canon-side tag rows. An untested control is not a passed control. Prong B also rests on the halved canon denominator, so it is reported as untested-against-control, not as a surviving positive."
+    ],
+    "table": {
+     "caption": "Prong B matched mula-to-attha deltas, per-Mchar, queries 10 and 11",
+     "columns": [
+      "nikaya",
+      "matika delta",
+      "positive delta",
+      "scaffold delta"
+     ],
+     "rows": [
+      [
+       "pli-dn",
+       "+93.64",
+       "+63.16",
+       "+12.95"
+      ],
+      [
+       "pli-mn",
+       "+86.41",
+       "+52.26",
+       "+14.63"
+      ],
+      [
+       "pli-an",
+       "+62.31",
+       "+33.61",
+       "+20.88"
+      ],
+      [
+       "pli-sn",
+       "+71.64",
+       "+26.93",
+       "+13.61"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "Coding and the polysemy audit (queries 12, 13, 14)",
+    "paragraphs": [
+     "The read-back judgment was meant to rest on 120 coded attha candidate rows (query 12). The query returned only 5. Three blind coders coded those rows; agreement is high where codings coincide, and inter-annotator kappa is computed deterministically downstream. The richest exemplar (cst-s0519a.att-34) re-files the plain term mano into vinnanakkhandha, manayatana, vinnanadhatu, and manindriya, the clearest single instance of importation in the sample. With 5 rows, the coding supports the call only weakly and only to the extent the coders agree.",
+     "The sense audit (query 13) returned its 120 polysemy rows but no kappa yet. The MATIKA_CETASIKA_DEF numerator depends on polysemous stems (vitakka, sanna, sankhara). Per the carita rule these are uninterpretable for a density headline until kappa reaches 0.6. The raw rows already show both senses live for vitakka (jhana-factor versus defiled thought) and dhatu (18-element axis versus relic, primary elements, and a grammatical root).",
+     "The embedding centroid corroboration (query 14) errored on a statement timeout, so the distributional falsifier is untested."
+    ]
+   },
+   {
+    "heading": "What it means and what it does NOT mean",
+    "paragraphs": [
+     "Corpus-linguistically: from canon to commentary, doctrinal and onomastic vocabulary alike inflate, and the names-and-similes inflation is the largest of all. The matika register rises but not beyond the elaboration baseline, its flagship structural frame thins in commentary, and concentration is not where the thesis predicted.",
+     "This is not a doctrinal verdict on whether the commentary is right to apply the grid, and not a claim about intent or chronology. The qualitative idea (commentary applies the fuller classification to suttas that state it only partly; Sangiti and Dasuttara as proto-matika list-suttas) is established scholarship, not a discovery here. The per-character method is the only candidate novelty, and the finding it produces does not stand as stated.",
+     "Density alone cannot distinguish importing a grid the sutta lacked from citing Dhammasangani or Vibhanga material the source already entails; only the coding could adjudicate that, and the coding sample came back at 5 rows."
+    ]
+   },
+   {
+    "heading": "Auditability",
+    "paragraphs": [
+     "Every count re-derives from _protocol.json (16 frozen queries, 6 frozen lexica) and _raw.json (result rows). Per-stratum deltas read off queries 01 to 05; controls off 05 and 06; concentration off 07 and 08; Prong B off 10 and 11; the denominator check off 00; coding off 12; sense audit off 13; embedding error off 14; keying off 15.",
+     "The denominator caveat reproduces directly: summing is_primary mchar_primary for all mula strata in query 00 gives 26.94 million against the published 53.543921, while attha 29.488533 and tika 28.357746 match to six places. All magnitudes are per million characters with is_primary dedupe; no raw-row count is a headline."
+    ]
+   }
+  ],
+  "verdict": "mixed (null-leaning headline). The per-stratum read-back claim does not stand: the names-and-similes negative control lifted +289.94 per million characters canon to commentary, more than the best matika lift (+174.37) and far more than the positive-doctrine lift (+57.84). The flagship katame frame inverts (-36.69) and concentration is unsupported (Gini gap +0.049 versus a predicted 0.6-plus level). Prong B's matched-pair win was never tested against the negative control and rests on a canon denominator that reproduces at half its published value, so it cannot be promoted to a surviving positive.",
+  "scope_limits": [
+   "Corpus-linguistic only: density, register, structure and lexical distribution, never a doctrinal verdict on whether the commentary is right to apply the grid, and never authorial intent.",
+   "Stratum is a work_slug lookup, a register and role partition, never independent chronology; the result cannot date the read-back.",
+   "Canon-side magnitudes rest on a denominator roughly half its published size (mula 26.94 reproduced versus 53.543921 published); the protocol's own halt rule was not honored, so all canon baselines and the mula side of Prong B are suspect pending a dedupe or stratum-mapping fix.",
+   "The coding that would separate importation from citation returned 5 of a planned 120 rows; the read-back call is supported only weakly and only to the extent the coders agree.",
+   "The sense-audit Cohen kappa is uncomputed, leaving the cetasika-definition numerator (vitakka, sanna, sankhara) provisional per the carita rule.",
+   "The embedding centroid distributional cross-check errored on timeout and is untested.",
+   "Foreign-language parallels are out of scope; pli text only. pli-vism is excluded from the canon numerator by construction.",
+   "The structural names-and-similes control (passage_tags) returned only canon-side rows, so the regex control stands unchallenged on the commentary side and Prong B has no artifact floor."
+  ],
+  "citations": [
+   "cst-s0519a.att-34_p004",
+   "cst-s0504a.att-59_p005",
+   "cst-abh01a.att-59_p002",
+   "cst-s0504a.att-59_p003",
+   "cst-s0201a.att-mn1_1_p097",
+   "pli-abhidhamma",
+   "pli-sn",
+   "pli-dn",
+   "pli-mn",
+   "pli-an"
+  ]
+ },
+ "iaa": {
+  "n_coders": 3,
+  "pairwise_cohen": [
+   0.6875,
+   1.0,
+   0.6875
+  ],
+  "mean_pairwise_cohen": 0.7917,
+  "fleiss_kappa": 0.7887,
+  "n_items": 5,
+  "Pbar": 0.8667,
+  "Pe": 0.3689,
+  "class_distribution": {
+   "NEITHER": 5,
+   "PRESENT_IN_SOURCE": 7,
+   "READBACK_GRID": 3
+  }
+ }
+}

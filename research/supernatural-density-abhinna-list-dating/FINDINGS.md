@@ -1,0 +1,57 @@
+# Where the supernatural lives: testing for a hardening seam in the six-abhinna list
+
+## Abstract
+
+This study asked whether the DISPLAY register of the supernatural in the Pali corpus (the iddhi-patihariya label, the iddhividha performance catalogue, the yamaka twin-miracle) grows denser per character from early canon into commentary while a within-author DIAGNOSTIC control (iddhipada plus the four padhana-sankhara) stays flat, and whether abhinna hardens from an open WIDE sense into the closed NARROW six-list (chalabhinna). The primary test cannot be run. The two queries that resolve DISPLAY density (01_display_density_by_stratum and 03_display_components_split) both returned a database statement timeout, so DISPLAY per-character density is unmeasured in every stratum. With no DISPLAY series, H1(a) (DISPLAY rises into commentary) and H1(b) (the DISPLAY slope exceeds the DIAGNOSTIC slope) are untestable at this run, not refuted. The only control comparison that did execute shows the generic doctrinal baseline itself moving in the predicted direction: dukkha rises about 1.65x from earliest canon to commentary and paticca about 1.36x. A program rule applies here without exception: a positive density finding cannot stand when its negative control moves with it. Because the baseline inflates into commentary on its own, any DISPLAY rise (had it been measured) would have needed to clear roughly 1.65x just to escape the control band, and could not have been called supernatural-specific. The verdict is null. The secondary arms that did resolve do not rescue H1; several actively cut against its sub-claims, and the strongest of those are single-work edition effects rather than corpus seams.
+
+## The question and why it is a fair test
+
+The house thesis is not novel. The standing lexicographic claim (PED, s.v. abhinna: in nine of ten occurrences the six are meant) has been in print for about a century, and the protocol names it as a primary locus. This study is a corpus-linguistic re-test of that diachronic claim, not its source. The design is fair because it pre-commits a null (H0), a within-register flat control (DIAGNOSTIC iddhipada), two neutral high-frequency negative controls (dukkha, paticca), and a set of falsifiers, all before enumeration. Magnitude is per character throughout. Stratum is a work_slug lookup, not a dated time axis, so any distributional difference between strata is a fact about strata-as-defined and never an independent chronological event.
+
+The fairness of the test is also its undoing this run. The negative-control arm is what forces the verdict, exactly as the protocol said it would.
+
+## What the canon shows (what resolved, and what did not)
+
+The primary DISPLAY arm did not execute. Queries 01 and 03 both carry the error "canceling statement due to statement timeout" in the raw results. DISPLAY per-character density by stratum and the three-way component split are therefore blank. No datable DISPLAY seam is detectable, because the query that would resolve it did not run.
+
+The within-register DIAGNOSTIC control (query 02) is flat across the resolving strata: 5.803 per Mchar in 1early, 5.572 in 5comm, 5.325 in 6tika (commentary at about 0.92 to 0.96 of early). The only departure is a small-N 2late spike (11.942 over 3.85 Mchar). Flatness of the within-register control is consistent with H1's register-differentiation prediction, but with the DISPLAY series missing there is no slope to differentiate it against, so this arm cannot carry the thesis alone.
+
+The abhinna NARROW-share (query 05) is non-monotonic, which falsifies H1(c). Shares run 0.170 (1early), 0.735 (2late), 0.167 (3abh), 0.591 (4para), 0.297 (5comm), 0.210 (6tika). There is no early-to-commentary climb, and commentary does not reproduce PED's nine-in-ten (5comm 0.297, 6tika 0.210). The 2late value (0.735) is the Apadana quantifier concentration described below, and 3abh rests on only 54 abhinna rows. Ambiguous counts are large in commentary (5comm 508 of 1032, 6tika 350 of 701). Query 05 is gated behind sense-coding (see auditability) and stands only as an auto-heuristic until that gate is adjudicated.
+
+The chalabhinna fixed collocation (query 07) peaks in LATE CANON, not commentary, which falsifies H1(d) in direction. Per Mchar: 0.840 (1early), 28.298 (2late), 0.264 (3abh), 9.070 (4para), 9.449 (5comm), 4.126 (6tika). There is no commentary densification of the fixed six-list collocation. The 2late peak is not a doctrinal seam: 96 of 109 matching rows (88 percent) come from one work, pli-ap (Apadana), as the stock hagiographic verse phrase chalabhinna mahiddhika, over a small 3.85 Mchar denominator. Report it as a single-work formula concentration; the H1(d) falsification holds only as direction (no commentary hardening), not as a clean late-canon seam.
+
+The yamaka twin-miracle (query 09) is small-N and commentary-concentrated: 0 (1early), 6 (2late), 0 (3abh), 2 (4para), 126 (5comm), 27 (6tika), 17 (7other). The commentary count is itself single-work concentrated (5comm 126 is 84 of 126, about 67 percent, from pli-kn-attha). Per the small-N falsifier this localization is inconclusive for canon dating, not support either way.
+
+The three-patihariya critique (query 11) persists across canon and commentary rather than hardening: 0.458 (1early), 0.260 (2late), 0.000 (3abh and 4para), 0.489 (5comm), 0.635 (6tika). The canon's own self-critique of display does not concentrate in any one register.
+
+## What the commentary does (the falsifiable core, examined)
+
+The pre-committed falsifiable core had four density predictions and a sense-share prediction. With the DISPLAY arm unmeasured, the two DISPLAY predictions (H1a, H1b) cannot be adjudicated and are reported as untestable at this run. Of the predictions that could be checked, none confirmed:
+
+H1(c) NARROW-share climb: falsified (non-monotonic, no early-to-commentary climb, commentary below PED's figure). H1(d) chalabhinna densifies into commentary: falsified in direction (peak sits in late canon, and that peak is a single-work artifact). yamaka localization: inconclusive (small-N, single-work). PED's nine-in-ten in commentary: not reproduced under the auto-heuristic (0.297 and 0.210).
+
+The honest reading is that the commentary, as measured here, does not show the predicted register-specific hardening of the supernatural-DISPLAY vocabulary, and the one apparent late spike is an edition-and-genre concentration in the Apadana, not a seam.
+
+## The negative-control result (why this is null and not H1)
+
+The negative control did not stay flat. Query 12 shows dukkha rising from 79.950 per Mchar (1early) to 132.057 (5comm), about 1.65x, and to 93.696 (6tika), about 1.17x. The robustness control paticca rises from 20.923 (1early) to 28.379 (5comm), about 1.36x, and to 32.760 (6tika), about 1.57x. Both control regexes (boundary dukkh, boundary paticca) are clean of homographs, so the control rise is a real property of the corpus, not a measurement glitch. The 3abh paticca value (248.918 over 7.58 Mchar) is a small-N outlier and is not used as a control reading; the operative control evidence is the commentary-over-early ratios above.
+
+The generic doctrinal baseline therefore inflates into commentary on its own. Per the program rule, a DISPLAY rise can support H1 only if it clears the negative-control band. Even if the DISPLAY query had run and shown a rise, that rise would have to beat roughly 1.65x to be called supernatural-specific rather than a generic commentary-expansion or glossing artifact. With the DISPLAY arm missing and the control moving in the predicted direction, the artifact arm (H0) gains and the verdict is forced to null.
+
+## What it means and what it does NOT mean
+
+What it means, in corpus-linguistic terms only: at this run the corpus does not yield a measurable, control-clearing, register-specific hardening seam for the six-abhinna list. The fixed chalabhinna collocation does not densify into commentary; it spikes once, in one late-canonical work, as a verse formula. The NARROW sense-share does not climb monotonically and commentary does not reach PED's nine-in-ten under the auto-heuristic. The canon's self-critique of display persists rather than hardening. The neutral doctrinal baseline grows into commentary, which is the expected glossing-expansion shape and is exactly what makes a clean DISPLAY claim impossible without the missing measurement.
+
+What it does NOT mean: nothing here speaks to whether the six abhinna are original, authentic, or real, nor to whether the Buddha taught psychic powers, nor to whether commentary corrupted the canon. These are density, register, share, and translator-divergence facts about strata-as-defined. No claim here is independent chronological dating. The DISPLAY result is not "tested and failed"; it is unmeasured, and the responsible statement is that the primary arm could not be run this time.
+
+A translator-divergence note (query 13), reported as context not as a test: among abhinna-bearing passages, English renderings lean overwhelmingly to the open WIDE sense. Sujato renders 364 wide against 7 narrow over 420 rows; Thanissaro 28 wide against 3 narrow over 87; Nanamoli 5 wide and 0 narrow over 44. The enumerated six-knowledge rendering is rare in translation, which is consistent with the WIDE sense being the default reading in practice and with the NARROW share being a minority phenomenon outside the formula-dense works.
+
+## Auditability
+
+Every count above re-derives from the two committed files. Denominators come from query 00 (live mula 26.94 Mchar, attha 29.49 Mchar, tika 28.36 Mchar). DIAGNOSTIC from query 02, abhinna totals from 04, NARROW-share from 05, chalabhinna density from 07 with its loci in 08, yamaka counts from 09 with loci in 10, critique from 11, negative controls from 12, translator divergence from 13. The single-work concentrations are re-derived directly from the loci lists: 2late chalabhinna is 96 of 109 rows from pli-ap (query 08); 5comm yamaka is 84 of 126 rows from pli-kn-attha (query 10).
+
+One live-data integrity flag must be carried with these numbers. Query 00 reports live mula at 26.94 Mchar against the protocol's frozen cross-check of 53.543921 Mchar, almost exactly half (ratio 0.503), while attha and tika match their frozen values to six places. A 7other/anya bucket of 9.88 Mchar of pli-cst (CST edition) works sits alongside the SC-sourced strata. The frozen-denominator cross-check failed for mula, so an SC/CST edition overlap (a numerator hitting both editions while the denominator is single-edition) cannot be excluded. Per-character normalization does not protect against that case. The mula-based densities are reported under this caveat.
+
+## Scope and limits
+
+Stratum is a work_slug lookup, never independent dating. The study is corpus-linguistic only: no doctrinal verdict. The primary DISPLAY arm is unmeasured (statement timeout), so no positive DISPLAY claim is made. The negative control moved, which forces the null. The chalabhinna 2late peak and the yamaka 5comm count are single-work artifacts. Query 05 NARROW-share is auto-heuristic and not yet adjudicated by the sense-coding gate. The live mula denominator failed its frozen cross-check. PED's nine-in-ten is a hand-feel estimate and the NARROW-share operationalization is one reasonable proxy, so agreement or disagreement is suggestive only.

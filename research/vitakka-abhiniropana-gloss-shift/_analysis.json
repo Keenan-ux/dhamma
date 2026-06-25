@@ -1,0 +1,266 @@
+{
+ "slug": "vitakka-abhiniropana-gloss-shift",
+ "title": "Vitakka and the \"application\" (abhiniropana) gloss: a corpus density test that comes back null",
+ "verdict": "NULL (confirmed artifact). The pre-committed null wins. The within-vitakka application/discursive ratio is non-monotonic across the layers (mula 0.213, attha 0.510, tika 0.441), so the monotone hardening H1 predicted is absent, and the piti negative control moves with the same low-peak-then-fall shape (mula 0.304, attha 0.813, tika 0.520) with a larger mula-to-attha jump (0.509 vs 0.297). Per the falsifier stated before the run, when the control moves with the signal the effect is an artifact regardless of the vitakka numbers. The density test does not independently confirm a vitakka-specific gloss shift. It says nothing doctrinal.",
+ "analyst": {
+  "slug": "vitakka-abhiniropana-gloss-shift",
+  "verdict": "null",
+  "needs_coding": true,
+  "coding_query_label": "Q5_defining_frame_rows_to_code",
+  "coding_ref_field": "id",
+  "control_check": "The control did NOT stay flat and it moved with the signal, so the effect is an artifact per the pre-committed falsifier (if piti moves with vitakka the effect is artifact regardless of vitakka numbers). Q4 piti app over disc ratio: mula 0.304, attha 0.813, tika 0.520, the same low-mula peak-attha fall-tika shape as vitakka, and the piti mula-to-attha jump of about 0.51 exceeds vitakka about 0.30. Secondary control also fails: Q8 piti defining-frame rows are mula 11, attha 12, tika 6, other 17, not empty and not vitakka-specific, so the defining-frame skeleton is commentary boilerplate that also attaches to piti at mula density.",
+  "key_numbers": [
+   {
+    "name": "Q3 mula within-vitakka app/disc ratio",
+    "value": "0.213 (app 23 / disc 108)",
+    "layer": "mula"
+   },
+   {
+    "name": "Q3 attha within-vitakka app/disc ratio",
+    "value": "0.510 (app 50 / disc 98)",
+    "layer": "attha"
+   },
+   {
+    "name": "Q3 tika within-vitakka app/disc ratio",
+    "value": "0.441 non-monotonic falls vs attha",
+    "layer": "tika"
+   },
+   {
+    "name": "Q4 mula piti negctrl app/disc ratio",
+    "value": "0.304",
+    "layer": "mula"
+   },
+   {
+    "name": "Q4 attha piti negctrl app/disc ratio",
+    "value": "0.813",
+    "layer": "attha"
+   },
+   {
+    "name": "Q4 tika piti negctrl app/disc ratio",
+    "value": "0.520",
+    "layer": "tika"
+   },
+   {
+    "name": "Q2 app per mchar within target",
+    "value": "mula 4.729, attha 70.473, tika 52.624",
+    "layer": "all"
+   },
+   {
+    "name": "Q2 disc per mchar within target",
+    "value": "mula 22.204, attha 138.127, tika 119.282",
+    "layer": "all"
+   },
+   {
+    "name": "Q8 piti defining-frame rows",
+    "value": "mula 11, attha 12, tika 6, other 17 not flat",
+    "layer": "all"
+   },
+   {
+    "name": "Q6 vitakka app defframe mula work-hits",
+    "value": "10 across pli-abhidhamma 4, pli-ps 3, pli-pe 2, pli-nd 1",
+    "layer": "mula"
+   },
+   {
+    "name": "Q9 diacritic zero-guard",
+    "value": "ERROR statement timeout, non-zero confirmed via Q5 rows",
+    "layer": "all"
+   }
+  ],
+  "codebook": "Unit: one passage from Q5_defining_frame_rows_to_code (73 rows), keyed on row id (e.g. cst-abh01a.att-20_p002). Coders see only original_head; work_slug, work_role, layer MASKED (layer-blind). PRIMARY definitional_head (1/0): 1 = abhiniropana/aropana (or kin abhiropana, aropana, anuropana) functions as a DEFINITIONAL head-noun glossing vitakka, predicated of vitakka as its meaning, characteristic, or essence. Surface marks: abhiniropanalakkhano vitakko; vitakko arammane cittassa abhiniropana; vitakkassa abhiniropanalakkhanam; or abhiniropana coupled with lakkhana, rasa, paccupatthana, attho, nama, ti-vuccati as the gloss OF vitakka. 0 = mere co-mention or list-item: (a) the MN 117 synonym chain takko vitakko sankappo to cetaso abhiniropana vacisankharo with no defined-as predication, (b) abhiniropana/aropana predicated of a different subject such as vadaropana mounting-a-debate or planting/raising, (c) passing narrative mention. SECONDARY application_sense (1/0) on the abhiniropana/aropana token, 50-row sense sample as a polysemy guard: 1 = mental application-to-object, lifting-the-mind-onto-the-object; 0 = unrelated aropana sense such as planting, raising, mounting a debate. Adjudication: compute Cohen kappa on definitional_head; require kappa at least 0.6 to proceed, else study invalid; only adjudicated definitional_head=1 rows feed the Q6 first-appearance claim. Coders must not infer layer from vocabulary or register.",
+  "density_finding": "Q3 within-vitakka APPLICATION over DISCURSIVE passage-presence ratio is non-monotonic: mula 0.213, attha 0.510, tika 0.441. Real rise mula-to-attha of about 0.30 (the predicted largest jump), then a fall into tika (0.510 to 0.441). The monotone mula then attha then tika shape H1 requires is absent; the H1 falsifier names this outcome. Q2 per-Mchar within-target densities: application 4.729 mula, 70.473 attha, 52.624 tika; discursive 22.204 mula, 138.127 attha, 119.282 tika. Application and discursive move together (jump into commentary, dip attha-to-tika), the signature of a register or length shift over the target subset (mula 4.86 Mchar vs attha 0.71 Mchar), not a vitakka-specific hardening."
+ },
+ "skeptics": [
+  {
+   "lens": "artifact",
+   "holds": true,
+   "verdict": "keep",
+   "refutation": "Attempted break failed: the artifact (null) call is over-determined, not fragile. Three independent channels confirm it. (1) Negative control moved WITH the signal. Vitakka Q3 app/disc ratio is mula 0.213, attha 0.510, tika 0.441 (non-monotonic, low-peak-fall); piti Q4 is mula 0.304, attha 0.813, tika 0.520 (same shape), and the piti mula-to-attha jump 0.509 exceeds vitakka's 0.297. The pre-committed falsifier fires unconditionally. (2) Length/register confound: Q2 shows application and discursive densities moving together and tracking the target-subset Mchar collapse, a register shift not a vitakka-specific change. (3) The mula Q5 defframe rows are passage-size and homograph artifacts (mn117 synonym chain, abhiniropana predicated of sammasankappa, 60k-to-220k-char chance co-occurrences), not vitakka predication. The one narrow survivor is the qualitative coding split a layer-blind coder would see, but that is the pending Q5 sub-study and cannot rescue the dead density thesis. Q8 secondary control also fails. Artifact diagnosis stands.",
+   "required_caveats": [
+    "The density-hardening thesis (H1: within-vitakka application/discursive ratio rises monotonically mula to attha to tika) is FALSIFIED on two independent grounds: the Q3 ratio is non-monotonic (peaks at attha, falls into tika) and the pre-committed piti negative control moved with the same shape and a larger mula-to-attha jump (0.509 vs 0.297). Report as a confirmed null.",
+    "Application and discursive densities move together across layers (Q2), so the layer differences reflect a commentary register/length shift over the target subset (mula 4.86 Mchar collapsing to attha 0.71 Mchar), not a vitakka-specific lexical change. Magnitudes are per-character; do not cite raw row counts as the effect.",
+    "The Q5 mula defining-frame rows are NOT vitakka definitions. They are the MN117 synonym chain, Dhammasangani/Vibhanga magga-lists where abhiniropana is predicated of sammasankappa, and very large passages (60k to 220k chars) where TARGET, APPLICATION, and DEFINING_FRAME co-occur by passage size rather than predication. The Q5 SQL tests passage-level co-presence, not head-noun predication; any mula defframe count must be treated as provisional until the layer-blind coding adjudicates predication.",
+    "The pending coding (needs_coding=true, Q5, 73 rows) can at most support a narrow qualitative claim about WHERE abhiniropana first functions as a definitional head-noun for vitakka. It cannot revive the density-hardening claim and must clear the kappa>=0.6 gate before the Q6 first-appearance statement is reported.",
+    "pli-vism is counted as attha by convention; the attha peak is partly inflated by repeated near-identical Visuddhimagga jhana-gloss passages (e.g. cst-s0515a.att-4, cst-s0517a.att-17, the cst-e0101n pli-vism rows) that is_primary did not collapse. Report the pli-vism-out sensitivity and do not treat the attha bump as independent occurrences.",
+    "The piti control overlaps heavily with vitakka passages (the jhana factors are co-listed), so the control is not independent of the signal; its tracking of the signal is itself the artifact evidence and must be stated as such, not as a separate confirmation. stratum/layer is a work_slug lookup and is never independent chronological evidence.",
+    "Q9 diacritic zero-guard did not complete (statement timeout). Non-zero firing is only inferred indirectly from Q5 rows containing the diacritic-critical stems. The zero-guard must be re-run to completion before the run is declared valid, since a silent ASCII-fold null would invalidate the lexica."
+   ]
+  },
+  {
+   "lens": "overread-priorwork",
+   "holds": true,
+   "verdict": "caveat",
+   "refutation": "see above",
+   "required_caveats": [
+    "The finding is a corpus-linguistic null only: density cannot distinguish abhiniropana-as-list-item from abhiniropana-as-definitional-head, so it cannot settle the gloss-shift question either way. The discriminating evidence is the deferred blind coding (Q5, needs_coding=true), not these numbers.",
+    "Do NOT read the null as a doctrinal claim that 'the application reading is canonical' or 'abhiniropana is original to the suttas.' The mula/Q6 abhiniropana hits are uncoded co-mentions (the MN 117 / Vibhanga sammasankappo synonym chain where abhiniropana is a list-item glossing sankappa, not predicated of vitakka). Scope_limits T1 and the corpus-linguistic-not-doctrinal ethos bind here.",
+    "The control-vs-signal comparison rests on small passage counts (e.g. attha piti 13 app / 16 disc) with no bootstrap confidence interval, despite the protocol requiring CIs. Report the artifact verdict qualitatively (control moves with signal, same shape, comparable-or-larger jump); do not assert a precise '0.51 > 0.30' margin as if it were stable.",
+    "The doctrinal-historical structure being probed (canon co-mentions the term; Atthasalini/Visuddhimagga develop it into the defining lakkhana) is already standard in published Theravada scholarship. The only original contribution is the corpus-wide density test, which is null; frame the result as 'density does not independently confirm the known structure,' not as a new discovery.",
+    "pli-vism (Visuddhimagga) is shelved as mula but counted in attha here; every Q7 'mula' definitional row is in fact pli-vism. Report the attha result is partly a pli-vism-convention artifact and that the pli-vism-excluded sensitivity was not run.",
+    "Q9 diacritic zero-guard ERRORED (statement timeout) rather than returning non-zero counts. Non-zero firing is only inferred from Q5 hits; the protocol-required explicit zero-guard was not satisfied and should be re-run before the run is treated as fully valid."
+   ]
+  }
+ ],
+ "page_spec": {
+  "abstract": "Theravada commentary glosses vitakka as the mind's lifting onto the object (abhiniropana), paired with vicara as moving over the object (anumajjana). The canonical suttas use vitakka more loosely, inside an open field of thinking and intention. This study asked whether a corpus density measurement can date when the application reading hardens into a definition across the textual layers (mula, atthakatha, tika). The house thesis predicted a monotone rise in the within-vitakka application-over-discursive ratio. The pre-committed null predicted a flat or non-monotonic ratio matched by an identical rise on a piti negative control. The null wins. The ratio is non-monotonic (mula 0.213, attha 0.510, tika 0.441), and the piti control moves with the same shape and a larger mula-to-attha jump (0.509 vs 0.297). Per the pre-committed falsifier, when the control moves with the signal the effect is an artifact. The result is corpus-linguistic, not doctrinal.",
+  "sections": [
+   {
+    "heading": "The question, and why this is a fair test",
+    "paragraphs": [
+     "The primary statistic (Q3) is the within-target ratio of application-bearing passages to discursive-bearing passages, computed only among passages already mentioning vitakka or vicara, read across the three layers. H1 names a specific shape: a monotone rise mula then attha then tika, largest jump at the mula-to-attha boundary. H0 names the alternatives (flat, or non-monotonic) and adds a hard condition: a co-present but non-debated jhana factor, piti, must not show the same movement.",
+     "The falsifier was committed in writing before the numbers were read: if the piti control moves with vitakka, the effect is declared an artifact regardless of the vitakka numbers. The control can kill the finding on its own. That is the fairness of the design.",
+     "Magnitudes are per-character, never raw passage counts, so longer commentary passages cannot inflate co-occurrence counts. The layer label carries no evidentiary weight: stratum is a lookup on the work identifier, a textual-role partition, not a dated chronology. The evidence, if any, lives in the ratio shape and in the negative control."
+    ]
+   },
+   {
+    "heading": "What the canon shows",
+    "paragraphs": [
+     "In the mula layer, vitakka sits in the discursive and intentional field. Among vitakka-mentioning mula passages, discursive co-mentions outnumber application co-mentions by roughly five to one (Q3: 23 application, 108 discursive, ratio 0.213).",
+     "The canonical frame that places abhiniropana beside vitakka is the synonym chain takko vitakko sankappo appana byappana cetaso abhiniropana vacisankharo (MN 117 Mahacattarisaka, plus the Dhammasangani and Vibhanga magga-lists). In every case abhiniropana is a list-item glossing sammasankappa (right intention), not a predicate asserted of vitakka as its defining characteristic.",
+     "Of the 15 mula defining-frame candidate rows (Q5), seven are Dhammasangani and Vibhanga sammasankappa list contexts, two are MN suttas (MN 117 synonym chain, MN 139), and the rest are very large passages (Culaniddesa about 128k characters, two Petakopadesa at about 36k and 112k, three Patisambhidamga between about 63k and 225k) where the lexica co-occur by passage size, not predication. None is a vitakka head-noun definition. The Q5 query tests passage-level co-presence, not head-noun predication."
+    ]
+   },
+   {
+    "heading": "What the commentary does, and the falsifiable core",
+    "paragraphs": [
+     "The defining gloss is a real commentary form. Vitakkassa abhiniropanalakkhanam, vicarassa anumajjanalakkhanam recurs verbatim across the atthakatha, and the Visuddhimagga develops it with the bell-strike and bird-flight similes. The defining-frame first-appearance question (Q6) is what the deferred blind coding is for, and it is the only narrow claim the study can still support if that coding clears its gate.",
+     "But the load-bearing density claim is the ratio shape, and the shape is wrong for H1. The within-vitakka application-over-discursive ratio is 0.213 in mula, rises to 0.510 in attha, then falls to 0.441 in tika (Q3). That is non-monotonic. It peaks at attha and declines into tika. The monotone rise H1 requires is absent, and the H1 falsifier names this outcome.",
+     "The per-character densities (Q2) show why. Application and discursive densities do not diverge across layers; they move together, both jumping from mula into commentary and both dipping from attha into tika. The driver is the denominator: the target-subset character mass collapses from 4.864 Mchar in mula to 0.709 Mchar in attha, then rises to 1.140 Mchar in tika. A register and length shift over the target subset produces this co-movement. It is not a vitakka-specific lexical change."
+    ],
+    "table": {
+     "caption": "Within-vitakka co-occurrence by layer (Q2, Q3) with the piti negative control (Q4). All densities per-character. Counts and ratios re-derive from _raw.json.",
+     "columns": [
+      "Layer",
+      "App passages",
+      "Disc passages",
+      "App/disc ratio (Q3)",
+      "App per Mchar (Q2)",
+      "Disc per Mchar (Q2)",
+      "Target Mchar (Q2)",
+      "Piti app/disc ratio (Q4)"
+     ],
+     "rows": [
+      [
+       "mula",
+       "23",
+       "108",
+       "0.213",
+       "4.729",
+       "22.204",
+       "4.864",
+       "0.304"
+      ],
+      [
+       "attha",
+       "50",
+       "98",
+       "0.510",
+       "70.473",
+       "138.127",
+       "0.709",
+       "0.813"
+      ],
+      [
+       "tika",
+       "60",
+       "136",
+       "0.441",
+       "52.624",
+       "119.282",
+       "1.140",
+       "0.520"
+      ],
+      [
+       "other",
+       "21",
+       "66",
+       "0.318",
+       "5.233",
+       "16.447",
+       "4.013",
+       "0.450"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "The negative-control result",
+    "paragraphs": [
+     "The control settles the verdict on its own. Piti is a co-present jhana factor that is not the subject of an application-gloss debate, so its within-factor application-over-discursive ratio is the artifact baseline. It shows the same low-peak-then-fall shape as vitakka: mula 0.304, attha 0.813, tika 0.520 (Q4). The piti rise from mula to attha is 0.509, which exceeds the vitakka rise of 0.297. The control did not stay flat, it moved with the signal, and it moved at least as much. Under the pre-committed falsifier the effect is an artifact.",
+     "A second control agrees. Abhiniropana-style head-noun glossing should not attach to piti at commentary density if the defining-frame skeleton were vitakka-specific. It does attach: the piti defining-frame harvest (Q8) returns mula 11, attha 12, tika 6, other 17. Not empty, not vitakka-specific, and densest at the mula end. The skeleton (lakkhana, rasa, paccupatthana, nama, attho) is commentary boilerplate that co-occurs with piti at mula density.",
+     "Because piti and vitakka are co-listed jhana factors, the control is not independent of the signal. Its tracking of the signal is itself the artifact evidence and is reported as such, not as a separate confirmation."
+    ]
+   },
+   {
+    "heading": "What it means, and what it does not",
+    "paragraphs": [
+     "It means the corpus density measurement does not, on its own, confirm a vitakka-specific hardening of the application gloss across the layers. The apparent attha bump is a register and length effect that the piti control reproduces. The hardening thesis is falsified on two independent grounds, and the pre-committed null is the result.",
+     "It does not mean the application gloss is canonical, nor that the thinking reading is original, nor anything about what the Buddha meant by vitakka. The mula abhiniropana hits are uncoded co-mentions, dominated by the MN 117 and Vibhanga sammasankappa synonym chain where abhiniropana is a list-item. Density cannot distinguish a list-item from a definitional head-noun.",
+     "That discrimination is the job of the deferred blind coding (Q5, 73 rows, layer-masked), which can at most support a narrow qualitative claim about where abhiniropana first functions as a definitional head-noun for vitakka. It cannot revive the density claim, and it must clear the kappa gate (Cohen kappa at least 0.6 on the definitional_head label) before the first-appearance statement is reported. The coders agree at high rates where codings coincide, but the inter-annotator kappa is computed downstream and the first-appearance claim stands only to the extent adjudicated agreement supports it.",
+     "The historical structure being probed (canon co-mentions the term; Atthasalini and Visuddhimagga develop it into the defining lakkhana) is already standard in published Theravada scholarship. The original contribution attempted was the corpus-wide density test, and that test is null. The honest framing is that density does not independently confirm the known structure."
+    ]
+   },
+   {
+    "heading": "Auditability",
+    "paragraphs": [
+     "Every number re-derives from the two committed files. The layer partition, lexica, and query strings are fixed in _protocol.json; the returned counts are in _raw.json. Q3 ratios re-derive as 23/108 = 0.213, 50/98 = 0.510, 60/136 = 0.441. Q4 piti ratios re-derive as 17/56 = 0.304, 13/16 = 0.813, 13/25 = 0.520, with mula-to-attha jumps 0.509 (piti) and 0.297 (vitakka).",
+     "The Q5 harvest contains 73 rows; by layer 28 attha, 20 tika, 15 mula, 10 other, and the 15 mula ids are enumerable from the file. Q8 piti defframe counts are mula 11, attha 12, tika 6, other 17. The per-Mchar densities and target-subset Mchar values read directly from Q2."
+    ]
+   }
+  ],
+  "verdict": "NULL (confirmed artifact). The pre-committed null wins. The within-vitakka application-over-discursive ratio is non-monotonic across the layers (mula 0.213, attha 0.510, tika 0.441), so the monotone hardening predicted by the house thesis is absent. The piti negative control moves with the same low-peak-then-fall shape (mula 0.304, attha 0.813, tika 0.520) and a larger mula-to-attha jump (0.509 vs 0.297), and the secondary piti defining-frame control is non-empty and densest at mula (11, 12, 6, 17). Per the falsifier committed before the run, when the control moves with the signal the effect is an artifact regardless of the vitakka numbers. The density test does not independently confirm a vitakka-specific gloss shift, and says nothing doctrinal.",
+  "scope_limits": [
+   "Corpus-linguistic only: this dates when a lexical or definitional pattern appears in the held text by layer; it cannot settle what the Buddha meant by vitakka nor adjudicate the thinking-versus-application interpretive debate.",
+   "Layer/stratum is a work-identifier lookup, a textual-role partition, not independent chronology; no absolute dating claims follow from the label.",
+   "pli-vism (Visuddhimagga) is shelved as mula by convention but counted as attha here; every mula definitional row in the targeted pull (Q7) is in fact pli-vism, and the attha result is partly inflated by repeated near-identical Visuddhimagga jhana-gloss passages the dedup did not collapse. The pli-vism-excluded sensitivity was not run.",
+   "The control-versus-signal comparison rests on small passage counts (for example attha piti is 13 application and 16 discursive) and the protocol's bootstrap confidence intervals were not produced; the artifact verdict is reported qualitatively and the 0.509-versus-0.297 margin is not asserted as a stable point estimate.",
+   "The piti control overlaps heavily with vitakka passages because the jhana factors are co-listed, so the control is not independent of the signal; its tracking of the signal is the artifact evidence, not a separate confirmation.",
+   "The Q9 diacritic zero-guard did not complete (statement timeout); non-zero firing of the diacritic-critical stems is inferred indirectly from the Q5 and Q7 rows that contain them, and the explicit zero-guard must be re-run to completion before the run is declared fully valid.",
+   "Passage-presence counting cannot distinguish one definitional use from a passing mention without the blind sense-audit; pre-coding ratios are provisional, and the Q5 query tests passage-level co-presence rather than head-noun predication.",
+   "The deferred blind coding can at most support a narrow first-appearance claim and only if it clears Cohen kappa at least 0.6 on the definitional_head label; it cannot revive the density thesis."
+  ],
+  "citations": [
+   "mn117",
+   "mn139",
+   "cnd23",
+   "pe5",
+   "pe8",
+   "ps1.1",
+   "ps1.3",
+   "ps1.4",
+   "cst-abh01m.mul-016",
+   "cst-abh01m.mul-042",
+   "cst-abh02m.mul-088",
+   "cst-abh01a.att-20_p002",
+   "cst-abh01a.att-20_p003",
+   "cst-s0101a.att-dn1_1_p154",
+   "cst-s0201a.att-mn1_1_p212",
+   "cst-s0203a.att-mn3_2_p159",
+   "cst-s0302a.att-sn2_3_p030",
+   "cst-s0515a.att-4_p114",
+   "cst-e0101n.mul-46_p013",
+   "cst-e0101n.mul-47_p003",
+   "cst-e0101n.mul-69_p026",
+   "cst-abh06t.nrf-5_p037",
+   "cst-abh08t.nrf-67_p022",
+   "cst-s0203t.tik-mn3_2_p130",
+   "cst-e0103n.att-71_p011"
+  ]
+ },
+ "iaa": {
+  "n_coders": 3,
+  "pairwise_cohen": [
+   0.7801,
+   0.7801,
+   1.0
+  ],
+  "mean_pairwise_cohen": 0.8534,
+  "fleiss_kappa": 0.8501,
+  "n_items": 73,
+  "Pbar": 0.9269,
+  "Pe": 0.5128,
+  "class_distribution": {
+   "0": 92,
+   "1": 127
+  }
+ }
+}

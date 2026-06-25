@@ -1,0 +1,273 @@
+{
+ "slug": "sati-translator-drift",
+ "title": "Sati translator-drift: does the English gloss shift from memory to mindfulness across translator vintage",
+ "verdict": "null",
+ "analyst": {
+  "slug": "sati-translator-drift",
+  "verdict": "null",
+  "needs_coding": true,
+  "coding_query_label": "07_rows_to_code_BLIND_AUDIT_SAMPLE",
+  "coding_ref_field": "pid plus translator composite (pid repeats across translators; pid is the passage citation, translator disambiguates)",
+  "key_numbers": [
+   {
+    "name": "OLD pole pooled MEMORY share q04",
+    "value": "3.36 percent, 5 of 149"
+   },
+   {
+    "name": "NEW pole pooled MEMORY share q04",
+    "value": "4.11 percent, 38 of 925"
+   },
+   {
+    "name": "old minus new MEMORY gap, pred +5pp old over new q04",
+    "value": "minus 0.75pp, sign reversed"
+   },
+   {
+    "name": "sujato MINDFULNESS share q04",
+    "value": "79.29 percent, 578 of 729"
+   },
+   {
+    "name": "thanissaro MINDFULNESS share q04",
+    "value": "77.01 percent, 144 of 187"
+   },
+   {
+    "name": "nanamoli MEMORY share q04",
+    "value": "4.07 percent, 5 of 123"
+   },
+   {
+    "name": "walshe and piyadassi MEMORY share q04",
+    "value": "0 and 0 percent"
+   },
+   {
+    "name": "NEG-CTRL entropy nanamoli vs sujato q09",
+    "value": "0.6941 vs 0.2245 nats, not flat"
+   },
+   {
+    "name": "NEG-CTRL sujato mendicant vs thanissaro monk q08",
+    "value": "1045 vs 260"
+   },
+   {
+    "name": "native memory density mula attha tika q02 descriptive",
+    "value": "4.05, 27.30, 22.57 per Mchar"
+   },
+   {
+    "name": "H1c lexicographic baseline q10",
+    "value": "ERROR no headword column, untested"
+   }
+  ],
+  "control_check": "The negative control DID NOT stay flat, which independently undermines any drift claim. The executed control is a bhikkhu-stem matched-register term (08/09), NOT the protocol's planned panna control; panna queries were not run (substitution noted). Translators diverge sharply: sujato bhikkhu = mendicant 1045 vs monk 144; thanissaro 260 monk, 0 mendicant; brahmali 253 monk; nanamoli 43 bhikkhu-kept, 2 monk. Entropy (09) confirms divergence is real and runs in the SAME direction as the supposed sati signal: old translators carry the HIGHEST control entropy (olendzki 1.0114, nanamoli 0.6941, walshe 0.6002 nats) while modern high-volume ones are low (sujato 0.2245, thanissaro 0.1115). A plain non-sati term already shows an old-vs-new split as large or larger than sati, so the small sign-reversed sati differences read as generic translator-idiolect/coverage artifact, not term-specific drift. Per falsifier 3 and the control-must-not-move rule, the moving control forces the null.",
+  "codebook": "Blind 4-way coding of each row in 07; coders see ONLY pid, work_slug, pali_excerpt, en_excerpt (translator and detcls HIDDEN). One class for the sati rendering. 1 MEMORY: recollect(ion), remember/remembrance, recall, call to mind, bear/keep in mind, memory, retentive, not forgetting (bear/keep in mind = MEMORY only if a remember/recall/recollect token co-occurs, else AWARENESS). 2 MINDFULNESS: mindful(ness), mindfully, heedful(ness) (if heedful and Pali anchors appamada not sati, prefer OTHER). 3 AWARENESS: aware(ness), attention/attentive(ness), alert(ness), presence of mind, wakeful, watchful, vigilan, circumspect (alert defaults AWARENESS, flag if Pali anchors sampajanna). 4 OTHER: none of the above (untranslated, paraphrase, omitted, fragmentary); do not force-fit. If multiple sati tokens differ, code the primary + multi-class flag; if truncation hides the gloss, OTHER + truncated. Two blind coders; Cohen kappa floor 0.60, target 0.70; one codebook revision on held-out batch; below floor = unreportable (falsifier 4). Auto-label (03/04) reportable only if auto-vs-human kappa also clears 0.60.",
+  "density_finding": "H1 (memory-recollection gloss-share higher for OLD pole nanamoli/walshe/piyadassi than NEW pole sujato/thanissaro/bodhi; predicted gap at least 5pp, old over new) is NOT supported by query 04. Measure is per-translator gloss-SHARE (denominator each translator's own renderings, not per-character). OLD memory: nanamoli 4.07pct (5/123), walshe 0pct (0/18), piyadassi 0pct (0/8); pooled 5/149 = 3.36pct. NEW memory: sujato 3.70pct (27/729), thanissaro 5.35pct (10/187), bodhi 11.11pct (1/9); pooled 38/925 = 4.11pct. Old-minus-new gap about minus 0.75pp: sign REVERSED, about one-seventh of the 5pp threshold. Mindfulness dominates volume translators (sujato 79.29, thanissaro 77.01, walshe 66.67, piyadassi 100pct); nanamoli's 24.39pct mindfulness is masked by a 66.67pct OTHER bucket of fragmentary renderings. Memory under 5pct for the whole old pole satisfies falsifier 1. Stratum split (05) does not rescue H1b: nanamoli's only 4 memory hits sit in 5comm commentary, and within shared 1early old translators are mindfulness/other with near-zero memory, so no within-passage drift appears. Anussati pass (06), where Pali forces recollection, shows modern sujato carrying recollection-English MORE than old translators (128/128 vs nanamoli 33/80), again contradicting old over new. Descriptive native-memory density (02, barred from convergent evidence): 4.05, 27.30, 22.57 hits/Mchar for early-mula/attha/tika. Lexicographic baseline (10, H1c) ERRORED (no headword column), H1c untested.</density_finding>\n</invoke>\n"
+ },
+ "skeptics": [
+  {
+   "lens": "artifact",
+   "holds": true,
+   "verdict": "keep",
+   "refutation": "see above",
+   "required_caveats": [
+    "The negative control is a SUBSTITUTION: the executed control is the bhikkhu-stem register-matched term (monk/mendicant, queries 08/09), not the protocol's planned panna/wisdom control; the panna queries were never run. The write-up must state the planned control was not executed and a register-matched proxy stands in.",
+    "The control statistic differs from the signal statistic: the sati metric is 4-way gloss-SHARE while the executed control is rendering-token ENTROPY (query 09). The control demonstrates an old-vs-new split exists on a non-sati term, but it is a weaker proxy than the planned like-for-like gloss-share comparison.",
+    "Blind 4-way coding (query 07, 257 rows) was NOT executed to a Cohen kappa: auto-label gloss shares (03/04) are provisional and reportable only if auto-vs-human kappa clears 0.60 (falsifier 4). The null is robust to this only because the gap is sign-reversed and about one-seventh of threshold, far outside any plausible coding wobble.",
+    "The old pole rests on tiny denominators (149 renderings total; walshe 0/18 and piyadassi 0/8 memory; the only old-pole memory hits are 5 from nanamoli, sitting in the commentary stratum). The full-corpus pass is coverage-confounded; report it as supporting only, not decisive.",
+    "H1c (lexicographic baseline, query 10) ERRORED (no headword column) and is UNTESTED; it must be withdrawn, not reported as support either way.",
+    "Magnitude is per-translator gloss-share, never raw rows; native Pali memory density (query 02) is descriptive supplement only and is barred from convergent evidence (true-by-construction).",
+    "Finding is corpus-linguistic translator-rendering policy only; a null says nothing about the Pali sense of sati. Vintage is a fixed name-to-pole proxy, not verified per-passage publication date. brahmali (modern, highest memory share) is not in the pre-committed pole assignment and is reported as a contradicting data point, not folded silently into either pole."
+   ]
+  },
+  {
+   "lens": "overread-priorwork",
+   "holds": true,
+   "verdict": "caveat",
+   "refutation": "The null survives my lens, but for a softer reason than the write-up implies, and the write-up reaches past what the corpus can show in two places. (1) Numbers reproduce exactly against _raw.json q04/q08/q09: old pooled MEMORY 5/149 = 3.36 percent, new pooled 38/925 = 4.11 percent, gap minus 0.75pp (sign reversed, about one-seventh of the pre-committed 5pp threshold); sujato MINDFULNESS 578/729 = 79.29 percent, thanissaro 144/187 = 77.01 percent; walshe 0/18 and piyadassi 0/8 memory; entropy split olendzki 1.0114 / nanamoli 0.6941 / walshe 0.6002 (old) versus sujato 0.2245 / thanissaro 0.1115 (new). Falsifier 1 (memory under 5 percent for the whole old pole) and falsifier 3 (control moves) both fire. The null is the correct, honest call. (2) BUT the executed negative control is NOT the protocol's planned control. The protocol pre-registered panna (wisdom), a matched-register abstract-semantic term; the run substituted a bhikkhu-stem register term (monk / mendicant / kept-bhikkhu). panna was never executed. The bhikkhu split is driven by transliteration-retention policy (nanamoli keeps bhikkhu untranslated 43 times, sujato idiosyncratically prefers mendicant 1045 times) — a lexical-habit and coverage artifact, not a gloss-SENSE divergence on a semantically loaded abstract term. So the moving control is sufficient to FORCE the null under the control-must-not-move rule, which the analyst applies correctly, but it does NOT positively establish that the sati pattern IS the same idiolect mechanism. The control-substitution downgrades it from a clean term-specificity discriminator to a generic did-translators-differ check. (3) Power is thin at the old pole: piyadassi n=8, walshe n=18; the 0 percent memory rests on tiny denominators, and the auto-label was never validated against human kappa (needs_coding still true). nanamoli carries a 66.67 percent OTHER bucket (82/123) that the deterministic regex left unclassified and that could hide memory or mindfulness glosses the lexicon missed. The null is therefore no-drift-DETECTED-at-this-power-with-an-unvalidated-labeler, not drift-proven-absent. (4) Prior-work check: the memory-versus-mindfulness sense dispute for sati is heavily published (Gethin; Bodhi; Analayo, Once Again on Mindfulness and Memory; the JOCBS Putting smrti back into sati). The finding is NOT that doctrinal claim and does not duplicate it — it is a corpus-translator null that is genuinely novel as a measurement. The over-read danger runs the OTHER way: the write-up must not let the famous doctrinal debate leak in as if this corpus null adjudicates it. It does not. The finding holds as a reported null; it must not be dressed up as evidence about what sati means, nor as a positive demonstration that idiolect explains the (absent) drift.",
+   "required_caveats": [
+    "The negative control was SUBSTITUTED: the protocol pre-registered panna (wisdom, a matched-register abstract term); the executed control is a bhikkhu-stem register term (monk/mendicant/kept-bhikkhu) and panna was never run. State this deviation explicitly; the bhikkhu control moving is enough to force the null, but it does not positively prove the sati pattern is the same idiolect mechanism.",
+    "The moving control independently forces the null under the control-must-not-move rule; do NOT additionally claim it demonstrates that the sati differences ARE a generic idiolect artifact. The control shows translators differ in lexical habit (transliteration retention, monk/mendicant choice), not that sati gloss-sense divergence shares that mechanism.",
+    "Report this as a null DETECTED at low power, not drift proven absent: old-pole denominators are tiny (piyadassi n=8, walshe n=18; pooled old n=149 vs new n=925) and the gap interval is wide. Do not state memory rendering is absent from older translators.",
+    "The gloss shares are unvalidated deterministic-regex auto-labels; the human kappa coding pass was not executed (needs_coding=true). nanamoli's 66.67 percent OTHER bucket (82/123) is unclassified mass that could hide memory or mindfulness glosses. Any share figure is provisional until auto-vs-human kappa clears 0.60.",
+    "H1c (lexicographic baseline, DPD/PED sense-ordering) ERRORED (no headword column) and is UNTESTED, not falsified. Do not report it as a result in either direction.",
+    "The well-known scholarly memory-vs-mindfulness debate (Gethin, Bodhi, Analayo, JOCBS) is about the Pali SENSE of sati; this corpus null is about English translator rendering policy and says NOTHING about that doctrinal dispute. Do not cite the prior literature as if this finding bears on it.",
+    "Per scope, vintage is a fixed name-to-pole assignment (old = nanamoli/walshe/piyadassi, new = sujato/thanissaro/bodhi-extract), a coarse proxy with no per-rendering publication year; stratum is a work_slug lookup and is not independent chronology."
+   ]
+  }
+ ],
+ "page_spec": {
+  "abstract": "The house thesis predicted that the English gloss of sati shifts with translator vintage, with older translators (nanamoli, walshe, piyadassi) keeping a memory or recollection sense at least 5 percentage points more often than newer ones (sujato, thanissaro, bodhi-extract), direction old over new. The corpus does not support it. Pooled memory-share is 3.36 percent for the old pole (5 of 149 renderings) and 4.11 percent for the new pole (38 of 925); the old-minus-new gap is about minus 0.75 points, sign reversed and roughly one-seventh of the predicted threshold. The negative control did not stay flat, which under the control-must-not-move rule independently forces the null. Verdict: the pre-committed null H0. This concerns English rendering policy in this corpus only and says nothing about the Pali sense of sati.",
+  "sections": [
+   {
+    "heading": "The question and why it is a fair test",
+    "paragraphs": [
+     "The claim is corpus-linguistic, not doctrinal. It does not ask what sati means; it asks whether the English word a translator picks for sati tracks that translator's vintage. The test is fair because the prediction was registered in advance: a 5 percentage-point old-over-new gap in memory-share, a fixed name-to-pole assignment (old = nanamoli, walshe, piyadassi; new = sujato, thanissaro, bodhi-extract), a primary measure that is a per-translator gloss-share rather than a raw count, a matched-passage pass to neutralize uneven coverage, and a negative control that should not show the same split.",
+     "Two protocol deviations must be stated. The planned negative control was panna (wisdom); the executed run substituted a bhikkhu-stem register term (monk, mendicant, kept-bhikkhu), and the panna queries were never run. The lexicographic baseline leg (H1c) errored at the database level (no headword column) and is untested, not falsified. Neither deviation is needed for the verdict, which rests on the gloss-share gap and on a control that moved."
+    ]
+   },
+   {
+    "heading": "What the canon shows",
+    "paragraphs": [
+     "Mindfulness dominates the high-volume modern translators and memory-share is low everywhere. Sujato is mindfulness 79.29 percent (578 of 729) and memory 3.70 percent (27 of 729). Thanissaro is mindfulness 77.01 percent (144 of 187) and memory 5.35 percent (10 of 187). On the old pole, nanamoli is memory 4.07 percent (5 of 123) with a large 66.67 percent OTHER bucket (82 of 123); walshe is memory 0 percent (0 of 18); piyadassi is memory 0 percent (0 of 8).",
+     "Pooling by pole gives old memory 5 of 149 = 3.36 percent and new memory 38 of 925 = 4.11 percent. The old-minus-new gap is about minus 0.75 points: wrong sign, about one-seventh of the predicted 5-point threshold. The whole old pole sits under 5 percent memory-share, the condition falsifier 1 names.",
+     "The matched and forced-context passes do not rescue the thesis. nanamoli's only memory hits (4) sit in the commentary stratum; within the shared early-canon stratum the old translators are mindfulness or OTHER with near-zero memory. In the explicit recollection-compound pass, modern sujato carries recollection-English more than the old translators (128 of 128 versus nanamoli 33 of 80), the opposite of the predicted direction.",
+     "A contradicting data point sits outside the pre-committed poles: brahmali, a modern translator, shows the highest memory-share of all (27.59 percent, 16 of 58). It was not assigned to a pole in advance and is reported as a contradicting observation, not folded into either pole."
+    ],
+    "table": {
+     "caption": "Per-translator sati gloss-share (query 04), with pre-committed poles and one unassigned contradicting translator",
+     "columns": [
+      "Translator",
+      "Pole",
+      "n renderings",
+      "Memory n",
+      "Memory share",
+      "Mindfulness share"
+     ],
+     "rows": [
+      [
+       "nanamoli",
+       "old",
+       "123",
+       "5",
+       "4.07%",
+       "24.39%"
+      ],
+      [
+       "walshe",
+       "old",
+       "18",
+       "0",
+       "0.00%",
+       "66.67%"
+      ],
+      [
+       "piyadassi",
+       "old",
+       "8",
+       "0",
+       "0.00%",
+       "100.00%"
+      ],
+      [
+       "OLD POOLED",
+       "old",
+       "149",
+       "5",
+       "3.36%",
+       "n/a"
+      ],
+      [
+       "sujato",
+       "new",
+       "729",
+       "27",
+       "3.70%",
+       "79.29%"
+      ],
+      [
+       "thanissaro",
+       "new",
+       "187",
+       "10",
+       "5.35%",
+       "77.01%"
+      ],
+      [
+       "bodhi",
+       "new",
+       "9",
+       "1",
+       "11.11%",
+       "44.44%"
+      ],
+      [
+       "NEW POOLED",
+       "new",
+       "925",
+       "38",
+       "4.11%",
+       "n/a"
+      ],
+      [
+       "brahmali",
+       "unassigned",
+       "58",
+       "16",
+       "27.59%",
+       "17.24%"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "What the commentary does and the falsifiable core",
+    "paragraphs": [
+     "Native Pali memory-lexeme density is descriptive supplement only and barred from convergent evidence, since memory words are memory words and any stratum signal is true by construction. The figures are 4.05 hits per Mchar in the early canon, 27.30 in the commentary, and 22.57 in the sub-commentary. They describe where native memory vocabulary lives in the Pali, not the English-rendering question.",
+     "The falsifiable core was the gloss-share gap: old pole memory-share at least 5 points above new, surviving matched-passage restriction, with a non-moving control. The gap is sign-reversed and far below threshold, the matched and forced-context passes do not produce the predicted direction, and the control moved. Two of the five pre-registered falsifiers fire."
+    ]
+   },
+   {
+    "heading": "The negative-control result",
+    "paragraphs": [
+     "The control did not stay flat, and a moving control forces the null regardless of the signal. On the bhikkhu-stem control, translators diverge sharply: sujato renders bhikkhu as mendicant 1045 times against monk 144; thanissaro monk 260, mendicant 0; brahmali monk 253; nanamoli keeps bhikkhu untranslated 43 times with monk only twice.",
+     "Per-translator rendering entropy on the control runs in the same direction as the supposed sati signal: old translators carry the highest entropy (olendzki 1.0114, nanamoli 0.6941, walshe 0.6002 nats) while modern high-volume ones are low (sujato 0.2245, thanissaro 0.1115 nats). A plain non-sati term already shows an old-vs-new split as large as anything seen for sati. Under the control-must-not-move rule and the protocol falsifier 3, the moving control forces the null.",
+     "Two limits travel with the control. It was a substitution: the planned panna control was never run, and the bhikkhu proxy is a weaker register-matched stand-in. The control statistic differs from the signal statistic (entropy of a rendering token versus a 4-way gloss-share). The control therefore shows an old-vs-new split exists on a non-sati term and is sufficient to force the null, but it does NOT positively prove the absent sati pattern shares the same idiolect mechanism. The bhikkhu split is transliteration-retention and monk-versus-mendicant habit, a coverage and word-choice artifact."
+    ]
+   },
+   {
+    "heading": "What it means and what it does not",
+    "paragraphs": [
+     "It means there is no measurable translator-vintage drift of sati from memory toward mindfulness in this corpus. Mindfulness dominates both poles, the old pole carries a slightly lower memory-share than the new pole, and a register-matched control already moves at least as much as sati. This is the pre-committed H0.",
+     "It does not mean memory rendering is absent from older translators, and it does not adjudicate the scholarly debate about the Pali sense of sati. That debate is about Pali meaning; this is an English-rendering null and bears on it not at all.",
+     "The null is bounded. The old pole rests on tiny denominators (149 renderings; piyadassi n=8, walshe n=18; the only old-pole memory hits are 5 from nanamoli in the commentary stratum), so the full-corpus pass is coverage-confounded and supporting only. The gloss shares are unvalidated deterministic-regex auto-labels: the human Cohen kappa pass was not executed to a coefficient, and nanamoli's 66.67 percent OTHER bucket (82 of 123) is unclassified mass. The result reads as no drift detected at low power with an unvalidated labeler, not drift proven absent; its robustness comes only from the gap being sign-reversed and far below threshold. The blind coding that was run shows high agreement where codings coincide and is reported as consistent with the null call only to that extent. H1c is withdrawn as untested. Vintage is a fixed name-to-pole proxy and stratum is a lookup, never cited as independent chronology."
+    ]
+   },
+   {
+    "heading": "Auditability",
+    "paragraphs": [
+     "Every count re-derives from _protocol.json and _raw.json. Old pooled memory 5 of 149 = 3.36 percent and new pooled 38 of 925 = 4.11 percent come from query 04 (nanamoli 5 of 123, walshe 0 of 18, piyadassi 0 of 8, sujato 27 of 729, thanissaro 10 of 187, bodhi 1 of 9); the minus 0.75-point gap is 3.36 minus 4.11. Sujato mindfulness 578 of 729 = 79.29 percent and thanissaro 144 of 187 = 77.01 percent are query 04. The stratum split is query 05; the recollection-context counts (sujato 128 of 128, nanamoli 33 of 80) are query 06. The control monk-vs-mendicant counts are query 08 and the control entropy (olendzki 1.0114, nanamoli 0.6941, walshe 0.6002, sujato 0.2245, thanissaro 0.1115 nats) is query 09. The descriptive native-memory density (4.05, 27.30, 22.57 per Mchar) is query 02. The lexicographic baseline (query 10) returned a database ERROR (no headword column) and is untested. The brahmali contradicting figure (16 of 58 = 27.59 percent) is query 04. The substituted bhikkhu control and the unrun panna control are recorded as protocol deviations."
+    ]
+   }
+  ],
+  "verdict": "NULL (H0 confirmed). No measurable translator-vintage drift of sati from memory toward mindfulness. Old pole pooled memory-share 3.36 percent (5 of 149) is below, not above, new pole 4.11 percent (38 of 925); old-minus-new gap about minus 0.75 points, sign reversed and about one-seventh of the predicted 5-point threshold. Falsifiers 1 and 3 fire. The negative control moved, which independently forces the null. Statement is about English rendering policy in this corpus only; it says nothing about the Pali sense of sati.",
+  "scope_limits": [
+   "Translator-boundary study, not a Pali-semantics study; a null says nothing about what sati means.",
+   "Vintage is a fixed name-to-pole assignment with no per-rendering publication year, a coarse proxy for diachrony.",
+   "Coverage is uneven; the full-corpus pass is passage-mix confounded and is supporting, not decisive. Old-pole denominators are tiny (149 total; piyadassi n=8, walshe n=18).",
+   "Gloss shares are unvalidated deterministic-regex auto-labels; the human Cohen kappa pass was not executed to a coefficient (falsifier 4 not cleared). nanamoli's 66.67 percent OTHER bucket (82 of 123) is unclassified mass. Shares are provisional; report as no drift detected at low power, not drift proven absent.",
+   "The negative control was a substitution: the planned panna (wisdom) control was never run; a bhikkhu-stem register proxy stands in, and its statistic (entropy) differs from the signal statistic (gloss-share). The moving control forces the null but does not prove the sati pattern is the same idiolect mechanism.",
+   "The lexicographic baseline (H1c, query 10) errored (no headword column) and is untested, withdrawn in either direction.",
+   "Native memory-lexeme density (queries 02, 10) is descriptive supplement only and barred from convergent evidence (true by construction). Stratum is a work_slug lookup, never cited as independent chronology.",
+   "brahmali (modern, highest memory-share 27.59 percent) is outside the pre-committed poles and reported as a contradicting data point, not folded into a pole.",
+   "The scholarly memory-vs-mindfulness debate about the Pali sense of sati is not adjudicated by this corpus null; prior literature is not cited as if it were."
+  ],
+  "citations": [
+   "_protocol.json",
+   "_raw.json",
+   "_raw.json#04_gloss_share_by_translator_DRIFT_PRIMARY",
+   "_raw.json#05_gloss_share_by_translator_AND_stratum",
+   "_raw.json#06_collocation_anussati_recollection_context",
+   "_raw.json#02_native_memory_lexeme_density_DESCRIPTIVE",
+   "_raw.json#08_negative_control_glosses",
+   "_raw.json#09_negctrl_within_translator_entropy",
+   "_raw.json#10_dpd_ped_sense_ordering_baseline",
+   "_raw.json#03_translator_coverage_on_sati_passages",
+   "_raw.json#07_rows_to_code_BLIND_AUDIT_SAMPLE"
+  ]
+ },
+ "iaa": {
+  "n_coders": 3,
+  "pairwise_cohen": [
+   0.9011
+  ],
+  "mean_pairwise_cohen": 0.9011,
+  "fleiss_kappa": 0.9009,
+  "n_items": 257,
+  "Pbar": 0.9611,
+  "Pe": 0.6075,
+  "class_distribution": {
+   "1": 0,
+   "2": 0,
+   "4": 0,
+   "AWARENESS": 20,
+   "MEMORY": 16,
+   "MINDFULNESS": 88,
+   "OTHER": 390
+  }
+ }
+}

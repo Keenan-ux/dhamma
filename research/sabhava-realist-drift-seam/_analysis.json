@@ -1,0 +1,280 @@
+{
+ "slug": "sabhava-realist-drift-seam",
+ "title": "Sabhava realist-collocate density at the canon-to-commentary register seam: a null on the named boundary step",
+ "verdict": "mixed (leaning null on H1): the structural absence-then-presence of the packaged definitional tetrad survives, but the quantitative realist crystallization H1 names at the 4para to 5comm boundary fails, and the mandatory sense audit was never executed",
+ "analyst": {
+  "slug": "sabhava-realist-drift-seam",
+  "verdict": "mixed",
+  "density_finding": "Tested against H1 (realist complex step-changes UP at the 4para canon to 5comm commentary boundary, largest jump in own-nature sabhava and in tetrad-with-sabhava co-occurrence). The structural ORIGINATION prediction holds but the QUANTITATIVE BOUNDARY STEP that H1 names fails, so the result is mixed leaning null on the house thesis.\n\nSTRUCTURAL (supports the apparatus-is-commentary framing): the full lakkhanadi-catukka (all four tetrad terms, Q6) is exactly 0 per Mchar in 1early, 2late, 3abh and 4para, and first appears only at 5comm (0.293/Mchar) then 6tika (0.494/Mchar). paccupatthana is near-absent in canon (1early 0.076, 3abh 0.000, 4para 1.649/Mchar) and jumps 6.09x into 5comm (10.035/Mchar). So the packaged definitional frame is a commentary/sub-commentary construction, not a canon feature.\n\nWHERE H1 FAILS (the 4para to 5comm step it predicted does not appear): the PRIMARY realist co-occurrence density (sabhava + paramattha + >=1 tetrad term, Q5) goes 2.474/Mchar in 4para to 0.391/Mchar in 5comm, a ratio of 0.16x, i.e. a roughly 6x DROP across exactly the boundary H1 says it should jump. The control-subtracted 4para to 5comm jump for this headline measure is +0.70/Mchar (essentially the udayabbaya control's own negative drift), not a realist-specific positive seam. Raw masked sabhava (Q2, pre-audit, not headline) rises 23.912 to 67.251/Mchar (2.81x) but the secondary anicca control rises 22.263 to 46.593 (2.09x) over the same boundary, so most of the raw sabhava rise sits inside generic-commentary-verbosity range. Both flagship realist signals actually peak at 6tika, not 5comm: sabhava raw 165.881/Mchar at 6tika, paramattha 27.647/Mchar at 6tika, realist co-occurrence 2.363/Mchar at 6tika (6.04x ABOVE 5comm).\n\nFALSIFIER TRIPPED: padatthana (a tetrad discriminator the protocol predicted near-absent in 4para mula) is already 11.544/Mchar in 4para, essentially equal to 5comm (11.795/Mchar, ratio 1.02x). Protocol falsifier #4: tetrad discriminators at high density already in 4para means the clean commentary-apparatus boundary framing is partly wrong for 4para (the para-canonical Nettippakarana/Petakopadesa already carry padatthana). Note 4para is a thin stratum (294 primary rows, 1.213 Mchar) so its per-Mchar densities are fragile and single-passage-sensitive.\n\nSECONDARY (intensification vs origination at 5comm to 6tika): mixed. Raw sabhava and paramattha INTENSIFY into 6tika (2.47x, 1.64x) consistent with H1 secondary. But realist co-occurrence rises 6.04x (0.391 to 2.363/Mchar) and the full tetrad rises 1.68x into 6tika, so the realist PACKAGE looks closer to originating/concentrating at the sub-commentary than merely holding from 5comm. The headline co-occurrence apparatus is a 6tika phenomenon more than a 5comm one.\n\nWORK-DOMINANCE GUARD (Q12): the 5comm realist signal is dominated by one work: 9 of 12 5comm realist hits (75pct) are pli-kn-attha; pli-vism itself contributes 0 realist co-occurrence hits in 5comm. The 6tika signal is more distributed (abh-tika 19, dn-tika 14, mn-tika 8 of 67). So the already-weak 5comm realist density is largely a single-text artifact, further undercutting a clean 4para to 5comm realist seam.\n\nNET: realist-sense-weighted sabhava re-weighting (Q8) was never executed (template only, no coded fraction), so the headline re-weighted curve required by density_method does not exist yet; the masked-stem rise that does exist is not separable from generic register by the controls, and the co-occurrence apparatus moves the wrong way at the named boundary. H1's specific 4para to 5comm realist crystallization is not supported on the executed data; what IS supported is the weaker, control-independent structural claim that the packaged catukka frame is absent from canon and present only in commentary/sub-commentary.",
+  "key_numbers": [
+   {
+    "name": "realist co-occurrence (Q5) 4para",
+    "value": "2.474 per Mchar (3 hits / 1.213 Mchar)",
+    "layer": "4para"
+   },
+   {
+    "name": "realist co-occurrence (Q5) 5comm",
+    "value": "0.391 per Mchar (12 hits / 30.691 Mchar)",
+    "layer": "5comm"
+   },
+   {
+    "name": "realist co-occurrence (Q5) 6tika",
+    "value": "2.363 per Mchar (67 hits / 28.358 Mchar)",
+    "layer": "6tika"
+   },
+   {
+    "name": "realist co-occurrence 4para->5comm ratio",
+    "value": "0.16x (a ~6x DROP at the boundary H1 predicts a rise)",
+    "layer": "4para->5comm"
+   },
+   {
+    "name": "realist co-occurrence 5comm->6tika ratio",
+    "value": "6.04x (peaks at sub-commentary, not commentary)",
+    "layer": "5comm->6tika"
+   },
+   {
+    "name": "full tetrad / catukka (Q6) canon strata",
+    "value": "0.000 per Mchar in 1early/2late/3abh/4para; first appears 5comm 0.293, 6tika 0.494",
+    "layer": "canon vs commentary"
+   },
+   {
+    "name": "sabhava raw masked (Q2) 4para->5comm",
+    "value": "23.912 -> 67.251 per Mchar (2.81x); 6tika 165.881 (peak)",
+    "layer": "4para->5comm->6tika"
+   },
+   {
+    "name": "paramattha (Q3) 4para->5comm->6tika",
+    "value": "9.070 -> 16.878 -> 27.647 per Mchar (1.86x then 1.64x)",
+    "layer": "all"
+   },
+   {
+    "name": "padatthana (Q4) 4para vs 5comm",
+    "value": "11.544 vs 11.795 per Mchar (1.02x, flat) - FALSIFIER #4 tripped (already dense in 4para)",
+    "layer": "4para->5comm"
+   },
+   {
+    "name": "paccupatthana (Q4) 4para->5comm",
+    "value": "1.649 -> 10.035 per Mchar (6.09x, this discriminator does jump)",
+    "layer": "4para->5comm"
+   },
+   {
+    "name": "NEG CONTROL udayabbaya (Q9) 4para->5comm",
+    "value": "9.070 -> 6.288 per Mchar (0.69x, drifts DOWN - did not jump)",
+    "layer": "4para->5comm"
+   },
+   {
+    "name": "SECONDARY CONTROL anicca (Q10) 4para->5comm",
+    "value": "22.263 -> 46.593 per Mchar (2.09x) - generic verbosity baseline",
+    "layer": "4para->5comm"
+   },
+   {
+    "name": "5comm work-dominance",
+    "value": "9 of 12 5comm realist hits (75pct) are pli-kn-attha; pli-vism = 0",
+    "layer": "5comm"
+   },
+   {
+    "name": "4para stratum size",
+    "value": "294 primary rows / 1.213 Mchar (thin, fragile densities)",
+    "layer": "4para"
+   }
+  ],
+  "control_check": "Both controls behaved in a way that REFUTES rather than rescues the headline realist signal. PRIMARY procedural control udayabbaya (Q9) did NOT jump at 4para->5comm: 9.070 -> 6.288 per Mchar (0.69x, a slight decline), confirming it is not a generic-register confound that moved with the signal - but the headline realist co-occurrence ALSO declined across that boundary (0.16x), so the realist signal failed in the same direction the control sat flat/down, i.e. there is no realist-specific positive seam to subtract a control from. Control-subtracted realist co-occurrence jump at 4para->5comm = +0.70/Mchar, indistinguishable from noise. SECONDARY control anicca (Q10) rose 2.09x (22.263 -> 46.593/Mchar) into commentary, and the raw masked sabhava rise (2.81x) sits in the same envelope, so most of the raw sabhava boundary rise is attributable to generic commentary verbosity that the anicca control also shows. Net: the control did not move WITH a genuine realist seam; rather the controls show the boundary rise that does exist is generic register, and the realist-specific co-occurrence measure moved opposite to H1's prediction. The only control-independent positive is the structural absence-then-presence of the full catukka (0 in all canon strata, nonzero only from 5comm), which neither control replicates.",
+  "needs_coding": true,
+  "coding_query_label": "Q7_sense_audit_sample",
+  "coding_ref_field": "id",
+  "codebook": "BLIND k>=3 sense-audit of sabhava. Coders see ONLY the Pali `original` and English `translation` (where present; many translation fields are null, code from Pali). work_slug, stratum and layer are STRIPPED and must not be inferred or used. Key each code to the row `id`. Assign exactly ONE of four mutually exclusive codes to the sabh[aā]v token(s) in each passage (code the dominant/primary sabhava sense if a passage has more than one):\n\nCODE 1 OWN-NATURE / REALIST: sabhava used as the intrinsic own-nature / essential nature / defining property of a dhamma or phenomenon (e.g. \"the own-nature of feeling\", sabhava as that-by-which-a-dhamma-is-what-it-is; the ontological/definitional sense, typically near lakkhana/paramattha). This is the only sense that counts toward p_realist.\n\nCODE 2 DISPOSITION / CHARACTER: sabhava as someone's or something's temperament, habitual character, disposition, or nature-as-personality (e.g. a person's gentle nature, the nature/character of an action), NOT an essence-of-a-dhamma claim.\n\nCODE 3 ADVERBIAL \"NATURALLY\" / BY-NATURE: sabhava (often sabhavena / sabhavato) functioning adverbially or as \"naturally, by its very nature, of its own accord\" describing how something happens, not asserting an own-nature entity.\n\nCODE 4 FALSE-HIT: the match is not sabhava at all - it is a bhava-compound caught by the broad stem (purisa+bhava = state of a man, ekam+sabhavita, or any sandhi where sabh[aā]v spans a morpheme boundary that is not sa+bhava own-nature), or sabhava appears only inside a quoted lemma/heading with no usable sense. Exclude from p_realist denominator.\n\np_realist(stratum) = count(CODE1) / (count(CODE1)+count(CODE2)+count(CODE3)); CODE4 excluded from numerator and denominator. Compute Fleiss kappa pooled and per stratum. GATE: kappa>=0.6 use the re-weighted sabhava density as headline; 0.4-0.6 report with caveat plus a 4th adjudication pass on disagreements; <0.4 declare the sense split unreliable and report only raw masked density flagged inconclusive (do not assert a realist curve). SEPARATE binary audit for the negative control: udayabbaya passages coded PROCEDURAL (insight-stage / path-technical label) vs ONTOLOGICAL, 3 coders, same kappa gate, to confirm it is procedural not realist."
+ },
+ "skeptics": [
+  {
+   "lens": "artifact",
+   "holds": false,
+   "verdict": "caveat",
+   "refutation": "H1's named effect (a realist step-change UP at 4para->5comm) is refuted by the executed data and the controls confirm it is not rescuable. Verified against _raw.json: Q5 realist co-occurrence goes 2.474/Mchar (4para) -> 0.391/Mchar (5comm), ratio 0.16x, a ~6x DROP across exactly the boundary H1 predicts a rise. The primary procedural control udayabbaya (Q9) drifts DOWN 0.69x and the secondary anicca control (Q10) rises 2.09x; the raw masked sabhava rise (Q2, 2.81x) sits inside that generic-verbosity envelope, so the only sabhava boundary rise that exists is not separable from register. There is no realist-specific positive seam at the named boundary to subtract a control from. Three artifact vectors weaken even the surviving structural claim, two of them unreported by the analyst: (1) DENOMINATOR-SANITY FAILED. The protocol froze mula at 53.543921 Mchar and Q0 was the check; live Q0 returns mula = 26.939812 Mchar (~2x off). The corpus the protocol was written against is not the corpus that ran. (2) The 4para anomaly that trips falsifier #4 (padatthana 11.544 ~ 5comm 11.795, 1.02x flat) and produces the headline drop rests on a 1.213-Mchar stratum with 3 raw realist hits; Q12 reduces the full-package definition to 1 hit in pli-pe over 0.294 Mchar. A single passage swings 4para realist density between 0.82 and 2.47/Mchar. (3) HOMOGRAPH CONFIRMED + AUDIT NEVER RAN. Q8 errored (relation sabhava_codes does not exist), so p_realist and the re-weighted headline curve required by density_method do not exist. The broad sabh[aā]v stem catches tidasabhavanam (tidasa+bhavana, the Tavatimsa realm) at id mil5.1.4, a bhava-compound not in the exclusion mask, and 263/265 Q7 sample rows have null translations. The only control-independent positive is structural: the full lakkhanadi-catukka (Q6) is 0/Mchar in every canon stratum (1early/2late/3abh/4para) and nonzero only from 5comm (0.293) and 6tika (0.494), which neither control replicates. That register-distribution observation survives; H1's quantitative realist crystallization does not.",
+   "required_caveats": [
+    "DENOMINATOR DRIFT: the protocol-frozen mula denominator (53.543921 Mchar) does not match the live run (Q0 mula = 26.939812 Mchar, ~2x off); the frozen-denominator sanity check failed and the per-stratum densities were computed on the live Q1 denominators, not the frozen ones.",
+    "SENSE AUDIT NEVER EXECUTED: Q8 errored (relation sabhava_codes does not exist), so p_realist, Fleiss kappa, and the realist-sense-weighted sabhava curve required by density_method do not exist; only the raw masked stem density is available and it is reported unaudited and flagged inconclusive per the kappa<0.4 fallback rule.",
+    "HOMOGRAPH FALSE-HIT PRESENT: the broad sabh[aā]v stem catches at least one bhava-compound not in the exclusion mask (tidasabhavanam = tidasa+bhavana, the Tavatimsa realm, id mil5.1.4); the masked stem is not a clean sabhava count.",
+    "4para IS A SINGLE-PASSAGE STRATUM: the 4para realist signal and the falsifier-#4 padatthana density rest on 1.213 Mchar with 3 raw realist hits (Q12: 1 full-package hit in pli-pe over 0.294 Mchar); densities are single-passage-sensitive and must not be stated with stable-stratum confidence.",
+    "CONTROLS REFUTE RATHER THAN RESCUE: the realist co-occurrence moved 0.16x (DOWN) at 4para->5comm against H1's predicted rise; udayabbaya drifted 0.69x and anicca rose 2.09x, so the raw sabhava rise is within generic-register range and there is no realist-specific seam to control-subtract.",
+    "PEAK IS AT 6tika NOT 5comm: realist co-occurrence (Q5) peaks at 6tika (2.363/Mchar, 6.04x above 5comm) and the realist package looks closer to originating/concentrating at the sub-commentary than holding from commentary; the apparatus is a 6tika phenomenon.",
+    "5comm SIGNAL IS WORK-DOMINATED: 9-10 of the 12 5comm realist hits are pli-kn-attha and pli-vism contributes 0 (Q12); the already-weak 5comm density is largely a single-text artifact.",
+    "REGISTER/DISTRIBUTION ONLY (T1): stratum is a work_slug lookup, not dated chronology; the surviving claim is a canon-vs-commentary register seam (full catukka absent in all canon strata, present only from 5comm/6tika per Q6), never a diachronic or doctrinal-realism verdict."
+   ]
+  },
+  {
+   "lens": "overread-priorwork",
+   "holds": false,
+   "verdict": "caveat",
+   "refutation": "see above",
+   "required_caveats": [
+    "PRIMARY TEST NOT EXECUTED: the realist-sense-weighted sabhava density (the protocol's headline statistic) does not exist. Q8 errored (sabhava_codes table missing), the blind k>=3 sense audit was never coded, no Fleiss kappa exists, and needs_coding=true. Per the protocol's own kappa gate this means: report raw masked density flagged INCONCLUSIVE and do not assert any realist curve. All sabhava-sense statements are polysemy-unresolved raw stem.",
+    "H1 IS FALSIFIED, NOT MIXED, ON ITS NOVEL CLAIM: the realist co-occurrence (Q5) goes 2.474 -> 0.391/Mchar across 4para->5comm (a ~6x DROP where H1 predicts a rise) and peaks at 6tika (2.363), so the secondary measure shows ORIGINATION/concentration at the sub-commentary, not the predicted 5comm crystallization or 5comm->6tika intensification. Falsifier #4 also tripped (padatthana already dense in 4para: 11.544 vs 11.795, ratio 1.02x).",
+    "THE SURVIVING POSITIVE IS PRIOR PUBLISHED SCHOLARSHIP, NOT A NEW RESULT: the catukka-absent-in-canon / present-only-from-commentary pattern (Q6) restates Ronkin's published register thesis (OCBS; Early Buddhist Metaphysics). Frame it as corpus corroboration of known scholarship plus a null on the house quantitative prediction, never as the finding's own discovery.",
+    "FRAGILE-STRATUM AND WORK-DOMINANCE: the 4para anchor for the headline drop is THREE passages (3 hits / 1.213 Mchar / 294 rows) and is single-passage-sensitive; the 5comm realist signal is 9/12 hits from one work (pli-kn-attha) with pli-vism, the protocol's exemplar locus, contributing zero. Any 4para<->5comm ratio is unstable in both magnitude and sign and must be reported with raw counts inline.",
+    "CONTROLS REFUTE RATHER THAN RESCUE: udayabbaya did not jump (Q9 9.070 -> 6.288, 0.69x) and the raw sabhava rise (Q2 2.81x) sits inside the anicca generic-verbosity envelope (Q10 2.09x), so the only realist-specific positive is the catukka structural absence neither control replicates. State that no realist-specific positive seam exists to subtract a control from at the named boundary.",
+    "SCOPE: register/distribution only; stratum() is a work_slug textual-role lookup, not dated chronology, so 'boundary' means a canon/commentary register seam, never diachronic semantic change. No realism/substantialism verdict (out of scope; the Ronkin-vs-critics doctrinal debate is not adjudicated)."
+   ]
+  }
+ ],
+ "page_spec": {
+  "abstract": "H1 (the Ronkin register thesis) predicted a step-change UP in realist own-nature vocabulary, above all in the co-occurrence of sabhava with paramattha and the definitional tetrad, at the 4para canon to 5comm commentary boundary. The structural half holds: the full four-term tetrad (lakkhanadi-catukka) is 0 per Mchar in every canon stratum and appears only from 5comm. The quantitative half fails: the headline realist co-occurrence DROPS from 2.474/Mchar in 4para to 0.391/Mchar in 5comm (0.16x, a ~6x drop where a rise was predicted) and peaks at 6tika, not 5comm. The negative controls confirm rather than rescue: the raw sabhava rise sits inside the generic commentary-verbosity envelope and the procedural control sat flat-to-down while the realist measure also declined, so there is no realist-specific seam to control-subtract. Falsifier 4 tripped (padatthana already dense in 4para), and the mandatory blind sense audit never executed (Q8 errored), so the realist-sense-weighted curve the method names as headline does not exist and only the raw masked stem is reported, flagged inconclusive. Verdict: null on H1's named boundary step; what survives is the weaker, control-independent structural claim that the packaged catukka frame is a commentary and sub-commentary feature absent from canon.",
+  "sections": [
+   {
+    "heading": "The question and why it is a fair test",
+    "paragraphs": [
+     "The protocol pre-registered H1 against a pre-committed null and froze the lexica, the direction, and the falsifiers before the serial run. Every magnitude is per-character (per Mchar over is_primary rows), so a longer or wordier commentary stratum cannot by itself manufacture a jump.",
+     "The primary statistic is a within-passage co-occurrence (sabhava with paramattha and at least one tetrad term), targeting the packaged apparatus rather than one polysemous stem. The design carries two negative controls: udayabbaya, a commentarial procedural path-label that must NOT show the realist-specific boundary jump, and anicca, an all-layer doctrinal term that reads off the generic verbosity baseline. The discriminating quantity the protocol names is the realist jump minus the udayabbaya jump.",
+     "The design also pre-committed the tetrad discriminators padatthana and paccupatthana as a positive control: near-exclusive to the commentary catukka frame, so their near-absence in 4para mula would confirm the apparatus is a commentary construction, and their presence in mula was set as a falsifier of that framing.",
+     "One frame caveat travels with every number: stratum is a work_slug lookup, a textual-role label, not dated chronology. A boundary here is a canon-versus-commentary register seam, never proof of diachronic semantic change."
+    ]
+   },
+   {
+    "heading": "What the canon shows",
+    "paragraphs": [
+     "Across the canon strata the realist apparatus is sparse-to-absent. The full four-term tetrad is 0 per Mchar in 1early, 2late, 3abh, and 4para. paramattha is near-absent early (0.611/Mchar in 1early, 2.376 in 3abh). The realist co-occurrence is 0 in 1early and 3abh.",
+     "The one canon stratum that misbehaves is 4para, a thin stratum of 294 primary rows and 1.213 Mchar against 30.691 (5comm) and 28.358 (6tika). On that thin base padatthana is already 11.544/Mchar, essentially equal to 5comm (11.795), tripping pre-registered falsifier 4. The cause is locus-specific: 4para is the para-canonical Nettippakarana and Petakopadesa (pli-ne, pli-pe) plus Milindapanha (pli-mil), which already carry the proto-apparatus. Q12 shows the 4para realist signal reduces to a single full-package hit in pli-pe over 0.294 Mchar, so its densities are single-passage-sensitive and must not be stated with stable-stratum confidence."
+    ]
+   },
+   {
+    "heading": "What the commentary does, and the falsifiable core",
+    "paragraphs": [
+     "H1's falsifiable core is the realist co-occurrence step at 4para to 5comm. The executed data contradicts it: the headline measure drops from 2.474/Mchar to 0.391/Mchar, a ratio of 0.16x, a roughly sixfold drop across the exact boundary where a rise was predicted.",
+     "The structural tetrad frame is genuinely a commentary phenomenon (0 in all canon strata, first nonzero at 5comm at 0.293/Mchar, then 6tika at 0.494). That is the control-independent positive that survives.",
+     "Both flagship realist signals peak at 6tika, not 5comm: sabhava raw 165.881/Mchar, paramattha 27.647/Mchar, realist co-occurrence 2.363/Mchar (6.04x above 5comm). The realist package looks closer to concentrating at the sub-commentary than crystallizing at the commentary boundary. The secondary intensification-versus-origination hypothesis is mixed: raw sabhava and paramattha intensify into 6tika as predicted, but the realist co-occurrence rises 6.04x and the full tetrad 1.68x into 6tika, which reads closer to origination at the sub-commentary.",
+     "A work-dominance guard undercuts the weak 5comm signal: 9 of 12 5comm realist hits (75 percent) are pli-kn-attha, and pli-vism, the protocol's named catukka exemplar, contributes 0 in 5comm. The 6tika signal is far more distributed. The 5comm realist density is largely a single-text artifact.",
+     "The headline statistic the method actually names, realist-sense-weighted sabhava density, does not exist: Q8 errored (the sabhava_codes table did not exist), the blind sense audit was never coded, and no inter-annotator agreement or p_realist exists. Per the protocol's own agreement gate the fallback is to report raw masked density flagged inconclusive and assert no realist curve. All sabhava-sense statements here are polysemy-unresolved raw stem."
+    ],
+    "table": {
+     "caption": "Per-Mchar densities and co-occurrence counts by stratum, with the 4para to 5comm ratio (live Q1 denominators: 4para 1.213 Mchar, 5comm 30.691, 6tika 28.358). All values re-derive from _raw.json Q2 through Q6.",
+     "columns": [
+      "Measure (per Mchar)",
+      "4para",
+      "5comm",
+      "6tika",
+      "4para to 5comm"
+     ],
+     "rows": [
+      [
+       "Realist co-occurrence (Q5)",
+       "2.474 (3 hits)",
+       "0.391 (12 hits)",
+       "2.363 (67 hits)",
+       "0.16x (~6x DROP)"
+      ],
+      [
+       "Full four-term tetrad (Q6)",
+       "0.000",
+       "0.293 (9 hits)",
+       "0.494 (14 hits)",
+       "0 to nonzero"
+      ],
+      [
+       "Sabhava raw masked (Q2)",
+       "23.912",
+       "67.251",
+       "165.881",
+       "2.81x"
+      ],
+      [
+       "Paramattha (Q3)",
+       "9.070",
+       "16.878",
+       "27.647",
+       "1.86x"
+      ],
+      [
+       "Padatthana (Q4)",
+       "11.544",
+       "11.795",
+       "20.206",
+       "1.02x (flat)"
+      ],
+      [
+       "Paccupatthana (Q4)",
+       "1.649",
+       "10.035",
+       "12.942",
+       "6.09x"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "The negative-control result",
+    "paragraphs": [
+     "The controls refute rather than rescue. The primary procedural control udayabbaya did NOT jump at 4para to 5comm: 9.070/Mchar to 6.288/Mchar, a ratio of 0.69x, a slight decline. In isolation that is the wanted control behavior, but the headline realist co-occurrence ALSO declined across that boundary (0.16x), so the realist signal failed in the same downward direction the control sat flat-to-down. There is no realist-specific positive seam to control-subtract; the control-subtracted boundary jump is about +0.70/Mchar, indistinguishable from noise.",
+     "The secondary control anicca rose 2.09x at the boundary (22.263/Mchar to 46.593). The raw masked sabhava rise (2.81x) sits inside that same generic-verbosity envelope, so the one sabhava boundary rise that exists is not separable from generic commentary register.",
+     "The only control-independent positive is the structural absence-then-presence of the full four-term tetrad: 0/Mchar in every canon stratum, nonzero only from 5comm and 6tika. Neither control replicates that, so the register-distribution observation stands."
+    ]
+   },
+   {
+    "heading": "What it means and what it does NOT",
+    "paragraphs": [
+     "It means the packaged definitional tetrad is a commentary and sub-commentary register feature, absent from the canon strata measured and present only from atthakatha onward. That corroborates a register pattern already published in the secondary literature; it is not a discovery of this study.",
+     "It does NOT confirm H1. The novel quantitative claim, a realist co-occurrence step up at 4para to 5comm with that boundary as the largest jump, is falsified: the measure dropped roughly sixfold at the boundary and peaks at the sub-commentary. Falsifier 4 also tripped. The verdict is mixed leaning null: structural origination holds, the named quantitative boundary step does not.",
+     "This is a register and distribution claim only. It cannot adjudicate whether Theravada commentators held a metaphysically realist view of dhammas; that doctrinal debate is out of scope and no realism verdict is offered."
+    ]
+   },
+   {
+    "heading": "Denominator note and auditability",
+    "paragraphs": [
+     "A denominator drift is on record: the protocol froze mula at 53.543921 Mchar and Q0 was the check, but live Q0 returns mula = 26.939812 Mchar, roughly half (attha and tika match). The per-stratum densities here use the live Q1 denominators, not the frozen ones, so the frozen-denominator sanity check is treated as failed.",
+     "Every count re-derives from _protocol.json and _raw.json. Q1 supplies the per-stratum denominators; Q2 through Q6 the densities and co-occurrence counts; Q9 and Q10 the two controls; Q12 the per-work breakout; Q7 the 265-row sense-audit sample (263 of 265 with null translations, so coders code from Pali); Q8 the error confirming the audit never ran. Headline ratios recompute exactly: 0.391/2.474 = 0.158; 2.363/0.391 = 6.04; 67.251/23.912 = 2.81; 6.288/9.070 = 0.69; 46.593/22.263 = 2.09; 11.795/11.544 = 1.02.",
+     "The masked stem is not a clean own-nature count: the broad sabh[aa]v stem catches at least one bhava-compound not in the exclusion mask (tidasabhavanam, tidasa+bhavana, the Tavatimsa realm, id mil5.1.4)."
+    ]
+   }
+  ],
+  "verdict": "mixed leaning null on H1. The structural absence-then-presence of the full four-term tetrad (0/Mchar in all canon strata, nonzero only from 5comm 0.293 and 6tika 0.494) survives and is control-independent. H1's named quantitative claim fails: realist co-occurrence drops 0.16x at 4para to 5comm (the predicted-rise boundary), peaks at 6tika not 5comm, the controls refute rather than rescue, falsifier 4 tripped (padatthana flat at 1.02x), and the mandatory sense audit never executed so the realist-sense-weighted headline curve does not exist.",
+  "scope_limits": [
+   "Register and distribution claim only; no doctrinal realism verdict (the Ronkin-versus-critics substantialism debate is out of scope).",
+   "stratum is a work_slug textual-role lookup, not dated chronology; a boundary is a canon-versus-commentary register seam, never diachronic semantic change.",
+   "A stratum-versus-layer disagreement is true by construction (layer derives from work_slug) and is never cited as independent evidence.",
+   "Co-occurrence within a passage is a proximity proxy for the apparatus, not a parse of definitional syntax.",
+   "DENOMINATOR DRIFT: protocol-frozen mula 53.543921 Mchar versus live Q0 mula 26.939812 Mchar (~2x off); densities computed on live Q1 denominators, frozen sanity check failed.",
+   "SENSE AUDIT NEVER EXECUTED: Q8 errored (sabhava_codes table missing); no p_realist, no inter-annotator agreement, no realist-sense-weighted curve; only raw masked stem reported, flagged inconclusive per the protocol agreement gate.",
+   "HOMOGRAPH FALSE-HIT PRESENT: the broad sabh[aa]v stem catches tidasabhavanam (tidasa+bhavana, Tavatimsa realm, id mil5.1.4), a bhava-compound outside the exclusion mask; the masked stem is not a clean sabhava count.",
+   "4para IS SINGLE-PASSAGE-SENSITIVE: 1.213 Mchar, 3 raw realist hits, Q12 reduces the full package to 1 hit in pli-pe over 0.294 Mchar; any 4para ratio is unstable in magnitude and sign.",
+   "CONTROLS REFUTE RATHER THAN RESCUE: realist co-occurrence fell 0.16x at the named boundary; udayabbaya drifted 0.69x and anicca rose 2.09x, so the raw sabhava rise is within generic register and there is no realist-specific seam to control-subtract.",
+   "PEAK IS AT 6tika NOT 5comm: realist co-occurrence peaks at 6tika (2.363/Mchar, 6.04x above 5comm); the apparatus is more a sub-commentary phenomenon.",
+   "5comm SIGNAL IS WORK-DOMINATED: 9 of 12 5comm realist hits are pli-kn-attha; pli-vism, the protocol's exemplar, contributes 0.",
+   "PRIOR-WORK FRAMING: the surviving structural pattern restates a published register observation; report it as corpus corroboration plus a null on the house quantitative prediction, not as the study's own discovery."
+  ],
+  "citations": [
+   "mil5.1.4",
+   "cst-s0507a.att-5_p003",
+   "pli-pe",
+   "pli-ne",
+   "pli-mil",
+   "pli-kn-attha",
+   "pli-vism",
+   "pli-abh-attha",
+   "pli-abh-tika",
+   "pli-dn-tika",
+   "pli-mn-tika",
+   "pli-vism-tika"
+  ]
+ },
+ "iaa": {
+  "n_coders": 3,
+  "pairwise_cohen": [
+   0.0,
+   0.684,
+   0.0
+  ],
+  "mean_pairwise_cohen": 0.228,
+  "fleiss_kappa": -0.0829,
+  "n_items": 265,
+  "Pbar": 0.2629,
+  "Pe": 0.3193,
+  "class_distribution": {
+   "1": 368,
+   "2": 37,
+   "3": 99,
+   "4": 3,
+   "CODE 1": 206,
+   "CODE 2": 14,
+   "CODE 3": 28,
+   "CODE 4": 17
+  }
+ }
+}

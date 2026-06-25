@@ -1,0 +1,111 @@
+{
+ "slug": "theravada-self-label-vada-frame",
+ "title": "theravada-self-label-vada-frame",
+ "verdict": "mixed",
+ "analyst": {
+  "slug": "theravada-self-label-vada-frame",
+  "verdict": "mixed",
+  "density_finding": "Density H1 holds AFTER a mandatory ingest-artifact correction; the frame leg is unresolved and depends on blind coding. The two primary density passes (queries 01, 02) both timed out, so per-Mchar density was reconstructed from the query-06 census (768 self-label-bearing is_primary passages, ref id, unique) bucketed against the query-00 layer denominators (CANON 25.737131, ATTHA 30.691214, TIKA 28.357746, OTHER 9.880513 Mchar). RAW the census reads CANON 381 hits = 14.804/Mchar, ATTHA 170 = 5.539, TIKA 150 = 5.290, OTHER 67 = 6.781. The raw CANON value would directly falsify H1 (canon predicted near-zero). It does not survive inspection: 369 of the 381 CANON hits are a single document-header ingest artifact. Every one is a pli-vinaya bhikkhuni/parivara passage (pli-tv-bi-vb-*) whose snippet begins at index 0 with the modern edition collection title \"Theravāda Vinaya Bhikkhunivibhaṅga ...\" (the SuttaCentral-style header), not a body token. After stripping that header string, genuine CANON occurrences fall to 12 = 0.466/Mchar, and all 12 are the elder/teachers-statement reading (the only fully visible one is thi-ap28 \"theriyo ca mahiddhikā\"; the mn/parivara ones carry the term deep in long bodies, none in a school-contrast frame). Corrected gradient: CANON 0.466 -> ATTHA 5.539 / TIKA 5.290 / OTHER 6.781 per Mchar, an ~11-14x canon-to-commentary rise with a theriya- trace surviving in canon exactly as predicted_signal states. So the density falsifier (canon already carrying the self-label at commentarial density) is NOT triggered once the header contamination is removed, but it WOULD be on the uncorrected numbers, so the correction is load-distinguishing rather than optional. tika adds no ceiling beyond attha (5.290 vs 5.539, essentially equal). FRAME: the structural co-occurrence passes give vada/nikaya/acariyavada-equation co-occurrence total 64 (query 05) versus rival-nikaya-contrast co-occurrence total 37 (query 04), i.e. the Gethin equation frame leads structurally but not overwhelmingly, and the rival co-occurrence is NOT concentrated in Kathavatthu-atthakatha as H1 predicts: the single largest query-04 bucket is again the pli-vinaya header artifact (14), and the kv-attha reproduction pass (query 07) returned ZERO rows because no kv*-attha work_slug exists in this corpus at all, so the protocol's nominated contrastive-frame locus is simply absent. The frame leg therefore cannot be adjudicated from structure alone and rests on the blind coding pass (coding_needed true). Net: density H1 supported post-correction (so not H0(a)); frame H1 not yet confirmed and its predicted Kv-a concentration unverifiable here, leaving H0(b) open until coding runs. Verdict mixed.",
+  "key_numbers": [
+   {
+    "name": "CANON self-label density RAW (uncorrected, query-06 census / q00 Mchar)",
+    "value": "381 hits / 25.737131 Mchar = 14.804 per Mchar",
+    "layer": "CANON"
+   },
+   {
+    "name": "CANON self-label density CORRECTED (369 vinaya header-artifact rows stripped)",
+    "value": "12 hits / 25.737131 Mchar = 0.466 per Mchar",
+    "layer": "CANON"
+   },
+   {
+    "name": "CANON header-artifact count ('Theravāda Vinaya ...' at index 0 of every pli-vinaya passage)",
+    "value": "369 of 381 CANON hits (all pli-tv-bi-vb-* / parivara)",
+    "layer": "CANON"
+   },
+   {
+    "name": "ATTHA self-label density",
+    "value": "170 hits / 30.691214 Mchar = 5.539 per Mchar",
+    "layer": "ATTHA"
+   },
+   {
+    "name": "TIKA self-label density",
+    "value": "150 hits / 28.357746 Mchar = 5.290 per Mchar",
+    "layer": "TIKA"
+   },
+   {
+    "name": "OTHER self-label density",
+    "value": "67 hits / 9.880513 Mchar = 6.781 per Mchar",
+    "layer": "OTHER (7other)"
+   },
+   {
+    "name": "corrected canon->commentary rise factor",
+    "value": "~11.9x (CANON 0.466 -> ATTHA 5.539); ~11.4x to TIKA",
+    "layer": "all"
+   },
+   {
+    "name": "thera-alone negative control density (query 03)",
+    "value": "CANON 38.310 / ATTHA 97.813 / TIKA 35.193 / OTHER 19.129 per Mchar — high and flat-to-mild, NO self-label-shaped spike",
+    "layer": "all"
+   },
+   {
+    "name": "rival-nikaya-names control density (query 03)",
+    "value": "CANON 6.178 / ATTHA 18.083 / TIKA 12.378 / OTHER 6.477 per Mchar — no canon zero, no commentary spike",
+    "layer": "all"
+   },
+   {
+    "name": "ingest-defect guards (dental-n tambapanniy / short-a mahavihar, query 03)",
+    "value": "0 in every layer (diacritic-correct regexes not missing normalized text)",
+    "layer": "all"
+   },
+   {
+    "name": "vada-frame equation co-occurrence total (query 05)",
+    "value": "64 (top: pli-vin-tika 21)",
+    "layer": "all"
+   },
+   {
+    "name": "rival-name contrast co-occurrence total (query 04)",
+    "value": "37 (top bucket pli-vinaya 14 = header artifact; NOT kv-attha)",
+    "layer": "all"
+   },
+   {
+    "name": "Kathavatthu-atthakatha reproduction (query 07)",
+    "value": "0 rows — no kv*-attha work_slug present; protocol primary locus absent from corpus",
+    "layer": "ATTHA"
+   },
+   {
+    "name": "query status",
+    "value": "7 ok / 3 err: 01 timeout, 02 timeout, 09 'id % 97' int-cast error; 07 ran but empty",
+    "layer": "meta"
+   }
+  ],
+  "control_check": "Controls behaved; the density finding stands by the program rule. thera-alone (generic elder register) is HIGH and roughly flat across layers (CANON 38.310, ATTHA 97.813, TIKA 35.193, OTHER 19.129 per Mchar) and crucially does NOT reproduce the self-label's ~0->ceiling jump: the self-label rises ~12x canon-to-commentary while thera-alone stays within a ~2-3x band and is actually lower in tika/other than the attha peak, so the crystallization signal is not a generic elder-talk register or length artifact (H0(a) rejected). The rival-nikaya-name control (mahimsasaka/sabbatthivada/vajjiputtaka/andhaka/etc.) is also undramatic (CANON 6.178, ATTHA 18.083, TIKA 12.378, OTHER 6.477) with no canonical zero and no commentarial spike, so it does not move with the self-label signal either. Ingest-defect guards returned 0 in all four layers, confirming the diacritic-correct regexes are not silently dropping normalized text. The one moving control to flag is the document-header contamination inside the self-label measure itself: 369 pli-vinaya passages carry the editorial title \"Theravāda Vinaya Bhikkhunivibhaṅga ...\" at character 0, which inflates raw CANON density to 14.804/Mchar; this is a header artifact, not a control failure, and once removed the canon value drops to 0.466/Mchar. No genuine negative control tracked the signal upward, so the density finding holds.",
+  "needs_coding": true,
+  "coding_query_label": "06_rows_to_code_selflabel_hits",
+  "coding_ref_field": "id",
+  "codebook": "Coders work from query 06 rows (768 passages, keyed on unique column id). Snippets shown context-only with work_slug/work_role/strat MASKED. Per the iaa_plan apply TWO independent codebooks per row plus one screening flag; the query-09 thera-alone foils could not be generated (query 09 errored on 'id % 97' int-cast), so no foil calibration rows are available this round.\n\nSCREEN (apply first, before SENSE/FRAME): HEADER-ARTIFACT = yes if the snippet's substantive self-label token is only the document/collection title at the very start of the passage (e.g. begins \"Theravāda Vinaya Bhikkhunivibhaṅga ...\" or any edition header where the term names the collection, not a sentence). Code yes -> set SENSE and FRAME to not-applicable and EXCLUDE the row from all proportions. (369 pli-vinaya rows are expected to screen out this way.) Code no -> proceed.\n\nSENSE (one of):\n- school-as-separate-entity = the token names Theravada/Theriya/Vibhajjavada/Tambapanniya/Mahaviharavasin as a bounded sect/school set off against other sects.\n- elder-lineage-or-teachers-opinion = the vada-near-nikaya/acariyavada reading: a thera's or the elders' doctrinal position, teachers' opinion, lineage of elders, or stability-in-the-doctrine sense (DPD theravado \"statement of assurance; doctrinal certainty\"); includes theriya = \"of the elders\".\n- unclear = context insufficient to decide.\n\nFRAME (one of):\n- coordinated-with-named-rival = the self-label is overtly contrasted/coordinated with a named rival nikaya (mahimsasaka, sabbatthivada, vajjiputtaka, andhaka, uttarapathaka, pubbaseliya, aparaseliya, mahasanghika, gokulika).\n- vada-kula-acariyavada-equation = the self-label is equated with or heads a vada/nikaya/kula/acariyavada/laddhi/samayantara construction (the Gethin equation).\n- genitive-theras-vada = the periphrastic \"therassa/theranam vado\" elders'-vada genitive written out.\n- bare-or-other = standalone mention, list item, or none of the above.\n\nOutput per row: id, header_artifact(yes/no), sense, frame. Two coders blind to each other and to layer; compute Cohen's kappa separately for SENSE and FRAME over the non-header rows only. Pre-committed thresholds (iaa_plan): kappa>=0.67 report frame proportions; 0.4<=kappa<0.67 add a third-coder adjudication round; kappa<0.4 report raw counts only and flag the instrument. Report proportions per layer (CANON/ATTHA/TIKA/OTHER). H1 frame stands only if the vada-equation/elder-lineage frame is the plurality and the coordinated-with-rival frame is a small minority; H0(b) wins if coordinated-with-rival is the plurality across commentary. Note for interpretation: the Kathavatthu-atthakatha locus the protocol predicts for the contrast frame is absent from this corpus (query 07 = 0 rows), so the \"concentrated in Kv-a\" sub-prediction cannot be tested and should be reported as not-evaluable, not as confirmed."
+ },
+ "skeptics": [],
+ "page_spec": null,
+ "iaa": {
+  "n_coders": 2,
+  "pairwise_cohen": [
+   0.8618
+  ],
+  "mean_pairwise_cohen": 0.8618,
+  "fleiss_kappa": 0.8616,
+  "n_items": 768,
+  "Pbar": 0.9036,
+  "Pe": 0.3036,
+  "class_distribution": {
+   "header_artifact=no; sense=elder-lineage-or-teachers-opinion; frame=bare-or-other": 334,
+   "header_artifact=no; sense=elder-lineage-or-teachers-opinion; frame=coordinated-with-named-rival": 4,
+   "header_artifact=no; sense=elder-lineage-or-teachers-opinion; frame=genitive-theras-vada": 4,
+   "header_artifact=no; sense=elder-lineage-or-teachers-opinion; frame=vada-kula-acariyavada-equation": 53,
+   "header_artifact=no; sense=school-as-separate-entity; frame=bare-or-other": 112,
+   "header_artifact=no; sense=school-as-separate-entity; frame=coordinated-with-named-rival": 20,
+   "header_artifact=no; sense=school-as-separate-entity; frame=vada-kula-acariyavada-equation": 74,
+   "header_artifact=no; sense=unclear; frame=bare-or-other": 197,
+   "header_artifact=yes; sense=not-applicable; frame=not-applicable": 738
+  }
+ }
+}

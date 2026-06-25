@@ -1,0 +1,304 @@
+{
+ "slug": "sankhara-translator-sense-import",
+ "title": "Saṅkhāra translator sense-import: does the collocation field drive the English head?",
+ "verdict": "null (not established): the pre-registered endpoint was never computed and the primary negative control was never run, so neither the sense-import thesis (H1) nor the house-style null (H0) can be adjudicated; only descriptive density and a clean leak audit stand.",
+ "analyst": {
+  "slug": "sankhara-translator-sense-import",
+  "verdict": "null",
+  "density_finding": "Endpoint not computed, needs blind coding. q02 errored, only q08 ran, q05 only sujato and thanissaro pass the floor.",
+  "key_numbers": [
+   {
+    "name": "core density 1early, attha, tika",
+    "value": "38.257, 63.754, 83.787 per Mchar"
+   },
+   {
+    "name": "abhisankhara canon vs commentary",
+    "value": "0.535 vs 6.952, 8.216"
+   },
+   {
+    "name": "sujato DO PASS KHANDHA total",
+    "value": "130, 292, 368, 496"
+   },
+   {
+    "name": "thanissaro DO PASS KHANDHA total",
+    "value": "56, 101, 121, 150"
+   },
+   {
+    "name": "asankhata leak",
+    "value": "127, 43, 84"
+   }
+  ],
+  "control_check": "Shuffle control not run, q06 only a pool. Dhamma control not run. Leak clean, the 43 is co occurrence not a leak. Null.",
+  "needs_coding": true,
+  "coding_query_label": "03_codable_rows_canon_with_translations",
+  "coding_ref_field": "passage_id paired with translator",
+  "codebook": "Code the sankhara head, blind to translator, Pali, field. FORMATIONS formations or constructions. VOLITIONAL volition, intention, choice, will, fabrications as act. AGGREGATE khandha slot in the five aggregates list. OTHER process or activity. UNSCORABLE omitted or no head. Cohen kappa at least 0.60."
+ },
+ "skeptics": [
+  {
+   "lens": "artifact",
+   "holds": false,
+   "verdict": "kill",
+   "refutation": "The sense-import finding is unsupported, and the route to it is a measurement artifact at four layers, so the \"null\" the analyst returns is correct in direction but for stronger reasons than stated. (1) Endpoint never computed. The pre-registered endpoint (translator x field confusion matrix, import-bias vector, real-vs-shuffled mutual information) requires blind 4-class sense coding with Cohen kappa at least 0.60. No coding ran. q06 emitted only an unshuffled pool whose \"shuffle_key\" is md5(passage_id||translator), a deterministic ORDER BY key, not the 1000-iteration within-translator label permutation. The shuffle control is the program's bright line: a finding stands only if its negative control did not move with the signal. The control was not run, so nothing can stand. (2) The field tags are common-word detectors, not separable fields. Of 729 codable rows, 59.3% carry more than one field marker and 157 (21.5%) fire all three; the pure-field primary set collapses to DO=21, PASS=54, KHANDHA=142. DO anchors on avijja/paticcasamuppada, PASS on bare anicc/dukkh/anatt, KHANDHA on bare khandh/vedana/sanna/vinnan, all pervasive words that co-occur constantly. Any MI between head and field would be contaminated by inter-field overlap; the confusion matrix is ill-posed. (3) The coding instrument cannot see its unit: the en_snippet is the first 400 to 600 chars of the whole sutta, and 53.9% of rows contain no sankhara head word in that window, so a blind coder is handed text that does not contain the token to be coded. (4) q02, the per-stratum field-cooccurrence spine, errored (invalid character range), so even the descriptive field map does not exist; q08 is a degenerate stand-in. The leak control is the one clean result: 43 of 127 asankhata passages also match core is co-occurrence, not bleed (-khata cannot satisfy the -khar core pattern), so the lexicon is valid. Density numbers are sound only as descriptive per-character stratum sizing (is_primary deduped, T2 honored); the 5comm|mula 251.9/Mchar value rides a 1.2Mchar denominator and must not be compared to full layers. Reportable result: the pre-committed house-style null plus descriptive density. The sense-import claim (H1) is unevaluated and, as instrumented, unevaluable.",
+   "required_caveats": [
+    "Endpoint not computed: the translator x field confusion matrix, import-bias vector, and real-vs-shuffled mutual information were never produced. The study requires blind 4-class sense coding at Cohen kappa at least 0.60, which did not run; no sense-import claim may be made in either direction.",
+    "Primary negative control (field-label shuffle) was not executed. q06 produced an unshuffled deterministic-key pool, not the 1000-iteration within-translator permutation. By program ethos a finding stands only if its negative control did not move with it; that condition is untested, so the finding cannot stand.",
+    "Field tags are not separable: 59.3% of codable rows carry more than one field marker and 21.5% fire all three. Pure-field counts collapse to DO=21, PASS=54, KHANDHA=142. The field anchors (avijja, anicc, khandh, vedana) are pervasive words, so any field-conditioning statistic would be confounded by inter-field overlap.",
+    "Coding instrument is mismatched: the supplied English snippet is the first 400 to 600 chars of the whole sutta and 53.9% of rows contain no sankhara head word in that window. Blind coding from these snippets is not possible without per-clause extraction.",
+    "Dhamma polyseme negative control was not run, so the generic-register-vs-term-specific question is unresolved and no specificity claim is permitted.",
+    "q02 (per-stratum field cooccurrence) errored on an invalid regex; the descriptive field-by-stratum map does not exist and q08 is only a coarse commentary substitute.",
+    "Densities are descriptive per-character stratum sizing only (is_primary deduped), never an endpoint and never a sense claim. The 5comm|mula 251.937/Mchar figure rides a 1.2Mchar denominator slice and must not be compared against full-layer densities.",
+    "The asankhata leak test is the only control that holds: the 43 overlap is passage-level co-occurrence, not regex contamination (-khata cannot match the -khar core pattern). State this as a clean lexicon, not as evidence for any thesis.",
+    "stratum is a work_slug lookup; any layer contrast is descriptive register only and must not be cited as independent dating evidence."
+   ]
+  },
+  {
+   "lens": "overread-priorwork",
+   "holds": true,
+   "verdict": "caveat",
+   "refutation": "The null verdict survives the lens, but the supporting numbers invite over-reading and the headline qualitative claim is already published. Three concrete breaks. (1) Prior work: that saṅkhāra's English head shifts across the dependent-origination / aggregate / impermanence contexts is established lexicography, not a discovery. Bodhi's own BPS essay \"Anicca Vata Sankhara\", the Wikipedia and MDPI saṅkhāra entries, and Dhamma Wheel translator threads all state the term is context-dependent across exactly these three doctrinal contexts and that translators (Bodhi \"formations/volitional formations\", Thanissaro \"fabrications\", Sujato \"choices/conditions\", Nanamoli \"determinations\") vary accordingly. The genuinely novel, unpublished element is narrow: a quantified, blind-coded, shuffle-control-surviving per-translator mutual-information effect on the coded confusion matrix. That endpoint is NOT computed, so nothing novel is yet demonstrated. (2) Category honesty: the cited key_numbers 130/292/368/496 (sujato) and 56/101/121/150 (thanissaro) are q05 passage-PRESENCE field counts, and the q04 \"identical-collocation divergence\" rows are raw whole-passage English snippets (several, e.g. an10.90/an3.133, are about \"powers\"/\"warriors\" with saṅkhāra incidental), NOT coded heads. They size strata; they do not bear on the dispute. Presenting them as the result reads raw-row magnitude as signal. (3) The control that matters did not run: the shuffle null band (primary control, q02 errored) and the dhamma polyseme control are both uncomputed; per program ethos a finding only stands if the negative control was evaluated and did not move with it, so no positive sense-import claim is permissible at this stage by construction. Power note: only sujato and thanissaro clear the <20-per-field floor, and they are precisely the published divergent pair; Bodhi (the pre-registered H0 anchor) has n=2 and cannot be tested, so the H1-vs-H0 contest is structurally unwinnable as specified. Separately, the analyst's \"43 is co-occurrence not a leak\" is correct (stems -khāt vs -khār are disjoint, so a both-match passage holds two distinct tokens) but must be stated with that reason, because the protocol's column is literally named also_match_core_BAD and falsifier requires halt on any core/asaṅkhata overlap.",
+   "required_caveats": [
+    "The qualitative claim that saṅkhāra's rendered sense shifts across the DO / aggregate / impermanence contexts is established published lexicography (Bodhi BPS essay, Wikipedia, MDPI); the field-tagging map and per-Mchar density gradient are descriptive sizing, not a discovery, and must not be framed as novel.",
+    "The only novel element is the quantified, blind-coded, shuffle-control-surviving per-translator MI effect, and it is NOT computed; the endpoint is uncomputed (q02 errored; only q05/q08 ran), so no sense-import claim of any sign is supported yet.",
+    "The cited counts (sujato 130/292/368/496; thanissaro 56/101/121/150) and the q04 divergence rows are passage-presence counts and raw whole-passage snippets, not coded English heads; they do not bear on the scholarly dispute and must not be surfaced as a result.",
+    "Negative controls were not evaluated: the field-label shuffle null band and the dhamma polyseme control did not run, so the program rule (a finding stands only if its negative control did not move with it) is unmet by construction.",
+    "Power is limited to two translators (sujato, thanissaro) clearing the per-field floor, and they are exactly the already-documented divergent pair; Bodhi, the pre-registered H0 anchor, has n=2 and cannot be tested, so the H1/H0 contrast as specified cannot be adjudicated.",
+    "The asaṅkhata leak audit is clean: 43 of 127 is term co-occurrence, not regex contamination (stems -khāt and -khār are disjoint), so it is not the q8 falsifier; state the disjointness reason explicitly since the column is named also_match_core_BAD.",
+    "stratum is a work_slug lookup; the 1early/commentary/tika density and abhisaṅkhāra canon-vs-commentary gradient (0.535 vs 6.952/8.216 per Mchar) are register description only, never independent dating or doctrinal evidence."
+   ]
+  }
+ ],
+ "page_spec": {
+  "abstract": "Does the Pali collocation field around a saṅkhāra token predict which English head a translator picks? The pre-registered endpoint is a translator-by-field confusion matrix from blind four-class sense coding, gated behind a within-translator field-label shuffle. The endpoint was never computed and the primary control was never run, so the sense-import thesis is unevaluated. Descriptive density and a clean leak audit stand; the thesis does not. The reported outcome is the pre-committed house-style null by default, not by demonstration.",
+  "sections": [
+   {
+    "heading": "The question and why it is a fair test",
+    "paragraphs": [
+     "Saṅkhāra is a known polyseme whose English rendering shifts across the dependent-origination, aggregate, and impermanence contexts. That shift is established published lexicography, not a discovery. The new thing would be a quantified, blind-coded, shuffle-surviving measurement that the field genuinely imports a sense into a given translator's choice, beyond fixed pericopes and house style.",
+     "The test is fair because it pre-commits both outcomes and gates the positive one behind a control. H1 (sense-import) needs at least one translator to swing the probability of a volitional head by 0.30 or more between the kammic and impermanence fields, with real-label mutual information above the 95th percentile of a 1000-iteration shuffle. H0 (house-style) is the pre-committed null and the protocol states it will be reported if it wins."
+    ]
+   },
+   {
+    "heading": "What the canon shows (descriptive only)",
+    "paragraphs": [
+     "The lexicon resolves cleanly and the strata size sensibly. Magnitude is per character, never raw rows. Core saṅkhāra rises across layers; the inherently-kammic abhi-prefixed form is rare early and climbs in the commentary.",
+     "The 5comm mula slice (251.937 per Mchar) rides a 1.2-million-character denominator, not a full layer, and must not be compared across layers.",
+     "The coverage matrix shows the test is power-starved: only sujato and thanissaro clear a working per-field floor, and they are exactly the already-documented divergent pair. Bodhi, the pre-registered null anchor, has n=2 and cannot be tested. The stratum label is a work_slug lookup, so layer contrasts are register description only."
+    ],
+    "table": {
+     "caption": "Per-character core and abhi-saṅkhāra density by stratum (passage-presence, per million characters). Slice row flagged.",
+     "columns": [
+      "stratum",
+      "work_role",
+      "core_passages",
+      "abhi_passages",
+      "core_per_Mchar",
+      "abhi_per_Mchar"
+     ],
+     "rows": [
+      [
+       "1early",
+       "mula",
+       "501",
+       "7",
+       "38.257",
+       "0.535"
+      ],
+      [
+       "2late",
+       "mula",
+       "83",
+       "26",
+       "21.548",
+       "6.750"
+      ],
+      [
+       "3abh",
+       "mula",
+       "302",
+       "4",
+       "39.859",
+       "0.528"
+      ],
+      [
+       "4para",
+       "mula",
+       "49",
+       "3",
+       "40.403",
+       "2.474"
+      ],
+      [
+       "5comm",
+       "attha",
+       "1880",
+       "205",
+       "63.754",
+       "6.952"
+      ],
+      [
+       "5comm (slice, do not compare)",
+       "mula",
+       "303",
+       "37",
+       "251.937",
+       "30.765"
+      ],
+      [
+       "6tika",
+       "tika",
+       "2376",
+       "233",
+       "83.787",
+       "8.216"
+      ],
+      [
+       "7other",
+       "anya",
+       "149",
+       "14",
+       "15.080",
+       "1.417"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "Translator coverage (power)",
+    "paragraphs": [
+     "Of nineteen translators present, only two clear a working per-field floor. The rest sit in single or low double digits. The pre-registered null anchor is untestable at n=2."
+    ],
+    "table": {
+     "caption": "Passage-row coverage by translator and field (counts, not coded heads).",
+     "columns": [
+      "translator",
+      "n_do",
+      "n_khandha",
+      "n_pass",
+      "n_total"
+     ],
+     "rows": [
+      [
+       "sujato",
+       "130",
+       "368",
+       "292",
+       "496"
+      ],
+      [
+       "thanissaro",
+       "56",
+       "121",
+       "101",
+       "150"
+      ],
+      [
+       "walshe",
+       "8",
+       "16",
+       "13",
+       "17"
+      ],
+      [
+       "ireland",
+       "8",
+       "8",
+       "8",
+       "13"
+      ],
+      [
+       "brahmali",
+       "5",
+       "9",
+       "9",
+       "11"
+      ],
+      [
+       "bodhi (null anchor)",
+       "1",
+       "2",
+       "2",
+       "2"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "The falsifiable core (not built)",
+    "paragraphs": [
+     "The falsifiable core is the coded confusion matrix and its survival of the shuffle, not the density gradient or the collocation map. The field-co-occurrence query errored on an invalid character range and produced nothing; the coarse commentary-density substitute that ran is not the endpoint. The 729 codable rows returned, but the four-class coding into a confusion matrix and the mutual-information statistic were never produced.",
+     "The field tags are not separable: 432 of 729 rows (59.3 percent) carry more than one marker and 157 (21.5 percent) fire all three. Restricting to one marker collapses the set to 21 kammic, 54 impermanence, 142 aggregate. The anchors are pervasive words that co-occur constantly, so any head-by-field statistic would be confounded.",
+     "The coding instrument often cannot see its unit: the English snippet is the opening 400 to 600 characters of the whole discourse, and 451 of 729 rows (61.9 percent) contain no candidate head word in that window. Three blind coders coded the rows and kappa will be computed downstream; agreement is high where codings coincide, but with no confusion matrix and no shuffle band there is nothing for the coding to feed. A passing kappa on a subset is a precondition, not the uncomputed result."
+    ]
+   },
+   {
+    "heading": "The negative-control result",
+    "paragraphs": [
+     "The program rule: a finding stands only if its negative control did not move with the signal. Here the control was never run. The primary field-label shuffle query returned an unshuffled pool whose shuffle_key is an md5 of row identity (725 distinct keys across 729 rows), a deterministic ordering key, not a 1000-iteration label permutation. No null band exists, so no positive claim is permissible by construction.",
+     "The dhamma polyseme control and the within-pericope invariance check were also not run.",
+     "One control is clean: the asaṅkhata leak audit found 127 unconditioned-term passages, 43 also matching core and 84 not. The 43 are passage-level co-occurrence, not contamination: the stems are disjoint (-khata versus -khara), so a both-match passage holds two distinct tokens. This confirms a valid lexicon and is the single result that holds; it is not evidence for any thesis."
+    ]
+   },
+   {
+    "heading": "What it means and what it does not",
+    "paragraphs": [
+     "It means the descriptive layer is trustworthy: the lexicon does not leak, the strata are sized, the coverage is mapped. It means the sense-import thesis is neither supported nor refuted; the honest report is the pre-committed house-style outcome reached by default, because the measurement was never made.",
+     "It does not mean translators do not import sense, nor that they do. It does not license reading the coverage counts (sujato 130/292/368/496; thanissaro 56/101/121/150) or the 26 identical-collocation divergence rows as a result; those are presence counts and raw whole-discourse snippets, not coded heads. It does not license any doctrinal verdict; this study is corpus-linguistic only.",
+     "To make the call: fix and re-run the field-co-occurrence query; recode on per-clause windows that actually contain the head; and run the field-label shuffle for 1000 iterations to build the null band."
+    ]
+   },
+   {
+    "heading": "Auditability",
+    "paragraphs": [
+     "Every count re-derives from _protocol.json and _raw.json. Density, abhi-form, slice-denominator, coverage, and leak figures come from the enumerated query results. The multi-field overlap (432 of 729; 157 all-three), the pure-field collapse (21/54/142), and the snippet head coverage (451 of 729; 61.9 percent) re-derive from the f_do, f_khandha, f_pass, and en_snippet columns of the 03_codable_rows result. The shuffle-key claim re-derives from the 06 pool columns. The meta records nine queries, eight ok, one errored (02_field_cooccurrence)."
+    ]
+   }
+  ],
+  "verdict": "null (not established): endpoint never computed and primary negative control never run; neither H1 (sense-import) nor H0 (house-style) can be adjudicated. Descriptive density and a clean leak audit stand; the thesis does not. Reported as the pre-committed house-style null by default.",
+  "scope_limits": [
+   "Endpoint not computed: the translator-by-field confusion matrix, import-bias vector, and real-vs-shuffled mutual information were never produced. Blind four-class coding at Cohen kappa of at least 0.60 is required and did not produce the statistic; no sense-import claim is made in either direction.",
+   "Primary negative control (field-label shuffle) not executed: query 06 returned an unshuffled deterministic-key pool (md5 of row identity, 725 distinct of 729), not a 1000-iteration within-translator label permutation. By program rule a finding stands only if its control did not move with it; that is untested.",
+   "Field tags are not separable: 432 of 729 rows (59.3 percent) carry more than one marker, 157 (21.5 percent) fire all three; pure-field counts collapse to 21 kammic, 54 impermanence, 142 aggregate. The anchors are pervasive words, so any field-conditioning statistic would be confounded.",
+   "Coding instrument mismatched: the English snippet is the opening 400 to 600 characters of the whole discourse and 451 of 729 rows (61.9 percent) contain no candidate head word in that window. Blind coding needs per-clause extraction.",
+   "Dhamma polyseme control and within-pericope invariance check were not run, so the generic-register-vs-term-specific question is unresolved and no specificity claim is permitted.",
+   "Query 02 (per-stratum field co-occurrence) errored on an invalid character range; the descriptive field-by-stratum map does not exist and query 08 is only a coarse commentary substitute.",
+   "Densities are passage-presence per-character stratum sizing only, never an endpoint and never a sense claim. The 5comm mula 251.937 per Mchar figure rides a 1.2-million-character slice and must not be compared against full-layer densities.",
+   "The asaṅkhata leak audit is the only control that holds: 43 of 127 is passage-level co-occurrence, not regex contamination (-khata and -khara stems are disjoint). Reported as a clean lexicon, not as evidence for any thesis.",
+   "Stratum is a work_slug lookup; any layer or abhi-form contrast is descriptive register only and is not independent dating or doctrinal evidence.",
+   "Power is limited to two translators (sujato, thanissaro), who are the already-documented divergent pair; Bodhi, the null anchor, has n=2 and cannot be tested, so the H1-vs-H0 contest as specified cannot be adjudicated."
+  ],
+  "citations": [
+   "_protocol.json",
+   "_raw.json",
+   "corpus:cst",
+   "corpus:sc",
+   "query:00_sanity_dedupe_counts",
+   "query:01_core_density_per_stratum_per_Mchar",
+   "query:02_field_cooccurrence_per_stratum (errored)",
+   "query:03_codable_rows_canon_with_translations",
+   "query:04_identical_collocation_translator_divergence_PASS",
+   "query:05_translator_coverage_matrix",
+   "query:06_negctrl_shuffle_pool",
+   "query:07_asankhata_leak_test",
+   "query:08_commentary_field_density_compare"
+  ]
+ },
+ "iaa": {
+  "n_coders": 3,
+  "pairwise_cohen": [
+   0.8229
+  ],
+  "mean_pairwise_cohen": 0.8229,
+  "fleiss_kappa": 0.8223,
+  "n_items": 721,
+  "Pbar": 0.914,
+  "Pe": 0.516,
+  "class_distribution": {
+   "AGGREGATE": 305,
+   "FORMATIONS": 49,
+   "OTHER": 8,
+   "UNSCORABLE": 984,
+   "VOLITIONAL": 96
+  }
+ }
+}

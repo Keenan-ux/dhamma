@@ -1,0 +1,293 @@
+{
+ "slug": "anatta-predicative-vs-existential-census",
+ "title": "Anatta predicative vs existential: a construction census of Wynne's distributional leg",
+ "verdict": "null (H0). The predicted rising existential/generalizing gradient is absent, and both negative controls moved with the apparent signal, so the constructional reading is withdrawn. Only the canon premise survives: in the early canon the predicative not-self construction outweighs existential denial by roughly 47 to 60 times.",
+ "analyst": {
+  "slug": "anatta-predicative-vs-existential-census",
+  "verdict": "mixed",
+  "needs_coding": true,
+  "coding_query_label": "06_rows_to_code_exist_sense_audit",
+  "coding_ref_field": "id",
+  "key_numbers": [
+   {
+    "name": "R",
+    "value": "0.223 / 0.765 / 0.783"
+   },
+   {
+    "name": "predicative pMc",
+    "value": "3.65 / 0.55 / 0.81"
+   },
+   {
+    "name": "exist_denial pMc",
+    "value": "0.078 / 0.000 / 0.141"
+   },
+   {
+    "name": "maxim pMc",
+    "value": "0.738 / 0.424 / 0.494"
+   },
+   {
+    "name": "reflexive ctrl pMc",
+    "value": "16.6 / 297.4 / 205.5 moved"
+   },
+   {
+    "name": "anicca-maxim ctrl pMc",
+    "value": "0.93 / 1.27 / 0.71 flat"
+   }
+  ],
+  "control_check": "CONTROL MOVED. Reflexive ctrl not flat, rises 16.6 to 297.4 to 205.5 per Mchar, larger than R, firing falsifier 3, generic register not constructional, H0c. Anicca-maxim ctrl flat 0.93 to 1.27 to 0.71. R not independent evidence.",
+  "density_finding": "R rises monotonically across canon then attha then tika but only because predicative density collapses while existential denial stays negligible at every layer below the floor, firing falsifier 4 toward H0b. Maxim density falls. Canon predicative beats existential denial about 47x so the premise holds but the predicted rising existential leg is absent. Existential atta is debate register only, query 5. Translator handle null. Read-back query 9 empty.</density_finding>\n<parameter name=\"codebook\">Code entry 06_rows_to_code_exist_sense_audit, key on id, labels asserted-position, quoted-wrong-view, denied-view, avyakata-set-aside, contingent-nonself, uncertain. Gate kappa 0.70. Report contamination rate."
+ },
+ "skeptics": [
+  {
+   "lens": "artifact",
+   "holds": false,
+   "verdict": "caveat",
+   "refutation": "The R gradient (0.231 -> 0.867 -> 0.739 by role-layer, wildly non-monotone per stratum: 1early 0.07, 2late 4.33) is a measurement artifact and the analyst's own control_check already concedes it. Two decisive breaks. (1) The negative control MOVED with the signal: reflexive attanā/attano/attānaṃ rises 20.1 -> 302.7 -> 205.5 per Mchar (15x into commentary) versus R's 3.8x. Per program ethos a finding cannot stand when its control moves; the attā-stem register generically explodes in attha/tīkā, so R indexes register/length, not the predicative-vs-existential construction (falsifier 3, H0c). (2) The maxim leg is generic: the anicca sister-maxim control rises 0.382 -> 1.271 -> 0.705 per Mchar, STEEPER than the anattā maxim (0.382 -> 0.424 -> 0.494), so the maxim component of R is the generic 'maxims proliferate in commentary' template (falsifier 2, H0c). The analyst's claim that the anicca-maxim control is 'flat 0.93/1.27/0.71' is mis-stated; query 08 shows it is not flat and tracks the same direction. (3) There is no existential leg at any depth: strict natthi attā = 1/1/0/4/1 across strata; tika per-Mchar ~0.11-0.14, an order of magnitude under the ~2/Mchar falsifier floor (falsifier 4, H0b). The only R movement is the predicative DENOMINATOR collapsing 13x (3.207 -> 0.244 -> 0.406 per Mchar), not an existential numerator rising. (4) The existential bucket is debate-register quotation, not praxis: affirm 91 >> denial 7, and the 97 coding rows are dominated by sassato attā ca loko ca (eternalist sassata-diṭṭhi catalogued/glossed), the MN2 six-views list atthi me attā / natthi me attā, and the avyākata ṭhapanīya set-aside (SN44.10 family) - exactly the quotation register query 05 exists to flag. (5) The κ gate is unrun (needs_coding true): the 06/07/08 sense-audits are not coded, so contamination is unmeasured and no anattā- or existential-derived number clears the protocol's own κ>=0.70 gate yet. What survives is one narrow premise leg: in canon, predicative density (~3.2/Mchar) beats existential denial (~0.076/Mchar) ~47x. The rising-existential/generalizing gradient does not survive. Edition double-count is not the problem (denominators reconcile to the protocol constants; triad appears in both sc and cst at 1early; stratum is a lookup and is not cited as independent evidence). Read-back is graph-null (query 09 = 0 links) and the translator handle is null (not-self dominant, no-self ~0), both honest secondary nulls.</refutation>\n<parameter name=\"required_caveats\">[\"Negative control moved: reflexive attā density rises 20.1 -> 302.7 -> 205.5 per Mchar across canon/attha/tīkā (15x), larger than R's rise (3.8x); R therefore indexes generic attā-stem register/length, not the predicative-vs-existential construction. R must NOT be presented as independent evidence of constructional shift.\", \"The maxim leg of R is generic: the anicca sister-maxim control rises canon->attha->tīkā steeper than the anattā maxim, so 'maxim hardening' is the generic 'sabbe + X + MARK' template proliferating in commentary, not anything specific to anattā.\", \"No existential leg exists at any depth: strict natthi attā is negligible (canon 2 passages total, tīkā 4, ~0.11-0.14 per Mchar) and below the ~2/Mchar falsifier floor in every layer. Report H0(b): the rising existential framing is not a corpus construction; what R movement exists is the predicative denominator collapsing ~13x, not an existential numerator rising.\", \"The existential counts are debate/quotation register, not endorsed denial: affirm (91) >> denial (7); the rows are dominated by the eternalist sassato attā ca loko ca formula, the MN2 six-views catalogue, and the avyākata ṭhapanīya set-aside. Do not read existential-denial density as praxis teaching.\", \"κ gate is UNRUN (needs_coding true). No anattā-derived or existential-derived number may be reported as trusted until the 06/07/08 sense-audits clear κ>=0.70; report the measured contamination rate alongside every count.\", \"Only the canon premise leg holds: predicative density (~3.2/Mchar) dominates existential denial (~0.076/Mchar) by ~47x in canon. State explicitly that the predicted RISING existential/generalizing gradient is absent; the per-stratum R is non-monotone (1early 0.07, 2late 4.33, attha 0.87, tīkā 0.74).\", \"Stratum/layer is a work_slug lookup (T1), not independent chronology; the role-based gradient is a register statement about the held corpus, not a dated diachronic or doctrinal claim. Read-back (query 09 = 0 graph links) and translator handle (not-self dominant, no-self ~0) are honest nulls and must be reported as such.\"]"
+  },
+  {
+   "lens": "overread-priorwork",
+   "holds": true,
+   "verdict": "caveat",
+   "refutation": "The finding survives the skeptic pass because the analyst already reached the conservative, ethos-compliant call: the negative control MOVED with the signal, so the constructional interpretation is withdrawn. Verified against raw.json. Reflexive control (NEG_CTRL_ATTA_REFLEX, query 01) rises 21.2 -> 302.9 -> 205.5 per Mchar across canon -> commentary -> tika, a ~10-14x climb that dwarfs R's ~5x climb and fires falsifier 3. Per the program rule that a finding only stands if its control did not move, the apparent R gradient is generic atta-stem register/length (commentary and tika simply spend far more ink on the atta stem in exegesis), not a predicative-vs-existential constructional shift. The analyst states this. So the live, defensible finding is the NULL set, not a positive Wynne-confirming gradient: (H0b) existential natthi atta is negligible at every depth (raw counts 1/0/0/0/0/3/1; per-Mchar 0.076/0/.../0.141, never crossing the ~2/Mchar falsifier-4 floor); (H0c) the R rise is a denominator artifact because predicative density collapses ~13x into commentary (3.21 -> 0.24) while the existential numerator never rises; and the premise (canon predicative beats existential denial ~42-60x) holds in-corpus, so Wynne's distributional leg is consistent with our held text but his predicted RISING existential leg is absent. Where the analyst over-reaches and the write-up must be corrected: (1) the reported R triple 0.223/0.765/0.783 is NOT reproducible from query 02 density (recompute gives 0.143/1.733/1.478, non-monotone, comm>tika) nor cleanly from query 03 counts; the R numbers as stated do not tie out and must be recomputed and shown, or the directional claim restated count-form; (2) every existential-denial density rests on single-digit raw counts (canon n=1, tika n=4) where one passage swings the per-Mchar figure by ~0.08, so the per-Mchar framing cosmetically over-states precision; (3) the anatta-bare and khandha-gated counts are GATED on a kappa>=0.70 sense-audit that has NOT been run (needs_coding=true, query 06 is an unscored 97-row export, falsifier 6 / the carita lesson unresolved) so no anatta-derived density is trusted yet; (4) read-back query 09 returned rowcount 0 = graph has no attha/tika parallel links onto the early anchors, i.e. the diagnostic is UNRUN, and must be reported as a graph gap, never as evidence of low gloss concentration. On prior-work: Wynne/Gombrich's qualitative not-self vs no-self distinction (predicative primary, natthi atta marginal early) is textbook and published (Wynne 2007/2009; Wikipedia Anatta and Atman entries summarize it); what is novel here is only the per-Mchar layer census, and that census returns NULL on the constructional claim, so nothing doctrinal new is asserted. No category error: density genuinely bears on the register/distribution question, which is the corpus-linguistic axis, and the analyst correctly refuses the ontological axis.",
+   "required_caveats": [
+    "The negative control moved: reflexive atta (attana/attano/attanam) density rises 21.2 to 302.9 to 205.5 per Mchar across canon, commentary, tika, larger than the R rise; per program rule the constructional reading is withdrawn and the result is reported as the null. The apparent R gradient is generic atta-stem register, not a predicative-vs-existential shift.",
+    "The R gradient is a denominator artifact: predicative density collapses about 13x into commentary (3.21 to 0.24 per Mchar) while existential denial never rises above the negligible floor, so R rises because the predicative formula is not re-cited densely downstream, not because existential framing grows.",
+    "Existential natthi atta is negligible at every layer (raw counts canon 1, abhidhamma 0, commentary 0, tika 4; per-Mchar 0.076/0/.../0.141, below the ~2/Mchar falsifier floor). The predicted rising existential leg is absent; existential atta appears only in quoted ditthi/avyakata debate register (queries 04, 05, 06), not praxis.",
+    "The premise holds in-corpus but only the premise: canon predicative density beats existential denial roughly 42 to 60 times. This is consistent with Wynne's distributional leg as we hold the text; it is not independent corroboration and stratum is a work_slug lookup, not chronology.",
+    "Reported R values 0.223 / 0.765 / 0.783 do not reconcile to query 02 density (recompute 0.143 / 1.733 / 1.478, non-monotone with commentary above tika) or cleanly to query 03 counts; recompute and show the arithmetic before publishing any R triple.",
+    "All existential-denial densities rest on single-digit raw counts where one passage swings the per-Mchar figure by about 0.08; per-Mchar framing overstates precision and the tiny n must be stated next to every density.",
+    "No anatta-derived or khandha-gated density is trusted yet: the kappa>=0.70 sense-audit (anattamana / compound contamination, the carita lesson) is unrun, query 06 is an unscored 97-row export, needs_coding is true. Report contamination rate and kappa before any anatta count is cited.",
+    "Read-back (query 09) returned zero rows: the parallel graph has no attha/tika links onto the early anchors, so the gloss-density diagnostic is unrun, not negative. Do not read the empty result as low commentary attention.",
+    "Translator handle is null as predicted: no-self never appears, not-self splits track only translator house style (sujato 105, thanissaro 22, zero no-self), so it is no layer discriminator; frame strictly as translator habit, not doctrine.",
+    "Prior work: the qualitative not-self vs no-self distinction (predicative primary, natthi atta marginal early) is already published (Wynne 2007/2009; Gombrich); the only novelty here is the per-Mchar layer census, which returns the null, so the deliverable asserts no new doctrinal claim."
+   ]
+  }
+ ],
+ "page_spec": {
+  "abstract": "A per-character layer census of Wynne's predicative-versus-existential distinction returns the pre-committed null. R, the ratio of existential-denial-plus-maxim density to predicative density, does not rise monotonically across canon, commentary, and tika (per stratum 0.07, 4.33, then commentary 0.87 above tika 0.74 in count form). Both frozen negative controls moved with the apparent signal: the reflexive atta control rises 20.1 to 302.7 to 205.5 per million characters, far steeper than any R movement, and the anicca sister-maxim control rises into commentary steeper than the anatta maxim. Existential denial is negligible at every depth (canon 1 passage at 0.076 per million characters, tika 4 at 0.141, never above the roughly 2 per million floor). The only R movement is the predicative denominator collapsing about thirteen times into commentary, not an existential numerator rising. The canon premise survives in isolation: predicative density beats existential denial by roughly 47 to 60 times early. Existential atta is debate register (affirm 91 versus denial 7; 57 of 97 coding rows carry the eternalist sassato atta formula). The translator handle and the read-back diagnostic are null.",
+  "verdict": "Null (H0). Falsifiers 2, 3, and 4 fire. The constructional reading is withdrawn because both negative controls moved with the apparent signal. Only the canon premise leg holds.",
+  "sections": [
+   {
+    "heading": "The question and why it is a fair test",
+    "paragraphs": [
+     "The study asks whether, in the Pali corpus as held, the not-self teaching is carried by the predicative construction (the threefold n'etam mama / n'eso'hamasmi / na meso atta plus khandha-applied X anatta), with existential denial natthi atta only marginal, and whether generalizing and existential framing gain relative weight from canon to commentary to tika.",
+     "The test statistic R is the ratio of existential-denial-plus-maxim density to predicative density per million characters, with the frozen prediction that R rises monotonically. Falsifiers were committed before measurement, including the requirement that two negative controls stay flat: the reflexive atta pronoun (shares the stem, no not-self predication) and the anicca and dukkha sister-maxims (share the mould, different mark).",
+     "Magnitudes are per character, never raw rows. Layer is a work_role and work_slug lookup, not chronology, so any layer difference is a register statement about the held corpus and never independent corroboration of a relative-chronology argument."
+    ]
+   },
+   {
+    "heading": "What the canon shows",
+    "paragraphs": [
+     "The premise leg holds in-corpus. In the early canon the predicative triad runs at 4.58 per million characters and khandha-applied predication at 2.06, while existential denial runs at 0.076 (one passage). Predicative outweighs existential denial by roughly 47 to 60 times early. This is consistent with the distributional leg as held, not independent corroboration.",
+     "The existential axis is debate register, not praxis. Across the corpus existential affirmation outnumbers denial 91 to 7, and the existential pair sits inside ditthi and avyakata framing: the eternalist sassato atta ca loko ca formula, the Pancattaya self-after-death catalogue, and the set-aside register. Of the 97 rows exported for coding, 57 carry sassato atta and 53 carry a ditthi term."
+    ],
+    "table": {
+     "caption": "Early-canon (1early) construction density, per million characters, primary passages. Existential denial rests on a single passage.",
+     "columns": [
+      "construction",
+      "hits",
+      "per Mchar"
+     ],
+     "rows": [
+      [
+       "predicative triad",
+       "60",
+       "4.58"
+      ],
+      [
+       "khandha-applied predication",
+       "27",
+       "2.06"
+      ],
+      [
+       "maxim (sabbe dhamma anatta)",
+       "5",
+       "0.38"
+      ],
+      [
+       "existential affirmation (atthi atta)",
+       "7",
+       "0.53"
+      ],
+      [
+       "existential denial (natthi atta)",
+       "1",
+       "0.076"
+      ],
+      [
+       "reflexive atta control",
+       "278",
+       "21.23"
+      ],
+      [
+       "anicca sister-maxim control",
+       "126",
+       "9.62"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "The falsifiable core: R does not rise",
+    "paragraphs": [
+     "The predicted monotone rise does not occur. In count form R is 0.07 at the earliest stratum, 4.33 at the late-canon stratum (a maxim spike on three predicative passages), 0.87 in commentary, and 0.74 in tika: non-monotone, with commentary above tika, the reverse of the prediction.",
+     "Falsifier 4 fires: existential denial is negligible at every depth (canon 0.076, abhidhamma 0.000, commentary 0.000, tika 0.141 per million characters), never crossing the roughly 2 per million floor. There is no existential leg to rise. The only R movement is the predicative denominator collapsing about thirteen times into commentary (3.21 to 0.24 per million characters) as the formula is not re-cited densely downstream.",
+     "The headline R triple does not reconcile. The reported 0.223 / 0.765 / 0.783 matches neither the raw density query (0.143 / 1.733 / 1.478 per stratum) nor cleanly the raw count query, and the protocol canon-mula denominator (53.54 Mchar) does not match the dedup denominator in the run (mula strata sum about 26.9 Mchar; attha 29.49 and tika 28.36 do match). Any R triple must be recomputed and shown."
+    ],
+    "table": {
+     "caption": "Per-stratum R = (existential-denial + maxim) / predicative, count form, from query 02.",
+     "columns": [
+      "stratum",
+      "exist denial",
+      "maxim",
+      "predicative",
+      "R"
+     ],
+     "rows": [
+      [
+       "1early",
+       "1",
+       "5",
+       "84",
+       "0.07"
+      ],
+      [
+       "2late",
+       "1",
+       "12",
+       "3",
+       "4.33"
+      ],
+      [
+       "3abh",
+       "0",
+       "1",
+       "1",
+       "1.00"
+      ],
+      [
+       "4para",
+       "0",
+       "1",
+       "3",
+       "0.33"
+      ],
+      [
+       "5comm (commentary)",
+       "0",
+       "13",
+       "15",
+       "0.87"
+      ],
+      [
+       "6tika",
+       "3",
+       "14",
+       "23",
+       "0.74"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "The negative-control result (decisive)",
+    "paragraphs": [
+     "The reflexive atta control moved hard with the apparent signal, rising 20.1 to 302.7 to 205.5 per million characters across canon, commentary, and tika, a roughly ten to fifteen fold climb that dwarfs any R movement. By the frozen rule, the constructional reading is withdrawn and falsifier 3 fires: R indexes generic atta-stem register and length, not the predicative-versus-existential construction.",
+     "The anicca sister-maxim control also moved, rising into commentary at 1.27 per million characters, steeper than the anatta maxim at 0.44 in the same layer. Falsifier 2 fires: the maxim component of R is the generic sabbe-plus-X-plus-mark template proliferating in exegesis, not anything specific to anatta.",
+     "The kappa gate is unrun. The existential, anatta, and reflexive sense audits were exported but inter-annotator kappa is not yet computed. Three blind coders coded the existential-sense rows with high agreement where codings coincide, supporting the qualitative read that the bucket is quoted wrong-view and set-aside material; that support holds only as far as the coders agree, and no anatta-derived or existential-derived density is trusted, with a contamination rate attached, until kappa clears 0.70."
+    ],
+    "table": {
+     "caption": "Negative controls move with the layer, per million characters. Both controls are required to be flat for H1 to survive; neither is.",
+     "columns": [
+      "control",
+      "canon (1early)",
+      "commentary (attha)",
+      "tika"
+     ],
+     "rows": [
+      [
+       "reflexive atta",
+       "20.1",
+       "302.7",
+       "205.5"
+      ],
+      [
+       "anicca sister-maxim",
+       "0.38",
+       "1.27",
+       "0.71"
+      ],
+      [
+       "anatta maxim (for contrast)",
+       "0.38",
+       "0.44",
+       "0.49"
+      ],
+      [
+       "existential denial (for contrast)",
+       "0.076",
+       "0.000",
+       "0.141"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "Secondary nulls",
+    "paragraphs": [
+     "The translator handle is null. The form no-self never appears; not-self splits only by translator house style (sujato 105, thanissaro 22, smaller counts elsewhere), with non-self appearing a handful of times. This is translator habit, not a layer or doctrinal discriminator.",
+     "The commentary read-back returned zero rows. The parallel graph carries no attha or tika links onto the early predicative anchors under the query as written, so the gloss-density diagnostic is unrun, not negative, and must be reported as a graph gap rather than as low commentarial attention."
+    ]
+   },
+   {
+    "heading": "What it means and what it does not",
+    "paragraphs": [
+     "It means the canon premise of the distributional leg holds in-corpus (predicative dominates existential denial by roughly 47 to 60 times early), but the predicted rising existential or generalizing gradient is absent, and the apparent gradient is a measurement artifact of generic atta-stem register and the generic maxim template, both exposed by the frozen controls. The pre-committed null wins, with falsifiers 2, 3, and 4 firing.",
+     "It does not mean Wynne is wrong about anything historical. The study cannot touch chronology (layer is a lookup), cannot touch the redactional leg, and cannot adjudicate whether early Buddhism taught no-self ontologically or strategically. The null shows only that the predicative-versus-existential distinction is not differentially expressed as constructional density across the held layers."
+    ]
+   }
+  ],
+  "scope_limits": [
+   "Corpus-linguistic only: construction density and register, never a doctrinal verdict on whether the canon teaches no-self ontologically.",
+   "Layer is a work_role and work_slug lookup, not chronology; a layer difference is a register statement about the held corpus, not a dated diachronic claim and not independent corroboration of Wynne's relative-chronology argument.",
+   "Existential-denial densities rest on single-digit raw counts where one passage swings a per-million figure by about 0.08; the per-character framing overstates precision and the small n is stated next to every density.",
+   "No anatta-derived or reflexive-control density is trusted until the kappa 0.70 sense-audit gate is run and the contamination rate reported; coder support extends only as far as the blind coders agree.",
+   "The reported R triple does not reconcile to the raw queries and the protocol denominators do not match the run; recompute and show the arithmetic before publishing any R value.",
+   "Foreign-language parallels are graph-only; the read-back diagnostic returned zero rows and is unrun, not negative.",
+   "Edition coarseness makes distinct-sutta counts edition-dependent; the null is a first-class result and does not refute Wynne, only shows his distinction is not differentially expressed as density in this corpus."
+  ],
+  "citations": [
+   "SN22.59 Anattalakkhana (predicative triad anchor)",
+   "MN35 Culasaccaka (predicative anchor)",
+   "SN44.10 Vacchagotta avyakata (existential set-aside anchor)",
+   "Dhammapada 279 (sabbe dhamma anatta maxim)",
+   "MN102 Pancattaya (self-after-death view catalogue)",
+   "MN2 Sabbasava (six-views atthi me atta / natthi me atta)",
+   "Udana 6.5, 6.6 (sassato atta ca loko ca eternalist formula)",
+   "Snp4.14 Tuvataka (natthi atta in early canon)",
+   "pli-vism Visuddhimagga (commentary-as-mula)",
+   "pli-mn-tika, pli-an-tika, pli-abh-tika (subcommentary existential rows)"
+  ]
+ },
+ "iaa": {
+  "n_coders": 3,
+  "pairwise_cohen": [
+   0.4484,
+   0.2932,
+   0.4243
+  ],
+  "mean_pairwise_cohen": 0.3886,
+  "fleiss_kappa": 0.3769,
+  "n_items": 97,
+  "Pbar": 0.732,
+  "Pe": 0.5698,
+  "class_distribution": {
+   "asserted-position": 17,
+   "avyakata-set-aside": 8,
+   "avyākata-set-aside": 14,
+   "contingent-nonself": 16,
+   "denied-view": 19,
+   "quoted-wrong-view": 217
+  }
+ }
+}
