@@ -29,6 +29,29 @@ Add freely; promote a row to a `PREREG_*_seed.md` when it's ready to kick off.
 |---|---|
 | **Heteronym census** | Words the canon deliberately runs across referents: nāga (serpent/elephant/epithet/tree), loka (cosmos/experience), kuru (continent/janapada/observance), dhātu (element/realm/relic). A meta-study of canonical polysemy. |
 
+## Candidate — doctrinal / philological / text-critical expansion (2026-06-24 sweep)
+
+Full ranked slate + method sketches + honorable mentions + cut list: `EXPANSION-SLATE-2026-06-24.md`.
+Honest ceiling: all graded groundbreaking=medium (first quantitative measurement of asserted-but-unmeasured
+distributions, not resolution of interpretive/redactional disputes). The "high" tier is gated on ingesting
+foreign-language parallel TEXT (see slate). Top picks:
+
+| Subject | The hook | Shape |
+|---|---|---|
+| **Vitakka/vicara gloss-shift** | dating the "application" (abhiniropana) reading canon→tika; piti negative control | gloss-shift density |
+| **Sati translator-drift** | memory→mindfulness at the English-translator boundary, vs DPD/PED baseline | translator-divergence |
+| **Sankhara translator sense-import** | wrong sense on identical collocations; translator × field confusion matrix | translator-divergence |
+| **Anatta predicative vs existential** | construction census of Wynne's never-measured distributional leg | construction census |
+| **Matika read-back** | does commentary import the Abhidhamma cross-classification grid into matika-poor suttas | canon-vs-commentary |
+| **Sabhava realist-drift seam** | does the realist frame crystallize at the 4para→5comm boundary (Ronkin) | gloss-shift density |
+| **Where the supernatural lives** | iddhi/abhinna density + dating the fixed six-abhinna list (PED's uncounted claim) | gloss-shift density |
+| **Formulaic budget** | unsupervised corpus-wide pericope-reuse map + Digha-distinctiveness | orality |
+| **Parallels-graph trio** | commentarial-load-vs-parallel-density / relation-type stratigraphy / coverage cartography | structural parallels |
+| **FOREIGN-TEXT INGEST (capability)** | ingest SC Chinese/Sanskrit parallel text → cross-lingual BGE-M3 comparison; unlocks the high tier | infra/unlock |
+
+Recommended first builds: **vitakka** (cleanest), then the **translator-divergence cluster** (sati+sankhara+anatta)
+as a coordinated workstream like cosmology was.
+
 ## Notes
 
 - The unifying methodological move across the cluster: **disambiguation up front** —
