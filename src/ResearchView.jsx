@@ -9,7 +9,7 @@
 // so deep links survive reload and re-clicking the sidebar tab returns to the
 // index. Mirrors DocsView / LibraryView hash handling.
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { isModifiedClick } from './linkHelpers.js';
 import useIsNarrow from './useIsNarrow.js';
 import useScrollHide from './useScrollHide.js';
@@ -61,6 +61,12 @@ const RESEARCH_ENTRIES = [
     title: 'The Commentarial Register',
     subtitle: 'Canon-versus-commentary density across nine doctrinal terms on the deduped per-character measure: a flagship divergence (sabhāva), a canon-denser not-self counter, and a withdrawn gradient method.',
     data: '/research/commentarial-register.json',
+  },
+  {
+    slug: 'sankhara',
+    title: 'Saṅkhāra and the Translator',
+    subtitle: 'On identical canonical text, the two highest-coverage modern translators render saṅkhāra at opposite poles: one lexicalises the active-passive split by collocation field, the other holds to a single word.',
+    data: '/research/sankhara.json',
   },
 ];
 
@@ -312,6 +318,7 @@ export default function ResearchView({ collection = 'research' }) {
       : entry.slug === 'naga' ? NagaStudy
       : entry.slug === 'come-and-see' ? ComeAndSeeStudy
       : entry.slug === 'commentarial-register' ? CommentarialRegisterStudy
+      : entry.slug === 'sankhara' ? SankharaStudy
       : AwakeningStudy;
     return (
       <>
@@ -3087,6 +3094,380 @@ function ComeAndSeeStudy({ entry, onBack, backLabel = 'Research' }) {
               <p style={footNote}>
                 Counter-thesis study, version {data.meta?.version}, snapshot {data.meta?.corpus_snapshot}. Every
                 corpus citation resolves to a passage in the reader.
+              </p>
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  );
+}
+
+// Saṅkhāra translator-divergence study: does a translator's rendering track the
+// collocation field, or collapse to one word? Data document at /research/sankhara.json.
+const SK_FIELD_ROWS = [
+  { key: 'do_link', label: 'Dependent origination', gloss: 'avijjāpaccayā saṅkhārā' },
+  { key: 'aggregate', label: 'The fourth aggregate', gloss: 'saṅkhārakkhandha' },
+  { key: 'triad', label: 'The body-speech-mind triad', gloss: 'kāya/vacī/cittasaṅkhāra' },
+  { key: 'maxim', label: 'The impermanence maxim', gloss: 'sabbe saṅkhārā aniccā' },
+];
+const skSenseShort = (f) => f === 'active-constructing' ? 'active' : f === 'passive-conditioned' ? 'passive' : f === 'neutral' ? 'neutral' : '·';
+function SkSense({ f }) {
+  if (!f) return <span style={tinyNote}>·</span>;
+  const color = f === 'active-constructing' ? 'var(--bc-accent)'
+    : f === 'passive-conditioned' ? 'var(--bc-text-secondary)' : 'var(--bc-text-tertiary)';
+  return <span style={{ fontSize: 10.5, letterSpacing: '0.06em', textTransform: 'uppercase', color, border: `1px solid ${f === 'active-constructing' ? 'rgba(var(--bc-accent-rgb), 0.35)' : 'rgba(var(--bc-accent-rgb), 0.18)'}`, borderRadius: 3, padding: '0 5px', whiteSpace: 'nowrap' }}>{skSenseShort(f)}</span>;
+}
+
+function SankharaStudy({ entry, onBack, backLabel = 'Research' }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [openEv, setOpenEv] = useState({});
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  const prof = useMemo(() => Object.fromEntries((data?.per_translator || []).map((p) => [p.translator, p])), [data]);
+  const maximClean = useMemo(() => (data?.maxim_table || []).filter((r) => r.status === 'clean'), [data]);
+  const maximOther = useMemo(() => (data?.maxim_table || []).filter((r) => r.status !== 'clean'), [data]);
+
+  const m = data?.meta || {};
+  const v = data?.verdict || {};
+  const fp = data?.field_footprint || {};
+  const iaa = data?.iaa || {};
+  const suj = prof.sujato || {};
+  const tha = prof.thanissaro || {};
+  const nan = prof.nanamoli || {};
+  const wal = prof.walshe || {};
+  const thin = data?.thin_maxim_points || {};
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to {backLabel}</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Abstract.</span> The Pāli word <em>saṅkhāra</em> is built from a verb
+                meaning to put together, and it carries an active-and-passive ambiguity by construction: the act
+                of constructing, and the thing constructed. The canon sets the word in fixed collocation fields
+                that lean different ways. The dependent-origination link (<em>avijjāpaccayā saṅkhārā</em>) and the
+                fourth aggregate (<em>saṅkhārakkhandha</em>, which the canon itself glosses as the classes of
+                volition) carry the constructing, kammic sense; the body, speech, and mind triad
+                (<em>kāyasaṅkhāra</em> and its fellows) a process sense; and the impermanence maxim
+                (<em>sabbe saṅkhārā aniccā</em>, "all <em>saṅkhārā</em> are impermanent") the passive,
+                conditioned-things sense. This study asks whether a modern translator who renders the whole canon
+                disambiguates <em>saṅkhāra</em> by field or holds to one word. On the corpus's two highest-coverage
+                modern translators the answer is sharp and opposite, and it holds at two levels. Across full
+                coverage, Sujato's leading word <em>choices</em> holds in {fmt(suj.default_count)} of his{' '}
+                {fmt(suj.n_own_text)} own-text rows but gives way to <em>processes</em> for the triad and{' '}
+                <em>conditions</em> for the maxim, while Thanissaro's <em>fabrications</em> holds in{' '}
+                {fmt(tha.default_count)} of {fmt(tha.n_own_text)} across every field. On the smaller set of
+                identical maxim lines the corpus carries for both (Dhammapada 277, SN 22.90, MN 35; five Sujato
+                rows against three of Thanissaro's), the two sit at opposite poles. Coders blind to the
+                translators place <em>choices</em> as active and <em>conditions</em> as passive, so Sujato's switch
+                tracks the active-to-passive boundary the grammar marks, while Thanissaro carries one
+                active-leaning word into the passive slot. The result is a per-translator
+                consistency-and-disambiguation profile with named exemplars, not inferential statistics: it settles
+                how each translator behaves and how consistent each is, not which rendering is right.
+              </p>
+
+              <p style={methodNote}>
+                A note on method. Every rendering resolves to a passage that opens in the reader, and every count
+                re-derives from the committed enumeration. The collocation field is coded from the Pāli original by
+                fixed markers; the rendering is coded from the English translation, by independent rules, so the
+                two-axis table is free to disconfirm the thesis. The maxim is a single short line, so the word
+                standing for <em>saṅkhāra</em> reads directly off the English; the constructing fields are coded on
+                a frozen set of canonical exemplar passages and confirmed by a corpus-wide dominant-word count. The
+                sense of each English rendering, active or passive or neutral, was classified by five coders blind
+                to the translators and to the thesis (Fleiss <em>κ</em> = {fmtRate(iaa.kappa)} on{' '}
+                {iaa.n_lexemes} renderings). The canon is ingested under two editions; counts are deduplicated to
+                one row per text, and the deduped totals (Sujato {fmt(suj.n_own_text)}, Thanissaro{' '}
+                {fmt(tha.n_own_text)}) match the prior deep-research probe exactly. The study is pre-registered
+                (<code style={casCode}>{m.prereg}</code>, frozen before coding), with the enumeration committed
+                query-to-result (<code style={casCode}>{m.enumeration}</code>).
+              </p>
+
+              <h2 style={h2}>The word, and the fields it sits in</h2>
+              <p>
+                A single Pāli noun does the work of several English ones. <em>Saṅkhāra</em> joins the prefix{' '}
+                <em>saṃ</em> ("together") to the root <em>kar</em> ("to do, make"), and like the English word
+                "building", which names both the act and the result, it points two ways at once: toward the active
+                constructing that volition performs, and toward the passive result, the conditioned thing that has
+                been put together. The canon does not resolve the ambiguity; it deploys the word in fixed phrases
+                that each lean one way. In dependent origination, <em>saṅkhārā</em> are what ignorance conditions,
+                the kammic activities that drive rebirth. As the fourth of the five aggregates they are glossed by
+                the canon itself as the six classes of volition (<em>cha cetanākāyā</em>). In the body, speech, and
+                mind triad they are the in-and-out breath, applied-and-sustained thought, and perception-and-feeling
+                that condition the respective process. And in the recited maxim <em>sabbe saṅkhārā aniccā</em>,
+                "all <em>saṅkhārā</em> are impermanent", the word reaches its widest, passive span: everything
+                conditioned. The corpus carries {fmt(fp._total_own_text)} own-text rows with the word, distributed
+                across these fields ({fmt(fp.do_link)} in the dependent-origination phrasing, {fmt(fp.aggregate)} in
+                the aggregate, {fmt(fp.triad)} in the triad, {fmt(fp.maxim)} in the maxim). The question is what a
+                translator does when the same word must be carried across all of them.
+              </p>
+
+              <h2 style={h2}>Two translators at opposite poles</h2>
+              <p>
+                The two translators the corpus covers most fully are Sujato, whose complete SuttaCentral canon
+                supplies {fmt(suj.n_own_text)} own-text <em>saṅkhāra</em> rows, and Thanissaro, whose Access to
+                Insight corpus supplies {fmt(tha.n_own_text)}. Read across the four fields on matched exemplar
+                passages, they behave in exactly opposite ways. Sujato's word changes with the field:{' '}
+                <em>choices</em> where the sense is constructing (dependent origination at SN 12.1 and SN 12.2, the
+                aggregate at SN 22.48, SN 22.56, and SN 22.79), <em>processes</em> for the bodily-verbal-mental
+                triad (MN 44, MN 118), and <em>conditions</em> for the passive maxim. Thanissaro's word does not
+                change: <em>fabrications</em> serves the dependent-origination link, the aggregate, the triad, and
+                the maxim alike. His dominant rendering holds in {fmt(tha.default_count)} of his{' '}
+                {fmt(tha.n_own_text)} rows; Sujato's leading word, <em>choices</em>, holds in{' '}
+                {fmt(suj.default_count)} of {fmt(suj.n_own_text)}, the remainder being the field switches the table
+                below sets out.
+              </p>
+              <p style={tableCaption}>
+                The same four fields, rendered by the two highest-coverage translators on the frozen exemplar
+                passages and the maxim cell. Sujato's rendering varies with the field; Thanissaro's does not.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Collocation field</th>
+                      <th style={thLeft}>Sujato</th>
+                      <th style={thLeft}>Thanissaro</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {SK_FIELD_ROWS.map((f) => (
+                      <tr key={f.key} style={tr}>
+                        <td style={tdLeftSm}>{f.label} <span style={casGloss}>{f.gloss}</span></td>
+                        <td style={tdLeftSm}><em>{suj[f.key] || '·'}</em></td>
+                        <td style={tdLeftSm}><em>{tha[f.key] || '·'}</em></td>
+                      </tr>
+                    ))}
+                    <tr style={trTotal}>
+                      <td style={tdLeftSm}>Distinct words across the fields</td>
+                      <td style={tdLeftSm}>{suj.n_distinct} ({(suj.distinct_field_lexemes || []).join(', ')})</td>
+                      <td style={tdLeftSm}>{tha.n_distinct} ({(tha.distinct_field_lexemes || []).join(', ')})</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h2 style={h2}>The impermanence maxim, in full</h2>
+              <p>
+                Density of behaviour aside, the cleanest test sits at the maxim, because the line is short enough
+                that the word standing for <em>saṅkhāra</em> can be read straight off the English with no
+                guesswork. The maxim is also where the active-and-passive split is most exposed: <em>sabbe
+                saṅkhārā aniccā</em> means "all conditioned things are impermanent", the passive sense, and a
+                translator who has been writing an active word elsewhere must decide whether to keep it here. Every
+                own-text canonical maxim row that carries an English rendering is listed below. Sujato switches to{' '}
+                <em>conditions</em> on all {fmt(maximClean.filter((r) => r.translator === 'sujato').length)} of his;
+                Thanissaro keeps <em>fabrications</em> on all{' '}
+                {fmt(maximClean.filter((r) => r.translator === 'thanissaro').length)} of his. The other translators
+                with a maxim line render it passively too: Buddharakkhita "conditioned things", and even the loose
+                renderings (Olendzki's "conceptions", Suddhaso's "everything") sit on the passive or neutral side.
+                Thanissaro is the one translator who carries an active-leaning word into the slot.
+              </p>
+              <p style={tableCaption}>
+                Each maxim row opens the passage in the reader. The sense tag is the blind coders' majority for that
+                English word. Expand a row for the rendered line.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Passage</th>
+                      <th style={thLeft}>Translator</th>
+                      <th style={thLeft}>Renders <em>saṅkhārā</em> as</th>
+                      <th style={thLeft}>Sense</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {maximClean.map((r) => {
+                      const k = r.id + ':' + r.translator;
+                      return (
+                        <Fragment key={k}>
+                          <tr style={tr}>
+                            <td style={tdLeftSm}><Cite id={r.id}>{r.citation}</Cite></td>
+                            <td style={tdLeftSm}>{r.translator}</td>
+                            <td style={tdLeftSm}>
+                              <em>{r.rendered_lexeme}</em>{' '}
+                              <button style={evToggle} onClick={() => setOpenEv((o) => ({ ...o, [k]: !o[k] }))} aria-expanded={!!openEv[k]}>
+                                {openEv[k] ? 'hide' : 'line'}
+                              </button>
+                            </td>
+                            <td style={tdLeftSm}><SkSense f={r.sense_family} /></td>
+                          </tr>
+                          {openEv[k] && (
+                            <tr>
+                              <td style={{ ...tdLeftSm, paddingTop: 0 }} colSpan={4}>
+                                <span style={evEvidence}>“…{r.evidence_en}…”</span>
+                              </td>
+                            </tr>
+                          )}
+                        </Fragment>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                One contamination has to be ruled out. A bare count of the English word "condition" would
+                over-count, because two other Pāli words also surface as "condition": <em>paccaya</em>, the
+                "requisite condition" of the dependent-origination connector, and <em>saṅkhata</em>, "conditioned".
+                Neither is <em>saṅkhāra</em>. The maxim reading is safe from both because it is coded on the single
+                short line, where the rendered word is the grammatical subject of "are impermanent" and is therefore{' '}
+                <em>saṅkhārā</em> with certainty; <em>paccaya</em> "requisite condition" sits in the
+                dependent-origination phrasing ("from ignorance as a requisite condition come fabrications"), never in
+                the maxim subject. Each maxim row stores its rendered English line in the dataset, so the boundary is
+                checkable by hand: Sujato's five lines all read "all conditions are impermanent", Thanissaro's three
+                "all fabrications are inconstant". The corpus-wide background count, used only to confirm the
+                defaults, strips the phrases "requisite condition" and "as a condition" before counting for the same
+                reason.
+              </p>
+              <p style={tinyNote}>
+                Recorded but excluded from the clean count: the Visuddhimagga's quotation of the maxim
+                (commentary, not canon), and SN 22.43, where the maxim verse is present in the Pāli but both
+                translators render the surrounding per-aggregate prose ("all form", "all bodies"), so no single
+                maxim word is isolable. Both are kept in the dataset with that status.
+              </p>
+
+              <h2 style={h2}>Does the switch track the sense?</h2>
+              <p>
+                That Sujato's word changes by field is a plain observation anyone can re-check from the rows. Whether
+                the change is principled, whether it tracks the active-and-passive boundary the grammar marks rather
+                than being arbitrary, is a question about the English words' sense, and that was put to five coders
+                who saw only the renderings and a construction-act-versus-result codebook, blind to which translator
+                used which word and to the thesis under test. They agreed at Fleiss <em>κ</em> ={' '}
+                {fmtRate(iaa.kappa)} overall, across the {iaa.n_lexemes} distinct renderings. Per word, on the two
+                that carry the headline they were decisive: <em>conditions</em> and "conditioned things" were called
+                passive by all five coders, and <em>choices</em> active by four of five (the per-word codings are
+                in the dataset). So Sujato's move from <em>choices</em> to <em>conditions</em> at the maxim is a move from the
+                active pole to the passive one, the switch the sense calls for. Thanissaro's <em>fabrications</em>{' '}
+                was called active by four of five; carried unchanged into the passive maxim slot, it imports the
+                constructing sense where the line means the conditioned. The colourless renderings behaved as
+                expected: "formations" came out neutral, "processes" split between active and neutral. The
+                headline does not rest on these calls, only on the fact that the words differ by field; the sense
+                coding tells us the difference is the doctrinally right one, not noise.
+              </p>
+
+              <h2 style={h2}>The rest of the panel, and what the corpus cannot place</h2>
+              <p>
+                Beyond the two poles the panel thins quickly. Ñāṇamoli supplies {fmt(nan.n_own_text)} rows, but they
+                are the Visuddhimagga, a commentary, not the canon, and his default there is the deliberately
+                colourless <em>formations</em> ({fmt(nan.default_count)} rows); he is profiled for his word, not
+                entered in the canonical head-to-head. Walshe's Dīgha gives {fmt(wal.n_own_text)} rows, also
+                defaulting to <em>formations</em>, but with no isolable maxim line his field-disambiguation cannot
+                be read. The remaining translators appear only in single figures. Where they reach the maxim they
+                render it passively or loosely: Buddharakkhita "{Object.keys(thin.buddharakkhita || {})[0]}",
+                Olendzki "{Object.keys(thin.olendzki || {})[0]}", Suddhaso
+                "{Object.keys(thin.suddhaso || {})[0]}" (which flattens even the maxim's own three lines into one
+                word). Two translators the literature would most want are beyond reach: Horner, the one translator
+                documented to split <em>saṅkhāra</em> by context, has no own-text <em>saṅkhāra</em> rows in the
+                corpus at all, and Bodhi, the advocate of one fixed word, has two. Placing either would need their
+                full Saṃyutta and Majjhima ingested; that is named future work, not a precondition for the
+                Sujato-and-Thanissaro result, which is already saturated.
+              </p>
+
+              <h2 style={h2}>What this settles, and what it does not</h2>
+              <p>
+                The finding is narrow by design. It is a study of translation behaviour on identical canonical
+                text, and it settles three things: each translator's dominant word, how consistently that word is
+                held, and whether the rendering tracks the collocation field. It does not settle which rendering is
+                correct. A single-word policy has a real defence, that one Pāli term should answer to one English
+                term so a reader can follow it across contexts, and the data shows Thanissaro is consistent in
+                holding to it, not that he is wrong. Sujato is equally consistent in the opposite policy, letting the
+                English follow the contextual sense at the cost of one-to-one traceability; his three-way split is an
+                observed pattern in the renderings, reported here as behaviour, not attributed to a stated principle.
+                Nor is this a claim about <em>saṅkhāra</em>'s meaning: the active-and-passive split is the
+                translators', read off their English, and the corpus cannot adjudicate the underlying semantics. The
+                head-to-head intersection is small, a handful of suttas that carry the maxim and more than one
+                translator, so the numbers are a demonstration with named exemplars, not inferential statistics. What
+                holds is the shape: on the same lines, the two translators the corpus covers most fully render the
+                canon's most-recited maxim at opposite ends of the word's own ambiguity.
+              </p>
+
+              <h2 style={h2}>The pre-registered predictions</h2>
+              <p style={tableCaption}>
+                The predictions frozen before the enumeration, scored verbatim against the result. P1 through P3
+                each carried a pre-committed disconfirming-case count; none fired. P4 is a measured coverage limit,
+                reported rather than scored as a pass or fail.
+              </p>
+              <div style={{ margin: '6px 0 10px' }}>
+                {(data.predictions || []).map((p) => (
+                  <div key={p.id} style={{ marginBottom: 10, lineHeight: 1.6 }}>
+                    <span style={{ fontWeight: 600 }}>{p.id}.</span>{' '}
+                    {(() => {
+                      const isPass = p.result === 'PASS';
+                      const isFail = p.result === 'FAIL';
+                      const col = isPass ? 'var(--bc-accent)' : isFail ? 'var(--bc-loss-text)' : 'var(--bc-text-tertiary)';
+                      const bord = isPass ? 'rgba(var(--bc-accent-rgb), 0.4)' : isFail ? 'rgba(var(--bc-loss-text-rgb), 0.5)' : 'rgba(var(--bc-accent-rgb), 0.22)';
+                      return <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.06em', color: col, border: `1px solid ${bord}`, borderRadius: 3, padding: '0 6px', marginRight: 6 }}>{p.result}</span>;
+                    })()}
+                    {p.claim}
+                    <div style={{ ...tinyNote, marginTop: 2 }}>{p.detail}</div>
+                  </div>
+                ))}
+              </div>
+
+              <h2 style={h2}>Coverage</h2>
+              <p style={tableCaption}>
+                Distinct translators with at least one own-text <em>saṅkhāra</em> row, deduplicated across the two
+                editions. The instrument is mostly a Sujato-versus-Thanissaro comparison; the long tail is too thin
+                to profile.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Translator</th>
+                      <th style={thLeft}>Source</th>
+                      <th style={thNum}>Own-text rows</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(data.coverage || []).slice(0, 12).map((c, i) => (
+                      <tr key={i} style={tr}>
+                        <td style={tdLeftSm}>{c.translator}</td>
+                        <td style={tdLeftSm}>{c.source}</td>
+                        <td style={tdNum}>{fmt(c.n)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <p style={footNote}>
+                Translation-behaviour study, version {m.version}, snapshot {m.corpus_snapshot}. Sense-family
+                coding by blind k={iaa.raters} coders (Fleiss κ = {fmtRate(iaa.kappa)}). The disclosed seed is the
+                deep-research report <code style={casCode}>research/deep-research/sankhara.md</code>. Every corpus
+                citation resolves to a passage in the reader.
               </p>
             </div>
           </>

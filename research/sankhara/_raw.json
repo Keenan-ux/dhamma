@@ -1,0 +1,586 @@
+{
+ "meta": {
+  "as_of": "2026-06-25",
+  "corpus": "194710 passages",
+  "stem": "saṅkhār|saṃkhār",
+  "field_patterns": {
+   "do_link": "avijjāpaccayā saṅkhārā|saṅkhārapaccayā|saṅkhāra-paccayā",
+   "aggregate": "saṅkhārakkhandh",
+   "aggregate_enum": "saññā +saṅkhārā +viññāṇ|vedanā +saññā +saṅkhārā",
+   "maxim": "sabbe +saṅkhārā +(anicc|dukkh)",
+   "triad": "(kāya|vacī|vací|citta|mano)-?saṅkhār"
+  },
+  "exemplar_loci": {
+   "do_link": [
+    "sn12.1",
+    "sn12.2"
+   ],
+   "aggregate": [
+    "sn22.48",
+    "sn22.56",
+    "sn22.79"
+   ],
+   "triad": [
+    "mn44",
+    "mn118"
+   ]
+  }
+ },
+ "field_footprint": {
+  "_total_own_text": 953,
+  "do_link": 80,
+  "aggregate": 99,
+  "aggregate_enum": 13,
+  "maxim": 30,
+  "triad": 156
+ },
+ "footprint_by_layer_primary": {
+  "anya": 152,
+  "attha": 1937,
+  "mula": 1270,
+  "tika": 2456
+ },
+ "coverage": [
+  {
+   "translator": "sujato",
+   "source": "sc",
+   "n": 513
+  },
+  {
+   "translator": "nanamoli",
+   "source": "bps-direct",
+   "n": 240
+  },
+  {
+   "translator": "thanissaro",
+   "source": "ati",
+   "n": 155
+  },
+  {
+   "translator": "walshe",
+   "source": "ati",
+   "n": 18
+  },
+  {
+   "translator": "brahmali",
+   "source": "sc",
+   "n": 11
+  },
+  {
+   "translator": "ireland",
+   "source": "bps-direct",
+   "n": 9
+  },
+  {
+   "translator": "suddhaso",
+   "source": "sc",
+   "n": 7
+  },
+  {
+   "translator": "kelly",
+   "source": "sc",
+   "n": 6
+  },
+  {
+   "translator": "buddharakkhita",
+   "source": "ati",
+   "n": 6
+  },
+  {
+   "translator": "nyanaponika",
+   "source": "ati",
+   "n": 5
+  },
+  {
+   "translator": "ireland",
+   "source": "ati",
+   "n": 5
+  },
+  {
+   "translator": "olendzki",
+   "source": "ati",
+   "n": 4
+  },
+  {
+   "translator": "nanamoli",
+   "source": "ati",
+   "n": 3
+  },
+  {
+   "translator": "bodhi",
+   "source": "ati",
+   "n": 2
+  },
+  {
+   "translator": "nanamoli-bodhi",
+   "source": "ati",
+   "n": 2
+  },
+  {
+   "translator": "nizamis",
+   "source": "ati",
+   "n": 2
+  },
+  {
+   "translator": "piyadassi",
+   "source": "ati",
+   "n": 2
+  },
+  {
+   "translator": "soma",
+   "source": "ati",
+   "n": 2
+  },
+  {
+   "translator": "sister-uppalavanna",
+   "source": "ati",
+   "n": 1
+  },
+  {
+   "translator": "nyanasatta",
+   "source": "ati",
+   "n": 1
+  },
+  {
+   "translator": "vajira",
+   "source": "ati",
+   "n": 1
+  },
+  {
+   "translator": "nyanaponika",
+   "source": "bps-direct",
+   "n": 1
+  }
+ ],
+ "maxim_rows": [
+  {
+   "id": "dhp273-289",
+   "citation": "DHP 273-289",
+   "work_slug": "pli-dhp",
+   "is_primary": true,
+   "translator": "buddharakkhita",
+   "source": "ati",
+   "rendered_word": "conditioned things",
+   "snippet_en": "of Mara. 277. \"All conditioned things are impermanent\" — when one se",
+   "snippet_pali": "ino mārabandhanā. Aniccalakkhaṇavatthu “Sabbe saṅkhārā aniccā”ti, yadā paññāya passati; Atha nibbindati dukkhe, esa maggo visuddhi"
+  },
+  {
+   "id": "cst-e0102n.mul-68_p039",
+   "citation": "Vism §68.39",
+   "work_slug": "pli-vism",
+   "is_primary": true,
+   "translator": "nanamoli",
+   "source": "bps-direct",
+   "rendered_word": null,
+   "snippet_en": "The knowledge that has been established by the overcoming of doubt about the three periods of time by discerning the conditions of mentality-materiality accordi",
+   "snippet_pali": " sammādassanaṃ hoti, kathaṃ tadanvayena sabbe saṅkhārā aniccato sudiṭṭhā honti, kattha kaṅkhā pahīyati? Dukkhato…pe… anattato mana"
+  },
+  {
+   "id": "thag15.1",
+   "citation": "THAG 15.1",
+   "work_slug": "pli-thag",
+   "is_primary": true,
+   "translator": "olendzki",
+   "source": "ati",
+   "rendered_word": "conceptions",
+   "snippet_en": "y the wind, So all conceptions come to rest — When one see",
+   "snippet_pali": "ammanti saṅkappā, yadā paññāya passati. Sabbe saṅkhārā aniccāti, yadā paññāya passati; Atha nibbindati dukkhe, esa maggo visuddhiy"
+  },
+  {
+   "id": "dhp273-289",
+   "citation": "DHP 273-289",
+   "work_slug": "pli-dhp",
+   "is_primary": true,
+   "translator": "suddhaso",
+   "source": "sc",
+   "rendered_word": "everything",
+   "snippet_en": "Collection of Minor Texts Verses of Dhamma The Path Chapter The best of paths is the Eightfold; of truths, the one in four steps. The best of qualities is dispa",
+   "snippet_pali": "ino mārabandhanā. Aniccalakkhaṇavatthu “Sabbe saṅkhārā aniccā”ti, yadā paññāya passati; Atha nibbindati dukkhe, esa maggo visuddhi"
+  },
+  {
+   "id": "an3.136",
+   "citation": "AN 3.136",
+   "work_slug": "pli-an",
+   "is_primary": true,
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "conditions",
+   "snippet_en": "al principles: all conditions are impermanent. A Realized On",
+   "snippet_pali": "sā dhātu dhammaṭṭhitatā dhammaniyāmatā. Sabbe saṅkhārā aniccā. Taṁ tathāgato abhisambujjhati abhisameti. Abhisambujjhitvā abhisame"
+  },
+  {
+   "id": "dhp273-289",
+   "citation": "DHP 273-289",
+   "work_slug": "pli-dhp",
+   "is_primary": true,
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "conditions",
+   "snippet_en": "Māra’s bonds. All conditions are impermanent— when this is",
+   "snippet_pali": "ino mārabandhanā. Aniccalakkhaṇavatthu “Sabbe saṅkhārā aniccā”ti, yadā paññāya passati; Atha nibbindati dukkhe, esa maggo visuddhi"
+  },
+  {
+   "id": "mn35",
+   "citation": "MN 35",
+   "work_slug": "pli-mn",
+   "is_primary": true,
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "conditions",
+   "snippet_en": "are not-self. All conditions are impermanent. All things ar",
+   "snippet_pali": "attā, saṅkhārā anattā, viññāṇaṁ anattā. Sabbe saṅkhārā aniccā, sabbe dhammā anattā’ti. Evaṁ kho, aggivessana, bhagavā sāvake vinet"
+  },
+  {
+   "id": "sn22.43",
+   "citation": "SN 22.43",
+   "work_slug": "pli-sn",
+   "is_primary": true,
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": null,
+   "snippet_en": "Linked Discourses 22.43 5. Be Your Own Island Be Your Own Island At Sāvatthī. “Mendicants, be your own island, your own refuge, with no other refuge. Let the te",
+   "snippet_pali": "rodhaṁ, ‘pubbe ceva saṅkhārā etarahi ca sabbe saṅkhārā aniccā dukkhā vipariṇāmadhammā’ti, evametaṁ yathābhūtaṁ sammappaññāya passa"
+  },
+  {
+   "id": "sn22.90",
+   "citation": "SN 22.90",
+   "work_slug": "pli-sn",
+   "is_primary": true,
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "conditions",
+   "snippet_en": "are not-self. All conditions are impermanent. All things ar",
+   "snippet_pali": "ā … saññā … saṅkhārā … viññāṇaṁ anattā. Sabbe saṅkhārā aniccā; sabbe dhammā anattā”ti. Atha kho āyasmato channassa etadahosi: “may"
+  },
+  {
+   "id": "thag15.1",
+   "citation": "THAG 15.1",
+   "work_slug": "pli-thag",
+   "is_primary": true,
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "conditions",
+   "snippet_en": "n with wisdom. All conditions are impermanent— when this is",
+   "snippet_pali": "ammanti saṅkappā, yadā paññāya passati. Sabbe saṅkhārā aniccāti, yadā paññāya passati; Atha nibbindati dukkhe, esa maggo visuddhiy"
+  },
+  {
+   "id": "dhp273-289",
+   "citation": "DHP 273-289",
+   "work_slug": "pli-dhp",
+   "is_primary": true,
+   "translator": "thanissaro",
+   "source": "ati",
+   "rendered_word": "fabrications",
+   "snippet_en": "discernment, 'All fabrications are inconstant' — you grow di",
+   "snippet_pali": "ino mārabandhanā. Aniccalakkhaṇavatthu “Sabbe saṅkhārā aniccā”ti, yadā paññāya passati; Atha nibbindati dukkhe, esa maggo visuddhi"
+  },
+  {
+   "id": "mn35",
+   "citation": "MN 35",
+   "work_slug": "pli-mn",
+   "is_primary": true,
+   "translator": "thanissaro",
+   "source": "ati",
+   "rendered_word": "fabrications",
+   "snippet_en": "s is not-self. All fabrications are inconstant. All phenomena",
+   "snippet_pali": "attā, saṅkhārā anattā, viññāṇaṁ anattā. Sabbe saṅkhārā aniccā, sabbe dhammā anattā’ti. Evaṁ kho, aggivessana, bhagavā sāvake vinet"
+  },
+  {
+   "id": "sn22.90",
+   "citation": "SN 22.90",
+   "work_slug": "pli-sn",
+   "is_primary": true,
+   "translator": "thanissaro",
+   "source": "ati",
+   "rendered_word": "fabrications",
+   "snippet_en": "s is not-self. All fabrications are inconstant. All phenomena",
+   "snippet_pali": "ā … saññā … saṅkhārā … viññāṇaṁ anattā. Sabbe saṅkhārā aniccā; sabbe dhammā anattā”ti. Atha kho āyasmato channassa etadahosi: “may"
+  },
+  {
+   "id": "sn22.43",
+   "citation": "SN 22.43",
+   "work_slug": "pli-sn",
+   "is_primary": true,
+   "translator": "walshe",
+   "source": "ati",
+   "rendered_word": null,
+   "snippet_en": "\"Monks, be islands unto yourselves,[1] be your own refuge, having no other; let the Dhamma be an island and a refuge to you, having no other. Those who are isla",
+   "snippet_pali": "rodhaṁ, ‘pubbe ceva saṅkhārā etarahi ca sabbe saṅkhārā aniccā dukkhā vipariṇāmadhammā’ti, evametaṁ yathābhūtaṁ sammappaññāya passa"
+  }
+ ],
+ "exemplar_rows": [
+  {
+   "field": "do_link",
+   "id": "sn12.1",
+   "citation": "SN 12.1",
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "choices",
+   "context_en": "gination? Ignorance is a requirement for choices. Choices are a requirement for conscious",
+   "snippet_pali": "do? Avijjāpaccayā, bhikkhave, saṅkhārā; saṅkhārapaccayā viññāṇaṁ; viññāṇapaccayā nāmarūpaṁ; nāmarūpapaccayā saḷāyatanaṁ; saḷāyatan"
+  },
+  {
+   "field": "do_link",
+   "id": "sn12.2",
+   "citation": "SN 12.2",
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "choices",
+   "context_en": "gination? Ignorance is a requirement for choices. Choices are a requirement for conscious",
+   "snippet_pali": "do? Avijjāpaccayā, bhikkhave, saṅkhārā; saṅkhārapaccayā viññāṇaṁ; viññāṇapaccayā nāmarūpaṁ; nāmarūpapaccayā saḷāyatanaṁ; saḷāyatan"
+  },
+  {
+   "field": "do_link",
+   "id": "sn12.2",
+   "citation": "SN 12.2",
+   "translator": "thanissaro",
+   "source": "ati",
+   "rendered_word": "fabrications",
+   "context_en": "ing? From ignorance as a requisite condition come fabrications. From fabrications as a re",
+   "snippet_pali": "do? Avijjāpaccayā, bhikkhave, saṅkhārā; saṅkhārapaccayā viññāṇaṁ; viññāṇapaccayā nāmarūpaṁ; nāmarūpapaccayā saḷāyatanaṁ; saḷāyatan"
+  },
+  {
+   "field": "aggregate",
+   "id": "sn22.48",
+   "citation": "SN 22.48",
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "choices",
+   "context_en": "y kind of perception at all … Any kind of choices at all … A",
+   "snippet_pali": "oḷārikā vā sukhumā vā …pe… ayaṁ vuccati saṅkhārakkhandho. Yaṁ kiñci viññāṇaṁ atītānāgatapaccuppannaṁ ajjhattaṁ vā bahiddhā vā oḷār"
+  },
+  {
+   "field": "aggregate",
+   "id": "sn22.48",
+   "citation": "SN 22.48",
+   "translator": "thanissaro",
+   "source": "ati",
+   "rendered_word": null,
+   "context_en": null,
+   "snippet_pali": "oḷārikā vā sukhumā vā …pe… ayaṁ vuccati saṅkhārakkhandho. Yaṁ kiñci viññāṇaṁ atītānāgatapaccuppannaṁ ajjhattaṁ vā bahiddhā vā oḷār"
+  },
+  {
+   "field": "aggregate",
+   "id": "sn22.56",
+   "citation": "SN 22.56",
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "choices",
+   "context_en": "aggregates of form, feeling, perception, choices, and consciousness. As long",
+   "snippet_pali": "Saṁyutta Nikāya 22.56 6. Upayavagga Upādānaparipavattasutta Sāvatthinidānaṁ. “Pañcime, bhi"
+  },
+  {
+   "field": "aggregate",
+   "id": "sn22.56",
+   "citation": "SN 22.56",
+   "translator": "thanissaro",
+   "source": "ati",
+   "rendered_word": "fabrications",
+   "context_en": "ggregate, perception as a clinging-aggregate, fabrications a",
+   "snippet_pali": "Saṁyutta Nikāya 22.56 6. Upayavagga Upādānaparipavattasutta Sāvatthinidānaṁ. “Pañcime, bhi"
+  },
+  {
+   "field": "aggregate",
+   "id": "sn22.79",
+   "citation": "SN 22.79",
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "choices",
+   "context_en": "llusioned with form, feeling, perception, choices, and consciousness. Being di",
+   "snippet_pali": "Saṁyutta Nikāya 22.79 8. Khajjanīyavagga Khajjanīyasutta Sāvatthinidānaṁ. “Ye hi keci, bhi"
+  },
+  {
+   "field": "aggregate",
+   "id": "sn22.79",
+   "citation": "SN 22.79",
+   "translator": "thanissaro",
+   "source": "ati",
+   "rendered_word": "fabrication",
+   "context_en": "e sake of perception-hood... For the sake of fabrication-hoo",
+   "snippet_pali": "Saṁyutta Nikāya 22.79 8. Khajjanīyavagga Khajjanīyasutta Sāvatthinidānaṁ. “Ye hi keci, bhi"
+  },
+  {
+   "field": "triad",
+   "id": "mn44",
+   "citation": "MN 44",
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "process",
+   "context_en": "sses. The physical process, the verbal p",
+   "snippet_pali": "ā”ti? “Tayome, āvuso visākha, saṅkhārā— kāyasaṅkhāro, vacīsaṅkhāro, cittasaṅkhāro”ti. “Katamo panāyye, kāyasaṅkhāro, katamo vacīsa"
+  },
+  {
+   "field": "triad",
+   "id": "mn44",
+   "citation": "MN 44",
+   "translator": "thanissaro",
+   "source": "ati",
+   "rendered_word": "fabrications",
+   "context_en": "assumes (mental) fabrications to be t",
+   "snippet_pali": "ā”ti? “Tayome, āvuso visākha, saṅkhārā— kāyasaṅkhāro, vacīsaṅkhāro, cittasaṅkhāro”ti. “Katamo panāyye, kāyasaṅkhāro, katamo vacīsa"
+  },
+  {
+   "field": "triad",
+   "id": "mn118",
+   "citation": "MN 118",
+   "translator": "nanamoli",
+   "source": "bps-direct",
+   "rendered_word": "formation",
+   "context_en": "lming the bodily formation, I shall br",
+   "snippet_pali": "passasissāmī’ti sikkhati; ‘passambhayaṁ kāyasaṅkhāraṁ assasissāmī’ti sikkhati, ‘passambhayaṁ kāyasaṅkhāraṁ passasissāmī’ti sikkhat"
+  },
+  {
+   "field": "triad",
+   "id": "mn118",
+   "citation": "MN 118",
+   "translator": "sujato",
+   "source": "sc",
+   "rendered_word": "process",
+   "context_en": "lling the physical process.’ They practi",
+   "snippet_pali": "passasissāmī’ti sikkhati; ‘passambhayaṁ kāyasaṅkhāraṁ assasissāmī’ti sikkhati, ‘passambhayaṁ kāyasaṅkhāraṁ passasissāmī’ti sikkhat"
+  },
+  {
+   "field": "triad",
+   "id": "mn118",
+   "citation": "MN 118",
+   "translator": "thanissaro",
+   "source": "ati",
+   "rendered_word": "fabrication",
+   "context_en": "n calming bodily fabrication.'[3] He t",
+   "snippet_pali": "passasissāmī’ti sikkhati; ‘passambhayaṁ kāyasaṅkhāraṁ assasissāmī’ti sikkhati, ‘passambhayaṁ kāyasaṅkhāraṁ passasissāmī’ti sikkhat"
+  }
+ ],
+ "background_profile": {
+  "sujato/sc": {
+   "n_passages": 513,
+   "lexemes": {
+    "choice": 317,
+    "condition": 97,
+    "process": 21,
+    "force": 16,
+    "conception": 15,
+    "compound": 5
+   }
+  },
+  "nanamoli/bps-direct": {
+   "n_passages": 240,
+   "lexemes": {
+    "formation": 93,
+    "condition": 63,
+    "process": 12,
+    "volition": 11,
+    "construction": 3,
+    "compound": 1
+   }
+  },
+  "thanissaro/ati": {
+   "n_passages": 155,
+   "lexemes": {
+    "fabrication": 142,
+    "condition": 21,
+    "force": 15,
+    "process": 12,
+    "activity": 7,
+    "compound": 7
+   }
+  },
+  "walshe/ati": {
+   "n_passages": 18,
+   "lexemes": {
+    "formation": 14,
+    "condition": 6,
+    "process": 1,
+    "volition": 1
+   }
+  },
+  "brahmali/sc": {
+   "n_passages": 11,
+   "lexemes": {
+    "process": 2,
+    "determination": 2,
+    "activity": 2,
+    "force": 2,
+    "condition": 1,
+    "compound": 1
+   }
+  },
+  "ireland/bps-direct": {
+   "n_passages": 9,
+   "lexemes": {
+    "condition": 5,
+    "volition": 3,
+    "formation": 2,
+    "force": 1
+   }
+  },
+  "suddhaso/sc": {
+   "n_passages": 7,
+   "lexemes": {
+    "condition": 2,
+    "choice": 1
+   }
+  },
+  "buddharakkhita/ati": {
+   "n_passages": 6,
+   "lexemes": {
+    "condition": 6
+   }
+  },
+  "kelly/sc": {
+   "n_passages": 6,
+   "lexemes": {
+    "fabrication": 3,
+    "formation": 2,
+    "volition": 1,
+    "condition": 1,
+    "force": 1
+   }
+  },
+  "ireland/ati": {
+   "n_passages": 5,
+   "lexemes": {
+    "condition": 4,
+    "volition": 3,
+    "formation": 1
+   }
+  },
+  "nyanaponika/ati": {
+   "n_passages": 5,
+   "lexemes": {
+    "condition": 4,
+    "formation": 3,
+    "volition": 3,
+    "conception": 3,
+    "process": 2,
+    "determination": 1
+   }
+  },
+  "olendzki/ati": {
+   "n_passages": 4,
+   "lexemes": {
+    "formation": 2,
+    "process": 1,
+    "construction": 1,
+    "force": 1,
+    "conception": 1
+   }
+  },
+  "nanamoli/ati": {
+   "n_passages": 3,
+   "lexemes": {
+    "process": 1,
+    "volition": 1,
+    "determination": 1
+   }
+  },
+  "nanamoli-bodhi/ati": {
+   "n_passages": 2,
+   "lexemes": {
+    "formation": 2,
+    "volition": 1,
+    "condition": 1,
+    "activity": 1
+   }
+  }
+ }
+}

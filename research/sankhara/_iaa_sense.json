@@ -1,0 +1,542 @@
+{
+ "n_coders": 5,
+ "fleiss": {
+  "N": 14,
+  "raters": 5,
+  "Pbar": 0.8071,
+  "Pe": 0.3833,
+  "kappa": 0.6873
+ },
+ "majority": {
+  "choices": {
+   "codes": [
+    "passive-conditioned",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing"
+   ],
+   "majority": "active-constructing",
+   "agreement": 4,
+   "split": true
+  },
+  "fabrications": {
+   "codes": [
+    "neutral",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing"
+   ],
+   "majority": "active-constructing",
+   "agreement": 4,
+   "split": true
+  },
+  "formations": {
+   "codes": [
+    "active-constructing",
+    "passive-conditioned",
+    "neutral",
+    "neutral",
+    "neutral"
+   ],
+   "majority": "neutral",
+   "agreement": 3,
+   "split": true
+  },
+  "conditions": {
+   "codes": [
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned"
+   ],
+   "majority": "passive-conditioned",
+   "agreement": 5,
+   "split": false
+  },
+  "conditioned things": {
+   "codes": [
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned"
+   ],
+   "majority": "passive-conditioned",
+   "agreement": 5,
+   "split": false
+  },
+  "processes": {
+   "codes": [
+    "active-constructing",
+    "neutral",
+    "active-constructing",
+    "neutral",
+    "active-constructing"
+   ],
+   "majority": "active-constructing",
+   "agreement": 3,
+   "split": true
+  },
+  "conceptions": {
+   "codes": [
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned"
+   ],
+   "majority": "passive-conditioned",
+   "agreement": 5,
+   "split": false
+  },
+  "everything": {
+   "codes": [
+    "neutral",
+    "neutral",
+    "neutral",
+    "neutral",
+    "neutral"
+   ],
+   "majority": "neutral",
+   "agreement": 5,
+   "split": false
+  },
+  "determinations": {
+   "codes": [
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing"
+   ],
+   "majority": "active-constructing",
+   "agreement": 5,
+   "split": false
+  },
+  "activities": {
+   "codes": [
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing"
+   ],
+   "majority": "active-constructing",
+   "agreement": 5,
+   "split": false
+  },
+  "constructions": {
+   "codes": [
+    "active-constructing",
+    "active-constructing",
+    "neutral",
+    "active-constructing",
+    "neutral"
+   ],
+   "majority": "active-constructing",
+   "agreement": 3,
+   "split": true
+  },
+  "volitions": {
+   "codes": [
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing"
+   ],
+   "majority": "active-constructing",
+   "agreement": 5,
+   "split": false
+  },
+  "forces": {
+   "codes": [
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing",
+    "active-constructing"
+   ],
+   "majority": "active-constructing",
+   "agreement": 5,
+   "split": false
+  },
+  "compounds": {
+   "codes": [
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned",
+    "passive-conditioned"
+   ],
+   "majority": "passive-conditioned",
+   "agreement": 5,
+   "split": false
+  }
+ },
+ "raw_codings": [
+  [
+   {
+    "lexeme": "choices",
+    "sense_family": "passive-conditioned",
+    "rationale": "Names results (things chosen/selected); static and resultant in ordinary sense."
+   },
+   {
+    "lexeme": "fabrications",
+    "sense_family": "neutral",
+    "rationale": "Word carries both constructive overtones (from 'fabricate'='make') and passive sense (the made thing); context-dependent."
+   },
+   {
+    "lexeme": "formations",
+    "sense_family": "active-constructing",
+    "rationale": "Foregrounds the shaping/forming activity; 'volitional formations' emphasizes volitional activity constructing experience."
+   },
+   {
+    "lexeme": "conditions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Technical term naming states or circumstances that obtain; colourless and passive."
+   },
+   {
+    "lexeme": "conditioned things",
+    "sense_family": "passive-conditioned",
+    "rationale": "Explicitly uses past-participle passive construction; emphasizes things that HAVE BEEN conditioned."
+   },
+   {
+    "lexeme": "processes",
+    "sense_family": "active-constructing",
+    "rationale": "Ordinarily names ongoing sequences and unfolding activities; foregrounds the doing/activity aspect."
+   },
+   {
+    "lexeme": "conceptions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Ordinarily names results—ideas and thoughts conceived; passive sense of mental products."
+   },
+   {
+    "lexeme": "everything",
+    "sense_family": "neutral",
+    "rationale": "Generic colourless term; does not inherently foreground making, activity, result, or conditioned status."
+   },
+   {
+    "lexeme": "determinations",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes the volitional acts of deciding/settling/fixing; foregrounds active determination."
+   },
+   {
+    "lexeme": "activities",
+    "sense_family": "active-constructing",
+    "rationale": "Foregrounds doing and acting; emphasizes the performative/active aspect in ordinary sense."
+   },
+   {
+    "lexeme": "constructions",
+    "sense_family": "active-constructing",
+    "rationale": "Inherently emphasizes the act/process of building/making despite naming results; 'construct' is fundamentally about the making."
+   },
+   {
+    "lexeme": "volitions",
+    "sense_family": "active-constructing",
+    "rationale": "Names the faculty or act of willing/choosing; foregrounds volitional force and active power."
+   },
+   {
+    "lexeme": "forces",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes active power, potency, and driving energy; inherently active sense."
+   },
+   {
+    "lexeme": "compounds",
+    "sense_family": "passive-conditioned",
+    "rationale": "Names results that are compounded together; passive sense of things that have been put together."
+   }
+  ],
+  [
+   {
+    "lexeme": "choices",
+    "sense_family": "active-constructing",
+    "rationale": "Foregrounds volitional agency and the act of choosing/selecting among options"
+   },
+   {
+    "lexeme": "fabrications",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes the act of making or constructing; the verb 'fabricate' stresses the active manufacturing process"
+   },
+   {
+    "lexeme": "formations",
+    "sense_family": "passive-conditioned",
+    "rationale": "Names the result of forming—structures and configurations that have been formed"
+   },
+   {
+    "lexeme": "conditions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Names states or circumstances that have come to be; foregrounds the conditioned result"
+   },
+   {
+    "lexeme": "conditioned things",
+    "sense_family": "passive-conditioned",
+    "rationale": "Explicitly identifies things that have been conditioned; directly passive framing"
+   },
+   {
+    "lexeme": "processes",
+    "sense_family": "neutral",
+    "rationale": "Generically names procedure or sequence without committing to active doing or passive result"
+   },
+   {
+    "lexeme": "conceptions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Names mental contents that have been formed; foregrounds the result (idea/notion) rather than the act"
+   },
+   {
+    "lexeme": "everything",
+    "sense_family": "neutral",
+    "rationale": "Colourless, generic term that does not commit to active or passive framing"
+   },
+   {
+    "lexeme": "determinations",
+    "sense_family": "active-constructing",
+    "rationale": "Foregrounds the act of determining/deciding; emphasizes active agency and will-setting"
+   },
+   {
+    "lexeme": "activities",
+    "sense_family": "active-constructing",
+    "rationale": "Explicitly names active doing and engagement; foregrounds dynamic ongoing process"
+   },
+   {
+    "lexeme": "constructions",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes the act of building and volitional shaping; the verbal root meaning dominates"
+   },
+   {
+    "lexeme": "volitions",
+    "sense_family": "active-constructing",
+    "rationale": "Names acts of will and willing; foregrounds volitional agency and intention-setting"
+   },
+   {
+    "lexeme": "forces",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes dynamic power and active causal/volitional agency; the driving force"
+   },
+   {
+    "lexeme": "compounds",
+    "sense_family": "passive-conditioned",
+    "rationale": "Names things that have been compounded together; foregrounds the result of combining"
+   }
+  ],
+  [
+   {
+    "lexeme": "choices",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes volitional decision-making and the act of choosing rather than a static result."
+   },
+   {
+    "lexeme": "fabrications",
+    "sense_family": "active-constructing",
+    "rationale": "Suggests something actively made or constructed; the verb 'fabricate' foregrounds the making/doing process."
+   },
+   {
+    "lexeme": "formations",
+    "sense_family": "neutral",
+    "rationale": "Ambiguous between the act of forming and the result formed; neither pole is strongly foregrounded."
+   },
+   {
+    "lexeme": "conditions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Names states or circumstances that obtain; emphasizes the conditioned result rather than the conditioning process."
+   },
+   {
+    "lexeme": "conditioned things",
+    "sense_family": "passive-conditioned",
+    "rationale": "The adjective 'conditioned' explicitly marks these as products or results that have been conditioned."
+   },
+   {
+    "lexeme": "processes",
+    "sense_family": "active-constructing",
+    "rationale": "Foregrounds activity, unfolding, and dynamic doing rather than static phenomena."
+   },
+   {
+    "lexeme": "conceptions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Names conceptual structures already in place (results of conceiving) rather than the act of conceiving."
+   },
+   {
+    "lexeme": "everything",
+    "sense_family": "neutral",
+    "rationale": "Completely generic term with no semantic lean toward construction or conditioning."
+   },
+   {
+    "lexeme": "determinations",
+    "sense_family": "active-constructing",
+    "rationale": "Carries the sense of determining, deciding, resolving—volitional activity and agency."
+   },
+   {
+    "lexeme": "activities",
+    "sense_family": "active-constructing",
+    "rationale": "Explicitly foregrounds doing, action, and ongoing process rather than static results."
+   },
+   {
+    "lexeme": "constructions",
+    "sense_family": "neutral",
+    "rationale": "The noun is ambiguous between the building process and the built structures; neither pole dominates."
+   },
+   {
+    "lexeme": "volitions",
+    "sense_family": "active-constructing",
+    "rationale": "Names the will, intentional striving, and volitional acts—emphasizing active will-force."
+   },
+   {
+    "lexeme": "forces",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes power, dynamism, and active causal agency rather than static conditioned things."
+   },
+   {
+    "lexeme": "compounds",
+    "sense_family": "passive-conditioned",
+    "rationale": "Names the result of compounding—things made up of parts that have been put together."
+   }
+  ],
+  [
+   {
+    "lexeme": "choices",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes the act of choosing, the volitional decision-making process and active selection"
+   },
+   {
+    "lexeme": "fabrications",
+    "sense_family": "active-constructing",
+    "rationale": "Foregrounds the act of making/fabricating, the volitional shaping and constructing activity"
+   },
+   {
+    "lexeme": "formations",
+    "sense_family": "neutral",
+    "rationale": "Can point either to the act of forming (active) or to that which is formed (passive); the word itself is colourless about direction"
+   },
+   {
+    "lexeme": "conditions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Emphasizes the state or thing—conditioned phenomena and results, not the act of conditioning"
+   },
+   {
+    "lexeme": "conditioned things",
+    "sense_family": "passive-conditioned",
+    "rationale": "Explicitly foregrounds the result—things that have been conditioned, not the act of conditioning itself"
+   },
+   {
+    "lexeme": "processes",
+    "sense_family": "neutral",
+    "rationale": "Can mean either the act of processing or the pattern/thing that processes; treated generically without clear directional commitment"
+   },
+   {
+    "lexeme": "conceptions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Mental contents and results of the mind's activity, not the active conceiving itself; treats them as things"
+   },
+   {
+    "lexeme": "everything",
+    "sense_family": "neutral",
+    "rationale": "Entirely non-committal, purely generic and colourless; names all things without foregrounding construction or conditioning"
+   },
+   {
+    "lexeme": "determinations",
+    "sense_family": "active-constructing",
+    "rationale": "Foregrounds the act of determining, deciding, and shaping what will be; emphasizes the doing and the force that settles"
+   },
+   {
+    "lexeme": "activities",
+    "sense_family": "active-constructing",
+    "rationale": "Clearly foregrounds the act, the doing, and the active process; directly names volitional doing"
+   },
+   {
+    "lexeme": "constructions",
+    "sense_family": "active-constructing",
+    "rationale": "Foregrounds the act of constructing, building, and shaping; primarily evokes the making process"
+   },
+   {
+    "lexeme": "volitions",
+    "sense_family": "active-constructing",
+    "rationale": "Directly names the act of willing and the volitional force and activity; most explicitly active rendering"
+   },
+   {
+    "lexeme": "forces",
+    "sense_family": "active-constructing",
+    "rationale": "Foregrounds power and activity—the dynamic volitional doing that shapes experience; emphasizes active agency"
+   },
+   {
+    "lexeme": "compounds",
+    "sense_family": "passive-conditioned",
+    "rationale": "Emphasizes the result—things that are put together and composite phenomena; foregrounds the state of being compounded"
+   }
+  ],
+  [
+   {
+    "lexeme": "choices",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes the act of choosing, volitional decision-making, and agency in selecting."
+   },
+   {
+    "lexeme": "fabrications",
+    "sense_family": "active-constructing",
+    "rationale": "Carries inherent sense of making and fashioning; emphasizes the active process despite potential result-reading."
+   },
+   {
+    "lexeme": "formations",
+    "sense_family": "neutral",
+    "rationale": "Deliberately ambiguous between the act of forming and the things formed; does not commit to either pole."
+   },
+   {
+    "lexeme": "conditions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Foregrounds the state of being conditioned, the result or circumstance that has been established."
+   },
+   {
+    "lexeme": "conditioned things",
+    "sense_family": "passive-conditioned",
+    "rationale": "Explicitly frames these as objects that have been conditioned; the adjective makes the passive result-pole explicit."
+   },
+   {
+    "lexeme": "processes",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes ongoing activity, flowing and dynamic action; framed as active occurrences."
+   },
+   {
+    "lexeme": "conceptions",
+    "sense_family": "passive-conditioned",
+    "rationale": "Foregrounds mental constructs as static things conceived rather than the act of conceiving."
+   },
+   {
+    "lexeme": "everything",
+    "sense_family": "neutral",
+    "rationale": "Generic, colourless rendering that makes no commitment to active versus passive or result versus process."
+   },
+   {
+    "lexeme": "determinations",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes the act of determining and deciding; foregrounds volitional activity and agency."
+   },
+   {
+    "lexeme": "activities",
+    "sense_family": "active-constructing",
+    "rationale": "Explicitly names doing and action; clearly process-oriented and emphasizes ongoing enactment."
+   },
+   {
+    "lexeme": "constructions",
+    "sense_family": "neutral",
+    "rationale": "Ambiguous between the act of constructing and the thing constructed; does not commit to either pole."
+   },
+   {
+    "lexeme": "volitions",
+    "sense_family": "active-constructing",
+    "rationale": "Names the force of willing and volitional act; explicitly foregrounds the active, willing dimension."
+   },
+   {
+    "lexeme": "forces",
+    "sense_family": "active-constructing",
+    "rationale": "Emphasizes active power, energy, and causal efficacy; foregrounds dynamism and the act of forcing."
+   },
+   {
+    "lexeme": "compounds",
+    "sense_family": "passive-conditioned",
+    "rationale": "Foregrounds that which is made up of parts; emphasizes the structured, composed result."
+   }
+  ]
+ ]
+}
