@@ -5,7 +5,7 @@ supersedes the campaign-specific docs it points to. Internal doc; em-dashes allo
 deliverable prose. Update IN PLACE (snapshot, not append-log).*
 
 ## 1. Where things stand (one screen)
-Live at **https://dhamma.fly.dev/** (admin-gated Research tab). HEAD = `a0f7c37`, working tree clean,
+Live at **https://dhamma.fly.dev/** (admin-gated Research tab). HEAD = `36d1477`, working tree clean,
 origin in sync. The 2026-06-23 adversarial review of the whole research program, its full correction
 queue, a writing-standard hardening pass, and a brand-new 6th study all landed this session and are
 deployed. **There are now six Research studies** (awakening, individual-guidance, heart-base-and-insight,
@@ -56,23 +56,35 @@ IAA-scope, negative-control, span-aware coding), `COHERENCE-CHECKLIST.md` two ga
 
 ## 5. Open queue (in order)
 **Operator-gated (the only things blocking "fully done"; do NOT fire autonomously):**
-1. **Outreach.** `OUTREACH-EMAIL-DRAFT.md` is one clean ready draft (scholarly register, factual error
-   fixed). Operator adds name + confirms `contact@buddhistinquiry.org`, then SENDS it (outward action).
-2. **Dictionary expansion.** Blocked on a LICENSING decision (CPD has no clean bulk source; Cone is
-   PTS-copyright; see `DICTIONARIES.md` + `CPD_EMAIL_DRAFT.md`). Operator decides the path.
+1. **Outreach.** Three live unsent drafts remain: `OUTREACH-EMAIL-DRAFT.md` (consolidated BCBS/ATI, ready),
+   `BPS_EMAIL_DRAFT.md`, `SUTTACENTRAL_EMAIL_DRAFT.md`. Operator adds name + confirms the address, then
+   SENDS (outward action). (2026-06-24: `ATI_EMAIL_DRAFT.md` removed as superseded; `CPD_EMAIL_DRAFT.md`
+   removed as moot, see item 2.)
+2. **Dictionary expansion — CPD now UNBLOCKED.** Operator ruled CPD free for non-commercial scholarly use
+   (it appears discontinued), so no licensing inquiry is needed. This is now an INGEST task, not a gate:
+   add CPD to `dictionary_entries` (source='cpd') + embed (per the existing dict ingest path); no clean
+   bulk source means extraction may be the slow part. Cone remains PTS-copyright (out).
 3. **AI-assisted translations.** Blocked on the no-LLM-synthesis-by-default rule + model/UX/storage
    decisions (`TRANSLATIONS-AI.md` is the design). Operator gives go/no-go.
 
 **Optional hardening (autonomous-doable; lower value, do only if asked):**
 4. Writing residuals deferred from the rollout: secondary `FINDINGS*.md` banned words (internal docs, the
    rule permits them); naga.json NON-rendered meta strings. The LIVE pages are clean.
-5. Auditability is partial: heart-base has its own counts-snapshot and there is a shared
-   `CORPUS-SNAPSHOT-2026-06-24.json`, but not every study has per-study committed SQL snapshots (review
-   finding S4). Optional to complete per study.
+5. Auditability (review finding S4): **verified complete 2026-06-24.** Every study's published counts
+   re-derive from a committed artifact — awakening `_sql_facts.json`, IG census JSONs + shared
+   `CORPUS-SNAPSHOT-2026-06-24.json`, heart-base `counts-snapshot.json`, uttarakuru `_census_*.json`,
+   naga `sql.py` + the shared snapshot's recall-floor + served `naga.json`, come-and-see `_enumerate.py`
+   + committed `_raw.json`. The two artifacts the review flagged (`fine_full.json`,
+   `canon_serpent_candidates.json`) are absent/regenerable and superseded by the above. Only marginal
+   nicety left: naga's headline soteriological-ceiling facts could be added to the frozen shared snapshot
+   for parity (one serial DB run); naga is already auditable via its served dataset, so this is optional.
 6. Naga claim em-dash regrades live in the SERVED `naga.json` only; a full naga pipeline regen
    (DB-dependent, not routine) would need them re-applied at the build source.
-7. Come-and-see study: a formal second-coder kappa on the 18 treatment codes was descoped (full row text
-   is stored so amplify=0 is auditable). Add it if a reviewer wants the promised IAA.
+7. Come-and-see second-coder κ: **DONE 2026-06-24** (commit `36d1477`). A blind second coder re-coded all
+   18 commentarial rows from the same snippets against the prereg codebook: Cohen κ = 1.00 on the five-way
+   descriptive code, and amplify = 0 independently replicated (the falsifiable core; its binary has no
+   variance so it is reported as exact replication, not a κ). `SECOND_CODER` lives in
+   `come-and-see/build_dataset.py` (κ re-derives at build); served json + live page + FINDINGS report it.
 
 ## 6. File / artifact map
 - **Live pages (canonical deliverable):** `src/ResearchView.jsx` — all six study components in ONE file
