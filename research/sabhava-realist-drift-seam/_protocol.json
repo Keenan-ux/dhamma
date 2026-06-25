@@ -1,0 +1,136 @@
+{
+ "slug": "sabhava-realist-drift-seam",
+ "title": "Sabhāva realist-drift seam: realist-collocate crystallization at the commentary boundary (Ronkin)",
+ "hypotheses": {
+  "h1": "H1 (house thesis — canon supple, commentary systematizes/hardens): The per-Mchar density of the realist-collocate complex (sabhāva + paramattha + the lakkhaṇa/rasa/paccupaṭṭhāna definitional tetrad), AND especially their CO-OCCURRENCE within a passage, exhibits a step-change increase across the 4para→5comm work-role boundary (mūla-canon/abhidhamma to aṭṭhakathā), with the largest jump in the audited own-nature sense of sabhāva and in tetrad-with-sabhāva co-occurrence. This is Ronkin's actual register claim: 'own-nature' realist framing crystallizes as a packaged definitional apparatus at the commentary boundary, not in the suttas. SECONDARY: from 5comm→6tīkā the realist complex INTENSIFIES (rises further or holds) rather than ORIGINATES — the sub-commentary deepens an already-present apparatus rather than introducing it.",
+  "h0": "H0 (pre-committed null, reported if it wins): After (a) per-character normalization, (b) blind k>=3 sense-audit re-weighting of sabhāva by its realist (own-nature) sense fraction, and (c) the negative-control comparison, there is NO step-change in realist-complex density or in tetrad+sabhāva co-occurrence at the 4para→5comm boundary beyond what the negative-control procedural term (udayabbaya) and generic commentarial verbosity/length register also show. Any apparent rise is a generic commentary-register/length artifact (commentaries are denser in ALL technical vocabulary), or is driven by the non-realist senses of sabhāva (disposition / adverbial 'naturally'), and the realist-sense-only density shows no boundary discontinuity distinguishable from the control."
+ },
+ "frozen_lexica": [
+  {
+   "name": "sabhava_raw",
+   "role": "PRIMARY realist-term, pre-audit raw stem (own-nature / disposition / adverbial 'naturally' — senses to be split by blind audit)",
+   "pali_regex": "sabh[aā]v",
+   "notes": "Catches sabhāva/sabhava and all inflections (sabhāvo, sabhāvā, sabhāvaṃ, sabhāvena, sabhāvassa, sabhāvato, -ssabhāva sandhi). DELIBERATELY broad at the stem; polysemy resolved downstream by the mandatory k>=3 blind sense-audit, NOT by regex. Density NEVER reported on this raw stem alone — only after re-weighting by audited realist-sense fraction (the %carita% lesson)."
+  },
+  {
+   "name": "sabhava_false_hit_exclusions",
+   "role": "EXCLUSION mask applied to sabhava_raw before coding (prior lesson)",
+   "pali_regex": "purisabh[aā]v|ekaṃsabh[aā]vit|ekaṃ\\s*sabh[aā]vit",
+   "notes": "purisabhāva = purisa+bhāva (state of a man), ekaṃsabhāvita = ekaṃsa+bhāvita; both are bhāva-compounds, NOT sabhāva. Subtract any passage whose ONLY sabh[aā]v hit matches this mask. Per the explicit prior lesson."
+  },
+  {
+   "name": "paramattha",
+   "role": "PRIMARY realist-collocate (ultimate/highest-sense reality)",
+   "pali_regex": "paramatth|paramaṭṭh|parama-?atth",
+   "notes": "paramattha + inflections (paramatthato, paramatthena, paramatthasacca, paramatthadhamma); paramaṭṭh covers occasional retroflex CST spelling; parama-atth catches the rare unsandhied/hyphenated resolved form. NOTE: parāmaṭṭha (grasped, from parāmasati) is a DIFFERENT word — long ā in first syllable — and is NOT matched here by design; if folding ever broadens, guard against it."
+  },
+  {
+   "name": "tetrad_lakkhana",
+   "role": "definitional-tetrad member 1 (characteristic)",
+   "pali_regex": "lakkhaṇ",
+   "notes": "lakkhaṇa/lakkhaṇaṃ/lakkhaṇena/-lakkhaṇa. Common word generally; load-bearing only WITHIN tetrad co-occurrence, not as a solo realist marker."
+  },
+  {
+   "name": "tetrad_rasa",
+   "role": "definitional-tetrad member 2 (function) — POLYSEMOUS, guarded",
+   "pali_regex": "\\mrasa",
+   "notes": "rasa is severely polysemous (taste, juice, flavour, mercury, aesthetic rasa, essence). \\m word-boundary reduces compound noise. rasa counts ONLY toward the tetrad signal when co-occurring with lakkhaṇa AND paccupaṭṭhāna in the same passage (the catukka frame); NEVER counted as a standalone realist term."
+  },
+  {
+   "name": "tetrad_paccupatthana",
+   "role": "definitional-tetrad member 3 (manifestation) — strongest tetrad discriminator",
+   "pali_regex": "paccupaṭṭhān",
+   "notes": "paccupaṭṭhāna/paccupaṭṭhānaṃ. CST frequently geminate-final; stem match covers inflections. This term + padaṭṭhāna are the cleanest commentary-tetrad fingerprints (rare outside the catukka apparatus)."
+  },
+  {
+   "name": "tetrad_padatthana",
+   "role": "definitional-tetrad member 4 (proximate cause) — strongest tetrad discriminator",
+   "pali_regex": "padaṭṭhān",
+   "notes": "padaṭṭhāna/padaṭṭhānaṃ. Like paccupaṭṭhāna, near-exclusive to the commentarial catukka frame; its boundary curve is itself a falsifier check (should be ~absent in 4para mūla)."
+  },
+  {
+   "name": "negctrl_udayabbaya",
+   "role": "NEGATIVE CONTROL — procedural meditation-stage label (must show NO equivalent boundary jump)",
+   "pali_regex": "udayabbay|udayavyay|udayavyaya|uday[aā]bbay",
+   "notes": "udayabbaya-ñāṇa = knowledge of arising-and-passing-away, a vipassana stage label. CST/SC variant udayavyaya. A procedural/path term, not a realist-ontology term; predicted to be present in commentary but WITHOUT a sharp 4para→5comm crystallization unique to the realist complex. If it jumps as hard as sabhāva, the realist signal is a generic-register artifact (H0)."
+  }
+ ],
+ "enumeration_sql": [
+  {
+   "label": "00_denominators_sanity — confirm per-role Mchar denominators against live de-duped corpus (must match the frozen mula 53.543921 / attha 29.488533 / tika 28.357746; pli-vism shelved as mula but is COMMENTARY)",
+   "sql": "SELECT work_role, stratum(work_slug) AS strat, COUNT(*) AS rows, SUM(char_length(original))/1000000.0 AS mchar FROM passages WHERE is_primary GROUP BY work_role, stratum(work_slug) ORDER BY work_role, strat;"
+  },
+  {
+   "label": "01_primary_density_by_stratum — per-stratum per-Mchar density of EACH lexicon (raw stem counts; sabhava_raw is PRE-AUDIT, do not report alone). One pass, GROUP BY stratum.",
+   "sql": "SELECT stratum(work_slug) AS strat, SUM(char_length(original))/1000000.0 AS mchar, COUNT(*) FILTER (WHERE original ~* 'sabh[aā]v') AS sabhava_raw, COUNT(*) FILTER (WHERE original ~* 'sabh[aā]v' AND original !~* 'purisabh[aā]v|ekaṃsabh[aā]vit|ekaṃ\\s*sabh[aā]vit') AS sabhava_masked, COUNT(*) FILTER (WHERE original ~* 'paramatth|paramaṭṭh|parama-?atth') AS paramattha, COUNT(*) FILTER (WHERE original ~* 'lakkhaṇ') AS lakkhana, COUNT(*) FILTER (WHERE original ~* '\\mrasa') AS rasa, COUNT(*) FILTER (WHERE original ~* 'paccupaṭṭhān') AS paccupatthana, COUNT(*) FILTER (WHERE original ~* 'padaṭṭhān') AS padatthana, COUNT(*) FILTER (WHERE original ~* 'udayabbay|udayavyay|uday[aā]bbay') AS udayabbaya_negctrl FROM passages WHERE is_primary GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "02_tetrad_cooccurrence_by_stratum — passages containing the FULL catukka frame (lakkhaṇa AND rasa AND paccupaṭṭhāna), and the realist-package (tetrad-core AND sabhāva-masked AND paramattha). Per-Mchar. This is the core PRIMARY signal.",
+   "sql": "SELECT stratum(work_slug) AS strat, SUM(char_length(original))/1000000.0 AS mchar, COUNT(*) FILTER (WHERE original ~* 'lakkhaṇ' AND original ~* '\\mrasa' AND original ~* 'paccupaṭṭhān') AS tetrad3, COUNT(*) FILTER (WHERE original ~* 'lakkhaṇ' AND original ~* '\\mrasa' AND original ~* 'paccupaṭṭhān' AND original ~* 'padaṭṭhān') AS tetrad4, COUNT(*) FILTER (WHERE original ~* 'lakkhaṇ' AND original ~* '\\mrasa' AND original ~* 'paccupaṭṭhān' AND (original ~* 'sabh[aā]v' AND original !~* 'purisabh[aā]v|ekaṃsabh[aā]vit')) AS tetrad3_sabhava, COUNT(*) FILTER (WHERE original ~* 'lakkhaṇ' AND original ~* '\\mrasa' AND original ~* 'paccupaṭṭhān' AND (original ~* 'sabh[aā]v' AND original !~* 'purisabh[aā]v|ekaṃsabh[aā]vit') AND original ~* 'paramatth|paramaṭṭh|parama-?atth') AS realist_package FROM passages WHERE is_primary GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "03_sabhava_paramattha_cooccurrence — the two flagship realist terms together, per stratum per-Mchar (Ronkin's core pairing, independent of the tetrad).",
+   "sql": "SELECT stratum(work_slug) AS strat, SUM(char_length(original))/1000000.0 AS mchar, COUNT(*) FILTER (WHERE (original ~* 'sabh[aā]v' AND original !~* 'purisabh[aā]v|ekaṃsabh[aā]vit') AND original ~* 'paramatth|paramaṭṭh|parama-?atth') AS sabhava_x_paramattha FROM passages WHERE is_primary GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "04_role_split_comm_vs_tika — collapse to the EXACT decision boundaries using work_role/work_slug conventions (CANON mula non-vism; COMMENTARY attha+pli-vism; TIKA), not just stratum() lookup. Confirms 4para→5comm and 5comm→6tika gradients on the canonical denominators.",
+   "sql": "SELECT CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN '0canon_mula' WHEN work_slug LIKE '%-attha' OR work_slug='pli-vism' THEN '1commentary' WHEN work_slug LIKE '%-tika' THEN '2tika' ELSE '9other' END AS layer, SUM(char_length(original))/1000000.0 AS mchar, COUNT(*) FILTER (WHERE original ~* 'sabh[aā]v' AND original !~* 'purisabh[aā]v|ekaṃsabh[aā]vit') AS sabhava_masked, COUNT(*) FILTER (WHERE original ~* 'paramatth|paramaṭṭh|parama-?atth') AS paramattha, COUNT(*) FILTER (WHERE original ~* 'lakkhaṇ' AND original ~* '\\mrasa' AND original ~* 'paccupaṭṭhān') AS tetrad3, COUNT(*) FILTER (WHERE original ~* 'udayabbay|udayavyay|uday[aā]bbay') AS udayabbaya_negctrl FROM passages WHERE is_primary GROUP BY layer ORDER BY layer;"
+  },
+  {
+   "label": "05_coding_rows_sabhava_audit — pull the BLIND sense-audit sample: masked sabhāva passages stratified by layer, capped per layer for k>=3 hand/agent coding (own-nature / disposition / adverbial-naturally / false-hit). Deterministic order via md5 for reproducible 'random' draw; coders see original+translation only, NOT the layer label.",
+   "sql": "WITH cand AS (SELECT id, work_slug, stratum(work_slug) AS strat, original, translation, md5(id::text) AS r FROM passages WHERE is_primary AND original ~* 'sabh[aā]v' AND original !~* 'purisabh[aā]v|ekaṃsabh[aā]vit|ekaṃ\\s*sabh[aā]vit'), ranked AS (SELECT *, row_number() OVER (PARTITION BY strat ORDER BY r) AS rn FROM cand) SELECT id, strat, original, translation FROM ranked WHERE rn <= 60 AND strat IN ('4para','5comm','6tika') ORDER BY strat, rn;"
+  },
+  {
+   "label": "06_coding_rows_realist_package — pull the full realist-package passages (tetrad3 + sabhāva + paramattha) for qualitative inspection of HOW the apparatus is deployed (definitional vs incidental) across the comm/tika boundary; small N expected, take all.",
+   "sql": "SELECT id, work_slug, stratum(work_slug) AS strat, original, translation FROM passages WHERE is_primary AND original ~* 'lakkhaṇ' AND original ~* '\\mrasa' AND original ~* 'paccupaṭṭhān' AND (original ~* 'sabh[aā]v' AND original !~* 'purisabh[aā]v|ekaṃsabh[aā]vit') AND original ~* 'paramatth|paramaṭṭh|parama-?atth' ORDER BY strat, work_slug, id;"
+  },
+  {
+   "label": "07_negctrl_coding_rows — blind sample of negative-control udayabbaya passages by layer, same cap, to confirm it is procedural (not realist-ontological) and to compute its OWN boundary curve as the null baseline.",
+   "sql": "WITH cand AS (SELECT id, stratum(work_slug) AS strat, original, translation, md5(id::text) AS r FROM passages WHERE is_primary AND original ~* 'udayabbay|udayavyay|uday[aā]bbay'), ranked AS (SELECT *, row_number() OVER (PARTITION BY strat ORDER BY r) AS rn FROM cand) SELECT id, strat, original, translation FROM ranked WHERE rn <= 40 AND strat IN ('4para','5comm','6tika') ORDER BY strat, rn;"
+  },
+  {
+   "label": "08_distinct_works_dedup_note — count distinct works/suttas carrying the realist package per layer, respecting SC fine-grain vs CST coarse-grain double-ingest (report both editions; is_primary already de-dupes magnitude but distinct-work counts differ by edition granularity).",
+   "sql": "SELECT stratum(work_slug) AS strat, COUNT(DISTINCT work_slug) AS distinct_works_with_package FROM passages WHERE is_primary AND original ~* 'lakkhaṇ' AND original ~* '\\mrasa' AND original ~* 'paccupaṭṭhān' AND (original ~* 'sabh[aā]v' AND original !~* 'purisabh[aā]v|ekaṃsabh[aā]vit') GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "09_embedding_seed_centroid_candidates — pull realist/individuating SEED passages (high-density realist-package, longest, primary) to build centroid vectors for the second operationalization (cosine of every passage embedding vs realist centroid by stratum). Returns ids+embeddings of top seeds per layer; centroid + scoring done in numpy offline (no per-row DB round-trips).",
+   "sql": "SELECT id, stratum(work_slug) AS strat, char_length(original) AS clen, embedding FROM passages WHERE is_primary AND embedding IS NOT NULL AND original ~* 'lakkhaṇ' AND original ~* '\\mrasa' AND original ~* 'paccupaṭṭhān' AND (original ~* 'sabh[aā]v' AND original !~* 'purisabh[aā]v|ekaṃsabh[aā]vit') AND original ~* 'paramatth|paramaṭṭh|parama-?atth' ORDER BY strat, clen DESC LIMIT 60;"
+  }
+ ],
+ "density_method": "Magnitude is ALWAYS per-character (T2): for each lexicon L and stratum/layer S, density(L,S) = (count of is_primary passages in S whose original matches L's regex, after subtracting the exclusion mask) / Mchar(S), where Mchar uses the frozen per-role denominators (mula 53.543921, attha 29.488533, tika 28.357746) computed over is_primary rows. The PRIMARY statistic is the 4para→5comm RATIO and DIFFERENCE in (a) sabhāva-masked density, (b) tetrad3 / tetrad4 co-occurrence density, and (c) the realist_package co-occurrence density. CRITICAL re-weighting: sabhāva density is reported ONLY after multiplying the masked count by the audited realist-sense fraction p_realist(S) estimated per stratum from the blind k>=3 audit (query 05); the headline curve is realist-sense-weighted sabhāva, not the raw stem. SECONDARY statistic is the 5comm→6tika gradient on the same three measures, classified intensification (rises or holds) vs origination (only appears at 6tika). A second, independent operationalization: build a realist/individuating centroid from seed embeddings (query 09), score mean cosine-to-centroid of all is_primary passage embeddings per stratum, and test for the same 4para→5comm step; convergence of lexical and embedding operationalizations strengthens, divergence weakens. stratum() is a work_slug lookup, NOT independent chronology (T1): the layer ordering is treated as register/textual-role, and any 'jump' is described as a register seam at the canon/commentary boundary, never as time-stamped diachronic evidence. CST-vs-SC double-ingest handled by is_primary for magnitude; distinct-work counts reported per edition (query 08).",
+ "negative_controls": [
+  "PRIMARY procedural control: udayabbaya (arising-and-passing-away insight-stage label, regex udayabbay|udayavyay|uday[aā]bbay). A genuinely commentarial/path-technical term that is NOT a realist-ontology term. It SHOULD be present and even denser in commentary (generic register) but must NOT show the sharp, sense-audited 4para→5comm crystallization unique to the realist complex. If udayabbaya's boundary jump is statistically indistinguishable from sabhāva's realist-sense-weighted jump, H1 fails (generic-register artifact).",
+  "Length/register control: because commentaries are simply denser in ALL technical vocabulary, every claim is per-Mchar AND benchmarked against the udayabbaya curve, not against zero. The discriminating quantity is (realist-complex jump) MINUS (udayabbaya jump).",
+  "Polysemy self-control: the non-realist senses of sabhāva (disposition; adverbial 'naturally') act as an internal control — if the boundary jump is carried by these senses rather than the own-nature sense (revealed by the per-stratum p_realist from the blind audit), H1's realist-crystallization claim is not supported.",
+  "Tetrad-discriminator control: padaṭṭhāna and paccupaṭṭhāna are near-exclusive to the commentarial catukka frame; their ~absence in 4para mūla is a positive control confirming the apparatus is a commentary construction (if they appear densely in mūla, the frame is mis-detected)."
+ ],
+ "falsifiers": [
+  "Realist-sense-weighted sabhāva density shows NO step-change at 4para→5comm (ratio within the band set by the udayabbaya control) → H1 falsified, H0 reported.",
+  "The apparent rise is driven by non-realist senses: blind audit shows p_realist(5comm) is not materially higher than p_realist(4para), or the own-nature sense fraction is flat across the boundary → realist-crystallization claim falsified.",
+  "Negative control udayabbaya jumps at 4para→5comm as hard as (or harder than) the realist complex → effect is generic commentary register, falsified.",
+  "Tetrad discriminators (paccupaṭṭhāna/padaṭṭhāna) appear at high density already in 4para mūla → the 'commentary apparatus' framing is wrong; the catukka is not a commentary construction.",
+  "Embedding operationalization disagrees: mean cosine-to-realist-centroid shows no 4para→5comm step (or steps for the control too) → lexical signal not corroborated, downgrade.",
+  "SECONDARY falsifier: 5comm→6tika shows the realist package ORIGINATING at 6tika (≈absent in 5comm, present in 6tika) rather than intensifying → the secondary intensification-vs-origination hypothesis is falsified (it would instead be a sub-commentary innovation).",
+  "Inter-annotator κ on the sabhāva sense audit < 0.6 → sense split unreliable, density re-weighting cannot be trusted; report the audit as inconclusive rather than asserting a realist curve."
+ ],
+ "predicted_signal": "PREDICTED (pre-data, to be confirmed): realist-sense-weighted sabhāva density and paramattha density rise sharply at 4para→5comm (predicted multiple-fold, e.g. >=2-3x on the masked stem and larger on co-occurrence), with paccupaṭṭhāna/padaṭṭhāna near-zero in 4para mūla and substantial in 5comm; the realist_package co-occurrence is predicted ~absent in 1early/2late suttas, sparse-to-absent in 4para, and concentrated in 5comm/6tika. udayabbaya (negative control) PREDICTED to rise modestly into commentary but WITHOUT a comparably sharp realist-specific seam. SECONDARY PREDICTED: 5comm→6tika is intensification (density rises further or holds), NOT origination. TO BE MEASURED (not predicted): the exact per-Mchar densities (queries 01-04), the per-stratum realist-sense fraction p_realist from the blind audit (query 05), inter-annotator κ, the magnitude of the control-subtracted jump, and the embedding cosine curve (query 09). All headline numbers are marked measured-not-predicted until the serial run returns; the discovery scan that informed this prereg only fixed the lexica and the direction, not the magnitudes.",
+ "primary_loci": [
+  "Visuddhimagga (pli-vism) — the canonical home of the lakkhaṇa-rasa-paccupaṭṭhāna-padaṭṭhāna catukka applied dhamma-by-dhamma; shelved as mula but counted as COMMENTARY (the seam's exemplar).",
+  "Atthasālinī / Dhammasaṅgaṇi-aṭṭhakathā (dhammasangani -attha) — commentary where the fourfold definitional scheme and sabhāva-as-own-nature framing is densest.",
+  "Paṭisambhidāmagga (and its commentary) — the canonical edge where 'own-nature' (sabhāva) first rises (Ronkin/OCBS); tests whether the seam is already opening pre-commentary.",
+  "Nettippakaraṇa / Peṭakopadesa (para-canonical, 4para) — early appearance of sabhāva outside the Abhidhamma Piṭaka proper; the 4para baseline.",
+  "Abhidhamma Piṭaka mūla (Dhammasaṅgaṇi, Vibhaṅga; 3abh) — predicted LOW sabhāva-realist / tetrad density, the canonical contrast point (term absent from the mūla Abhidhamma per the literature).",
+  "Mūla-suttas (1early/2late, e.g. Majjhima/Saṃyutta) — predicted near-absence of the realist package; the supple-canon anchor.",
+  "Sub-commentaries / ṭīkā (6tika, e.g. Visuddhimagga-mahāṭīkā / Paramatthamañjūsā) — the SECONDARY intensification-vs-origination test bed."
+ ],
+ "scope_limits": [
+  "Register/distribution claim ONLY: this can show that realist vocabulary and the definitional tetrad are concentrated at the commentary boundary; it CANNOT adjudicate whether Theravāda commentators held a metaphysically realist (substantialist) view of dhammas — that is the Ronkin-vs-critics doctrinal debate and is out of scope (no realism verdict).",
+  "stratum()/work_role is a textual-role lookup, NOT independent dated chronology (T1): a 'jump' is a canon→commentary register seam, not proof of diachronic semantic change in real time; no time-series inference.",
+  "Co-occurrence within a passage is a proximity proxy for the catukka apparatus, not a parse of definitional syntax; a passage can contain lakkhaṇa+rasa+paccupaṭṭhāna without deploying them as a unified definition (mitigated by the query-06 qualitative read, not eliminated).",
+  "Foreign-language parallels cannot be used (parallel_have=false for non-pli); no comparison to Sanskrit svabhāva / Sarvāstivāda usage from corpus text — the graph only.",
+  "sabhāva sense audit is sample-based (per-stratum cap), so p_realist carries sampling error; the re-weighted density is an estimate with a CI, not an exact count.",
+  "pli-vism is a single large work; its weight in the 'commentary' layer is heavy — distinct-work counts (query 08) are reported so the seam is not an artifact of one text dominating the denominator."
+ ],
+ "iaa_plan": "\"Blind k>=3 sense-audit of sabhāva (mandatory). 3 independent annotators (agent-coders OK) see ONLY original Pali + English translation (query 05) with work_slug/stratum/layer STRIPPED. 4 exclusive codes: (1) OWN-NATURE/realist, (2) DISPOSITION/character, (3) ADVERBIAL 'naturally', (4) FALSE-HIT (purisa+bhāva / ekaṃ+sabhāvita). Fleiss' κ pooled + per stratum. Gate: κ>=0.6 use re-weighted density as headline; 0.4-0.6 caveat + majority + 4th pass; <0.4 declare unreliable, report raw masked density flagged inconclusive. p_realist(S)=code1/(code1+2+3) re-weights query 01/04 sabhāva densities. Negative-control udayabbaya (query 07) gets a 3-coder procedural-vs-ontological binary, same κ.\"",
+ "coding_needed": true
+}

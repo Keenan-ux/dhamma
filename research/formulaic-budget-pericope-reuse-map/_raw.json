@@ -1,0 +1,83 @@
+{
+ "meta": {
+  "slug": "formulaic-budget-pericope-reuse-map",
+  "title": "The formulaic budget: unsupervised per-char pericope-reuse map + Dīgha-distinctiveness",
+  "as_of": "2026-06-24",
+  "n_queries": 11,
+  "ok": 1,
+  "err": 10
+ },
+ "results": [
+  {
+   "label": "00_scope_sanity_canon_prose_grain",
+   "sql": "WITH canon AS ( SELECT p.id, p.work_slug, stratum(p.work_slug) AS strat, char_length(p.original) AS clen FROM passages p WHERE p.work_role='mula' AND p.work_slug <> 'pli-vism' AND p.is_primary=true ) SELECT CASE WHEN work_slug LIKE 'dn%' THEN 'DN' WHEN work_slug LIKE 'mn%' THEN 'MN' WHEN work_slug LIKE 'sn%' THEN 'SN' WHEN work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS collection, count(*) AS passages, sum(clen) AS total_chars, round(sum(clen)/1e6.0, 6) AS mchars FROM canon GROUP BY 1 ORDER BY 1;",
+   "ERROR": "syntax error at or near \".0\"\nLINE 15:   round(sum(clen)/1e6.0, 6) AS mchars\n                              ^\n"
+  },
+  {
+   "label": "01_sentence_grain_distribution",
+   "sql": "WITH canon AS ( SELECT p.id, p.work_slug FROM passages p WHERE p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true ) SELECT CASE WHEN c.work_slug LIKE 'dn%' THEN 'DN' WHEN c.work_slug LIKE 'mn%' THEN 'MN' WHEN c.work_slug LIKE 'sn%' THEN 'SN' WHEN c.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS collection, count(*) AS n_sentences, round(avg(char_length(ps.text)),2) AS mean_sent_chars, percentile_cont(0.5) WITHIN GROUP (ORDER BY char_length(ps.text)) AS median_sent_chars, percentile_cont(0.9) WITHIN GROUP (ORDER BY char_length(ps.text)) AS p90_sent_chars FROM canon c JOIN passage_sentences ps ON ps.passage_id=c.id AND ps.field='original' GROUP BY 1 ORDER BY 1;",
+   "columns": [
+    "collection",
+    "n_sentences",
+    "mean_sent_chars",
+    "median_sent_chars",
+    "p90_sent_chars"
+   ],
+   "rowcount": 1,
+   "rows": [
+    [
+     "OTHER",
+     238642,
+     "106.92",
+     88.0,
+     196.0
+    ]
+   ]
+  },
+  {
+   "label": "02_calibrate_cosine_threshold_F1_pairs",
+   "sql": "WITH s AS ( SELECT ps.passage_id, ps.position, ps.text, ps.embedding, CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN' WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true AND char_length(ps.text)>=80 AND ('x'||substr(md5(ps.passage_id::text||ps.position::text),1,4))::bit(16)::int % 12 = 0 ) SELECT a.coll AS coll_a, b.coll AS coll_b, left(a.text,90) AS text_a, left(b.text,90) AS text_b, round((1-(a.embedding<=>b.embedding))::numeric,4) AS cosine, round(similarity(a.text,b.text)::numeric,4) AS trgm_jaccard FROM s a JOIN s b ON (a.passage_id,a.position) < (b.passage_id,b.position) WHERE (1-(a.embedding<=>b.embedding)) >= 0.80 AND similarity(a.text,b.text) >= 0.30 ORDER BY cosine DESC LIMIT 1200;",
+   "ERROR": "canceling statement due to statement timeout\n"
+  },
+  {
+   "label": "03_build_edges_AND_gate",
+   "sql": "DROP TABLE IF EXISTS formula_edges; CREATE TEMP TABLE formula_edges AS WITH s AS ( SELECT ps.passage_id, ps.position, ps.text, ps.embedding, (ps.passage_id::text||':'||ps.position::text) AS node_id, CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN' WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true AND char_length(ps.text)>=80 ) SELECT a.node_id AS n1, b.node_id AS n2, a.coll AS coll1, b.coll AS coll2, char_length(a.text) AS len1, char_length(b.text) AS len2 FROM s a JOIN s b ON (a.passage_id,a.position) < (b.passage_id,b.position) WHERE (1-(a.embedding<=>b.embedding)) >= 0.86 AND similarity(a.text,b.text) >= 0.45; SELECT count(*) AS n_edges, count(*) FILTER (WHERE coll1='DN' OR coll2='DN') AS edges_touching_dn FROM formula_edges;",
+   "ERROR": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
+  },
+  {
+   "label": "04_components_coverage_per_collection",
+   "sql": "WITH nodes AS ( SELECT n1 AS node, coll1 AS coll, len1 AS len FROM formula_edges UNION SELECT n2, coll2, len2 FROM formula_edges ), canon_tot AS ( SELECT CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN' WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll, sum(char_length(ps.text)) AS total_chars FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true AND char_length(ps.text)>=80 GROUP BY 1 ), formula_chars AS ( SELECT coll, sum(len) AS in_formula_chars FROM (SELECT DISTINCT node, coll, len FROM nodes) d GROUP BY coll ) SELECT t.coll, t.total_chars, coalesce(f.in_formula_chars,0) AS in_formula_chars, round(100.0*coalesce(f.in_formula_chars,0)/t.total_chars,3) AS formulaic_coverage_pct, round(1e6.0*coalesce(f.in_formula_chars,0)/t.total_chars,2) AS in_formula_per_Mchar_density FROM canon_tot t LEFT JOIN formula_chars f USING (coll) ORDER BY formulaic_coverage_pct DESC;",
+   "ERROR": "cursor already closed"
+  },
+  {
+   "label": "05_degree_distribution_heavy_tail",
+   "sql": "WITH deg AS ( SELECT node, count(*) AS degree FROM ( SELECT n1 AS node FROM formula_edges UNION ALL SELECT n2 FROM formula_edges ) e GROUP BY node ) SELECT width_bucket(degree, 1, 200, 20) AS degree_bucket, min(degree) AS min_deg, max(degree) AS max_deg, count(*) AS n_nodes FROM deg GROUP BY 1 ORDER BY 1;",
+   "ERROR": "cursor already closed"
+  },
+  {
+   "label": "06_top_hub_formulas_rows_to_code",
+   "sql": "WITH deg AS ( SELECT node, count(*) AS degree FROM ( SELECT n1 AS node FROM formula_edges UNION ALL SELECT n2 FROM formula_edges ) e GROUP BY node ) SELECT d.node, d.degree, split_part(d.node,':',1)::int AS passage_id, split_part(d.node,':',2)::int AS position, (SELECT left(ps.text,180) FROM passage_sentences ps WHERE ps.passage_id=split_part(d.node,':',1)::int AND ps.position=split_part(d.node,':',2)::int AND ps.field='original') AS hub_text FROM deg d ORDER BY d.degree DESC LIMIT 60;",
+   "ERROR": "cursor already closed"
+  },
+  {
+   "label": "07_seed_lexicon_density_per_Mchar",
+   "sql": "WITH canon AS ( SELECT p.id, p.original, CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN' WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll, char_length(p.original) AS clen FROM passages p WHERE p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true ) SELECT coll, round(1e6.0*count(*) FILTER (WHERE original ~* 'evaṃ me sutaṃ|evaṁ me sutaṁ|ekaṃ samayaṃ|ekaṁ samayaṁ|idamavoca bhagavā|attamanā te bhikkhū|attamanā te bhikkhu')/sum(clen),3) AS frame_per_Mchar, round(1e6.0*count(*) FILTER (WHERE original ~* 'parisuddhe pariyodāte|parisuddhe pariyodate|āneñjappatte|ānejjappatte|anenjappatte|mudubhūte kammaniye|mudubhute kammaniye')/sum(clen),3) AS jhana_per_Mchar, round(1e6.0*count(*) FILTER (WHERE original ~* 'pāṇātipātaṃ pahāya|pāṇātipātaṁ pahāya|panatipatam pahaya|adinnādānaṃ pahāya|musāvādaṃ pahāya|sampannasīlo|cūḷasīla|majjhimasīla|mahāsīla|mahasila')/sum(clen),3) AS sila_per_Mchar, round(1e6.0*count(*) FILTER (WHERE original ~* 'itipi so bhagavā|iti pi so bhagavā|itipi so bhagava|svākkhāto bhagavatā dhammo|supaṭipanno bhagavato sāvakasaṅgho')/sum(clen),3) AS anussati_per_Mchar, round(1e6.0*count(*) FILTER (WHERE original ~* 'seyyathāpi|seyyathapi|seyyathidaṃ|seyyathidaṁ|seyyathīdaṃ|upamaṃ te karissāmi|evameva kho')/sum(clen),3) AS NEG_simile_per_Mchar FROM canon GROUP BY coll ORDER BY coll;",
+   "ERROR": "cursor already closed"
+  },
+  {
+   "label": "08_length_regression_residual_control",
+   "sql": "WITH nodes AS (SELECT DISTINCT n1 AS node, coll1 AS coll, len1 AS len FROM formula_edges UNION SELECT n2, coll2, len2 FROM formula_edges), base AS ( SELECT CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN' WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll, char_length(ps.text) AS slen FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true AND char_length(ps.text)>=80 ) SELECT b.coll, count(*) AS n_sent, round(avg(b.slen),2) AS mean_sent_chars, (SELECT count(DISTINCT node) FROM nodes n WHERE n.coll=b.coll) AS n_formula_nodes, round(100.0*(SELECT count(DISTINCT node) FROM nodes n WHERE n.coll=b.coll)/count(*),3) AS pct_sentences_in_formula FROM base b GROUP BY b.coll ORDER BY b.coll;",
+   "ERROR": "cursor already closed"
+  },
+  {
+   "label": "09_negcontrol_shuffled_span_null",
+   "sql": "WITH s AS ( SELECT ps.text, ps.embedding, char_length(ps.text) AS slen, CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN' WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll, row_number() OVER (PARTITION BY (CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN' WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END) ORDER BY md5(ps.passage_id::text||ps.position::text)) AS rn FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true AND char_length(ps.text)>=80 ), paired AS ( SELECT a.coll, (1-(a.embedding<=>b.embedding)) AS cosine, similarity(a.text,b.text) AS trgm FROM s a JOIN s b ON a.coll=b.coll AND b.rn = a.rn+1 WHERE abs(a.slen-b.slen) <= 40 ) SELECT coll, count(*) AS null_pairs_tested, count(*) FILTER (WHERE cosine>=0.86 AND trgm>=0.45) AS null_andgate_hits, round(100.0*count(*) FILTER (WHERE cosine>=0.86 AND trgm>=0.45)/count(*),4) AS null_hit_pct FROM paired GROUP BY coll ORDER BY coll;",
+   "ERROR": "cursor already closed"
+  },
+  {
+   "label": "10_negcontrol_tag_exclusion_reconfirm",
+   "sql": "WITH canon AS ( SELECT p.id, p.original, char_length(p.original) AS clen, CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN' WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll FROM passages p WHERE p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true AND NOT EXISTS (SELECT 1 FROM passage_tags t WHERE t.passage_id=p.id AND t.tag_type IN ('simile','name','title')) ) SELECT coll, sum(clen) AS clean_chars, round(1e6.0*count(*) FILTER (WHERE original ~* 'parisuddhe pariyodāte|āneñjappatte|ānejjappatte|sampannasīlo|cūḷasīla|mahāsīla')/sum(clen),3) AS jhana_sila_per_Mchar_clean, round(1e6.0*count(*) FILTER (WHERE original ~* 'seyyathāpi|seyyathapi|evameva kho')/sum(clen),3) AS NEG_simile_per_Mchar_clean FROM canon GROUP BY coll ORDER BY coll;",
+   "ERROR": "cursor already closed"
+  }
+ ]
+}

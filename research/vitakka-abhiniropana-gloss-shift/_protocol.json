@@ -1,0 +1,116 @@
+{
+ "slug": "vitakka-abhiniropana-gloss-shift",
+ "title": "Vitakka/vicāra gloss-shift: dating the \"application\" (abhiniropana) reading",
+ "hypotheses": {
+  "h1": "HOUSE THESIS (canon supple, commentary systematizes). Within passages that co-mention vitakka/vicāra, the APPLICATION lexicon (abhiniropana and kin) is rare and non-definitional in the canonical mūla layer (work_role='mula', work_slug<>'pli-vism'), where vitakka sits inside an open discursive/intentional field (saṅkappa, takka, papañca, cintā). The APPLICATION reading hardens in commentary: the within-vitakka APPLICATION/DISCURSIVE per-Mchar ratio rises monotonically mula -> attha(+pli-vism) -> tika, and abhiniropana acquires definitional-head-noun status (co-occurring with ti vuccati / nāma / attho / lakkhaṇa) FIRST in the aṭṭhakathā layer (Atthasālinī Dhs-a, Visuddhimagga IV), not in mula. The signal is the shape of the within-vitakka ratio across layers, NOT the stratum label.",
+  "h0": "PRE-COMMITTED NULL (report if it wins). There is no layer-wise hardening: the within-vitakka APPLICATION/DISCURSIVE per-Mchar ratio is flat (or non-monotonic) across mula/attha/tika once length is controlled, AND any apparent rise is matched by an identical rise on the pīti negative control (i.e. a generic commentary register/length artifact, not a vitakka-specific gloss shift). Under H0 the defining-frame harvest also finds abhiniropana-as-definitional-head already present in the mula layer at a density indistinguishable from commentary. If the pīti control moves with vitakka, the effect is declared an artifact regardless of the vitakka numbers."
+ },
+ "frozen_lexica": [
+  {
+   "name": "TARGET_vitakka_vicara",
+   "role": "anchor term (the gloss subject); all ratios are computed WITHIN passages containing this",
+   "pali_regex": "\\m(vitakk|savitakk|avitakk|vicār|savicār|avicār|vitakkavicār)",
+   "notes": "vitakk- covers vitakka/vitakko/vitakkā/vitakkaṃ; vicār- covers vicāra/vicāro/vicāraṇa/vicāre; sa-/a- prefixed jhāna-factor compounds included because the gloss frames cluster at savitakka savicāra. \\m word-boundary avoids matching inside unrelated stems. takka is a substring of vitakka and is handled by a separate \\mtakk boundary in the discursive set."
+  },
+  {
+   "name": "APPLICATION",
+   "role": "the 'application' commentarial gloss field; H1 predicts this hardens in commentary",
+   "pali_regex": "abhiniropan|abhiropan|āropan|anuropan|anumajjan|anusañcaraṇ|anusaṃcaraṇ|vicaraṇ|upanijjhān|upanijhān|ārammaṇe[[:space:]]+patiṭṭhāpan|ārammaṇe[[:space:]]+patiṭṭhapan|patiṭṭhāpan|patiṭṭhapan",
+   "notes": "abhiniropan(a/ā) is the Atthasālinī/Vism head gloss for vitakka; āropan/abhiropan are simplex sandhi variants in running glosses; anumajjan + anusañcaraṇ/anusaṃcaraṇ (ñ vs niggahīta ṃ) + vicaraṇ are the vicāra gloss verbs (Vism IV.88 anusañcaraṇa); upanijjhān(a) is the jhāna-contemplation gloss (jjh cluster; upanijhān is the common single-j mis-spelling, kept to catch dirty OCR); ārammaṇe patiṭṭhāpana = establishing-on-the-object with ṭṭh cluster and short/long-a variant. DIACRITIC-CRITICAL: ṭṭh, ṇ, ā, ñ, ṃ all load-bearing; ASCII-folded forms return ZERO."
+  },
+  {
+   "name": "DISCURSIVE",
+   "role": "the open discursive/intentional field; H1 predicts vitakka sits here in mula",
+   "pali_regex": "papañc|papaṃc|\\msaṅkapp|\\msaṃkapp|micchāsaṅkapp|sammāsaṅkapp|\\mtakk|\\mvitakk|\\mcintā|\\mcintan|\\mcetan",
+   "notes": "papañc + niggahīta variant papaṃc; saṅkapp + saṃkapp + magga compounds micchā/sammā-saṅkappa; \\mtakk word-boundary is ESSENTIAL because takka is a substring of vitakka and saṅkappa-takka, so without \\m every vitakka double-counts as takka; cintā/cintana (thinking) and cetanā (volition, the intentional pole). \\m on each prevents substring bleed. ṅ vs ṃ and ñ are diacritic-critical."
+  },
+  {
+   "name": "DEFINING_FRAME",
+   "role": "gloss-frame marker for the defining-frame harvest (when abhiniropana becomes a DEFINITIONAL head-noun for vitakka)",
+   "pali_regex": "\\mti[[:space:]]+vuccati|\\mnāma\\M|\\mattho\\M|lakkhaṇ|\\mvuccati\\M|paccupaṭṭhān|\\mrasa\\M|kicc",
+   "notes": "Theravāda commentary definitional skeleton: X ti vuccati / X nāma / attho (the meaning is) / lakkhaṇa (characteristic) / rasa (function) / paccupaṭṭhāna (manifestation) / kicca. A row counts as a DEFINING-FRAME hit for vitakka only when TARGET + APPLICATION + DEFINING_FRAME co-occur in one passage (coded blind, see iaa_plan). nāma/attho/rasa carry \\M trailing boundary to avoid matching inside longer words."
+  },
+  {
+   "name": "NEGCTRL_piti",
+   "role": "negative control: a stable jhāna factor that must show NO application/discursive shift",
+   "pali_regex": "\\mpīti\\M|\\mpītiy|\\mpītisukh|\\msappītik|\\mnippītik",
+   "notes": "pīti co-occurs with vitakka/vicāra as a jhāna factor but is NOT the subject of an application-gloss debate, so its APPLICATION/DISCURSIVE ratio across layers is the artifact baseline. \\mpīti\\M plus the listed compounds AVOID false hits on pīta (yellow), pītha (bench), and apīti, which would silently inflate the control. The long ī is diacritic-critical."
+  }
+ ],
+ "enumeration_sql": [
+  {
+   "label": "Q0_layer_char_denominators_sanity",
+   "sql": "SELECT CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'mula' WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'attha' WHEN work_slug LIKE '%-tika' THEN 'tika' ELSE 'other' END AS layer, count(*) AS rows, sum(char_length(original))/1e6 AS mchar FROM passages WHERE is_primary GROUP BY 1 ORDER BY 1;"
+  },
+  {
+   "label": "Q1_target_base_rate_per_layer",
+   "sql": "SELECT CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'mula' WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'attha' WHEN work_slug LIKE '%-tika' THEN 'tika' ELSE 'other' END AS layer, count(*) AS target_rows, sum(char_length(original)) AS target_chars FROM passages WHERE is_primary AND original ~* '\\m(vitakk|savitakk|avitakk|vicār|savicār|avicār)' GROUP BY 1 ORDER BY 1;"
+  },
+  {
+   "label": "Q2_within_target_application_vs_discursive_density",
+   "sql": "WITH t AS (SELECT *, CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'mula' WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'attha' WHEN work_slug LIKE '%-tika' THEN 'tika' ELSE 'other' END AS layer FROM passages WHERE is_primary AND original ~* '\\m(vitakk|savitakk|avitakk|vicār|savicār|avicār)') SELECT layer, count(*) AS target_rows, sum(char_length(original))/1e6 AS target_mchar, count(*) FILTER (WHERE original ~* 'abhiniropan|abhiropan|āropan|anuropan|anumajjan|anusañcaraṇ|anusaṃcaraṇ|vicaraṇ|upanijjhān|upanijhān|patiṭṭhāpan|patiṭṭhapan') AS app_rows, count(*) FILTER (WHERE original ~* 'papañc|papaṃc|\\msaṅkapp|\\msaṃkapp|\\mtakk|\\mcintā|\\mcintan|\\mcetan') AS disc_rows, round((count(*) FILTER (WHERE original ~* 'abhiniropan|abhiropan|āropan|anuropan|anumajjan|anusañcaraṇ|anusaṃcaraṇ|vicaraṇ|upanijjhān|upanijhān|patiṭṭhāpan|patiṭṭhapan'))::numeric / (sum(char_length(original))/1e6),3) AS app_per_mchar, round((count(*) FILTER (WHERE original ~* 'papañc|papaṃc|\\msaṅkapp|\\msaṃkapp|\\mtakk|\\mcintā|\\mcintan|\\mcetan'))::numeric / (sum(char_length(original))/1e6),3) AS disc_per_mchar FROM t GROUP BY layer ORDER BY layer;"
+  },
+  {
+   "label": "Q3_application_vs_discursive_RATIO_shape",
+   "sql": "WITH t AS (SELECT CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'mula' WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'attha' WHEN work_slug LIKE '%-tika' THEN 'tika' ELSE 'other' END AS layer, (original ~* 'abhiniropan|abhiropan|āropan|anuropan|anumajjan|anusañcaraṇ|anusaṃcaraṇ|vicaraṇ|upanijjhān|upanijhān|patiṭṭhāpan|patiṭṭhapan') AS app, (original ~* 'papañc|papaṃc|\\msaṅkapp|\\msaṃkapp|\\mtakk|\\mcintā|\\mcintan|\\mcetan') AS disc FROM passages WHERE is_primary AND original ~* '\\m(vitakk|savitakk|avitakk|vicār|savicār|avicār)') SELECT layer, count(*) FILTER (WHERE app) AS app_rows, count(*) FILTER (WHERE disc) AS disc_rows, round(count(*) FILTER (WHERE app)::numeric / NULLIF(count(*) FILTER (WHERE disc),0),3) AS app_over_disc_ratio FROM t GROUP BY layer ORDER BY CASE layer WHEN 'mula' THEN 1 WHEN 'attha' THEN 2 WHEN 'tika' THEN 3 ELSE 4 END;"
+  },
+  {
+   "label": "Q4_NEGCTRL_piti_same_ratio_shape",
+   "sql": "WITH t AS (SELECT CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'mula' WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'attha' WHEN work_slug LIKE '%-tika' THEN 'tika' ELSE 'other' END AS layer, (original ~* 'abhiniropan|abhiropan|āropan|anuropan|anumajjan|anusañcaraṇ|anusaṃcaraṇ|vicaraṇ|upanijjhān|upanijhān|patiṭṭhāpan|patiṭṭhapan') AS app, (original ~* 'papañc|papaṃc|\\msaṅkapp|\\msaṃkapp|\\mtakk|\\mcintā|\\mcintan|\\mcetan') AS disc FROM passages WHERE is_primary AND original ~* '\\mpīti\\M|\\mpītiy|\\mpītisukh|\\msappītik|\\mnippītik') SELECT layer, count(*) AS piti_rows, count(*) FILTER (WHERE app) AS app_rows, count(*) FILTER (WHERE disc) AS disc_rows, round(count(*) FILTER (WHERE app)::numeric / NULLIF(count(*) FILTER (WHERE disc),0),3) AS app_over_disc_ratio FROM t GROUP BY layer ORDER BY CASE layer WHEN 'mula' THEN 1 WHEN 'attha' THEN 2 WHEN 'tika' THEN 3 ELSE 4 END;"
+  },
+  {
+   "label": "Q5_defining_frame_rows_to_code",
+   "sql": "SELECT id, work_slug, work_role, CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'mula' WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'attha' WHEN work_slug LIKE '%-tika' THEN 'tika' ELSE 'other' END AS layer, char_length(original) AS clen, substring(original from 1 for 1200) AS original_head FROM passages WHERE is_primary AND original ~* '\\m(vitakk|savitakk|avitakk)' AND original ~* 'abhiniropan|abhiropan|āropan|anuropan' AND original ~* '\\mti[[:space:]]+vuccati|\\mnāma\\M|\\mattho\\M|lakkhaṇ|\\mvuccati\\M|paccupaṭṭhān|\\mrasa\\M|kicc' ORDER BY layer, work_slug, id;"
+  },
+  {
+   "label": "Q6_first_definitional_locus_by_work",
+   "sql": "SELECT work_slug, CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'mula' WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'attha' WHEN work_slug LIKE '%-tika' THEN 'tika' ELSE 'other' END AS layer, count(*) AS defframe_hits FROM passages WHERE is_primary AND original ~* '\\m(vitakk|savitakk|avitakk)' AND original ~* 'abhiniropan|abhiropan|āropan|anuropan' AND original ~* '\\mti[[:space:]]+vuccati|\\mnāma\\M|\\mattho\\M|lakkhaṇ|paccupaṭṭhān|\\mrasa\\M' GROUP BY work_slug, layer ORDER BY layer, defframe_hits DESC;"
+  },
+  {
+   "label": "Q7_primary_loci_targeted_pull",
+   "sql": "SELECT id, work_slug, work_role, char_length(original) AS clen, substring(original from 1 for 1500) AS original_head FROM passages WHERE is_primary AND (work_slug ~* 'mn0?117|mn0?019|mn0?020|mn0?078|dhs|pli-vism|patis|vibh') AND original ~* '\\m(vitakk|vicār)' AND original ~* 'abhiniropan|abhiropan|āropan|anumajjan|anusañcaraṇ|upanijjhān|takko[[:space:]]+vitakko' ORDER BY work_slug, id;"
+  },
+  {
+   "label": "Q8_negctrl_piti_defining_frame_should_be_empty_or_flat",
+   "sql": "SELECT CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'mula' WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'attha' WHEN work_slug LIKE '%-tika' THEN 'tika' ELSE 'other' END AS layer, count(*) AS piti_defframe_app_rows FROM passages WHERE is_primary AND original ~* '\\mpīti\\M|\\mpītiy|\\mpītisukh' AND original ~* 'abhiniropan|abhiropan|āropan|anumajjan|upanijjhān|patiṭṭhāpan' AND original ~* '\\mti[[:space:]]+vuccati|\\mnāma\\M|\\mattho\\M|lakkhaṇ|paccupaṭṭhān' GROUP BY 1 ORDER BY 1;"
+  },
+  {
+   "label": "Q9_lexicon_zero_guard_diacritic_check",
+   "sql": "SELECT 'abhiniropan' AS term, count(*) FROM passages WHERE is_primary AND original ~* 'abhiniropan' UNION ALL SELECT 'anumajjan', count(*) FROM passages WHERE is_primary AND original ~* 'anumajjan' UNION ALL SELECT 'upanijjhan', count(*) FROM passages WHERE is_primary AND original ~* 'upanijjhān' UNION ALL SELECT 'patitthapan', count(*) FROM passages WHERE is_primary AND original ~* 'patiṭṭhāpan' UNION ALL SELECT 'papanc', count(*) FROM passages WHERE is_primary AND original ~* 'papañc' UNION ALL SELECT 'sankapp', count(*) FROM passages WHERE is_primary AND original ~* '\\msaṅkapp' UNION ALL SELECT 'piti', count(*) FROM passages WHERE is_primary AND original ~* '\\mpīti\\M';"
+  }
+ ],
+ "density_method": "All magnitudes are per-character, never raw rows (T2). Layers: mula = work_role='mula' AND work_slug<>'pli-vism'; attha = work_slug LIKE '%-attha' OR work_slug='pli-vism'; tika = work_slug LIKE '%-tika'. Primary metric is the WITHIN-TARGET co-occurrence density: among is_primary passages containing a TARGET (vitakka/vicāra) hit, count passages also containing an APPLICATION hit and passages also containing a DISCURSIVE hit, dividing each by that layer's TARGET-subset Mchar (sum(char_length(original))/1e6 over the target subset, computed live in Q2, NOT the global per-layer denominators, because the denominator here is the target subset). The load-bearing statistic (Q3) is the within-target APPLICATION/DISCURSIVE RATIO and its SHAPE across mula->attha->tika (H1: monotone rise). Global per-layer Mchar denominators (mula 53.543921 / attha 29.488533 / tika 28.357746) are used only for the absolute base-rate normalization in Q1. is_primary dedupes the SC/CST double-ingest. Counting is passage-presence (one hit per passage), not raw stem frequency, because raw stem counts are register-confounded and the polysemy audit operates at passage granularity. Significance by bootstrap over target passages within layer; report ratio point estimate plus 95 percent CI, not a p-value alone.\"",
+ "negative_controls": [
+  "PRIMARY: pīti (Q4), a co-present stable jhāna factor NOT subject to an application-gloss debate. Its within-factor APPLICATION/DISCURSIVE ratio across mula/attha/tika is the artifact baseline. If pīti's ratio rises with the same slope as vitakka's, the vitakka rise is a generic commentary register/length artifact and H0 wins regardless of the vitakka numbers.",
+  "pīti defining-frame control (Q8): abhiniropana-style head-noun glossing must NOT attach to pīti at commentary density; a non-empty, layer-rising pīti defframe count would mean the DEFINING_FRAME skeleton is just commentary boilerplate, not vitakka-specific.",
+  "Length/register control: all densities are per-Mchar over the TARGET subset, so longer commentary passages cannot inflate raw counts; Q0 + Q2 expose the denominators for audit.",
+  "takka-substring control: \\mtakk word boundary in DISCURSIVE prevents every vitakka from double-counting as takka (the single largest silent inflation risk); Q9 zero-guard confirms boundaries fire.",
+  "Diacritic zero-guard (Q9): each lexicon stem must return a non-zero plausible count; a zero means an ASCII-fold typo silently nulled the term and the run is INVALID until fixed."
+ ],
+ "falsifiers": [
+  "H1 FALSIFIED if Q3 shows the within-vitakka APPLICATION/DISCURSIVE ratio is FLAT or non-monotonic across mula->attha->tika (no hardening).",
+  "H1 FALSIFIED (declared artifact) if the pīti negative control (Q4) rises with a slope statistically indistinguishable from vitakka's; the effect is generic register, not gloss-specific.",
+  "H1 FALSIFIED if the defining-frame harvest (Q5/Q6) finds abhiniropana-as-definitional-head ALREADY present in the mula layer at density indistinguishable from attha; the application reading would then be canonical, not a commentarial innovation.",
+  "H1 WEAKENED if the application rise is driven entirely by pli-vism (Visuddhimagga, shelved as mula but counted as commentary here) and vanishes when pli-vism is excluded from attha; report the pli-vism-out sensitivity.",
+  "WHOLE STUDY INVALID if any Q9 zero-guard term returns 0 (silent-diacritic failure) or if blind sense-coding kappa < 0.6 on the application-sense audit (counts uninterpretable)."
+ ],
+ "predicted_signal": "PREDICTED (H1, to be confirmed/refuted by Q3): within-vitakka APPLICATION/DISCURSIVE ratio rises monotonically, roughly mula < attha < tika, with the largest jump at the mula->attha boundary, and abhiniropana-as-definitional-head appearing FIRST in attha (Atthasālinī Dhs-a ~157, Vism IV.88), not in mula. TO BE MEASURED (no value committed): the absolute ratio values, the exact per-Mchar densities (Q1/Q2), whether the rise survives pli-vism exclusion, and the first-definitional work in Q6. PREDICTED for the control: pīti ratio (Q4) FLAT across all three layers and pīti defframe count (Q8) near-zero in every layer. The layer label itself is NOT independent evidence (T1: stratum() is a work_slug lookup); evidentiary weight is in the ratio SHAPE plus the blind-coded defining-frame first-appearance, cross-checked against the named primary loci.",
+ "primary_loci": [
+  "MN 117 Mahācattārīsaka: 'takko vitakko saṅkappo appanā byappanā cetaso abhiniropanā vacīsaṅkhāro', the one canonical (mula) frame where abhiniropanā sits beside vitakka; critical test of whether the application reading is already canonical or merely list-adjacent",
+  "MN 19 Dvedhāvitakka + MN 20 Vitakkasaṇṭhāna: vitakka in the discursive/intentional field (two-sorts-of-thinking, stilling of thoughts), the mula DISCURSIVE anchor",
+  "MN 78 Samaṇamuṇḍika: vitakka/saṅkappa as kusala/akusala thought, discursive-field locus",
+  "Dhammasaṅgaṇi + Atthasālinī (Dhs-a ~157): the abhiniropana lifting-onto-the-object head-gloss; predicted FIRST definitional locus",
+  "Visuddhimagga IV.88 (pli-vism): vicāra = anusañcaraṇa/anumajjana, vitakka = ārammaṇe abhiniropana; the systematizing commentary core",
+  "Paṭisambhidāmagga + Vibhaṅga (jhāna-vibhaṅga): abhidhamma-layer transitional glossing of the jhāna factors"
+ ],
+ "scope_limits": [
+  "Corpus-linguistic only: dates when a LEXICAL/DEFINITIONAL pattern appears in the held Pali text by layer; cannot settle the doctrinal question of what the Buddha meant by vitakka, nor adjudicate the thinking-vs-application interpretive debate.",
+  "stratum()/layer is a work_slug LOOKUP, not independent chronology (T1): mula vs attha is a textual-role partition, not a dated timeline; no absolute dating claims.",
+  "pli-vism is shelved as mula but treated as commentary here; results are reported both with and without it, and the convention choice is a known sensitivity, not a fact about chronology.",
+  "Foreign-language parallels (lzh/san) are graph-only (parallel_have=false); cannot check whether the application gloss has Sanskrit/Chinese Abhidharma analogues; structural mentions only.",
+  "Passage-presence counting cannot distinguish one definitional use from a passing mention without the blind sense-audit; pre-audit ratios are provisional.",
+  "CST coarse-vagga vs SC fine-sutta granularity makes distinct-works/suttas counts approximate; densities use is_primary dedup but passage size differs by edition."
+ ],
+ "iaa_plan": "\"Two independent coders (or two blinded agent passes under a frozen rubric) code the Q5 defining-frame candidate rows (TARGET + APPLICATION + DEFINING_FRAME co-hits) on ONE binary label: is abhiniropana/āropana functioning as a DEFINITIONAL head-noun glossing vitakka here (abhiniropana is PREDICATED of vitakka as its meaning/characteristic) versus a mere co-mention/list-item (e.g. the MN 117 synonym chain where abhiniropanā is one item, NOT a definition OF vitakka). Coders see original_head with work_slug/layer MASKED (layer-blind) to prevent layer-priming. Compute Cohen's kappa; require kappa >= 0.6 to proceed, adjudicate disagreements, and only adjudicated DEFINITIONAL rows feed Q6's first-appearance claim. A second kappa pass on a 50-row APPLICATION-sense sample (does the abhiniropana token mean mental application-to-object vs an unrelated sense of āropana such as planting/raising) guards the carita-lesson polysemy risk.\"",
+ "coding_needed": true
+}

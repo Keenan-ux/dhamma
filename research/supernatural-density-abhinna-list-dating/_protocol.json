@@ -1,0 +1,165 @@
+{
+ "slug": "supernatural-density-abhinna-list-dating",
+ "title": "Where the supernatural lives: iddhi/abhiññā/pāṭihāriya density across strata and the dating of the fixed six-abhiññā list",
+ "hypotheses": {
+  "h1": "H1 (house thesis: canon supple, commentary systematizes/hardens). The DISPLAY register of the supernatural (iddhi-pāṭihāriya, the iddhividha performance catalogue, the yamaka-pāṭihāriya) shows a per-Mchar density that RISES from early canon (1early) to late canon (2late/3abh) and is HIGHEST in commentary (5comm/6tika), while the DIAGNOSTIC register (iddhipāda + the four padhāna-saṅkhāra) stays comparatively FLAT across the same strata (a within-author register control). Concretely: (a) DISPLAY density in commentary > DISPLAY density in 1early by a clear margin; (b) the DISPLAY slope across mula strata exceeds the DIAGNOSTIC slope; (c) the NARROW (fixed six-list) sense-share of abhiññā increases from early canon to commentary, i.e. abhiññā hardens from an open WIDE 'direct/higher knowledge incl. paññā/vipassanā' usage into the closed chaḷabhiññā enumeration; (d) the chaḷabhiññā fixed collocation (cha/chaḷ + abhiññā as a counted set) appears late and densifies in commentary (a 'seam'). PED's '9 in 10 occurrences mean the six' is predicted to hold for COMMENTARY but NOT for the earliest canon, where WIDE share is materially larger.",
+  "h0": "H0 (pre-committed null, reported if it wins). There is NO register-differentiated hardening: once magnitude is taken per-character and the stratum-is-lookup caveat (T1) is respected, (a) DISPLAY per-Mchar density does not rise monotonically from 1early to commentary beyond what a matched neutral high-freq doctrinal negative-control term also shows (i.e. any apparent rise is a generic commentary-expansion / length / glossing artifact, not supernatural-specific); AND (b) the abhiññā NARROW sense-share is statistically indistinguishable across strata (the six-list is already fixed in the earliest canon, so PED's '9 in 10' holds uniformly and there is no datable seam). If the DISPLAY rise tracks the negative control within overlapping bootstrap CIs, or the NARROW-share strata CIs overlap, H0 stands and the study reports 'no datable hardening seam detected at corpus-linguistic resolution.'"
+ },
+ "frozen_lexica": [
+  {
+   "name": "DISPLAY_iddhipatihariya",
+   "role": "DISPLAY register — the 'wonder of psychic power' label and its metathesis/sandhi variants",
+   "pali_regex": "(iddhi|pāṭi|paṭi)[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)",
+   "notes": "Captures iddhipāṭihāriya / iddhi-pāṭihāriya / iddhipāṭihīra (metathesis pāṭihīra is REAL and common — confirmed wisdomlib/PED) plus short-vowel paṭihāriya and the rarer pātihāriya. [āī] covers both -hāriya and contracted -hīra. Run with original ~* (case-insensitive)."
+  },
+  {
+   "name": "DISPLAY_iddhividha_catalogue",
+   "role": "DISPLAY register — the stock performance catalogue of psychic feats (the 'one becomes many / through walls / dives in earth / walks on water / flies cross-legged' formula)",
+   "pali_regex": "(ekova|ekopi|eko hutvā).{0,40}bahudh|bahudh.{0,40}(eko|ekova)|tiro[- ]?(kuṭṭ|kuḍḍ|pākār|pabbat)|umm[uū]jj.{0,8}nimm[uū]jj|pathaviy[āa].{0,20}umm[uū]jj|vehās|pallaṅken.{0,12}kam|āvibhāv.{0,20}tirobhāv|iddhivi(dh|dha)|anekavihit.{0,20}iddhi",
+   "notes": "Disjunction of the catalogue's signature phrases. tiro-kuṭṭa has the CST/SC spelling pair kuṭṭa~kuḍḍa (double-tt vs ḍḍ) — BOTH included or this silently undercounts in one edition. ummujja/nimmujja allow long ū (umuujja attestation). 'anekavihit...iddhi' catches the framing clause 'anekavihitaṃ iddhividhaṃ'. The {0,N} windows keep the verb-pairs adjacent without spanning paragraphs."
+  },
+  {
+   "name": "DISPLAY_yamakapatihariya",
+   "role": "DISPLAY register — the twin miracle (small-N, localized)",
+   "pali_regex": "yamaka[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)",
+   "notes": "yamakapāṭihāriya / yamaka-pāṭihāriya / yamakapāṭihīra. Same pāṭihāriya/pāṭihīra variant handling as DISPLAY_iddhipatihariya. Expected tiny N — drives PASS 4 exact-count + CI."
+  },
+  {
+   "name": "DIAGNOSTIC_iddhipada",
+   "role": "DIAGNOSTIC register / within-register control — the four bases of spiritual power as a path factor (should be FLAT under H1)",
+   "pali_regex": "iddhip[āa]d|iddhi[- ]?p[āa]da|(chanda|viriya|citta|vīma[ṃṁ]s)[- ]?samādh.{0,30}padh[āa]nasaṅkh[āa]r",
+   "notes": "iddhipāda stem plus the four-factor formula 'X-samādhi-padhānasaṅkhāra'. CRITICAL niggahīta variant: vīmaṃsā (SC, dot-below ṃ) vs vīmaṁsā (CST, dot-above ṁ) — [ṃṁ] is mandatory or CST rows vanish. padhānasaṅkhāra also written padhāna-saṅkhāra; stem padhānasaṅkhār matches both. saṅkhār uses ṅ (velar nasal) not ñ."
+  },
+  {
+   "name": "SENSE_abhinna_stem",
+   "role": "PASS 2/3 anchor — every abhiññā token (sense to be split WIDE vs NARROW by co-occurrence; this is the polysemous term requiring κ)",
+   "pali_regex": "\\mabhiññ|chaḷabhiññ|cha[- ]?abhiññ|chab(b)?h?iññ|chaabhiññ",
+   "notes": "\\m word-boundary on bare abhiññ avoids matching inside unrelated strings, but the chaḷ-/cha-/chab(b)- bound forms are added explicitly because the boundary would otherwise split the compound. ñ is palatal (abhiññā), NOT n+tilde-less; a wrong ñ→n silently returns zero. chabbhiññ/chaḷabhiññ cover the cha+abhiññā sandhi (cha→cha b-doubling / cha→chaḷ). Do NOT fold to abhijñ (that is Sanskrit/BHS, a different lexicon)."
+  },
+  {
+   "name": "NARROW_quantifier",
+   "role": "PASS 2 — NARROW-sense trigger: an explicit six-quantifier or fixed-set marker bound to abhiññā",
+   "pali_regex": "\\m(cha|chaḷ|chab|chaa)[- ]?abhiññ|abhiññ.{0,15}(cha[ḷ]?|6)\\M|chaḷabhiññ|abhiññāya cha",
+   "notes": "Operationalizes NARROW = the cha-/chaḷ- six-quantifier collocated with abhiññā. Used as a WINDOWED co-occurrence flag in SQL, not standalone. The list-member fallback (>=2 of the six named members in window) is computed separately in PASS 2 SQL via the SIX_MEMBERS lexicon, not in this regex."
+  },
+  {
+   "name": "WIDE_collocate",
+   "role": "PASS 2 — WIDE-sense trigger: paññā/vipassanā 'direct/higher knowledge' collocates that push abhiññā toward the open sense",
+   "pali_regex": "paññ[āa]|vipassan|abhiññ[āa]ya sacchikatv|abhiññ[āa]ya dhamma|sabbadhamm.{0,15}abhiññ|abhiññ[āa] pariññ",
+   "notes": "WIDE markers: paññā/vipassanā nearby; 'abhiññāya sacchikatvā' (having realized by direct knowledge — verbal, open sense); 'sabbadhamme abhiññā' (direct-knowing all dhammas); 'abhiññā-pariññā' pairing. Windowed co-occurrence in SQL. Mutually scored against NARROW_quantifier; ambiguous (both/neither) rows go to the κ coding queue."
+  },
+  {
+   "name": "SIX_MEMBERS",
+   "role": "PASS 2 list-member fallback — the named six abhiññā; >=2 in a window flags NARROW even without an explicit quantifier",
+   "pali_regex": "iddhivi(dh|dha)|dibbasot|dibba[- ]?sot|cetopariyañāṇ|ceto[- ]?pariya|pubbenivās|pubbe[- ]?nivās|dibbacakkh|dibba[- ]?cakkh|āsavakkhay|āsavāna[ṃṁ] khay",
+   "notes": "The canonical six: iddhividhā, dibbasota, cetopariyañāṇa, pubbenivāsānussati, dibbacakkhu, āsavakkhaya. āsavakkhaya also appears periphrastically as 'āsavānaṃ khayā' — [ṃṁ] niggahīta variant included. cetopariyañāṇa hyphen-split variant included. Counting >=2 DISTINCT member-stems in a passage window = strong NARROW signal."
+  },
+  {
+   "name": "CRITIQUE_three_patihariya",
+   "role": "CRITIQUE register — the three-miracle contrast where anusāsanī/instruction is exalted over iddhi-display (the canon's own self-critique)",
+   "pali_regex": "(ādesan[āa]|anusāsan[īi])[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)|tīṇi.{0,20}p[āa]ṭih[āī]r|tividh.{0,20}p[āa]ṭih[āī]r",
+   "notes": "Captures ādesanā-pāṭihāriya (mind-reading) and anusāsanī-pāṭihāriya (instruction) — the two non-display miracles — plus the enumerating frames 'tīṇi pāṭihāriyāni' (three miracles) and 'tividhaṃ pāṭihāriyaṃ'. Co-presence of all three labels in a passage = the Kevaddha/Saṅgārava critique structure. Same pāṭihāriya/pāṭihīra variant set."
+  },
+  {
+   "name": "NEGCTRL_dukkha",
+   "role": "NEGATIVE CONTROL — a neutral high-frequency core doctrinal term that must NOT show a display-like supernatural rise",
+   "pali_regex": "\\mdukkh",
+   "notes": "dukkha is ubiquitous across ALL strata and registers; its per-Mchar density profile is the baseline 'generic doctrinal term' shape. If DISPLAY rises but dukkha is flat (or rises far less), the DISPLAY rise is supernatural-specific. If DISPLAY tracks dukkha within CI, H0's artifact explanation gains. \\m boundary avoids matching inside unrelated stems. A SECOND negative control (paṭicca / dependent-origination stem) is enumerated in SQL as a robustness check."
+  }
+ ],
+ "enumeration_sql": [
+  {
+   "label": "00_denominators_sanity",
+   "sql": "-- Confirm per-layer Mchar denominators against live data (dedup via is_primary). Frozen values: mula 53.543921, attha 29.488533, tika 28.357746.\nSELECT work_role,\n       count(*) AS rows,\n       sum(char_length(original))::numeric / 1e6 AS mchar\nFROM passages\nWHERE is_primary = true\nGROUP BY work_role\nORDER BY work_role;"
+  },
+  {
+   "label": "01_display_density_by_stratum",
+   "sql": "-- PASS 1a: DISPLAY register per-Mchar density by stratum. CANON numerator excludes pli-vism per convention; commentary handled in the same GROUP BY via stratum().\nWITH base AS (\n  SELECT stratum(work_slug) AS strat,\n         char_length(original) AS clen,\n         (original ~* '(iddhi|pāṭi|paṭi)[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)'\n          OR original ~* '(ekova|ekopi|eko hutvā).{0,40}bahudh|bahudh.{0,40}(eko|ekova)|tiro[- ]?(kuṭṭ|kuḍḍ|pākār|pabbat)|umm[uū]jj.{0,8}nimm[uū]jj|pathaviy[āa].{0,20}umm[uū]jj|vehās|pallaṅken.{0,12}kam|āvibhāv.{0,20}tirobhāv|iddhivi(dh|dha)|anekavihit.{0,20}iddhi'\n          OR original ~* 'yamaka[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)') AS is_display\n  FROM passages\n  WHERE is_primary = true\n)\nSELECT strat,\n       sum(clen)::numeric/1e6 AS mchar,\n       count(*) FILTER (WHERE is_display) AS display_rows,\n       round( count(*) FILTER (WHERE is_display) / (sum(clen)::numeric/1e6), 3) AS display_per_mchar\nFROM base GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "02_diagnostic_density_by_stratum",
+   "sql": "-- PASS 1b: DIAGNOSTIC register (iddhipāda + four padhāna-saṅkhāra) per-Mchar density by stratum. Expected FLAT under H1 (within-register control).\nWITH base AS (\n  SELECT stratum(work_slug) AS strat,\n         char_length(original) AS clen,\n         (original ~* 'iddhip[āa]d|iddhi[- ]?p[āa]da|(chanda|viriya|citta|vīma[ṃṁ]s)[- ]?samādh.{0,30}padh[āa]nasaṅkh[āa]r') AS is_diag\n  FROM passages WHERE is_primary = true\n)\nSELECT strat,\n       sum(clen)::numeric/1e6 AS mchar,\n       count(*) FILTER (WHERE is_diag) AS diag_rows,\n       round( count(*) FILTER (WHERE is_diag) / (sum(clen)::numeric/1e6), 3) AS diag_per_mchar\nFROM base GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "03_display_components_split",
+   "sql": "-- PASS 1c: decompose DISPLAY into its three sub-lexica per stratum (so a single component cannot drive the whole slope). Per-Mchar each.\nWITH base AS (\n  SELECT stratum(work_slug) AS strat, char_length(original) AS clen,\n    (original ~* '(iddhi|pāṭi|paṭi)[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)') AS f_label,\n    (original ~* '(ekova|ekopi|eko hutvā).{0,40}bahudh|bahudh.{0,40}(eko|ekova)|tiro[- ]?(kuṭṭ|kuḍḍ|pākār|pabbat)|umm[uū]jj.{0,8}nimm[uū]jj|pathaviy[āa].{0,20}umm[uū]jj|vehās|pallaṅken.{0,12}kam|āvibhāv.{0,20}tirobhāv|iddhivi(dh|dha)|anekavihit.{0,20}iddhi') AS f_cat,\n    (original ~* 'yamaka[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)') AS f_yam\n  FROM passages WHERE is_primary = true)\nSELECT strat, sum(clen)::numeric/1e6 AS mchar,\n  round(count(*) FILTER (WHERE f_label)/(sum(clen)::numeric/1e6),3) AS label_per_mchar,\n  round(count(*) FILTER (WHERE f_cat)/(sum(clen)::numeric/1e6),3) AS catalogue_per_mchar,\n  round(count(*) FILTER (WHERE f_yam)/(sum(clen)::numeric/1e6),3) AS yamaka_per_mchar\nFROM base GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "04_abhinna_total_by_stratum",
+   "sql": "-- PASS 2a: total abhiññā token-bearing rows per stratum (denominator for NARROW share). Uses the SENSE stem incl. bound forms.\nWITH base AS (\n  SELECT stratum(work_slug) AS strat, char_length(original) AS clen,\n         (original ~* '\\mabhiññ|chaḷabhiññ|cha[- ]?abhiññ|chab(b)?h?iññ|chaabhiññ') AS has_abh\n  FROM passages WHERE is_primary = true)\nSELECT strat, sum(clen)::numeric/1e6 AS mchar,\n       count(*) FILTER (WHERE has_abh) AS abhinna_rows,\n       round(count(*) FILTER (WHERE has_abh)/(sum(clen)::numeric/1e6),3) AS abhinna_per_mchar\nFROM base GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "05_abhinna_narrow_share_by_stratum",
+   "sql": "-- PASS 2b: NARROW vs WIDE share among abhiññā rows, by stratum. NARROW = explicit cha-/chaḷ- quantifier OR >=2 distinct named six-members in the row. WIDE = paññā/vipassanā collocate present AND not NARROW. Ambiguous = both/neither (go to κ queue).\nWITH abh AS (\n  SELECT id, stratum(work_slug) AS strat, original\n  FROM passages\n  WHERE is_primary = true\n    AND original ~* '\\mabhiññ|chaḷabhiññ|cha[- ]?abhiññ|chab(b)?h?iññ|chaabhiññ'\n), scored AS (\n  SELECT strat,\n    (original ~* '\\m(cha|chaḷ|chab|chaa)[- ]?abhiññ|abhiññ.{0,15}(cha[ḷ]?|6)|chaḷabhiññ|abhiññāya cha') AS quant_narrow,\n    ( (CASE WHEN original ~* 'iddhivi(dh|dha)' THEN 1 ELSE 0 END)\n    + (CASE WHEN original ~* 'dibbasot|dibba[- ]?sot' THEN 1 ELSE 0 END)\n    + (CASE WHEN original ~* 'cetopariyañāṇ|ceto[- ]?pariya' THEN 1 ELSE 0 END)\n    + (CASE WHEN original ~* 'pubbenivās|pubbe[- ]?nivās' THEN 1 ELSE 0 END)\n    + (CASE WHEN original ~* 'dibbacakkh|dibba[- ]?cakkh' THEN 1 ELSE 0 END)\n    + (CASE WHEN original ~* 'āsavakkhay|āsavāna[ṃṁ] khay' THEN 1 ELSE 0 END) ) AS member_hits,\n    (original ~* 'paññ[āa]|vipassan|abhiññ[āa]ya sacchikatv|abhiññ[āa]ya dhamma|sabbadhamm.{0,15}abhiññ|abhiññ[āa] pariññ') AS wide_coll\n  FROM abh\n)\nSELECT strat,\n  count(*) AS abhinna_rows,\n  count(*) FILTER (WHERE quant_narrow OR member_hits>=2) AS narrow_rows,\n  count(*) FILTER (WHERE NOT (quant_narrow OR member_hits>=2) AND wide_coll) AS wide_rows,\n  count(*) FILTER (WHERE NOT (quant_narrow OR member_hits>=2) AND NOT wide_coll) AS ambiguous_rows,\n  round( count(*) FILTER (WHERE quant_narrow OR member_hits>=2)::numeric / count(*), 3) AS narrow_share\nFROM scored GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "06_kappa_gold_sample",
+   "sql": "-- κ GOLD: pull ~150 abhiññā rows STRATIFIED across strata + auto-label tendency, for blind human/agent NARROW-vs-WIDE coding. Deterministic order (md5) so the sample is reproducible/frozen.\nWITH abh AS (\n  SELECT id, stratum(work_slug) AS strat, work_slug, original, translation,\n    (original ~* '\\m(cha|chaḷ|chab|chaa)[- ]?abhiññ|chaḷabhiññ|abhiññāya cha') AS auto_narrow,\n    (original ~* 'paññ[āa]|vipassan|abhiññ[āa]ya sacchikatv|sabbadhamm.{0,15}abhiññ') AS auto_wide\n  FROM passages\n  WHERE is_primary = true\n    AND original ~* '\\mabhiññ|chaḷabhiññ|cha[- ]?abhiññ|chab(b)?h?iññ'\n), ranked AS (\n  SELECT *, row_number() OVER (PARTITION BY strat ORDER BY md5(id::text)) AS rn\n  FROM abh\n)\nSELECT id, strat, work_slug, auto_narrow, auto_wide,\n       left(original, 600) AS original_snippet,\n       left(coalesce(translation,''), 400) AS translation_snippet\nFROM ranked\nWHERE rn <= 25  -- ~25 per stratum across 7 strata caps near 150; trim empties downstream\nORDER BY strat, rn;"
+  },
+  {
+   "label": "07_chalabhinna_firstappearance_seam",
+   "sql": "-- PASS 3: chaḷabhiññā FIXED collocation first-appearance + density seam. Per-stratum per-Mchar density of the bound six-list collocation specifically (not bare abhiññā).\nWITH base AS (\n  SELECT stratum(work_slug) AS strat, work_slug, char_length(original) AS clen,\n         (original ~* 'chaḷabhiññ|cha[- ]?abhiññ|chab(b)?h?iññ|chaabhiññ|\\m(cha|chaḷ)[- ]?abhiññ') AS is_fixed\n  FROM passages WHERE is_primary = true)\nSELECT strat,\n       sum(clen)::numeric/1e6 AS mchar,\n       count(*) FILTER (WHERE is_fixed) AS fixed_rows,\n       round(count(*) FILTER (WHERE is_fixed)/(sum(clen)::numeric/1e6),3) AS fixed_per_mchar,\n       count(DISTINCT work_slug) FILTER (WHERE is_fixed) AS distinct_works\nFROM base GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "08_chalabhinna_loci_list",
+   "sql": "-- PASS 3 support: enumerate the actual works/passages carrying the chaḷabhiññā fixed collocation, to locate the earliest canonical occurrence(s) by hand against known chronology.\nSELECT stratum(work_slug) AS strat, work_slug, id, left(original,300) AS snippet\nFROM passages\nWHERE is_primary = true\n  AND original ~* 'chaḷabhiññ|cha[- ]?abhiññ|chab(b)?h?iññ|chaabhiññ'\nORDER BY strat, work_slug, id;"
+  },
+  {
+   "label": "09_yamaka_exact_counts",
+   "sql": "-- PASS 4: yamaka-pāṭihāriya EXACT counts (small-N localization) + per-Mchar + distinct works, by stratum. Wald CI computed downstream from these raw integers.\nWITH base AS (\n  SELECT stratum(work_slug) AS strat, work_slug, id, char_length(original) AS clen,\n         (original ~* 'yamaka[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)') AS is_yam\n  FROM passages WHERE is_primary = true)\nSELECT strat,\n       sum(clen)::numeric/1e6 AS mchar,\n       count(*) FILTER (WHERE is_yam) AS yamaka_rows,\n       count(DISTINCT work_slug) FILTER (WHERE is_yam) AS distinct_works\nFROM base GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "10_yamaka_loci_rows",
+   "sql": "-- PASS 4 support: the exact yamaka-pāṭihāriya rows for manual locus confirmation (Paṭisambhidāmagga / Apadāna / commentary expected).\nSELECT stratum(work_slug) AS strat, work_slug, id, left(original,300) AS snippet\nFROM passages\nWHERE is_primary = true\n  AND original ~* 'yamaka[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)'\nORDER BY strat, work_slug, id;"
+  },
+  {
+   "label": "11_three_patihariya_critique",
+   "sql": "-- CRITIQUE pass: per-stratum density of the three-pāṭihāriya contrast, and co-presence of all three labels (the Kevaddha/Saṅgārava self-critique structure).\nWITH base AS (\n  SELECT stratum(work_slug) AS strat, char_length(original) AS clen,\n    (original ~* '(ādesan[āa]|anusāsan[īi])[- ]?(p[āa]ṭih[āī]r|pātih[āī]r)|tīṇi.{0,20}p[āa]ṭih[āī]r|tividh.{0,20}p[āa]ṭih[āī]r') AS is_crit,\n    (original ~* 'iddhi[- ]?(p[āa]ṭih[āī]r)' AND original ~* 'ādesan' AND original ~* 'anusāsan') AS all_three\n  FROM passages WHERE is_primary = true)\nSELECT strat, sum(clen)::numeric/1e6 AS mchar,\n  round(count(*) FILTER (WHERE is_crit)/(sum(clen)::numeric/1e6),3) AS critique_per_mchar,\n  count(*) FILTER (WHERE all_three) AS all_three_copresent_rows\nFROM base GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "12_negative_controls_by_stratum",
+   "sql": "-- NEGATIVE CONTROLS: dukkha (primary) + paṭicca (robustness) per-Mchar by stratum. These must NOT show the DISPLAY-like rise. Compare slope vs PASS 1a.\nWITH base AS (\n  SELECT stratum(work_slug) AS strat, char_length(original) AS clen,\n         (original ~* '\\mdukkh') AS is_dukkha,\n         (original ~* '\\mpaṭicca|paṭiccasamupp') AS is_paticca\n  FROM passages WHERE is_primary = true)\nSELECT strat, sum(clen)::numeric/1e6 AS mchar,\n  round(count(*) FILTER (WHERE is_dukkha)/(sum(clen)::numeric/1e6),3) AS dukkha_per_mchar,\n  round(count(*) FILTER (WHERE is_paticca)/(sum(clen)::numeric/1e6),3) AS paticca_per_mchar\nFROM base GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "13_translator_divergence_abhinna",
+   "sql": "-- TRANSLATOR-DISAGREEMENT lane: for abhiññā-bearing passages, surface how different translators render the term (open 'direct knowledge' vs enumerated 'six knowledges'), to study WIDE/NARROW divergence in English independent of the Pali coding.\nSELECT t.translator,\n       count(*) AS n_rows,\n       count(*) FILTER (WHERE t.text ~* 'direct knowledge|higher knowledge|insight') AS wide_render,\n       count(*) FILTER (WHERE t.text ~* 'six (kinds of )?(higher |direct )?knowledge|six (super|abhi)') AS narrow_render\nFROM translations t\nJOIN passages p ON p.id = t.passage_id\nWHERE p.is_primary = true\n  AND p.original ~* '\\mabhiññ|chaḷabhiññ|cha[- ]?abhiññ'\nGROUP BY t.translator\nORDER BY n_rows DESC;"
+  }
+ ],
+ "density_method": "Per-character only (T2). For each lexicon × stratum: density = (count of is_primary rows whose original matches the frozen regex) / (Mchar of is_primary original text in that stratum). Frozen per-layer Mchar denominators as cross-check: mula 53.543921, attha 29.488533, tika 28.357746. Row-level match counting (a row counts once regardless of internal repeats). 'Slope' = ordered ratio comparison along 1early<2late<3abh (canon) into 5comm/6tika (commentary), reported as ratios (e.g. comm/1early) with passage-bootstrap CIs, NOT regression on stratum integers (stratum is a lookup, not a time axis: T1). CANON numerator = work_role='mula' AND work_slug<>'pli-vism'; COMMENTARY = work_slug LIKE '%-attha' OR work_slug='pli-vism'; tika = work_slug LIKE '%-tika'. NARROW share = narrow_rows/abhinna_rows per stratum with Wilson CIs. Dedup on is_primary; SC=fine per-sutta vs CST=coarse vagga granularity caveated for distinct-works counts.",
+ "negative_controls": [
+  "Primary: dukkha (\\mdukkh) — ubiquitous core doctrinal term. Its per-Mchar profile across strata is the 'generic doctrinal/glossing-expansion' baseline. H1 requires DISPLAY to rise materially MORE than dukkha from 1early to commentary; if DISPLAY's comm/1early ratio sits inside dukkha's bootstrap CI, the rise is a generic register artifact and H0 gains (query 12).",
+  "Robustness: paṭicca / paṭiccasamuppāda (\\mpaṭicca|paṭiccasamupp) — a second neutral-but-doctrinally-weighty term that is itself heavily commentary-glossed; controls for the specific worry that ANY technical term inflates in commentary. DISPLAY must outpace BOTH controls to support H1 (query 12).",
+  "Within-register control (not a negative control but a built-in null arm): DIAGNOSTIC iddhipāda must stay comparatively FLAT (query 02). If iddhipāda rises in lockstep with DISPLAY, the effect is 'all iddhi-talk expands', not 'the supernatural-DISPLAY register specifically hardens', weakening H1's register-differentiation claim."
+ ],
+ "falsifiers": [
+  "DISPLAY per-Mchar density does NOT rise from 1early to commentary (comm/1early ratio <= 1.0, or its bootstrap CI includes 1.0) → H1(a) falsified.",
+  "The DISPLAY comm/1early ratio falls within the dukkha (or paṭicca) negative-control CI → the rise is a generic commentary-expansion artifact, not supernatural-specific → H1 falsified, H0 reported.",
+  "DIAGNOSTIC iddhipāda rises with a slope statistically indistinguishable from DISPLAY → register-differentiation claim falsified (the control is not flat).",
+  "abhiññā NARROW-share CIs overlap across all strata (no monotone increase early→comm) → 'hardening from WIDE to NARROW' falsified; PED's 9-in-10 then either holds everywhere (six-list already fixed early) or nowhere.",
+  "chaḷabhiññā fixed collocation appears in 1early at non-trivial density with no commentary seam (fixed_per_mchar early ≈ comm) → 'late fixed list' dating falsified.",
+  "yamaka-pāṭihāriya exact counts are so small that all per-stratum CIs overlap zero-distinguishability → PASS 4 cannot localize; report as inconclusive (small-N), NOT as support either way.",
+  "κ on the NARROW/WIDE sense-split < 0.6 → the sense-coding is unreliable; PASS 2 NARROW-share numbers are withdrawn and reported only as 'auto-heuristic, not adjudicated' (the %carita% lesson)."
+ ],
+ "predicted_signal": "PREDICTED (house thesis, to be confirmed/falsified by enumeration): (a) DISPLAY per-Mchar density rises 1early→2late→3abh and peaks in 5comm/6tika, with comm/1early ratio clearly >1 and OUTSIDE the dukkha negative-control CI [predicted, not yet measured]. (b) DIAGNOSTIC iddhipāda density roughly flat across the same strata [predicted]. (c) abhiññā NARROW-share increases monotonically early→commentary; WIDE share materially >10% in 1early but ~<=10% in commentary (operationalizing PED 'nine in ten' as a commentary-era figure) [predicted]. (d) chaḷabhiññā fixed collocation near-absent in 1early, first solid appearances in late-canon/Abhidhamma-adjacent works, densifying into commentary = a visible seam [predicted]. (e) yamaka-pāṭihāriya localized to a few late works (Paṭisambhidāmagga/Apadāna/commentary), small exact N [predicted]. (f) NEGATIVE CONTROLS dukkha and paṭicca approximately flat or mild generic rise, NOT display-shaped [predicted]. ALL specific density numbers, ratios, NARROW-shares, exact yamaka counts, and the κ value are TO BE MEASURED by the enumeration SQL; none are asserted here.",
+ "primary_loci": [
+  "DN 11 Kevaṭṭa/Kevaddha Sutta — the locus classicus of the three-pāṭihāriya critique (iddhi vs ādesanā vs anusāsanī), where iddhi-display is disparaged in favor of instruction",
+  "DN 2 Sāmaññaphala + AN 'Ākaṅkheyya'-type stock passages — the iddhividha performance catalogue in canonical form (one-becomes-many / through-walls / dives-in-earth / walks-on-water / cross-legged-flight)",
+  "SN 51 Iddhipāda-saṃyutta — the DIAGNOSTIC register: four bases (chanda/viriya/citta/vīmaṃsā samādhi + padhānasaṅkhāra), the within-register control",
+  "MN 77 (Mahāsakuludāyi) / Saṅgārava Sutta — three-pāṭihāriya enumeration co-present, supports CRITIQUE co-presence detection",
+  "Paṭisambhidāmagga, Iddhikathā — dense systematized iddhi taxonomy + yamaka-pāṭihāriya (late-canonical seam candidate)",
+  "Apadāna + Buddhavaṃsa/commentary — yamaka-pāṭihāriya narrative occurrences (small-N localization, PASS 4)",
+  "Visuddhimagga (pli-vism, commentary-shelved-as-mula) Iddhividha-niddesa — the commentarial systematization peak for DISPLAY + chaḷabhiññā",
+  "PED s.v. abhiññā ('in 9 out of 10 cases the 6 are meant') — the lexicographic claim PASS 2 operationalizes"
+ ],
+ "scope_limits": [
+  "Cannot establish absolute chronology or authorship dates: stratum() is a work_slug LOOKUP, not independent dating (T1). A 'seam' is a corpus-distributional fact about strata-as-defined, never a dated historical event, and must never be presented as independent chronological evidence.",
+  "Cannot settle whether the six-abhiññā list is doctrinally 'original' or 'added' — only where its FIXED COLLOCATION is dense vs sparse in this corpus. Lexical distribution is not doctrinal authenticity.",
+  "Foreign-language parallels (lzh/san) are GRAPH-only (parallel_have=false for non-pli); cannot check whether Chinese/Sanskrit Āgama parallels share the display rise — structural co-occurrence only, no comparative text mining.",
+  "Row-level match counting can conflate one dense passage with one sparse one; per-Mchar mitigates length but not within-row repetition. Distinct-works counts are blurred by SC(fine)/CST(coarse) granularity.",
+  "PED's 'nine in ten' is a hand-feel lexicographer estimate; our NARROW-share operationalization (quantifier OR >=2 members) is ONE reasonable proxy, not a proof of PED's exact figure — agreement/disagreement is suggestive only.",
+  "yamaka-pāṭihāriya is expected small-N; CIs may be too wide to localize, in which case PASS 4 yields 'inconclusive', not a finding.",
+  "All outputs are corpus-linguistic (density/register/collocation/translator-divergence). No doctrinal verdict on whether the Buddha taught psychic powers, whether they are 'real', or whether commentary 'corrupted' the canon."
+ ],
+ "iaa_plan": "κ-gold on the abhiññā WIDE/NARROW sense-split. Query 06 pulls a FROZEN, reproducible (md5-ordered) stratified sample of ~150 abhiññā-bearing rows (≈25 per stratum, trimmed of empties), each with Pali original + one English translation snippet, plus auto_narrow/auto_wide heuristic flags HIDDEN from coders during coding. Two independent coders (human operator + blind agent, or two blind agents) label each row NARROW (fixed six-abhiññā list meant) / WIDE (open 'direct/higher knowledge', paññā/vipassanā sense) / AMBIGUOUS, blind to stratum and to each other. Compute Cohen's κ on NARROW-vs-rest binary AND on the 3-way label. Gate: κ>=0.6 lets PASS 2 NARROW-share stand; 0.4–0.6 report-with-caveat; <0.4 withdraw PASS 2 as auto-heuristic-only. Disagreements adjudicated by a third pass; residual disagreement reported. Auto-heuristic then validated vs gold (precision/recall) to decide if query-05 corpus-wide NARROW-share is trustworthy or needs recalibration.",
+ "coding_needed": true
+}

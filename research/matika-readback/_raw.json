@@ -1,0 +1,1791 @@
+{
+ "meta": {
+  "slug": "matika-readback",
+  "title": "Mātikā read-back: Abhidhamma cross-classification grid imported into mātikā-poor suttas",
+  "as_of": "2026-06-24",
+  "n_queries": 16,
+  "ok": 15,
+  "err": 1
+ },
+ "results": [
+  {
+   "label": "00_sanity_denominators_and_dedupe",
+   "sql": "SELECT stratum(work_slug) AS strat, work_role, count(*) AS rows_all, count(*) FILTER (WHERE is_primary) AS rows_primary, sum(char_length(original)) FILTER (WHERE is_primary)/1e6 AS mchar_primary FROM passages GROUP BY 1,2 ORDER BY 1,2;",
+   "columns": [
+    "strat",
+    "work_role",
+    "rows_all",
+    "rows_primary",
+    "mchar_primary"
+   ],
+   "rowcount": 8,
+   "rows": [
+    [
+     "1early",
+     "mula",
+     4866,
+     4470,
+     "13.0956680000000000"
+    ],
+    [
+     "2late",
+     "mula",
+     1687,
+     1420,
+     "3.8518920000000000"
+    ],
+    [
+     "3abh",
+     "mula",
+     7530,
+     6428,
+     "7.5767990000000000"
+    ],
+    [
+     "4para",
+     "mula",
+     294,
+     294,
+     "1.2127720000000000"
+    ],
+    [
+     "5comm",
+     "attha",
+     91843,
+     91843,
+     "29.4885330000000000"
+    ],
+    [
+     "5comm",
+     "mula",
+     3619,
+     3619,
+     "1.2026810000000000"
+    ],
+    [
+     "6tika",
+     "tika",
+     81841,
+     81841,
+     "28.3577460000000000"
+    ],
+    [
+     "7other",
+     "anya",
+     3030,
+     3030,
+     "9.8805130000000000"
+    ]
+   ]
+  },
+  {
+   "label": "01_matika_paramattha_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'paramatth|sabhāv|cetasik|cetasikā|ārammaṇ|ārammaṅ|nipphann|anipphann|nippariyāy|salakkhaṇ|salakkhan|sāmaññalakkhaṇ|paccupaṭṭhān|padaṭṭhān') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, count(*) FILTER (WHERE hit) AS hit_rows, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;",
+   "columns": [
+    "strat",
+    "work_role",
+    "mchar",
+    "hit_rows",
+    "hits_per_mchar"
+   ],
+   "rowcount": 8,
+   "rows": [
+    [
+     "1early",
+     "mula",
+     "13.0956680000000000",
+     143,
+     "10.9196415180959077"
+    ],
+    [
+     "2late",
+     "mula",
+     "3.8518920000000000",
+     73,
+     "18.9517255416299315"
+    ],
+    [
+     "3abh",
+     "mula",
+     "7.5767990000000000",
+     2874,
+     "379.3158562078788153"
+    ],
+    [
+     "4para",
+     "mula",
+     "1.2127720000000000",
+     75,
+     "61.8417971391160086"
+    ],
+    [
+     "5comm",
+     "attha",
+     "29.4885330000000000",
+     5464,
+     "185.2923643234473549"
+    ],
+    [
+     "5comm",
+     "mula",
+     "1.2026810000000000",
+     553,
+     "459.8060499833289127"
+    ],
+    [
+     "6tika",
+     "tika",
+     "28.3577460000000000",
+     9183,
+     "323.8268655061654054"
+    ],
+    [
+     "7other",
+     "anya",
+     "9.8805130000000000",
+     362,
+     "36.6377737674147081"
+    ]
+   ]
+  },
+  {
+   "label": "02_matika_cetasikadef_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'abhiniropan|āropan|anumajjan|\\mvitakk|\\mvicār|ekaggat|cittekaggat|yonisomanasikār|manasikār|saññā|saṅkhār|sankhār|saṃkhār|saṁkhār') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;",
+   "columns": [
+    "strat",
+    "work_role",
+    "mchar",
+    "hits_per_mchar"
+   ],
+   "rowcount": 8,
+   "rows": [
+    [
+     "1early",
+     "mula",
+     "13.0956680000000000",
+     "72.7721564108069936"
+    ],
+    [
+     "2late",
+     "mula",
+     "3.8518920000000000",
+     "35.8265496540401444"
+    ],
+    [
+     "3abh",
+     "mula",
+     "7.5767990000000000",
+     "84.7323520130334723"
+    ],
+    [
+     "4para",
+     "mula",
+     "1.2127720000000000",
+     "90.7013024707034793"
+    ],
+    [
+     "5comm",
+     "attha",
+     "29.4885330000000000",
+     "168.4383553430752218"
+    ],
+    [
+     "5comm",
+     "mula",
+     "1.2026810000000000",
+     "504.7057366001458408"
+    ],
+    [
+     "6tika",
+     "tika",
+     "28.3577460000000000",
+     "212.0055663098188410"
+    ],
+    [
+     "7other",
+     "anya",
+     "9.8805130000000000",
+     "43.1151702345819493"
+    ]
+   ]
+  },
+  {
+   "label": "03_katame_frame_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'katame\\s+dhammā|\\mkatamo|\\mkatamā|\\mkatamaṃ|\\mkatamaṁ|katamañ|tattha\\s+katam|idaṃ\\s+vuccati|idaṁ\\s+vuccati|ime\\s+vuccanti|ayaṃ\\s+vuccati|ayaṁ\\s+vuccati') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;",
+   "columns": [
+    "strat",
+    "work_role",
+    "mchar",
+    "hits_per_mchar"
+   ],
+   "rowcount": 8,
+   "rows": [
+    [
+     "1early",
+     "mula",
+     "13.0956680000000000",
+     "73.0776009287956903"
+    ],
+    [
+     "2late",
+     "mula",
+     "3.8518920000000000",
+     "14.2786973258855648"
+    ],
+    [
+     "3abh",
+     "mula",
+     "7.5767990000000000",
+     "54.9044523947382001"
+    ],
+    [
+     "4para",
+     "mula",
+     "1.2127720000000000",
+     "119.5608078022909500"
+    ],
+    [
+     "5comm",
+     "attha",
+     "29.4885330000000000",
+     "36.3870254244251486"
+    ],
+    [
+     "5comm",
+     "mula",
+     "1.2026810000000000",
+     "77.3272380622958208"
+    ],
+    [
+     "6tika",
+     "tika",
+     "28.3577460000000000",
+     "27.3293935279623423"
+    ],
+    [
+     "7other",
+     "anya",
+     "9.8805130000000000",
+     "18.1164682441083778"
+    ]
+   ]
+  },
+  {
+   "label": "04_positive_lexicon_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'dukkhasacc|dukkhanirodh|nirodhasacc|samudayasacc|maggasacc|ariyasacc|paṭiccasamuppād|paticcasamuppad|avijjāpaccayā|\\mjhān|paṭhamajjhān|dutiyajjhān|tatiyajjhān|catutthajjhān|jhānaṅg') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;",
+   "columns": [
+    "strat",
+    "work_role",
+    "mchar",
+    "hits_per_mchar"
+   ],
+   "rowcount": 8,
+   "rows": [
+    [
+     "1early",
+     "mula",
+     "13.0956680000000000",
+     "32.3007577773046782"
+    ],
+    [
+     "2late",
+     "mula",
+     "3.8518920000000000",
+     "22.8459157214169037"
+    ],
+    [
+     "3abh",
+     "mula",
+     "7.5767990000000000",
+     "133.4336571420200008"
+    ],
+    [
+     "4para",
+     "mula",
+     "1.2127720000000000",
+     "28.8595053315874707"
+    ],
+    [
+     "5comm",
+     "attha",
+     "29.4885330000000000",
+     "90.1367321324529776"
+    ],
+    [
+     "5comm",
+     "mula",
+     "1.2026810000000000",
+     "260.2518872419203430"
+    ],
+    [
+     "6tika",
+     "tika",
+     "28.3577460000000000",
+     "108.6475631737444859"
+    ],
+    [
+     "7other",
+     "anya",
+     "9.8805130000000000",
+     "14.4729327313268046"
+    ]
+   ]
+  },
+  {
+   "label": "05_negative_control_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* '\\mseyyathāpi|seyyathidaṃ|seyyathidaṁ|upamā|opamm|\\mviya\\M|sadis|\\mānand|sāriputt|moggallān|mahākassap|jetavan|sāvatthi') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;",
+   "columns": [
+    "strat",
+    "work_role",
+    "mchar",
+    "hits_per_mchar"
+   ],
+   "rowcount": 8,
+   "rows": [
+    [
+     "1early",
+     "mula",
+     "13.0956680000000000",
+     "155.3948985267494564"
+    ],
+    [
+     "2late",
+     "mula",
+     "3.8518920000000000",
+     "61.0089794833292315"
+    ],
+    [
+     "3abh",
+     "mula",
+     "7.5767990000000000",
+     "98.3264832549999017"
+    ],
+    [
+     "4para",
+     "mula",
+     "1.2127720000000000",
+     "140.9992974771844996"
+    ],
+    [
+     "5comm",
+     "attha",
+     "29.4885330000000000",
+     "445.3256457349031232"
+    ],
+    [
+     "5comm",
+     "mula",
+     "1.2026810000000000",
+     "483.9188446479157815"
+    ],
+    [
+     "6tika",
+     "tika",
+     "28.3577460000000000",
+     "368.3296972897634389"
+    ],
+    [
+     "7other",
+     "anya",
+     "9.8805130000000000",
+     "101.3105291192876321"
+    ]
+   ]
+  },
+  {
+   "label": "06_negcontrol_structural_via_tags",
+   "sql": "SELECT stratum(p.work_slug) AS strat, p.work_role, pt.tag_type, count(DISTINCT p.id) AS tagged_rows, sum(char_length(p.original))/1e6 AS mchar, count(DISTINCT p.id)::numeric/(sum(char_length(p.original))/1e6) AS tagged_per_mchar FROM passages p JOIN passage_tags pt ON pt.passage_id = p.id WHERE p.is_primary AND pt.tag_type IN ('simile','name') GROUP BY 1,2,3 ORDER BY 1,2,3;",
+   "columns": [
+    "strat",
+    "work_role",
+    "tag_type",
+    "tagged_rows",
+    "mchar",
+    "tagged_per_mchar"
+   ],
+   "rowcount": 2,
+   "rows": [
+    [
+     "1early",
+     "mula",
+     "name",
+     586,
+     "12.8308460000000000",
+     "45.6711895692614501"
+    ],
+    [
+     "1early",
+     "mula",
+     "simile",
+     256,
+     "5.6985480000000000",
+     "44.9237244294511514"
+    ]
+   ]
+  },
+  {
+   "label": "07_per_work_density_for_gini_lorenz_CANON",
+   "sql": "WITH d AS (SELECT work_slug, char_length(original) AS L, (original ~* 'paramatth|sabhāv|cetasik|ārammaṇ|nipphann|salakkhaṇ|paccupaṭṭhān|padaṭṭhān|abhiniropan|\\mvitakk|\\mvicār|saṅkhār|katame\\s+dhammā|\\mkatamo|idaṃ\\s+vuccati|idaṁ\\s+vuccati') AS hit FROM passages WHERE is_primary AND work_role='mula' AND work_slug <> 'pli-vism') SELECT work_slug, sum(L)/1e6 AS mchar, count(*) FILTER (WHERE hit) AS hit_rows, (count(*) FILTER (WHERE hit))::numeric/(sum(L)/1e6) AS matika_per_mchar FROM d GROUP BY work_slug HAVING sum(L) > 20000 ORDER BY matika_per_mchar DESC;",
+   "columns": [
+    "work_slug",
+    "mchar",
+    "hit_rows",
+    "matika_per_mchar"
+   ],
+   "rowcount": 23,
+   "rows": [
+    [
+     "pli-abhidhamma",
+     "7.5767990000000000",
+     3292,
+     "434.4842723160532568"
+    ],
+    [
+     "pli-sn",
+     "2.4113530000000000",
+     508,
+     "210.6701092706045112"
+    ],
+    [
+     "pli-bv",
+     "0.09838500000000000000",
+     20,
+     "203.28302078568887533669"
+    ],
+    [
+     "pli-ne",
+     "0.25699000000000000000",
+     36,
+     "140.08327172263512198918"
+    ],
+    [
+     "pli-dhp",
+     "0.05217000000000000000",
+     7,
+     "134.17672992141077247460"
+    ],
+    [
+     "pli-mil",
+     "0.66191400000000000000",
+     82,
+     "123.88316306952262680650"
+    ],
+    [
+     "pli-thig",
+     "0.05698100000000000000",
+     7,
+     "122.84796686614836524456"
+    ],
+    [
+     "pli-iti",
+     "0.10827200000000000000",
+     13,
+     "120.06797694694842618590"
+    ],
+    [
+     "pli-an",
+     "2.7477620000000000",
+     277,
+     "100.8093131792345916"
+    ],
+    [
+     "pli-snp",
+     "0.17321000000000000000",
+     16,
+     "92.37341954852491195658"
+    ],
+    [
+     "pli-thag",
+     "0.15414700000000000000",
+     13,
+     "84.33508274569080163740"
+    ],
+    [
+     "pli-ud",
+     "0.17685400000000000000",
+     10,
+     "56.54381580286564058489"
+    ],
+    [
+     "pli-cp",
+     "0.03771800000000000000",
+     2,
+     "53.02508086324831645368"
+    ],
+    [
+     "pli-mn",
+     "2.1596990000000000",
+     91,
+     "42.1355012897630642"
+    ],
+    [
+     "pli-ap",
+     "0.78173700000000000000",
+     30,
+     "38.37607788808768166276"
+    ],
+    [
+     "pli-ps",
+     "0.76071000000000000000",
+     25,
+     "32.86403491475069343114"
+    ],
+    [
+     "pli-pe",
+     "0.29386800000000000000",
+     9,
+     "30.62599534484870758300"
+    ],
+    [
+     "pli-nd",
+     "1.2140220000000000",
+     36,
+     "29.6534988657536684"
+    ],
+    [
+     "pli-ja",
+     "0.75368900000000000000",
+     19,
+     "25.20933700770476947388"
+    ],
+    [
+     "pli-pv",
+     "0.09051000000000000000",
+     2,
+     "22.09700585570655176224"
+    ],
+    [
+     "pli-dn",
+     "1.2668370000000000",
+     24,
+     "18.9448208411974074"
+    ],
+    [
+     "pli-vinaya",
+     "3.7785660000000000",
+     30,
+     "7.9395199131098941"
+    ],
+    [
+     "pli-vv",
+     "0.11512100000000000000",
+     0,
+     "0E-20"
+    ]
+   ]
+  },
+  {
+   "label": "08_per_work_density_POSITIVE_for_gini_compare",
+   "sql": "WITH d AS (SELECT work_slug, char_length(original) AS L, (original ~* 'ariyasacc|dukkhasacc|nirodhasacc|maggasacc|paṭiccasamuppād|paticcasamuppad|avijjāpaccayā|\\mjhān|paṭhamajjhān|catutthajjhān|jhānaṅg') AS hit FROM passages WHERE is_primary AND work_role='mula' AND work_slug <> 'pli-vism') SELECT work_slug, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric/(sum(L)/1e6) AS positive_per_mchar FROM d GROUP BY work_slug HAVING sum(L) > 20000 ORDER BY positive_per_mchar DESC;",
+   "columns": [
+    "work_slug",
+    "mchar",
+    "positive_per_mchar"
+   ],
+   "rowcount": 23,
+   "rows": [
+    [
+     "pli-abhidhamma",
+     "7.5767990000000000",
+     "131.1899655778119493"
+    ],
+    [
+     "pli-vv",
+     "0.11512100000000000000",
+     "86.86512452115600107713"
+    ],
+    [
+     "pli-thig",
+     "0.05698100000000000000",
+     "70.19883820922763728260"
+    ],
+    [
+     "pli-snp",
+     "0.17321000000000000000",
+     "63.50672593961087697015"
+    ],
+    [
+     "pli-thag",
+     "0.15414700000000000000",
+     "58.38582651624747805666"
+    ],
+    [
+     "pli-sn",
+     "2.4113530000000000",
+     "53.9116421361783198"
+    ],
+    [
+     "pli-ne",
+     "0.25699000000000000000",
+     "50.58562589984046071832"
+    ],
+    [
+     "pli-dhp",
+     "0.05217000000000000000",
+     "38.33620854897450642131"
+    ],
+    [
+     "pli-an",
+     "2.7477620000000000",
+     "37.8489840095321210"
+    ],
+    [
+     "pli-bv",
+     "0.09838500000000000000",
+     "30.49245311785333130050"
+    ],
+    [
+     "pli-ap",
+     "0.78173700000000000000",
+     "28.14245711793096655269"
+    ],
+    [
+     "pli-iti",
+     "0.10827200000000000000",
+     "27.70799468006502142752"
+    ],
+    [
+     "pli-pe",
+     "0.29386800000000000000",
+     "27.22310697319885118489"
+    ],
+    [
+     "pli-ps",
+     "0.76071000000000000000",
+     "24.97666653521052700766"
+    ],
+    [
+     "pli-mn",
+     "2.1596990000000000",
+     "23.1513743350346507"
+    ],
+    [
+     "pli-nd",
+     "1.2140220000000000",
+     "19.7689992438357789"
+    ],
+    [
+     "pli-dn",
+     "1.2668370000000000",
+     "19.7341883762472994"
+    ],
+    [
+     "pli-ud",
+     "0.17685400000000000000",
+     "16.96314474085969217547"
+    ],
+    [
+     "pli-mil",
+     "0.66191400000000000000",
+     "15.10770281335641790323"
+    ],
+    [
+     "pli-ja",
+     "0.75368900000000000000",
+     "6.63403605465914986155"
+    ],
+    [
+     "pli-vinaya",
+     "3.7785660000000000",
+     "2.1172053101626384"
+    ],
+    [
+     "pli-pv",
+     "0.09051000000000000000",
+     "0E-20"
+    ],
+    [
+     "pli-cp",
+     "0.03771800000000000000",
+     "0E-20"
+    ]
+   ]
+  },
+  {
+   "label": "09_cooccurrence_2of3_khandha_ayatana_dhatu_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'khandh|rūpakkhandh|rupakhandh|saṅkhārakkhandh|viññāṇakkhandh')::int AS g_khandha, (original ~* 'āyatan|ayatan|saḷāyatan|salāyatan')::int AS g_ayatana, (original ~* '\\mdhātu|dhātuyo|dhātuso')::int AS g_dhatu FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, count(*) FILTER (WHERE (g_khandha+g_ayatana+g_dhatu) >= 2) AS corr_rows, (count(*) FILTER (WHERE (g_khandha+g_ayatana+g_dhatu) >= 2))::numeric/(sum(L)/1e6) AS corr2of3_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;",
+   "columns": [
+    "strat",
+    "work_role",
+    "mchar",
+    "corr_rows",
+    "corr2of3_per_mchar"
+   ],
+   "rowcount": 8,
+   "rows": [
+    [
+     "1early",
+     "mula",
+     "13.0956680000000000",
+     92,
+     "7.0252239137400246"
+    ],
+    [
+     "2late",
+     "mula",
+     "3.8518920000000000",
+     46,
+     "11.9421832180133815"
+    ],
+    [
+     "3abh",
+     "mula",
+     "7.5767990000000000",
+     456,
+     "60.1837266634630271"
+    ],
+    [
+     "4para",
+     "mula",
+     "1.2127720000000000",
+     25,
+     "20.6139323797053362"
+    ],
+    [
+     "5comm",
+     "attha",
+     "29.4885330000000000",
+     554,
+     "18.7869637326482128"
+    ],
+    [
+     "5comm",
+     "mula",
+     "1.2026810000000000",
+     43,
+     "35.7534541578357021"
+    ],
+    [
+     "6tika",
+     "tika",
+     "28.3577460000000000",
+     632,
+     "22.2866796253834843"
+    ],
+    [
+     "7other",
+     "anya",
+     "9.8805130000000000",
+     152,
+     "15.3838166095221979"
+    ]
+   ]
+  },
+  {
+   "label": "10_prongB_mula_attha_pairs_scaffold_delta",
+   "sql": "WITH base AS (SELECT regexp_replace(work_slug,'-attha$','') AS sutta_key, work_role, work_slug, char_length(original) AS L, (original ~* 'katame\\s+dhammā|idaṃ\\s+vuccati|idaṁ\\s+vuccati|paramatth|sabhāv|cetasik|abhiniropan|salakkhaṇ|paccupaṭṭhān')::int AS matika_hit, ((original ~* 'khandh|rūpakkhandh|rupakhandh')::int + (original ~* 'āyatan|ayatan')::int + (original ~* '\\mdhātu')::int) AS axes FROM passages WHERE is_primary AND (work_role='mula' OR work_role='attha') AND work_slug <> 'pli-vism'), agg AS (SELECT sutta_key, work_role, sum(L)/1e6 AS mchar, (sum(matika_hit))::numeric/(sum(L)/1e6) AS matika_per_mchar, (count(*) FILTER (WHERE axes>=2))::numeric/(sum(L)/1e6) AS scaffold_per_mchar FROM base GROUP BY 1,2) SELECT m.sutta_key, m.matika_per_mchar AS mula_matika, a.matika_per_mchar AS attha_matika, (a.matika_per_mchar - m.matika_per_mchar) AS matika_delta, m.scaffold_per_mchar AS mula_scaffold, a.scaffold_per_mchar AS attha_scaffold, (a.scaffold_per_mchar - m.scaffold_per_mchar) AS scaffold_delta FROM agg m JOIN agg a ON a.sutta_key=m.sutta_key AND m.work_role='mula' AND a.work_role='attha' WHERE m.mchar > 0.01 ORDER BY (m.matika_per_mchar) ASC, scaffold_delta DESC;",
+   "columns": [
+    "sutta_key",
+    "mula_matika",
+    "attha_matika",
+    "matika_delta",
+    "mula_scaffold",
+    "attha_scaffold",
+    "scaffold_delta"
+   ],
+   "rowcount": 4,
+   "rows": [
+    [
+     "pli-dn",
+     "10.2617779556485957",
+     "103.9039273933364894",
+     "93.6421494376878937",
+     "6.3149402803991358",
+     "19.2630876628095739",
+     "12.9481473824104381"
+    ],
+    [
+     "pli-mn",
+     "11.5756871675173253",
+     "97.9855613534108909",
+     "86.4098741858935656",
+     "11.1126596808166323",
+     "25.7381428439835059",
+     "14.6254831631668736"
+    ],
+    [
+     "pli-an",
+     "27.2949403914895104",
+     "89.6011987324214597",
+     "62.3062583409319493",
+     "2.9114603084255478",
+     "23.7924087029593707",
+     "20.8809483945338229"
+    ],
+    [
+     "pli-sn",
+     "28.6146408261254159",
+     "100.2577357401710739",
+     "71.6430949140456580",
+     "14.5146728828172399",
+     "28.1210722198040817",
+     "13.6063993369868418"
+    ]
+   ]
+  },
+  {
+   "label": "11_prongB_positive_lexicon_delta_same_pairs",
+   "sql": "WITH base AS (SELECT regexp_replace(work_slug,'-attha$','') AS sutta_key, work_role, char_length(original) AS L, (original ~* 'ariyasacc|dukkhasacc|paṭiccasamuppād|paticcasamuppad|\\mjhān|jhānaṅg')::int AS pos_hit FROM passages WHERE is_primary AND (work_role='mula' OR work_role='attha') AND work_slug <> 'pli-vism'), agg AS (SELECT sutta_key, work_role, sum(L)/1e6 AS mchar, (sum(pos_hit))::numeric/(sum(L)/1e6) AS pos_per_mchar FROM base GROUP BY 1,2) SELECT m.sutta_key, m.pos_per_mchar AS mula_pos, a.pos_per_mchar AS attha_pos, (a.pos_per_mchar - m.pos_per_mchar) AS pos_delta FROM agg m JOIN agg a ON a.sutta_key=m.sutta_key AND m.work_role='mula' AND a.work_role='attha' WHERE m.mchar > 0.01 ORDER BY pos_delta DESC;",
+   "columns": [
+    "sutta_key",
+    "mula_pos",
+    "attha_pos",
+    "pos_delta"
+   ],
+   "rowcount": 4,
+   "rows": [
+    [
+     "pli-dn",
+     "19.7341883762472994",
+     "82.8896499429987724",
+     "63.1554615667514730"
+    ],
+    [
+     "pli-mn",
+     "23.1513743350346507",
+     "75.4082430692148331",
+     "52.2568687341801824"
+    ],
+    [
+     "pli-an",
+     "36.7571863938725406",
+     "70.3647831853479260",
+     "33.6075967914753854"
+    ],
+    [
+     "pli-sn",
+     "45.2028384064879758",
+     "72.1366635203669922",
+     "26.9338251138790164"
+    ]
+   ]
+  },
+  {
+   "label": "12_coding_sample_rows_attha_readback_candidates",
+   "sql": "SELECT p.id, p.work_slug, p.work_role, left(p.original, 600) AS original_snippet, left(coalesce(p.translation,''), 600) AS translation_snippet FROM passages p WHERE p.is_primary AND p.work_role='attha' AND p.work_slug <> 'pli-vism' AND p.original ~* '(katame\\s+dhammā|idaṃ\\s+vuccati|idaṁ\\s+vuccati)' AND ((p.original ~* 'khandh')::int + (p.original ~* 'āyatan|ayatan')::int + (p.original ~* '\\mdhātu')::int) >= 2 ORDER BY md5(p.id::text) LIMIT 120;",
+   "columns": [
+    "id",
+    "work_slug",
+    "work_role",
+    "original_snippet",
+    "translation_snippet"
+   ],
+   "rowcount": 5,
+   "rows": [
+    [
+     "cst-s0519a.att-34_p004",
+     "pli-kn-attha",
+     "attha",
+     "Tattha katamo desanāhārasampāto? Manopubbaṅgamā dhammāti manoti khandhavavatthānena viññāṇakkhandhaṃ deseti. Āyatanavavatthānena manāyatanaṃ, dhātuvavatthānena viññāṇadhātuṃ, indriyavavatthānena manindriyaṃ. Katame dhammā pubbaṅgamā? Cha dhammā pubbaṅgamā, kusalānaṃ kusalamūlāni, akusalānaṃ akusalamūlāni, sādhipatikānaṃ adhipati, sabbacittuppādānaṃ indriyāni. Api ca imasmiṃ sutte mano adhippeto. Yathā balaggassa rājā pubbaṅgamo, evamevaṃ dhammānaṃ mano pubbaṅgamo. Tattha tividhena mano pubbaṅgamo nekkhammachandena abyāpādachandena avihiṃsāchandena. Tattha alobhassa nekkhammachandena manopubbaṅ",
+     ""
+    ],
+    [
+     "cst-s0504a.att-59_p005",
+     "pli-kn-attha",
+     "attha",
+     "‘‘Katame dhammā arūpāvacarā? Heṭṭhato ākāsānañcāyatanūpage deve anto karitvā, uparito nevasaññānāsaññāyatanūpage deve anto karitvā, etthāvacarā ettha pariyāpannā khandhadhātuāyatanā, ime dhammā arūpāvacarā’’ti (dha. sa. 1291) –",
+     ""
+    ],
+    [
+     "cst-abh01a.att-59_p002",
+     "pli-abh-attha",
+     "attha",
+     "357. Idāni yasmā lokuttarakusalaṃ bhāvento na kevalaṃ upanijjhāyanaṭṭhena jhānaṃyeva bhāveti, niyyānaṭṭhena pana maggampi bhāveti, upaṭṭhānaṭṭhena satipaṭṭhānampi, padahanaṭṭhena sammappadhānampi, ijjhanaṭṭhena iddhipādampi, adhipatiyaṭṭhena indriyampi, akampiyaṭṭhena balampi, bujjhanaṭṭhena bojjhaṅgampi, tathaṭṭhena saccampi, avikkhepaṭṭhena samathampi, suññataṭṭhena dhammampi, rāsaṭṭhena khandhampi, āyatanaṭṭhena āyatanampi, suññasabhāvanissattaṭṭhena dhātumpi, paccayaṭṭhena āhārampi, phusanaṭṭhena phassampi, vedayitaṭṭhena vedanampi, sañjānanaṭṭhena saññampi, cetayitaṭṭhena cetanampi, vijān",
+     ""
+    ],
+    [
+     "cst-s0504a.att-59_p003",
+     "pli-kn-attha",
+     "attha",
+     "‘‘Katame dhammā rūpāvacarā? Heṭṭhato brahmalokaṃ pariyantaṃ karitvā uparito akaniṭṭhe deve anto karitvā etthāvacarā ettha pariyāpannā khandhadhātuāyatanā, ime dhammā rūpāvacarā’’ti (dha. sa. 1289) –",
+     ""
+    ],
+    [
+     "cst-s0201a.att-mn1_1_p097",
+     "pli-mn-attha",
+     "attha",
+     "Tattha, ‘‘tisso imā, bhikkhave, vedanā. Katamā tisso? Sukhā vedanā dukkhā vedanā adukkhamasukhā vedanā. Imā kho, bhikkhave, tisso vedanā’’ti (saṃ. ni. 4.250) evarūpī dhammādhiṭṭhānā dhammadesanā veditabbā. ‘‘Cha dhātuyo ayaṃ putiso cha phassāyatano aṭṭhārasa manopavicāro caturādhiṭṭhāno’’ti (ma. ni. 3.343) evarūpī dhammādhiṭṭhānā puggaladesanā. ‘‘Tayome, bhikkhave, puggalā santo saṃvijjamānā lokasmiṃ. Katame tayo? Andho ekacakkhu dvicakkhu. Katamo ca, bhikkhave, puggalo andho’’ti? (A. ni. 3.29) evarūpī puggalādhiṭṭhānā puggaladesanā. ‘‘Katamañca, bhikkhave, duggatibhayaṃ? Idha, bhikkhave, ekac",
+     ""
+    ]
+   ]
+  },
+  {
+   "label": "13_coding_sense_audit_vitakka_dhatu_polysemy",
+   "sql": "(SELECT 'vitakka' AS term, p.id, p.work_slug, p.work_role, left(p.original,400) AS snippet FROM passages p WHERE p.is_primary AND p.original ~* '\\mvitakk' ORDER BY md5(p.id::text) LIMIT 60) UNION ALL (SELECT 'dhatu' AS term, p.id, p.work_slug, p.work_role, left(p.original,400) FROM passages p WHERE p.is_primary AND p.original ~* '\\mdhātu' ORDER BY md5(p.id::text) LIMIT 60);",
+   "columns": [
+    "term",
+    "id",
+    "work_slug",
+    "work_role",
+    "snippet"
+   ],
+   "rowcount": 120,
+   "rows": [
+    [
+     "vitakka",
+     "cst-abh03m8.mul-035",
+     "pli-abhidhamma",
+     "mula",
+     "69. Savitakkasavicāro dhammo savitakkasavicārassa dhammassa ārammaṇapaccayena paccayo – dānaṃ datvā sīlaṃ samādiyitvā uposathakammaṃ katvā taṃ paccavekkhati; pubbe suciṇṇāni paccavekkhati; savitakkasavicārā jhānā vuṭṭhahitvā, maggā vuṭṭhahitvā, phalā vuṭṭhahitvā phalaṃ paccavekkhati. Ariyā pahīne kilese paccavekkhanti, vikkhambhite kilese paccavekkhanti, pubbe samudāciṇṇe kilese jānanti. Savitakka"
+    ],
+    [
+     "vitakka",
+     "sn14.13",
+     "pli-sn",
+     "mula",
+     "Saṁyutta Nikāya 14.13 2. Dutiyavagga Giñjakāvasathasutta Ekaṁ samayaṁ bhagavā ñātike viharati giñjakāvasathe. Tatra kho bhagavā bhikkhū āmantesi: “bhikkhavo”ti. “Bhadante”ti te bhikkhū bhagavato paccassosuṁ. Bhagavā etadavoca: “Dhātuṁ, bhikkhave, paṭicca uppajjati saññā, uppajjati diṭṭhi, uppajjati vitakko”ti. Evaṁ vutte, āyasmā kaccāno bhagavantaṁ etadavoca: “yāyaṁ, bhante, diṭṭhi: ‘asammāsambudd"
+    ],
+    [
+     "vitakka",
+     "cst-s0102a.att-dn2_2_p065",
+     "pli-dn-attha",
+     "attha",
+     "Chandarāgoti evaṃ akusalavitakkena vitakkitavatthusmiṃ dubbalarāgo ca balavarāgo ca uppajjati, idañhi idha taṇhā. Chandoti dubbalarāgassādhivacanaṃ. Ajjhosānanti ahaṃ mamanti balavasanniṭṭhānaṃ. Pariggahoti taṇhādiṭṭhavasena pariggahaṇakaraṇaṃ. Macchariyanti parehi sādhāraṇabhāvassa asahanatā. Tenevassa porāṇā evaṃ vacanatthaṃ vadanti – ‘‘idaṃ acchariyaṃ mayhameva hotu, mā aññesaṃ acchariyaṃ hotūt"
+    ],
+    [
+     "vitakka",
+     "cst-e0907n.nrf-001",
+     "pli-cst-e0907n-nrf",
+     "anya",
+     "Sadevakopi ce loko, āgantvā tāsayeyya maṃ; Na me paṭibalo assa, janetuṃ bhayabheravaṃ. Sacepi tvaṃ mahiṃ sabbaṃ, sasamuddaṃ sapabbataṃ; Ukkhipitvā mahānāga, khipeyyāsi mamūpari; Neva me sakkuṇeyyāsi, janetuṃ bhayabheravaṃ; Aññadatthu tavevassa, vighāto uragādhipa. Mā dāni kodhaṃ janayittha, ito uddhaṃ yathā pure; Sassaghātañca mākattha, sukhakāmā hi pāṇino; Karotha mettaṃ sattesu, vasantu manujā s"
+    ],
+    [
+     "vitakka",
+     "cst-s0515a.att-5_p012",
+     "pli-kn-attha",
+     "attha",
+     "Tatrāyaṃ atthayojanā – eko udetīti ekodi, vitakkavicārehi anajjhārūḷhattā aggo seṭṭho hutvā udetīti attho. Seṭṭhopi hi loke ekoti vuccati. Vitakkavicāravirahito vā eko asahāyo hutvātipi vattuṃ vaṭṭati. Atha vā sampayuttadhamme udāyatīti udi, uṭṭhāpetīti attho. Seṭṭhaṭṭhena eko ca so udi cāti ekodi, samādhissetaṃ adhivacanaṃ. Iti imaṃ ekodiṃ bhāveti vaḍḍhetīti idaṃ dutiyajjhānaṃ ekodibhāvaṃ. So pan"
+    ],
+    [
+     "vitakka",
+     "mil5.1.4",
+     "pli-mil",
+     "mula",
+     "Milindapañha Meṇḍakapañha Iddhibalavagga 4. Pathavicalanapañha “Bhante nāgasena, bhāsitampetaṁ bhagavatā— ‘aṭṭhime, bhikkhave, hetū aṭṭha paccayā mahato bhūmicālassa pātubhāvāyā’ti. Asesavacanaṁ idaṁ, nissesavacanaṁ idaṁ, nippariyāyavacanaṁ idaṁ, natthañño navamo hetu mahato bhūmicālassa pātubhāvāya. Yadi, bhante nāgasena, añño navamo hetu bhaveyya mahato bhūmicālassa pātubhāvāya, tampi hetuṁ bhag"
+    ],
+    [
+     "vitakka",
+     "cst-abh05t.nrf-213_p002",
+     "pli-abh-tika",
+     "tika",
+     "813-816. Vitakkavicāresu virattacittatā tattha ādīnavamanasikāro, tadākāro ca dutiyajjhānūpacāroti āha ‘‘vitakkavicārā ādīnavato manasi kātabbā, tato dutiyajjhānena bhavitabba’’nti."
+    ],
+    [
+     "vitakka",
+     "cst-abh08t.nrf-84_p078",
+     "pli-abh-tika",
+     "tika",
+     "Yadi manodhātumanoviññāṇadhātūnaṃ nissayabhūtaṃ hadayavatthu nāma atthi, kasmā panetaṃ rūpakaṇḍe na vuttaṃ. Na hi labbhamānassa avacane kāraṇaṃ atthīti? No natthi kāraṇantarasambhavato. Kiṃ pana taṃ kāraṇaṃ? Desanābhedo. Yathā hi cakkhuviññāṇādīni ekantato cakkhādinissayāni, na evaṃ manoviññāṇaṃ ekantena hadayavatthunissitaṃ pañcavokārabhaveyeva tannissayattā, ekantena nissitavaseneva ca vatthudes"
+    ],
+    [
+     "vitakka",
+     "cst-e0101n.mul-52_p002",
+     "pli-vism",
+     "mula",
+     "79. Imāsu pana pañcasu vasīsu ciṇṇavasinā paguṇapaṭhamajjhānato vuṭṭhāya ‘‘ayaṃ samāpatti āsannanīvaraṇapaccatthikā, vitakkavicārānaṃ oḷārikattā aṅgadubbalā’’ti ca tattha dosaṃ disvā dutiyajjhānaṃ santato manasikatvā paṭhamajjhāne nikantiṃ pariyādāya dutiyādhigamāya yogo kātabbo. Athassa yadā paṭhamajjhānā vuṭṭhāya satassa sampajānassa jhānaṅgāni paccavekkhato vitakkavicārā oḷārikato upaṭṭhahanti,"
+    ],
+    [
+     "vitakka",
+     "cst-e0103n.att-98_p015",
+     "pli-vism-tika",
+     "tika",
+     "Apare pana bhaṇanti – ‘‘catutthāruppe visesadassanatthaṃ sutte bhāvanākārassa aggahaṇaṃ, svāyaṃ viseso anupubbabhāvanājanito. Sā ca anupubbabhāvanā pahānakkamopajanitā pahātabbasamatikkamena jhānānaṃ adhigantabbato. Tathā hi kāmādivivekavitakkavicāravūpasamapītivirāgasomanassatthaṅgamamukhena rūpāvacarajjhānāni desitāni, rūpasaññādisamatikkamamukhena arūpajjhānāni. Na kevalañca jhānāniyeva, atha k"
+    ],
+    [
+     "vitakka",
+     "cst-s0503a.att-44_p005",
+     "pli-kn-attha",
+     "attha",
+     "Tattha rahogatassāti rahasi gatassa. Paṭisallīnassāti ekībhūtassa. Evaṃ cetaso parivitakko udapādīti evaṃ idāni vuccamānākāro cittassa vitakko uppajji. Lābhā vata meti ye ime manussattabuddhuppādasaddhāsamadhigamādayo, aho vata me ete lābhā. Suladdhaṃ vata meti yañcidaṃ mayā bhagavato sāsane pabbajjūpasampadāratanattayapayirupāsanādi paṭiladdhaṃ, taṃ me aho vata suṭṭhu laddhaṃ. Tattha kāraṇamāha ‘"
+    ],
+    [
+     "vitakka",
+     "cst-vin01a.att-20_p002",
+     "pli-vin-attha",
+     "attha",
+     "18. Idāni āyasmā upāli vinayapaññattiyā mūlato pabhuti nidānaṃ dassetuṃ sāriputtattherassa sikkhāpadapaṭisaṃyuttaṃ vitakkuppādaṃ dassento ‘‘atha kho āyasmato sāriputtassā’’tiādimāha. Tattha rahogatassāti rahasi gatassa. Paṭisallīnassāti sallīnassa ekībhāvaṃ gatassa. Katamesānanti atītesu vipassīādīsu buddhesu katamesaṃ. Ciraṃ assa ṭhiti, cirā vā assa ṭhitīti ciraṭṭhitikaṃ. Sesamettha uttānapadatth"
+    ],
+    [
+     "vitakka",
+     "cst-e0101n.mul-52_p011",
+     "pli-vism",
+     "mula",
+     "Samādhijanti paṭhamajjhānasamādhito sampayuttasamādhito vā jātanti attho. Tattha kiñcāpi paṭhamampi sampayuttasamādhito jātaṃ, atha kho ayameva samādhi ‘‘samādhī’’ti vattabbataṃ arahati vitakkavicārakkhobhavirahena ativiya acalattā, suppasannattā ca, tasmā imassa vaṇṇabhaṇanatthaṃ idameva ‘‘samādhija’’nti vuttaṃ. Pītisukhanti idaṃ vuttanayameva."
+    ],
+    [
+     "vitakka",
+     "cst-abh06t.nrf-49_p010",
+     "pli-abh-tika",
+     "tika",
+     "Indriyapaccayoti rūpasattakamanajīvitasukhadukkhasomanassadomanassaupekkhāsaddhāvīriya- satisamādhipaññāanaññātaññassāmītindriyaaññindriyaaññatāvindriyānīti vīsatindriyāni, tesu itthindriyapurisindriyāni vajjetvā vīsatindriyāni honti. Jhānapaccayoti vitakkavicārapītisukhacittekaggatāvasena pañcavidho. Maggapaccayoti diṭṭhisaṅkappavāyāmasatisamādhivācākammantājīvamicchādiṭṭhivasena navavidho."
+    ],
+    [
+     "vitakka",
+     "cst-vin02t.tik-380_p003",
+     "pli-vin-tika",
+     "tika",
+     "Taṇhaṃ paṭiccāti (dī. ni. aṭṭha. 2.103; a. ni. aṭṭha. 3.9.23) dve taṇhā esanataṇhā esitataṇhā ca. Yāya taṇhāya ajapathasaṅkupathādīni paṭipajjitvā bhoge esati gavesati, ayaṃ esanataṇhā nāma. Yā tesu esitesu gavesitesu paṭiladdhesu taṇhā, ayaṃ esitataṇhā nāma. Idha esitataṇhā daṭṭhabbā. Pariyesanāti rūpādiārammaṇapariyesanā. Sā hi esanataṇhāya sati hoti. Lābhoti rūpādiārammaṇappaṭilābho. So hi pari"
+    ],
+    [
+     "vitakka",
+     "cst-abh03m3.mul-219",
+     "pli-abhidhamma",
+     "mula",
+     "823. Samāpanno saddaṃ suṇātīti? Āmantā. Samāpanno cakkhunā rūpaṃ passati…pe… sotena…pe… ghānena…pe… jivhāya…pe… kāyena phoṭṭhabbaṃ phusatīti? Na hevaṃ vattabbe…pe…. Samāpanno saddaṃ suṇātīti? Āmantā. Sotaviññāṇasamaṅgī samāpannoti? Na hevaṃ vattabbe. Nanu samādhi manoviññāṇasamaṅgissāti? Āmantā. Hañci samādhi manoviññāṇasamaṅgissa, no ca vata re vattabbe – ‘‘samāpanno saddaṃ suṇātī’’ti. Samādhi ma"
+    ],
+    [
+     "vitakka",
+     "cst-abh01a.att-42_p008",
+     "pli-abh-attha",
+     "attha",
+     "Tattha kiñcāpi ayaṃ upekkhā heṭṭhāpi tīsu jhānesu vijjati – yathā pana divā sūriyappabhābhibhavā sommabhāvena ca attano upakārakattena vā sabhāgāya rattiyā alābhā divā vijjamānāpi candalekhā aparisuddhā hoti apariyodātā – evamayampi tatramajjhattupekkhācandalekhā vitakkādipaccanīkadhammatejābhibhavā sabhāgāya ca upekkhāvedanārattiyā appaṭilābhā vijjamānāpi paṭhamādijjhānabhedesu aparisuddhā hoti. "
+    ],
+    [
+     "vitakka",
+     "cst-s0515a.att-4_p112",
+     "pli-kn-attha",
+     "attha",
+     "Kilesakāmapakkhe pana chandoti ca rāgoti ca evamādīhi anekabhedo kāmacchandova ‘‘kāmo’’ti adhippeto. So ca akusalapariyāpannopi samāno ‘‘tattha katamo kāmacchando, kāmo’’tiādinā nayena vibhaṅge jhānapaṭipakkhato visuṃ vutto. Kilesakāmattā vā purimapade vutto, akusalapariyāpannattā dutiyapade. Anekabhedato cassa kāmatoti avatvā kāmehīti vuttaṃ. Aññesampi ca dhammānaṃ akusalabhāve vijjamāne ‘‘tattha"
+    ],
+    [
+     "vitakka",
+     "cst-s0519a.att-13_p016",
+     "pli-kn-attha",
+     "attha",
+     "Ye pana ‘‘ubhayamantarenā’’ti vacanaṃ gahetvā antarābhavaṃ icchanti, tesaṃ taṃ micchā. Antarābhavo hi abhidhamme paṭikkhittoti. Diṭṭhanti rūpāyatanaṃ. Sutanti saddāyatanaṃ. Mutanti patvā gahetabbato gandhāyatanaṃ rasāyatanaṃ phoṭṭhabbāyatanañca. Viññātanti avasiṭṭhaṃ dhammārammaṇapariyāpannarūpaṃ. Pattanti pariyesitvā vā apariyesitvā vā pattaṃ. Pariyesitanti pattaṃ vā appattaṃ vā pariyesitaṃ. Vita"
+    ],
+    [
+     "vitakka",
+     "cst-abh07t.nrf-153_p002",
+     "pli-abh-tika",
+     "tika",
+     "4. Bhāvanāya paṭisaṅkhārakammabhūtā, ādikammabhūtā vā pubbabhāgabhāvanā parikammabhāvanā nāma. Nīvaraṇavikkhambhanato paṭṭhāya gotrabhūpariyosānā kāmāvacarabhāvanā upacārabhāvanā nāma. Appanāya samīpacārittā gāmūpacārādayo viya. Mahaggatabhāvappattā appanābhāvanā nāma appanāsaṅkhātavitakkapamukhattā. Sampayuttadhammehi ārammaṇe appento viya pavattatīti vitakko appanā. Tathā hi so ‘‘appanā byappanā"
+    ],
+    [
+     "vitakka",
+     "cst-s0201t.tik-mn1_2_p257",
+     "pli-mn-tika",
+     "tika",
+     "Pariyāyati parivitakketīti pariyāyo. Vāroti āha ‘‘vitakkavārapathesū’’ti, vitakkānaṃ vārena pavattanamaggesu. Ciṇṇavasīti āsevitavasī. Paguṇavasīti subhāvitavasī. Sammāvitakkaṃyeva yathicchitaṃ tathāvitakkanato, itarassa panassa setughātoyevāti."
+    ],
+    [
+     "vitakka",
+     "cst-vin01t2.tik-59_p104",
+     "pli-vin-tika",
+     "tika",
+     "Idaṃ padhānanti yena vīriyārambhena āraddhavīriyassa yogino kāyopi cittampi kammaniyaṃ bhāvanākammakkhamaṃ bhāvanākammayoggaṃ hoti, idaṃ vīriyaṃ padhānanti phalena hetuṃ dasseti. Upakkilesā pahīyantīti cittassa upakkilesabhūtāni nīvaraṇāni vikkhambhanavasena pahīyanti. Vitakkā vūpasammantīti tato eva kāmavitakkādayo micchāvitakkā upasamaṃ gacchanti, nīvaraṇappahānena vā paṭhamajjhānādhigamaṃ dasse"
+    ],
+    [
+     "vitakka",
+     "cst-s0104t.nrf-10_p032",
+     "pli-dn-tika",
+     "tika",
+     "Kappoti leso. Kappakatenāti tiṇṇaṃ dubbaṇṇakaraṇānaṃ aññataradubbaṇṇakatena. Ādi-saddena cettha kappa-saddo mahākappasamantabhāvakilesakāmavitakkakālapaññattisadisabhāvādīsupi vattatīti dasseti. Tathā hesa ‘‘cattārimāni bhikkhave, kappassa asaṅkhyeyyānī’’tiādīsu (a. ni. 4.156) mahākappe vattati, ‘‘kevalakappaṃ veḷuvanaṃ obhāsetvā’’tiādīsu (saṃ. ni. 1.94) samantabhāve, ‘‘saṅkappo kāmo rāgo kāmo saṅ"
+    ],
+    [
+     "vitakka",
+     "cst-s0515a.att-4_p125",
+     "pli-kn-attha",
+     "attha",
+     "Etāni ca pañcaṅgāni kiñcāpi upacārakkhaṇepi atthi, atha kho upacāre pakaticittato balavatarāni. Idha pana upacāratopi balavatarāni rūpāvacaralakkhaṇappattāni nipphannāni. Ettha hi vitakko suvisadena ākārena ārammaṇe cittaṃ abhiniropayamāno uppajjati. Vicāro ativiya ārammaṇaṃ anumajjamāno. Pītisukhaṃ sabbāvantampi kāyaṃ pharamānaṃ. Tenevāha – ‘‘nāssa kiñci sabbāvato kāyassa vivekajena pītisukhena a"
+    ],
+    [
+     "vitakka",
+     "cst-s0505a.att-30_p030",
+     "pli-kn-attha",
+     "attha",
+     "Atha bhagavā devaparisaṃ oloketvā bhikkhūnaṃ ārocesi – ‘‘yepi te, bhikkhave, ahesuṃ atītamaddhānaṃ arahanto sammāsambuddhā, tesampi bhagavantānaṃ etapparamāyeva devatā sannipatitā ahesuṃ. Seyyathāpi mayhaṃ etarahi, yepi te, bhikkhave, bhavissanti anāgatamaddhānaṃ arahanto sammāsambuddhā, tesampi bhagavantānaṃ etapparamāyeva devatā sannipatitā bhavissanti seyyathāpi mayhaṃ etarahī’’ti. Tato taṃ dev"
+    ],
+    [
+     "vitakka",
+     "cst-s0402t.tik-an4_p100",
+     "pli-an-tika",
+     "tika",
+     "Paṭhamābhisambuddhoti paṭhamaṃ abhisambuddho, anunāsikalopenāyaṃ niddeso. Tenevāha ‘‘sambuddho hutvā paṭhamamevā’’ti. Paṭhamanti ca bhāvanapuṃsakaniddeso, tasmā abhisambuddho hutvā paṭhamaṃ ajapālanigrodhe viharāmīti evamettha sambandho veditabbo. Ayaṃ vitakkoti ayaṃ ‘‘kinnu khvāhaṃ…pe… vihareyya’’nti evaṃ pavattavitakko. Hatthī ca vānaro ca tittiro ca hatthivānaratittirā."
+    ],
+    [
+     "vitakka",
+     "cst-s0201a.att-mn1_1_p365",
+     "pli-mn-attha",
+     "attha",
+     "Ettha ca kāmavitakkoti ‘‘yo kāmapaṭisaṃyutto takko vitakko micchāsaṅkappo’’ti vibhaṅge (vibha. 910) vutto. Esa nayo itaresu. Uppannuppanneti uppanne uppanne, uppannamatteyevāti vuttaṃ hoti. Sakiṃ vā uppanne vinodetvā dutiyavāre ajjhupekkhitā na hoti, satakkhattumpi uppanne uppanne vinodetiyeva. Pāpake akusaleti lāmakaṭṭhena pāpake, akosallatāya akusale. Dhammeti teyeva kāmavitakkādayo sabbepi vā n"
+    ],
+    [
+     "vitakka",
+     "cst-abh03t.tik-157_p002",
+     "pli-abh-tika",
+     "tika",
+     "563. Sabbasoti savitakkacittesu sabbattha sabbadā vāti imamatthaṃ dassento āha ‘‘antamaso manodhātupavattikālepī’’ti. Vitakkavipphāramattanti vitakkassa pavattimattanti adhippāyo."
+    ],
+    [
+     "vitakka",
+     "cst-e0102n.mul-70_p013",
+     "pli-vism",
+     "mula",
+     "Ettha ca cakkhuṃ…pe… jarāmaraṇanti iminā peyyālena dvārārammaṇehi saddhiṃ dvārappavattā dhammā, pañcakkhandhā, cha dvārāni, cha ārammaṇāni, cha viññāṇāni, cha phassā, cha vedanā, cha saññā, cha cetanā, cha taṇhā, cha vitakkā, cha vicārā, cha dhātuyo, dasa kasiṇāni, dvattiṃsakoṭṭhāsā, dvādasāyatanāni, aṭṭhārasa dhātuyo, bāvīsati indriyāni, tisso dhātuyo, nava bhavā, cattāri jhānāni, catasso appamañ"
+    ],
+    [
+     "vitakka",
+     "cst-abh03m5.mul-038",
+     "pli-abhidhamma",
+     "mula",
+     "62. (Ka) yassa yattha kāyasaṅkhāro uppajjati tassa tattha vacīsaṅkhāro uppajjissatīti? Dutiyajjhānaṃ tatiyajjhānaṃ samāpannānaṃ assāsapassāsānaṃ uppādakkhaṇe tesaṃ tattha kāyasaṅkhāro uppajjati, no ca tesaṃ tattha vacīsaṅkhāro uppajjissati. Paṭhamajjhānaṃ samāpannānaṃ kāmāvacarānaṃ assāsapassāsānaṃ uppādakkhaṇe tesaṃ tattha kāyasaṅkhāro ca uppajjati vacīsaṅkhāro ca uppajjissati. (Kha) yassa vā pan"
+    ],
+    [
+     "vitakka",
+     "cst-abh03m5.mul-068",
+     "pli-abhidhamma",
+     "mula",
+     "111. (Ka) yassa yattha kāyasaṅkhāro nirujjhati tassa tattha vacīsaṅkhāro nirujjhissatīti? Dutiyajjhānaṃ tatiyajjhānaṃ samāpannānaṃ assāsapassāsānaṃ bhaṅgakkhaṇe tesaṃ tattha kāyasaṅkhāro nirujjhati, no ca tesaṃ tattha vacīsaṅkhāro nirujjhissati. Paṭhamajjhānaṃ samāpannānaṃ kāmāvacarānaṃ assāsapassāsānaṃ bhaṅgakkhaṇe tesaṃ tattha kāyasaṅkhāro ca nirujjhati vacīsaṅkhāro ca nirujjhissati. (Kha) yassa"
+    ],
+    [
+     "vitakka",
+     "mil7.4.10",
+     "pli-mil",
+     "mula",
+     "Milindapañha Opammakathāpañha Pathavīvagga 10. Cakkavattiṅgapañha “Bhante nāgasena, ‘cakkavattissa cattāri aṅgāni gahetabbānī’ti yaṁ vadesi, katamāni tāni cattāri aṅgāni gahetabbānī”ti? “Yathā, mahārāja, cakkavattī catūhi saṅgahavatthūhi janaṁ saṅgaṇhāti; evameva kho, mahārāja, yoginā yogāvacarena catassannaṁ parisānaṁ mānasaṁ saṅgahetabbaṁ anuggahetabbaṁ sampahaṁsetabbaṁ. Idaṁ, mahārāja, cakkavat"
+    ],
+    [
+     "vitakka",
+     "iti85",
+     "pli-iti",
+     "mula",
+     "Itivuttaka 85 Tikanipāta Catutthavagga Asubhānupassīsutta Vuttañhetaṁ bhagavatā vuttamarahatāti me sutaṁ: “Asubhānupassī, bhikkhave, kāyasmiṁ viharatha; ānāpānassati ca vo ajjhattaṁ parimukhaṁ sūpaṭṭhitā hotu; sabbasaṅkhāresu aniccānupassino viharatha. Asubhānupassīnaṁ, bhikkhave, kāyasmiṁ viharataṁ yo subhāya dhātuyā rāgānusayo so pahīyati. Ānāpānassatiyā ajjhattaṁ parimukhaṁ sūpaṭṭhititāya ye bā"
+    ],
+    [
+     "vitakka",
+     "cst-abh07t.nrf-99_p004",
+     "pli-abh-tika",
+     "tika",
+     "Jīvanti tena sampayuttadhammāti jīvitaṃ, tadeva sahajātānupālane ādhipaccayogena indriyanti jīvitindriyaṃ, taṃ anupālanalakkhaṇaṃ uppalādianupālakaṃ udakaṃ viya. Karaṇaṃ kāro, manasmiṃ kāro manasikāro, so cetaso ārammaṇe samannāhāralakkhaṇo. Vitakko hi sahajātadhammānaṃ ārammaṇe abhiniropanasabhāvattā te tattha pakkhipanto viya hoti, cetanā attanā ārammaṇaggahaṇena yathāruḷhe dhammepi tattha tatth"
+    ],
+    [
+     "vitakka",
+     "cst-s0402t.tik-an3_p337",
+     "pli-an-tika",
+     "tika",
+     "Tassa dhammassāti ‘‘ayaṃ kho pana, bhikkhave’’tiādinā uddhaṭassa dhammassa. Pañhaṃ pucchitvāti kathetukamyatāvasena pañhaṃ pucchitvā. Yathāpaṭipāṭiyāti mātikāya yathānikkhittappaṭipāṭiyā. Dhātuyoti sabhāvadhāraṇaṭṭhena dhātuyo. Tā pana yasmā taṇhādiṭṭhikappanāparikappitaattasubhasukhasassatādipakatiādidhuvādijīvādikāyādikā viya na icchāsabhāvā diṭṭhiādirahitehi vimuccamānaudumbarapupphādilokavohār"
+    ],
+    [
+     "vitakka",
+     "cst-s0201a.att-mn1_2_p303",
+     "pli-mn-attha",
+     "attha",
+     "206. Me sutanti dvedhāvitakkasuttaṃ. Tattha dvidhā katvā dvidhā katvāti dve dve bhāge katvā. Kāmavitakkoti kāmapaṭisaṃyutto vitakko. Byāpādavitakkoti byāpādapaṭisaṃyutto vitakko. Vihiṃsāvitakkoti vihiṃsāpaṭisaṃyutto vitakko. Ekaṃ bhāganti ajjhattaṃ vā bahiddhā vā oḷāriko vā sukhumo vā sabbo pāyaṃ vitakko akusalapakkhikoyevāti tayopi kāmabyāpādavihiṃsāvitakke ekaṃ koṭṭhāsamakāsiṃ. Kāmehi nissaṭo ne"
+    ],
+    [
+     "vitakka",
+     "cst-abh02m.mul-096",
+     "pli-abhidhamma",
+     "mula",
+     "627. Cattāri jhānāni – paṭhamaṃ jhānaṃ, dutiyaṃ jhānaṃ, tatiyaṃ jhānaṃ, catutthaṃ jhānaṃ. 628. Tattha katamaṃ paṭhamaṃ jhānaṃ? Idha bhikkhu yasmiṃ samaye lokuttaraṃ jhānaṃ bhāveti niyyānikaṃ apacayagāmiṃ diṭṭhigatānaṃ pahānāya paṭhamāya bhūmiyā pattiyā vivicceva kāmehi…pe… paṭhamaṃ jhānaṃ upasampajja viharati dukkhapaṭipadaṃ dandhābhiññaṃ, tasmiṃ samaye pañcaṅgikaṃ jhānaṃ hoti – vitakko, vicāro, p"
+    ],
+    [
+     "vitakka",
+     "cst-abh02m.mul-021",
+     "pli-abhidhamma",
+     "mula",
+     "172. Cha dhātuyo – pathavīdhātu (paṭhavīdhātu (sī. syā.) evamuparipi), āpodhātu, tejodhātu, vāyodhātu, ākāsadhātu, viññāṇadhātu. 173. Tattha katamā pathavīdhātu? Pathavīdhātudvayaṃ – atthi ajjhattikā, atthi bāhirā. Tattha katamā ajjhattikā pathavīdhātu? Yaṃ ajjhattaṃ paccattaṃ kakkhaḷaṃ kharigataṃ kakkhaḷattaṃ kakkhaḷabhāvo ajjhattaṃ upādinnaṃ, seyyathidaṃ – kesā lomā nakhā dantā taco maṃsaṃ nhāru"
+    ],
+    [
+     "vitakka",
+     "cst-abh02m.mul-102",
+     "pli-abhidhamma",
+     "mula",
+     "640. Siyā kusalā, siyā abyākatā. Tīṇi jhānāni – etthuppannaṃ sukhaṃ vedanaṃ ṭhapetvā sukhāya vedanāya sampayuttā, catutthaṃ jhānaṃ – etthuppannaṃ adukkhamasukhaṃ vedanaṃ ṭhapetvā adukkhamasukhāya vedanāya sampayuttaṃ. Siyā vipākā, siyā vipākadhammadhammā, siyā nevavipākanavipākadhammadhammā. Siyā upādinnupādāniyā, siyā anupādinnupādāniyā, siyā anupādinnaanupādāniyā. Siyā asaṃkiliṭṭhasaṃkilesikā, s"
+    ],
+    [
+     "vitakka",
+     "cst-s0519a.att-36_p071",
+     "pli-kn-attha",
+     "attha",
+     "Idāni yvāyaṃ ‘‘itonidānā’’tiādīsu attabhāvanidānā attabhāvato jātā attabhāvato samuṭṭhāyāti attho vutto, taṃ sādhento āha – ‘‘snehajā attasambhūtā’’ti. Ete hi rāgādayo vitakkapariyosānā taṇhāsnehena jātā. Tathā jāyantā ca pañcupādānakkhandhabhede attabhāvasaṅkhāte attani sambhūtā. Tenāha – ‘‘snehajā attasambhūtā’’ti. Idāni tadatthajotikaṃ upamaṃ dasseti ‘‘nigrodhasseva khandhajā’’ti. Tattha khandh"
+    ],
+    [
+     "vitakka",
+     "cst-vin07t.nrf-11_p002",
+     "pli-vin-tika",
+     "tika",
+     "Tadadhigamāyāti tatiyamaggādhigamāya. Upapattito ikkhatīti paññāya sahacaraṇaparicayena yathā samavāhibhāvo hoti, evaṃ yuttito passati. Vipulāyāti mahaggatabhāvappattāya. Thāmagatāyāti vitakkavicārapītivigamena thirabhāvappattiyā, teneva vakkhati ‘‘vitakkavicārapītīhi anabhibhūtattā’’tiādi. (Pārā. aṭṭha. 1.11 tatiyajjhānakathā). Upekkhābhedaṃ dassetvā idhādhippetaṃ upekkhaṃ pakāsetuṃ upekkhā panāt"
+    ],
+    [
+     "vitakka",
+     "cst-s0201t.tik-mn1_2_p255",
+     "pli-mn-tika",
+     "tika",
+     "220. Abhidantanti abhibhavanadantaṃ, uparidantanti attho. Tenāha ‘‘uparidanta’’nti. So hi itaraṃ musalaṃ viya udukkhalaṃ visesato kassaci khādanakāle abhibhuyya vattati. Kusalacittenāti balavasammāsaṅkappasampayuttena. Akusalacittanti kāmavitakkādisahitaṃ akusalacittaṃ. Abhiniggaṇhitabbanti yathā tassa āyatiṃ samudācāro na hoti, evaṃ abhibhavitvā niggahetabbaṃ, anuppattidhammatā āpādetabbāti attho"
+    ],
+    [
+     "vitakka",
+     "cst-abh08t.nrf-67_p010",
+     "pli-abh-tika",
+     "tika",
+     "‘‘Phasso hoti, vedanā hoti, saññā hoti, cetanā hoti, cittaṃ hoti, vitakko hoti, vicāro hoti, pīti hoti, sukhaṃ hoti, cittassekaggatā hoti, saddhindriyaṃ hoti, vīriyindriyaṃ hoti, satindriyaṃ hoti, samādhindriyaṃ hoti, paññindriyaṃ hoti, manindriyaṃ hoti, somanassindriyaṃ hoti, jīvitindriyaṃ hoti, sammādiṭṭhi hoti, sammāsaṅkappo hoti, sammāvāyāmo hoti, sammāsati hoti, sammāsamādhi hoti, saddhābalaṃ"
+    ],
+    [
+     "vitakka",
+     "cst-s0203a.att-mn3_4_p081",
+     "pli-mn-attha",
+     "attha",
+     "Cakkhunā rūpaṃ disvāti cakkhuviññāṇena rūpaṃ disvā. Eseva nayo sabbattha. Somanassaṭṭhāniyanti somanassassa ārammaṇavasena kāraṇabhūtaṃ. Upavicaratīti tattha vicārapavattanena upavicarati, vitakko taṃsampayutto cāti iminā nayena aṭṭhārasa vitakkavicārasaṅkhātā manopavicārā veditabbā. Cha somanassūpavicārāti ettha pana somanassena saddhiṃ upavicarantīti somanassūpavicārā. Sesapadadvayepi eseva nayo"
+    ],
+    [
+     "vitakka",
+     "cst-s0517a.att-11_p011",
+     "pli-kn-attha",
+     "attha",
+     "Nava anupubbanirodhāti nava anupaṭipāṭiyā nirodhā. ‘‘Katame nava? Paṭhamaṃ jhānaṃ samāpannassa kāmasaññā niruddhā hoti, dutiyaṃ jhānaṃ samāpannassa vitakkavicārā niruddhā honti, tatiyaṃ jhānaṃ samāpannassa pīti niruddhā hoti, catutthaṃ jhānaṃ samāpannassa assāsapassāsā niruddhā honti, ākāsānañcāyatanaṃ samāpannassa rūpasaññā niruddhā hoti, viññāṇañcāyatanaṃ samāpannassa ākāsānañcāyatanasaññā nirud"
+    ],
+    [
+     "vitakka",
+     "cst-s0504a.att-90_p004",
+     "pli-kn-attha",
+     "attha",
+     "Gāthāsu anavaññattiyā paṭisaṃyutto puggalo anavaññattisaṃyutto. Lābhasakkāre gāravo etassa, na dhammeti lābhasakkāragāravo. Sukhadukkhesu amā saha bhavāti amaccā, sahāyasadisā upaṭṭhākā. Tehi gehasitapemavasena saha nandanasīlo sahanandī amaccehi, iminā parānuddayatāpaṭisaṃyuttaṃ vitakkaṃ dasseti. Ārā saṃyojanakkhayāti imehi tīhi vitakkehi abhibhūto puggalo saṃyojanakkhayato arahattato dūre, tassa"
+    ],
+    [
+     "vitakka",
+     "cst-abh01a.att-41_p002",
+     "pli-abh-attha",
+     "attha",
+     "163. Tatiyajjhānaniddese pītiyā ca virāgāti virāgo nāma vuttappakārāya pītiyā jigucchanaṃ vā samatikkamo vā. Ubhinnaṃ pana antarā ‘ca’-saddo sampiṇḍanattho. So vūpasamaṃ vā sampiṇḍeti vitakkavicāravūpasamaṃ vā. Tattha yadā vūpasamameva sampiṇḍeti tadā pītiyā virāgā ca, kiñca bhiyyo ‘vūpasamā’ cāti evaṃ yojanā veditabbā. Imissā ca yojanāya virāgo jigucchanattho hoti. Tasmā pītiyā jigucchanā ca vūpa"
+    ],
+    [
+     "vitakka",
+     "cst-e0103n.att-53_p009",
+     "pli-vism-tika",
+     "tika",
+     "‘‘Dutiyaṃ uppannantipi dutiya’’nti vattuṃ vaṭṭatiyeva. Na tathā imassa vitakkavicārāti yathā paṭhamajjhānassa upacārakkhaṇe nīvaraṇāni pahīyanti, tathā imassa dutiyajjhānassa upacārakkhaṇe vitakkavicārā na pahīyanti asaṃkiliṭṭhasabhāvattā, upacārabhāvanāya ca te pahātuṃ asamatthabhāvato. Yadipi tāya tesu taṇhā pahīyati, na pana savisesaṃ. Savisesañhi tattha taṇhāppahānaṃ appanāya eva hoti. Tena vu"
+    ],
+    [
+     "vitakka",
+     "cst-e0103n.att-43_p014",
+     "pli-vism-tika",
+     "tika",
+     "57. Āpāthamāgacchatīti manodvārikajavanānaṃ gocarabhāvaṃ upagacchati. Tassa uggahanimittassa. Na tasmiṃ ṭhāne nisīditabbaṃ. Kasmā? Yadi uggahanimitte jātepi pathavīmaṇḍalaṃ oloketvā bhāveti, paṭibhāganimittuppatti na siyā. Samīpaṭṭhena ca na oloketuṃ na sakkā. Tena vuttaṃ ‘‘attano vasanaṭṭhānaṃ pavisitvā’’tiādi. Nissaddabhāvāya ekapaṭalikūpāhanāgahaṇaṃ, parissayavinodanatthaṃ kattaradaṇḍaggahaṇaṃ."
+    ],
+    [
+     "vitakka",
+     "cst-s0101t.tik-dn1_1_p185",
+     "pli-dn-tika",
+     "tika",
+     "Evaṃ kāmacchandādinīvaraṇappahānena ‘‘abhijjhaṃ loke pahāyā’’tiādinā (vibha. 508) vuttāya paṭhamajjhānassa pubbabhāgapaṭipadāya bhagavato tathāgatabhāvaṃ dassetvā idāni saha upāyena aṭṭhahi samāpattīhi, aṭṭhārasahi ca mahāvipassanāhi taṃ dassetuṃ ‘‘ñāṇenā’’tiādimāha. Nāmarūpapariggahakaṅkhāvitaraṇānañhi vibandhabhūtassa mohassa dūrīkaraṇena ñātapariññāyaṃ ṭhitassa aniccasaññādayo sijjhanti, tathā "
+    ],
+    [
+     "vitakka",
+     "cst-s0502a.att-164_p007",
+     "pli-kn-attha",
+     "attha",
+     "Tatrāyaṃ saṅkhepakathā – mahāsatto rajjasiriṃ pahāya kaṇṭakaṃ āruyha channasahāyo abhinikkhamanto nagaradvāre ṭhitena mārena ‘‘siddhattha, nivatta, ito te sattame divase cakkaratanaṃ pātubhavissatī’’ti vutte, ‘‘ahametaṃ, māra, jānāmi, na me tenattho’’ti āha. Atha kimatthāya nikkhamasīti? Sabbaññutaññāṇatthāyāti. ‘‘Tena hi sace ajjato paṭṭhāya kāmavitakkādīnaṃ ekampi vitakkaṃ vitakkessasi, jānissām"
+    ],
+    [
+     "vitakka",
+     "cst-s0510a.att-72_p012",
+     "pli-kn-attha",
+     "attha",
+     "Tadā mahāsubhaddā ugganagare micchādiṭṭhikule vasamānā ‘‘satthā maṃ anukampatū’’ti uposathaṅgaṃ adhiṭṭhāya nirāmagandhā hutvā uparipāsādatale ṭhitā ‘‘imāni pupphāni antare aṭṭhatvā dasabalassa matthake vitānaṃ hutvā tiṭṭhantu, dasabalo imāya saññāya sve pañcahi bhikkhusatehi saddhiṃ mayhaṃ bhikkhaṃ gaṇhatū’’ti saccakiriyaṃ katvā aṭṭha sumanapupphamuṭṭhiyo vissajjesi. Pupphāni gantvā dhammadesanāve"
+    ],
+    [
+     "vitakka",
+     "cst-s0519a.att-12_p005",
+     "pli-kn-attha",
+     "attha",
+     "Sattānaṃ kāye avītarāgatā pañcannaṃ ajjhattikāyatanānaṃ vasena hotīti āha – ‘‘pañcindriyāni rūpīni rūparāgassa padaṭṭhāna’’nti. Kāyo hi idha rūpanti adhippeto. Visesato jhānanissayabhūte manāyatane ca nikanti hotīti āha – ‘‘chaṭṭhāyatanaṃ bhavarāgassa padaṭṭhāna’’nti. Edisaṃ mā rūpaṃ nibbattatu, mā edisī vedanāti evaṃ pavattā rūpādiabhinandanā nibbattabhavānupassitā. Ñāṇadassanassāti kammassakatañ"
+    ],
+    [
+     "vitakka",
+     "cst-abh01m.mul-073",
+     "pli-abhidhamma",
+     "mula",
+     "577. Katame dhammā abyākatā? Yasmiṃ samaye rūpāvacaraṃ jhānaṃ bhāveti kiriyaṃ neva kusalaṃ nākusalaṃ na ca kammavipākaṃ diṭṭhadhammasukhavihāraṃ vivicceva kāmehi…pe… paṭhamaṃ jhānaṃ upasampajja viharati pathavīkasiṇaṃ, tasmiṃ samaye phasso hoti…pe… avikkhepo hoti…pe… ime dhammā abyākatā. 578. Katame dhammā abyākatā? Yasmiṃ samaye rūpāvacaraṃ jhānaṃ bhāveti kiriyaṃ neva kusalaṃ nākusalaṃ na ca kamm"
+    ],
+    [
+     "vitakka",
+     "cst-s0515a.att-10_p049",
+     "pli-kn-attha",
+     "attha",
+     "Kāmasaṅkappenāti kāmapaṭisaṃyuttena vitakkena. Upariṭṭhepi eseva nayo. Phuṭṭhoti vitakkehi phusito. Paretoti aparihīno. Samohitoti sammā ohito anto paviṭṭho. Kapaṇo viyāti duggatamanusso viya. Mando viyāti aññāṇī viya. Momūho viyāti sammohabhūto viya. Jhāyatīti cinteti. Pajjhāyatīti bhusaṃ cinteti. Nijjhāyatīti anekavidhena cinteti. Apajjhāyatīti tato apagantvā cinteti. Ulūkoti ulūkasakuṇo. Rukkha"
+    ],
+    [
+     "vitakka",
+     "cst-abh08t.nrf-28_p023",
+     "pli-abh-tika",
+     "tika",
+     "877-8. Upacārakkhaṇe tassāti tassa samādhino upacārakkhaṇe. Nīvaraṇappahānena samādhino paṭilābhakkhaṇe pana aṅgānaṃ vitakkādīnaṃ pātubhāvena iti dvīhi ākārehi."
+    ],
+    [
+     "vitakka",
+     "cst-s0304a.att-sn4_1_p221",
+     "pli-sn-attha",
+     "attha",
+     "Arakkhiteneva kāyenātiādīsu hatthapāde kīḷāpento gīvaṃ parivattento kāyaṃ na rakkhati nāma, nānappakāraṃ duṭṭhullaṃ kathento vacanaṃ na rakkhati nāma, kāmavitakkādayo vitakkento cittaṃ na rakkhati nāma. Rakkhiteneva kāyenātiādīsu vuttavipariyāyena attho veditabbo."
+    ],
+    [
+     "vitakka",
+     "cst-s0501t.nrf-10_p067",
+     "pli-kn-tika",
+     "tika",
+     "‘‘Tattha yā vīmaṃsādhipateyyā cittekaggatā, ayaṃ vīmaṃsāsamādhi, samāhite citte kilesānaṃ vikkhambhanatāya paṭisaṅkhānabalena vā bhāvanābalena vā, idaṃ pahānaṃ. Tattha ye assāsapassāsā vitakkavicārā saññāvedayitā sarasaṅkappā, ime saṅkhārā. Iti purimako ca vīmaṃsāsamādhi kilesavikkhambhanatāya ca pahānaṃ ime ca saṅkhārā, tadubhayaṃ vīmaṃsāsamādhippadhānasaṅkhārasamannāgataṃ iddhipādaṃ bhāveti vive"
+    ],
+    [
+     "vitakka",
+     "cst-e0812n.nrf-014",
+     "pli-cst-e0812n-nrf",
+     "anya",
+     "40. Saddato atthato vuttaṃ, yattha bhiyyopi vuccati; Tamekatthaṃ yathā’bhāti, vāridovārido ayaṃ. 40. ‘‘Saddato’’iccādi. Saddato vācakena tasmiṃyevatthe tasseva saddassa puna payogato atthato abhidheyyena pubbapaṭipādikasseva vatthussāvisesena puna paṭipādanato vuttaṃ payuttaṃ yaṃ padattharūpaṃ yattha yasmiṃ vākye bhiyyopi vuccati punapi payujjate, tamekatthanti anuvaditvā ‘‘yathe’’ccādinā vidhīyat"
+    ],
+    [
+     "vitakka",
+     "cst-vin01a.att-10_p003",
+     "pli-vin-attha",
+     "attha",
+     "Yadi panetāni tassa tassa jhānassupacārakkhaṇeyeva pahīyanti, atha kasmā ‘‘kattha cuppannaṃ dukkhindriyaṃ aparisesaṃ nirujjhati? Idha, bhikkhave, bhikkhu vivicceva kāmehi…pe… paṭhamajjhānaṃ upasampajja viharati, etthuppannaṃ dukkhindriyaṃ aparisesaṃ nirujjhati. Kattha cuppannaṃ domanassindriyaṃ… sukhindriyaṃ… somanassindriyaṃ aparisesaṃ nirujjhati? Idha, bhikkhave, bhikkhu sukhassa ca pahānā…pe… c"
+    ],
+    [
+     "dhatu",
+     "sn14.13",
+     "pli-sn",
+     "mula",
+     "Saṁyutta Nikāya 14.13 2. Dutiyavagga Giñjakāvasathasutta Ekaṁ samayaṁ bhagavā ñātike viharati giñjakāvasathe. Tatra kho bhagavā bhikkhū āmantesi: “bhikkhavo”ti. “Bhadante”ti te bhikkhū bhagavato paccassosuṁ. Bhagavā etadavoca: “Dhātuṁ, bhikkhave, paṭicca uppajjati saññā, uppajjati diṭṭhi, uppajjati vitakko”ti. Evaṁ vutte, āyasmā kaccāno bhagavantaṁ etadavoca: “yāyaṁ, bhante, diṭṭhi: ‘asammāsambudd"
+    ],
+    [
+     "dhatu",
+     "cst-e0101n.mul-63_p002",
+     "pli-vism",
+     "mula",
+     "97. Odātakasiṇepi odātakasiṇaṃ uggaṇhanto odātasmiṃ nimittaṃ gaṇhāti pupphasmiṃ vā vatthasmiṃ vā vaṇṇadhātuyā vāti vacanato katādhikārassa tāva puññavato tathārūpaṃ mālāgacchaṃ vā vassikasumanādipupphasantharaṃ vā kumudapadumarāsiṃ vā odātavatthadhātūnaṃ vā aññataraṃ disvāva nimittaṃ uppajjati, tipumaṇḍalarajatamaṇḍalacandamaṇḍalesupi uppajjatiyeva. Itarena vuttappakārehi odātapupphehi vā odātavat"
+    ],
+    [
+     "dhatu",
+     "cst-s0303t.tik-sn3_1_p077",
+     "pli-sn-tika",
+     "tika",
+     "25-30. Dhātusaṃyutte vuttanayeneva veditabbāni, kevalañhi ettha khandhavasena desanā āgatā, tattha dhātuvasenāti ayameva viseso. Cattāri saccāni kathitāni assādādīnavanissaraṇavasena desanāya pavattattā."
+    ],
+    [
+     "dhatu",
+     "cst-s0515a.att-3_p098",
+     "pli-kn-attha",
+     "attha",
+     "Apāyaloketi vaḍḍhisaṅkhātassa ayassa abhāvena apāyo, tasmiṃ apāyaloke. Khandhaloketi rāsaṭṭhena rūpādayo pañcakkhandhā eva loko. Dhātuloketi suññataṭṭhena cakkhudhātuādayo aṭṭhārasa dhātuyo eva loko. Āyatanaloketi āyatanādīhi kāraṇehi dvādasāyatanāni eva loko. Sabbepi lujjanapalujjanaṭṭhena loko, vuttappakāre loke visaṭā vitthaṭāti visattikā. Satoti saratīti sato, puggalena sati vuttā."
+    ],
+    [
+     "dhatu",
+     "cst-e0103n.att-102_p070",
+     "pli-vism-tika",
+     "tika",
+     "Samudīraṇavitthambhanalakkhaṇāti ettha samudīraṇaṃ anupellanaṃ, visosananti keci. Vitthambhanaṃ sesabhūtattayassa thambhitattāpādanaṃ, uppīlananti eke. Tāyāti vitthambhanalakkhaṇāya vāyodhātuyā. Aparāyāti samudīraṇalakkhaṇāya. Sā hi pellanasabhāvā. Tenāha ‘‘samabbhāhato’’ti. Samabbhāhanañca rūpakalāpassa desantaruppattiyā hetubhāvo. Avaghaṭṭanaṃ āsannataruppattiyā. Lāḷetīti parivatteti. Idāni yada"
+    ],
+    [
+     "dhatu",
+     "cst-e0101n.mul-100_p006",
+     "pli-vism",
+     "mula",
+     "Kiṃ vuttaṃ hoti? Yathā goghātakassa gāviṃ posentassapi āghātanaṃ āharantassapi āharitvā tattha bandhitvā ṭhapentassapi vadhantassapi vadhitaṃ mataṃ passantassapi tāvadeva gāvītisaññā na antaradhāyati, yāva naṃ padāletvā bilaso na vibhajati. Vibhajitvā nisinnassa pana gāvīsaññā antaradhāyati, maṃsasaññā pavattati. Nāssa evaṃ hoti ‘‘ahaṃ gāviṃ vikkiṇāmi, ime gāviṃ harantī’’ti. Atha khvassa ‘‘ahaṃ ma"
+    ],
+    [
+     "dhatu",
+     "cst-e0201n.nrf-157",
+     "pli-cst-e0201n-nrf",
+     "anya",
+     "Atha a, aṇa, ghaka, ghaṇapaccayantā vuccante. 783. Bhāvakārakesvaghaṇaghaka (‘bhāvakārakesvaghaṇaghakā’ (bahūsu)). Bhāve chasu kārakesu ca kriyatthā paraṃ a, ghaṇa, ghakapaccayā honti kammādimhi vā akammādimhi vā. 784. Kvacaṇa. Kammupapadamhā kriyatthā paraṃ kattari eva kvaci aṇa hoti. A, aṇa, ghaka, ghaṇa. Amhi tāva – Aggaṃ jānātīti aggañño, vaṃsaṃ jānātīti vaṃsañño, magge tiṭṭhatīti maggaṭṭho-pu"
+    ],
+    [
+     "dhatu",
+     "cst-e0703n.nrf-037",
+     "pli-cst-e0703n-nrf",
+     "anya",
+     "1. Dhātugabbhamhi kammāni, niṭṭhāpetvā arindamo; Sannipātaṃ kārayitvā, saṅghassa idhamabravi. 2. Dhātugabbhamhi kammāni, mayā niṭṭhāpi tāni hi; Suve dhātuṃ nidhessāmi, bhante jānātha dhātuyo’’. 3. Idaṃ vatvā mahārājā, nagaraṃ pāvisī tato; Dhātu āharakaṃ bhikkhuṃ, bhikkhusaṅgho vicintiya. 4. Soṇuttaraṃ nāmayatiṃ, pūjāpariveṇavāsi kaṃ; Dhātāharaṇa kammamhi, chaḷabhiññaṃ niyojayi. 5. Cārikaṃ caramāna"
+    ],
+    [
+     "dhatu",
+     "cst-e0103n.att-83_p002",
+     "pli-vism-tika",
+     "tika",
+     "167. Itoti devatānussatiyā. Sā hi chasu anussatīsu sabbapacchā niddiṭṭhattā āsannā, paccakkhā ca. Anantarāyāti tadanantaraṃ uddiṭṭhattā vuttaṃ. Maraṇassa sati maraṇassatīti maraṇaṃ tāva dassetuṃ ‘‘tattha maraṇa’’ntiādi vuttaṃ. Kāmañcettha khandhānaṃ bhedo ‘‘jarāmaraṇaṃ dvīhi khandhehi saṅgahita’’nti (dhātu. 71) vacanato cutikhandhānaṃ vināso maraṇanti vattabbaṃ, visesato pana taṃ jīvitindriyassa v"
+    ],
+    [
+     "dhatu",
+     "sn14.28",
+     "pli-sn",
+     "mula",
+     "Saṁyutta Nikāya 14.28 3. Kammapathavagga Aṭṭhaṅgikasutta Sāvatthiyaṁ viharati. “Dhātusova, bhikkhave, sattā saṁsandanti samenti. Micchādiṭṭhikā micchādiṭṭhikehi saddhiṁ saṁsandanti samenti; micchāsaṅkappā …pe… micchāvācā … micchākammantā … micchāājīvā … micchāvāyāmā … micchāsatino … micchāsamādhino micchāsamādhīhi saddhiṁ saṁsandanti samenti. Sammādiṭṭhikā sammādiṭṭhikehi saddhiṁ saṁsandanti samen"
+    ],
+    [
+     "dhatu",
+     "cst-e1202n.nrf-001",
+     "pli-cst-e1202n-nrf",
+     "anya",
+     "Yasmiṃ sayiṃsu jinadhātuvarā samantā Chabbaṇṇa raṃsi visarehi samujjalantā, Nimmāya lokahitahetu jinassa rūpaṃ Taṃ thupamabbhuta tamaṃ sirasā namitvā; Cakkhāmahaṃ sakala loka hitāvahassa Thupassa sabba jana naṇdana kāraṇassa, Vaṃsaṃ surāsura nariṇdavarehi niccaṃ Sampūjitassa ratanujjala thūpikassa; Kiñcāpi so yatijanena purātanena Atvāya sīhaḷajanassa kato purāpi, Vākkena sihaḷabhavena’bhisaṅkhama"
+    ],
+    [
+     "dhatu",
+     "cst-abh09t.nrf-291_p002",
+     "pli-abh-tika",
+     "tika",
+     "Anusayayamakamātikāya pana pāḷivavatthānaṃ tāva evaṃ veditabbaṃ. Anusayayamakepi khandhayamakamātikādīsu viya desanaṃ akatvā aññena nayena pāḷidesanā katā. Kathaṃ? Paṭhamaṃ tāva paricchedavāro paricchinnuddesavāroti dve vārā uddesavasena desitā, tato uppattiṭṭhānavāroti eko khuddakavāro. Tato anusayavāro sānusayavāro pajahanavāro pariññāvāro pahīnavāro uppajjanavāro dhātuvāroti anusaye yojetvā yam"
+    ],
+    [
+     "dhatu",
+     "cst-s0505a.att-11_p003",
+     "pli-kn-attha",
+     "attha",
+     "Tattha yāyaṃ ‘‘ajja pannaraso’’tiādi gāthā. Tassā uppatti – imasmiṃyeva bhaddakappe vīsativassasahassāyukesu purisesu uppajjitvā soḷasavassasahassāyukāni ṭhatvā parinibbutassa bhagavato kassapasammāsambuddhassa mahatiyā pūjāya sarīrakiccaṃ akaṃsu. Tassa dhātuyo avikiritvā suvaṇṇakkhandho viya ekagghanā hutvā aṭṭhaṃsu. Dīghāyukabuddhānañhi esā dhammatā. Appāyukabuddhā pana yasmā bahutarena janena a"
+    ],
+    [
+     "dhatu",
+     "cst-e0103n.att-102_p058",
+     "pli-vism-tika",
+     "tika",
+     "346. Evampi bhāvayatoti salakkhaṇasaṅkhepato dhātuyo pariggahetvā bhāventassāpi. Pubbe vuttanayenāti sasambhāravibhattito bhāvanāyaṃ vuttena nayena. Evanti yathā kese, evaṃ. Sabbakoṭṭhāsesūti ekacattālīsabhedesu sesasabbakoṭṭhāsesu evamettha aṭṭhasaṭṭhidhātusatassa pariggaho vutto hoti. Bhāvanāvidhānaṃ panettha heṭṭhā vuttanayameva."
+    ],
+    [
+     "dhatu",
+     "cst-vin01t1.tik-4_p080",
+     "pli-vin-tika",
+     "tika",
+     "Tasmā visesato sādhukīḷikā dhātupūjādivasesuyevāti daṭṭhabbaṃ. Te pana dhātupūjāya katattā ‘‘dhātupūjādivasā’’ti pākaṭā jātāti āha ‘‘sattasu ca dhātupūjādivasesū’’ti. Upakaṭṭhāti āsannā. Vassaṃ upanenti upagacchanti etthāti vassūpanāyikā. Ekaṃ maggaṃ gatoti cārikaṃ caritvā mahājanaṃ assāsetuṃ ekena maggena gato. Evaṃ anuruddhattherādayopi tesu tesu janapadesu cārikaṃ caritvā mahājanaṃ assāsentā ga"
+    ],
+    [
+     "dhatu",
+     "cst-abh02t.tik-196_p002",
+     "pli-abh-tika",
+     "tika",
+     "227. Yathāvuttasaṅkhārapaccayāti puññābhisaṅkhārādivuttappakārasaṅkhārapaccayā. Viññāṇādayo vedanāpariyosānā etarahi vipākavaṭṭabhūtā idhādhippetāti āha ‘‘taṃkammanibbattameva viññāṇaṃ bhavituṃ arahatī’’ti. Ayañca atthavaṇṇanā dhātukathāpāḷiyā na sametīti dassento ‘‘dhātukathāyaṃ panā’’tiādimāha. Tattha dhātukathāyaṃ vacanato sabbaviññāṇaphassavedanāpariggaho kato dhātukathāyanti yojanā. Sappadesā"
+    ],
+    [
+     "dhatu",
+     "cst-e0104n.att-63_p005",
+     "pli-vism-tika",
+     "tika",
+     "Eteneva upāyenāti yvāyaṃ salakkhaṇasaṅkhepato, salakkhaṇavibhattito ca dhātuvavatthānavasena rūpapariggahaṃ dassetvā tattha ṭhitassa phassādimukhena arūpapariggaṇhanupāyo dassito, eteneva upāyena. Kammasamuṭṭhānakeseti catusamuṭṭhānakesato niddhārite kammasamuṭṭhānakese. Kakkhaḷalakkhaṇātiādinā nayenāti ādi-saddena na kevalaṃ ‘‘paggharaṇalakkhaṇā āpodhātū’’tiādinā lakkhaṇavisesena saddhiṃ dhātvant"
+    ],
+    [
+     "dhatu",
+     "cst-e0101n.mul-100_p018",
+     "pli-vism",
+     "mula",
+     "Kathaṃ? Yathā dvīsu bhikkhūsu bahupeyyālaṃ tantiṃ sajjhāyantesu tikkhapañño bhikkhu sakiṃ vā dvikkhattuṃ vā peyyālamukhaṃ vitthāretvā tato paraṃ ubhatokoṭivaseneva sajjhāyaṃ karonto gacchati. Tatra nātitikkhapañño evaṃ vattā hoti ‘‘kiṃ sajjhāyo nāmesa oṭṭhapariyāhatamattaṃ kātuṃ na deti, evaṃ sajjhāye kariyamāne kadā tanti paguṇā bhavissatī’’ti. So āgatāgataṃ peyyālamukhaṃ vitthāretvāva sajjhāyaṃ "
+    ],
+    [
+     "dhatu",
+     "cst-abh09t.nrf-18_p002",
+     "pli-abh-tika",
+     "tika",
+     "Vijjābhāgino dhammā, avijjābhāgino dhammā. Vijjūpamā dhammā, vajirūpamā dhammā. Bālā dhammā, paṇḍitā dhammā. Kaṇhā dhammā, sukkā dhammā. Tapanīyā dhammā, atapanīyā dhammā. Adhivacanā dhammā, adhivacanapathā dhammā. Nirutti dhammā, niruttipathā dhammā. Paññatti dhammā, paññattipathā dhammā. Nāmañca, rūpañca. Avijjā ca, bhavataṇhā ca. Bhavadiṭṭhi ca, vibhavadiṭṭhi ca. Sassatadiṭṭhi ca, ucchedadiṭṭhi"
+    ],
+    [
+     "dhatu",
+     "cst-abh03m4.mul-272",
+     "pli-abhidhamma",
+     "mula",
+     "1. Aṭṭhārasa dhātuyo – cakkhudhātu, sotadhātu, ghānadhātu, jivhādhātu, kāyadhātu, rūpadhātu, saddadhātu, gandhadhātu, rasadhātu, phoṭṭhabbadhātu, cakkhuviññāṇadhātu, sotaviññāṇadhātu, ghānaviññāṇadhātu, jivhāviññāṇadhātu, kāyaviññāṇadhātu, manodhātu, manoviññāṇadhātu, dhammadhātu."
+    ],
+    [
+     "dhatu",
+     "sn14.1",
+     "pli-sn",
+     "mula",
+     "Saṁyutta Nikāya 14.1 1. Nānattavagga Dhātunānattasutta Sāvatthiyaṁ viharati. “Dhātunānattaṁ vo, bhikkhave, desessāmi. Taṁ suṇātha, sādhukaṁ manasi karotha, bhāsissāmī”ti. “Evaṁ, bhante”ti kho te bhikkhū bhagavato paccassosuṁ. Bhagavā etadavoca: “Katamañca, bhikkhave, dhātunānattaṁ? Cakkhudhātu rūpadhātu cakkhuviññāṇadhātu, sotadhātu saddadhātu sotaviññāṇadhātu, ghānadhātu gandhadhātu ghānaviññāṇad"
+    ],
+    [
+     "dhatu",
+     "cst-abh02a.att-18_p004",
+     "pli-abh-attha",
+     "attha",
+     "Tattha ‘atthato’ti cakkhatīti cakkhu. Rūpayatīti rūpaṃ. Cakkhussa viññāṇaṃ cakkhuviññāṇanti evamādinā tāva nayena cakkhādīnaṃ visesatthato veditabbo vinicchayo. Avisesena pana vidahati, dhīyate, vidhānaṃ, vidhīyate etāya, ettha vā dhīyatīti dhātu. Lokiyā hi dhātuyo kāraṇabhāvena vavatthitā hutvā suvaṇṇarajatādidhātuyo viya suvaṇṇarajatādiṃ anekappakāraṃ saṃsāradukkhaṃ vidahanti; bhārahārehi ca bhā"
+    ],
+    [
+     "dhatu",
+     "cst-abh02m.mul-380",
+     "pli-abhidhamma",
+     "mula",
+     "1030. Pañcannaṃ khandhānaṃ kati abhiññeyyā, kati pariññeyyā, kati pahātabbā, kati bhāvetabbā, kati sacchikātabbā, kati na pahātabbā, na bhāvetabbā, na sacchikātabbā…pe… sattannaṃ cittānaṃ kati abhiññeyyā, kati pariññeyyā, kati pahātabbā, kati bhāvetabbā, kati sacchikātabbā, kati na pahātabbā na bhāvetabbā na sacchikātabbā? 1031. Rūpakkhandho abhiññeyyo pariññeyyo na pahātabbo na bhāvetabbo na sacc"
+    ],
+    [
+     "dhatu",
+     "cst-abh03a.att-14_p003",
+     "pli-abh-attha",
+     "attha",
+     "‘‘Dasāyatanā sattarasa dhātuyo, Sattindriyā asaññābhavo ekavokārabhavo; Paridevo sanidassanasappaṭighaṃ, Anidassanaṃ punadeva sappaṭighaṃ upādā’’ti."
+    ],
+    [
+     "dhatu",
+     "cst-e0102n.mul-16_p042",
+     "pli-vism",
+     "mula",
+     "Tattha cakkhādipañcavidhaṃ attabhāvaṃ adhikicca pavattattā ajjhattikaṃ, sesaṃ tato bāhirattā bāhiraṃ. Cakkhādīni nava āpodhātuvajjitā tisso dhātuyo cāti dvādasavidhaṃ ghaṭṭanavasena gahetabbato oḷārikaṃ, sesaṃ tato viparītattā sukhumaṃ. Yaṃ sukhumaṃ tadeva duppaṭivijjhasabhāvattā dūre, itaraṃ suppaṭivijjhasabhāvattā santike. Catasso dhātuyo, cakkhādīni terasa, kabaḷīkārāhāro cāti aṭṭhārasavidhaṃ r"
+    ],
+    [
+     "dhatu",
+     "cst-abh09t.nrf-262_p004",
+     "pli-abh-tika",
+     "tika",
+     "‘‘Kāmadhātuyā kati khandhā…pe… kati cittāni? Kāmadhātuyā pañcakkhandhā, dvādasāyatanāni, aṭṭhārasa dhātuyo, tīṇi saccāni, bāvīsatindriyāni, nava hetū, cattāro āhārā, satta phassā, vedanā, saññā, cetanā, cittānī’’ti –"
+    ],
+    [
+     "dhatu",
+     "cst-e0807n.nrf-586",
+     "pli-cst-e0807n-nrf",
+     "anya",
+     "Ñādese sanāssa ñāssa jaṃ vā hoti. Jaññā, jāneyya, jāneyyuṃ. Kamme-paññāyeyya, paññāyeyyuṃ. Vijānātu, vijānanthu. Kamme-viññāyatu iccādi. Mā=māne, ‘‘ā ī ssādīnaṃ byañjanassiña’’ iti iñaiti yogavibhāgā iñāgame pubbasaralopo, mināti, minanti. Kamme-mīyati iccādi. Lū=chedane, ‘‘kṇāknāsu rasso’’ti dhātussa rasso, lunāti, lunanti. Kamme-lūyati iccādi. Dhu=kampane, dhunāti iccādi. (Jyādinayo). Kī=dabbavi"
+    ],
+    [
+     "dhatu",
+     "cst-e0806n.nrf-047",
+     "pli-cst-e0806n-nrf",
+     "anya",
+     "Issa attaṃ nipātanā, dakāro pana ‘‘mayadā sare’’ti (1-44), padantarenātiādīti iminā aññena padena, sādhūni bhavantīti vutti pāṭhassa atthaṃ vattuṃ ‘sādhūni bhavantīti nipātanato’ti āha, tattha kāraṇamāha-‘ya’miccādi, appattassa pāpanampattassa paṭisedho ca nipātanaṃ, tesaṃ idha pāṭhāti tesaṃ tathā icchantānaṃ idhāti nipātassa imasmiṃ tadaminādisutte pāṭhā, uddhassa udūti uddhaṃ khamassāti aññapada"
+    ],
+    [
+     "dhatu",
+     "cst-abh02t.tik-17_p002",
+     "pli-abh-tika",
+     "tika",
+     "183. Cakkhussāti visesakāraṇaṃ asādhāraṇasāmibhāvena niddiṭṭhaṃ. Tañhi puggalantarāsādhāraṇaṃ nīlādisabbarūpasādhāraṇañca. Vidahatīti evaṃ evañca tayā pavattitabbanti viniyujjamānaṃ viya uppādetīti attho. Vidahatīti ca dhātuattho eva visiṭṭho upasaggena dīpitoti vināpi upasaggena dhātūti eso saddo tamatthaṃ vadatīti daṭṭhabbo. Kattukammabhāvakaraṇaadhikaraṇesu dhātupadasiddhi hotīti pañcapi ete at"
+    ],
+    [
+     "dhatu",
+     "cst-s0505a.att-5_p028",
+     "pli-kn-attha",
+     "attha",
+     "Evaṃ ādimajjhapariyosānato kammaṭṭhānaṃ manasi karitvā, kālaṃ ñatvā, uṭṭhāyāsanā nivāsetvā, pubbe vuttanayeneva gāmaṃ piṇḍāya gacchati. Gacchanto ca yathā andhaputhujjanā abhikkamādīsu ‘‘attā abhikkamati, attanā abhikkamo nibbattito’’ti vā, ‘‘ahaṃ abhikkamāmi, mayā abhikkamo nibbattito’’ti vā sammuyhanti, tathā asammuyhanto ‘‘abhikkamāmīti citte uppajjamāne teneva cittena saddhiṃ cittasamuṭṭhānā s"
+    ],
+    [
+     "dhatu",
+     "cst-abh03m4.mul-278",
+     "pli-abhidhamma",
+     "mula",
+     "7. (Ka) na cakkhu na dhātu? (Kha) na dhātū na cakkhu? (Ka) na sotaṃ na dhātu? (Kha) na dhātū na sotaṃ? … Na ghānaṃ?… Na jivhā?… Na kāyo?… Na rūpaṃ? … Na saddo?… Na gandho?… Na raso?… Na phoṭṭhabbo? (Ka) na cakkhuviññāṇaṃ na dhātu? (Kha) na dhātū na cakkhuviññāṇaṃ? … Na sotaviññāṇaṃ?…Pe… na ghānaviññāṇaṃ?… Na jivhāviññāṇaṃ? (Ka) na kāyaviññāṇaṃ na dhātu? (Kha) na dhātū na kāyaviññāṇaṃ? (Ka) na mano"
+    ],
+    [
+     "dhatu",
+     "cst-e1201n.nrf-001",
+     "pli-cst-e1201n-nrf",
+     "anya",
+     "Saddhamiddhaguṇaṃ sādhu namassitvā tathāgataṃ, Sadhammasaṅghaṃ bhāsissaṃ māgadhaṃ saddalakkhaṇaṃ. Akārādayo niggahītantā tecattālīsakkharā vaṇṇā nāma honti, a ā i ī u ū e ऐ o औ ka kha ga gha ṅa ca cha ja jha ña ṭa ṭha ḍa ḍha ṇa ta tha da dha na pa pha ba bha ma ya ra la va sa ha ḷa aṃ; tena kvattho ‘‘ñonama vaṇṇe‘‘. titālīsāti vacanaṃ katthavi vaṇṇalopaṃ ñāpeti; tena-paṭisaṅkhāyoni soti-ādi siddha"
+    ],
+    [
+     "dhatu",
+     "cst-s0105t.nrf-32_p004",
+     "pli-dn-tika",
+     "tika",
+     "‘‘Saha nighaṇṭunā’’tiādinā yathāvākyaṃ vibhatyantavasena nibbacanadassanaṃ. Nighaṇṭurukkhādīnanti nighaṇṭu nāma rukkhaviseso, tadādikānamatthānanti attho, etena nighaṇṭurukkhapariyāyaṃ ādiṃ katvā tappamukhena sesapariyāyānaṃ tattha dassitattā so gantho nighaṇṭu nāma yathā taṃ ‘‘pārājikakaṇḍo, kusalattiko’’ti ayamattho dassito iminā yathārutameva tadatthassa adhigatattā. Ācariyā pana evaṃ vadanti ‘"
+    ],
+    [
+     "dhatu",
+     "cst-abh03m1.mul-010",
+     "pli-abhidhamma",
+     "mula",
+     "50. Cakkhundriyaṃ katihi khandhehi katihāyatanehi katihi dhātūhi saṅgahitaṃ? Cakkhundriyaṃ ekena khandhena ekenāyatanena ekāya dhātuyā saṅgahitaṃ. Katihi asaṅgahitaṃ? Catūhi khandhehi ekādasahāyatanehi sattarasahi dhātūhi asaṅgahitaṃ. 51. Sotindriyaṃ… ghānindriyaṃ… jivhindriyaṃ… kāyindriyaṃ… itthindriyaṃ … purisindriyaṃ ekena khandhena ekenāyatanena ekāya dhātuyā saṅgahitaṃ. Katihi asaṅgahitaṃ? Ca"
+    ],
+    [
+     "dhatu",
+     "sn14.24",
+     "pli-sn",
+     "mula",
+     "Saṁyutta Nikāya 14.24 3. Kammapathavagga Dussīlasutta Sāvatthiyaṁ viharati. “Dhātusova, bhikkhave, sattā saṁsandanti samenti. Assaddhā assaddhehi saddhiṁ saṁsandanti samenti; ahirikā ahirikehi saddhiṁ saṁsandanti samenti; anottappino anottappīhi saddhiṁ saṁsandanti samenti; dussīlā dussīlehi saddhiṁ saṁsandanti samenti; duppaññā duppaññehi saddhiṁ saṁsandanti samenti. Saddhā saddhehi saddhiṁ saṁsa"
+    ],
+    [
+     "dhatu",
+     "cst-s0402t.tik-an4_p309",
+     "pli-an-tika",
+     "tika",
+     "Imaṃ gāthādvayaṃ vatvā taṃ kalahaṃ vūpasametvā dhātuyo aṭṭhadhā bhājetvā adāsi, taṃ sandhāyetaṃ vuttaṃ ‘‘sakalajambudīpe uppannaṃ mahākalahaṃ vūpasametvā dhātuyo bhājessatī’’ti. Lakkhaṇacakkānīti dvīsu pādatalesu dve lakkhaṇacakkāni."
+    ],
+    [
+     "dhatu",
+     "cst-abh08t.nrf-71_p036",
+     "pli-abh-tika",
+     "tika",
+     "175. Tidhā katvāti paṭhamaṃ vipākadvayakiriyābhedato, dutiyaṃ kusalākusalāditoti evaṃ dhātudvayaṃ paccekaṃ tidhā katvā."
+    ],
+    [
+     "dhatu",
+     "cst-e0103n.att-102_p075",
+     "pli-vism-tika",
+     "tika",
+     "Tatthāyaṃ vacanattho – mahantāni bhūtāni jātāni nibbattānīti mahābhūtānīti. Anekābhūtavisesadassanena, anekabbhutadassanena ca anekacchariyadassanavasena mahanto abbhuto, mahantāni vā abhūtāni etthāti mahābhūto, māyākāro. Yakkhādayo jātivaseneva mahantā bhūtāti mahābhūtā, niruḷho vā ayaṃ tesu mahābhūtasaddo daṭṭhabbo. Pathavīādayo pana vañcakatāya, aniddisitabbaṭṭhānatāya ca mahābhūtā viya mahābhū"
+    ],
+    [
+     "dhatu",
+     "cst-e0104n.att-63_p002",
+     "pli-vism-tika",
+     "tika",
+     "670. Ākirīyanti abhimukhā honti etehīti ākārā, arūpadhammānaṃ upaṭṭhānassa mukhabhūtā phusanānubhavanavijānanappakārāti āha ‘‘arūpadhammā tīhi ākārehi upaṭṭhahantī’’tiādi. Ārammaṇe pavattamānesu cittacetasikesu asatipi pubbāpariye phusanalakkhaṇo phasso, tattha sabbapaṭhamaṃ abhinipatanto viya hotīti vuttaṃ ‘‘paṭhamābhinipāto phasso’’ti. Tenassa phusanākārena supākaṭabhāvena upaṭṭhānaṃ dasseti. Ph"
+    ],
+    [
+     "dhatu",
+     "cst-abh01m.mul-103",
+     "pli-abhidhamma",
+     "mula",
+     "1140. Katame dhammā ganthā? Cattāro ganthā – abhijjhā kāyagantho, byāpādo kāyagantho, sīlabbataparāmāso kāyagantho, idaṃ saccābhiniveso kāyagantho. 1141. Tattha katamo abhijjhā kāyagantho? Yo rāgo sārāgo anunayo anurodho nandī nandīrāgo cittassa sārāgo icchā mucchā ajjhosānaṃ gedho paligedho saṅgo paṅko ejā māyā janikā sañjananī sibbinī jālinī saritā visattikā suttaṃ visaṭā āyūhinī dutiyā paṇidhi "
+    ],
+    [
+     "dhatu",
+     "cst-abh09t.nrf-260_p048",
+     "pli-abh-tika",
+     "tika",
+     "Tato tattha tattha sakkārasammānaṃ alabhamānā dhātuyo buddhānaṃ adhiṭṭhānabalena sakkārasammānalabbhamānakaṭṭhānaṃ gamissanti, tato sabbattha alabhamānā sabbadhātuyo mahābodhimaṇḍameva gamissanti. Sāsapamattāpi hi dhātu na antarā nassissati, tā pana bodhimaṇḍe pallaṅkena nisinnabuddhasarīrasiriṃ, yamakapāṭihāriyañca dassessanti, tato dhātusarīrato tejo samuṭṭhāya taṃ sarīraṃ apaṇṇattikabhāvaṃ game"
+    ],
+    [
+     "dhatu",
+     "cst-e0806n.nrf-057",
+     "pli-cst-e0806n-nrf",
+     "anya",
+     "Avayavasambandheti syādyavayavīsamudāyena dvedveti vuttānamavayavānaṃ sambandhe, atettha vutyanukūlāya pañcikāya vā bhavitabbaṃ, pañcikānu kūlāya vuttiyā vā, na cettha dvinnamaññoññānukūlatā dissati, tathāhi vuttiyaṃ-‘ekānekatthesu vattamānato nāmasmā’ti ettakameva pakativisesanavasena vuttaṃ, pañcikāyantu tabbisesana vasena ca paccayatthavisesanavasena ca attho dassito, tadeva mubhinnannāññamaññā"
+    ],
+    [
+     "dhatu",
+     "cst-s0517a.att-7_p091",
+     "pli-kn-attha",
+     "attha",
+     "Cakkhudhātādīni aṭṭhārasa vissajjanāni aṭṭhārasadhātuvasena niddiṭṭhāni. Cakkhādīsu ekeko dhammo yathāsambhavaṃ vidahati, dhīyate, vidhānaṃ vidhīyate, etāya, ettha vā dhīyatīti dhātu. Lokiyā hi dhātuyo kāraṇabhāvena vavatthitā hutvā suvaṇṇarajatādidhātuyo viya suvaṇṇarajatādiṃ, anekappakāraṃ saṃsāradukkhaṃ vidahanti. Bhārahārehi ca bhāro viya sattehi dhīyante, dhārīyantīti attho. Dukkhavidhānamatt"
+    ],
+    [
+     "dhatu",
+     "cst-s0519a.att-19_p005",
+     "pli-kn-attha",
+     "attha",
+     "Uddhaṅgamā vātāti uggārahikkārādipavattakā uddhaṃ ārohanavātā. Adhogamā vātāti uccārapassāvādinīharaṇakā adho orohanavātā. Kucchisayā vātāti antānaṃ bahivātā. Koṭṭhāsayā vātāti antānaṃ antovātā. Aṅgamaṅgānusārino vātāti dhamanijālānusārena sakalasarīre aṅgamaṅgāni anusaṭā samiñjanapasāraṇādinibbattakā vātā. Assāsoti antopavisananāsikavāto. Passāsoti bahinikkhamananāsikavāto. Ettha ca purimā sabbe "
+    ],
+    [
+     "dhatu",
+     "cst-s0506a.att-82_p002",
+     "pli-kn-attha",
+     "attha",
+     "Yā devarājassa sabhā sudhammāti uttaravimānaṃ. Tassa kā uppatti? Bhagavati parinibbute dhātuvibhāge ca kate tattha tattha thūpesu patiṭṭhāpiyamānesu dhammavinayaṃ saṅgāyituṃ uccinitvā gahitesu mahākassapappamukhesu mahātheresu yāva vassūpagamanā aññesu ca theresu attano attano parisāya saddhiṃ tattha tattha vasantesu āyasmā kumārakassapo pañcahi bhikkhusatehi saddhiṃ setabyanagaraṃ gantvā siṃsapāv"
+    ],
+    [
+     "dhatu",
+     "cst-abh06t.nrf-21_p053",
+     "pli-abh-tika",
+     "tika",
+     "Kāyacakkhupasādāti, Sambhārā honti cuddasa; Tathā vitthārato cetaṃ, Catasso cāpi dhātuyo."
+    ],
+    [
+     "dhatu",
+     "cst-e0102n.mul-70_p013",
+     "pli-vism",
+     "mula",
+     "Ettha ca cakkhuṃ…pe… jarāmaraṇanti iminā peyyālena dvārārammaṇehi saddhiṃ dvārappavattā dhammā, pañcakkhandhā, cha dvārāni, cha ārammaṇāni, cha viññāṇāni, cha phassā, cha vedanā, cha saññā, cha cetanā, cha taṇhā, cha vitakkā, cha vicārā, cha dhātuyo, dasa kasiṇāni, dvattiṃsakoṭṭhāsā, dvādasāyatanāni, aṭṭhārasa dhātuyo, bāvīsati indriyāni, tisso dhātuyo, nava bhavā, cattāri jhānāni, catasso appamañ"
+    ],
+    [
+     "dhatu",
+     "iti85",
+     "pli-iti",
+     "mula",
+     "Itivuttaka 85 Tikanipāta Catutthavagga Asubhānupassīsutta Vuttañhetaṁ bhagavatā vuttamarahatāti me sutaṁ: “Asubhānupassī, bhikkhave, kāyasmiṁ viharatha; ānāpānassati ca vo ajjhattaṁ parimukhaṁ sūpaṭṭhitā hotu; sabbasaṅkhāresu aniccānupassino viharatha. Asubhānupassīnaṁ, bhikkhave, kāyasmiṁ viharataṁ yo subhāya dhātuyā rāgānusayo so pahīyati. Ānāpānassatiyā ajjhattaṁ parimukhaṁ sūpaṭṭhititāya ye bā"
+    ],
+    [
+     "dhatu",
+     "cst-s0101a.att-dn1_2_p199",
+     "pli-dn-attha",
+     "attha",
+     "Abbhantare attā nāma koci cīvaraṃ pārupento natthi, vuttappakārena cittakiriyavāyodhātuvipphāreneva pana cīvarapārupanaṃ hoti. Tattha cīvarampi acetanaṃ, kāyopi acetano. Cīvaraṃ na jānāti – ‘‘mayā kāyo pārupito’’ti. Kāyopi na jānāti – ‘‘ahaṃ cīvarena pārupito’’ti. Dhātuyova dhātusamūhaṃ paṭicchādenti paṭapilotikāyapotthakarūpapaṭicchādane viya. Tasmā neva sundaraṃ cīvaraṃ labhitvā somanassaṃ kātab"
+    ],
+    [
+     "dhatu",
+     "cst-abh02a.att-19_p002",
+     "pli-abh-attha",
+     "attha",
+     "185. Pañhāpucchake aṭṭhārasannaṃ dhātūnaṃ heṭṭhā vuttanayānusāreneva kusalādibhāvo veditabbo. Ārammaṇattikesu pana cha dhātuyo parittārammaṇāti idaṃ pana pañcannaṃ cakkhuviññāṇādīnaṃ manodhātuyā ca ekantena pañcasu rūpārammaṇādīsu pavattiṃ sandhāya vuttaṃ. Dve dhātuyoti vuttānaṃ pana dhammadhātumanoviññāṇadhātūnaṃ manāyatanadhammāyatanesu vuttanayeneva parittārammaṇāditā veditabbā. Iti imasmimpi p"
+    ],
+    [
+     "dhatu",
+     "cst-s0402t.tik-an3_p337",
+     "pli-an-tika",
+     "tika",
+     "Tassa dhammassāti ‘‘ayaṃ kho pana, bhikkhave’’tiādinā uddhaṭassa dhammassa. Pañhaṃ pucchitvāti kathetukamyatāvasena pañhaṃ pucchitvā. Yathāpaṭipāṭiyāti mātikāya yathānikkhittappaṭipāṭiyā. Dhātuyoti sabhāvadhāraṇaṭṭhena dhātuyo. Tā pana yasmā taṇhādiṭṭhikappanāparikappitaattasubhasukhasassatādipakatiādidhuvādijīvādikāyādikā viya na icchāsabhāvā diṭṭhiādirahitehi vimuccamānaudumbarapupphādilokavohār"
+    ],
+    [
+     "dhatu",
+     "cst-abh09t.nrf-100_p002",
+     "pli-abh-tika",
+     "tika",
+     "Aṭṭhārasa dhātuyo (yama. 1.dhāturamaka.1 ādayo) – cakkhudhātu sotadhātu ghānadhātu jivhādhātu kāyadhātu rūpadhātu saddadhātu gandhadhātu rasadhātu phoṭṭhabbadhātu cakkhuviññāṇadhātu sotaviññāṇadhātu ghānaviññāṇadhātu jivhāviññāṇadhātu kāyaviññāṇadhātu manodhātu manoviññāṇadhātu dhammadhātu."
+    ],
+    [
+     "dhatu",
+     "cst-s0513a1.att-6_p014",
+     "pli-kn-attha",
+     "attha",
+     "Tasmiṃ samaye tapussabhallikā nāma dve vāṇijā pañcahi sakaṭasatehi ukkalājanapadā majjhimadesaṃ gacchantā attano ñātisālohitāya devatāya sakaṭāni sannirumbhitvā satthu āhārasampādane ussāhitā manthañca madhupiṇḍikañca ādāya ‘‘paṭiggaṇhātu no, bhante, bhagavā imaṃ āhāraṃ anukampaṃ upādāyā’’ti satthāraṃ upasaṅkamitvā aṭṭhaṃsu. Bhagavā pāyāsapaṭiggahaṇadivaseyeva pattassa antarahitattā ‘‘na kho tathā"
+    ],
+    [
+     "dhatu",
+     "mn115",
+     "pli-mn",
+     "mula",
+     "Majjhima Nikāya 115 Bahudhātukasutta Evaṁ me sutaṁ— ekaṁ samayaṁ bhagavā sāvatthiyaṁ viharati jetavane anāthapiṇḍikassa ārāme. Tatra kho bhagavā bhikkhū āmantesi: “bhikkhavo”ti. “Bhadante”ti te bhikkhū bhagavato paccassosuṁ. Bhagavā etadavoca: “Yāni kānici, bhikkhave, bhayāni uppajjanti sabbāni tāni bālato uppajjanti, no paṇḍitato; ye keci upaddavā uppajjanti sabbe te bālato uppajjanti, no paṇḍita"
+    ],
+    [
+     "dhatu",
+     "cst-vin11t.nrf-9_p211",
+     "pli-vin-tika",
+     "tika",
+     "Parikkhepesu labbhatīti bodhikkhandhādīnaṃ punappunaṃ parikkhipanesu labbhati. Bodhikkhandhādayo pupphāvalīhi parikkhipantehi paṭhamavaddhaṭṭhāne pupphāvaliyā anatikkāmite purimaṃ nāma ṭhānaṃ yāva pāpuṇāti, tāva aññena gahetvā parikkhipantena āharitvā punapi tasmiṃ ṭhāne patte aññassa dānavasena bodhikkhandhaṃ, cetiyaṃ, dhātukaraṇḍakaṃ vā pupphakañcukena chādetuṃ vaṭṭatīti aṭṭhakathāya vuttaṃ. Sac"
+    ],
+    [
+     "dhatu",
+     "cst-abh03t.tik-298_p029",
+     "pli-abh-tika",
+     "tika",
+     "Yuttānampi sataṃ vippayuttabhāvena nānattūpagamena upakārakatā vippayuttapaccayatā. Na hi vatthusahajātapacchājātavasena ayuttānaṃ rūpādīnaṃ ārammaṇādibhāvena upakārakānaṃ vippayuttānaṃ vippayuttapaccayatā atthīti. Rūpānaṃ pana rūpehi satipi avinibbhoge vippayogoyeva natthīti na tesaṃ vippayuttapaccayatā. Vuttañhi ‘‘catūhi sampayogo catūhi vippayogo’’ti (dhātu. 3)."
+    ],
+    [
+     "dhatu",
+     "cst-e0807n.nrf-545",
+     "pli-cst-e0807n-nrf",
+     "anya",
+     "Sambhāvane gamyamāne dhātunā vuccamāne ca eyyādayo honti vibhāsā. Api bhavaṃ gilitaṃ pāsāṇaṃ paceyya udaragginā, sambhāvemi saddahāmi bhavaṃ paceyya, bhavaṃ pacissati, bhavaṃ apaci."
+    ],
+    [
+     "dhatu",
+     "cst-s0105t.nrf-16_p055",
+     "pli-dn-tika",
+     "tika",
+     "Tattha abbhantareti attano santāne. Tatthāti tasmiṃ cīvarapārupane. Tesu vā pārupakattapārupitabbacīvaresu. Kāyopīti attapaññattimatto kāyopi. ‘‘Tasmā’’ti ajjhāharitabbaṃ, acetanattāti attho. Ahanti kammabhūto kāyo. Dhātuyoti cīvarasaṅkhāto bāhirā dhātuyo. Dhātusamūhanti kāyasaṅkhātaṃ ajjhattikaṃ dhātusamūhaṃ. Potthakarūpapaṭicchādane dhātuyo dhātusamūhaṃ paṭicchādenti viyāti sambandho. Pusanaṃ sn"
+    ],
+    [
+     "dhatu",
+     "cst-e0401n.nrf-003",
+     "pli-cst-e0401n-nrf",
+     "anya",
+     "129. Pakiṇṇakasaṅgahe. Ubhinnaṃ citta cetasikānaṃ. ‘‘Tepaññāsā’’ti tepaññāsavidhā. ‘‘Bhāvo’’ti vijjamānakiriyā. Yo lakkhaṇa rasādīsu lakkhaṇanti vuccati. Tenāha ‘‘dhammānaṃ’’tiādiṃ. Pavattoti pāṭhasesa padaṃ. Etena ‘vedanā bhedena cittacetasikānaṃ saṅgaho’tiādīsupi vedanā bhedena pavatto cittacetasikānaṃ saṅgahotiādinā sambandhaṃ dasseti. ‘‘Vacanattho dassito’’ti, kathaṃ dassitoti āha ‘‘vedanā bhe"
+    ],
+    [
+     "dhatu",
+     "cst-s0504a.att-33_p011",
+     "pli-kn-attha",
+     "attha",
+     "Maṃsacakkhupi duvidhaṃ – sasambhāracakkhu, pasādacakkhūti. Tattha yvāyaṃ akkhikūpake patiṭṭhito heṭṭhā akkhikūpakaṭṭhikena, upari bhamukaṭṭhikena, ubhato akkhikūṭehi, anto matthaluṅgena, bahiddhā akkhilomehi paricchinno maṃsapiṇḍo, saṅkhepato catasso dhātuyo – vaṇṇo, gandho, raso, ojāsambhavo saṇṭhānaṃ jīvitaṃ bhāvo kāyapasādo cakkhupasādoti cuddasa sambhārā. Vitthārato catasso dhātuyo taṃnissitā "
+    ]
+   ]
+  },
+  {
+   "label": "14_embedding_centroid_validation_abhidhamma",
+   "sql": "WITH centroid AS (SELECT avg(embedding) AS c FROM passages WHERE is_primary AND stratum(work_slug)='3abh' AND embedding IS NOT NULL) SELECT stratum(p.work_slug) AS strat, p.work_role, avg(1 - (p.embedding <=> c.c)) AS mean_cos_to_abh_centroid, count(*) AS n FROM passages p, centroid c WHERE p.is_primary AND p.embedding IS NOT NULL GROUP BY 1,2 ORDER BY mean_cos_to_abh_centroid DESC;",
+   "ERROR": "canceling statement due to statement timeout\n"
+  },
+  {
+   "label": "15_commentary_keying_granularity_coverage",
+   "sql": "SELECT CASE WHEN work_slug LIKE '%-attha' OR work_slug='pli-vism' THEN 'attha' ELSE work_role END AS layer, count(DISTINCT work_slug) AS distinct_works, count(*) FILTER (WHERE is_primary) AS primary_rows, count(*) FILTER (WHERE NOT is_primary) AS dup_edition_rows FROM passages WHERE work_role='attha' OR work_slug='pli-vism' GROUP BY 1;",
+   "columns": [
+    "layer",
+    "distinct_works",
+    "primary_rows",
+    "dup_edition_rows"
+   ],
+   "rowcount": 1,
+   "rows": [
+    [
+     "attha",
+     8,
+     95462,
+     0
+    ]
+   ]
+  }
+ ]
+}

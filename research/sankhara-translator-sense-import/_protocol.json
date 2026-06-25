@@ -1,0 +1,126 @@
+{
+ "slug": "sankhara-translator-sense-import",
+ "title": "Saṅkhāra translator sense-import: does the surrounding collocation field drive which English sense a translator picks?",
+ "hypotheses": {
+  "h1": "HOUSE THESIS (sense-import / context-sensitivity): For passages containing a saṅkhāra token, each translator's choice of English head (FORMATIONS vs VOLITIONAL-ACTIVITIES/choices/intentions vs AGGREGATE) is conditioned on the Pali collocation FIELD (DO/kammic, KHANDHA, PASS/tilakkhaṇa). Concretely, the translator × field confusion matrix is NOT row-rank-1: at least one translator shows ≥0.30 absolute swing in P(VOLITIONAL | DO) vs P(VOLITIONAL | PASS), and that field-conditioning SURVIVES the field-label shuffle negative control (real-label mutual information I(choice;field) materially exceeds the shuffled-label MI null band). I.e. the field genuinely imports a sense.",
+  "h0": "PRE-COMMITTED NULL (house-style, not sense-import): Each translator picks a near-constant English head for saṅkhāra independent of field (row-rank-1 confusion matrix; e.g. Bodhi≈always 'formations', Thanissaro≈always 'fabrications', Sujato≈'choices'/'processes' by his own fixed policy). Any apparent field-conditioning is explained by (a) the DO-vs-PASS split being a PERICOPE artifact (the triad pericope and the tilakkhaṇa pericope are fixed strings each translator renders with a fixed stock phrase) and/or (b) generic register/length, such that real-label I(choice;field) falls inside the shuffled-label MI null band (≤95th pct of the shuffle distribution). Under H0 the collocation map is purely descriptive and no sense-import is demonstrated; this result WILL be reported if it wins."
+ },
+ "frozen_lexica": [
+  {
+   "name": "SANKHARA_CORE",
+   "role": "Target stem (folded): all inflections of saṅkhāra EXCLUDING the abhi- prefixed form, which is tagged separately. Catches solid/spaced/hyphenated compounds (kāyasaṅkhāra, kāya saṅkhāra, kāya-saṅkhāra) and CST ṅ vs ŋ vs occasional n, and the diacritic-stripped 'sankhar' fallback that appears in some SC roman feeds.",
+   "pali_regex": "(?<![a-zāīūṅñṭḍṇḷṃ])(?<!abhi[ -]?)sa[ṅŋn]kh[āa]r",
+   "notes": "Negative lookbehind on abhi (with optional space/hyphen) keeps abhisaṅkhāra OUT of the core count so it is TAGGED not folded. Word-internal lookbehind char-class prevents matching mid-word junk. Postgres ~* is case-insensitive; do NOT add (?i). If the engine rejects variable-length lookbehind, fall back to the SQL pattern in q0 which uses NOT original ~* abhi-form as a separate column."
+  },
+  {
+   "name": "ABHISANKHARA",
+   "role": "TAGGED-separately prefixed form abhisaṅkhāra and its kammic sub-types (puñña/apuñña/āneñja-abhisaṅkhāra). Sandhi joins puñña+abhi → puññābhi; a-puñña → apuññābhi; āneñja+abhi → āneñjābhi. Spaced and hyphenated edition variants included.",
+   "pali_regex": "abhi[ -]?sa[ṅŋn]kh[āa]r|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r",
+   "notes": "Catches abhisaṅkhāra, puññābhisaṅkhāra, apuññābhisaṅkhāra, āneñjābhisaṅkhāra across CST (ṅ) and roman-stripped feeds. The ñ→n alternation covers diacritic-stripped editions. This form is INHERENTLY DO/kammic, so it doubles as a DO-field anchor."
+  },
+  {
+   "name": "FIELD_DO",
+   "role": "DO / kammic field markers that co-locate with saṅkhāra in the paṭiccasamuppāda / kamma sense: avijjāpaccayā saṅkhārā chain, the kāya/vacī/citta(/mano) triad, and the puñña/apuñña/āneñja sub-types. Presence ⇒ tag passage field=DO.",
+   "pali_regex": "avijj[āa][ -]?paccay|sa[ṅŋn]kh[āa]r[āa][ -]?paccay|(?:k[āa]ya|vac[īi]|citta|man[oō])[ -]?sa[ṅŋn]kh[āa]r|cetan[āa]|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r",
+   "notes": "avijjā→saṅkhārā and saṅkhāra→paccayā viññāṇa are the DO pericope anchors. cetanā (volition) is the canonical gloss-equation marker. mano/manō covers the mano-saṅkhāra variant equated with citta-saṅkhāra."
+  },
+  {
+   "name": "FIELD_KHANDHA",
+   "role": "KHANDHA field: saṅkhāra as the 4th aggregate, co-located with the OTHER FOUR khandha names (rūpa, vedanā, saññā, viññāṇa) or the pañcakkhandha / pañcupādānakkhandha frame. Presence (and NOT a stronger DO/PASS marker) ⇒ field=KHANDHA.",
+   "pali_regex": "pa[ñn]c(?:a|u)[ -]?(?:p[āa]d[āa]na[ -]?)?kkhandh|(?:r[ūu]p|vedan[āa]|sa[ññn]{1,2}[āa]|vi[ññn]{1,2}[āa][nṇ]a)|khandh",
+   "notes": "Aggregate enumeration anchor. Requires co-occurrence with SANKHARA_CORE in the same passage. rūpa/vedanā/saññā/viññāṇa alternation with diacritic-stripped fallbacks. khandh as a backstop. Tag precedence resolves overlaps (see density_method)."
+  },
+  {
+   "name": "FIELD_PASS",
+   "role": "PASS / tilakkhaṇa field: 'sabbe saṅkhārā aniccā/dukkhā', anattā applied to saṅkhārā (note: anattā uses 'sabbe DHAMMĀ' canonically), the impermanence-of-formations frame. Presence ⇒ field=PASS.",
+   "pali_regex": "sabbe[ -]?sa[ṅŋn]kh[āa]r|anicc|dukkh|anatt|vipari[ṇn][āa]m|(?:uppād|vaya)[ -]?(?:dhamm|vaya)",
+   "notes": "sabbe saṅkhārā aniccā/dukkhā is the fixed pericope. aniccā/dukkhā/anattā are the tilakkhaṇa anchors. vipariṇāma (change) + uppāda/vaya (arising/passing) catch the 'subject to change' frame. anattā included even though the canonical anattā formula is 'sabbe dhammā anattā' (this asymmetry is itself a scope note)."
+  },
+  {
+   "name": "NEG_CONTROL_DHAMMA",
+   "role": "NEGATIVE-CONTROL polyseme: dhamma — a famously multi-sense word (teaching / phenomenon / mental-object / quality) whose English head should be driven by translator HOUSE STYLE, not by the same DO/KHANDHA/PASS fields. If dhamma's choice ALSO tracks these fields as strongly as saṅkhāra, the saṅkhāra effect is generic register, not sense-import specific to saṅkhāra.",
+   "pali_regex": "(?<![a-zāīūṅñṭḍḷṃ])dhamm[āa]?(?![a-z])",
+   "notes": "Used only in the parallel negative-control pass: same field tagging, same translator-choice coding, must NOT reproduce the saṅkhāra field-conditioning magnitude."
+  },
+  {
+   "name": "ASANKHATA_LEAK",
+   "role": "LEAK-TEST term: asaṅkhata (the unconditioned) and saṅkhata (the conditioned). These share the saṅkhā- root but are a DIFFERENT lexeme. They must NOT be swept into SANKHARA_CORE. This regex EXISTS to be subtracted/audited, confirming SANKHARA_CORE does not leak into (a)saṅkhata.",
+   "pali_regex": "(?<![a-zāīūṅñṭḍṇḷṃ])a?sa[ṅŋn]khat",
+   "notes": "saṅkhata/asaṅkhata end in -khata not -khāra; SANKHARA_CORE requires -khār so should already exclude them. q-leak counts overlap to PROVE zero/near-zero contamination. Any nonzero overlap is a falsifier of the regex, not a finding."
+  }
+ ],
+ "enumeration_sql": [
+  {
+   "label": "q0_target_density_per_stratum",
+   "sql": "SELECT stratum(work_slug) AS stratum, work_role, COUNT(*) AS rows_with_token, SUM(char_length(original)) AS chars_in_those_rows, COUNT(*) FILTER (WHERE original ~* 'abhi[ -]?sa[ṅŋn]kh[āa]r|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r') AS rows_abhi_tagged FROM passages WHERE is_primary AND original ~* 'sa[ṅŋn]kh[āa]r' GROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "q1_core_vs_abhi_per_Mchar",
+   "sql": "WITH den AS (SELECT * FROM (VALUES ('mula',53.543921),('attha',29.488533),('tika',28.357746)) AS d(role,mchar)) SELECT p.work_role, COUNT(*) FILTER (WHERE p.original ~* 'sa[ṅŋn]kh[āa]r' AND p.original !~* 'abhi[ -]?sa[ṅŋn]kh[āa]r|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r') AS core_rows, COUNT(*) FILTER (WHERE p.original ~* 'abhi[ -]?sa[ṅŋn]kh[āa]r|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r') AS abhi_rows, ROUND((COUNT(*) FILTER (WHERE p.original ~* 'sa[ṅŋn]kh[āa]r' AND p.original !~* 'abhi[ -]?sa[ṅŋn]kh[āa]r|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r') / d.mchar)::numeric,3) AS core_per_Mchar, ROUND((COUNT(*) FILTER (WHERE p.original ~* 'abhi[ -]?sa[ṅŋn]kh[āa]r|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r') / d.mchar)::numeric,3) AS abhi_per_Mchar FROM passages p JOIN den d ON d.role=p.work_role WHERE p.is_primary AND p.work_role IN ('mula','attha','tika') AND p.original ~* 'sa[ṅŋn]kh[āa]r' AND NOT (p.work_role='mula' AND p.work_slug='pli-vism') GROUP BY p.work_role, d.mchar ORDER BY p.work_role;"
+  },
+  {
+   "label": "q2_field_cooccurrence_counts",
+   "sql": "WITH s AS (SELECT id, work_role, stratum(work_slug) AS stratum, original, (original ~* 'avijj[āa][ -]?paccay|sa[ṅŋn]kh[āa]r[āa][ -]?paccay|(?:k[āa]ya|vac[īi]|citta|man[oō])[ -]?sa[ṅŋn]kh[āa]r|cetan[āa]|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r') AS f_do, (original ~* 'pa[ñn]c(?:a|u)[ -]?(?:p[āa]d[āa]na[ -]?)?kkhandh|r[ūu]p|vedan[āa]|sa[ññn]{1,2}[āa]|vi[ññn]{1,2}[āa][nṇ]a|khandh') AS f_khandha, (original ~* 'sabbe[ -]?sa[ṅŋn]kh[āa]r|anicc|dukkh|anatt|vipari[ṇn][āa]m') AS f_pass FROM passages WHERE is_primary AND original ~* 'sa[ṅŋn]kh[āa]r') SELECT stratum, work_role, COUNT(*) AS n, COUNT(*) FILTER (WHERE f_do) AS do_hits, COUNT(*) FILTER (WHERE f_khandha) AS khandha_hits, COUNT(*) FILTER (WHERE f_pass) AS pass_hits, COUNT(*) FILTER (WHERE f_do AND f_pass) AS do_and_pass, COUNT(*) FILTER (WHERE NOT f_do AND NOT f_khandha AND NOT f_pass) AS unfielded FROM s GROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "q3_rows_to_code_with_translations",
+   "sql": "WITH s AS (SELECT p.id, p.work_slug, stratum(p.work_slug) AS stratum, p.original, (p.original ~* 'avijj[āa][ -]?paccay|sa[ṅŋn]kh[āa]r[āa][ -]?paccay|(?:k[āa]ya|vac[īi]|citta|man[oō])[ -]?sa[ṅŋn]kh[āa]r|cetan[āa]|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r')::int AS f_do, (p.original ~* 'pa[ñn]c(?:a|u)[ -]?(?:p[āa]d[āa]na[ -]?)?kkhandh|r[ūu]p|vedan[āa]|sa[ññn]{1,2}[āa]|vi[ññn]{1,2}[āa][nṇ]a|khandh')::int AS f_khandha, (p.original ~* 'sabbe[ -]?sa[ṅŋn]kh[āa]r|anicc|dukkh|anatt|vipari[ṇn][āa]m')::int AS f_pass FROM passages p WHERE p.is_primary AND p.work_role='mula' AND p.work_slug <> 'pli-vism' AND p.original ~* 'sa[ṅŋn]kh[āa]r') SELECT s.id AS passage_id, s.work_slug, s.stratum, s.f_do, s.f_khandha, s.f_pass, t.translator, t.source, t.text AS translation_text, s.original FROM s JOIN translations t ON t.passage_id = s.id WHERE t.translator IN ('sujato','thanissaro','nanamoli','bodhi-extract','walshe','piyadassi') ORDER BY s.id, t.translator;"
+  },
+  {
+   "label": "q4_translator_coverage_by_field",
+   "sql": "WITH s AS (SELECT p.id, (p.original ~* 'avijj[āa][ -]?paccay|sa[ṅŋn]kh[āa]r[āa][ -]?paccay|(?:k[āa]ya|vac[īi]|citta|man[oō])[ -]?sa[ṅŋn]kh[āa]r|cetan[āa]|(?:pu[ññn]{1,2}[aā]|apu[ññn]{1,2}[aā]|[aā]ne[ñn]j[aā])[ -]?bhi[ -]?sa[ṅŋn]kh[āa]r') AS f_do, (p.original ~* 'pa[ñn]c(?:a|u)[ -]?(?:p[āa]d[āa]na[ -]?)?kkhandh|r[ūu]p|vedan[āa]|sa[ññn]{1,2}[āa]|vi[ññn]{1,2}[āa][nṇ]a|khandh') AS f_khandha, (p.original ~* 'sabbe[ -]?sa[ṅŋn]kh[āa]r|anicc|dukkh|anatt|vipari[ṇn][āa]m') AS f_pass FROM passages p WHERE p.is_primary AND p.work_role='mula' AND p.work_slug <> 'pli-vism' AND p.original ~* 'sa[ṅŋn]kh[āa]r') SELECT t.translator, COUNT(*) AS pairs, COUNT(*) FILTER (WHERE s.f_do AND NOT s.f_pass) AS pure_do, COUNT(*) FILTER (WHERE s.f_pass AND NOT s.f_do) AS pure_pass, COUNT(*) FILTER (WHERE s.f_khandha AND NOT s.f_do AND NOT s.f_pass) AS pure_khandha FROM s JOIN translations t ON t.passage_id=s.id GROUP BY t.translator ORDER BY pairs DESC;"
+  },
+  {
+   "label": "q5_english_head_prescan",
+   "sql": "WITH s AS (SELECT p.id, (p.original ~* 'avijj[āa][ -]?paccay|(?:k[āa]ya|vac[īi]|citta|man[oō])[ -]?sa[ṅŋn]kh[āa]r|cetan[āa]')::int AS f_do, (p.original ~* 'sabbe[ -]?sa[ṅŋn]kh[āa]r|anicc|dukkh|anatt') AS f_pass FROM passages p WHERE p.is_primary AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.original ~* 'sa[ṅŋn]kh[āa]r') SELECT t.translator, (s.f_do=1) AS is_do, (s.f_pass) AS is_pass, COUNT(*) FILTER (WHERE t.text ~* 'formation') AS hd_formation, COUNT(*) FILTER (WHERE t.text ~* 'fabricat') AS hd_fabricat, COUNT(*) FILTER (WHERE t.text ~* 'volition|intention|choice|will') AS hd_volitional, COUNT(*) FILTER (WHERE t.text ~* 'aggregate') AS hd_aggregate, COUNT(*) FILTER (WHERE t.text ~* 'process|conditioned thing|constructi|activit') AS hd_other, COUNT(*) AS n FROM s JOIN translations t ON t.passage_id=s.id GROUP BY t.translator, is_do, is_pass ORDER BY t.translator, is_do, is_pass;"
+  },
+  {
+   "label": "q6_negctrl_shuffle_seed_rows",
+   "sql": "WITH s AS (SELECT p.id, (p.original ~* 'avijj[āa][ -]?paccay|(?:k[āa]ya|vac[īi]|citta|man[oō])[ -]?sa[ṅŋn]kh[āa]r|cetan[āa]')::int AS f_do, (p.original ~* 'sabbe[ -]?sa[ṅŋn]kh[āa]r|anicc|dukkh|anatt') AS f_pass FROM passages p WHERE p.is_primary AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.original ~* 'sa[ṅŋn]kh[āa]r') SELECT s.id AS passage_id, s.f_do, s.f_pass::int AS f_pass, t.translator, t.text AS translation_text FROM s JOIN translations t ON t.passage_id=s.id WHERE t.translator IN ('sujato','thanissaro','nanamoli','bodhi-extract','walshe','piyadassi') ORDER BY s.id, t.translator;"
+  },
+  {
+   "label": "q7_negctrl_dhamma_field_prescan",
+   "sql": "WITH s AS (SELECT p.id, p.original, (p.original ~* 'avijj[āa][ -]?paccay|(?:k[āa]ya|vac[īi]|citta|man[oō])[ -]?sa[ṅŋn]kh[āa]r|cetan[āa]')::int AS f_do, (p.original ~* 'sabbe[ -]?sa[ṅŋn]kh[āa]r|anicc|dukkh|anatt') AS f_pass FROM passages p WHERE p.is_primary AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.original ~* '(^|[^a-zāīūṅñṭḍḷṃ])dhamm[āa]?([^a-z]|$)') SELECT t.translator, (s.f_do=1) AS is_do, s.f_pass AS is_pass, COUNT(*) FILTER (WHERE t.text ~* 'teaching|doctrine|dhamma') AS hd_teaching, COUNT(*) FILTER (WHERE t.text ~* 'phenomen|mental (object|quality)|principle|thing') AS hd_phenom, COUNT(*) AS n FROM s JOIN translations t ON t.passage_id=s.id GROUP BY t.translator, is_do, is_pass ORDER BY t.translator, is_do, is_pass;"
+  },
+  {
+   "label": "q8_asankhata_leak_audit",
+   "sql": "SELECT COUNT(*) AS asankhata_rows, COUNT(*) FILTER (WHERE original ~* 'sa[ṅŋn]kh[āa]r') AS also_match_core_BAD, COUNT(*) FILTER (WHERE original ~* 'sa[ṅŋn]kh[āa]r' AND original !~* 'abhi[ -]?sa[ṅŋn]kh[āa]r') AS core_nonabhi_overlap_MUST_BE_explained FROM passages WHERE is_primary AND original ~* '(^|[^a-zāīūṅñṭḍṇḷṃ])a?sa[ṅŋn]khat';"
+  }
+ ],
+ "density_method": "Magnitude is per-character, never raw rows (T2). Per-stratum/role density = (rows containing the lexicon) / (per-layer Mchar denominator: mula 53.543921, attha 29.488533, tika 28.357746), reported per-Mchar (q1). NOTE this is a coarse passage-presence density (a row counts once regardless of token multiplicity); it is used only to size strata and confirm coverage, NOT as the study endpoint. FIELD TAGGING PRECEDENCE for the confusion matrix (deterministic, applied in coding, resolves multi-field rows): a passage is assigned to exactly one PRIMARY field by precedence DO > PASS > KHANDHA when markers co-occur, AND a parallel 'pure-field' subset (exactly one field marker present, q4 pure_do/pure_pass/pure_khandha) is the PRIMARY analysis set to avoid pericope-mixing; the precedence set is a robustness check. Endpoint is the translator × field confusion matrix built from HAND/AGENT-CODED English heads (q3 rows), plus a per-translator import-bias vector = [P(VOLITIONAL|DO) − P(VOLITIONAL|PASS), P(FORMATIONS|PASS) − P(FORMATIONS|DO), P(AGGREGATE|KHANDHA) − P(AGGREGATE|other)]. Effect statistic = mutual information I(coded_head ; primary_field) computed per translator and pooled. Edition dedupe via is_primary throughout; SC fine per-sutta rows vs CST coarse vagga rows means 'distinct sutta' claims are avoided — analysis is at the passage-row grain, not sutta grain.",
+ "negative_controls": [
+  "FIELD-LABEL SHUFFLE (primary control): permute the (f_do,f_pass) field labels across passages within each translator (q6 rows feed a 1000-iteration within-translator label permutation), recompute I(coded_head;field). If real-label MI ≤ 95th percentile of the shuffled-MI null band, the field does NOT import sense → H0 (house-style) wins. This directly rules out the pericope-artifact and house-style explanations.",
+  "DHAMMA POLYSEME CONTROL (q7): run the identical field tagging + head coding on the dhamma polyseme. dhamma's English head should track translator house style, not these saṅkhāra-specific fields. If dhamma reproduces the same field-conditioning magnitude as saṅkhāra, the saṅkhāra effect is generic register/length, not term-specific sense-import.",
+  "ASAṄKHATA LEAK AUDIT (q8): confirm SANKHARA_CORE does not contaminate the different lexeme (a)saṅkhata (-khata vs -khāra). Expected overlap ≈ 0; any nonzero core_nonabhi_overlap is a regex defect to fix before coding, not a finding.",
+  "WITHIN-PERICOPE control: restrict to the pure_pass 'sabbe saṅkhārā aniccā' fixed string and ask whether a single translator EVER varies their head inside that identical pericope. If heads are constant inside a fixed pericope, that confirms the DO-vs-PASS split is partly a pericope artifact (demotes the collocation map to descriptive, as pre-committed)."
+ ],
+ "falsifiers": [
+  "If real-label I(coded_head;field) falls inside the shuffled-label MI null band (≤95th pct) for ALL translators → H1 falsified, report H0 (house-style).",
+  "If every translator's confusion matrix is row-rank-1 (max field-conditional swing < 0.15 absolute for all translators) → H1 falsified.",
+  "If the dhamma negative control reproduces field-conditioning of comparable magnitude (within 0.10 of saṅkhāra's mean import-bias) → effect is generic register, not saṅkhāra sense-import; H1 falsified.",
+  "If heads are invariant inside the fixed 'sabbe saṅkhārā aniccā' pericope AND inside the kāya/vacī/citta triad pericope, and removing those two pericopes collapses the field signal → the apparent effect was a pericope artifact (collocation map confirmed descriptive-only).",
+  "If inter-annotator κ on the head-sense coding < 0.60 → the coding is unreliable; no claim may be made (the %carita% lesson).",
+  "If q8 shows asaṅkhata leaking into core counts → the target lexicon is invalid; halt and fix regex."
+ ],
+ "predicted_signal": "PREDICTED (not yet measured): Thanissaro shows the strongest sense-import (his 'fabrications' in DO/kammic contexts vs willingness to use 'fabrications/conditioned-things' in PASS) — predicted import-bias P(VOLITIONAL/fabricat|DO) − P(...|PASS) ≈ +0.25 to +0.40. Bodhi predicted NEAR row-rank-1 ('formations' almost everywhere) → small import-bias (≈ +0.05 to +0.15), behaving closest to H0. Sujato predicted to use 'choices' in DO and 'processes/conditions' in PASS → moderate-to-strong import-bias (≈ +0.20 to +0.35). KHANDHA field predicted to pull ALL translators toward 'aggregate'/'fabrications [aggregate]' (P(AGGREGATE|KHANDHA) high across the board) — this is the one field where convergence, not divergence, is predicted. TO BE MEASURED: the actual confusion matrix, the per-translator import-bias vector, the real-vs-shuffled MI gap, the dhamma-control magnitude, and which of H1/H0 wins. Per-Mchar densities in q1 are all TO BE MEASURED (no predicted numbers committed).",
+ "primary_loci": [
+  "SN 22.79 Khajjanīya Sutta (saṅkhāra as 4th khandha: 'they construct the constructed' — KHANDHA field anchor)",
+  "MN 44 Cūḷavedalla Sutta (kāya/vacī/citta-saṅkhāra triad defined — DO/kammic triad anchor)",
+  "SN 12.2 / SN 12.1 Paṭiccasamuppāda (avijjāpaccayā saṅkhārā — DO chain anchor)",
+  "AN 3.23 / Paṭiccasamuppāda-vibhaṅga (puñña/apuñña/āneñja-abhisaṅkhāra — abhisaṅkhāra kammic sub-types)",
+  "Dhammapada 277 / SN 22.45 etc. ('sabbe saṅkhārā aniccā/dukkhā' — PASS/tilakkhaṇa pericope anchor)",
+  "SN 41.6 Kāmabhū Sutta (triad re-stated; cross-check for triad pericope invariance)",
+  "Ud 8.3 / It 43 (asaṅkhata, the unconditioned — leak-test locus, must NOT enter core counts)"
+ ],
+ "scope_limits": [
+  "Corpus-linguistic / translator-divergence only: this measures whether the surrounding Pali field predicts a translator's English word choice. It CANNOT settle what saṅkhāra 'really means' doctrinally, nor which translator is correct.",
+  "Regex passage-presence tagging is coarse: a passage may contain multiple saṅkhāra tokens in different senses; the row-grain field tag is the dominant/co-present field, not a per-token alignment. Per-token alignment is out of scope.",
+  "stratum() is a work_slug LOOKUP, not independent chronology (T1): any layer/stratum contrast is descriptive register, never independent dating evidence.",
+  "Foreign-language parallels are graph-only (parallel_have=false for non-pli); no Chinese/Sanskrit saṅkhāra-equivalent rendering can be examined — structural parallels only, no comparative-philology claim.",
+  "Translator coverage is uneven (ati/CC0 mix); translators with too few pure-field pairs (set a floor, e.g. <20 in either DO or PASS, from q4) are reported descriptively and EXCLUDED from the MI test.",
+  "The DO-vs-PASS split may be substantially a pericope artifact; per pre-registration the collocation MAP is demoted to descriptive and is not itself evidence of sense-import — only the shuffle-surviving translator-conditioning is.",
+  "SC fine per-sutta vs CST coarse vagga granularity means no claim about COUNT of distinct suttas; analysis stays at deduped passage-row grain."
+ ],
+ "iaa_plan": "saṅkhāra English-head sense is polysemous → BLIND sense coding with inter-annotator κ is MANDATORY (the %carita% lesson). Coding scheme = 4 mutually exclusive head classes: FORMATIONS (formations/constructions/conditioned-things), VOLITIONAL (volition/intention/choice/will/fabrications-as-activity), AGGREGATE (the aggregate sense, explicitly tied to khandha enumeration), OTHER/UNSCORABLE (process/activity-neutral, or saṅkhāra untranslated/omitted). Two independent coders (one human-operator pass + one agent pass, or two agent passes with different seeds) code a stratified random sample of ≥150 passage×translator rows drawn from q3, BLIND to (a) the field label and (b) the translator identity (translator name and the Pali original withheld; only the English sentence shown) so neither the house-style prior nor the field can bias the coder. Compute Cohen's κ on the 4-class scheme; require κ ≥ 0.60 to proceed (report κ regardless). Disagreements adjudicated by a third pass; adjudicated labels used for the confusion matrix. The full set (q3) is then coded by the validated agent coder. κ is reported in PREREGISTRATION outcome.",
+ "coding_needed": true
+}

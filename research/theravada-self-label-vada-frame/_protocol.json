@@ -1,0 +1,149 @@
+{
+ "slug": "theravada-self-label-vada-frame",
+ "title": "Theravāda self-label: vāda-sense collocation/frame profile across strata",
+ "hypotheses": {
+  "h1": "H1 (house thesis: canon supple, commentary systematizes). The self-designation cluster (theravāda / theriya / vibhajjavāda / tambapaṇṇiya / mahāvihāravāsin) is essentially ABSENT from the mula canon as a SCHOOL label and appears almost entirely in the commentarial layers (attha + tika), with measurable per-Mchar density rising from ~0 in 1early/2late/3abh to a non-trivial commentarial ceiling in 5comm/6tika. CRUCIALLY, the dominant syntactic frame of theravāda-/vāda- tokens is NOT a self-conscious sectarian school-name contrastively coordinated with rival nikāya names, but the Gethin frame: vāda functions as a near-synonym of nikāya/ācariyavāda, heading a 'thera's vāda' / elder-lineage equation (theriyavāda, theravāda = theriyānaṃ vādo), i.e. an internal doctrinal-position / teachers'-opinion sense, with the rival-name-contrast frame confined to a small subset concentrated in the Kathāvatthu-aṭṭhakathā (Kv-a). The commentary systematizes a LINEAGE-of-elders identity, not a crystallized sectarian self vs other.",
+  "h0": "H0 (pre-committed null, reported if it wins). Either (a) DENSITY NULL: the self-label cluster shows no monotone canon→commentary density rise distinguishable from generic register/length artifacts (the matched negative-control register terms move the same way), OR (b) FRAME NULL: among coded vāda-frame rows the rival-nikāya-contrast frame is NOT a small Kv-a-concentrated subset but is broadly distributed and is the plurality frame in commentary — i.e. theravāda already reads as a contrastive sectarian school-name across the commentarial corpus, not predominantly as an elder-lineage/teachers'-opinion equation. Under H0(b) the Gethin 'vāda≈nikāya, not a separate school' reading is NOT the corpus-dominant frame."
+ },
+ "frozen_lexica": [
+  {
+   "name": "theravada_core",
+   "role": "primary self-label stem (school/elder-lineage label) — inflection-expanded",
+   "pali_regex": "\\m(theravād|theravadin|theravādin|theravādī|theravādino|theravādiss|theravādān)",
+   "notes": "Covers theravāda + cases (-o/-aṃ/-ena/-assa/-e/-ā) via truncated stem theravād, plus agentive theravādin/theravādī/theravādino/theravādissa/theravādānaṃ. \\m anchors the left boundary; compound-internal occurrence after a fusing/geminating leading member is caught by theravada_sandhi below."
+  },
+  {
+   "name": "theravada_sandhi",
+   "role": "sandhi/gemination + periphrastic-genitive variants of theravāda that \\m on the bare stem would miss",
+   "pali_regex": "(ttheravād|theravād|therānaṃ\\s+vād|therānaṁ\\s+vād|therassa\\s+vād|theravado|theravadaṃ)",
+   "notes": "ttheravād catches gemination after a vowel-final preceding member. therānaṃ/therassa + vād catches the periphrastic 'thera's/elders' vāda' genitive equation (the Gethin frame written out, not compounded). Includes both anusvāra spellings ṃ (SC) and ṁ (some CST renderings)."
+  },
+  {
+   "name": "theriya",
+   "role": "elders'-tradition adjective / alternate self-label (theriya, theriyā, theriyavāda, theriyanikāya)",
+   "pali_regex": "\\m(theriy)",
+   "notes": "theriya/theriyā/theriye/theriyānaṃ + compounds theriyavāda, theriyanikāya all begin theriy. High-precision single stem: theriy- is not a prefix of unrelated common words. This is the term Gethin says the Kv-a 'school' sense should be equated with (theriyavāda)."
+  },
+  {
+   "name": "vibhajjavada",
+   "role": "Vibhajjavāda self-/affiliation label (the 'distinction-ist' name)",
+   "pali_regex": "\\m(vibhajjavād|vibhajavād|vibhajyavād)",
+   "notes": "vibhajjavād is the Pali (geminate -jj-) CST/SC form; vibhajavād guards a degeminated variant; vibhajyavād guards the Sanskritized -jy- spelling in case any dictionary_entries lemma carries it. The Sanskrit form is NOT expected in mula/attha Pali but a zero there is itself informative, so include it explicitly rather than silently miss it."
+  },
+  {
+   "name": "tambapanniya",
+   "role": "Tambapaṇṇiya (Sri-Lankan-lineage) label",
+   "pali_regex": "\\m(tambapaṇṇiy|tambapaṇṇik|tambapaṇṇī|tambapaṇṇiṃ|tambapaṇṇidīp)",
+   "notes": "tambapaṇṇiya/-ka are the school-name variants; tambapaṇṇī is the island/personal form; tambapaṇṇidīpa (island compound) guarded because the school name derives from the place. Retroflex ṇṇ is load-bearing: a dental-n spelling is a wrong-diacritic trap covered by tambapanniya_dental_guard."
+  },
+  {
+   "name": "tambapanniya_dental_guard",
+   "role": "dental-n mis-spelling safety net for tambapaṇṇiya (must not silently zero)",
+   "pali_regex": "\\m(tambapanniy|tambapannik)",
+   "notes": "Pure ingest-defect safety: fires only if an ingest normalized ṇ→n or dropped a ṇ. Expected to return 0 in a correctly-diacriticized corpus; a non-zero here flags an ingest normalization issue, NOT a finding."
+  },
+  {
+   "name": "mahaviharavasin",
+   "role": "Mahāvihāravāsin (Great-Monastery-resident) lineage label — inflection-expanded",
+   "pali_regex": "\\m(mahāvihāravāsī|mahāvihāravāsi|mahāvihāravāsin|mahāvihāravāsino|mahāvihāravāsīn)",
+   "notes": "-vāsin declines vāsī (nom sg) / vāsino (gen,pl) / vāsinaṃ etc. Stem mahāvihāravāsi covers vāsī after the long-ī shortens before some endings; both ā in mahā- and -vihāra- are mandatory long vowels. A short-a mis-spelling (mahavihar...) is the wrong-diacritic trap, guarded by mahaviharavasin_short_guard."
+  },
+  {
+   "name": "mahaviharavasin_short_guard",
+   "role": "short-a mis-spelling safety net for mahāvihāravāsin (must not silently zero)",
+   "pali_regex": "\\m(mahavihar)",
+   "notes": "Pure ingest-defect safety: fires only if an ingest stripped the long ā (mahā→maha / vihāra→vihara). Expected 0 in a correctly-diacriticized corpus; non-zero flags an ingest normalization issue, NOT a finding."
+  },
+  {
+   "name": "vada_frame_anchors",
+   "role": "FRAME lexicon — equation/coordination heads that disambiguate vāda-sense (vāda as nikāya,kula,ācariyavāda)",
+   "pali_regex": "\\m(ācariyavād|ācariyānaṃ\\s+vād|nikāy|kulavād|kul[aā]\\M|ekavād|aññavād|samayantar|laddhi)",
+   "notes": "Used ONLY in co-occurrence windows around a self-label hit to classify the frame: ācariyavāda (teachers' doctrine = vāda), nikāya (the term Gethin says vāda substitutes for), kula/kulavāda (lineage-family), samayantara/laddhi (doctrinal-position vocab). For CODING/collocation, not for density."
+  },
+  {
+   "name": "rival_nikaya_names",
+   "role": "NEGATIVE/CONTRAST CONTROL — real rival school names expected to co-occur contrastively if a sectarian frame exists",
+   "pali_regex": "\\m(mahiṃsāsak|mahisāsak|mahīsāsak|sabbatthivād|sabbatthik|vajjiputtak|vajjiputtiy|andhak|uttarāpathak|pubbaseliy|aparaseliy|mahāsaṅghik|mahāsaṃghik|mahāsaṅghiy|gokulik)",
+   "notes": "Andhaka/Uttarāpathaka/Pubbaseliya/Aparaseliya are the rival positions actually NAMED and refuted in the Kathāvatthu(-aṭṭhakathā) — so this control is the POSITIVE test for the contrastive-school frame. mahiṃsāsaka has ṃ,ī,dental-s variants; mahāsaṅghika has ṅ vs ṃ nasal variants — both guarded. If theravāda were a crystallized sectarian self-name we expect contrastive co-occurrence with THESE in the same passage; matched on register (all -ka/-vāda school-name morphology in the same commentarial texts)."
+  },
+  {
+   "name": "thera_alone_control",
+   "role": "NEGATIVE CONTROL — thera/therā alone (elder, not the -vāda compound) to bound generic 'elder' register",
+   "pali_regex": "\\m(ther[ao]\\M|therā\\M|therassa\\M|therānaṃ\\M|therena\\M|theraṃ\\M|therehi\\M)",
+   "notes": "thera alone is ubiquitous and high-density across ALL strata (every named monk-elder). It must NOT show the canon→commentary self-label spike. If thera-alone density tracks theravāda density, the 'crystallization' signal is just generic elder-talk register. \\M (non-word-boundary's complement = end-boundary) after each case-ending excludes the theravād-/theriy- stems (matched by their own lexica)."
+  }
+ ],
+ "enumeration_sql": [
+  {
+   "label": "00_layer_denominators_sanity",
+   "sql": "-- Confirm per-layer Mchar denominators against live corpus (dedup via is_primary). If these drift from the committed constants (mula 53.543921 / attha 29.488533 / tika 28.357746) STOP and re-derive before computing densities.\nSELECT stratum(work_slug) AS strat,\n       CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'CANON'\n            WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'ATTHA'\n            WHEN work_slug LIKE '%-tika' THEN 'TIKA'\n            ELSE 'OTHER' END AS layer,\n       count(*) AS rows,\n       sum(char_length(original))/1000000.0 AS mchar\nFROM passages\nWHERE is_primary\nGROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "01_selflabel_density_per_stratum_per_mchar",
+   "sql": "-- PRIMARY density pass: per-stratum per-Mchar density + raw N for each self-label lexicon (sparse => exhaustive census, no sig test).\nWITH base AS (\n  SELECT stratum(work_slug) AS strat, original, char_length(original) AS cl\n  FROM passages WHERE is_primary\n)\nSELECT strat,\n       sum(CASE WHEN original ~* '\\m(theravād|theravādin|theravādī|theravādino|theravādiss|theravādān)' THEN 1 ELSE 0 END) AS n_theravada,\n       sum(CASE WHEN original ~* '(ttheravād|therānaṃ\\s+vād|therassa\\s+vād)' THEN 1 ELSE 0 END) AS n_theravada_periphrastic,\n       sum(CASE WHEN original ~* '\\m(theriy)' THEN 1 ELSE 0 END) AS n_theriya,\n       sum(CASE WHEN original ~* '\\m(vibhajjavād|vibhajavād|vibhajyavād)' THEN 1 ELSE 0 END) AS n_vibhajjavada,\n       sum(CASE WHEN original ~* '\\m(tambapaṇṇiy|tambapaṇṇik|tambapaṇṇī|tambapaṇṇidīp)' THEN 1 ELSE 0 END) AS n_tambapanniya,\n       sum(CASE WHEN original ~* '\\m(mahāvihāravāsī|mahāvihāravāsi|mahāvihāravāsin|mahāvihāravāsino)' THEN 1 ELSE 0 END) AS n_mahaviharavasin,\n       sum(cl)/1000000.0 AS mchar,\n       round( sum(CASE WHEN original ~* '\\m(theravād|theravādin|theravādī|theravādino|theravādiss|theravādān)' THEN 1 ELSE 0 END) / (sum(cl)/1000000.0), 3) AS dens_theravada_per_mchar,\n       round( sum(CASE WHEN original ~* '\\m(theriy)' THEN 1 ELSE 0 END) / (sum(cl)/1000000.0), 3) AS dens_theriya_per_mchar\nFROM base GROUP BY strat ORDER BY strat;"
+  },
+  {
+   "label": "02_selflabel_density_by_layer_role",
+   "sql": "-- Density on the CANON/ATTHA/TIKA layer partition (the H1 axis: ~0 in canon, ceiling in commentary). pli-vism shelved as commentary per convention.\nWITH base AS (\n  SELECT CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'CANON'\n              WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'ATTHA'\n              WHEN work_slug LIKE '%-tika' THEN 'TIKA' ELSE 'OTHER' END AS layer,\n         original, char_length(original) AS cl\n  FROM passages WHERE is_primary\n)\nSELECT layer,\n       sum(CASE WHEN original ~* '\\m(theravād|theravādin|theravādī|theravādino|theravādiss|theravādān)' THEN 1 ELSE 0 END) AS n_theravada,\n       sum(CASE WHEN original ~* '\\m(theriy)' THEN 1 ELSE 0 END) AS n_theriya,\n       sum(CASE WHEN original ~* '\\m(vibhajjavād|vibhajavād|vibhajyavād)' THEN 1 ELSE 0 END) AS n_vibhajjavada,\n       sum(CASE WHEN original ~* '\\m(tambapaṇṇiy|tambapaṇṇik|tambapaṇṇī)' THEN 1 ELSE 0 END) AS n_tambapanniya,\n       sum(CASE WHEN original ~* '\\m(mahāvihāravāsī|mahāvihāravāsi|mahāvihāravāsin|mahāvihāravāsino)' THEN 1 ELSE 0 END) AS n_mahaviharavasin,\n       sum(cl)/1000000.0 AS mchar,\n       round(sum(CASE WHEN original ~* '\\m(theravād|theravādin|theravādī|theravādino|theravādiss|theravādān)' THEN 1 ELSE 0 END)/(sum(cl)/1000000.0),3) AS dens_theravada,\n       round(sum(CASE WHEN original ~* '\\m(theriy)' THEN 1 ELSE 0 END)/(sum(cl)/1000000.0),3) AS dens_theriya\nFROM base GROUP BY layer ORDER BY layer;"
+  },
+  {
+   "label": "03_negative_control_density",
+   "sql": "-- NEGATIVE CONTROLS density per layer: thera-alone (generic elder register; must be HIGH everywhere and NOT spike like a self-label) + rival-nikaya-names (must be near-0 outside Kv-a/commentary). Plus ingest-defect guards (must be 0).\nWITH base AS (\n  SELECT CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'CANON'\n              WHEN (work_slug LIKE '%-attha' OR work_slug='pli-vism') THEN 'ATTHA'\n              WHEN work_slug LIKE '%-tika' THEN 'TIKA' ELSE 'OTHER' END AS layer,\n         original, char_length(original) AS cl\n  FROM passages WHERE is_primary\n)\nSELECT layer,\n       sum(CASE WHEN original ~* '\\m(ther[ao]\\M|therā\\M|therassa\\M|therānaṃ\\M|therena\\M|theraṃ\\M)' THEN 1 ELSE 0 END) AS n_thera_alone,\n       sum(CASE WHEN original ~* '\\m(mahiṃsāsak|mahisāsak|sabbatthivād|sabbatthik|vajjiputtak|andhak|uttarāpathak|pubbaseliy|aparaseliy|mahāsaṅghik|mahāsaṃghik|gokulik)' THEN 1 ELSE 0 END) AS n_rival_names,\n       sum(CASE WHEN original ~* '\\m(tambapanniy|tambapannik|mahavihar)' THEN 1 ELSE 0 END) AS n_ingest_defect_guard_should_be_0,\n       sum(cl)/1000000.0 AS mchar,\n       round(sum(CASE WHEN original ~* '\\m(ther[ao]\\M|therā\\M|therassa\\M|therānaṃ\\M|therena\\M|theraṃ\\M)' THEN 1 ELSE 0 END)/(sum(cl)/1000000.0),3) AS dens_thera_alone,\n       round(sum(CASE WHEN original ~* '\\m(mahiṃsāsak|mahisāsak|sabbatthivād|sabbatthik|vajjiputtak|andhak|uttarāpathak|pubbaseliy|aparaseliy|mahāsaṅghik|mahāsaṃghik|gokulik)' THEN 1 ELSE 0 END)/(sum(cl)/1000000.0),3) AS dens_rival_names\nFROM base GROUP BY layer ORDER BY layer;"
+  },
+  {
+   "label": "04_cooccurrence_selflabel_x_rival",
+   "sql": "-- CO-OCCURRENCE pass (contrastive-school-frame test): passages where a self-label AND a rival nikaya name appear TOGETHER. H1 predicts FEW and concentrated in Kv-a (kv-attha). Reported per work_slug so the concentration is visible.\nSELECT work_slug, stratum(work_slug) AS strat, count(*) AS n_cooccur\nFROM passages\nWHERE is_primary\n  AND original ~* '\\m(theravād|theriy|vibhajjavād|tambapaṇṇiy|mahāvihāravāsi)'\n  AND original ~* '\\m(mahiṃsāsak|mahisāsak|sabbatthivād|sabbatthik|vajjiputtak|andhak|uttarāpathak|pubbaseliy|aparaseliy|mahāsaṅghik|mahāsaṃghik|gokulik)'\nGROUP BY work_slug ORDER BY n_cooccur DESC;"
+  },
+  {
+   "label": "05_cooccurrence_selflabel_x_vada_frame_anchors",
+   "sql": "-- FRAME pass (Gethin equation test): self-label co-occurring with vada/nikaya/acariyavada/kula equation heads in the SAME passage. H1 predicts this DOMINATES vs the rival-name co-occurrence.\nSELECT work_slug, stratum(work_slug) AS strat, count(*) AS n_vada_frame\nFROM passages\nWHERE is_primary\n  AND original ~* '\\m(theravād|theriy|vibhajjavād|tambapaṇṇiy|mahāvihāravāsi)'\n  AND original ~* '\\m(ācariyavād|nikāy|kulavād|kul[aā]\\M|ekavād|aññavād|samayantar|laddhi)'\nGROUP BY work_slug ORDER BY n_vada_frame DESC;"
+  },
+  {
+   "label": "06_rows_to_code_selflabel_hits",
+   "sql": "-- ROWS TO BE CODED (blind sense+frame audit, the %carita% lesson): every is_primary passage containing a self-label token, with id+slug+role+snippet, ordered for sampling. Coders tag SENSE {school|elder-lineage/teachers-opinion|unclear} and FRAME {coordinated-with-rival|vada/kula/acariyavada-equation|genitive thera's-vada|bare/other}. If N>400, sample stratified by layer (seed-fixed).\nSELECT id, work_slug, work_role, stratum(work_slug) AS strat,\n       char_length(original) AS cl,\n       substring(original FROM 1 FOR 600) AS snippet\nFROM passages\nWHERE is_primary\n  AND original ~* '\\m(theravād|theravādin|theravādī|theravādino|theravādiss|theravādān|theriy|vibhajjavād|tambapaṇṇiy|tambapaṇṇik|mahāvihāravāsī|mahāvihāravāsi|mahāvihāravāsin|mahāvihāravāsino)'\nORDER BY strat, work_slug, id;"
+  },
+  {
+   "label": "07_gethin_reproduction_sense_split_kva",
+   "sql": "-- METHODS-VALIDATION (NOT a finding): reproduce Gethin's claim that the school-contrast sense concentrates in Kathavatthu-atthakatha. Pull ALL self-label hits from kv-attha with fuller context for the reproduction sense-coding check against his published count.\nSELECT id, work_slug, work_role,\n       substring(original FROM 1 FOR 1200) AS context\nFROM passages\nWHERE is_primary\n  AND work_slug ILIKE 'kv%' AND work_slug LIKE '%-attha'\n  AND original ~* '\\m(theravād|theriy|vibhajjavād|tambapaṇṇiy|mahāvihāravāsi)'\nORDER BY id;"
+  },
+  {
+   "label": "08_lexicographic_axis_dictionary",
+   "sql": "-- DPD/DPPN proper-name vs PED/DPD common-noun lexicographic axis: pull dictionary headword treatments of the self-labels to classify each as proper-name (DPPN) vs common-noun (PED/DPD). Read-only context for the lexicographic-axis section.\nSELECT source, lemma, substring(definition FROM 1 FOR 500) AS def_snippet\nFROM dictionary_entries\nWHERE lemma ~* '\\m(theravād|theriy|vibhajjavād|tambapaṇṇiy|mahāvihāravāsi|theravādin)'\nORDER BY source, lemma;"
+  },
+  {
+   "label": "09_thera_alone_codingframe_guard",
+   "sql": "-- NEGATIVE-CONTROL row sample: thera-alone hits in commentary that do NOT contain any self-label stem, mixed into the coding set as a discrimination/foil calibration set (κ guard). Reproducible sample via id modulo.\nSELECT id, work_slug, stratum(work_slug) AS strat, substring(original FROM 1 FOR 400) AS snippet\nFROM passages\nWHERE is_primary\n  AND (work_slug LIKE '%-attha' OR work_slug='pli-vism' OR work_slug LIKE '%-tika')\n  AND original ~* '\\m(ther[ao]\\M|therā\\M|therassa\\M|therānaṃ\\M)'\n  AND original !~* '\\m(theravād|theriy)'\n  AND (id % 97) = 0\nORDER BY id;"
+  }
+ ],
+ "density_method": "Per-character, never raw rows (T2). For each lexicon, density = (count of is_primary passages whose original matches the diacritic-correct regex) / (Mchar of that stratum-or-layer), where Mchar = sum(char_length(original))/1e6 over the same is_primary partition. Two partitions reported: (1) stratum() 7-way; (2) the CANON/ATTHA/TIKA layer partition using CANON = work_role='mula' AND work_slug<>'pli-vism'; ATTHA = work_slug LIKE '%-attha' OR work_slug='pli-vism'; TIKA = work_slug LIKE '%-tika'. Committed denominators (mula 53.543921, attha 29.488533, tika 28.357746 Mchar) are sanity-checked by query 00 before any density is trusted; if live sums drift materially, re-derive and re-freeze before reporting. Because the cluster is SPARSE this is an exhaustive census: report raw N alongside every density, run NO significance test, and never compare raw row counts across layers (only per-Mchar). Co-occurrence/frame passes (04/05) are reported as raw N per work_slug (structural, not density) since the question there is concentration (which works), not magnitude. stratum()/layer is a work_slug LOOKUP (T1): a canon→commentary density rise is presented as a usage-ceiling pattern in the commentarial register, NOT as independent chronological dating evidence.",
+ "negative_controls": [
+  "thera-alone (ther[ao]/therā/therassa/therānaṃ... WITHOUT the -vāda or theriy- stem): the generic 'elder' register term. High-density across ALL layers including canon. It MUST NOT show the canon→commentary self-label spike. If theravāda density and thera-alone density rise together by the same factor, the apparent crystallization is a generic elder-talk register/length artifact — H0(a) wins.",
+  "rival-nikāya-names matched on register (mahiṃsāsaka/sabbatthivāda/vajjiputtaka/andhaka/uttarāpathaka/pubbaseliya/aparaseliya/mahāsaṅghika/gokulika): same -ka/-vāda school-name morphology, same commentarial texts. Doubles as the POSITIVE test for the contrastive-school frame — if theravāda were a crystallized self-name, query 04 should show it co-occurring contrastively with THESE broadly (not just in Kv-a). Their near-absence outside kv-attha bounds the contrastive frame.",
+  "ingest-defect guards (tambapanniy/tambapannik dental-n, mahavihar short-a): expected 0 in a correctly-diacriticized corpus. A non-zero return flags an ingest normalization defect (ṇ→n, ā→a), NOT a finding — protects against the wrong-diacritic silent-zero trap operating in the other direction (it confirms the diacritic-correct regexes aren't missing normalized text)."
+ ],
+ "falsifiers": [
+  "H1 density falsified if theravāda/theriya self-label density in CANON (work_role='mula', excl pli-vism) is NOT near-zero — i.e. if the mula canon already carries the self-label at a per-Mchar density comparable to the commentarial layers.",
+  "H1 density falsified if the negative-control thera-alone term shows the SAME canon→commentary multiplicative rise as the self-label cluster (signal is generic elder register, not school-naming).",
+  "H1 frame falsified if, among blind-coded self-label rows, the rival-nikāya-CONTRAST frame is the plurality frame across commentary generally (not a small Kv-a-concentrated subset) — i.e. theravāda predominantly reads as a sectarian school-name coordinated against rivals rather than as a vāda≈nikāya/elder-lineage equation (= H0(b)).",
+  "H1 frame falsified if query 04 (self-label × rival-name co-occurrence) is NOT concentrated in kv-attha but spread roughly proportionally to layer size across all commentaries.",
+  "Gethin reproduction (methods-validation only) fails if the kv-attha sense-split count in query 07 cannot be brought within tolerance of his published school/elder/unclear count under blind coding — this invalidates the coding instrument, not the H1/H0 corpus claim."
+ ],
+ "predicted_signal": "PREDICTED (not yet measured): CANON self-label density ≈ 0 for theravāda/vibhajjavāda/tambapaṇṇiya/mahāvihāravāsin (post-canonical names); theriya may show a trace in 2late/3abh. ATTHA + TIKA carry essentially the entire cluster, with a non-trivial per-Mchar ceiling concentrated in vinaya/Kv commentaries and chronicle-adjacent works. PREDICTED frame split among coded rows: the vāda≈nikāya / ācariyavāda / elder-lineage-equation frame is the PLURALITY (Gethin); the rival-name-contrast frame is a MINORITY concentrated in kv-attha. PREDICTED negative controls: thera-alone HIGH and roughly flat-to-rising across all layers (no self-label-shaped spike); rival-names near-0 outside kv-attha; ingest guards = 0. TO BE MEASURED (no prediction committed): exact per-Mchar magnitudes, absolute size of the kv-attha contrastive subset, the DPD/DPPN-vs-PED proper/common split, and whether tika adds anything beyond attha. The Gethin kv-attha reproduction count is a TO-BE-MEASURED methods-validation target, explicitly NOT a finding.",
+ "scope_limits": [
+  "Cannot DATE the crystallization of 'Theravāda' as a sectarian identity. The corpus shows only the commentarial-CEILING usage; the modern/sectarian sense's emergence is an out-of-corpus question (Pali epigraphy, 18th-c. inscriptions, colonial-era usage) this DB cannot touch.",
+  "stratum()/layer is a work_slug LOOKUP, not independent chronology (T1): a canon→commentary gradient is a register/text-layer pattern, not dated evidence of when the term arose.",
+  "No foreign-language text: Sanskrit Tāmraśāṭīya/Vibhajyavāda and Chinese/parallel attestations are NOT in the corpus (passage_parallels is graph-only, parallel_have=false for non-pli). Cross-traditional naming is out of scope; structural-graph mentions only.",
+  "Cannot settle the DOCTRINAL question of whether the Mahāvihāra 'was' a self-conscious school — only the corpus-linguistic frame profile of the LABELS. Findings are register/density/collocation, never a verdict on sectarian self-consciousness.",
+  "CST coarse-vagga vs SC fine-sutta ingest means 'distinct works/suttas carrying the label' counts are edition-sensitive; per-Mchar density (edition-robust) is the headline and distinct-work counts are is_primary-deduped and approximate.",
+  "Sparse-census design: no inferential statistics; a layer with 0–3 hits is reported as raw N, not extrapolated."
+ ],
+ "iaa_plan": "Blind double-coding with Cohen's κ on rows from query 06 (all self-label hits; if N>400, a layer-stratified seed-fixed random sample). Two independent coders (or one human + one agent, blind to each other and to stratum/layer) apply TWO codebooks per row: (1) SENSE ∈ {school-as-separate-entity, elder-lineage/teachers'-opinion (vāda≈nikāya/ācariyavāda), unclear}; (2) FRAME ∈ {coordinated/contrasted-with-named-rival, vāda/kula/ācariyavāda-EQUATION, genitive thera's-vāda, bare/other}. Snippets shown context-only with work_slug/role MASKED. κ computed separately for SENSE and FRAME. Pre-committed thresholds: κ≥0.67 report frame proportions; 0.4≤κ<0.67 add an adjudication round (third coder) and re-report; κ<0.4 report raw counts only and flag the instrument. Query 09 thera-alone rows are mixed in as a discrimination/foil calibration set. The Gethin kv-attha reproduction (query 07) is coded under the same blind protocol and reported as methods-validation, separate from the H1/H0 finding.",
+ "coding_needed": true,
+ "primary_loci": [
+  "Kathāvatthu-aṭṭhakathā (kv-attha) — Gethin's locus where the school-vs-elder sense, if anywhere, surfaces as theriyavāda; refutations of Andhaka/Uttarāpathaka/Pubbaseliya/Aparaseliya positions",
+  "Samantapāsādikā / Vinaya-aṭṭhakathā (vinaya commentary) — Gethin's other focus; the single-lineage-of-Theras (ācariyavāda) framing",
+  "Kathāvatthu (kv mula) — the canonical debate text itself (control: does the mula carry the self-label, or only its commentary?)",
+  "Dīpavaṃsa / Mahāvaṃsa-adjacent chronicle material if present (Third-Council Vibhajjavāda identification; Tambapaṇṇiya/Mahāvihāravāsin lineage naming)",
+  "Sumaṅgalavilāsinī / Papañcasūdanī and other nikāya-aṭṭhakathās — to test whether the self-label appears OUTSIDE the Kv/Vinaya commentaries at all"
+ ]
+}

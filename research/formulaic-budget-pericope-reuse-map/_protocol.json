@@ -1,0 +1,122 @@
+{
+ "slug": "formulaic-budget-pericope-reuse-map",
+ "title": "The formulaic budget: unsupervised per-char pericope-reuse map + Dīgha-distinctiveness",
+ "hypotheses": {
+  "h1": "HOUSE THESIS (formulaic-budget shape). On is_primary mūla PROSE, an unsupervised dual-signal (BGE-M3 cosine AND pg_trgm trigram-Jaccard on original Pāli) near-duplicate sentence graph yields connected components ('formula clusters') whose per-character formulaic_coverage, computed SEPARATELY for DN/MN/SN/AN, shows the SHAPE: DN coverage > MN and > SN per-Mchar (DN is built out of long stock pericopes — sīla tracts, jhāna pericope, 'evaṃ me sutaṃ' frame, the gradual-training block), AND the cluster degree/size distribution is heavy-tailed (a few giant hub formulas dominate reused mass, not a flat uniform reuse), AND the top hubs are NAMEABLE recurring pericopes (sīla, jhāna 'parisuddhe pariyodāte … āneñjappatte', anussati, the standard sutta frame). The claim is a SHAPE (rank ordering of strata + tail exponent + named hubs), NOT a specific pp gap.",
+  "h0": "PRE-COMMITTED NULL (reported if it wins). After length-regression residualization and tag-exclusion of similes/names/titles, there is NO stable DN>MN/SN ordering in per-Mchar formulaic_coverage (collections rank within the shuffled-span null band, or ordering flips under threshold sensitivity), AND/OR the cluster-size distribution is NOT heavy-tailed beyond what the shuffled-span null produces (no nameable dominant hubs survive the AND-gate). I.e. apparent 'formulaicness' is a generic artifact of prose register and sentence length, equal across Nikāyas, and the AND-gate dissolves the giant components. If H0 wins it is reported as the finding."
+ },
+ "frozen_lexica": [
+  {
+   "name": "sutta_frame_marker",
+   "role": "hub-formula seed: standard discourse opening/closing frame (high expected hub)",
+   "pali_regex": "evaṃ me sutaṃ|evaṁ me sutaṁ|ekaṃ samayaṃ|ekaṁ samayaṁ|idamavoca bhagavā|idamavoca bhagava|attamanā te bhikkhū|attamanā te bhikkhu",
+   "notes": "ṃ (PTS/CST anusvāra) vs ṁ (SuttaCentral) is the single most common silent-zero trap; both included. Closing 'attamanā…abhāsittha' frame folded in via opening attamanā."
+  },
+  {
+   "name": "jhana_higher_knowledge_pericope",
+   "role": "hub-formula seed: the mind-ready-for-abhiññā pericope, signature DN/MN gradual-training block",
+   "pali_regex": "parisuddhe pariyodāte|parisuddhe pariyodate|anaṅgaṇe vigatūpakkilese|anaṅgane vigatupakkilese|mudubhūte kammaniye|mudubhute kammaniye|āneñjappatte|ānejjappatte|anenjappatte",
+   "notes": "āneñjappatte (CST) vs ānejjappatte (PTS/variant) vs ASCII anenjappatte; ñ/j sandhi split confirmed via search. Stem 'parisuddhe pariyodāte' is the stable anchor; long/short vowel ā~a folded."
+  },
+  {
+   "name": "sila_tract_marker",
+   "role": "hub-formula seed: the moral-conduct (cūḷa/majjhima/mahā-sīla) tract recurring verbatim across DN suttas",
+   "pali_regex": "pāṇātipātaṃ pahāya|panatipatam pahaya|pāṇātipātaṁ pahāya|adinnādānaṃ pahāya|adinnadanam pahaya|musāvādaṃ pahāya|musavadam pahaya|sampannasīlo|sampannasilo|cūḷasīla|majjhimasīla|mahāsīla|mahasila",
+   "notes": "The sīla tract is repeated near-verbatim in nearly every DN sutta with the gradual path; pahāya-clauses are its surface signature. Anusvāra ṃ/ṁ + ASCII fallbacks included."
+  },
+  {
+   "name": "anussati_recollection_pericope",
+   "role": "hub-formula seed: recurring recollection/contemplation formula (iti pi so triplet), cross-Nikāya",
+   "pali_regex": "itipi so bhagavā|iti pi so bhagavā|itipi so bhagava|svākkhāto bhagavatā dhammo|svakkhato bhagavata dhammo|supaṭipanno bhagavato sāvakasaṅgho|supatipanno bhagavato savakasangho",
+   "notes": "Buddha/Dhamma/Sangha recollection triplet; ṅgh cluster + ā/a folds. Tests whether hubs are doctrinal-recollection or narrative-frame."
+  },
+  {
+   "name": "NEG_simile_register_marker",
+   "role": "NEGATIVE CONTROL lexicon: simile-introduction phrasing — high-frequency stock REGISTER that must NOT form a giant Dīgha-skewed hub if the effect is real formula-reuse not generic register",
+   "pali_regex": "seyyathāpi|seyyathapi|seyyathidaṃ|seyyathidaṁ|seyyathīdaṃ|upamaṃ te karissāmi|upamam te karissami|evameva kho|evamevaṃ kho",
+   "notes": "seyyathāpi ('just as…') is the canonical simile lead-in and is dense in MN/SN, NOT DN-skewed. If this clusters into a DN-dominant hub, the pipeline is detecting register/length, not Dīgha-specific pericope reuse — falsifies. Paired with the simile tag-exclusion control."
+  }
+ ],
+ "enumeration_sql": [
+  {
+   "label": "00_scope_sanity_canon_prose_grain",
+   "sql": "WITH canon AS (\n  SELECT p.id, p.work_slug, stratum(p.work_slug) AS strat, char_length(p.original) AS clen\n  FROM passages p\n  WHERE p.work_role='mula' AND p.work_slug <> 'pli-vism' AND p.is_primary=true\n)\nSELECT\n  CASE\n    WHEN work_slug LIKE 'dn%' THEN 'DN'\n    WHEN work_slug LIKE 'mn%' THEN 'MN'\n    WHEN work_slug LIKE 'sn%' THEN 'SN'\n    WHEN work_slug LIKE 'an%' THEN 'AN'\n    ELSE 'OTHER' END AS collection,\n  count(*) AS passages,\n  sum(clen) AS total_chars,\n  round(sum(clen)/1e6.0, 6) AS mchars\nFROM canon\nGROUP BY 1 ORDER BY 1;"
+  },
+  {
+   "label": "01_sentence_grain_distribution",
+   "sql": "WITH canon AS (\n  SELECT p.id, p.work_slug FROM passages p\n  WHERE p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true\n)\nSELECT\n  CASE WHEN c.work_slug LIKE 'dn%' THEN 'DN' WHEN c.work_slug LIKE 'mn%' THEN 'MN'\n       WHEN c.work_slug LIKE 'sn%' THEN 'SN' WHEN c.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS collection,\n  count(*) AS n_sentences,\n  round(avg(char_length(ps.text)),2) AS mean_sent_chars,\n  percentile_cont(0.5) WITHIN GROUP (ORDER BY char_length(ps.text)) AS median_sent_chars,\n  percentile_cont(0.9) WITHIN GROUP (ORDER BY char_length(ps.text)) AS p90_sent_chars\nFROM canon c JOIN passage_sentences ps ON ps.passage_id=c.id AND ps.field='original'\nGROUP BY 1 ORDER BY 1;"
+  },
+  {
+   "label": "02_calibrate_cosine_threshold_F1_pairs",
+   "sql": "WITH s AS (\n  SELECT ps.passage_id, ps.position, ps.text, ps.embedding,\n         CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN'\n              WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll\n  FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id\n  WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true\n    AND char_length(ps.text)>=80\n    AND ('x'||substr(md5(ps.passage_id::text||ps.position::text),1,4))::bit(16)::int % 12 = 0\n)\nSELECT a.coll AS coll_a, b.coll AS coll_b,\n       left(a.text,90) AS text_a, left(b.text,90) AS text_b,\n       round((1-(a.embedding<=>b.embedding))::numeric,4) AS cosine,\n       round(similarity(a.text,b.text)::numeric,4) AS trgm_jaccard\nFROM s a JOIN s b\n  ON (a.passage_id,a.position) < (b.passage_id,b.position)\n WHERE (1-(a.embedding<=>b.embedding)) >= 0.80\n   AND similarity(a.text,b.text) >= 0.30\nORDER BY cosine DESC\nLIMIT 1200;"
+  },
+  {
+   "label": "03_build_edges_AND_gate",
+   "sql": "DROP TABLE IF EXISTS formula_edges;\nCREATE TEMP TABLE formula_edges AS\nWITH s AS (\n  SELECT ps.passage_id, ps.position, ps.text, ps.embedding,\n         (ps.passage_id::text||':'||ps.position::text) AS node_id,\n         CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN'\n              WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll\n  FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id\n  WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true\n    AND char_length(ps.text)>=80\n)\nSELECT a.node_id AS n1, b.node_id AS n2, a.coll AS coll1, b.coll AS coll2,\n       char_length(a.text) AS len1, char_length(b.text) AS len2\nFROM s a JOIN s b\n  ON (a.passage_id,a.position) < (b.passage_id,b.position)\n WHERE (1-(a.embedding<=>b.embedding)) >= 0.86\n   AND similarity(a.text,b.text) >= 0.45;\nSELECT count(*) AS n_edges,\n       count(*) FILTER (WHERE coll1='DN' OR coll2='DN') AS edges_touching_dn\nFROM formula_edges;"
+  },
+  {
+   "label": "04_components_coverage_per_collection",
+   "sql": "WITH nodes AS (\n  SELECT n1 AS node, coll1 AS coll, len1 AS len FROM formula_edges\n  UNION\n  SELECT n2, coll2, len2 FROM formula_edges\n),\ncanon_tot AS (\n  SELECT CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN'\n              WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll,\n         sum(char_length(ps.text)) AS total_chars\n  FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id\n  WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true\n    AND char_length(ps.text)>=80\n  GROUP BY 1\n),\nformula_chars AS (\n  SELECT coll, sum(len) AS in_formula_chars FROM (SELECT DISTINCT node, coll, len FROM nodes) d GROUP BY coll\n)\nSELECT t.coll, t.total_chars,\n       coalesce(f.in_formula_chars,0) AS in_formula_chars,\n       round(100.0*coalesce(f.in_formula_chars,0)/t.total_chars,3) AS formulaic_coverage_pct,\n       round(1e6.0*coalesce(f.in_formula_chars,0)/t.total_chars,2) AS in_formula_per_Mchar_density\nFROM canon_tot t LEFT JOIN formula_chars f USING (coll)\nORDER BY formulaic_coverage_pct DESC;"
+  },
+  {
+   "label": "05_degree_distribution_heavy_tail",
+   "sql": "WITH deg AS (\n  SELECT node, count(*) AS degree FROM (\n    SELECT n1 AS node FROM formula_edges UNION ALL SELECT n2 FROM formula_edges\n  ) e GROUP BY node\n)\nSELECT width_bucket(degree, 1, 200, 20) AS degree_bucket,\n       min(degree) AS min_deg, max(degree) AS max_deg, count(*) AS n_nodes\nFROM deg GROUP BY 1 ORDER BY 1;"
+  },
+  {
+   "label": "06_top_hub_formulas_rows_to_code",
+   "sql": "WITH deg AS (\n  SELECT node, count(*) AS degree FROM (\n    SELECT n1 AS node FROM formula_edges UNION ALL SELECT n2 FROM formula_edges\n  ) e GROUP BY node\n)\nSELECT d.node, d.degree,\n       split_part(d.node,':',1)::int AS passage_id,\n       split_part(d.node,':',2)::int AS position,\n       (SELECT left(ps.text,180) FROM passage_sentences ps\n         WHERE ps.passage_id=split_part(d.node,':',1)::int AND ps.position=split_part(d.node,':',2)::int\n           AND ps.field='original') AS hub_text\nFROM deg d ORDER BY d.degree DESC LIMIT 60;"
+  },
+  {
+   "label": "07_seed_lexicon_density_per_Mchar",
+   "sql": "WITH canon AS (\n  SELECT p.id, p.original,\n         CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN'\n              WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll,\n         char_length(p.original) AS clen\n  FROM passages p WHERE p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true\n)\nSELECT coll,\n       round(1e6.0*count(*) FILTER (WHERE original ~* 'evaṃ me sutaṃ|evaṁ me sutaṁ|ekaṃ samayaṃ|ekaṁ samayaṁ|idamavoca bhagavā|attamanā te bhikkhū|attamanā te bhikkhu')/sum(clen),3) AS frame_per_Mchar,\n       round(1e6.0*count(*) FILTER (WHERE original ~* 'parisuddhe pariyodāte|parisuddhe pariyodate|āneñjappatte|ānejjappatte|anenjappatte|mudubhūte kammaniye|mudubhute kammaniye')/sum(clen),3) AS jhana_per_Mchar,\n       round(1e6.0*count(*) FILTER (WHERE original ~* 'pāṇātipātaṃ pahāya|pāṇātipātaṁ pahāya|panatipatam pahaya|adinnādānaṃ pahāya|musāvādaṃ pahāya|sampannasīlo|cūḷasīla|majjhimasīla|mahāsīla|mahasila')/sum(clen),3) AS sila_per_Mchar,\n       round(1e6.0*count(*) FILTER (WHERE original ~* 'itipi so bhagavā|iti pi so bhagavā|itipi so bhagava|svākkhāto bhagavatā dhammo|supaṭipanno bhagavato sāvakasaṅgho')/sum(clen),3) AS anussati_per_Mchar,\n       round(1e6.0*count(*) FILTER (WHERE original ~* 'seyyathāpi|seyyathapi|seyyathidaṃ|seyyathidaṁ|seyyathīdaṃ|upamaṃ te karissāmi|evameva kho')/sum(clen),3) AS NEG_simile_per_Mchar\nFROM canon GROUP BY coll ORDER BY coll;"
+  },
+  {
+   "label": "08_length_regression_residual_control",
+   "sql": "WITH nodes AS (SELECT DISTINCT n1 AS node, coll1 AS coll, len1 AS len FROM formula_edges\n               UNION SELECT n2, coll2, len2 FROM formula_edges),\nbase AS (\n  SELECT CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN'\n              WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll,\n         char_length(ps.text) AS slen\n  FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id\n  WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true\n    AND char_length(ps.text)>=80\n)\nSELECT b.coll, count(*) AS n_sent, round(avg(b.slen),2) AS mean_sent_chars,\n       (SELECT count(DISTINCT node) FROM nodes n WHERE n.coll=b.coll) AS n_formula_nodes,\n       round(100.0*(SELECT count(DISTINCT node) FROM nodes n WHERE n.coll=b.coll)/count(*),3) AS pct_sentences_in_formula\nFROM base b GROUP BY b.coll ORDER BY b.coll;"
+  },
+  {
+   "label": "09_negcontrol_shuffled_span_null",
+   "sql": "WITH s AS (\n  SELECT ps.text, ps.embedding, char_length(ps.text) AS slen,\n         CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN'\n              WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll,\n         row_number() OVER (PARTITION BY (CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN' WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END) ORDER BY md5(ps.passage_id::text||ps.position::text)) AS rn\n  FROM passage_sentences ps JOIN passages p ON p.id=ps.passage_id\n  WHERE ps.field='original' AND p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true\n    AND char_length(ps.text)>=80\n),\npaired AS (\n  SELECT a.coll, (1-(a.embedding<=>b.embedding)) AS cosine, similarity(a.text,b.text) AS trgm\n  FROM s a JOIN s b ON a.coll=b.coll AND b.rn = a.rn+1\n  WHERE abs(a.slen-b.slen) <= 40\n)\nSELECT coll, count(*) AS null_pairs_tested,\n       count(*) FILTER (WHERE cosine>=0.86 AND trgm>=0.45) AS null_andgate_hits,\n       round(100.0*count(*) FILTER (WHERE cosine>=0.86 AND trgm>=0.45)/count(*),4) AS null_hit_pct\nFROM paired GROUP BY coll ORDER BY coll;"
+  },
+  {
+   "label": "10_negcontrol_tag_exclusion_reconfirm",
+   "sql": "WITH canon AS (\n  SELECT p.id, p.original, char_length(p.original) AS clen,\n         CASE WHEN p.work_slug LIKE 'dn%' THEN 'DN' WHEN p.work_slug LIKE 'mn%' THEN 'MN'\n              WHEN p.work_slug LIKE 'sn%' THEN 'SN' WHEN p.work_slug LIKE 'an%' THEN 'AN' ELSE 'OTHER' END AS coll\n  FROM passages p\n  WHERE p.work_role='mula' AND p.work_slug<>'pli-vism' AND p.is_primary=true\n    AND NOT EXISTS (SELECT 1 FROM passage_tags t WHERE t.passage_id=p.id AND t.tag_type IN ('simile','name','title'))\n)\nSELECT coll, sum(clen) AS clean_chars,\n       round(1e6.0*count(*) FILTER (WHERE original ~* 'parisuddhe pariyodāte|āneñjappatte|ānejjappatte|sampannasīlo|cūḷasīla|mahāsīla')/sum(clen),3) AS jhana_sila_per_Mchar_clean,\n       round(1e6.0*count(*) FILTER (WHERE original ~* 'seyyathāpi|seyyathapi|evameva kho')/sum(clen),3) AS NEG_simile_per_Mchar_clean\nFROM canon GROUP BY coll ORDER BY coll;"
+  }
+ ],
+ "density_method": "All magnitudes are PER-CHARACTER, never raw rows (T2). Two density layers: (a) the unsupervised coverage metric — formulaic_coverage_pct per collection = chars of canon mūla primary original sentences (length>=80) that belong to a multi-node AND-gate component, divided by total such chars for that collection; reported as % and as in_formula_per_Mchar (1e6 * in_formula_chars / collection_total_chars). (b) the seed-lexicon collocation density — per-collection passage hits per million collection chars (1e6 * count(*) / sum(char_length)). Strata kept SEPARATE for DN/MN/SN/AN, never pooled. The fixed per-layer Mchar denominators (mula 53.543921 etc.) are the canon-wide cross-check; the per-collection char sums in queries 00/07 are the in-study denominators. Segmentation grain is FROZEN to passage_sentences.field='original' with a >=80-char floor, fixed BEFORE edge-building (query 01 audits it) to kill SC-per-sutta vs CST-per-vagga granularity artifacts; is_primary dedupes the SC/CST double-ingest. COS_T and TRGM_T (placeholder 0.86 / 0.45) are frozen from query 02's F1 calibration before query 03 runs.",
+ "negative_controls": [
+  "Shuffled-span null (query 09): AND-gate hit rate when each sentence is paired with a deterministic-random same-collection, same-length-band partner. Real per-collection coverage must exceed this null band per collection; the DN>MN/SN ordering must survive subtraction of the null.",
+  "Simile-register negative lexicon (NEG_simile_register_marker: seyyathāpi / evameva kho): a high-frequency stock REGISTER phrase that is MN/SN-dense, not DN-skewed. If it forms a DN-dominant hub or shows the same DN>MN/SN ordering as the doctrinal pericopes, the pipeline is detecting generic register/length, not Dīgha pericope reuse — falsifies H1.",
+  "Tag-exclusion control (query 10): drop passages tagged simile/name/title and re-measure; the shape must persist, proving it is not driven by similes, proper names, or section titles.",
+  "Length regression (query 08): per-collection mean sentence length vs coverage; DN's rank must survive residualization on length, else coverage is a length artifact.",
+  "Trigram-only and cosine-only ablations (rerun query 03 with each gate alone): the AND-gate components must be substantially smaller/cleaner than either single-signal graph; if cosine-only already yields the same hubs, the trigram floor adds nothing and verbatim-ness is unverified."
+ ],
+ "falsifiers": [
+  "No stable DN>MN and DN>SN ordering in per-Mchar formulaic_coverage after length residualization (queries 04 + 08), or the ordering flips when COS_T/TRGM_T are perturbed by +/-0.03 — falsifies the SHAPE claim.",
+  "Degree distribution (query 05) is NOT heavy-tailed beyond the shuffled-span null (no over-representation in top buckets vs null) — falsifies the 'few giant hubs' claim.",
+  "The top hubs (query 06) cannot be blind-coded into nameable recurring pericopes above chance (κ<0.70), or top hubs are dominated by the simile-register negative control — falsifies 'nameable hubs'.",
+  "Real per-collection coverage falls inside the shuffled-span null band (query 09) — the effect is a null artifact; report H0.",
+  "Cosine-only graph reproduces the AND-gate components (trigram floor adds nothing) — verbatim-ness unverified; the 'reuse' may be paraphrase/semantic, not formulaic.",
+  "DN coverage is explained entirely by passages bearing title/name/simile tags (query 10 collapses the shape) — register artifact."
+ ],
+ "predicted_signal": "PREDICTED (house thesis, to be confirmed/refuted): per-collection formulaic_coverage rank DN > MN ~ SN > AN per-Mchar — DN highest because its suttas are assembled from long verbatim tracts (sīla, jhāna 'parisuddhe pariyodāte … āneñjappatte', the gradual-training block, the 'evaṃ me sutaṃ' frame). PREDICTED: the cluster degree distribution is heavy-tailed (top ~1% of nodes carry a large share of edges) with the giant components blind-codable as sīla-tract, jhāna-pericope, sutta-frame, and anussati-triplet. PREDICTED primary hubs: the sīla tract and the jhāna→abhiññā pericope are the two largest DN-anchored components. TO BE MEASURED (no prediction committed): exact coverage percentages, the tail exponent, the F1-optimal COS_T (calibrated in query 02 before freezing), the absolute number of components, and whether MN or SN ranks second. The claim stands or falls on the SHAPE (ordering + heavy tail + nameable hubs), explicitly NOT on any pp gap.",
+ "primary_loci": [
+  "DN 2 Sāmaññaphala (canonical carrier of the sīla tract + jhāna pericope + gradual training — top hub candidate)",
+  "DN 1 Brahmajāla (sīla tract verbatim: cūḷa/majjhima/mahā-sīla blocks)",
+  "DN 22 Mahāsatipaṭṭhāna (satipaṭṭhāna pericope; also MN 10 — cross-Nikāya hub)",
+  "DN 16 Mahāparinibbāna (long narrative + repeated frames/lists)",
+  "MN 27 / MN 51 (the gradual-training + jhāna pericope reused outside DN — the MN comparison anchor)",
+  "SN frame-heavy short suttas (test of frame-vs-body coverage; expected lower body-formula coverage)",
+  "AN numbered sets (list-formula vs pericope-formula; expected different hub profile)"
+ ],
+ "scope_limits": [
+  "Corpus-linguistic only: measures density/structure of verbatim sentence reuse. CANNOT settle chronology, authorship, oral-composition priority, or whether DN was 'composed from' formulas vs formulas extracted from DN. stratum() is a work_slug lookup, not independent dating (T1) — no layer-disagreement is presented as evidence.",
+  "Cannot detect paraphrastic or doctrinal reuse — the trigram AND-gate is deliberately verbatim-ish; semantically-equivalent-but-reworded pericopes are invisible by design.",
+  "Bounded by existing BGE-M3 embeddings and the existing passage_sentences segmentation; no re-embedding. Sentence-grain artifacts are mitigated (>=80-char floor, is_primary dedupe) but not eliminated.",
+  "Foreign-language parallels are graph-only (parallel_have=false for non-pli); this is a Pāli-internal study and says nothing about Āgama formula reuse.",
+  "Threshold-dependent: results reported with a +/-0.03 sensitivity band; outside that band conclusions are not claimed.",
+  "No doctrinal verdict: a high formulaic budget is not a quality/authenticity judgment about DN."
+ ],
+ "iaa_plan": "Two independent coders (one human-style, one agent), blind to each other and to collection labels, code the top-60 hub rows from query 06 on two axes: (1) hub IDENTITY from a closed set {sutta-frame, sila-tract, jhana-pericope, anussati-triplet, simile-register, list-enumeration, name/title, other}; (2) verbatim-vs-paraphrase binary (did the AND-gate over-merge?). Hub text shown WITHOUT collection labels to blind the coder. Compute Cohen's κ on the identity label and on the verbatim binary; require κ >= 0.70 to treat hub-naming as established. Disagreements adjudicated by a third pass; if κ < 0.70 the 'nameable hubs' claim is reported as unestablished. The F1-calibration pairs (query 02) get a separate true-formula/coincidence label by the same two coders to set COS_T, with κ reported.",
+ "coding_needed": true
+}

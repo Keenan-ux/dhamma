@@ -1,0 +1,149 @@
+{
+ "slug": "matika-readback",
+ "title": "Mātikā read-back: Abhidhamma cross-classification grid imported into mātikā-poor suttas",
+ "hypotheses": {
+  "h1": "House thesis (canon supple, commentary systematizes/hardens): The frozen mātikā-register lexicon (paramattha/sabhāva/cetasika tier, plus khandha+āyatana+dhātu counted ONLY inside a >=2-of-3 correlation window — the katame-dhammā frame) is sparse and UNEVENLY distributed across mūla suttas (high per-Mchar Gini, Lorenz mass concentrated in a few works such as the Saṅgīti/Dasuttara/Mahāsatipaṭṭhāna-type list-suttas), and its per-Mchar density rises sharply from canon (stratum 1early/2late) to atthakathā (5comm) and tika (6tika). PRONG B: for matched mūla→attha sutta pairs, attha-on-X carries the rūpakkhandha / cross-classification scaffold (katame-dhammā frame + >=2-of-3 khandha/āyatana/dhātu correlation) at materially higher per-Mchar density than the X it comments on, EVEN when the mūla X itself is mātikā-poor — i.e. the commentary reads the Abhidhamma grid BACK INTO a sutta that did not state it. CRUCIALLY this commentary expansion delta for the mātikā lexicon must EXCEED the commentary expansion delta of the sutta-native-doctrine POSITIVE comparison lexicon (Four Noble Truths / paṭicca-samuppāda / jhāna), which also expands in commentary; only the EXCESS over the positive lexicon, and over the names/similes negative control, counts as read-back rather than generic commentarial elaboration.",
+  "h0": "Pre-committed null (reported if it wins): After per-character normalization, the mātikā-register lexicon shows NO concentration beyond what the positive-comparison lexicon shows (Gini of mātikā density not materially above Gini of FNT/PS/jhāna density at the same grain), AND the commentary-minus-canon per-Mchar delta for the mātikā lexicon does NOT exceed the commentary-minus-canon delta for the positive-comparison lexicon by more than the names/similes negative-control delta. Equivalently in PRONG B: attha-on-mātikā-poor-X does NOT carry the cross-classification scaffold at higher density than the positive lexicon's own commentarial expansion. In that case the apparent 'read-back' is just generic commentarial lengthening/register shift that lifts ALL doctrinal vocabulary, not a specific importation of the Abhidhamma cross-classification grid."
+ },
+ "frozen_lexica": [
+  {
+   "name": "MATIKA_PARAMATTHA_TIER",
+   "role": "PRIMARY numerator — paramattha/sabhāva/cetasika mātikā-register stems. Diacritic-correct; covers CST anusvāra ṃ vs SC ṁ, accusative -aṃ/-aṁ, and common sandhi/compound joins. Counted per-character at every grain.",
+   "pali_regex": "paramatth|sabhāv|sabhāva|cetasik|cetasikā|āramman|ārammaṇ|ārammaṅ|nipphann|anipphann|nippariyāy|sarasa|salakkhaṇ|salakkhan|sāmañ[ñn]alakkhaṇ|paccupaṭṭhān|padaṭṭhān|lakkhaṇarasapaccupaṭṭhānapadaṭṭhān",
+   "notes": "abhiniropanā handled in MATIKA_CETASIKA_DEF. Keep paramatth before -a so paramattha/paramatthato/paramatthena all hit. ārammaṇ variants cover ṇ/ṅ/n typo-ingest. Avoid bare 'rasa' (taste/flavor polysemy) — only salakkhaṇa/lakkhaṇarasa compounds counted."
+  },
+  {
+   "name": "MATIKA_CETASIKA_DEF",
+   "role": "PRIMARY — the cetasika-definition idiom that marks Abhidhamma-style factor analysis, esp. vitakka = cetaso abhiniropanā and the lakkhaṇa-rasa definitional quadruple. Confirmed via Abhidhamma vitakka gloss 'cetaso abhiniropanā'.",
+   "pali_regex": "abhiniropan|āropan|anumajjan|cetaso\\s+abhiniropan|vitakk[oāa]?\\b|vicār[oāa]?\\b|ekaggat|cittekaggat|manasikār|yonisomanasikār|saññā|saṅkhār|saṅkhāra|sankhār|saṃkhār|saṁkhār",
+   "notes": "saṅkhāra MUST carry ṅ (CST) + n (sankhār, ASCII-ingest) + ṃ/ṁ (saṃkhār/saṁkhār) variants or it silently zeroes. vitakka/vicāra bounded with \\b to avoid vitakketi-prose false floor; sense-audit required (see coding_needed) because vitakka has a non-technical 'thought' sense."
+  },
+  {
+   "name": "MATIKA_KATAME_FRAME",
+   "role": "PRIMARY structural marker — the katame dhammā / katamo ... ? interrogative mātikā frame (the Dhammasaṅgaṇī/Vibhaṅga question-answer scaffold). Confirmed: 'katame dhammā' plural + 'katamo' singular forms.",
+   "pali_regex": "katame\\s+dhammā|katamo\\s+|katamā\\s+|katamaṃ\\s+|katamaṁ\\s+|katamañ|tattha\\s+katam|katham\\s+|idaṃ\\s+vuccati|idaṁ\\s+vuccati|ime\\s+vuccanti|ayaṃ\\s+vuccati|ayaṁ\\s+vuccati",
+   "notes": "Pairs the question (katame...) with the closing formula (idaṃ vuccati / ime vuccanti). Both ṃ and ṁ niggahīta forms included. This is the highest-signal read-back marker: the answer-formula 'idaṃ vuccati' in an attha passage commenting on a mātikā-poor sutta is direct evidence of grid importation."
+  },
+  {
+   "name": "CORR_KHANDHA_AYATANA_DHATU",
+   "role": "WINDOWED numerator — khandha + āyatana + dhātu stems. Per method sketch these are counted ONLY when >=2-of-3 co-occur within window N chars (correlation/cross-classification context), NOT as raw stems. Used by the co-occurrence SQL pass, not the bare-density pass.",
+   "pali_regex": "(khandh|rūpakkhandh|rupakhandh|vedanākkhandh|saññākkhandh|saṅkhārakkhandh|viññāṇakkhandh)|(āyatan|ayatan|saḷāyatan|salāyatan|cha\\s*āyatan)|(dhātu|dhātuyo|aṭṭhārasa\\s*dhātu|dhātuso)",
+   "notes": "Three capture groups = the three axes; the >=2-of-3 logic is enforced in SQL (count distinct groups matched per passage within window). rūpakkhandh carries rupakhandh (ASCII), āyatan carries ayatan, dhātu carries plain. Bare khandha/dhātu have strong non-technical senses (dhātu=relic/element-of-fire-kasiṇa) so windowing is the sense-guard."
+  },
+  {
+   "name": "POS_SUTTA_NATIVE_DOCTRINE",
+   "role": "POSITIVE comparison lexicon (NOT a control) — sutta-native doctrine that ALSO expands in commentary. The mātikā commentary-delta must EXCEED this lexicon's commentary-delta. Four Noble Truths + paṭicca-samuppāda + jhāna.",
+   "pali_regex": "dukkhasacc|dukkhanirodh|nirodhasacc|samudayasacc|maggasacc|ariyasacc|cattāri\\s+ariyasaccāni|paṭiccasamuppād|paticcasamuppad|paṭicca\\s+samuppann|paccayā\\s|avijjāpaccayā|jhān[aāo]|paṭhamajjhān|paṭhamaṃ\\s+jhān|dutiyajjhān|tatiyajjhān|catutthajjhān|jhānaṅg",
+   "notes": "These are unambiguously sutta-native (stated in mūla constantly) yet heavily glossed in attha. If commentary expands these AS MUCH as the mātikā lexicon, the read-back claim fails (H0). jhāna carries -a/-ā/-o + sandhi -jjhāna compound forms; paṭiccasamuppāda carries ASCII paticcasamuppad."
+  },
+  {
+   "name": "NEG_NAMES_SIMILES",
+   "role": "NEGATIVE control — proper names + simile markers. Must NOT show a canon→commentary read-back delta beyond generic register; if it does, the effect is length/elaboration artifact not grid importation. Cross-checked against passage_tags simile/name.",
+   "pali_regex": "\\bseyyathāpi\\b|seyyathidaṃ|seyyathidaṁ|upamā|opamm|viya\\b|sadis|\\bnāma\\b|bhagavā\\b|ānand|sāriputt|moggallān|mahākassap|jetavan|sāvatthi|sāvatthiyaṃ|sāvatthiyaṁ|rājagah",
+   "notes": "seyyathāpi/upamā = simile frame (commentary adds similes, but that is NOT mātikā read-back). Names anchor the 'commentary just elaborates' baseline. Also reconstructed structurally via passage_tags WHERE tag_type IN ('simile','name') as a regex-independent control."
+  }
+ ],
+ "enumeration_sql": [
+  {
+   "label": "00_sanity_denominators_and_dedupe",
+   "sql": "SELECT stratum(work_slug) AS strat, work_role, count(*) AS rows_all, count(*) FILTER (WHERE is_primary) AS rows_primary, sum(char_length(original)) FILTER (WHERE is_primary)/1e6 AS mchar_primary FROM passages GROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "01_matika_paramattha_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'paramatth|sabhāv|cetasik|cetasikā|ārammaṇ|ārammaṅ|nipphann|anipphann|nippariyāy|salakkhaṇ|salakkhan|sāmaññalakkhaṇ|paccupaṭṭhān|padaṭṭhān') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, count(*) FILTER (WHERE hit) AS hit_rows, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "02_matika_cetasikadef_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'abhiniropan|āropan|anumajjan|\\mvitakk|\\mvicār|ekaggat|cittekaggat|yonisomanasikār|manasikār|saññā|saṅkhār|sankhār|saṃkhār|saṁkhār') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "03_katame_frame_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'katame\\s+dhammā|\\mkatamo|\\mkatamā|\\mkatamaṃ|\\mkatamaṁ|katamañ|tattha\\s+katam|idaṃ\\s+vuccati|idaṁ\\s+vuccati|ime\\s+vuccanti|ayaṃ\\s+vuccati|ayaṁ\\s+vuccati') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "04_positive_lexicon_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'dukkhasacc|dukkhanirodh|nirodhasacc|samudayasacc|maggasacc|ariyasacc|paṭiccasamuppād|paticcasamuppad|avijjāpaccayā|\\mjhān|paṭhamajjhān|dutiyajjhān|tatiyajjhān|catutthajjhān|jhānaṅg') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "05_negative_control_density_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* '\\mseyyathāpi|seyyathidaṃ|seyyathidaṁ|upamā|opamm|\\mviya\\M|sadis|\\mānand|sāriputt|moggallān|mahākassap|jetavan|sāvatthi') AS hit FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric / (sum(L)/1e6) AS hits_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "06_negcontrol_structural_via_tags",
+   "sql": "SELECT stratum(p.work_slug) AS strat, p.work_role, pt.tag_type, count(DISTINCT p.id) AS tagged_rows, sum(char_length(p.original))/1e6 AS mchar, count(DISTINCT p.id)::numeric/(sum(char_length(p.original))/1e6) AS tagged_per_mchar FROM passages p JOIN passage_tags pt ON pt.passage_id = p.id WHERE p.is_primary AND pt.tag_type IN ('simile','name') GROUP BY 1,2,3 ORDER BY 1,2,3;"
+  },
+  {
+   "label": "07_per_work_density_for_gini_lorenz_CANON",
+   "sql": "WITH d AS (SELECT work_slug, char_length(original) AS L, (original ~* 'paramatth|sabhāv|cetasik|ārammaṇ|nipphann|salakkhaṇ|paccupaṭṭhān|padaṭṭhān|abhiniropan|\\mvitakk|\\mvicār|saṅkhār|katame\\s+dhammā|\\mkatamo|idaṃ\\s+vuccati|idaṁ\\s+vuccati') AS hit FROM passages WHERE is_primary AND work_role='mula' AND work_slug <> 'pli-vism') SELECT work_slug, sum(L)/1e6 AS mchar, count(*) FILTER (WHERE hit) AS hit_rows, (count(*) FILTER (WHERE hit))::numeric/(sum(L)/1e6) AS matika_per_mchar FROM d GROUP BY work_slug HAVING sum(L) > 20000 ORDER BY matika_per_mchar DESC;"
+  },
+  {
+   "label": "08_per_work_density_POSITIVE_for_gini_compare",
+   "sql": "WITH d AS (SELECT work_slug, char_length(original) AS L, (original ~* 'ariyasacc|dukkhasacc|nirodhasacc|maggasacc|paṭiccasamuppād|paticcasamuppad|avijjāpaccayā|\\mjhān|paṭhamajjhān|catutthajjhān|jhānaṅg') AS hit FROM passages WHERE is_primary AND work_role='mula' AND work_slug <> 'pli-vism') SELECT work_slug, sum(L)/1e6 AS mchar, (count(*) FILTER (WHERE hit))::numeric/(sum(L)/1e6) AS positive_per_mchar FROM d GROUP BY work_slug HAVING sum(L) > 20000 ORDER BY positive_per_mchar DESC;"
+  },
+  {
+   "label": "09_cooccurrence_2of3_khandha_ayatana_dhatu_per_stratum",
+   "sql": "WITH d AS (SELECT id, work_slug, work_role, char_length(original) AS L, (original ~* 'khandh|rūpakkhandh|rupakhandh|saṅkhārakkhandh|viññāṇakkhandh')::int AS g_khandha, (original ~* 'āyatan|ayatan|saḷāyatan|salāyatan')::int AS g_ayatana, (original ~* '\\mdhātu|dhātuyo|dhātuso')::int AS g_dhatu FROM passages WHERE is_primary) SELECT stratum(work_slug) AS strat, work_role, sum(L)/1e6 AS mchar, count(*) FILTER (WHERE (g_khandha+g_ayatana+g_dhatu) >= 2) AS corr_rows, (count(*) FILTER (WHERE (g_khandha+g_ayatana+g_dhatu) >= 2))::numeric/(sum(L)/1e6) AS corr2of3_per_mchar FROM d GROUP BY 1,2 ORDER BY 1,2;"
+  },
+  {
+   "label": "10_prongB_mula_attha_pairs_scaffold_delta",
+   "sql": "WITH base AS (SELECT regexp_replace(work_slug,'-attha$','') AS sutta_key, work_role, work_slug, char_length(original) AS L, (original ~* 'katame\\s+dhammā|idaṃ\\s+vuccati|idaṁ\\s+vuccati|paramatth|sabhāv|cetasik|abhiniropan|salakkhaṇ|paccupaṭṭhān')::int AS matika_hit, ((original ~* 'khandh|rūpakkhandh|rupakhandh')::int + (original ~* 'āyatan|ayatan')::int + (original ~* '\\mdhātu')::int) AS axes FROM passages WHERE is_primary AND (work_role='mula' OR work_role='attha') AND work_slug <> 'pli-vism'), agg AS (SELECT sutta_key, work_role, sum(L)/1e6 AS mchar, (sum(matika_hit))::numeric/(sum(L)/1e6) AS matika_per_mchar, (count(*) FILTER (WHERE axes>=2))::numeric/(sum(L)/1e6) AS scaffold_per_mchar FROM base GROUP BY 1,2) SELECT m.sutta_key, m.matika_per_mchar AS mula_matika, a.matika_per_mchar AS attha_matika, (a.matika_per_mchar - m.matika_per_mchar) AS matika_delta, m.scaffold_per_mchar AS mula_scaffold, a.scaffold_per_mchar AS attha_scaffold, (a.scaffold_per_mchar - m.scaffold_per_mchar) AS scaffold_delta FROM agg m JOIN agg a ON a.sutta_key=m.sutta_key AND m.work_role='mula' AND a.work_role='attha' WHERE m.mchar > 0.01 ORDER BY (m.matika_per_mchar) ASC, scaffold_delta DESC;"
+  },
+  {
+   "label": "11_prongB_positive_lexicon_delta_same_pairs",
+   "sql": "WITH base AS (SELECT regexp_replace(work_slug,'-attha$','') AS sutta_key, work_role, char_length(original) AS L, (original ~* 'ariyasacc|dukkhasacc|paṭiccasamuppād|paticcasamuppad|\\mjhān|jhānaṅg')::int AS pos_hit FROM passages WHERE is_primary AND (work_role='mula' OR work_role='attha') AND work_slug <> 'pli-vism'), agg AS (SELECT sutta_key, work_role, sum(L)/1e6 AS mchar, (sum(pos_hit))::numeric/(sum(L)/1e6) AS pos_per_mchar FROM base GROUP BY 1,2) SELECT m.sutta_key, m.pos_per_mchar AS mula_pos, a.pos_per_mchar AS attha_pos, (a.pos_per_mchar - m.pos_per_mchar) AS pos_delta FROM agg m JOIN agg a ON a.sutta_key=m.sutta_key AND m.work_role='mula' AND a.work_role='attha' WHERE m.mchar > 0.01 ORDER BY pos_delta DESC;"
+  },
+  {
+   "label": "12_coding_sample_rows_attha_readback_candidates",
+   "sql": "SELECT p.id, p.work_slug, p.work_role, left(p.original, 600) AS original_snippet, left(coalesce(p.translation,''), 600) AS translation_snippet FROM passages p WHERE p.is_primary AND p.work_role='attha' AND p.work_slug <> 'pli-vism' AND p.original ~* '(katame\\s+dhammā|idaṃ\\s+vuccati|idaṁ\\s+vuccati)' AND ((p.original ~* 'khandh')::int + (p.original ~* 'āyatan|ayatan')::int + (p.original ~* '\\mdhātu')::int) >= 2 ORDER BY md5(p.id::text) LIMIT 120;"
+  },
+  {
+   "label": "13_coding_sense_audit_vitakka_dhatu_polysemy",
+   "sql": "(SELECT 'vitakka' AS term, p.id, p.work_slug, p.work_role, left(p.original,400) AS snippet FROM passages p WHERE p.is_primary AND p.original ~* '\\mvitakk' ORDER BY md5(p.id::text) LIMIT 60) UNION ALL (SELECT 'dhatu' AS term, p.id, p.work_slug, p.work_role, left(p.original,400) FROM passages p WHERE p.is_primary AND p.original ~* '\\mdhātu' ORDER BY md5(p.id::text) LIMIT 60);"
+  },
+  {
+   "label": "14_embedding_centroid_validation_abhidhamma",
+   "sql": "WITH centroid AS (SELECT avg(embedding) AS c FROM passages WHERE is_primary AND stratum(work_slug)='3abh' AND embedding IS NOT NULL) SELECT stratum(p.work_slug) AS strat, p.work_role, avg(1 - (p.embedding <=> c.c)) AS mean_cos_to_abh_centroid, count(*) AS n FROM passages p, centroid c WHERE p.is_primary AND p.embedding IS NOT NULL GROUP BY 1,2 ORDER BY mean_cos_to_abh_centroid DESC;"
+  },
+  {
+   "label": "15_commentary_keying_granularity_coverage",
+   "sql": "SELECT CASE WHEN work_slug LIKE '%-attha' OR work_slug='pli-vism' THEN 'attha' ELSE work_role END AS layer, count(DISTINCT work_slug) AS distinct_works, count(*) FILTER (WHERE is_primary) AS primary_rows, count(*) FILTER (WHERE NOT is_primary) AS dup_edition_rows FROM passages WHERE work_role='attha' OR work_slug='pli-vism' GROUP BY 1;"
+  }
+ ],
+ "density_method": "Magnitude is ALWAYS per-character (T2), never raw rows. For each lexicon and each stratum×work_role cell, density = (count of is_primary passages matching the regex) / (sum of char_length(original) for is_primary passages in that cell, in millions of chars = per-Mchar). Use is_primary to dedupe the sc/cst double-ingest before any count or denominator. Cross-check against the published per-layer Mchar denominators (mula 53.543921, attha 29.488533, tika 28.357746) — query 00 must reproduce these within rounding; if it does not, the dedupe or stratum mapping is wrong and the run halts. CONCENTRATION: compute Gini + Lorenz on the per-work matika_per_mchar vector from query 07 (canon mūla only, works with >20k chars to avoid tiny-denominator blow-up), and SEPARATELY on the positive-lexicon per-work vector from query 08; the house thesis requires Gini(matika) materially > Gini(positive). READ-BACK is a DELTA-OF-DELTAS: (attha−mula matika delta, query 10) must exceed BOTH (attha−mula positive delta, query 11) AND the negative-control canon→commentary delta (queries 05/06). The windowed khandha/āyatana/dhātu axis uses a >=2-of-3 co-occurrence at passage grain (queries 09/10) as the cross-classification operationalization; bare stems are never counted for that axis. Stratum is a work_slug LOOKUP only (T1) — never present a stratum/layer split as independent chronological evidence; it is a register/role partition, full stop.",
+ "negative_controls": [
+  "NEG_NAMES_SIMILES lexicon (query 05): proper names + simile frames (seyyathāpi/upamā). Commentary adds similes and names freely, so this lexicon MUST show a canon→commentary lift; the test is that the mātikā lexicon's lift EXCEEDS it. If mātikā lift <= names/similes lift, the effect is generic elaboration, not grid read-back.",
+  "Structural (regex-independent) names/similes control via passage_tags tag_type IN ('simile','name') (query 06): guards against the regex itself being a register proxy — same control built from human/agent tags, not from Pali strings.",
+  "POS_SUTTA_NATIVE_DOCTRINE as a SECOND-ORDER control (queries 04/08/11): a lexicon that is unambiguously sutta-native yet heavily commented. It controls for 'commentary expands all doctrine'; the mātikā delta must beat the positive-doctrine delta. This is the strongest falsification guard.",
+  "Length artifact control: all magnitudes are per-Mchar with is_primary dedupe; raw-row counts are never compared. The denominator reproduction check in query 00 is itself a control against a broken stratum/dedupe."
+ ],
+ "falsifiers": [
+  "Gini(matika per-work, query 07) is NOT materially greater than Gini(positive per-work, query 08) — concentration claim fails; the mātikā register is no more clustered than ordinary sutta doctrine.",
+  "Canon→commentary per-Mchar delta for the mātikā lexicon (queries 01/02/03 across strat 1early/2late → 5comm/6tika) does NOT exceed the same delta for the positive lexicon (query 04) — H0 wins, read-back is generic elaboration.",
+  "Mātikā canon→commentary delta does NOT exceed the names/similes negative-control delta (queries 05/06) — effect is a length/register artifact.",
+  "PRONG B: for mātikā-POOR mūla suttas (low mula_matika in query 10), the matched attha does NOT carry a higher scaffold_per_mchar than its mula (scaffold_delta ~0 or negative), OR the positive-lexicon pos_delta (query 11) on the same pairs is >= the matika/scaffold delta — no specific grid importation.",
+  "Embedding validation (query 14): attha passages do NOT sit closer to the Abhidhamma (3abh) centroid than mula passages do — the lexical signal lacks distributional corroboration.",
+  "Sense audit (query 13) shows the vitakka/dhātu hits are predominantly NON-technical (ordinary 'thought' / 'relic-element' senses) at κ-validated rates high enough to overturn the density ranking — raw stem counts were meaningless (the %carita% lesson)."
+ ],
+ "predicted_signal": "PREDICTED (from house thesis + discovery intuition, to be confirmed): matika_per_mchar rises monotonically mula(1early/2late) < attha(5comm) < tika(6tika); Gini(matika canon) high (predicted ~0.6+) and Lorenz mass concentrated in Saṅgīti/Dasuttara/Mahāsatipaṭṭhāna-type list-suttas; the katame-dhammā / idaṃ-vuccati answer-formula nearly absent in mātikā-poor mūla but present in their attha. TO BE MEASURED (no prediction frozen): the exact per-Mchar values; the magnitude of the matika delta-of-deltas vs positive lexicon; the Gini gap size; the mula→attha scaffold_delta distribution; the embedding cosine separation; the fraction of vitakka/dhātu hits that survive the sense audit; commentary keying-granularity coverage fraction (query 15, per-vagga vs per-sutta). All κ values and the sense-split proportions are measured, not predicted.",
+ "scope_limits": [
+  "Corpus-linguistic only: shows existence + shape of read-back (density/concentration/scaffold-delta), NOT authorial intent and NOT a doctrinal verdict on whether the commentary is 'right' to read the grid back in.",
+  "Stratum is a work_slug lookup, not independent chronology (T1): cannot date the read-back or claim the grid is historically later than the suttas; only that the commentary LAYER carries it more densely.",
+  "Commentary keys at per-vagga granularity for parts of the corpus (CST coarse vagga rows vs SC fine per-sutta rows): PRONG B mula→attha pairing is approximate where attha comments a vagga not a single sutta; coverage fraction is reported (query 15), not assumed complete.",
+  "Foreign-language parallels are graph-only (parallel_have=false for non-pli): cannot test whether the read-back exists in Chinese/Sanskrit parallels; pli text only.",
+  "pli-vism is commentary shelved as mula and is excluded from the canon numerator throughout; conclusions about 'canon' exclude it by construction.",
+  "Windowed >=2-of-3 khandha/āyatana/dhātu is a passage-grain co-occurrence proxy for true cross-classification, not a parse of the actual matrix relation; it can over- or under-count genuine grid structure.",
+  "Cannot settle whether concentration in list-suttas reflects an early proto-mātikā IN the canon vs commentarial backfill — only that the density/structure differs by layer."
+ ],
+ "iaa_plan": "Two independent coders (operator + a blind agent coder) code the same shuffled sample with the work_role/stratum/work_slug HIDDEN (blind treatment) to prevent layer-leak bias. Sample = the 120 attha read-back candidate rows (query 12) for the read-back judgment, plus the 120 polysemy rows (query 13, 60 vitakka + 60 dhātu) for the sense audit. Read-back coding scheme per row: {READBACK_GRID: the passage applies the katame-dhammā/idaṃ-vuccati frame or a khandha×āyatana×dhātu cross-classification to material the commented sutta did not itself state; PRESENT_IN_SOURCE: the grid is just restating what the sutta already says; NEITHER}. Sense-audit scheme: vitakka ∈ {TECHNICAL_cetasika, ORDINARY_thought}; dhātu ∈ {TECHNICAL_element_axis, OTHER_relic_or_firewood_or_general}. Report Cohen's κ per scheme; require κ >= 0.6 before any density claim that depends on the coded sense is reported (the %carita% rule). Disagreements adjudicated by a third pass on the full passage text; if κ < 0.6 the term is dropped from the headline density and the run reports the raw stem count as uninterpretable.",
+ "coding_needed": true,
+ "primary_loci": [
+  "MN 10 / DN 22 Satipaṭṭhāna (mūla relatively grid-light in places; attha known to expand into factor lists — prime read-back test)",
+  "DN 33 Saṅgīti-sutta + DN 34 Dasuttara-sutta (the in-canon proto-mātikā list-suttas — predicted Gini/Lorenz mass concentrators)",
+  "DN 2 Sāmaññaphala (narrative+jhāna sutta, mātikā-poor mūla, rich attha — PRONG B anchor)",
+  "MN 9 Sammādiṭṭhi (paṭicca-samuppāda heavy — positive-lexicon anchor: must expand in attha too)",
+  "MN 28 Mahāhatthipadopama (khandha/dhātu cross-talk — windowed co-occurrence anchor)",
+  "SN 22 Khandhasaṃyutta + SN 35 Saḷāyatanasaṃyutta + SN 14 Dhātusaṃyutta (the three axes' home saṃyuttas — co-occurrence and centroid sanity)",
+  "Dhammasaṅgaṇī + Vibhaṅga (3abh — the source of the katame-dhammā frame and the embedding centroid)",
+  "Sumaṅgalavilāsinī (Sv, DN attha), Papañcasūdanī (Ps, MN attha), Sāratthappakāsinī (Spk, SN attha), Manorathapūraṇī (Mp, AN attha) — the four commentaries whose mula→attha deltas drive PRONG B"
+ ]
+}

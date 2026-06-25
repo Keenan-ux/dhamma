@@ -1,0 +1,259 @@
+{
+ "meta": {
+  "as_of": "2026-06-24",
+  "note": "discovery sweep (headline stems) for the expansion slate; core stems only, frozen lexica come from per-study protocols",
+  "char_totals_Mc": {
+   "mula": 53.543921,
+   "attha": 29.488533,
+   "tika": 28.357746
+  }
+ },
+ "studies": {
+  "vitakka-jhana": [
+   {
+    "lexeme": "vitakka",
+    "regex": "vitakk",
+    "mula": 1000,
+    "attha": 1367,
+    "tika": 1079,
+    "canon_per_Mc": 18.68,
+    "comm_per_Mc": 42.28,
+    "canon_comm_ratio": 0.44
+   },
+   {
+    "lexeme": "vicara",
+    "regex": "vicār",
+    "mula": 693,
+    "attha": 596,
+    "tika": 1107,
+    "canon_per_Mc": 12.94,
+    "comm_per_Mc": 29.44,
+    "canon_comm_ratio": 0.44
+   },
+   {
+    "lexeme": "APPLIC abhiniropana",
+    "regex": "abhiniropan|abhiropan",
+    "mula": 34,
+    "attha": 53,
+    "tika": 41,
+    "canon_per_Mc": 0.63,
+    "comm_per_Mc": 1.62,
+    "canon_comm_ratio": 0.39
+   },
+   {
+    "lexeme": "DISCURS papanca",
+    "regex": "papañc",
+    "mula": 108,
+    "attha": 381,
+    "tika": 277,
+    "canon_per_Mc": 2.02,
+    "comm_per_Mc": 11.37,
+    "canon_comm_ratio": 0.18
+   }
+  ],
+  "sati": [
+   {
+    "lexeme": "sati",
+    "regex": "\\msati|satiyā|satiṃ|satīnaṃ|sato|satimā|satipaṭṭhān",
+    "mula": 1877,
+    "attha": 4974,
+    "tika": 6737,
+    "canon_per_Mc": 35.06,
+    "comm_per_Mc": 202.45,
+    "canon_comm_ratio": 0.17
+   },
+   {
+    "lexeme": "memory sarati/anussati",
+    "regex": "sarati|anussar|anussati|muṭṭhassat|asammos",
+    "mula": 589,
+    "attha": 917,
+    "tika": 613,
+    "canon_per_Mc": 11.0,
+    "comm_per_Mc": 26.45,
+    "canon_comm_ratio": 0.42
+   }
+  ],
+  "sankhara": [
+   {
+    "lexeme": "sankhara",
+    "regex": "saṅkhār",
+    "mula": 1277,
+    "attha": 2253,
+    "tika": 2456,
+    "canon_per_Mc": 23.85,
+    "comm_per_Mc": 81.41,
+    "canon_comm_ratio": 0.29
+   },
+   {
+    "lexeme": "abhisankhara",
+    "regex": "abhisaṅkhār",
+    "mula": 55,
+    "attha": 139,
+    "tika": 143,
+    "canon_per_Mc": 1.03,
+    "comm_per_Mc": 4.87,
+    "canon_comm_ratio": 0.21
+   }
+  ],
+  "anatta": [
+   {
+    "lexeme": "anatta",
+    "regex": "anatt",
+    "mula": 984,
+    "attha": 5131,
+    "tika": 5982,
+    "canon_per_Mc": 18.38,
+    "comm_per_Mc": 192.11,
+    "canon_comm_ratio": 0.1
+   },
+   {
+    "lexeme": "natthi atta (exist-denial)",
+    "regex": "natthi attā|natthattā",
+    "mula": 6,
+    "attha": 18,
+    "tika": 44,
+    "canon_per_Mc": 0.11,
+    "comm_per_Mc": 1.07,
+    "canon_comm_ratio": 0.1
+   },
+   {
+    "lexeme": "sabbe dhamma anatta (maxim)",
+    "regex": "sabbe dhammā anattā",
+    "mula": 43,
+    "attha": 21,
+    "tika": 14,
+    "canon_per_Mc": 0.8,
+    "comm_per_Mc": 0.61,
+    "canon_comm_ratio": 1.31
+   }
+  ],
+  "matika-readback": [
+   {
+    "lexeme": "matika",
+    "regex": "mātik",
+    "mula": 141,
+    "attha": 436,
+    "tika": 880,
+    "canon_per_Mc": 2.63,
+    "comm_per_Mc": 22.75,
+    "canon_comm_ratio": 0.12
+   },
+   {
+    "lexeme": "paramattha",
+    "regex": "paramatth",
+    "mula": 97,
+    "attha": 510,
+    "tika": 782,
+    "canon_per_Mc": 1.81,
+    "comm_per_Mc": 22.34,
+    "canon_comm_ratio": 0.08
+   },
+   {
+    "lexeme": "cetasika",
+    "regex": "cetasik",
+    "mula": 373,
+    "attha": 432,
+    "tika": 632,
+    "canon_per_Mc": 6.97,
+    "comm_per_Mc": 18.39,
+    "canon_comm_ratio": 0.38
+   }
+  ],
+  "sabhava-realist": [
+   {
+    "lexeme": "sabhava (raw)",
+    "regex": "sabhāv",
+    "mula": 72,
+    "attha": 1660,
+    "tika": 4018,
+    "canon_per_Mc": 1.34,
+    "comm_per_Mc": 98.16,
+    "canon_comm_ratio": 0.01
+   },
+   {
+    "lexeme": "sabhava ex-purisabhava",
+    "regex": "sabhāv",
+    "mula": 65,
+    "attha": 1632,
+    "tika": 3981,
+    "canon_per_Mc": 1.21,
+    "comm_per_Mc": 97.03,
+    "canon_comm_ratio": 0.01
+   },
+   {
+    "lexeme": "lakkhana-rasa",
+    "regex": "lakkhaṇa.{0,40}rasa",
+    "mula": 16,
+    "attha": 103,
+    "tika": 126,
+    "canon_per_Mc": 0.3,
+    "comm_per_Mc": 3.96,
+    "canon_comm_ratio": 0.08
+   }
+  ],
+  "abhinna-supernatural": [
+   {
+    "lexeme": "abhinna",
+    "regex": "abhiññ",
+    "mula": 991,
+    "attha": 1062,
+    "tika": 737,
+    "canon_per_Mc": 18.51,
+    "comm_per_Mc": 31.1,
+    "canon_comm_ratio": 0.6
+   },
+   {
+    "lexeme": "iddhi",
+    "regex": "iddh",
+    "mula": 1749,
+    "attha": 4268,
+    "tika": 4931,
+    "canon_per_Mc": 32.66,
+    "comm_per_Mc": 159.02,
+    "canon_comm_ratio": 0.21
+   },
+   {
+    "lexeme": "patihariya",
+    "regex": "pāṭihār",
+    "mula": 86,
+    "attha": 376,
+    "tika": 174,
+    "canon_per_Mc": 1.61,
+    "comm_per_Mc": 9.51,
+    "canon_comm_ratio": 0.17
+   },
+   {
+    "lexeme": "chalabhinna (six-list)",
+    "regex": "chaḷabhiññ|cha abhiññ|chaabhiññ",
+    "mula": 222,
+    "attha": 290,
+    "tika": 117,
+    "canon_per_Mc": 4.15,
+    "comm_per_Mc": 7.04,
+    "canon_comm_ratio": 0.59
+   }
+  ],
+  "theravada-self-label": [
+   {
+    "lexeme": "theravada",
+    "regex": "theravād",
+    "mula": 377,
+    "attha": 32,
+    "tika": 116,
+    "canon_per_Mc": 7.04,
+    "comm_per_Mc": 2.56,
+    "canon_comm_ratio": 2.75
+   },
+   {
+    "lexeme": "vibhajjavada",
+    "regex": "vibhajjavād",
+    "mula": 5,
+    "attha": 7,
+    "tika": 17,
+    "canon_per_Mc": 0.09,
+    "comm_per_Mc": 0.41,
+    "canon_comm_ratio": 0.22
+   }
+  ]
+ }
+}
