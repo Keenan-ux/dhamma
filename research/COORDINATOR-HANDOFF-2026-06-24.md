@@ -5,8 +5,9 @@ supersedes the campaign-specific docs it points to. Internal doc; em-dashes allo
 deliverable prose. Update IN PLACE (snapshot, not append-log).*
 
 ## 1. Where things stand (one screen)
-Live at **https://dhamma.fly.dev/** (admin-gated Research tab). HEAD = `7590195`, working tree clean,
-origin in sync. **There are now SEVEN Research studies** (awakening, individual-guidance,
+Live at **https://dhamma.fly.dev/** (admin-gated Research tab). HEAD = latest on `origin/master`
+(run `git log --oneline -20`; this handoff is the newest commit). Working tree clean EXCEPT `sn2259.json`
+(another live chat's empty placeholder — leave it, do NOT `git clean`). Origin in sync. **There are now SEVEN Research studies** (awakening, individual-guidance,
 heart-base-and-insight, uttarakuru, naga, come-and-see, **the-commentarial-register**) plus two public
 Explorations. The 2026-06-23 adversarial review + corrections shipped earlier; the 2026-06-25 EXPANSION
 CAMPAIGN (below) added the 7th study + two program-wide method corrections.
@@ -140,3 +141,34 @@ serial (or git-worktree-per-study + merge). Method docs (`.claude/skills/dhamma-
 disjoint second territory, safe to edit in parallel. This session was coordinator-direct + Workflows
 (adversarial review 22 agents; fix workflow 11; regression re-review 6; writing-rule verify 3; 2c scan 5;
 come-and-see review 3 + a page-builder agent); no separate sub-chats outstanding.
+
+## 9. Deep-research chats + the open follow-up queue (2026-06-25)
+Five parallel `/deep-research` chats ran during the expansion campaign (separate sessions, SHARED working
+tree — do NOT `git clean` the tree, it deleted one chat's probe scripts). Index + full reports:
+`research/deep-research/README.md`. Synthesis + every follow-up: `research/DEEP-RESEARCH-FOLLOWUPS-2026-06-25.md`.
+
+**Chat ledger:** DR-1 vitakka DONE (memory `jhana-vitakka-deep-research.md`); DR-4 saṅkhāra DONE
+(`research/deep-research/sankhara.md`); DR-5 Abhidhamma DONE (`research/deep-research/abhidhamma.md`);
+DR-3 anattā likely RUNNING (empty `sn2259.json` placeholder); DR-2 sati UNKNOWN (check that chat).
+
+**Open queue (priority order), all from the deep-research + expansion findings:**
+1. [BUILD] saṅkhāra translator-divergence study (Sujato-splits / Thanissaro-collapses) — proven-viable,
+   clean null, sharp finding; flips the campaign's "saṅkhāra not established". Needs Bodhi+Horner full SN/MN
+   ingest for full coverage (Horner currently n=2).
+2. [BUILD] vitakka apparatus-provenance study (access/absorption apparatus measurably commentarial;
+   no prior computational study). Scope fixed in DR-1 (e).
+3. [CORRECT] sabhāva prereg + the shipped "Commentarial Register" Ronkin attribution: aṭṭhakathā → ṭīkā
+   (DR-5 + our own ṭīkā-peak data agree). Pull Ronkin *Early Buddhist Metaphysics* p.112 to confirm wording.
+4. [CORPUS-DOABLE NOW] PED "abhiññā narrowed to the six nine-times-in-ten" per-stratum census; Hamilton
+   khandha×āyatana×dhātu cross-classification per-stratum census (both directly testable on dhamma-pg).
+5. [FOLLOW-ON] recompute the five HOUSE studies' per-character magnitudes deduped (SKILL rule 8 fix; the
+   un-deduped 53.5M inflated them ~1.3-2x). come-and-see's counter is only strengthened.
+6. [VERIFY] Brahmāli on cetanā; Hamilton superlative + loci; Bucknell/Shankman scan quotes.
+7. [REGEN] research/sankhara/probe.py + probe2.py (deleted; method preserved in sankhara.md).
+8. When DR-2 (sati) / DR-3 (anattā) land: pull their final reports into `research/deep-research/` as
+   `sati.md` / `anatta.md`; fold their follow-ups into the queue.
+
+**Standing additions (do not regress):** is_primary canon dedup is MANDATORY for per-character density
+(SKILL rule 8, retired the un-deduped 53.5M); the gradient/co-occurrence-ratio method is withdrawn (the
+definitional register lifts every term -> controls move) — use gross per-character density only. Parked:
+formulaic-budget (DB-wedging all-pairs embedding) + foreign-text ingest (the high-tier comparative unlock).
