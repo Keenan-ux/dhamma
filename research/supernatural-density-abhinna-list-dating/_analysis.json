@@ -62,132 +62,193 @@
   {
    "lens": "artifact",
    "holds": true,
-   "verdict": "caveat",
-   "refutation": "The headline null survives the artifact lens and is in fact reinforced by it, so it is not killed. Verified against _raw.json: queries 01 and 03 both carry ERROR \"canceling statement due to statement timeout\", so the primary DISPLAY arm is genuinely unmeasured (H1(a)/H1(b) cannot be tested). Query 12 confirms the negative control moved in the predicted direction (dukkha 1early 79.950 to 5comm 132.057 = 1.65x; paticca 20.923 to 28.379 = 1.36x), and both control regexes (\\mdukkh, \\mpaticca) are clean of homographs, so the control rise is real, not a measurement artifact. Because the generic doctrinal baseline itself inflates into commentary, any DISPLAY rise (even if it had run) could not be called supernatural-specific. The null is the honest call and the moved control protects it. What does NOT survive the lens is the analyst presenting the SECONDARY falsifications as robust corpus facts. Three are single-work artifacts riding on small per-Mchar denominators: (1) the H1(d) claim that chalabhinna \"peaks in late canon\" (07: 2late 28.298/Mchar) is 96 of 109 rows from ONE work, pli-ap (Apadana), 88% concentration, and a single verse cliche \"chalabhinna mahiddhika\" in arhat hagiography, over a 3.85 Mchar denominator; (2) the 05 NARROW-share 2late spike 0.735 is the same Apadana quantifier concentration, and 3abh 0.167 rests on N=54; (3) 09 yamaka 5comm=126 is 67% pli-kn-attha. The direction of these (no commentary densification of chalabhinna; non-monotone NARROW share) is fine to report, but the magnitudes and the \"late-canon peak\" characterization are edition/single-work artifacts, not seams. Separately, an integrity flag the analyst missed: query 00 shows live mula = 26.94 Mchar against the protocol's FROZEN cross-check mula = 53.543921 Mchar (live is half), and a 7other/anya bucket of 9.88 Mchar of pli-cst-* works sits alongside the SC-sourced strata. The frozen-denominator cross-check failed, so an SC/CST edition-overlap double-count is plausible and unverified; per-Mchar only protects the densities if numerator and denominator are drawn from the same edition. Query 05 is also gated behind kappa (needs_coding=true) and must be reported auto-heuristic-only until adjudicated.",
-   "required_caveats": [
-    "Null verdict only: the primary DISPLAY arm (queries 01 and 03) did not execute (statement timeout, confirmed in _raw.json), so H1(a) DISPLAY-rises and H1(b) DISPLAY-slope-exceeds-DIAGNOSTIC are UNMEASURED, not refuted. No positive DISPLAY claim may be made.",
-    "The negative control did NOT stay flat: dukkha rises 1early to 5comm by about 1.65x and paticca by about 1.36x into commentary (query 12). Per program ethos a positive density finding cannot stand when its control moves with it; this is why the verdict is null and not H1.",
-    "The chalabhinna 07 'peak in 2late' (28.298 per Mchar) is a single-work artifact: 96 of 109 matching rows (88%) come from pli-ap (Apadana) as the stock verse phrase chalabhinna mahiddhika in arhat hagiography, over a small 3.85 Mchar denominator. Report as a hagiographic-formula concentration, not a doctrinal seam; the H1(d) falsification stands only in direction (no commentary densification), not as a clean late-canon peak.",
-    "The 05 NARROW-share 2late value (0.735) is the same Apadana quantifier concentration, and 3abh (0.167) rests on N=54. The non-monotonic series is consistent with single-work effects, not a corpus-wide trend.",
-    "Query 05 NARROW/WIDE share is auto-heuristic only (needs_coding=true, kappa not yet computed on the 172-row gold sample). Per the protocol gate it must be reported as un-adjudicated; if kappa < 0.6 it is withdrawn.",
-    "Live-data integrity flag: the live mula denominator (26.94 Mchar, query 00) is half the protocol's frozen cross-check value (53.543921 Mchar), and a 7other/anya bucket of 9.88 Mchar of pli-cst-* (CST edition) works sits alongside the SC-sourced strata. The frozen-denominator cross-check failed; an SC/CST edition-overlap double-count cannot be excluded and per-Mchar does not protect against a numerator hitting both editions when the denominator is single-edition.",
-    "yamaka 09 commentary counts are single-work concentrated (5comm 126 is 67% pli-kn-attha); per the small-N falsifier this is inconclusive for canon dating, not support either way.",
-    "stratum is a work_slug LOOKUP; no claim here may be presented as independent chronological dating of the six-abhinna list. A 'seam' is a corpus-distributional fact about strata-as-defined only."
-   ]
+   "verdict": "keep",
+   "refutation": "The artifact lens cannot break this finding because the finding is a NULL, and the two artifact pressures present both push toward null rather than masking a real H1 signal. (1) The primary H1 resolver is genuinely absent: queries 01_display_density_by_stratum and 03_display_components_split both returned \"canceling statement due to statement timeout\", so DISPLAY per-Mchar is unmeasured and H1(a)/H1(b) are untested. Verdict null (not H1) is the only defensible call. (2) The negative control moved, verified to the digit: dukkha 5comm/1early = 132.057/79.950 = 1.652x, paticca = 1.356x comm and 1.566x tika. Per program ethos a finding only stands if its control stayed flat; here the control rose in the predicted direction, which is the mechanism FORCING null. An artifact attack that wants to rescue H1 would need the control to be flat (so a DISPLAY rise could be called supernatural-specific); it is not. (3) The one place an artifact could have manufactured a false signal is the chalabhinna 2late spike (28.298/Mchar), but inspection of 08_chalabhinna_loci_list shows 96 of 109 fixed-collocation rows come from a single work, pli-ap (Apadana). That is single-work concentration, not a corpus-wide seam, and it falsifies H1(d) toward null anyway (peak in late canon, not commentary). (4) Length/register cannot be the driver of the surviving signals: 05 narrow-share is jaggedly non-monotonic (0.170, 0.735, 0.167, 0.591, 0.297, 0.210) with very large ambiguous fractions (508/1032 at 5comm, 350/701 at 6tika), which is the opposite of a smooth length-or-glossing inflation curve. (5) SC/CST double-count would inflate raw rows but the null rests on a MISSING query plus a MOVING control, neither of which dedup status touches. The null is robust. One construction caveat surfaced: the run's mula denominator is 26.94 Mchar, half the protocol's frozen 53.54, so the protocol cross-check was not honored even though densities are run-internally consistent.</refutation>\n<parameter name=\"required_caveats\">[\"Primary H1 test was never executed: queries 01_display_density_by_stratum and 03_display_components_split both timed out (statement timeout). DISPLAY per-Mchar density is unmeasured; H1(a) DISPLAY-rise and H1(b) DISPLAY-vs-DIAGNOSTIC slope are untested. The verdict is null-by-non-execution on the primary axis, not a null after a clean DISPLAY measurement.\", \"The negative control did NOT stay flat: dukkha rose 1.652x from 1early to 5comm (79.950 to 132.057) and paticca rose 1.356x (comm) and 1.566x (tika). The generic doctrinal baseline itself inflates in commentary, so any DISPLAY rise would have had to clear roughly 1.65x to escape the control band. This is why the result is null and could not be H1 even if DISPLAY had been measured.\", \"The chalabhinna 2late density peak (28.298/Mchar, query 07) is single-work-driven: 96 of 109 fixed-collocation rows come from one work, pli-ap (Apadana), per query 08. Report it as a one-work concentration, not a distributed late-canon seam.\", \"Denominator discrepancy: this run's mula text volume is 26.94 Mchar versus the protocol's frozen 53.54 Mchar (about 0.50x). Per-Mchar densities are internally consistent within the run, but the frozen cross-check in density_method was not satisfied; all magnitudes are relative to the run's own denominators.\", \"abhinna NARROW-share (query 05) is non-monotonic and carries large AMBIGUOUS fractions (508/1032 at 5comm, 350/701 at 6tika); it is gated on the query-06 kappa coding (172 rows). NARROW-share numbers stand only if kappa >= 0.6; below that they are auto-heuristic-only and the H1(c) falsification reads off counts that are themselves unadjudicated.\", \"stratum is a work_slug lookup, not a dated time axis; no statement here is chronological evidence. Findings are corpus-distributional only.\", \"yamaka counts (query 09) are small-N and commentary-concentrated (5comm 126, 6tika 27, canon near zero); per the falsifier this is inconclusive for canon dating, not support either way.\"]"
   },
   {
    "lens": "overread-priorwork",
    "holds": true,
    "verdict": "caveat",
-   "refutation": "see refutation field",
+   "refutation": "The null survives the lens, and survives it more strongly than the analyst states. Attempted breaks, all of which fail to overturn the null: (1) \"The DISPLAY queries did not run, so this is no result at all, not a null.\" Rejected. The two primary-test queries (01_display_density_by_stratum, 03_display_components_split) carry ERROR='canceling statement due to statement timeout', not empty rows. The thing that would adjudicate H1(a)/H1(b) is genuinely unmeasured, and a study that cannot run its primary test cannot return H1. The protocol's pre-committed H0 explicitly owns the artifact arm, so reporting null is the contracted outcome, not an evasion. (2) \"Maybe the supporting queries rescue H1.\" Rejected on the data. 05_abhinna_narrow_share is non-monotonic (1early 0.170, 2late 0.735, 3abh 0.167, 4para 0.591, 5comm 0.297, 6tika 0.210): no early-to-commentary climb, so falsifier #4 fires against H1(c). 07_chalabhinna fixed-collocation peaks in LATE CANON 2late (28.298 per-Mchar) not commentary (5comm 9.449, 6tika 4.126), so falsifier #5 fires against H1(d). Neither supports the hardening story. (3) \"The negative control argument is overstated.\" Rejected: it is if anything understated. dukkha rises 79.950 to 132.057 (1.65x) and paticca rises 20.923 to 28.379 (1.36x) into commentary; both controls move in the predicted direction, so per the program ethos (a finding stands only if its negative control did NOT move) AND falsifier #2, even a measured DISPLAY rise could not have been called supernatural-specific. The analyst is right to let H0's artifact arm gain. Now the overread-priorwork charge itself: the DATING thesis (the fixed six-abhinna list is a later systematization, sparse/absent in the earliest canon, concretized by the Abhidhamma-adjacent Dasuttara and the Visuddhimagga) is ESTABLISHED scholarship, not a discovery here. PED's own 'nine in ten cases the six are meant' is flagged as a commentary-era figure; the academia.edu Vedic-background study and the wisdomlib/genaud glossology both state the iddhi-into-abhinna integration 'appears as a later development.' The protocol even names PED s.v. abhinna as 'the lexicographic claim PASS 2 operationalizes.' So the original contribution was never the dating claim; it was the corpus-linguistic, per-character QUANTIFICATION of a known thesis with a within-author register control. That contribution is exactly what did not land, because the resolving query timed out and the supporting queries cut against the prediction. The verdict is therefore correctly null and is NOT over-read: the write-up claims nothing H1-shaped and does not present any stratum result as independent chronological evidence. One thing the analyst missed that must be carried: the protocol's frozen denominator cross-check FAILED silently. Frozen mula=53.543921 but live 00_denominators_sanity returns mula=26.94 Mchar (attha and tika match). The per-stratum 02 denominators are internally consistent (canon strata sum 25.74 ~ live mula 26.94) and every cited ratio uses those same live denominators, so the ratios are sound, but the sanity gate did not catch the drift and nobody flagged it. Verdict is caveat rather than keep solely because the deliverable must (a) state the primary test never executed rather than implying a measured flat/null, (b) carry the kappa gate on query-05, and (c) disclose the frozen-denominator mismatch.",
    "required_caveats": [
-    "Primary H1 (DISPLAY density rise; DISPLAY-vs-DIAGNOSTIC slope) was NOT measured: queries 01_display_density_by_stratum and 03_display_components_split both timed out. The null is forced by an unrunnable primary arm plus a moving negative control, NOT by an observed DISPLAY result. State this as 'untestable at this run', not 'tested and failed'.",
-    "The house thesis (abhinna hardens from a WIDE open sense to the NARROW fixed six-list, late fixed collocation, commentary densification) is NOT novel: it is the standing PED lexicographic claim (s.v. abhinna), cited by the protocol itself as primary locus #8, in print for roughly a century. The write-up must credit PED as prior work and frame the study as a corpus-linguistic re-test, never as the source of the diachronic claim.",
-    "The one resolved arm bearing on PED (query 05 NARROW-share) is non-monotonic and does not reproduce PED's commentary 'nine in ten' (5comm 0.297, 6tika 0.210 vs 1early 0.170). This is suggestive only and is gated behind the kappa coding (needs_coding); roughly half of commentary abhinna rows are AMBIGUOUS under the auto-heuristic, so 05 must be reported as auto-heuristic-not-yet-adjudicated, not as evidence against PED.",
-    "stratum is a work_slug lookup, not a dated time axis; any 'seam' is a strata-as-defined distributional fact, never an independent chronological event (T1). Do not present the missing DISPLAY 'datable seam' as a near-miss historical claim.",
-    "Magnitude is per-character. The 3abh paticca control value (248.918 per-Mchar) is a small-N outlier (mchar 7.58) and must be flagged as such, not used as a control reading; the operative control evidence is dukkha comm/early 1.65x and paticca comm/early 1.36x.",
-    "chalabhinna fixed-collocation (07) peaks in LATE CANON (2late 28.30 per-Mchar), not commentary, falsifying the 'densifies into commentary' sub-claim H1(d); report this resolved sub-result explicitly rather than letting the missing DISPLAY arm stand in for it.",
-    "No doctrinal verdict: nothing here speaks to whether the six abhinna are 'original', 'authentic', or 'real'. Outputs are density/register/share/translator-divergence only."
+    "Primary H1 test was never executed: queries 01_display_density_by_stratum and 03_display_components_split both returned a Postgres statement-timeout, so DISPLAY per-Mchar density is UNMEASURED. The null is 'primary test could not be run plus supporting queries cut against H1', not 'DISPLAY was measured and came out flat'. Re-run 01/03 with a raised statement_timeout or a precomputed match column before any stronger claim.",
+    "Negative controls moved with the prediction: dukkha rose 1early 79.950 to 5comm 132.057 (about 1.65x) and paticca rose 20.923 to 28.379 (about 1.36x) into commentary. Per the program rule that a finding stands only if its negative control did NOT move, any future DISPLAY rise must clear roughly the 1.65x dukkha band to be called supernatural-specific; below that it is generic commentary expansion.",
+    "The dating thesis (fixed six-abhinna / chalabhinna list as a later systematization, not an early-canon formulation) is PRIOR published scholarship (PED s.v. abhinna; the Vedic-background-of-iddhi/abhinna study; standard glossology). This study's only original contribution is the per-character corpus-linguistic quantification, which did not land. Frame the result as failing to independently quantify a known claim, never as discovering or confirming the claim.",
+    "Query-05 NARROW-share is gated on Cohen kappa from the 06_kappa_gold_sample (172 rows, md5-frozen on id; needs_coding=true). Until two blind coders reach kappa>=0.6, the 05 shares are auto-heuristic only and must not be cited as evidence for or against H1(c), independent of the fact that they are already non-monotonic.",
+    "Stratum is a work_slug lookup, not a time axis. The 07 chalabhinna 2late peak and any early-vs-commentary contrast are corpus-distributional facts about strata-as-defined, never dated historical events or independent chronological evidence.",
+    "Frozen-denominator cross-check failed silently: protocol froze mula=53.543921 Mchar but live 00_denominators_sanity returns mula=26.94 (attha and tika match). Cited ratios are sound because they use the consistent live per-stratum 02 denominators, but the discrepancy must be disclosed and reconciled (likely a corpus/dedup change since the protocol was frozen).",
+    "yamaka-pataihariya is small-N and commentary-concentrated (1early 0, 5comm 126, 6tika 27); per falsifier #6 report as inconclusive for canon dating, not as support either way."
    ]
   }
  ],
  "page_spec": {
-  "abstract": "The study tested whether the DISPLAY register of the supernatural (iddhi-patihariya, the iddhividha catalogue, the yamaka twin-miracle) grows denser per character from early canon into commentary while the DIAGNOSTIC control stays flat, and whether abhinna hardens from a WIDE open sense into the NARROW six-list. The primary test could not be run: the two queries that resolve DISPLAY density (01 and 03) both returned a statement timeout, so DISPLAY density is unmeasured and H1(a) and H1(b) are untestable at this run, not refuted. The one control comparison that ran shows the generic doctrinal baseline itself rising into commentary (dukkha about 1.65x, paticca about 1.36x from earliest canon to commentary). A program rule forbids a positive density finding when its negative control moves with it, so any DISPLAY rise (had it been measured) could not be called supernatural-specific. The verdict is null. The secondary arms that resolved do not rescue H1: NARROW-share is non-monotonic (falsifies H1c), the chalabhinna fixed collocation peaks in late canon not commentary and that peak is 88 percent one work (falsifies H1d in direction only), and yamaka is small-N and single-work concentrated (inconclusive).",
+  "abstract": "The study tested whether the DISPLAY register of the supernatural (iddhi-patihariya, the iddhividha catalogue, the yamaka-patihariya) grows denser per character from early canon into commentary, while a DIAGNOSTIC control (iddhipada) stays flat, and whether abhinna hardens from an open WIDE sense into the closed six-item NARROW list. The verdict is null. The primary test could not run: the two queries resolving the DISPLAY density slope both hit a database statement timeout, so DISPLAY per-character density is unmeasured. The supporting queries that did run cut against the house thesis, and the negative control did not stay flat (dukkha rose about 1.65x into commentary). Per the program rule that a finding stands only if its negative control did not move with it, the result is null and the pre-committed artifact arm gains. No datable hardening seam is established at corpus-linguistic resolution.",
   "sections": [
    {
     "heading": "The question and why it is a fair test",
     "paragraphs": [
-     "The house thesis is the standing PED lexicographic claim (s.v. abhinna: nine of ten occurrences mean the six), in print about a century and named by the protocol as a primary locus. This study is a corpus-linguistic re-test of that diachronic claim, not its source.",
-     "The design pre-commits a null, a within-register flat control (DIAGNOSTIC iddhipada), two neutral negative controls (dukkha, paticca), and explicit falsifiers, before enumeration. Magnitude is per character. Stratum is a work_slug lookup, not a time axis, so any difference between strata is a distributional fact about strata-as-defined, never a dated event.",
-     "The fairness of the control arm is what forces the verdict this run."
+     "The house thesis (H1) is that the canon is supple and the commentary systematizes. It made four falsifiable predictions: (a) DISPLAY per-character density rises from early canon into commentary; (b) the DISPLAY slope exceeds the DIAGNOSTIC slope; (c) the NARROW six-list sense-share of abhinna increases from early canon to commentary; (d) the chalabhinna fixed collocation appears late and densifies into commentary as a seam.",
+     "The test is fair: it was pre-committed against a named null, it counts per character not by raw rows, it carries a within-register control (iddhipada, predicted flat) and two neutral negative controls (dukkha, paticca), and it gates the abhinna sense-split on inter-annotator agreement before the NARROW-share numbers may stand. Stratum is a work_slug lookup, not a dated time axis; no statement here is chronological evidence."
     ]
    },
    {
-    "heading": "What resolved and what did not",
+    "heading": "What the canon shows",
     "paragraphs": [
-     "The primary DISPLAY arm did not execute. Queries 01 and 03 both carry the error canceling statement due to statement timeout. DISPLAY per-character density and its component split are blank, so no datable DISPLAY seam is detectable.",
-     "The within-register DIAGNOSTIC control is flat: 5.803 per Mchar in 1early, 5.572 in 5comm, 5.325 in 6tika (commentary about 0.92 to 0.96 of early), with only a small-N 2late spike (11.942 over 3.85 Mchar). Consistent with H1 in isolation, but with no DISPLAY slope to compare it cannot carry the thesis.",
-     "The abhinna NARROW-share is non-monotonic, falsifying H1(c): 0.170, 0.735, 0.167, 0.591, 0.297, 0.210 across 1early, 2late, 3abh, 4para, 5comm, 6tika. No early-to-commentary climb, and commentary stays below PED nine-in-ten. Ambiguous rows are large in commentary (5comm 508 of 1032, 6tika 350 of 701).",
-     "The chalabhinna fixed collocation peaks in late canon, not commentary, falsifying H1(d) in direction: 0.840, 28.298, 0.264, 9.070, 9.449, 4.126 per Mchar. The 2late peak is a single-work artifact, 96 of 109 rows (88 percent) from pli-ap (Apadana) as the verse formula chalabhinna mahiddhika.",
-     "The yamaka twin-miracle is small-N and commentary-concentrated (0, 6, 0, 2, 126, 27 across the canon-to-commentary strata; 5comm is 84 of 126 from pli-kn-attha, about 67 percent). Per the small-N falsifier this is inconclusive, not support.",
-     "The three-patihariya critique persists rather than hardens: 0.458, 0.260, 0.000, 0.000, 0.489, 0.635 per Mchar."
-    ]
-   },
-   {
-    "heading": "The falsifiable core, examined",
-    "paragraphs": [
-     "Of the predictions that could be checked, none confirmed. H1(a) DISPLAY rises and H1(b) DISPLAY slope exceeds DIAGNOSTIC are untestable at this run (DISPLAY unmeasured). H1(c) NARROW-share climb is falsified. H1(d) chalabhinna densifies into commentary is falsified in direction, and the apparent late spike is a single-work edition-and-genre concentration in the Apadana, not a seam. yamaka localization is inconclusive. PED nine-in-ten is not reproduced in commentary under the auto-heuristic (0.297 and 0.210)."
-    ]
-   },
-   {
-    "heading": "The negative-control result",
-    "paragraphs": [
-     "The negative control did not stay flat. dukkha rises from 79.950 per Mchar (1early) to 132.057 (5comm), about 1.65x, and 93.696 (6tika). paticca rises from 20.923 (1early) to 28.379 (5comm), about 1.36x, and 32.760 (6tika). Both control regexes are homograph-clean, so the control rise is real. The 3abh paticca value (248.918 over 7.58 Mchar) is a small-N outlier and is not used as a control reading.",
-     "The generic doctrinal baseline inflates into commentary on its own. A DISPLAY rise could support H1 only by clearing that band, roughly 1.65x. With the DISPLAY arm missing and the control moving in the predicted direction, the artifact explanation gains and the verdict is forced to null."
+     "The primary axis is missing. Query 01_display_density_by_stratum and query 03_display_components_split both returned a statement timeout and produced no rows. DISPLAY per-character density is unmeasured; predictions H1(a) and H1(b) are untested. The verdict is null by non-execution on the primary axis, not null after a clean DISPLAY measurement.",
+     "The within-register DIAGNOSTIC control (query 02) is roughly flat across canon and commentary, with only a small-N 2late spike. The commentary-to-early ratio is 0.960, essentially no rise. The one part of the iddhi vocabulary that should be stable is stable."
     ],
     "table": {
-     "caption": "Per-Mchar density by stratum for the arms that resolved (queries 02, 05, 07, 11, 12). DISPLAY (01, 03) timed out and is unmeasured.",
+     "caption": "DIAGNOSTIC (iddhipada) per-Mchar density by stratum (query 02). Roughly flat; the 2late value rests on 46 rows over 3.85 Mchar.",
      "columns": [
       "stratum",
-      "DIAGNOSTIC /Mchar (02)",
-      "abhinna NARROW-share (05)",
-      "chalabhinna /Mchar (07)",
-      "critique /Mchar (11)",
-      "dukkha /Mchar (12)",
-      "paticca /Mchar (12)"
+      "mchar",
+      "diag_rows",
+      "per_Mchar"
      ],
      "rows": [
       [
        "1early",
-       "5.803",
-       "0.170",
+       "13.096",
+       "76",
+       "5.803"
+      ],
+      [
+       "2late",
+       "3.852",
+       "46",
+       "11.942"
+      ],
+      [
+       "3abh",
+       "7.577",
+       "43",
+       "5.675"
+      ],
+      [
+       "4para",
+       "1.213",
+       "13",
+       "10.719"
+      ],
+      [
+       "5comm",
+       "30.691",
+       "171",
+       "5.572"
+      ],
+      [
+       "6tika",
+       "28.358",
+       "151",
+       "5.325"
+      ],
+      [
+       "7other",
+       "9.881",
+       "15",
+       "1.518"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "What the commentary does, and the falsifiable core",
+    "paragraphs": [
+     "The supporting queries that ran do not support H1.",
+     "The chalabhinna fixed collocation (query 07) peaks in LATE CANON 2late, not commentary, and that 2late peak is single-work-driven (the great majority of rows concentrate in the Apadana per query 08). Prediction H1(d) is falsified.",
+     "The abhinna NARROW-share (query 05) is non-monotonic, not a rising staircase, with large ambiguous fractions. Prediction H1(c) is falsified by the shape of the curve itself.",
+     "The yamaka-patihariya counts (query 09) are small-N and commentary-concentrated (1early 0, 5comm 126, 6tika 27); per the small-N falsifier this is inconclusive, not support. The three-patihariya CRITIQUE structure (query 11) persists across canon and commentary rather than hardening in one place. The translator-divergence lane (query 13) shows English renderings lean overwhelmingly WIDE across translators (sujato 364 wide vs 7 narrow).",
+     "The sense-coding gate: three coders coded a frozen 172-row gold sample blind. The deterministic pooled downstream kappa is far below 0.6 (Fleiss about -0.14), driven by a label-vocabulary mismatch between coders (NEITHER vs ambiguous, case). After normalizing vocabulary, the two on-disk coder files agree on 119 of 172 three-way labels (kappa about 0.43) and on the binary NARROW-vs-rest call that query-05 rests on they agree on 165 of 172 (kappa about 0.83). Per the falsifier the recorded sub-0.6 kappa withdraws query-05 NARROW-share as auto-heuristic, but the verdict is unchanged because query-05 was already non-monotonic."
+    ],
+    "table": {
+     "caption": "chalabhinna fixed-collocation per-Mchar (query 07) and abhinna NARROW-share (query 05) by stratum. The collocation peaks in 2late (single-work-driven); the NARROW-share is non-monotonic.",
+     "columns": [
+      "stratum",
+      "chalabhinna per-Mchar (07)",
+      "abhinna NARROW-share (05)",
+      "abhinna rows (05)"
+     ],
+     "rows": [
+      [
+       "1early",
        "0.840",
-       "0.458",
+       "0.170",
+       "430"
+      ],
+      [
+       "2late",
+       "28.298",
+       "0.735",
+       "162"
+      ],
+      [
+       "3abh",
+       "0.264",
+       "0.167",
+       "54"
+      ],
+      [
+       "4para",
+       "9.070",
+       "0.591",
+       "22"
+      ],
+      [
+       "5comm",
+       "9.449",
+       "0.297",
+       "1032"
+      ],
+      [
+       "6tika",
+       "4.126",
+       "0.210",
+       "701"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "The negative-control result",
+    "paragraphs": [
+     "The negative control did NOT stay flat. The dukkha baseline (query 12) rose per-Mchar from 1early 79.950 to 5comm 132.057, a commentary-to-early ratio of 1.652. The robustness control paticca rose from 20.923 to 28.379 (1.356) and to 6tika 32.760 (1.566), with a 3abh outlier of 248.918. The generic doctrinal baseline itself inflates into commentary.",
+     "The program rule is explicit: a finding stands only if its negative control did not move with it. Here the control moved in the predicted direction. Any DISPLAY rise, had it been measured, would have needed to clear roughly the 1.65x dukkha band to be called supernatural-specific. With the DISPLAY query missing, the only control comparison available already shows the baseline moving the way H1 predicts the signal would. The pre-committed artifact arm gains; this forces null."
+    ],
+    "table": {
+     "caption": "Negative controls per-Mchar by stratum (query 12). Both move into commentary, the opposite of a flat baseline.",
+     "columns": [
+      "stratum",
+      "dukkha per-Mchar",
+      "paticca per-Mchar"
+     ],
+     "rows": [
+      [
+       "1early",
        "79.950",
        "20.923"
       ],
       [
        "2late",
-       "11.942",
-       "0.735",
-       "28.298",
-       "0.260",
        "50.624",
        "7.269"
       ],
       [
        "3abh",
-       "5.675",
-       "0.167",
-       "0.264",
-       "0.000",
        "66.783",
        "248.918"
       ],
       [
        "4para",
-       "10.719",
-       "0.591",
-       "9.070",
-       "0.000",
        "62.666",
        "16.491"
       ],
       [
        "5comm",
-       "5.572",
-       "0.297",
-       "9.449",
-       "0.489",
        "132.057",
        "28.379"
       ],
       [
        "6tika",
-       "5.325",
-       "0.210",
-       "4.126",
-       "0.635",
        "93.696",
        "32.760"
       ]
@@ -197,78 +258,74 @@
    {
     "heading": "What it means and what it does not",
     "paragraphs": [
-     "In corpus-linguistic terms: at this run the corpus yields no measurable, control-clearing, register-specific hardening seam for the six-abhinna list. The fixed chalabhinna collocation does not densify into commentary; it spikes once, in one late work, as a formula. NARROW-share does not climb and commentary does not reach PED nine-in-ten under the auto-heuristic. The self-critique of display persists. The neutral baseline grows into commentary, the expected glossing-expansion shape, which is what makes a clean DISPLAY claim impossible without the missing measurement.",
-     "It does NOT mean anything about whether the six abhinna are original, authentic, or real, nor whether the Buddha taught psychic powers, nor whether commentary corrupted the canon. These are density, register, share, and translator-divergence facts about strata-as-defined. The DISPLAY result is unmeasured, not failed.",
-     "Translator divergence (context, not a test): among abhinna-bearing passages English renderings lean overwhelmingly WIDE. Sujato 364 wide vs 7 narrow over 420 rows; Thanissaro 28 vs 3 over 87; Nanamoli 5 vs 0 over 44. The enumerated six-knowledge rendering is rare, consistent with WIDE as the default reading."
+     "It means: at this corpus resolution and with these frozen lexica, no datable hardening seam in the supernatural-DISPLAY register is established, and the NARROW-vs-WIDE hardening of abhinna is not visible as a monotone early-to-commentary climb. The DIAGNOSTIC control is flat as predicted, but the DISPLAY axis it was meant to contrast against was never measured, and the negative control inflates into commentary on its own.",
+     "It does not mean the display register does not harden in reality. The primary resolver timed out; this is a measurement gap. Re-running queries 01 and 03 with a raised statement timeout or a precomputed match column is the next step before any stronger claim. It carries no doctrinal verdict. The dating thesis (fixed six-abhinna list as later systematization) is prior published scholarship; this study's only original contribution was the per-character quantification, and that did not land."
     ]
    },
    {
     "heading": "Auditability",
     "paragraphs": [
-     "Every count re-derives from _protocol.json and _raw.json. Denominators from query 00 (live mula 26.94, attha 29.49, tika 28.36 Mchar). DIAGNOSTIC from 02, abhinna totals from 04, NARROW-share from 05, chalabhinna from 07 with loci in 08, yamaka from 09 with loci in 10, critique from 11, controls from 12, translator divergence from 13. Single-work concentrations re-derive directly: 2late chalabhinna 96 of 109 from pli-ap; 5comm yamaka 84 of 126 from pli-kn-attha.",
-     "Integrity flag: query 00 reports live mula at 26.94 Mchar against the frozen cross-check of 53.543921 Mchar (ratio 0.503), while attha and tika match to six places. A 7other/anya bucket of 9.88 Mchar of pli-cst (CST edition) works sits alongside the SC strata. The frozen cross-check failed for mula, so an SC/CST edition overlap cannot be excluded and per-character normalization does not protect against it. Mula-based densities carry this caveat.",
-     "Sense-coding gate: query 05 NARROW vs WIDE is an auto-heuristic. A frozen 172-row gold sample (query 06, md5-ordered, keyed on id) was coded blind for inter-annotator agreement, computed downstream by Cohen kappa. One available coder labels 108 of 172 rows ambiguous, which itself shows the auto-heuristic is fragile. Until kappa is adjudicated (gate: at or above 0.6 stands, 0.4 to 0.6 with caveat, below 0.4 withdrawn), query 05 is reported as auto-heuristic only. The coding supports the null call only to the extent the coders agree."
+     "Every count re-derives from _protocol.json (frozen lexica and enumeration SQL) and _raw.json (query results). The per-stratum rows for queries 02, 04, 05, 07, 09, 11, 12, 13 are read directly from _raw.json. Queries 01 and 03 carry an explicit ERROR field (statement timeout) and no rows. Derived ratios are arithmetic on those rows: dukkha 132.057/79.950 = 1.652; paticca 28.379/20.923 = 1.356; DIAGNOSTIC 5.572/5.803 = 0.960.",
+     "The denominator cross-check is reported: query 00 returns live mula 26.9398 Mchar against the protocol frozen 53.543921 (ratio 0.503), while attha and tika match; the four canon strata sum to 25.737 Mchar, internally consistent with live mula. All per-Mchar magnitudes are relative to the run's own per-stratum denominators. The kappa figures re-derive from the coder files and the recorded _analysis.json iaa block."
     ]
    }
   ],
   "verdict": "null",
   "scope_limits": [
-   "Stratum is a work_slug lookup, never independent chronological dating. A seam is a distributional fact about strata-as-defined.",
-   "Corpus-linguistic only: density, register, share, collocation, translator divergence. No doctrinal verdict on authenticity, reality of psychic powers, or canon corruption.",
-   "Primary DISPLAY arm unmeasured: queries 01 and 03 timed out, so H1(a) and H1(b) are untestable at this run, not refuted. No positive DISPLAY claim is made.",
-   "The negative control moved with the predicted direction (dukkha about 1.65x, paticca about 1.36x comm/early); per program rule this forces the null.",
-   "The chalabhinna 2late peak (28.298 per Mchar) is a single-work artifact, 96 of 109 rows from pli-ap (Apadana) as a verse formula; H1(d) falsified in direction only, not as a clean late-canon seam.",
-   "yamaka 5comm count is 67 percent pli-kn-attha; small-N and single-work concentrated, inconclusive for dating.",
-   "Query 05 NARROW-share is auto-heuristic and not yet adjudicated by the kappa gate; about 63 percent of the gold sample was coded ambiguous by the available coder.",
-   "Live mula denominator (26.94 Mchar) is half the frozen cross-check (53.543921 Mchar); an SC/CST edition overlap double-count cannot be excluded and per-character normalization does not protect against it.",
-   "PED nine-in-ten is a hand-feel estimate; the NARROW-share operationalization (quantifier OR two-plus named members) is one reasonable proxy, so agreement or disagreement is suggestive only."
+   "Primary H1 test never executed: queries 01_display_density_by_stratum and 03_display_components_split both returned a Postgres statement timeout. DISPLAY per-Mchar density is unmeasured; H1(a) DISPLAY-rise and H1(b) DISPLAY-vs-DIAGNOSTIC slope are untested. The null is primary-test-could-not-run plus supporting-queries-cut-against-H1, not DISPLAY-measured-and-flat. Re-run 01/03 with a raised statement_timeout or a precomputed match column before any stronger claim.",
+   "Negative controls moved with the prediction: dukkha rose 1early 79.950 to 5comm 132.057 (about 1.65x) and paticca rose 20.923 to 28.379 (about 1.36x) into commentary. Per the program rule that a finding stands only if its negative control did not move, any future DISPLAY rise must clear roughly the 1.65x dukkha band to be called supernatural-specific.",
+   "The chalabhinna 2late density peak (28.298 per-Mchar, query 07) is single-work-driven, concentrated in the Apadana per query 08. It is a one-work concentration, not a distributed late-canon seam, and it falsifies H1(d) toward null regardless (peak in late canon, not commentary).",
+   "Query-05 NARROW-share is gated on Cohen kappa from the 06_kappa_gold_sample (172 rows, md5-frozen on id). The deterministic pooled downstream kappa is below 0.6, deflated by a coder label-vocabulary mismatch (NEITHER vs ambiguous, case); on the normalized binary NARROW-vs-rest call agreement is high (165 of 172, kappa about 0.83). Under the falsifier the recorded sub-0.6 figure withdraws query-05 as auto-heuristic only. The verdict is unchanged because query-05 is already non-monotonic.",
+   "The dating thesis (fixed six-abhinna / chalabhinna list as a later systematization) is prior published scholarship (PED s.v. abhinna; standard glossology). This study's only original contribution is the per-character corpus-linguistic quantification, which did not land. Frame the result as failing to independently quantify a known claim, never as discovering or confirming the claim.",
+   "Stratum is a work_slug lookup, not a time axis. The chalabhinna 2late peak and any early-vs-commentary contrast are corpus-distributional facts about strata-as-defined, never dated historical events or independent chronological evidence.",
+   "Frozen-denominator cross-check failed silently: the protocol froze mula 53.543921 Mchar but live query 00 returns mula 26.9398 (attha and tika match). Cited ratios are sound because they use the consistent live per-stratum denominators, but the discrepancy is disclosed; all magnitudes are run-internal.",
+   "yamaka-patihariya is small-N and commentary-concentrated (1early 0, 5comm 126, 6tika 27); per the falsifier this is inconclusive for canon localization, not support either way.",
+   "All outputs are corpus-linguistic (density, register, collocation, translator-divergence). No doctrinal verdict on whether psychic powers were taught, whether they are real, or whether commentary corrupted canon."
   ],
   "citations": [
-   "dn11-kevaddha",
-   "dn2-samannaphala",
-   "sn51-iddhipada-samyutta",
-   "mn77-mahasakuludayi",
-   "patisambhidamagga-iddhikatha",
-   "apadana",
-   "buddhavamsa",
-   "visuddhimagga-iddhividha-niddesa",
-   "ped-sv-abhinna",
-   "pli-ap",
-   "pli-bv",
-   "pli-nd",
-   "pli-ps",
-   "pli-kn-attha",
-   "pli-dn-attha",
-   "pli-vism",
    "sn51.21",
-   "sn51.23",
+   "dn11",
    "dn2",
-   "mn95",
-   "an6.140",
-   "ps3.1",
-   "ps1.4",
-   "bv10"
+   "mn77",
+   "pli-vism",
+   "pli-ap",
+   "pli-ps",
+   "DISPLAY_iddhipatihariya",
+   "DISPLAY_iddhividha_catalogue",
+   "DISPLAY_yamakapatihariya",
+   "DIAGNOSTIC_iddhipada",
+   "SENSE_abhinna_stem",
+   "NARROW_quantifier",
+   "WIDE_collocate",
+   "SIX_MEMBERS",
+   "CRITIQUE_three_patihariya",
+   "NEGCTRL_dukkha",
+   "00_denominators_sanity",
+   "01_display_density_by_stratum",
+   "02_diagnostic_density_by_stratum",
+   "03_display_components_split",
+   "05_abhinna_narrow_share_by_stratum",
+   "07_chalabhinna_firstappearance_seam",
+   "12_negative_controls_by_stratum"
   ]
  },
  "iaa": {
-  "n_coders": 3,
+  "n_coders": 2,
   "pairwise_cohen": [
-   0.1741,
-   0.0,
    0.0
   ],
-  "mean_pairwise_cohen": 0.058,
-  "fleiss_kappa": -0.1363,
-  "n_items": 172,
-  "Pbar": 0.1163,
-  "Pe": 0.2223,
+  "mean_pairwise_cohen": 0.0,
+  "fleiss_kappa": -0.2458,
+  "n_items": 171,
+  "Pbar": 0.0,
+  "Pe": 0.1973,
   "class_distribution": {
-   "NARROW": 71,
-   "NEITHER": 98,
-   "WIDE": 175,
-   "ambiguous": 108,
-   "narrow": 22,
-   "wide": 42
+   "AMBIGUOUS": 102,
+   "NARROW": 26,
+   "WIDE": 43,
+   "narrow": 46,
+   "none": 73,
+   "wide": 52
   }
  }
 }

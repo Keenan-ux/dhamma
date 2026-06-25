@@ -1,7 +1,7 @@
 {
  "slug": "parallels-graph-trio",
- "title": "Parallels-graph trio: the one testable claim fails its own negative control",
- "verdict": "H0",
+ "title": "Parallels-graph trio: commentarial load, relation-type stratigraphy, and coverage cartography",
+ "verdict": "H0 (null wins on the one testable claim). Sub-study (C) is the only evaluable arm, and its lead negative control fails: the PLI-only intra-Pali sub-graph reproduces the same early-over-late coverage ordering the foreign graph shows, so the gradient reads as a SuttaCentral cataloguing-completeness artifact rather than differential cross-tradition transmission. Sub-studies (A) and (B) returned zero rows from a slug-prefix query defect and are untested non-results, not nulls supporting H0-A or H0-B.",
  "analyst": {
   "slug": "parallels-graph-trio",
   "verdict": "H0",
@@ -78,107 +78,93 @@
   {
    "lens": "artifact",
    "holds": true,
-   "verdict": "caveat",
-   "refutation": "The finding survives the artifact lens, but with one mandatory correction to its framing. The decisive question is whether the lead negative control C2 (PLI-only intra-Pali coverage) moved with the C1 foreign signal. It did, unambiguously, on both axes and in the same direction: pli_coverage 0.4025 (1early) > 0.2415 (2late) and pli_edges/Mchar 762.357 > 540.001, mirroring foreign 0.3812 > 0.0620 and 444.882 > 111.332. The protocol pre-registered the falsifier as reproduction of the early>late ORDERING (prediction required the control to be \"roughly flat or reversed\"), and the control is neither flat nor reversed. So H0-C stands by the protocol's own terms; the early>late external-coverage gradient is read as a SuttaCentral cataloguing-completeness artifact, not transmission history. C3 corroborates true-by-construction: the coverage denominator itself thins (SC distinct works 12 to 8; SC rows 4470 to 1420), and C1/C2 share that same shrinking denominator, so the early-vs-late contrast inside each graph is contaminated by cataloguing granularity. lang_breadth is flat 3/3, removing the breadth gradient H1-C needed. The A/B non-results are correctly diagnosed as a filter bug, not real nulls: C4 shows slugs are prefixed pli-dn/pli-an, so the A0/A1/A2/B1/B2 filters work_slug LIKE 'dn%' match nothing. The register control A4 is rightly not surfaced as evidence (NEG_REGISTER 104.718 is not flat vs DHAMMA_EPITHET 3.194, but with A1 empty there is no par_density association to calibrate, so it can neither rescue nor condemn A). WHERE THE ANALYST OVERREACHES: the phrase \"comparable or larger effect size\" papers over a real magnitude asymmetry. The foreign gradient collapses about 6.1x early-to-late on coverage and about 4.0x on density, while the PLI control collapses only about 1.67x on coverage and about 1.41x on density. The control reproduces the ORDERING but at a much shallower gradient than the foreign signal. This asymmetry does NOT rescue H1-C (the protocol falsifies on ordering reproduction, not magnitude equality, and the control was predicted flat), but calling the two gradients \"comparable\" is wrong on the ratio metric and must be corrected to \"same direction, shallower magnitude.\" A separate measurement note: the per-Mchar density numbers use a numerator count of pp.* against a denominator of SUM(DISTINCT char_length) (distinct values, not distinct passages), so absolute density figures are soft; this affects C1 and C2 identically and does not change the control conclusion, but density should not be cited as a precise magnitude. The lead metric (coverage) is clean of this. Verdict: keep H0-C, caveat the \"comparable effect size\" wording and the density-denominator soft spot.",
+   "verdict": "kill",
+   "refutation": "see refutation field",
    "required_caveats": [
-    "H0-C is reported because the lead negative control C2 reproduced the early>late ordering; the prediction required it to be flat or reversed and it was not. The early>late foreign-coverage gradient is consistent with a SuttaCentral cataloguing-completeness artifact and is NOT interpretable as differential cross-tradition transmission.",
-    "The control reproduces the DIRECTION but not the magnitude: foreign coverage collapses about 6.1x early-to-late while the PLI control collapses only about 1.67x (and density 4.0x vs 1.41x). State this as 'same direction, shallower magnitude', not 'comparable effect size'. The shallower control gradient does not rescue H1-C under the protocol falsifier, which triggers on ordering reproduction.",
-    "C3 shows the coverage denominator itself thins toward 2late (SC distinct works 12 to 8; SC rows 4470 to 1420). C1 and C2 share this shrinking denominator, so the early-vs-late contrast inside each graph is confounded by cataloguing granularity by construction.",
-    "stratum() is a work_slug lookup, not independent dating; 'early/late' is a label and any layer disagreement is true by construction and must never be cited as independent chronological evidence.",
-    "Sub-studies (A) and (B) are untested non-results, NOT nulls: A0/A1/A2/B1/B2 returned 0 rows because the filters work_slug LIKE 'dn%'/'mn%'/'sn%'/'an%' do not match the corpus slugs (prefixed pli-dn/pli-an, per C4). No per-collection partial Spearman and no RetellShare exist; H1-A and H1-B remain untested.",
-    "The register control A4 cannot adjudicate (A): NEG_REGISTER (104.718/Mchar) is not flat vs DHAMMA_EPITHET (3.194/Mchar), but with par_density (A1) empty there is no association to calibrate against, so A4 neither rescues nor condemns (A).",
-    "lang_breadth is flat at 3 in both strata, so there is no breadth gradient supporting H1-C.",
-    "Per-Mchar density figures (C1/C2) use a numerator edge count against a SUM(DISTINCT char_length) denominator (distinct length values, not distinct passages); treat absolute density magnitudes as soft. Coverage (the lead metric) is unaffected. The soft denominator applies identically to C1 and C2 and does not change the control conclusion.",
-    "'Parallel' means a catalogued structural edge only (parallel_have=false for non-pli; no foreign text held). Absence of an edge is absence-of-cataloguing, not proven absence-of-parallel.",
-    "COMM_METHOD counts (A3, 99.089/Mchar) are NOT validated as a systematization signal: the pariyaya sense-audit is blocked as delivered (KWIC windows captured only the bare lemma, 189 token-only / 11 null, max 7 chars), so no Cohen kappa exists. Do not treat COMM_METHOD as exegesis until re-pulled with real windows and kappa >= 0.67."
+    "The early>late foreign-coverage gradient (C1) is reproduced by the PLI-only intra-Pali negative control (C2) at equal-or-larger effect size and is therefore a SuttaCentral cataloguing-completeness artifact, NOT differential cross-tradition transmission. The chronology/transmission reading is withdrawn per the pre-registered falsifier.",
+    "stratum is a work_slug lookup, not independent dating; no early/late claim here is chronological evidence. The 2late stratum is one-third the char-mass and distinct-work count of 1early (C3: 12 vs 8 SC works, 259.8M vs 76.5M chars), so its lower coverage denominator is a granularity gap, not an absence of parallels.",
+    "A second pre-registered C-falsifier also triggers: PLI (intra-Pali) coverage EXCEEDS foreign coverage in BOTH strata (0.4025 vs 0.3812 in 1early; 0.2415 vs 0.0620 in 2late). The graph is predominantly intra-Pali, so the cross-tradition-embedding frame is inapplicable and must not be asserted.",
+    "Sub-studies A and B returned zero rows because of a slug-prefix bug (filters use work_slug LIKE 'dn%'/'mn%'/'sn%'/'an%' but corpus slugs are pli-dn/pli-mn/pli-an/pli-sn, with the collection number living in the id column). H1-A and H1-B are UNTESTED, not falsified; they must NOT be reported as null support for H0-A/H0-B. A clean re-run requires fixing the filter (e.g. work_slug LIKE 'pli-dn%' or matching on id) before any A/B claim.",
+    "All per-character density figures in C1/C2 (foreign and PLI edges-per-Mchar: 444.882, 111.332, 762.357, 540.001) use a SUM(DISTINCT char_length) denominator that deduplicates equal-length passages and undercounts character mass non-uniformly across strata. These density numbers are uninterpretable as true per-character rates and must not be cited as magnitudes; only the coverage ratios (count(DISTINCT id) based) are sound.",
+    "The COMM_METHOD count (A3, 99.089/Mchar) cannot be treated as a systematization signal: the pariyaya sense-audit is unrun, and as delivered the CODE_pariyaya_sense_rows KWIC column captured only the bare lemma (no surrounding context), so the polysemy split (exegetical vs discourse-mode) is uncodeable. Re-pull with real .{0,80} windows, blind-code to stratum and work_role, and require Cohen kappa >= 0.67 before any COMM_METHOD interpretation. A3/A4 stay descriptive co-passes regardless.",
+    "Coverage absence is absence-of-cataloguing, not proven absence-of-parallel (parallel_have=false for foreign edges; the graph holds only edge/relation_type/lang, no foreign text). Findings are corpus-linguistic, not doctrinal or historical.",
+    "No em-dashes in deliverable prose. Report the publishable result as a NULL: the coverage gradient is a catalogue-density artifact; A and B are construction-blocked and pending a corrected re-run."
    ]
   },
   {
    "lens": "overread-priorwork",
    "holds": true,
    "verdict": "caveat",
-   "refutation": "The H0 verdict survives my lens, but one load-bearing phrase is overstated and must be fixed. The analyst writes that the lead control C2 reproduces the early>late gradient \"at comparable OR LARGER effect size.\" On the protocol's own metric (the early/late ratio) that is false. Foreign C1: coverage 0.3812/0.0620 = 6.15x, density 444.882/111.332 = 4.00x. PLI control C2: coverage 0.4025/0.2415 = 1.67x, density 762.357/540.001 = 1.41x. The control moves in the SAME DIRECTION but at roughly one-quarter to one-half the relative magnitude, i.e. materially SMALLER, not \"comparable or larger.\" (The \"larger\" claim is true only of ABSOLUTE coverage/density levels in each stratum, not of the early>late effect the falsifier is about.) The protocol falsifier (C) requires the control to reproduce the ordering \"at comparable effect size\"; a defender of H1-C can legitimately argue that ~6x vs ~1.7x is NOT comparable, so the falsifier is not cleanly tripped and the foreign-specific excess (6x net of a 1.7x cataloguing baseline) is the cross-tradition signal. That objection does NOT rescue H1-C, for two reasons the analyst's own evidence supplies and should foreground instead of the effect-size claim: (1) C3 proves the cataloguing-completeness confound is real and operating in the predicted direction here (SC distinct works 12->8, SC rows 4470->1420, denominator thins toward late) and the control moving at all confirms the mechanism is live, so the burden shifts to H1-C to show the residual beats the confound; (2) NO bootstrap CIs were computed anywhere, though the protocol mandates them (\"nothing is read as significant on point estimates alone\"), so the residual-excess argument is an uncosted point estimate and cannot be promoted to a positive finding. So: the right defense of H0-C is \"control moves same-direction, confound demonstrably present, residual not CI-tested\" — NOT \"control reproduces at comparable-or-larger effect size.\" Separately confirmed and clean: every cited number matches _raw.json exactly; magnitudes are per-Mchar/per-passage not raw rows; the A/B nulls are a genuine query bug (real slugs are pli-an/pli-sn/pli-dn/pli-mn; the LIKE 'an%' filters cannot match a pli- prefix) and are correctly labelled untestable non-results, NOT counted as evidence for H0; the early>late external-coverage ordering is itself already-known field structure (the four Nikayas carry dense Chinese/Sanskrit Agama parallels while late Khuddaka/post-canonical works do not), which is consistent with the H0 cataloguing reading rather than a novel transmission discovery. Not a category error: stratum is a work_slug lookup (T1) and the analyst does not cite the layer split as independent chronology; the finding stays corpus-linguistic. No doctrinal over-read.",
+   "refutation": "see above",
    "required_caveats": [
-    "Restate the control result honestly: C2 moves in the SAME DIRECTION as C1 but at SMALLER relative magnitude on the early/late ratio (coverage 1.67x vs 6.15x; density 1.41x vs 4.00x). Do NOT write 'comparable or larger effect size.' The 'larger' is only of absolute per-stratum levels, not of the early>late effect the falsifier tests.",
-    "State the actual basis for H0-C: the negative control moved with the signal at all, which demonstrates the SuttaCentral cataloguing-completeness confound is live and directional in this corpus (corroborated by C3: SC distinct works 12->8, SC rows 4470->1420), so the early>late coverage gradient cannot be cleanly attributed to differential cross-tradition transmission.",
-    "Flag that NO bootstrap CIs were computed despite the protocol requiring them ('nothing is read as significant on point estimates alone'). The foreign-vs-control residual (6x over a 1.7x baseline) is an uncosted point estimate and must NOT be promoted to a positive cross-tradition finding without the CI.",
-    "A and B are UNTESTED non-results due to a query bug, not nulls: real work_slug values are pli-prefixed (pli-an, pli-sn, pli-dn, pli-mn) and the A0/A1/A2/B1/B2 filters use LIKE 'dn%'/'mn%'/'sn%'/'an%', which cannot match. No partial Spearman (A) and no RetellShare (B) exist. These contribute zero evidence either way and must not be read as supporting H0.",
-    "The early>late external-coverage ordering is broadly consistent with already-known SuttaCentral/Akanuma correspondence structure (four main Nikayas carry dense Chinese/Sanskrit Agama parallels; late Khuddaka and post-canonical works do not). Present the result as confirming a cataloguing-completeness reading, not as a novel discovery about transmission history.",
-    "Scope limit restated: stratum() is a work_slug lookup (T1), not independent dating; 'early/late' is a label. Absence of foreign edges is absence-of-cataloguing (parallel_have=false for non-pli), not proven absence-of-parallel. No chronology or transmission-history claim is licensed.",
-    "The COMM_METHOD / pariyaya systematization angle is BLOCKED as delivered: the KWIC column captured only the bare lemma (max 7 chars, 189 lemma + 11 null of 200), so no sense-coding is possible. The A3 COMM_METHOD density (99.089/Mchar) must NOT be cited as a systematization signal until a re-pull with real KWIC windows is sense-coded to Cohen kappa >= 0.67 (coders blind to stratum and work_role)."
+    "Correct the effect-size language: the PLI control C2 reproduces the early>late ORDERING (the pre-registered falsifier condition), but its gradient is SMALLER than the foreign gradient, not comparable-or-larger. Foreign coverage falls 6.15x (0.3812 to 0.0620) and density 4.0x; PLI falls only 1.67x (0.4025 to 0.2415) and density 1.41x. The control's HIGHER ABSOLUTE level in both strata is not effect size and must not be cited as if it were.",
+    "State explicitly that the steeper foreign decline is a real difference-in-differences residual (foreign declines about 1.88 log2 units more than PLI on coverage) and explain why it is NOT a salvageable H1-C transmission signal: no DiD rescue was pre-registered (the falsifier triggers on reproduced ordering alone); foreign parallels require active comparative cataloguing that SuttaCentral documents as incomplete for SN/AN, so the foreign edge type thinning faster where cataloguing is thinner is consistent with the confound; and flat lang_breadth (3/3) removes the axis that could separate thinner transmission from thinner cataloguing.",
+    "Cite the external corroboration as prior, published knowledge, not a novel finding: SuttaCentral states DN/MN parallels are essentially complete while SN/AN cataloguing has much research remaining, so differential cataloguing completeness by collection is the established baseline the C2 control was built to catch (C3 corroborates: SC distinct works 12 to 8, SC rows 4470 to 1420).",
+    "Report A and B as UNTESTED non-results from a query-construction defect (work_slug is prefixed pli-an/pli-dn so the LIKE 'dn%'/'mn%'/'sn%'/'an%' filters returned 0 rows), NOT as nulls supporting H0. No partial Spearman, RetellShare, or A4-vs-par_density correlation exists. A4 raw densities (NEG_REGISTER 104.718, DHAMMA_EPITHET 3.194) cannot adjudicate (A) because A1 is empty, so there is nothing to correlate against.",
+    "State that COMM_METHOD coding is blocked as delivered: the KWIC sample carries only the bare lemma (max 7 chars, 11/200 null) because the SQL substring(... from pattern) returned only the capture group, discarding the .{0,80} context. The A3 figure of 99.089 hits/Mchar must NOT be treated as a systematization signal until the sample is re-pulled with real windows and Cohen kappa >= 0.67 is met (current sample also skews 152 attha / 48 mula and 161/200 strat 5comm, so stratum and work_role blinding are essential).",
+    "Keep the claim corpus-linguistic: early/late is a work_slug lookup label, not independent dating, and the gradient is reported as cataloguing-completeness density, never as transmission chronology or a doctrinal verdict. Magnitudes are per-character (edges per Mchar) alongside coverage shares."
    ]
   }
  ],
  "page_spec": {
-  "abstract": "This study bundled three structural readings of the SuttaCentral parallels graph over the Pali mula canon: (A) commentarial load vs foreign-parallel density, (B) retelling-share ordering across collections, and (C) early-vs-late external-parallel coverage, gated by a strict intra-Pali negative control. Only (C) returned evaluable numbers; (A) and (B) returned zero rows from a slug-prefix filter mismatch and are untested non-results, not nulls. On (C) the raw early-over-late ordering is present and large (foreign coverage 0.3812 early vs 0.0620 late; foreign edges/Mchar 444.882 vs 111.332). But the pre-registered lead negative control, the PLI-only intra-Pali sub-graph, reproduces the same early-over-late ordering on both axes (pli coverage 0.4025 vs 0.2415; pli edges/Mchar 762.357 vs 540.001). The protocol pre-committed to falsifying (C) if the control reproduced the ordering. It did. H0-C is reported: the gradient is consistent with SuttaCentral cataloguing completeness, not differential cross-tradition transmission.",
+  "abstract": "Three structural questions over the SuttaCentral parallels graph were bundled into one study. Only sub-study (C), the early-versus-late coverage cartography, is evaluable. Its raw signal is large and in the predicted direction (foreign coverage 0.3812 early vs 0.0620 late), but the pre-registered lead negative control (the PLI-only intra-Pali sub-graph) reproduces the same early-over-late ordering (0.4025 vs 0.2415). The protocol fixed in advance that this falsifies the cross-tradition reading, so the null is reported: the gradient is consistent with a SuttaCentral cataloguing-completeness artifact, not differential transmission. Sub-studies (A) and (B) returned zero rows from a slug-prefix query defect and are untested non-results, not nulls.",
   "sections": [
    {
     "heading": "The question and why it is a fair test",
     "paragraphs": [
-     "The house thesis reads the early canon as more deeply embedded in the cross-tradition transmission web than the late canon, predicting higher external-parallel coverage in the early stratum. The obvious confound is that SuttaCentral is a catalogue: if it maps the four main Nikayas in fine per-sutta detail while mapping late material coarsely, an early-over-late coverage gradient appears for purely bibliographic reasons, with no transmission claim at all.",
-     "The protocol handled this by pre-registering a negative control before any number was seen. Sub-study (C) asks both whether foreign coverage runs early over late and, decisively, whether that same ordering appears in the intra-Pali (PLI-only) sub-graph, where no cross-tradition transmission is involved and any gradient must be a cataloguing pattern. The pre-registered falsifier: (C) is falsified if the PLI-only control reproduces the early-over-late ordering, in which case H0-C is reported and the chronology reading is withdrawn. The control was predicted to stay flat or reverse. Whether it stayed flat was named the load-bearing measured quantity deciding H1-C vs H0-C.",
-     "Two scope rules sit under every number. The stratum label is a work_slug lookup, not independent dating, so early-vs-late is a label and never independent chronological evidence. And a parallel here is a catalogued structural edge, not held foreign text (parallel_have is false for non-pli), so an absent edge is absence of cataloguing, not proven absence of a parallel."
+     "The house thesis is that the canon is supple while the commentary systematizes, and that heavily glossed suttas are also the most embedded in the cross-tradition parallel web. Each arm was given a pre-committed null and at least one negative control, so a positive reading could only stand if its control stayed flat.",
+     "Sub-study (C) was built to be decisive. Coverage, density, breadth, and relation-mix were measured per stratum on the foreign graph, then the same measurement was re-run on the intra-Pali graph as a control. If the early canon truly transmits across traditions more, the gradient should live in the foreign edges and not in the purely internal Pali edges. If both graphs thin together toward the late stratum, the economical explanation is incomplete cataloguing of the late material, and the gradient says nothing about transmission."
     ]
    },
    {
-    "heading": "What the canon shows",
+    "heading": "What the canon shows (sub-study C)",
     "paragraphs": [
-     "On the foreign graph (C1) the raw ordering the house thesis predicted is present and large. The early stratum covers 4470 mula passages, 1704 carrying at least one foreign edge, for foreign coverage 0.3812. The late stratum covers 1420 passages, 88 with a foreign edge, for coverage 0.0620. Foreign edge density runs 444.882 per Mchar early against 111.332 late. Coverage collapses about 6.1x early-to-late, density about 4.0x.",
-     "Two supporting measures give the house thesis nothing further. Language breadth is flat at 3 distinct foreign languages in both strata, so there is no breadth gradient. The per-Mchar density figures are soft magnitudes: the density denominator is SUM of distinct char_length, not a distinct-passage sum, so absolute density is approximate. This soft denominator applies identically to the foreign graph and the control, so it does not affect the comparison that matters; coverage, the lead metric, is unaffected."
+     "On the foreign graph the early-over-late ordering is present and large. Early coverage is 0.3812 (1704 of 4470 mula passages carry a foreign edge); late coverage is 0.0620 (88 of 1420). Foreign density is 444.882 edges per Mchar early against 111.332 late, roughly sixfold on coverage and fourfold on density.",
+     "Two measured quantities weaken the transmission reading before the control is consulted. Language breadth is flat at 3 in both strata, giving no breadth gradient to corroborate transmission. And the coverage denominator itself thins toward the late stratum: distinct SuttaCentral works fall from 12 to 8 and rows from 4470 to 1420, the exact cataloguing-density confound the control was built to catch."
     ]
    },
    {
-    "heading": "The falsifiable core and the negative-control result",
+    "heading": "The negative-control result (the falsifiable core)",
     "paragraphs": [
-     "The decisive question is whether the PLI-only control (C2) stayed flat. It did not. The intra-Pali sub-graph reproduces the identical early-over-late direction on both axes. PLI coverage runs 0.4025 early (1799 of 4470) against 0.2415 late (343 of 1420). PLI edge density runs 762.357 per Mchar early against 540.001 late. The control is neither flat nor reversed; it carries the same direction as the foreign signal, at higher absolute coverage and density in both strata.",
-     "The honest reading of magnitudes is same direction, shallower gradient. The foreign graph collapses about 6.1x on coverage and 4.0x on density; the control collapses about 1.67x and 1.41x. This is not a rescue: the pre-registered falsifier triggers on reproduction of the ordering, which is unambiguous, not on equality of magnitude. The result should be described as the control reproducing the direction at shallower magnitude, not as comparable effect size; the higher control numbers are higher only in absolute per-stratum level, not in the early-over-late effect the falsifier tests.",
-     "The granularity bound (C3) corroborates the cataloguing reading and shows the confound operating in the predicted direction. SuttaCentral distinct works fall from 12 early to 8 late, and SC rows fall from 4470 to 1420. The coverage denominator itself thins toward the late stratum, the exact cataloguing-density confound the control was built to catch. The foreign graph and the control share that same shrinking denominator, so the early-vs-late contrast inside each graph is confounded by cataloguing granularity by construction.",
-     "The residual foreign excess (roughly 6x over a 1.67x cataloguing baseline) is not promoted to a positive signal for two reasons. The cataloguing confound is demonstrably live and directional (C3), so any residual must beat it. And no bootstrap confidence intervals were computed anywhere, although the density method states nothing is read as significant on point estimates alone; the residual-excess argument is an uncosted point estimate."
-    ]
-   },
-   {
-    "heading": "Sub-studies (A) and (B): untested non-results, not nulls",
-    "paragraphs": [
-     "Sub-studies (A) and (B) cannot be adjudicated. The unit tables A0, A1, A2 and the RetellShare passes B1 and B2 all returned zero rows. The cause is a query-filter mismatch, not an empty corpus. Those queries filter on work_slug LIKE 'dn%','mn%','sn%','an%', but the corpus slugs are prefixed pli-, so the real values are pli-dn, pli-mn, pli-sn, pli-an. The C4 follow-up rows confirm this directly: every flagged mula row carries a work_slug such as pli-an. The LIKE 'an%' filter cannot match a pli- prefix.",
-     "Because of this, no per-collection partial Spearman exists for (A) and no RetellShare exists for (B). H1-A and H1-B are untested and contribute zero evidence either way; they must not be read as support for the null.",
-     "The register control A4 cannot rescue or condemn (A). Its raw mula densities are not flat: NEG_REGISTER 104.718 hits/Mchar, COMM_METHOD (attha) 99.089, DHAMMA_EPITHET 3.194. But the control only means something against a par_density association to calibrate, and A1 returned zero rows, so there is nothing to calibrate against.",
-     "The COMM_METHOD systematization angle is separately blocked as delivered. The pariyaya sense-audit needs surrounding context for blind coders to split the polysemous lemma into exegetical-method vs discourse-mode senses. The KWIC column captured only the bare lemma: 189 of 200 rows hold the token alone, 11 are null, longest window 7 chars. No sense judgement is possible, so no Cohen kappa exists. The A3 COMM_METHOD density (99.089 per Mchar) must not be treated as an exegesis signal until re-pulled with real KWIC windows and sense-coded to kappa at least 0.67, coders blind to stratum and work_role."
+     "The pre-registered decisive falsifier was that sub-study (C) fails if the PLI-only control reproduces the early-over-late ordering. It does. Intra-Pali coverage is 0.4025 early (1799 of 4470) against 0.2415 late (343 of 1420), and intra-Pali density is 762.357 edges per Mchar early against 540.001 late. The control did not stay flat; it moves in the same direction as the foreign signal in both strata.",
+     "The control is also higher in absolute level than the foreign graph in both strata (0.4025 over 0.3812 early; 0.2415 over 0.0620 late), tripping a second pre-registered falsifier: the graph is predominantly intra-Pali, so the cross-tradition-embedding frame is inapplicable. Absolute level is not effect size. The foreign decline is steeper (about 6.15x vs 1.67x on coverage), but that residual is not a rescue: no difference-in-differences salvage was pre-registered, the breadth axis is flat at 3 in both strata, and SuttaCentral documents its late-collection comparative cataloguing as incomplete. The pre-committed null H0-C stands.",
+     "Note on magnitudes: the edges-per-Mchar figures use a sum-of-distinct-char-length denominator that deduplicates equal-length passages unevenly across strata, so they are coarse magnitudes only. The coverage ratios, built on distinct-id counts, are the sound numbers."
     ],
     "table": {
-     "caption": "Sub-study (C): foreign graph vs PLI-only negative control, by stratum",
+     "caption": "Sub-study (C): foreign graph vs its PLI-only intra-Pali negative control, mula layer. Both arms carry the early-over-late ordering, so the falsifier triggers.",
      "columns": [
-      "Measure",
-      "1early",
-      "2late",
-      "early-to-late ratio"
+      "Quantity (mula layer)",
+      "Early (1early)",
+      "Late (2late)",
+      "Early/late ratio"
      ],
      "rows": [
       [
        "Foreign coverage (C1)",
        "0.3812 (1704/4470)",
        "0.0620 (88/1420)",
-       "about 6.1x"
+       "about 6.15x"
       ],
       [
        "Foreign edges per Mchar (C1)",
        "444.882",
        "111.332",
-       "about 4.0x"
+       "about 4.00x"
       ],
       [
-       "PLI coverage (C2 control)",
+       "PLI coverage, control (C2)",
        "0.4025 (1799/4470)",
        "0.2415 (343/1420)",
        "about 1.67x"
       ],
       [
-       "PLI edges per Mchar (C2 control)",
+       "PLI edges per Mchar, control (C2)",
        "762.357",
        "540.001",
        "about 1.41x"
       ],
       [
-       "Language breadth (C1)",
+       "Foreign language breadth (C1)",
        "3",
        "3",
        "flat"
@@ -187,45 +173,48 @@
        "SC distinct works (C3)",
        "12",
        "8",
-       "thins"
+       "denominator thins"
       ],
       [
        "SC rows (C3)",
        "4470",
        "1420",
-       "thins"
+       "denominator thins"
       ]
      ]
     }
    },
    {
-    "heading": "What it means and what it does not",
+    "heading": "Sub-studies A and B: untested, not null",
     "paragraphs": [
-     "The one testable claim in this trio is sub-study (C), and on its own pre-registered terms it fails. The early-over-late external-coverage gradient is real in the raw foreign graph, but the negative control reproduces the same ordering on the intra-Pali sub-graph, and the granularity bound shows the coverage denominator thinning toward the late stratum exactly as a cataloguing-completeness pattern would predict. Per the protocol falsifier, H0-C is reported: the gradient is consistent with SuttaCentral cataloguing completeness and is not interpretable as differential cross-tradition transmission.",
-     "What this does not say. It does not claim the early canon was transmitted less or more than the late canon; the design cannot reach transmission history, and the stratum split is a label. It does not claim there are no foreign parallels in the late canon; an absent edge is an absent catalogue entry. It does not refute the house thesis broadly, because two of its three legs were never tested. The early-over-late ordering is broadly consistent with already-known SuttaCentral correspondence structure, where the four main Nikayas carry dense Agama parallels and late works do not, supporting a cataloguing reading rather than a new discovery. The finding is corpus-linguistic throughout: a statement about catalogue structure and edge density, not a doctrinal or historical verdict."
+     "The unit tables A0, A1, A2, B1, and B2 all returned 0 rows. The cause is a query-construction defect: the filters matched work_slug LIKE 'dn%'/'mn%'/'sn%'/'an%', but the corpus stores these collections under prefixed slugs such as pli-an and pli-sn, with the collection number in the id column (for example id an10.105 under work_slug pli-an). The C4 follow-up rows confirm this with 2798 rows under slugs like pli-an. No per-collection partial Spearman (A) and no RetellShare (B) were ever computed.",
+     "These arms are untested and must not be read as nulls for H0-A or H0-B. A clean re-run requires fixing the filter (match pli-dn% and the rest, or match on the id column) first.",
+     "The descriptive co-passes cannot rescue or condemn (A). The register control A4 is not flat in raw mula density (NEG_REGISTER 104.718 hits per Mchar, DHAMMA_EPITHET 3.194, COMM_METHOD in attha 99.089), but with par_density never computed there is no association to calibrate. The COMM_METHOD count cannot be a systematization signal because the pariyaya sense-audit is uncodeable as delivered: the KWIC column captured only the bare lemma (189 of 200 rows the token, 11 null), with no surrounding context. Re-pull with real windows, blind-code to stratum and work_role, and require Cohen kappa at or above 0.67 before any COMM_METHOD interpretation."
+    ]
+   },
+   {
+    "heading": "What it means and what it does NOT",
+    "paragraphs": [
+     "Narrowly: on this corpus the early-versus-late external-coverage gradient is not interpretable as differential cross-tradition transmission, because its own intra-Pali control carries the same ordering. The cleanest reading is differential SuttaCentral cataloguing completeness by collection, corroborated by the thinning denominators in the late stratum.",
+     "It is not a chronological or transmission-history finding. Stratum is a work_slug lookup, not independent dating, so an early-versus-late disagreement is true by construction and never independent evidence. It is not a claim that the late canon has fewer real parallels, only fewer catalogued ones; an absent edge is absent cataloguing, not proven absent parallel, and the graph holds only edges, relation types, and languages, with no foreign text to verify. It is not a doctrinal verdict, and it says nothing for or against the house thesis in (A) and (B), which were never tested."
     ]
    },
    {
     "heading": "Auditability",
     "paragraphs": [
-     "Every count re-derives from the two committed artifacts. The protocol enumeration SQL and the negative-control register live in _protocol.json. The result rows live in _raw.json: C1 at C1_coverage_cartography_by_stratum, C2 at C2_NEGCONTROL_pli_only_coverage, C3 at C3_sc_mapping_completeness_bound, the empty A0/A1/A2/B1/B2 blocks at rowcount 0, A3 and A4 at their density blocks, the C4 rows exposing the pli- slug prefix, and the 200-row pariyaya sample whose kwic column shows the bare-lemma capture. The early-to-late ratios are arithmetic on the C1 and C2 point estimates and round as stated. No number is computed outside those two files, and no bootstrap interval is claimed because none was computed."
+     "Every count re-derives from two committed artifacts. Hypotheses, frozen lexica, the twelve enumeration queries, the negative controls, and the pre-registered falsifiers are in _protocol.json. Result rows are in _raw.json: C1 coverage and density, C2 control, C3 granularity bound, A3 COMM_METHOD density and A4 register densities, the empty A0/A1/A2/B1/B2 tables (rowcount 0), the 2798 C4 rows exposing the slug prefix, and the 200 pariyaya audit rows whose KWIC field shows the bare-lemma defect. Frozen denominators: mula 53.543921 Mchar, attha 29.488533 Mchar."
     ]
    }
   ],
-  "verdict": "H0. On the single evaluable claim, the early-over-late external-coverage gradient is reproduced by its own pre-registered negative control (C2: pli coverage 0.4025 early vs 0.2415 late; pli edges/Mchar 762.357 vs 540.001) and tracks a thinning cataloguing denominator (C3: SC distinct works 12 to 8, SC rows 4470 to 1420), so the pre-committed null wins and the gradient is not read as transmission history. Sub-studies (A) and (B) are untested non-results from a slug-prefix filter bug (work_slug is pli-dn/pli-an, not dn/an) and support neither hypothesis.",
+  "verdict": "H0. The one testable claim, sub-study (C), is falsified by its own pre-registered negative control, so the pre-committed null wins. Sub-studies (A) and (B) are construction-blocked untested non-results pending a corrected re-run.",
   "scope_limits": [
-   "H0-C is reported because the lead negative control C2 reproduced the early-over-late ordering; the prediction required it to be flat or reversed and it was not. The gradient is consistent with a SuttaCentral cataloguing-completeness pattern and is NOT interpretable as differential cross-tradition transmission.",
-   "The control reproduces the direction but not the magnitude: foreign coverage collapses about 6.1x early-to-late while the PLI control collapses only about 1.67x (density 4.0x vs 1.41x). State this as same direction, shallower magnitude, not comparable effect size. The shallower control gradient does not rescue H1-C, which falsifies on ordering reproduction.",
-   "C3 shows the coverage denominator itself thins toward 2late (SC distinct works 12 to 8; SC rows 4470 to 1420). C1 and C2 share this shrinking denominator, so the early-vs-late contrast inside each graph is confounded by cataloguing granularity by construction.",
-   "stratum() is a work_slug lookup, not independent dating; early/late is a label and any layer disagreement is true by construction and is never independent chronological evidence.",
-   "Sub-studies (A) and (B) are untested non-results, NOT nulls: A0/A1/A2/B1/B2 returned 0 rows because the filters work_slug LIKE 'dn%'/'mn%'/'sn%'/'an%' do not match the corpus slugs (prefixed pli-dn/pli-an, per C4). No per-collection partial Spearman and no RetellShare exist; H1-A and H1-B remain untested and add zero evidence either way.",
-   "The register control A4 cannot adjudicate (A): NEG_REGISTER (104.718/Mchar) is not flat vs DHAMMA_EPITHET (3.194/Mchar), but with par_density (A1) empty there is no association to calibrate against, so A4 neither rescues nor condemns (A).",
-   "lang_breadth is flat at 3 in both strata, so there is no breadth gradient supporting H1-C.",
-   "No bootstrap CIs were computed anywhere, although the density method requires that nothing is read as significant on point estimates alone. The foreign-vs-control residual is an uncosted point estimate and is not promoted to a positive cross-tradition finding.",
-   "Per-Mchar density figures (C1/C2) use an edge-count numerator against a SUM(DISTINCT char_length) denominator (distinct length values, not distinct passages); treat absolute density magnitudes as soft. Coverage, the lead metric, is unaffected. The soft denominator applies identically to C1 and C2 and does not change the control conclusion.",
-   "Parallel means a catalogued structural edge only (parallel_have=false for non-pli; no foreign text held). Absence of an edge is absence-of-cataloguing, not proven absence-of-parallel; coverage is bounded by SuttaCentral mapping completeness.",
-   "COMM_METHOD counts (A3, 99.089/Mchar) are NOT validated as a systematization signal: the pariyaya sense-audit is blocked as delivered (KWIC captured only the bare lemma, 189 token-only / 11 null of 200, max 7 chars), so no Cohen kappa exists. Do not treat COMM_METHOD as exegesis until re-pulled with real windows and sense-coded to kappa at least 0.67, coders blind to stratum and work_role.",
-   "The early-over-late external-coverage ordering is broadly consistent with already-known SuttaCentral correspondence structure (four main Nikayas carry dense Agama parallels; late and post-canonical works do not). Present the result as confirming a cataloguing-completeness reading, not as a novel discovery about transmission history."
+   "Cannot establish chronology or transmission history: stratum() is a work_slug lookup, not independent dating; early/late is a label and any layer disagreement is true by construction, never independent evidence.",
+   "The early-over-late foreign-coverage gradient is reproduced by the PLI-only intra-Pali control at the same ordering, so it is read as a SuttaCentral cataloguing-completeness artifact, not differential transmission. The transmission reading is withdrawn per the pre-registered falsifier.",
+   "A second pre-registered falsifier also triggers: PLI coverage exceeds foreign coverage in both strata (0.4025 vs 0.3812 early; 0.2415 vs 0.0620 late). The graph is predominantly intra-Pali, so the cross-tradition-embedding frame is inapplicable.",
+   "Sub-studies (A) and (B) returned zero rows from a slug-prefix defect (filters used LIKE 'dn%'/'mn%'/'sn%'/'an%' but corpus slugs are pli-dn/pli-mn/pli-sn/pli-an, with the collection number in the id column). H1-A and H1-B are UNTESTED, not nulls; a corrected re-run is required before any A/B claim.",
+   "The edges-per-Mchar density figures (444.882, 111.332, 762.357, 540.001) use a SUM(DISTINCT char_length) denominator that deduplicates equal-length passages unevenly across strata; treat as coarse magnitudes only. The coverage ratios (distinct-id counts) are the sound numbers.",
+   "The COMM_METHOD count (A3, 99.089 per Mchar) is not a systematization signal: the pariyaya sense-audit is uncodeable as delivered (KWIC captured only the bare lemma, 11 of 200 null). Re-pull with real context windows, blind-code to stratum and work_role, and require Cohen kappa at or above 0.67 before interpretation. A3/A4 remain descriptive co-passes.",
+   "Coverage absence is absence-of-cataloguing, not proven absence-of-parallel; the graph holds only edges, relation types, and languages, no foreign text. Findings are corpus-linguistic, never doctrinal or historical."
   ],
   "citations": [
    "_protocol.json",
@@ -234,14 +223,20 @@
    "C2_NEGCONTROL_pli_only_coverage",
    "C3_sc_mapping_completeness_bound",
    "C4_coverage_label_disagreement_rows",
+   "A3_comm_method_density_attha",
+   "A4_neg_register_density_mula",
    "A0_root_universe_per_sutta",
    "A1_par_density_per_root",
    "A2_comm_load_per_root",
-   "A3_comm_method_density_attha",
-   "A4_neg_register_density_mula",
    "B1_retellshare_by_collection",
    "B2_retellshare_length_control_bins",
-   "CODE_pariyaya_sense_rows"
+   "CODE_pariyaya_sense_rows",
+   "pli-an",
+   "pli-sn",
+   "an10.105",
+   "dn16",
+   "mn1",
+   "sn56.11"
   ]
  },
  "iaa": null
