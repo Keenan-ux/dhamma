@@ -1,0 +1,202 @@
+{
+ "meta": {
+  "title": "The Commentarial Register",
+  "subtitle": "Canon-versus-commentary density across nine doctrinal terms on the deduped per-character measure, with a withdrawn gradient method and a counted predicative-not-self counter-result",
+  "generated": "2026-06-25",
+  "corpus_snapshot": "194,710 passages",
+  "version": "1.0",
+  "note": "Consolidated study (the salvage of the 2026-06-24 expansion campaign). Deduped per-character densities; counts re-derive from the committed pipeline (research/EXPANSION-CORRECTED-DENSITY-2026-06-25.json + each probe _raw.json). Every corpus citation resolves in the reader."
+ },
+ "page_spec": {
+  "abstract": "Nine doctrinal and philological terms were probed for canon-versus-commentary divergence in the held Pāli corpus, measured on the deduped per-character density (occurrences per million characters, canon deduplicated via is_primary so the denominators are apples-to-apples). The scholastic (mātikā, paramattha, cetasika), realist (sabhāva), and supernatural-display (iddhi, pāṭihāriya) vocabularies concentrate in the commentary. sabhāva leads the program at roughly 55x commentary-denser and intensifies further into the ṭīkā. abhiññā is the near-even exception. The maxim sabbe dhammā anattā runs canon-denser (1.57x), and the predicative not-self construction dominates existential denial in the early canon by roughly 60-to-1 to 87-to-1, the first counted measurement of a dominance Collins and Wynne asserted qualitatively. The campaign's central method result is a null: the gradient (term-specific hardening) question cannot be answered with the co-occurrence-ratio instrument, because a verbosity and definitional-register confound lifts every term and every negative control together. The gradient method is withdrawn; only the gross deduped per-character density is reliable. A program-wide denominator correction (un-deduped 52.3 Mchar to deduped 25.74 Mchar for mūla) raises canon density and makes the counter-results more conservative against the house direction. Findings are about word distribution and register only, never doctrinal verdicts.",
+  "density_table": {
+   "caption": "Deduped per-character density (occurrences per million characters). Canon deduplicated via is_primary; commentary single-edition. Ratio = canon-per-Mc / commentary-per-Mc; >1 canon-denser (counter), <1 commentary-denser (house). Deduped denominators (Mchar): mūla 25.74, aṭṭhakathā 30.69, ṭīkā 28.36, commentary 59.05.",
+   "columns": [
+    "Term",
+    "Canon /Mc",
+    "Comm. /Mc",
+    "Ratio",
+    "Direction"
+   ],
+   "rows": [
+    [
+     "sabhāva",
+     "1.748",
+     "95.06",
+     "0.018",
+     "HOUSE (~55x comm; strongest in program; intensifies into ṭīkā)"
+    ],
+    [
+     "paramattha",
+     "2.331",
+     "21.88",
+     "0.107",
+     "HOUSE (~9.3x comm)"
+    ],
+    [
+     "mātikā",
+     "2.914",
+     "22.29",
+     "0.131",
+     "HOUSE (~7.6x comm)"
+    ],
+    [
+     "cetasika",
+     "9.131",
+     "18.02",
+     "0.507",
+     "HOUSE (~2x comm)"
+    ],
+    [
+     "iddhi",
+     "48.92",
+     "155.79",
+     "0.314",
+     "HOUSE (~3.2x comm)"
+    ],
+    [
+     "pāṭihāriya",
+     "1.865",
+     "9.314",
+     "0.20",
+     "HOUSE (~5x comm)"
+    ],
+    [
+     "abhiññā",
+     "26.42",
+     "30.47",
+     "0.867",
+     "WEAK / near-even (not a house result)"
+    ],
+    [
+     "sabbe dhammā anattā (maxim)",
+     "0.933",
+     "0.593",
+     "1.573",
+     "COUNTER (canon-denser; only canon-denser anattā-cluster lexeme)"
+    ],
+    [
+     "anattā (bare stem)",
+     "21.60",
+     "188.2",
+     "0.115",
+     "HOUSE (commentary discusses anattā far more)"
+    ],
+    [
+     "natthi attā (existential denial)",
+     "0.117",
+     "1.05",
+     "0.111",
+     "HOUSE; rare everywhere (3 deduped mūla hits)"
+    ]
+   ]
+  },
+  "sections": [
+   {
+    "heading": "What was asked",
+    "paragraphs": [
+     "Nine doctrinal and philological terms were probed for canon-versus-commentary divergence on the deduped per-character measure: the scholastic vocabulary (mātikā, paramattha, cetasika), the realist term sabhāva, the supernatural-display pair (iddhi, pāṭihāriya), the higher-knowledge term abhiññā, and the not-self cluster (the maxim sabbe dhammā anattā, the bare stem anattā, the existential denial natthi attā).",
+     "A second question asked whether the technical gloss hardens as a gradient across strata (mūla, aṭṭhakathā, ṭīkā). The measure throughout is gross deduped per-character density: occurrences per million characters, with the canon deduplicated via is_primary so canon and commentary denominators are apples-to-apples. Ratio above 1 is canon-denser (a counter-result); ratio below 1 is commentary-denser (a house result)."
+    ]
+   },
+   {
+    "heading": "Headline results: the house cluster",
+    "paragraphs": [
+     "The scholastic, realist, and supernatural-display vocabularies concentrate in the commentary. sabhāva leads the entire program at 1.748 per Mc in the canon against 95.06 per Mc in the commentary (ratio 0.018), roughly 55 times denser in the commentary. It is the strongest divergence the program has measured.",
+     "The raw deduped counts for sabhāva are mūla 45, aṭṭhakathā 1632, ṭīkā 3981. The ṭīkā count exceeds the aṭṭhakathā count, so the term intensifies further into the sub-commentary rather than plateauing at the first commentarial layer.",
+     "The rest of the house cluster follows the same direction at smaller magnitudes: paramattha (~9.3x), mātikā (~7.6x), cetasika (~2x), iddhi (~3.2x), pāṭihāriya (~5x). abhiññā is the near-even exception at ratio 0.867 (roughly 1.15x), reported as weak and effectively no divergence, not as a house result."
+    ]
+   },
+   {
+    "heading": "The counter-result: the maxim runs canon-denser",
+    "paragraphs": [
+     "The maxim sabbe dhammā anattā runs canon-denser: 0.933 per Mc in the canon against 0.593 per Mc in the commentary (ratio 1.573). Raw deduped counts are mūla 24, aṭṭhakathā 21, ṭīkā 14. It is the only lexeme in the not-self cluster that runs canon-denser. The bare stem anattā is commentary-denser (ratio 0.115) and natthi attā is commentary-denser and rare everywhere (ratio 0.111, only 3 deduped mūla hits). The commentary discusses anattā far more in aggregate, but the canon states the specific universal maxim at higher density.",
+     "This echoes the earlier come-and-see counter-result: a short canonical formula concentrates on the canon side while the surrounding technical apparatus concentrates on the commentary side. The dedup correction strengthens this finding rather than threatening it, because deduplication raises canon density.",
+     "The predicative not-self constructions dominate existential denial in the early canon. From the anattā-study census, the predicative forms (the n'etaṃ mama / n'eso'hamasmi / na me so attā triad, plus the khandha-applied X anattā) outnumber existential denial by roughly 60-to-1 to 87-to-1. This is reported as raw counts (predicative roughly 60 to 87, existential roughly 1), not as a per-Mchar multiplier, because the existential denominator is n=1 and a ratio would overstate precision. This is the first counted measurement of the predicative dominance Collins and Wynne asserted qualitatively. Existential attā in the canon is overwhelmingly eternalist debate and quotation register (the sassato attā ca loko ca formula, the MN2 and MN102 view-catalogues), not endorsed denial."
+    ],
+    "table": {
+     "caption": "Predicative not-self versus existential denial in the early canon, raw counts (small-n; not a per-Mchar multiplier because existential n=1 in the denominator).",
+     "columns": [
+      "Construction",
+      "Raw count (approx.)"
+     ],
+     "rows": [
+      [
+       "Predicative not-self (n'etaṃ mama / n'eso'hamasmi / na me so attā triad + khandha-applied X anattā)",
+       "~60 to 87"
+      ],
+      [
+       "Existential denial (natthi attā)",
+       "~1"
+      ]
+     ]
+    }
+   },
+   {
+    "heading": "The meta-finding: the gradient method is withdrawn",
+    "paragraphs": [
+     "The gradient question (does the technical gloss harden term-by-term across strata) returns null almost everywhere. The reason is methodological and is the campaign's central method result. The co-occurrence-ratio instrument cannot isolate term-specific hardening: a verbosity and definitional-register confound lifts every term at once and moves every negative control in step with the signal. pīti moves like vitakka. bhikkhu moves like sati.",
+     "When the controls track the targets, the instrument is measuring register density, not term-specific semantic hardening. The gradient method is therefore withdrawn for this question. Only the gross deduped per-character density is reliable, and that is the measure used for every number reported."
+    ]
+   },
+   {
+    "heading": "The sati null",
+    "paragraphs": [
+     "The proposed memory-to-mindfulness drift for sati is translator idiolect, not a sati-specific shift. The bhikkhu control moves the same old-edition / new-edition way as sati, so whatever is moving moves across unrelated vocabulary, which is the signature of translator idiolect rather than a term-specific change. Coder agreement on the relevant coding was κ 0.90. Reported as a null."
+    ]
+   },
+   {
+    "heading": "Methods note: the dedup correction",
+    "paragraphs": [
+     "The canon is double-ingested: the corpus holds both SuttaCentral and Chaṭṭha-Saṅgāyana editions. Un-deduped mūla is 52.3 Mchar; deduped via is_primary it is 25.74 Mchar. The commentary is single-edition at 30.69 Mchar either way. The deduped denominators used throughout are mūla 25.74, aṭṭhakathā 30.69, ṭīkā 28.36, commentary 59.05 Mchar.",
+     "The program's prior denominator (mūla roughly 53.5M) was the un-deduped total. It understated canon density and overstated house ratios. sabhāva read 98x un-deduped against 55x corrected. All reported numbers are the corrected deduped apples-to-apples densities. This corrects a program-wide convention. Because deduplication raises canon density, the correction makes the come-and-see and maxim counter-results more conservative against the house direction, so it strengthens rather than threatens the prior counter-findings.",
+     "Every count re-derives from the committed pipeline (git bf3078e): research/EXPANSION-DISCOVERY-2026-06-24.json, research/EXPANSION-CORRECTED-DENSITY-2026-06-25.json, and each probe's research/<slug>/_raw.json and _protocol.json."
+    ]
+   },
+   {
+    "heading": "theravāda is an edition artifact, not a result",
+    "paragraphs": [
+     "theravāda is not reported as a counter-finding. Its apparent canon-tilt is an edition and homograph artifact. The 377 un-deduped theravāda mūla hits are dominated by the editorial section-title Theravāda Vinaya prepended to Vinaya passages (ids of the pli-tv-bi-vb-* form), not by in-text self-designation. The thera-alone elder-register control runs the opposite way, commentary-denser. theravāda appears here only as a worked example of an edition artifact the method must guard against."
+    ]
+   },
+   {
+    "heading": "Sense caveats",
+    "paragraphs": [
+     "Two blind sense-codings failed and are disclosed plainly. sabhāva density is stem density: the own-nature sense dominates, but the adverbial naturally sense is not separable (blind sense-coding κ = -0.08). The abhiññā wide-versus-narrow split also failed (κ = -0.14), and abhiññā is near-even regardless."
+    ]
+   }
+  ],
+  "scope_limits": [
+   "Deduped per-character density only.",
+   "Stem not sense-resolved where coding failed (sabhāva κ=-0.08; abhiññā κ=-0.14).",
+   "Stratum is a work_slug lookup: a register seam in the held corpus, not dated semantic change.",
+   "No foreign-language parallel text.",
+   "Theravāda artifact: the held canon is a Theravāda corpus; findings describe this corpus, not Buddhism broadly.",
+   "The gradient (term-specific hardening) method is withdrawn; the co-occurrence-ratio instrument confounds term signal with definitional register.",
+   "Predicative-versus-existential dominance is reported as raw counts (small-n), not as a per-Mchar multiplier.",
+   "Findings are corpus-linguistic (word distribution and register) only, never doctrinal verdicts."
+  ],
+  "citations": [
+   {
+    "id": "git-bf3078e",
+    "note": "Committed pipeline: research/EXPANSION-DISCOVERY-2026-06-24.json, research/EXPANSION-CORRECTED-DENSITY-2026-06-25.json, and per-probe research/<slug>/_raw.json + _protocol.json. Every count re-derives from this commit."
+   },
+   {
+    "id": "MN2",
+    "note": "Existential attā in the canon appears in eternalist view-catalogue register (sassato attā ca loko ca), not endorsed denial."
+   },
+   {
+    "id": "MN102",
+    "note": "View-catalogue register example for existential attā as quoted/debated position rather than asserted denial."
+   },
+   {
+    "id": "Collins",
+    "note": "Asserted qualitatively that the predicative not-self construction predominates over existential denial in the early canon; now counted (raw ~60-87 to ~1)."
+   },
+   {
+    "id": "Wynne",
+    "note": "Same qualitative claim of predicative dominance over existential denial; this study supplies the first count."
+   }
+  ]
+ }
+}

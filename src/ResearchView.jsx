@@ -56,6 +56,12 @@ const RESEARCH_ENTRIES = [
     subtitle: 'A canon-versus-commentary study of the Dhamma’s invitational register, and how selective the later systematization turns out to be.',
     data: '/research/come-and-see.json',
   },
+  {
+    slug: 'commentarial-register',
+    title: 'The Commentarial Register',
+    subtitle: 'Canon-versus-commentary density across nine doctrinal terms on the deduped per-character measure: a flagship divergence (sabhāva), a canon-denser not-self counter, and a withdrawn gradient method.',
+    data: '/research/commentarial-register.json',
+  },
 ];
 
 // Public worked examples — the same renderer, ungated, served from /explorations/*.json
@@ -305,6 +311,7 @@ export default function ResearchView({ collection = 'research' }) {
       : entry.slug === 'uttarakuru' ? UttarakuruStudy
       : entry.slug === 'naga' ? NagaStudy
       : entry.slug === 'come-and-see' ? ComeAndSeeStudy
+      : entry.slug === 'commentarial-register' ? CommentarialRegisterStudy
       : AwakeningStudy;
     return (
       <>
@@ -3080,6 +3087,137 @@ function ComeAndSeeStudy({ entry, onBack, backLabel = 'Research' }) {
               <p style={footNote}>
                 Counter-thesis study, version {data.meta?.version}, snapshot {data.meta?.corpus_snapshot}. Every
                 corpus citation resolves to a passage in the reader.
+              </p>
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  );
+}
+
+// A spec-driven study renderer. Reads public/research/<slug>.json whose page_spec is a structured
+// {abstract, density_table, sections:[{heading,paragraphs,table?}], scope_limits, citations}. Used for
+// the consolidated "commentarial register" study (the salvage of the 2026-06-24 expansion campaign).
+function SpecTable({ t }) {
+  if (!t || !Array.isArray(t.columns) || !t.columns.length) return null;
+  return (
+    <>
+      {t.caption && <p style={tableCaption}>{t.caption}</p>}
+      <div style={tableWrap}>
+        <table style={table}>
+          <thead>
+            <tr>{t.columns.map((c, i) => <th key={i} style={i === 0 ? thLeft : thNum}>{c}</th>)}</tr>
+          </thead>
+          <tbody>
+            {(t.rows || []).map((r, ri) => (
+              <tr key={ri} style={tr}>
+                {(Array.isArray(r) ? r : [r]).map((cell, ci) => (
+                  <td key={ci} style={ci === 0 ? tdLeftSm : tdNum}>{cell == null ? '·' : String(cell)}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
+
+function CommentarialRegisterStudy({ entry, onBack, backLabel = 'Research' }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  const spec = data?.page_spec || data || {};
+  const sections = Array.isArray(spec.sections) ? spec.sections : [];
+  const cites = Array.isArray(spec.citations) ? spec.citations : [];
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to {backLabel}</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              {spec.abstract && (
+                <p style={abstractLead}><span style={abstractTag}>Abstract.</span> {spec.abstract}</p>
+              )}
+
+              {spec.density_table && (
+                <>
+                  <h2 style={h2}>The density table</h2>
+                  <SpecTable t={spec.density_table} />
+                </>
+              )}
+
+              {sections.map((s, i) => (
+                <section key={i}>
+                  {s.heading && <h2 style={h2}>{s.heading}</h2>}
+                  {(Array.isArray(s.paragraphs) ? s.paragraphs : (s.paragraphs ? [s.paragraphs] : [])).map((p, j) => (
+                    <p key={j}>{p}</p>
+                  ))}
+                  {s.table && <SpecTable t={s.table} />}
+                </section>
+              ))}
+
+              {Array.isArray(spec.scope_limits) && spec.scope_limits.length > 0 && (
+                <section>
+                  <h2 style={h2}>What this shows, and what it does not</h2>
+                  <ul>{spec.scope_limits.map((x, i) => <li key={i} style={casLi}>{x}</li>)}</ul>
+                </section>
+              )}
+
+              {cites.length > 0 && (
+                <section>
+                  <h2 style={h2}>Anchoring citations</h2>
+                  <p style={tableCaption}>Each opens the passage in the reader.</p>
+                  <ul style={casRowList}>
+                    {cites.map((c, i) => {
+                      const id = typeof c === 'string' ? c : (c && c.id);
+                      if (!id) return null;
+                      const note = typeof c === 'object' && c.note ? c.note : null;
+                      return (
+                        <li key={i} style={casRowLi}>
+                          <Cite id={id}>{id}</Cite>
+                          {note && <span style={{ ...tinyNote, marginLeft: 6 }}>{note}</span>}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
+              )}
+
+              <p style={footNote}>
+                {data.meta?.note || 'Consolidated study. Counts re-derive from the committed pipeline (EXPANSION-DISCOVERY-2026-06-24.json + each probe’s _raw.json); every corpus citation resolves to a passage in the reader.'}
               </p>
             </div>
           </>

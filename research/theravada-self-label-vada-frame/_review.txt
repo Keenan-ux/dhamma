@@ -1,0 +1,975 @@
+### i=380 id=thi-ap28 slug=pli-ap role=mula strat=2late nhits=1
+   .. kitaṁ. “Suddhodano mahārājā, gotamī ca pajāpatī; Abhiññātā mahātherā, theriyo ca mahiddhikā. Santiṁ gatāva āsuṁ te, dīpaccīva nirāsavā; Lokanāthe d
+
+### i=381 id=cst-abh01a.att-108_p011 slug=pli-abh-attha role=attha strat=5comm nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti garūhi gahit
+
+### i=382 id=cst-abh01a.att-1_p017 slug=pli-abh-attha role=attha strat=5comm nhits=1
+   .. Nikāyantaraladdhīhi, asammissaṃ anākulaṃ; Mahāvihāravāsīnaṃ, dīpayanto vinicchayaṃ.
+
+### i=383 id=cst-abh02a.att-156_p011 slug=pli-abh-attha role=attha strat=5comm nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti garūhi 
+
+### i=384 id=cst-abh02a.att-43_p002 slug=pli-abh-attha role=attha strat=5comm nhits=1
+   .. ārā’’tiādinā nayena tanti nikkhittā, tassā atthasaṃvaṇṇanaṃ karontena vibhajjavādimaṇḍalaṃ otaritvā ācariye anabbhācikkhantena sakasamayaṃ avokkamantena parasam
+
+### i=385 id=cst-abh03a.att-31_p036 slug=pli-abh-attha role=attha strat=5comm nhits=1
+   ..  Ayañhi dvīhi bhāgehi dve vāre vimuttoti ubhatobhāgavimutto. Tatrāyaṃ theravādo – tipiṭakacūḷanāgatthero tāva āha – ‘‘samāpattiyā vikkhambhanavimokkh
+
+### i=386 id=cst-abh03a.att-41_p005 slug=pli-abh-attha role=attha strat=5comm nhits=3
+   .. Tasmiṃyeva dutiye vassasate theravādato bhijjitvā dve ācariyavādā uppannā – mahisāsakā ca vajjiputtakā ca. Ta
+   .. are saṅkantikā nāma jātā. Saṅkantikesu bhinnesu suttavādā nāma jātāti theravādato bhijjitvā ime ekādasa ācariyavādā uppannā. Te theravādehi saddhiṃ dvā
+   .. nāma jātāti theravādato bhijjitvā ime ekādasa ācariyavādā uppannā. Te theravādehi saddhiṃ dvādasa honti. Iti ime c
+
+### i=387 id=cst-abh03a.att-41_p025 slug=pli-abh-attha role=attha strat=5comm nhits=1
+   .. ntikānaṃ suttavādī, anupubbena bhijjatha; Ime ekādasa vādā, sambhinnā theravādato.
+
+### i=388 id=cst-abh03a.att-41_p034 slug=pli-abh-attha role=attha strat=5comm nhits=2
+   .. hikkhū pakkosāpetvā pucchi – ‘‘kiṃvādī, bhante, sammāsambuddho’’ti? ‘‘Vibhajjavādī, mahārājā’’ti. Evaṃ vutte rājā theraṃ pucchi – ‘‘vibhajjavādī, bhante
+   .. ’’ti? ‘‘Vibhajjavādī, mahārājā’’ti. Evaṃ vutte rājā theraṃ pucchi – ‘‘vibhajjavādī, bhante, sammāsambuddho’’ti? ‘‘Āma, mahārājā’’ti. Tato rājā ‘suddhaṃ 
+
+### i=389 id=cst-abh03a.att-427_p012 slug=pli-abh-attha role=attha strat=5comm nhits=1
+   .. Ācariyānaṃ vādaṃ, avihāya vibhajjavādisissānaṃ; Atibahuvidhantarāye, lokamhi anantarāyena.
+
+### i=390 id=cst-abh03a.att-428_p002 slug=pli-abh-attha role=attha strat=5comm nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti garūhi gahit
+
+### i=392 id=cst-s0401a.att-an1_14_p519 slug=pli-an-attha role=attha strat=5comm nhits=1
+   .. arantaṃ disvā tayo modake datvā taṃdivasameva attano kese vissajjetvā theriyā dānaṃ datvā ‘‘anāgate buddhuppāde tumhe viya mahāpaññā bhaveyya’’nti 
+
+### i=393 id=cst-s0401a.att-an1_14_p559 slug=pli-an-attha role=attha strat=5comm nhits=1
+   .. , mayhaṃ ākiṇṇaṭṭhāne cittaṃ na ramati, gāmakāvāsaṃ gacchāmī’’ti āha. Theriyo tassā mahākulā nikkhamma pabbajitabhāvena cittaṃ vāretuṃ asakkontiyo 
+
+### i=395 id=cst-s0401a.att-an1_14_p593 slug=pli-an-attha role=attha strat=5comm nhits=1
+   .. ana mahāpajāpatigotamī pabbajjañca upasampadañca labhi, tadā sā therī theriyā santike pabbajjañca upasampadañca labhitvā aparabhāge vipassanāya kam
+
+### i=396 id=cst-s0401a.att-an1_14_p597 slug=pli-an-attha role=attha strat=5comm nhits=1
+   .. satehi saddhiṃ satthu santike pabbaji. Rāhulamātāpi janapadakalyāṇīpi theriyā santikaṃ gantvā pabbaji. Sā pabbajitakālato paṭṭhāya bhaddakaccānatth
+
+### i=397 id=cst-s0403a.att-an6_1_2_p013 slug=pli-an-attha role=attha strat=5comm nhits=2
+   .. ’ti daharabhikkhuniyo āha. Tā gantvā sabbesaṃ gatabhāvaṃ ñatvā āgamma theriyā ārocesuṃ. Sā sutvā ‘‘mā tumhe tesaṃ gatabhāvaṃ cintayittha, attano ud
+   .. , ‘‘ayye, aññattha mā gacchatha, niccaṃ idheva āgaccheyyāthā’’ti āha. Theriyā pana kaniṭṭhabhātā n
+
+### i=398 id=cst-s0403a.att-an6_1_2_p014 slug=pli-an-attha role=attha strat=5comm nhits=1
+   .. i cittena anuvadiyamāno santhambhituṃ na sakkhissāmi, appamattā hotha theriyo’’ti maggaṃ paṭipajji.
+
+### i=399 id=cst-s0403a.att-an6_1_2_p015 slug=pli-an-attha role=attha strat=5comm nhits=1
+   .. Rukkhadevatāpi ‘‘sace thero theriyā hatthato piṇḍapātaṃ paribhuñjissati, na taṃ nivattessāmi. Sace na par
+
+### i=400 id=cst-s0404a.att-an11_p074 slug=pli-an-attha role=attha strat=5comm nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ therānaṃ theravaṃsappadīpānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena suvipulavisuddhabuddhinā buddhaghosoti garūhi gah
+
+### i=401 id=cst-s0102a.att-dn2_3_p065 slug=pli-dn-attha role=attha strat=5comm nhits=2
+   .. ’ti daharabhikkhuniyo āha. Tā gantvā sabbesaṃ gatabhāvaṃ ñatvā āgamma theriyā ārocesuṃ. Sā sutvā ‘‘mā tumhe tesaṃ gatabhāvaṃ cintayittha, attano ud
+   .. ātaṃ datvā ‘‘ayye, mā aññattha gacchatha, niccaṃ idheva ethā’’ti āha. Theriyā pana kaniṭṭhabhātā nāgatthero nāma 
+
+### i=402 id=cst-s0102a.att-dn2_3_p066 slug=pli-dn-attha role=attha strat=5comm nhits=1
+   .. i cittena anuvadiyamāno santhambhetuṃ na sakkhissāmi, appamattā hotha theriyo’’ti maggaṃ āruhi.
+
+### i=403 id=cst-s0102a.att-dn2_3_p067 slug=pli-dn-attha role=attha strat=5comm nhits=1
+   .. Rukkhadevatāpi – ‘‘sace thero theriyā hatthato piṇḍapātaṃ paribhuñjissati, na naṃ nivattessāmi. Sace na par
+
+### i=404 id=cst-s0102a.att-dn2_9_p004 slug=pli-dn-attha role=attha strat=5comm nhits=1
+   .. ṃ pana aññaṃ na sakkhissasi, ‘‘aṭṭhi aṭṭhī’’ti sajjhāyaṃ karohīti. So theriyā ovāde ṭhatvā ‘‘aṭṭhi aṭṭhī’’ti sajj
+
+### i=405 id=cst-s0501a.att-110_p006 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti g
+
+### i=406 id=cst-s0501a.att-26_p007 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. ‘‘ki’’nti vattabbe ‘‘kihā’’ti vadanti. Keci bhaṇanti ‘‘ha-iti nipāto, theriyānampi ayameva pāṭho’’ti ubhayathāpi pana ekova attho. Yathā ruccati, tathā 
+
+### i=407 id=cst-s0502a.att-144_p008 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. migarājā pana ahamevā’’ti jātakaṃ samodhānetvā puttasinehaṃ chinditvā theriyā attanāva attano patiṭṭhānakatabhāvaṃ pakāsento, ‘‘bhikkhave, yasmā pa
+
+### i=408 id=cst-s0502a.att-334_p009 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti garūhi 
+
+### i=409 id=cst-s0502a.att-60_p004 slug=pli-kn-attha role=attha strat=5comm nhits=2
+   ..  nāma gihikālato paṭṭhāya paṭibaddhacitto. So tassā āgatabhāvaṃ sutvā theriyā āgamanato puretarameva andhavanaṃ gantvā taṃ kuṭikaṃ pavisitvā heṭṭhā
+   .. tarameva andhavanaṃ gantvā taṃ kuṭikaṃ pavisitvā heṭṭhāmañcake nilīno theriyā āgantvā kuṭikaṃ pavisitvā dvāraṃ pidhāya mañcake nisinnamattāya bahi 
+
+### i=410 id=cst-s0503a.att-1_p012 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Suvisuddhaṃ asaṃkiṇṇaṃ, nipuṇatthavinicchayaṃ; Mahāvihāravāsīnaṃ, samayaṃ avilomayaṃ.
+
+### i=411 id=cst-s0504a.att-1_p012 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Nissitaṃ vācanāmaggaṃ, suvisuddhaṃ anākulaṃ; Mahāvihāravāsīnaṃ, nipuṇatthavinicchayaṃ.
+
+### i=412 id=cst-s0505a.att-82_p009 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti garūhi gahit
+
+### i=413 id=cst-s0506a.att-1_p010 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Suvisuddhaṃ asaṃkiṇṇaṃ, nipuṇatthavinicchayaṃ; Mahāvihāravāsīnaṃ, samayaṃ avilomayaṃ.
+
+### i=414 id=cst-s0507a.att-1_p010 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Suvisuddhaṃ asaṃkiṇṇaṃ, nipuṇatthavinicchayaṃ; Mahāvihāravāsīnaṃ, samayaṃ avilomayaṃ.
+
+### i=415 id=cst-s0508a1.att-1_p012 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Suvisuddhaṃ asaṃkiṇṇaṃ, nipuṇatthavinicchayaṃ; Mahāvihāravāsīnaṃ, samayaṃ avilomayaṃ.
+
+### i=416 id=cst-s0508a1.att-1_p016 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. katvā ‘‘theragāthā’’icceva dhammasaṅgāhakehi saṅgītā. Therīgāthā pana theriyo uddissa desitā.
+
+### i=417 id=cst-s0508a1.att-1_p025 slug=pli-kn-attha role=attha strat=5comm nhits=7
+   .. anipāto, mahānipātoti soḷasanipātasaṅgahā. Tattha ekanipāte aṭṭhārasa theriyo, aṭṭhāraseva gāthā; dukanipāte dasa theriyo, vīsati gāthā; tikanipāte
+   .. attha ekanipāte aṭṭhārasa theriyo, aṭṭhāraseva gāthā; dukanipāte dasa theriyo, vīsati gāthā; tikanipāte aṭṭha theriyo, catuvīsati gāthā; catukkanip
+   .. raseva gāthā; dukanipāte dasa theriyo, vīsati gāthā; tikanipāte aṭṭha theriyo, catuvīsati gāthā; catukkanipāte ekā therī, catasso gāthā; pañcakanip
+   ..  gāthā; catukkanipāte ekā therī, catasso gāthā; pañcakanipāte dvādasa theriyo saṭṭhi gāthā; chakkanipāte aṭṭha theriyo aṭṭhacattālīsa gāthā; sattan
+   .. gāthā; pañcakanipāte dvādasa theriyo saṭṭhi gāthā; chakkanipāte aṭṭha theriyo aṭṭhacattālīsa gāthā; sattanipāte tisso theriyo, ekavīsati gāthā; aṭṭ
+   .. ā; chakkanipāte aṭṭha theriyo aṭṭhacattālīsa gāthā; sattanipāte tisso theriyo, ekavīsati gāthā; aṭṭha nipātato paṭṭhāya yāva soḷasanipātā ekekā the
+   .. iyo, ekavīsati gāthā; aṭṭha nipātato paṭṭhāya yāva soḷasanipātā ekekā theriyo taṃtaṃnipātaparimāṇā gāthā; vīsatinip
+
+### i=418 id=cst-s0508a1.att-2_p034 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. aññatitthiyavādā therānaṃ vāde na sahanti, kuto abhibhave, aññadatthu theravādāva te abhibhavanti. Taṃ kissa hetu? ‘‘Sabbe saṅkhārā aniccā, sabbe saṅkh
+
+### i=419 id=cst-s0509a.att-10_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Dhātuyo dukkhato disvāti sumanāya theriyā gāthā. Tassā vatthu tissātheriyā vatthusadisaṃ. Imissāpi hi satthā ob
+
+### i=420 id=cst-s0509a.att-11_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Kāyena saṃvutā āsinti uttarāya theriyā gāthā. Tassāpi vatthu tissātheriyā vatthusadisaṃ. Sāpi hi sakyakulapp
+
+### i=421 id=cst-s0509a.att-12_p005 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. ḍḍhiketi vuḍḍhe, vayovuḍḍheti attho. Ayaṃ pana sīlādiguṇehipi vuḍḍhā, theriyā vuttagāthāya catutthapāde sītibhūtāsi nibbutāti yojetabbaṃ. Sesaṃ vut
+
+### i=422 id=cst-s0509a.att-13_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Piṇḍapātaṃ caritvānāti dhammāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=423 id=cst-s0509a.att-14_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Hitvā ghare pabbajitvāti saṅghāya theriyā gāthā. Tassā vatthu dhīrātheriyā vatthusadisaṃ. Gāthā pana –
+
+### i=424 id=cst-s0509a.att-17_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Ye ime satta bojjhaṅgātiādikā jentāya theriyā gāthā. Tassā atītaṃ paccuppannañca vatthu abhirūpanandāvatthusadisaṃ.
+
+### i=425 id=cst-s0509a.att-18_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Sumuttikātiādikā sumaṅgalamātāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave kusalaṃ 
+
+### i=426 id=cst-s0509a.att-19_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Yāva kāsijanapadotiādikā aḍḍhakāsiyā theriyā gāthā. Ayaṃ kira kassapassa dasabalassa kāle kulagehe nibbattitvā viñ
+
+### i=427 id=cst-s0509a.att-20_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Kiñcāpi khomhi kisikātiādikā cittāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=428 id=cst-s0509a.att-21_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Kiñcāpi khomhi dukkhitātiādikā mettikāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=429 id=cst-s0509a.att-22_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Cātuddasiṃ pañcadasintiādikā aparāya mittāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=430 id=cst-s0509a.att-23_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Uddhaṃ pādatalātiādikā abhayamātāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave puññāni 
+
+### i=431 id=cst-s0509a.att-24_p030 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Pāṭho, theriyā vuttaniyāmeneva pana saṃgītiṃ āropitattā. Appamādaratāya teti appamād
+
+### i=432 id=cst-s0509a.att-25_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Catukkhattuṃ pañcakkhattuntiādikā sāmāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=433 id=cst-s0509a.att-27_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Tikanipāte paṇṇavīsativassānītiādikā aparāya sāmāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=434 id=cst-s0509a.att-28_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Catukkhattuṃ pañcakkhattuntiādikā uttamāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=435 id=cst-s0509a.att-28_p031 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Tassā dhammaṃ suṇitvānāti tassā paṭisambhidāppattāya theriyā santike khandhādivibhāgapubbaṅgamaṃ ariyamaggaṃ pāpetvā desitasaṇhasu
+
+### i=436 id=cst-s0509a.att-29_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Ye ime satta bojjhaṅgātiādikā aparāya uttamāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=437 id=cst-s0509a.att-2_p020 slug=pli-kn-attha role=attha strat=5comm nhits=2
+   .. ṃ pana patvā therī udānentī tameva gāthaṃ abhāsi, tenāyaṃ gāthā tassā theriyā gāthā ahosi. Tattha theriyā vuttagāthāya anavaseso rāgo pariggahito a
+   .. tameva gāthaṃ abhāsi, tenāyaṃ gāthā tassā theriyā gāthā ahosi. Tattha theriyā vuttagāthāya anavaseso rāgo pariggahito aggamaggena tassa vūpasamassa
+
+### i=438 id=cst-s0509a.att-30_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Divāvihārā nikkhammātiādikā dantikāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=439 id=cst-s0509a.att-31_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Amma, jīvātiādikā ubbiriyā theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=440 id=cst-s0509a.att-32_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Kiṃme katā rājagahetiādikā sukkāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=441 id=cst-s0509a.att-32_p003 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. rājagahapavesane laddhappasādā upāsikā hutvā aparabhāge dhammadinnāya theriyā santike dhammaṃ sutvā sañjātasaṃvegā tassā eva santike pabbajitvā vip
+
+### i=442 id=cst-s0509a.att-32_p034 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. dhammakathaṃ ohitasotā avikkhittacittā sakkaccaṃ suṇāti. Tasmiṃ khaṇe theriyā caṅkamanakoṭiyaṃ rukkhe adhivatthā devatā dhammadesanāya pasannā rāja
+
+### i=443 id=cst-s0509a.att-32_p042 slug=pli-kn-attha role=attha strat=5comm nhits=2
+   .. Manussā taṃ sutvā pasannamānasā theriyā santikaṃ upasaṅkamitvā sakkaccaṃ dhammaṃ suṇiṃsu. Aparabhāge theriyā 
+   ..  theriyā santikaṃ upasaṅkamitvā sakkaccaṃ dhammaṃ suṇiṃsu. Aparabhāge theriyā āyupariyosāne parinibbānakāle sāsanassa niyyānikabhāvavibhāvanatthaṃ 
+
+### i=444 id=cst-s0509a.att-33_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Natthi nissaraṇaṃ loketiādikā selāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=445 id=cst-s0509a.att-33_p037 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Evaṃ theriyā māro santajjito tatthevantaradhāyi. Therīpi phalasamāpattisukhena and
+
+### i=446 id=cst-s0509a.att-34_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Yaṃ taṃ isīhi pattabbantiādikā somāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=447 id=cst-s0509a.att-36_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Catukkanipāte putto buddhassa dāyādotiādikā bhaddāya kāpilāniyā theriyā gāthā. Sā kira padumuttarassa bhagavato kāle haṃsavatīnagare kulagehe
+
+### i=448 id=cst-s0509a.att-38_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Pañcakanipāte paṇṇavīsati vassānītiādikā aññatarāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=449 id=cst-s0509a.att-39_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Mattā vaṇṇena rūpenātiādikā vimalāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=450 id=cst-s0509a.att-40_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Ayoniso manasikārātiādikā sīhāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=451 id=cst-s0509a.att-41_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Āturaṃ asucintiādikā sundarīnandāya theriyā gāthā. Ayampi kira padumuttarassa bhagavato kāle haṃsavatīnagare kula
+
+### i=452 id=cst-s0509a.att-42_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Aggiṃ candañcātiādikā nanduttarāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=453 id=cst-s0509a.att-43_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Saddhāya pabbajitvānātiādikā mittākāḷiyā theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=454 id=cst-s0509a.att-44_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Agārasmiṃ vasantītiādikā sakulāya theriyā gāthā. Ayaṃ kira padumuttarassa bhagavato kāle haṃsavatīnagare ānanda
+
+### i=455 id=cst-s0509a.att-45_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Dasa putte vijāyitvātiādikā soṇāya theriyā gāthā. Ayampi padumuttarassa bhagavato kāle haṃsavatīnagare kulagehe 
+
+### i=456 id=cst-s0509a.att-46_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Lūnakesītiādikā bhaddāya kuṇḍalakesāya theriyā gāthā. Ayampi padumuttarassa bhagavato kāle haṃsavatīnagare kulagehe 
+
+### i=457 id=cst-s0509a.att-47_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Naṅgalehi kasaṃ khettantiādikā paṭācārāya theriyā gāthā. Ayampi padumuttarassa bhagavato kāle haṃsavatīnagare kulagehe 
+
+### i=458 id=cst-s0509a.att-48_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. añcoditā tattha tattha kulagehe nibbattitvā viññutaṃ patvā paṭācārāya theriyā santike dhammaṃ sutvā paṭiladdhasaddhā pabbajitvā parisuddhasīlā vatt
+
+### i=459 id=cst-s0509a.att-48_p008 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Atha tā bhikkhuniyo tassā theriyā ovāde ṭhatvā vipassanaṃ paṭṭhapetvā bhāvanāya kammaṃ karontiyo ñāṇass
+
+### i=460 id=cst-s0509a.att-48_p016 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Tattha tassā tā vacanaṃ sutvā, paṭācārāya sāsananti tassā paṭācārāya theriyā kilesapaṭisattusāsanaṭṭhena sāsanabhūtaṃ ovādavacanaṃ, tā tiṃsamattā 
+
+### i=461 id=cst-s0509a.att-49_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Duggatāhaṃ pure āsintiādikā candāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=462 id=cst-s0509a.att-51_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. ssa katattā sabbāva mataputtā hutvā, puttasokena abhibhūtā paṭācārāya theriyā santikaṃ upasaṅkamitvā vanditvā nisinnā attano sokakāraṇaṃ ārocesuṃ. 
+
+### i=463 id=cst-s0509a.att-51_p012 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Tā tassā dhammaṃ sutvā sañjātasaṃvegā theriyā santike pabbajiṃsu. Pabbajitvā vipassanāya kammaṃ karontiyo vimuttipa
+
+### i=464 id=cst-s0509a.att-51_p022 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Ettha ca ādito catasso gāthā paṭācārāya theriyā tesaṃ pañcamattānaṃ itthisatānaṃ sokavinodanavasena visuṃ visuṃ bhāsi
+
+### i=465 id=cst-s0509a.att-51_p023 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Pañcasatā paṭācārāti paṭācārāya theriyā santike laddhaovādatāya paṭācārāya vuttaṃ avedisunti katvā ‘‘paṭācārā
+
+### i=466 id=cst-s0509a.att-52_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Puttasokenahaṃ aṭṭātiādikā vāseṭṭhiyā theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=467 id=cst-s0509a.att-53_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Daharā tvaṃ rūpavatītiādikā khemāya theriyā gāthā. Ayaṃ kira padumuttarassa bhagavato kāle haṃsavatīnagare parādh
+
+### i=468 id=cst-s0509a.att-53_p100 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. rahattaṃ pana patvā phalasukhena nibbānasukhena ca viharantiyā imissā theriyā satipi aññāsaṃ khīṇāsavattherīnaṃ paññāvepullappattiyaṃ tattha pana k
+
+### i=469 id=cst-s0509a.att-54_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Alaṅkatā suvasanātiādikā sujātāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=470 id=cst-s0509a.att-55_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Ucce kuletiādikā anopamāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=471 id=cst-s0509a.att-56_p023 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. abrahmacariye āpucchitvā idheva āgantvā parinibbāyeyya’’nti. Yathā ca theriyā, evaṃ tassā parivārabhūtānaṃ pañcanna
+
+### i=472 id=cst-s0509a.att-57_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Gutte yadatthaṃ pabbajjātiādikā guttāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=473 id=cst-s0509a.att-57_p020 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. ā udānavasena bhagavatā bhāsitaniyāmeneva imā gāthā abhāsi. Teneva tā theriyā gāthā nāma jātā.
+
+### i=474 id=cst-s0509a.att-58_p002 slug=pli-kn-attha role=attha strat=5comm nhits=2
+   .. Catukkhattuntiādikā vijayāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+   .. āde rājagahe aññatarasmiṃ kulagehe nibbattitvā viññutaṃ patvā khemāya theriyā gihikāle sahāyikā ahosi. Sā tassā pabbajitabhāvaṃ sutvā ‘‘sāpi nāma r
+
+### i=475 id=cst-s0509a.att-60_p002 slug=pli-kn-attha role=attha strat=5comm nhits=3
+   .. Sattakanipāte musalāni gahetvānāti uttarāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+   ..  nibbattitvā uttarāti laddhanāmā anukkamena viññutaṃ patvā paṭācārāya theriyā santikaṃ upasaṅkami. Therī tassā dhammaṃ kathesi. Sā dhammaṃ sutvā sa
+   .. e abhippasannā hutvā pabbaji. Pabbajitvā ca katapubbakiccā paṭācārāya theriyā santike vipassanaṃ paṭṭhapetvā bhāvanamanuyuñja
+
+### i=476 id=cst-s0509a.att-60_p018 slug=pli-kn-attha role=attha strat=5comm nhits=2
+   .. aṃ vipassathāti attho. Idañca ovādakāle attano aññesañca bhikkhunīnaṃ theriyādīnaṃ ovādassa anuvādavasena vuttaṃ. Paṭācārānusāsaninti paṭācārāya theriyā
+   .. yādīnaṃ ovādassa anuvādavasena vuttaṃ. Paṭācārānusāsaninti paṭācārāya theriyā anusiṭṭhiṃ. ‘‘Paṭācārāya sāsana’’ntipi vā pāṭho.
+
+### i=477 id=cst-s0509a.att-60_p019 slug=pli-kn-attha role=attha strat=5comm nhits=2
+   .. ppattito pacchā āsanato vuṭṭhāsiṃ. Ayampi therī ekadivasaṃ paṭācārāya theriyā santike kammaṭṭhānaṃ sodhetvā attano vasanaṭṭhānaṃ pavisitvā pallaṅka
+   .. ā pāde pasāresi aruṇuggamanavelāyaṃ. Tato sammadeva vibhātāya rattiyā theriyā santik
+
+### i=478 id=cst-s0509a.att-61_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Satiṃ upaṭṭhapetvānātiādikā cālāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=479 id=cst-s0509a.att-62_p002 slug=pli-kn-attha role=attha strat=5comm nhits=2
+   .. Satimatītiādikā upacālāya theriyā gāthā. Tassā vatthu cālāya theriyā vatthumhi vuttameva. Ayampi hi cāl
+   .. Satimatītiādikā upacālāya theriyā gāthā. Tassā vatthu cālāya theriyā vatthumhi vuttameva. Ayampi hi cālā viya pabbajitvā vipassanaṃ paṭṭha
+
+### i=480 id=cst-s0509a.att-64_p002 slug=pli-kn-attha role=attha strat=5comm nhits=2
+   .. Aṭṭhakanipāte bhikkhunī sīlasampannātiādikā sīsūpacālāya theriyā gāthā. Imissāpi vatthu cālāya theriyā vatthumhi vuttanayameva. Ayampi
+   .. īlasampannātiādikā sīsūpacālāya theriyā gāthā. Imissāpi vatthu cālāya theriyā vatthumhi vuttanayameva. Ayampi hi āyasmato dhammasenāpatissa pabbaji
+
+### i=481 id=cst-s0509a.att-66_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Navakanipāte mā su te vaḍḍha lokamhītiādikā vaḍḍhamātāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=482 id=cst-s0509a.att-66_p033 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. pattiyā ārādhitacittā tena bhāsitagāthā sayaṃ paccanubhāsi. Evaṃ tāpi theriyā gāthā nāma jātā.
+
+### i=483 id=cst-s0509a.att-68_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Ekādasakanipāte kalyāṇamittatātiādikā kisāgotamiyā theriyā gāthā. Ayaṃ kira padumuttarassa bhagavato kāle haṃsavatīnagare kulage
+
+### i=484 id=cst-s0509a.att-68_p040 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. ‘‘Upavijaññā gacchantī’’tiādikā dve gāthā paṭācārāya theriyā pavattiṃ ārabbha bhāsitā. Tattha upavijaññā gacchantīti upagatavijāya
+
+### i=485 id=cst-s0509a.att-68_p041 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. tāya vuttākārassa anukaraṇavasena itthibhāve ādīnavavibhāvanatthameva theriyā vuttā.
+
+### i=486 id=cst-s0509a.att-68_p045 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. andhavasena abhaṇīti attānaṃ paraṃ viya therī vadati. Tatridaṃ imissā theriyā apadānaṃ (apa. therī 2.3.55-94) –
+
+### i=487 id=cst-s0509a.att-6_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Tisse yuñjassu dhammehīti tissāya theriyā gāthā. Tassā vatthu tissāsikkhamānāya vatthusadisaṃ. Ayaṃ pana therī 
+
+### i=488 id=cst-s0509a.att-70_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Dvādasakanipāte ubho mātā ca dhītā cātiādikā uppalavaṇṇāya theriyā gāthā. Ayampi padumuttarassa bhagavato kāle haṃsavatīnagare kulagehe 
+
+### i=489 id=cst-s0509a.att-70_p094 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. ā dve gāthā attano adhigatavisesaṃ paccavekkhitvā pītisomanassajātāya theriyā vuttā. Tattha cetopariccañāṇanti cetopariyañāṇaṃ, sacchikataṃ, pattan
+
+### i=490 id=cst-s0509a.att-72_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Soḷasanipāte udahārī ahaṃ sītetiādikā puṇṇāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=491 id=cst-s0509a.att-72_p068 slug=pli-kn-attha role=attha strat=5comm nhits=2
+   .. a amhīti. Ettha ca brāhmaṇena vuttagāthāpi attanā vuttagāthāpi pacchā theriyā paccekaṃ bhāsitāti sabbā theriyā gāthā eva jātāti.
+   .. tagāthāpi attanā vuttagāthāpi pacchā theriyā paccekaṃ bhāsitāti sabbā theriyā gāthā eva jātāti.
+
+### i=492 id=cst-s0509a.att-74_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Vīsatinipāte kāḷakā bhamaravaṇṇasādisātiādikā ambapāliyā theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=493 id=cst-s0509a.att-75_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Samaṇāti bhoti supītiādikā rohiniyā theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=494 id=cst-s0509a.att-76_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Laṭṭhihattho pure āsītiādikā cāpāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=495 id=cst-s0509a.att-77_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Petāni bhoti puttānītiādikā sundariyā theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=496 id=cst-s0509a.att-78_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Daharāhantiādikā subhāya kammāradhītāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=497 id=cst-s0509a.att-80_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Tiṃsanipāte jīvakambavanaṃ rammantiādikā subhāya jīvakambavanikāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=499 id=cst-s0509a.att-80_p077 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Evaṃ theriyā vutte dhuttako attano adhippāyaṃ vibhāvento ‘‘daharā cā’’tiādinā dasa
+
+### i=500 id=cst-s0509a.att-80_p104 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. khimhi uppāṭitakkhaṇe eva rāgo vigacchi. Tatthāti akkhimhi, tassaṃ vā theriyaṃ. Atha vā tatthāti tasmiṃyeva ṭhāne. Khamāpayīti khamāpesi. Sotthi siy
+
+### i=501 id=cst-s0509a.att-82_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Cattālīsanipāte nagaramhi kusumanāmetiādikā isidāsiyā theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave purisatt
+
+### i=502 id=cst-s0509a.att-82_p003 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. mikānaṃ aruccaneyyatāya saṃvegajātā pitaraṃ anujānāpetvā, jinadattāya theriyā santike pabbajitvā vipassanāya kammaṃ karontī nacirasseva saha paṭisa
+
+### i=503 id=cst-s0509a.att-82_p128 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. dattattheriṃ. Uṭṭhāyāsanaṃ tassā paññāpayinti uṭṭhahitvā āsanaṃ tassā theriyā paññāpesiṃ.
+
+### i=504 id=cst-s0509a.att-84_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Mahānipāte mantāvatiyā nagaretiādikā sumedhāya theriyā gāthā. Ayampi purimabuddhesu katādhikārā tattha tattha bhave vivaṭṭūp
+
+### i=505 id=cst-s0509a.att-84_p249 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. osāne nibbānanti phalūpacārena kāraṇaṃ vadati. Imā pana catasso gāthā theriyā apadānassa vibhāvanavasena pavattattā apadānapāḷiyampi saṅgahaṃ āropi
+
+### i=506 id=cst-s0509a.att-84_p251 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. rūḷhā ‘‘tisattatiparimāṇā’’ti. Bhāṇavārato pana dvādhikā chasatamattā theriyo gāthā ca. Tā sabbāpi yathā sammāsambuddhassa sāvikābhāvena ekavidhā, 
+
+### i=507 id=cst-s0509a.att-84_p266 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. hāsāvikā, pakatisāvikāti tividhā. Tattha khemā, uppalavaṇṇāti imā dve theriyo aggasāvikā nāma. Kāmaṃ sabbāpi khīṇāsavattheriyo sīlasuddhiādike samp
+
+### i=508 id=cst-s0509a.att-85_p004 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. ‘‘Sīlādiguṇasampannā, katakiccā anāsavā; Subhūtiādayo therā, theriyo therikādayo.
+
+### i=509 id=cst-s0509a.att-9_p002 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Karotha buddhasāsananti visākhāya theriyā gāthā. Tassā vatthu dhīrātheriyāvatthusadisameva. Sā arahattaṃ patvā 
+
+### i=510 id=cst-s0510a.att-285_p016 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Evaṃ vutte satthā uppalavaṇṇāya theriyā āgamanaṃ cintesi. Sā satthu cintitakkhaṇeyeva ākāsenāgantvā tā sabbā 
+
+### i=511 id=cst-s0512a.att-1_p013 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Nissitaṃ vācanāmaggaṃ, suvisuddhamanākulaṃ; Mahāvihāravāsīnaṃ, nipuṇatthavinicchayaṃ.
+
+### i=512 id=cst-s0513a1.att-1_p012 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Mahāvihāravāsīnaṃ, vācanāmagganissitaṃ; Bhāsissaṃ bhāsato taṃ me, sādhu gaṇhantu sādhav
+
+### i=513 id=cst-s0513a1.att-9_p040 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Satthā ‘‘na, bhikkhave, idānevāhaṃ theriyā ca kumārakassapassa ca avassayo, pubbepi avassayo evā’’ti imaṃ dhamma
+
+### i=514 id=cst-s0513a2.att-16_p004 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Athekadivasaṃ theriyā udaravāto kuppi. Sā putte daṭṭhuṃ āgate tassa dassanatthāya nikkhamit
+
+### i=515 id=cst-s0513a2.att-16_p005 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. antvā sāmaṇerassa adāsi ‘‘haritvā mātu te dehī’’ti. So haritvā adāsi, theriyā paribhuttamatteva udaravāto vūpasami. Rājāpi manussaṃ pesesi – ‘‘ther
+
+### i=516 id=cst-s0513a2.att-17_p016 slug=pli-kn-attha role=attha strat=5comm nhits=3
+   .. ā kathitaabbhantarajātake (jā. 1.3.91-93) vatthusadisameva. Tadāpi hi theriyā udaravāto kuppi, rāhulabhaddo therassa ācikkhi. Thero taṃ āsanasālāya
+   ..  navasappimissakaṃ sālibhattaṃ āharitvā tassa adāsi. So āharitvā mātu theriyā adāsi, tassā bhuttamattāya udaravāto paṭippassambhi. Rājā purise pese
+   .. āto paṭippassambhi. Rājā purise pesetvā pariggaṇhāpetvā tato paṭṭhāya theriyā tathārūpaṃ bhattaṃ adāsi. Athekadiva
+
+### i=517 id=cst-s0513a3.att-2_p005 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. ’ti, pabbajjaṃ no dethā’’ti. Thero ‘‘sādhū’’ti vatvā tā uppalavaṇṇāya theriyā santike pabbājesi. Tā sabbāpi na cirasseva arahattaṃ pāpuṇiṃsu. Athek
+
+### i=518 id=cst-s0515a.att-1_p009 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Mahāvihāravāsīnaṃ, sajjhāyamhi patiṭṭhito; Gahetabbaṃ gahetvāna, porāṇesu vinicchayaṃ.
+
+### i=519 id=cst-s0517a.att-178_p011 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Samayaṃ anulomentī, therānaṃ theravādadīpānaṃ; Niṭṭhaṃ gatā yathāyaṃ, aṭṭhakathā lokahitajananī.
+
+### i=520 id=cst-s0519a.att-1_p014 slug=pli-kn-attha role=attha strat=5comm nhits=1
+   .. Suvisuddhamasaṃkiṇṇaṃ, nipuṇatthavinicchayaṃ; Mahāvihāravāsīnaṃ, samayaṃ avilomayaṃ.
+
+### i=521 id=cst-s0201a.att-mn1_1_p977 slug=pli-mn-attha role=attha strat=5comm nhits=1
+   .. aṃ pana aññaṃ na sakkhissasi ‘‘aṭṭhi aṭṭhī’’ti sajjhāyaṃ karohīti. So theriyā ovāde ṭhatvā ‘‘aṭṭhi aṭṭhī’’ti sajjhāyanto carati.
+
+### i=522 id=cst-s0201a.att-mn1_3_p235 slug=pli-mn-attha role=attha strat=5comm nhits=1
+   .. enāti tena lapitassa paṭilāpanamattakena. Ñāṇavādanti jānāmīti vādaṃ. Theravādanti thirabhāvavādaṃ, thero ahametthāti etaṃ vacanaṃ. Ahañceva aññe cāti n
+
+### i=523 id=cst-s0201a.att-mn1_5_p096 slug=pli-mn-attha role=attha strat=5comm nhits=1
+   .. Idaṃ pana catusaccabyākaraṇaṃ sutvā visākho theriyā abhiratabhāvaṃ aññāsi. Yo hi buddhasāsane ukkaṇṭhito hoti anabhirato,
+
+### i=524 id=cst-s0201a.att-mn1_5_p100 slug=pli-mn-attha role=attha strat=5comm nhits=1
+   .. Ettāvatā theriyā, ‘‘evaṃ kho, āvuso visākha, sakkāyadiṭṭhi hotī’’ti evaṃ purimapañhaṃ 
+
+### i=525 id=cst-s0201a.att-mn1_5_p101 slug=pli-mn-attha role=attha strat=5comm nhits=1
+   .. 462. Katamo panāyye, ariyo aṭṭhaṅgiko maggoti ayaṃ pañho theriyā paṭipucchitvā vissajjetabbo bhaveyya – ‘‘upāsaka, tayā heṭṭhā maggo p
+
+### i=526 id=cst-s0201a.att-mn1_5_p228 slug=pli-mn-attha role=attha strat=5comm nhits=2
+   .. ’ti daharabhikkhuniyo āha. Tā gantvā sabbesaṃ gatabhāvaṃ ñatvā āgamma theriyā ārocesuṃ. Sā sutvā, ‘‘mā tumhe tesaṃ gatabhāvaṃ cintayittha, attano u
+   .. taṃ datvā, ‘‘ayye, aññattha mā gacchatha, niccaṃ idheva ethā’’ti āha. Theriyā pana kaniṭṭhabhātā nāgatthero 
+
+### i=527 id=cst-s0201a.att-mn1_5_p229 slug=pli-mn-attha role=attha strat=5comm nhits=1
+   .. i cittena anuvadiyamāno santhambhetuṃ na sakkhissāmi, appamattā hotha theriyo’’ti maggaṃ āruhi.
+
+### i=528 id=cst-s0201a.att-mn1_5_p230 slug=pli-mn-attha role=attha strat=5comm nhits=1
+   .. Rukkhadevatāpi, ‘‘sace thero theriyā hatthato piṇḍapātaṃ paribhuñjissati, na naṃ nivattessāmi, sace pana n
+
+### i=529 id=cst-s0203a.att-mn3_1_p016 slug=pli-mn-attha role=attha strat=5comm nhits=1
+   .. Nandamāṇavako pana uppalavaṇṇāya theriyā vippaṭipajji, tassa mañcato uṭṭhāya nikkhamitvā gacchantassa mahāpath
+
+### i=530 id=cst-s0304a.att-sn4_1_p409 slug=pli-sn-attha role=attha strat=5comm nhits=1
+   .. . Bhante, tumhe evaṃ vadetha, uddhane pana aggipi na jalatīti. Āvuso, mahāvihāravāsīhi laddhā nāma evameva nassanti, na koci saṇṭhapetīti. Bhante, porāṇakar
+
+### i=531 id=cst-s0305a.att-sn5_p012 slug=pli-sn-attha role=attha strat=5comm nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti garūhi gahit
+
+### i=532 id=cst-vin01a.att-105_p032 slug=pli-vin-attha role=attha strat=5comm nhits=2
+   .. Bhātiyarājakālepi mahāvihāravāsīnañca abhayagirivāsīnañca therānaṃ imasmiṃyeva pade vivādo ahosi. Abhayagir
+   .. pi attano suttaṃ vatvā ‘‘tumhākaṃ vāde thero kārako hotī’’ti vadanti. Mahāvihāravāsinopi attano suttaṃ vatvā ‘‘tumhākaṃ vāde thero kārako hotī’’ti vadanti. Pa
+
+### i=533 id=cst-vin01a.att-121_p003 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. ṃ antaravāsakaṃ disvā lobhena, apica appako tassā antaravāsake lobho, theriyā pana sikhāppattā koṭṭhāsasampatti tenassā sarīrapāripūriṃ passissāmīt
+
+### i=534 id=cst-vin01a.att-28_p009 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. Apica suttantābhidhammavinayaṭṭhakathāsu āgato sabbopi theravādo ‘‘attanomati’’ nāma. Taṃ pana attanomatiṃ gahetvā kathentena na daḷha
+
+### i=535 id=cst-vin01a.att-28_p030 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. iyassa santike uggaṇhi, so asukassā’’ti evaṃ sabbaṃ ācariyaparamparaṃ theravādaṅgaṃ āharitvā yāva upālitthero sammāsambuddhassa santike uggaṇhīti pāpetvā
+
+### i=538 id=cst-vin01a.att-5_p026 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. uṇanto dvepi saṅgītiyo ārūḷhaṃ tipiṭakasaṅgahitaṃ sāṭṭhakathaṃ sabbaṃ theravādaṃ tiṇṇaṃ vassānaṃ abbhantare uggahetvā attano upajjhāyassa antevāsikāna
+
+### i=539 id=cst-vin01a.att-5_p042 slug=pli-vin-attha role=attha strat=5comm nhits=2
+   .. hikkhū pakkosāpetvā pucchi – ‘‘kiṃvādī, bhante, sammāsambuddho’’ti? ‘‘Vibhajjavādī, mahārājā’’ti. Evaṃ vutte rājā theraṃ pucchi – ‘‘vibhajjavādī, bhante
+   .. ’’ti? ‘‘Vibhajjavādī, mahārājā’’ti. Evaṃ vutte rājā theraṃ pucchi – ‘‘vibhajjavādī, bhante, sammāsambuddho’’ti? ‘‘Āma, mahārājā’’ti. Tato rājā ‘‘suddhaṃ
+
+### i=540 id=cst-vin01a.att-5_p052 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. Ete nāgā mahāpaññā, jambudīpā idhāgatā; Vinayaṃ te vācayiṃsu, piṭakaṃ tambapaṇṇiyā.
+
+### i=541 id=cst-vin01a.att-5_p065 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. āgā mahāpaññā, vinayaññū maggakovidā; Vinayaṃ dīpe pakāsesuṃ, piṭakaṃ tambapaṇṇiyā’’ti.
+
+### i=542 id=cst-vin01a.att-5_p103 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. Samuddatopissa muttāmaṇiveḷuriyādi anekavihitaṃ ratanaṃ uppajji. Tambapaṇṇiyaṃ pana aṭṭha muttā uppajjiṃsu – hayamuttā, gajamuttā, rathamuttā, āmala
+
+### i=543 id=cst-vin02a1.att-107_p008 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. i. Samuṭṭhānādīni paṭhamasikkhāpade vuttanayeneva veditabbāni saddhiṃ theravādena.
+
+### i=544 id=cst-vin02a1.att-161_p002 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. 854. Pañcame – gharaṃ sodhentāti tesaṃ kira etadahosi – ‘‘theriyā koci kāyikavācasiko vītikkamo na dissati, gharampi tāva sodhemā’’ti, 
+
+### i=545 id=cst-vin02a4.att-85_p025 slug=pli-vin-attha role=attha strat=5comm nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti garūhi gahit
+
+### i=546 id=cst-e0101n.mul-2_p014 slug=pli-vism role=mula strat=5comm nhits=1
+   .. Tesaṃ pāmojjakaraṇaṃ, suvisuddhavinicchayaṃ; Mahāvihāravāsīnaṃ, desanānayanissitaṃ.
+
+### i=547 id=cst-e0102n.mul-109_p008 slug=pli-vism role=mula strat=5comm nhits=1
+   .. ‘‘Tesaṃ pāmojjakaraṇaṃ, suvisuddhavinicchayaṃ; Mahāvihāravāsīnaṃ, desanānayanissitaṃ.
+
+### i=548 id=cst-e0102n.mul-109_p016 slug=pli-vism role=mula strat=5comm nhits=3
+   .. Vibhajjavādiseṭṭhānaṃ, theriyānaṃ yasassinaṃ; Mahāvihāravāsīnaṃ, vaṃsajassa vibhāvino.
+   .. Vibhajjavādiseṭṭhānaṃ, theriyānaṃ yasassinaṃ; Mahāvihāravāsīnaṃ, vaṃsajassa vibhāvino.
+   .. Vibhajjavādiseṭṭhānaṃ, theriyānaṃ yasassinaṃ; Mahāvihāravāsīnaṃ, vaṃsajassa vibhāvino.
+
+### i=549 id=cst-e0102n.mul-109_p023 slug=pli-vism role=mula strat=5comm nhits=1
+   .. uttarimanussadhamme appaṭihatabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti garūhi gahit
+
+### i=550 id=cst-e0102n.mul-48_p030 slug=pli-vism role=mula strat=5comm nhits=1
+   .. ārā’’tiādinā nayena nikkhittā tanti, tassā atthasaṃvaṇṇanaṃ karontena vibhajjavādimaṇḍalaṃ otaritvā ācariye anabbhācikkhantena sakasamayaṃ avokkamantena parasam
+
+### i=551 id=cst-abh01t.tik-1_p025 slug=pli-abh-tika role=tika strat=6tika nhits=4
+   ..  Anākulanti sanikāyepi anāvilaṃ paricchinnaṃ. Asammisso anākulo ca yo mahāvihāravāsīnaṃ atthavinicchayo, taṃ dīpayanto atthaṃ pakāsayissāmīti. Etena tipiṭaka
+   .. ayanto atthaṃ pakāsayissāmīti. Etena tipiṭakacūḷanāgattherādīhi vutto theravādopi saṅgahito hoti. Atha vā tambapaṇṇibhāsaṃ apanetvā māgadhabhāsañca āro
+   .. tvā pakāsiyamāno yo abhidhammassa attho asammisso anākuloyeva ca hoti mahāvihāravāsīnañca vinicchayabhūto, taṃ atthaṃ ‘‘eso mahāvihāravāsīnaṃ vinicch
+   .. uloyeva ca hoti mahāvihāravāsīnañca vinicchayabhūto, taṃ atthaṃ ‘‘eso mahāvihāravāsīnaṃ vinicch
+
+### i=553 id=cst-abh01t.tik-69_p018 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. i evaṃ yuttaṃ gahetabbaṃ avuttampīti adhippāyo. Atha vā tasmiṃ tasmiṃ theravāde yena adhippāyena sasaṅkhārāsaṅkhāravidhānādi vuttaṃ, taṃ teneva adhip
+
+### i=554 id=cst-abh02t.tik-185_p014 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. ‘‘Āruppe tikacatukkajjhānaṃ…pe… na lokiya’’nti idaṃ theravāde āgataṃ porāṇaṭṭhakathāyaṃ tantiṃ katvā ṭhapitanti aṭṭhasāliniyaṃ saṅg
+
+### i=555 id=cst-abh02t.tik-193_p002 slug=pli-abh-tika role=tika strat=6tika nhits=5
+   .. ’’ti idaṃ nissakkaṃ kiṃ lakkhaṇaṃ? Hetulakkhaṇaṃ. Yadi evaṃ taṃhetuko vibhajjavādibhāvo āpajjati. Na hi moggaliputtatissattherena vuttattā buddhasāvakā vibha
+   .. bhāvo āpajjati. Na hi moggaliputtatissattherena vuttattā buddhasāvakā vibhajjavādino ahesunti? Nayidamevaṃ. Tividho hi hetu ñāpako, kārako, sampāpakoti. T
+   .. mā tena mahātherena ‘‘kiṃ vādī, bhante, sammāsambuddho’’ti puṭṭhena ‘‘vibhajjavādī, mahārājā’’ti tadā vuttavacanena ñāyati ‘‘sammāsambuddhasāvakā vibhaj
+   .. javādī, mahārājā’’ti tadā vuttavacanena ñāyati ‘‘sammāsambuddhasāvakā vibhajjavādino’’ti imamatthaṃ dasseti kiṃ…pe… vuttattā…pe… vibhajjavādino’’ti. ‘‘Aha
+   .. ddhasāvakā vibhajjavādino’’ti imamatthaṃ dasseti kiṃ…pe… vuttattā…pe… vibhajjavādino’’ti. ‘‘Ahañhi, brāhmaṇa, vinayāya dhammaṃ desemi rāgassā’’tiādiṃ vatv
+
+### i=556 id=cst-abh02t.tik-44_p002 slug=pli-abh-tika role=tika strat=6tika nhits=5
+   .. 225. ‘‘‘Kiṃvādī bhante sammāsambuddho’ti? ‘Vibhajjavādī mahārājā’’’ti (pārā. aṭṭha. 1.tatiyasaṅgītikathā) moggaliputtatissatt
+   .. saṅgītikathā) moggaliputtatissattherena vuttattā sammāsambuddhasāvakā vibhajjavādino. Te hi venayikādibhāvaṃ vibhajja vadanti, cīvarādīnaṃ sevitabbāsevita
+   .. yākaraṇīyādayo tayo pañhe apanetvā vibhajjabyākaraṇīyameva vadantīti. Vibhajjavādīnaṃ maṇḍalaṃ samūho vibhajjavādimaṇḍalaṃ, vibhajjavādino vā bhagavato par
+   .. vā vibhajjabyākaraṇīyameva vadantīti. Vibhajjavādīnaṃ maṇḍalaṃ samūho vibhajjavādimaṇḍalaṃ, vibhajjavādino vā bhagavato paris
+   .. meva vadantīti. Vibhajjavādīnaṃ maṇḍalaṃ samūho vibhajjavādimaṇḍalaṃ, vibhajjavādino vā bhagavato paris
+
+### i=557 id=cst-abh03t.tik-40_p006 slug=pli-abh-tika role=tika strat=6tika nhits=2
+   .. ttho. Bhinnavādenāti bhinnā vādā etasminti bhinnavādo, tena abhinnena theravādena saha aṭṭhārasa hontīti vuttaṃ hoti. Bhinnavādenāti vā bhinnāya laddhi
+   .. denāti vā bhinnāya laddhiyā aṭṭhārasa honti, te sabbepi sahāti attho. Theravādānamuttamoti ettha thera-iti avibhattiko niddeso. Therānaṃ ayanti thero. Ko so? Vā
+
+### i=558 id=cst-abh04t.nrf-1_p028 slug=pli-abh-tika role=tika strat=6tika nhits=3
+   .. saṅgayhanti. Tappakāsanenevāti abhidhammassa atthappakāsaneneva. Soti mahāvihāravāsīnaṃ vinicchayo. Tathāti asammissānākulabhāvena. Asammissānākulabhūto vā v
+   .. o. Tathāti asammissānākulabhāvena. Asammissānākulabhūto vā vinicchayo mahāvihāravāsīnaṃ santakabhāvena, etena abhidhammassa atthappakāsaneneva mahāvihāravāsī
+   .. āvihāravāsīnaṃ santakabhāvena, etena abhidhammassa atthappakāsaneneva mahāvihāravāsīnaṃ vinicchayo idha abhinipphādīyatīti dasseti. Atha vā tappakāsanenevāt
+
+### i=559 id=cst-abh06t.nrf-145_p007 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. Tattha saṅghavisiṭṭhena, yācitena anākulaṃ; Mahāvihāravāsīnaṃ, vācanāmagganissitaṃ.
+
+### i=560 id=cst-abh06t.nrf-50_p015 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. Nikāyantaraladdhīhi, asammisso anākulo; Mahāvihāravāsīnaṃ, vācanāmagganissito.
+
+### i=561 id=cst-abh06t.nrf-52_p005 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. Nāmarūpaparicchedaṃ, pavakkhāmi samāsato; Mahāvihāravāsīnaṃ, vaṇṇanānayanissitaṃ.
+
+### i=563 id=cst-abh08t.nrf-51_p005 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. (Gha) mahāvihāravāsīnaṃ, therānaṃ thirasīlinaṃ; Vaṃsālaṅkārabhūtena, bhūtānuggahakārinā.
+
+### i=564 id=cst-abh08t.nrf-58_p031 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. gabhedato. Kathaṃ panassa bhedoti? Ettha tāva aṭṭhakathāvādo, tayo ca theravādāti cattāro vādā honti. Tathā hi aṭṭhakathāyaṃ tāva ‘‘saṅkhārupekkhābhāva
+
+### i=565 id=cst-abh08t.nrf-58_p034 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. sesajhānaṅgapariṇāmaṃ vedanāpariṇāmo vipassanāniyāmeneva hoti. Tayopi theravādā vipassanāniyāmena vinā na hontīti daṭṭhabbaṃ. Nanu ca vedanāpi jhānaṅ
+
+### i=566 id=cst-abh08t.nrf-90_p018 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. tuṃ ‘‘nanu bhagavatā’’tiādi vuttaṃ. ‘‘Kiṃ nu satto’’ti gāthā vajirāya theriyā vuttāpi bhagavato adhippāyavaseneva vuttattā bhagavatā vuttā nāma hot
+
+### i=567 id=cst-abh09t.nrf-220_p010 slug=pli-abh-tika role=tika strat=6tika nhits=1
+   .. 9. Sāmatthiyagataṃ atthaṃ, nikāyantaranissaṭaṃ. Mahāvihāravāsīnaṃ, kamābhatanayānugaṃ.
+
+### i=569 id=cst-s0401t.tik-an1_p079 slug=pli-an-tika role=tika strat=6tika nhits=2
+   .. siddhantaṃ avirodhento. Etena atthadosābhāvamāha. Aviruddhattā eva hi theravādāpi idha pakāsīyissanti. Theravaṃsadīpānanti thirehi sīlakkhandhādīhi sam
+   .. dhigamasampannattā paññāpajjotena tassa samujjalanato theravaṃsadīpā, mahāvihāravāsino therā, tesaṃ. Vividhehi ākārehi nicchīyatīti vinicchayo, gaṇṭhiṭṭhāne
+
+### i=570 id=cst-s0401t.tik-an1_p323 slug=pli-an-tika role=tika strat=6tika nhits=1
+   ..  cittassa samānakhaṇattā vuttaṃ. Cittassa ativiya lahuparivattibhāvaṃ theravādena dīpetuṃ – ‘‘imasmiṃ panatthe’’tiādi vuttaṃ. Cittasaṅkhārāti sasampayu
+
+### i=571 id=cst-s0401t.tik-an1_p667 slug=pli-an-tika role=tika strat=6tika nhits=1
+   .. āni paṭibhānāni pariggahaṇe samatthāya paññāya samannāgatā. Imissā hi theriyā asekkhappaṭisambhidāppattatāya paṭisambhidāyo pūretvā ṭhitatāya paññā
+
+### i=574 id=cst-s0404t.tik-an10_p036 slug=pli-an-tika role=tika strat=6tika nhits=1
+   .. ṃ pana aññaṃ na sakkhissasi, ‘‘aṭṭhi aṭṭhī’’ti sajjhāyaṃ karohīti. So theriyā ovāde ṭhatvā ‘‘aṭṭhi aṭṭhī’’ti sa
+
+### i=575 id=cst-s0404t.tik-an8_p220 slug=pli-an-tika role=tika strat=6tika nhits=1
+   .. namevāti. ‘‘Kva saro khitto, kva ca nipatito’’ti aññathā vuṭṭhitenapi theravādena aṭṭhakathāvacanameva samatthitanti daṭṭhabbaṃ. Tenāha ‘‘yo pana vucca
+
+### i=576 id=cst-s0101t.tik-dn1_0_p051 slug=pli-dn-tika role=tika strat=6tika nhits=2
+   .. siddhantaṃ avirodhento, etena atthadosābhāvamāha. Aviruddhattā eva hi theravādāpi idha pakāsiyissanti. Theravaṃsapadīpānanti thirehi sīlakkhandhādīhi s
+   .. igamasampannattā paññāpajjotena tassa samujjalanato theravaṃsapadīpā, mahāvihāravāsino therā, tesaṃ. Vividhehi ākārehi nicchīyatīti vinicchayo, gaṇṭhiṭṭhāne
+
+### i=578 id=cst-s0101t.tik-dn1_8_p003 slug=pli-dn-tika role=tika strat=6tika nhits=1
+   .. 382. Idāni yaṃ vibhajjavādaṃ sandhāya bhagavatā ‘‘na me te vuttavādino’’ti saṅkhepato vatvā taṃ vi
+
+### i=582 id=cst-s0103t.tik-dn3_5_p061 slug=pli-dn-tika role=tika strat=6tika nhits=1
+   .. tto’’ti evaṃ pavatto tipiṭakacūḷābhayattheravādo cāti imesaṃ tiṇṇampi theravādānaṃ ekajjhaṃ saṅg
+
+### i=584 id=cst-s0104t.nrf-11_p020 slug=pli-dn-tika role=tika strat=6tika nhits=1
+   .. dūsikātipi pāḷiṃ likhantī’’ti aññanikāyikānaṃ pamādalekhataṃ dasseti. Mahāvihāravāsīnikāyikānañhi vācanāmaggavasena ayaṃ saṃvaṇṇanā pavattā. Apica tena potthakāruḷhakā
+
+### i=585 id=cst-s0104t.nrf-22_p010 slug=pli-dn-tika role=tika strat=6tika nhits=1
+   .. Aṭṭhasatapariyāye vuttanayena aṭṭhasatappabhedā. Mahāvihāravāsino cettha yathā viññāṇaṃ nāmarūpaṃ saḷāyatanaṃ, evaṃ phassaṃ, vedanañca 
+
+### i=587 id=cst-s0104t.nrf-2_p080 slug=pli-dn-tika role=tika strat=6tika nhits=1
+   .. tamavirodhento, iminā pana atthadosābhāvamāha. Aviruddhattā eva hi te theravādāpi idha pakāsayissanti. Kesaṃ pana samayanti āha ‘‘therāna’’ntiādi, eten
+
+### i=588 id=cst-s0104t.nrf-2_p082 slug=pli-dn-tika role=tika strat=6tika nhits=1
+   ..  vihāro mahāvihāro, yo satthu mahābodhinā virocati, tasmiṃ vasanasīlā mahāvihāravāsino
+
+### i=590 id=cst-s0105t.nrf-72_p003 slug=pli-dn-tika role=tika strat=6tika nhits=1
+   .. 382. Idāni yaṃ vibhajjavādaṃ sandhāya bhagavatā ‘‘na mete vuttavādino’’ti saṅkhepena vatvā taṃ vib
+
+### i=591 id=cst-s0105t.nrf-83_p020 slug=pli-dn-tika role=tika strat=6tika nhits=1
+   .. athā hi ‘‘arahattaphalasaññāya uppādā’’tiādinā (dī. ni. aṭṭha. 1.416) theravādānukūlameva upari attho saṃvaṇṇitoti. Ime bhikkhūti purimavādino bhikkhū. Tadā dī
+
+### i=592 id=cst-s0105t.nrf-83_p021 slug=pli-dn-tika role=tika strat=6tika nhits=1
+   .. -kāraṃ katvā. Da-kārenapi pakatipadamicchanti keci saddavidū. So pana theravāde na phalasamādhisaññā evāti āha ‘‘phalasamādhisaññāpaccayā’’ti, arahat
+
+### i=593 id=cst-s0519t.tik-12_p006 slug=pli-kn-tika role=tika strat=6tika nhits=2
+   ..  āruḷho eva hi buddhavacanassa atthasaṃvaṇṇanābhūto kathāmaggo pacchā tambapaṇṇiyehi mahātherehi sīhaḷabhāsāya ṭhapito. Attanomati theravādo. Samentameva 
+   .. o pacchā tambapaṇṇiyehi mahātherehi sīhaḷabhāsāya ṭhapito. Attanomati theravādo. Samentameva gahetabbanti yathā pāḷiyā saṃsandati, evaṃ mahāpadesato 
+
+### i=595 id=cst-s0201t.tik-mn1_0_p053 slug=pli-mn-tika role=tika strat=6tika nhits=2
+   .. siddhantaṃ avirodhento. Etena atthadosābhāvamāha. Aviruddhattā eva hi theravādāpi idha pakāsīyissanti. Theravaṃsadīpānanti thirehi sīlakkhandhādīhi sam
+   .. dhigamasampannattā paññāpajjotena tassa samujjalanato theravaṃsadīpā, mahāvihāravāsino, tesaṃ. Vividhehi ākārehi nicchīyatīti vinicchayo, gaṇṭhiṭṭhānesu khī
+
+### i=596 id=cst-s0201t.tik-mn1_2_p252 slug=pli-mn-tika role=tika strat=6tika nhits=1
+   .. ti āraddhassa pariyosāpetabbato. Āraddhassa antagamanaṃ anārambhovāti theravādo. Tassāti upajjhāyassa. Pabbhārasodhanaṃ kāyakammaṃ, ārabhanto eva vit
+
+### i=597 id=cst-s0201t.tik-mn1_5_p095 slug=pli-mn-tika role=tika strat=6tika nhits=1
+   .. sajjanassa sukarabhāvadassanatthaṃ. Paṭisambhidāvisaye ṭhatvāti etena theriyā pabhinnapaṭisambhidataṃ dasseti. Paccayabhūtāti ārammaṇādivasena pacc
+
+### i=598 id=cst-s0201t.tik-mn1_5_p096 slug=pli-mn-tika role=tika strat=6tika nhits=1
+   .. Theriyā visesādhigamassa attano avisayatāya visākho ‘‘na sakkā’’tiādinā cinte
+
+### i=599 id=cst-s0201t.tik-mn1_5_p101 slug=pli-mn-tika role=tika strat=6tika nhits=1
+   .. 462. Heṭṭhā vuttamatthameva pucchitattā ‘‘theriyā paṭipucchitvā vissajjetabbo’’ti vatvā paṭipucchanavidhiṃ dassetuṃ ‘‘u
+
+### i=600 id=cst-s0201t.tik-mn1_5_p127 slug=pli-mn-tika role=tika strat=6tika nhits=1
+   ..  ānanda, bhikkhu paṇḍito hotī’’ti (ma. ni. 3.124). Paññāmahattaṃ nāma theriyā asekkhappaṭisambhidappattāya paṭisambhidāyo pūretvā ṭhitatāti taṃ das
+
+### i=602 id=cst-s0301t.tik-sn1_0_p052 slug=pli-sn-tika role=tika strat=6tika nhits=2
+   .. siddhantaṃ avirodhento. Etena atthadosābhāvamāha. Aviruddhattā eva hi theravādāpi idha pakāsīyissanti. Theravaṃsadīpānanti thirehi sīlakkhandhādīhi sam
+   .. dhigamasampannattā paññāpajjotena tassa samujjalanato theravaṃsadīpā, mahāvihāravāsino, tesaṃ. Vividhehi ākārehi nicchīyatīti vinicchayo, gaṇṭhiṭṭhānesu khi
+
+### i=603 id=cst-s0301t.tik-sn1_10_p064 slug=pli-sn-tika role=tika strat=6tika nhits=1
+   .. vati sabbaganthavimuttiyā sīlasamannāgatena aggadakkhiṇeyyāya sukkāya theriyā bhojanassa dinnattā.
+
+### i=604 id=cst-s0302t.tik-sn2_1_p361 slug=pli-sn-tika role=tika strat=6tika nhits=1
+   .. ttapaveṇito. Anekāni cittakoṭisatasahassāni uppajjantīti vuttamatthaṃ theravādena dīpetuṃ ‘‘vuttampi ceta’’ntiādi vuttaṃ. Aḍḍhacūḷanti thokena ūnaṃ upa
+
+### i=605 id=cst-s0304t.tik-sn4_10_p004 slug=pli-sn-tika role=tika strat=6tika nhits=1
+   .. Khemāya theriyā vuttaṃ paṭhamaṃ suttaṃ bhagavato seṭṭhatthadīpanato aggapadāvacaraṃva
+
+### i=606 id=cst-s0305t.tik-sn5_10_p008 slug=pli-sn-tika role=tika strat=6tika nhits=1
+   .. Labbhatīti aṭṭhakathādhippāye ṭhatvā vuttaṃ, parato āgatena theravādena so anicchito. Na hi tārakarūpamuttāvaḷikādisadisaṃ nimittūpaṭṭhānākār
+
+### i=607 id=cst-s0305t.tik-sn5_2_p141 slug=pli-sn-tika role=tika strat=6tika nhits=1
+   .. iyo ca. Ayaṃ pana nayo pacurappavattivasena aṭṭhakathānayeneva vutto. Theravādavasena pana avitakkaavicāramattā pītisamādhisambojjhaṅgā rūpāvacarāpi atthīt
+
+### i=608 id=cst-s0305t.tik-sn5_7_p011 slug=pli-sn-tika role=tika strat=6tika nhits=1
+   .. nnamevāti. ‘‘Kva saro khitto, kvacani patito’’ti aññathā vuṭṭhitenapi theravādena aṭṭhakathāvacanameva samatthitanti daṭṭhabbaṃ. Tenāha ‘‘so pana na ru
+
+### i=609 id=cst-vin01t1.tik-25_p005 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. taṃ vinicchinituṃ na sakkoti. Aṭṭhakathāyaṃ vuttanayaṃ dassetvā idāni theravādaṃ dassento āha ‘‘mahāpadumatthero panā’’tiādi. Aṭṭhakathāyampi ‘‘na sak
+
+### i=610 id=cst-vin01t1.tik-26_p018 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. nidānasikkhāpadanidānadassanavasena nidānappabhedadīpanaṃ veditabbaṃ, theravādappakāsanaṃ pana vatthuppabhedadīpanaṃ. Parasamayavivajjanatoti ‘‘sakāya paṭiññāy
+
+### i=612 id=cst-vin01t1.tik-2_p067 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   ..  bāhirabhāvo siyāti tepi antokattukāmo ‘‘antogadhatheravāda’’nti āha, theravādepi antokatvāti vuttaṃ hoti. Saṃvaṇṇananti a
+
+### i=613 id=cst-vin01t1.tik-6_p003 slug=pli-vin-tika role=tika strat=6tika nhits=3
+   .. Tasmiṃyeva dutiye vassasate theravādato bhijjitvā dve ācariyavādā uppannā mahisāsakā ca vajjiputtakā ca. Tatt
+   .. are saṅkantikā nāma jātā, saṅkantikesu bhinnesu suttavādā nāma jātāti theravādato bhijjitvā ime ekādasa ācariyavādā uppannā, te theravādena saddhiṃ dvā
+   .. nāma jātāti theravādato bhijjitvā ime ekādasa ācariyavādā uppannā, te theravādena saddhiṃ dvādasa honti. Iti ime ca dvā
+
+### i=614 id=cst-vin01t1.tik-6_p023 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. ‘‘Ime ekādasa vādā, pabhinnā theravādato; Atthaṃ dhammañca bhindiṃsu, ekadesañca saṅgahaṃ; Ganthañca ekadesañh
+
+### i=615 id=cst-vin01t1.tik-6_p025 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. ; Sabbevaṭṭhārasa honti, bhinnavādena te saha; Nigrodhova mahārukkho, theravādānamuttamo.
+
+### i=616 id=cst-vin01t1.tik-6_p064 slug=pli-vin-tika role=tika strat=6tika nhits=3
+   .. Sabbaṃ theravādanti dve saṅgītiyo āruḷhā pāḷiyevettha ‘‘theravādo’’ti veditabbā. Sā hi ma
+   .. Sabbaṃ theravādanti dve saṅgītiyo āruḷhā pāḷiyevettha ‘‘theravādo’’ti veditabbā. Sā hi mahākassapapabhutīnaṃ mahātherānaṃ vādattā ‘‘the
+   .. ādo’’ti veditabbā. Sā hi mahākassapapabhutīnaṃ mahātherānaṃ vādattā ‘‘theravādo’’ti vuccati. Kontaputtatissattheroti ettha kontasakuṇiyo nāma kinnara
+
+### i=618 id=cst-vin01t1.tik-6_p101 slug=pli-vin-tika role=tika strat=6tika nhits=4
+   .. manassādīnaṃ cīvarādīnañca sevitabbāsevitabbabhāvaṃ vibhajja vadatīti vibhajjavādī, sassatucchedavāde vā vibhajja vadatīti vibhajjavādī, ‘‘sassato attā 
+   .. ibhajja vadatīti vibhajjavādī, sassatucchedavāde vā vibhajja vadatīti vibhajjavādī, ‘‘sassato attā ca loko cā’’tiādīnaṃ ṭhapanīyānaṃ pañhānaṃ ṭhapanato 
+   .. ikhayasaṅkhātassa sassatassa rāgādikāyaduccaritādiucchedassa vacanato vibhajjavādī, sassatucchedabhūte ubho ante anupaggamma majjhimapaṭipadābhūtassa pa
+   .. nte anupaggamma majjhimapaṭipadābhūtassa paṭiccasamuppādassa desanato vibhajjavād
+
+### i=619 id=cst-vin01t1.tik-7_p002 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. i yathā. Āguṃ na karontīti nāgā. Vinayapiṭakaṃ vācayiṃsūti sambandho. Tambapaṇṇiyāti bhummavacanaṃ. Nikāye pañca vācesunti vinayābhidhammavajje dīghanikāy
+
+### i=620 id=cst-vin01t1.tik-7_p047 slug=pli-vin-tika role=tika strat=6tika nhits=2
+   .. ūmivegābhijātamariyādavaṭṭi viya uppajji, uṭṭhahitvā aṭṭhāsīti attho. Tambapaṇṇiyaṃ pana aṭṭha muttā uppajjiṃsūti etthāpi tambapaṇṇiyaṃ samuddato sayamev
+   ..  aṭṭhāsīti attho. Tambapaṇṇiyaṃ pana aṭṭha muttā uppajjiṃsūti etthāpi tambapaṇṇiyaṃ samuddato sayameva uṭṭhahitvā jātito aṭṭha muttā samuddatīre vuttanay
+
+### i=621 id=cst-vin01t1.tik-7_p140 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Ete nāgā mahāpaññā, jambudīpā idhāgatā; Vinayaṃ te vācayiṃsu, piṭakaṃ tambapaṇṇiyā.
+
+### i=624 id=cst-vin01t2.tik-7_p010 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. akathā ca vuccati. Ettha ca aṭṭhakathāya visuṃ gahitattā paripucchāti theravādo vutto. Saṅghabhedassa pubbabhāge pavatta
+
+### i=625 id=cst-vin01t2.tik-7_p012 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. ’’ti evaṃ pubbāparānusandhito. Ācariyaparamparanti imasseva vevacanaṃ theravādaṅganti, therapaṭipāṭinti attho. Dve tayo parivaṭṭāti dve tisso paramparā.
+
+### i=626 id=cst-vin02t.tik-356_p013 slug=pli-vin-tika role=tika strat=6tika nhits=2
+   .. ’ti daharabhikkhuniyo āha. Tā gantvā sabbesaṃ gatabhāvaṃ ñatvā āgamma theriyā ārocesuṃ. Sā sutvā ‘‘mā tumhe tesaṃ gatabhāvaṃ cintayittha, attano ud
+   .. pātaṃ datvā ‘‘ayye aññattha mā gacchatha, niccaṃ idheva ethā’’ti āha. Theriyā pana kaniṭṭhabhātā nāgatthero nāma 
+
+### i=627 id=cst-vin02t.tik-356_p014 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. i cittena anuvadiyamāno santhambhituṃ na sakkhissāmi, appamattā hotha theriyo’’ti maggaṃ āruhi. Rukkhadevatāpi 
+
+### i=628 id=cst-vin02t.tik-6_p004 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. allānattherena, cūḷavedallasuttaṃ (ma. ni. 1.460 ādayo) dhammadinnāya theriyā bhāsitaṃ. Paccekabuddhabhāsitampi buddhabhāsiteyeva saṅgahaṃ gacchati
+
+### i=629 id=cst-vin04t.nrf-21_p007 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Mahāvihāravāsīnaṃ, vācanāmagganissitaṃ; Vattayissāmi nāmena, kaṅkhāvitaraṇiṃ subhanti.
+
+### i=630 id=cst-vin04t.nrf-382_p004 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Ārabhiṃ yamahaṃ sabbaṃ, sīhaḷaṭṭhakathānayaṃ; Mahāvihāravāsīnaṃ, vācanāmagganissitaṃ.
+
+### i=631 id=cst-vin04t.nrf-382_p006 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Na hettha taṃ padaṃ atthi, yaṃ virujjheyya pāḷiyā; Mahāvihāravāsīnaṃ, porāṇaṭṭhakathāhi vā.
+
+### i=632 id=cst-vin04t.nrf-382_p010 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. arimanussadhamme suppatiṭṭhitabuddhīnaṃ theravaṃsappadīpānaṃ therānaṃ mahāvihāravāsīnaṃ vaṃsālaṅkārabhūtena vipulavisuddhabuddhinā buddhaghosoti garūhi gahit
+
+### i=634 id=cst-vin05t.nrf-32_p044 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Apica suttantābhidhammavinayaṭṭhakathāsu āgato sabbopi theravādo attanomati nāma. Taṃ pana attanomatiṃ gahetvā kathentena na daḷhaggāh
+
+### i=635 id=cst-vin05t.nrf-32_p056 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. iyassa santike uggaṇhi, so asukassā’’ti evaṃ sabbaṃ ācariyaparamparaṃ theravādaṅgaṃ haritvā yāva upālitthero sammāsambuddhassa santike uggaṇhīti pāpetvā 
+
+### i=636 id=cst-vin06t.nrf-13_p021 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. aṅkhātaṃ āveṇikanidānañca sandhāyāha ‘‘nidānassa pabhedadīpanato’’ti. Theravādādi vatthuppabhedo. Sakāya paṭiññāya mettiyaṃ bhikkhuniṃ nāsethātiādi par
+
+### i=637 id=cst-vin06t.nrf-172_p003 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. ituṃ vaṭṭatīti tathā ācaranto’’ti ca. Tathā ācarati abhayagirivāsiko. Mahāvihāravāsino ce evaṃ v
+
+### i=641 id=cst-vin06t.nrf-28_p012 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. attā, vedanāṭṭattā ca muccatīti adhippāyo. Evaṃ sante pāḷiaṭṭhakathā, theravādo ca sameti, tasmā tesaṃ tesaṃ vinicchayānaṃ ayameva adhippāyoti no kha
+
+### i=642 id=cst-vin06t.nrf-299_p006 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. 1112. Vuṭṭhāpitanti sāmaṇeribhūmito yāya theriyā upasampadāpekkhā vuṭṭhapitā, sā therī vuṭṭhāpitā nāma, teneva puna vi
+
+### i=643 id=cst-vin06t.nrf-2_p056 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. uttatthapariccāgena tattha abhiniviṭṭhānaṃ abhinivesaṃ pariccajāpeti, theravādadassanena vinayavinicchayaṃ pati vinayadharānaṃ kāraṇopapattito uhāpohakkamaṃ d
+
+### i=647 id=cst-vin06t.nrf-67_p005 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. ti vutte pana apārājikāpi attano vacanena nāsetabbā jātāti adhippāyo. Mahāvihāravāsinopi attano suttaṃ vatvā ‘‘tumhākaṃ vāde thero kārako’’ti ca vadanti. Kasm
+
+### i=650 id=cst-vin07t.nrf-17_p018 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. anidānasikkhāpadanidānānaṃ vasena nidānappabhedadīpanaṃ veditabbaṃ. ‘‘Theravādappakāsanaṃ vatthuppabhedadīpana’’ntipi vadanti. ‘‘Sikkhāpadānaṃ paccuppannavatth
+
+### i=653 id=cst-vin07t.nrf-21_p017 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. rakādīhi ‘‘paravādo’’ti ajānantehi attano matiyā saṃsanditvā likhitaṃ vibhajjavādīmaṇḍalampi pavisitvā yāvajjatanā sāsanaṃ dūseti, purāpi kira imasmimpi damiḷaraṭ
+
+### i=654 id=cst-vin07t.nrf-24_p005 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Theravādoti mahāsumattherādīnaṃ gāho. Suttādiṃ nissāyeva viparītatopi attanomati 
+
+### i=655 id=cst-vin07t.nrf-24_p006 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. īlo, so sakavādī. Suttanti saṅgītittayāruḷhaṃ pāḷivacanaṃ. Paravādīti mahāvihāravāsī vā hotu aññanikāyavāsī vā, yo viparītato atthaṃ gahetvā kathanasīlo, 
+
+### i=656 id=cst-vin07t.nrf-24_p011 slug=pli-vin-tika role=tika strat=6tika nhits=2
+   .. oti padatthapiṇḍatthaadhippetatthādito. Kāraṇatoti tadatthupapattito. Theravādaṅganti theravādapaṭipāṭiṃ, tesaṃ vinicchayapaṭipāṭinti attho.
+   .. atthaadhippetatthādito. Kāraṇatoti tadatthupapattito. Theravādaṅganti theravādapaṭipāṭiṃ, tesaṃ vinicchayapaṭipāṭinti attho.
+
+### i=657 id=cst-vin07t.nrf-2_p011 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. samaladdhikānañca sabbesaṃ bhikkhūnaṃ gahaṇaṃ daṭṭhabbaṃ. Tasmā tesaṃ mahāvihāravāsīnaṃ diṭṭhisīlavisuddhiyā
+
+### i=658 id=cst-vin07t.nrf-2_p014 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   ..  bāhirabhāvo siyāti tepi antokattukāmo ‘‘antogadhatheravāda’’nti āha, theravādepi antokatvāti vuttaṃ hoti.
+
+### i=659 id=cst-vin07t.nrf-6_p010 slug=pli-vin-tika role=tika strat=6tika nhits=4
+   .. Sabbaṃ theravādanti dve saṅgītiyo āruḷhā pāḷi. Sā hi mahāsaṅghikādibhinnaladdhikāhi vivec
+   .. ṅgītiyo āruḷhā pāḷi. Sā hi mahāsaṅghikādibhinnaladdhikāhi vivecetuṃ ‘‘theravādo’’ti vuttā. Ayañhi vibhajjavādo mahākassapattherādīhi asaṅkarato rakkh
+   .. ahāsaṅghikādibhinnaladdhikāhi vivecetuṃ ‘‘theravādo’’ti vuttā. Ayañhi vibhajjavādo mahākassapattherādīhi asaṅkarato rakkhito ānīto cāti ‘‘theravādo’’ti 
+   .. i vibhajjavādo mahākassapattherādīhi asaṅkarato rakkhito ānīto cāti ‘‘theravādo’’ti vuccati, ‘‘satheravāda’’ntipi likhanti. Tattha ‘‘aṭṭhakathāsu āga
+
+### i=661 id=cst-vin07t.nrf-7_p002 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. o. Āguṃ pāpaṃ na karontīti nāgā. Vinayapiṭakaṃ vācayiṃsūti sambandho. Tambapaṇṇiyāti bhummavacanaṃ. Nikāye pañcāti vinayābhidhammānaṃ visuṃ gahitattā tabb
+
+### i=662 id=cst-vin07t.nrf-95_p009 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. āya paṭiññāya nāsethāti sijjhanato amhākaṃ vāde thero akārako hotīti. Mahāvihāravāsīnampi pana ‘‘sakāya paṭiññāyā’’ti vutte otiṇṇavatthusmiṃyeva tassā nāsanā v
+
+### i=664 id=cst-vin08t.nrf-68_p052 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. nābhūto kathāmaggo mahāmahindattherena tambapaṇṇidīpaṃ ābhato, pacchā tambapaṇṇiyehi mahātherehi sīhaḷabhāsāya ṭhapito nikāyantaraladdhisaṅkarapariharaṇat
+
+### i=665 id=cst-vin08t.nrf-68_p053 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. athāsū’’ti vacanato piṭakattayassapi sādhāraṇā esā kathāti veditabbā. Theravādoti mahāsumattherādīnaṃ gāho. Idāni tattha paṭipajjitabbākāraṃ dassento ā
+
+### i=666 id=cst-vin08t.nrf-68_p055 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. īlo, so sakavādī. Suttanti saṅgītittayāruḷhaṃ pāḷivacanaṃ. Paravādīti mahāvihāravāsī vā hotu aññanikāyavāsī vā, yo viparītato atthaṃ gahetvā kathanasīlo, 
+
+### i=667 id=cst-vin08t.nrf-68_p059 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. taṃ hoti, purebhattapayogova so, tasmā mūlaṭṭho na muccatīti tumhākaṃ theravādattā mūlaṭṭhassa pārāj
+
+### i=671 id=cst-vin08t.nrf-68_p073 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. āraṇatoti tadatthupapattito. Ācariyaparamparanti imasseva vevacanaṃ ‘‘theravādaṅga’’nti, therapaṭipāṭinti attho. Dve tayo parivaṭṭāti dve tayo paramparā
+
+### i=672 id=cst-vin08t.nrf-9_p009 slug=pli-vin-tika role=tika strat=6tika nhits=3
+   .. Ettha ca taṃ yuttaṃ, evaṃ sabbatthapi yo yo theravādo vā aṭṭhakathāvādo vā pacchā vuccati, so sova pamāṇanti gahetabbanti i
+   .. tha kurundiyaṃ vuttavacanaṃ yuttaṃ, evaṃ sabbatthapi vinicchaye yo yo theravādo vā aṭṭhakathāvādo vā pacchā vuccati, so sova pamāṇanti gahetabbaṃ, pu
+   .. kathāvādo vā pacchā vuccati, so sova pamāṇanti gahetabbaṃ, pure vutto theravādo vā aṭṭhakathāvādo vā pamāṇanti na gahetabbanti adh
+
+### i=674 id=cst-vin08t.nrf-9_p018 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. avacanassa aṭṭhakathā. Yā mahāmahindattherena tambapaṇṇidīpaṃ ābhatā, tambapaṇṇiyehi therehi pacchā sīhaḷabhāsāya abhisaṅkhatā ca hoti. Ekabhaṅgenāti ekap
+
+### i=675 id=cst-vin09t.nrf-127_p010 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. dīgho, katañjalī hutvāti vuttaṃ hoti. Pubbācariyā porāṇaṭṭhakathākārā tambapaṇṇiyā mahātherā, te eva parissayasahanato, paṭipakkhabhūtakilesahananato, p
+
+### i=676 id=cst-vin09t.nrf-127_p018 slug=pli-vin-tika role=tika strat=6tika nhits=4
+   .. Mahāvihāravāsīnanti mahāmeghavanuyyānabhūmibhāge patiṭṭhito vihāro mahāvihāro, yo satthun
+   .. ahāvihāro, yo satthuno mahābodhinā vibhūsito, tattha vasanti sīlenāti mahāvihāravāsino, tesaṃ mahāvihāravāsīnaṃ. Vācanāmagganissitanti kathāmagganissitaṃ, a
+   .. ahābodhinā vibhūsito, tattha vasanti sīlenāti mahāvihāravāsino, tesaṃ mahāvihāravāsīnaṃ. Vācanāmagganissitanti kathāmagganissitaṃ, aṭṭhakathānissitanti attho
+   .. Vācanāmagganissitanti kathāmagganissitaṃ, aṭṭhakathānissitanti attho, mahāvihāravāsīnaṃ sīhaḷaṭṭhakathānayaṃ idha nissāyāti vuttaṃ hoti. Vaṇṇayissāmīti pavat
+
+### i=677 id=cst-vin09t.nrf-426_p002 slug=pli-vin-tika role=tika strat=6tika nhits=2
+   .. Yaṃ pātimokkhassa vaṇṇanaṃ ārabhinti sambandho. ‘‘Mahāvihāravāsīna’’nti idaṃ purimapacchimapadehi saddhiṃ sambandhitabbaṃ, mahāvihāravās
+   .. āvihāravāsīna’’nti idaṃ purimapacchimapadehi saddhiṃ sambandhitabbaṃ, mahāvihāravāsīnaṃ porāṇaṭṭhakathāhi vāti ca. Pāḷiyatthañca kevalanti sakalaṃ pāḷiatthañ
+
+### i=678 id=cst-vin09t.nrf-427_p026 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. So buddhanāgattherohaṃ, bhikkhūnaṃ paramaṃ hitaṃ; Mahāvihāravāsīnaṃ, yatīnaṃ samayānugaṃ.
+
+### i=679 id=cst-vin10t.nrf-12_p1501 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. ‘‘Tissassa bhikkhuno vā tvaṃ, tassā tissāya theriyā; Santakaṃ paribhuñjāhi, vissajjehī’’ti vā tathā.
+
+### i=680 id=cst-vin10t.nrf-12_p1509 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Tissāya theriyā vā tvaṃ, santakaṃ paribhuñja vā; Vissajjehī’’ti vā vutte, hoti paccud
+
+### i=681 id=cst-vin10t.nrf-43_p121 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Iti tambapaṇṇiyena paramaveyyākaraṇena tipiṭakanayavidhikusalena paramakavijanahadayapad
+
+### i=682 id=cst-vin10t.nrf-56_p022 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Iti tambapaṇṇiyena paramaveyyākaraṇena tipiṭakanayavidhikusalena paramakavijanahadayapad
+
+### i=683 id=cst-vin11t.nrf-1_p019 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. iññuppasatthenapi suppasattho; So buddhadattācariyābhidhāno; Mahākavī theriyavaṃsadīpo.
+
+### i=684 id=cst-vin11t.nrf-2_p015 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Imāya gāthāya ceva ‘‘iti tambapaṇṇiyena paramaveyyākaraṇena tipiṭakanayavidhikusalena paramakavivarajana hada
+
+### i=685 id=cst-vin11t.nrf-44_p022 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Iti tambapaṇṇiyenātiādi pakaraṇakārakassa pabhavasuddhibāhusaccādiguṇamukhena pakaraṇe gārava
+
+### i=686 id=cst-vin11t.nrf-44_p023 slug=pli-vin-tika role=tika strat=6tika nhits=2
+   .. Tattha tambapaṇṇiyenāti tambapaṇṇimhi jāto, tattha vidito, tato āgatoti vā tambapaṇṇiyo, tena
+   .. a tambapaṇṇiyenāti tambapaṇṇimhi jāto, tattha vidito, tato āgatoti vā tambapaṇṇiyo, tena. Byākaraṇamavecca adhītavāti veyyākaraṇo, paramo ca uttamo ca s
+
+### i=687 id=cst-vin11t.nrf-5_p064 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. ti attho. Sāramateti ‘‘sāra’’nti adhimate. Atha vā sāraṃ apheggumataṃ mahāvihāravāsīnaṃ ācariyamataṃ etthāti ‘‘sāramato’’ti vinayavinicchayo vutto, tasmiṃ. I
+
+### i=688 id=cst-vin12t.nrf-290_p006 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. anti samuddādīnaṃ mukhasaṅkhātaṃ dvāraṃ. Sabbatthāti sabbāya nadiyaṃ. Theravādaṃ dassento āha ‘‘yaṃ panā’’tiādi. ‘‘Yojanaṃ…pe… vaṭṭatī’’ti yaṃ pana va
+
+### i=689 id=cst-vin12t.nrf-39_p008 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. ttaṃ gaṇhā’’ti. Yadaggenāti yaṃ aggena yena koṭṭhāsenāti attho. Dvīsu theravādesu mahāsumattheravādova yuttoti so pacchā vuttoti. Tatiyaṃ.
+
+### i=691 id=cst-vin13t.nrf-162_p004 slug=pli-vin-tika role=tika strat=6tika nhits=2
+   .. 475-6. Tambapaṇṇi eva tambapaṇṇiyo, ketu viya ketu, tambapaṇṇiye ketūti tappuriso. Tena racitā dhammavin
+   .. 475-6. Tambapaṇṇi eva tambapaṇṇiyo, ketu viya ketu, tambapaṇṇiye ketūti tappuriso. Tena racitā dhammavinayaññupasaṃsitā ayaṃ khuddasik
+
+### i=692 id=cst-vin13t.nrf-53_p007 slug=pli-vin-tika role=tika strat=6tika nhits=1
+   .. Tena dhammasirīkena, tambapaṇṇiyaketunā; Therena racitā dhammavinayaññupasaṃsitā.
+
+### i=693 id=cst-e0103n.att-21_p002 slug=pli-vism-tika role=tika strat=6tika nhits=1
+   .. garuṭṭhānīye kattabbameva. Tattha pana paṭipajjanavidhiṃ dassetuṃ yaṃ theravādaṃ āha ‘‘āsanaṃ vā rakkheyya bhojanaṃ vā’’tiādi. Tassattho – ekāsanikaṃ 
+
+### i=694 id=cst-e0103n.att-2_p009 slug=pli-vism-tika role=tika strat=6tika nhits=1
+   .. Suvisuddhaṃ asaṃkiṇṇaṃ, nipuṇatthavinicchayaṃ; Mahāvihāravāsīnaṃ, samayaṃ avilomayaṃ.
+
+### i=696 id=cst-e0103n.att-3_p016 slug=pli-vism-tika role=tika strat=6tika nhits=1
+   .. raṇa’’nti iminā payojanaṃ, ‘‘vaṇṇayanto atthaṃ, suvisuddhavinicchayaṃ mahāvihāravāsīnaṃ desanānayanissitaṃ, sakkacca’’nti ca iminā karaṇappakāraṃ dassetvā ‘‘
+
+### i=697 id=cst-e0104n.att-47_p044 slug=pli-vism-tika role=tika strat=6tika nhits=2
+   .. to tanti, gantho. ‘‘Kiṃ vādī, bhante, sammāsambuddho’’ti pucchitena ‘‘vibhajjavādī, mahārājā’’ti (pārā. aṭṭha. 1.tatiyasaṅgītikathā; kathā. aṭṭha. nidān
+   ..  nidānakathā) moggaliputtatissattherena vuttattā sammāsambuddhasāvakā vibhajjavādino. Te hi satthārā venayikādibhāvaṃ vibhajja vuttaṃ anuvadanti, somanass
+
+### i=698 id=cst-e0104n.att-47_p045 slug=pli-vism-tika role=tika strat=6tika nhits=3
+   .. Otaritvāti ogāhetvā, vibhajjavādī hutvāti attho. Na hi sayaṃ avibhajjavādī samāno vibhajjavādīnaṃ antar
+   .. gāhetvā, vibhajjavādī hutvāti attho. Na hi sayaṃ avibhajjavādī samāno vibhajjavādīnaṃ antare ṭhānamattena vibhajjavādimaṇḍalaṃ otiṇṇo nāma hoti. Ācariyehi 
+   ..  Na hi sayaṃ avibhajjavādī samāno vibhajjavādīnaṃ antare ṭhānamattena vibhajjavādimaṇḍalaṃ otiṇṇo nāma hoti. Ācariyehi avuttaviparītatthadīpanena te naabbhacikk
+
+### i=699 id=cst-e0104n.att-4_p074 slug=pli-vism-tika role=tika strat=6tika nhits=1
+   .. ato mahāmoggallānassa nandopanandadamaneti evaṃ pavattaṃ sahavatthunā theravādaṃ āharitvā tamatthaṃ dassetuṃ ‘‘tipiṭakacūḷanāgatthero āhā’’tiādi āradd
+
+### i=700 id=cst-e0104n.att-54_p004 slug=pli-vism-tika role=tika strat=6tika nhits=1
+   .. Tatthāti saḷāyatanapaccayā phassapade. Ye tāva ācariyā mahāvihāravāsinova yathā viññāṇaṃ, evaṃ nāmarūpaṃ, saḷāyatanaṃ, phassaṃ, vedanañca pacca
+
+### i=702 id=cst-e0105n.nrf-008 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=1
+   .. avinicchayānaṃ, mahāvihāre nivāsina’’nti ca, Idhāpi visuddhimagge – ‘‘Mahāvihāravāsīnaṃ, desanānayanissitaṃ; Visuddhimaggaṃ b
+
+### i=703 id=cst-e0105n.nrf-009 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=1
+   .. ṅgītidvayārūḷhapurāṇadhammavinayameva sampaṭicchantānaṃ therānaṃ gaṇo theravādoti ca tadaññesaṃ mahāsaṅghikoti ca voharīyanti. Puna mahāsaṅghikato (1) 
+
+### i=705 id=cst-e0105n.nrf-012 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=2
+   .. Mahāvihāravāsino pana porāṇikaṃ pāḷibhāsāya saṇṭhitaṃ parisuddhapiṭakameva paṭiggaṇhan
+   .. nakammamakaṃsu (mahāvaṃse 33, 100-101-gāthāsu). Tenidaṃ ñāyati ‘‘tadā mahāvihāravāsino therā rājarāja
+
+### i=706 id=cst-e0105n.nrf-014 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=2
+   .. etullapiṭakaṃ sampaṭiggahetvā ‘‘idaṃ buddhabhāsita’’nti dassenti. Taṃ mahāvihāravāsino theravādikā dhammavinayena saṃsandetvā adhammavādoti paṭikkhipiṃsu. T
+   .. paṭiggahetvā ‘‘idaṃ buddhabhāsita’’nti dassenti. Taṃ mahāvihāravāsino theravādikā dhammavinayena saṃsandetvā adhammavādoti paṭikkhipiṃsu. Taṃ sutvā rāj
+
+### i=708 id=cst-e0105n.nrf-017 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=1
+   .. Kīdiso vetullavādo nāma, yato mahāvihāravāsino ativiya jigucchiṃsūti? Idāni vetullavādassa sarūpaṃ sabbākārena pakās
+
+### i=709 id=cst-e0105n.nrf-018 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=1
+   .. Mahāvihāravāsīsu pana vuttappakārena sabbavihāre chaḍḍetvā gatesu saṅghamitto pāpabhik
+
+### i=710 id=cst-e0105n.nrf-019 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=1
+   ..  mahāvihārasīmabbhantare jotivanuyyāne jetavanavihāraṃ kāretumārabhi. Mahāvihāravāsino bhikkhū taṃ nivāretuṃ asakkontā punapi tato apakkamiṃsu. Tadāpi mahāv
+
+### i=711 id=cst-e0105n.nrf-020 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=3
+   .. makathāyaṃ dassitaṃ. Tañca sabbaṃ abhayagirivihāratoyeva laddhamassa, mahāvihāravāsīnaṃ sakkatāropitapiṭakābhāvato. Aṭṭhakathāyaṃ paṭikkhittavaṇṇapiṭakādīni 
+   .. vato. Aṭṭhakathāyaṃ paṭikkhittavaṇṇapiṭakādīni ca tattheva bhaveyyuṃ, mahāvihāravāsīhi tesaṃ appaṭiggahitabhāvato. Tathā ‘‘phāhiyambhikkhussa sīhaḷadīpe paṭ
+   .. anakāle (954-956-bu-va) mahāvihāre tisahassamattā bhikkhū vasanti, te theravādapiṭakameva uggaṇhanti, na mahāyānapiṭakaṃ. Abhay
+
+### i=712 id=cst-e0105n.nrf-023 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=2
+   .. maṃ sutvā tampi uggaṇhitukāmo tasmiṃyeva dakkhiṇaindiyaraṭṭhe ekasmiṃ theravādikavihāre mahāvihāravāsīnaṃ revatattherappamukhānaṃ bhikkhūnaṃ santike pabbajja
+   .. gaṇhitukāmo tasmiṃyeva dakkhiṇaindiyaraṭṭhe ekasmiṃ theravādikavihāre mahāvihāravāsīnaṃ revatattherappamukhānaṃ bhikkhūnaṃ santike pabbajjañceva upasampadañc
+
+### i=713 id=cst-e0105n.nrf-024 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=1
+   .. Kasmā pana te taṃ āyāciṃsūti? Vuccate, mahāvihāravāsino hi āditoyeva paṭṭhāya piṭakattayaṃ yathā tīsu saṅgītīsu pāḷibhāsāya s
+
+### i=715 id=cst-e0105n.nrf-026 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=2
+   ..  pañhassa attho ācariyeneva pakāsito. Vuttañhi ettha ganthārambhe – ‘‘Mahāvihāravāsīnaṃ, desanānayanissita’’nti (visuddhi. 1.2). Tathā nigamanepi – ‘‘Tesaṃ s
+   .. na vacanena ayamattho pākaṭo hoti – ‘‘visuddhimaggaṃ kurumāno ācariyo mahāvihāravāsīnaṃ desanānayasaṅkhātā pañcannampi nikāyānaṃ porāṇaṭṭhakathāyo nissāya tā
+
+### i=718 id=cst-e0105n.nrf-034 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=3
+   .. āma pātimokkhaṭṭhakathaṃ ācariyabuddhaghosatthero soṇattherena yācito mahāvihāravāsīnaṃ vācanāmagganissitaṃ sīhaḷapātimokkhaṭṭhakathānayaṃ nissāya ekampi pad
+   .. issitaṃ sīhaḷapātimokkhaṭṭhakathānayaṃ nissāya ekampi padaṃ pāḷiyā vā mahāvihāravāsīnaṃ porāṇaṭṭhakathāhi vā avirodhetvā akāsi. Tena vuttaṃ tissaṃ aṭṭhakathā
+   .. hikkhūnaṃ tassa vaṇṇanaṃ; Kaṅkhāvitaraṇatthāya, paripuṇṇavinicchayaṃ. Mahāvihāravāsīnaṃ, vācanāmagganissitaṃ; Vattayissāmi nāmena, kaṅkhāvitaraṇiṃ subha’’nti
+
+### i=721 id=cst-e0105n.nrf-037 slug=pli-cst-e0105n-nrf role=anya strat=7other nhits=1
+   ..  mahisāsakanikāyikena ca buddhadevattherenāti tīhi therehi abhiyācito mahāvihāravāsīnaṃ vācanāmaggaṃ nissāya katā. Imissāpi nāmaviseso natthi. Vuttaṃ himissā
+
+### i=736 id=cst-e0703n.nrf-007 slug=pli-cst-e0703n-nrf role=anya strat=7other nhits=3
+   .. 1. Yā mahākassapādīhi, mahātherehi ādito; Katā saddhamma saṃgīti, theriyā’ti pavuccati. 2. Eko’va theravādo so, ādivassasate ahu; Aññācariyavād
+   .. herehi ādito; Katā saddhamma saṃgīti, theriyā’ti pavuccati. 2. Eko’va theravādo so, ādivassasate ahu; Aññācariyavādātu, tato oraṃ ajāyisuṃ. 3. Tehi s
+   .. ā bāhulikāpi ca; Cetiyavādā tesveva, samatāsaṅghikā cha te. 6. Punāpi theravādehi, mahiṃsāsakabhikkhavo; Vajjīputtakabhikkhū ca, duve jātā ime khalu. 7
+
+### i=742 id=cst-e0703n.nrf-043 slug=pli-cst-e0703n-nrf role=anya strat=7other nhits=3
+   .. adhā; Mahāvihāra viddhaṃsaṃ, kātukāmo asaññato. 4. Avinayavādino ete, mahāvihāravāsino; Vinayavādī mayaṃ rāja, iti gāhiya bhūpabhiṃ. 5. Mahāvihāravāsissa, ā
+   .. te, mahāvihāravāsino; Vinayavādī mayaṃ rāja, iti gāhiya bhūpabhiṃ. 5. Mahāvihāravāsissa, āhāraṃ deti bhikkhuno; Yo so sataṃ daṇḍiyo’ti, raññā daṇḍaṃ ṭhapāpay
+   .. o sataṃ daṇḍiyo’ti, raññā daṇḍaṃ ṭhapāpayi. 6. Upaddutā tehi bhikkhū, mahāvihāravāsino; Mahāvihāraṃ chaḍḍetvā, malayaṃ rohaṇaṃ aguṃ. 7. Tena mahāvihāro’yaṃ,
+
+### i=758 id=cst-e0902n.nrf-045 slug=pli-cst-e0902n-nrf role=anya strat=7other nhits=1
+   .. ssajjanā – rājagahe bhante visākhena upāsakena puṭṭhāya dhammadinnāya theriyā bhāsitaṃ.
+
+### i=760 id=cst-e0903n.nrf-021 slug=pli-cst-e0903n-nrf role=anya strat=7other nhits=1
+   .. va bhante andhavane māraṃ pāpimantaṃ ārabbha kisāgotamiyā bhikkhuniyā theriyā bhāsitaṃ. Māro bhante pāpimā kisāgotamiyā bhikkhuniyā bhayaṃ chambhit
+
+### i=761 id=cst-e0903n.nrf-025 slug=pli-cst-e0903n-nrf role=anya strat=7other nhits=1
+   .. aṃ. Vissajjanā – sāvatthiyaṃ bhante māraṃ pāpimantaṃ ārabbha vajirāya theriyā bhikkhuniyā bhāsitaṃ. Māro bhante pāpimā purimanayeneva vajiraṃ bhikk
+
