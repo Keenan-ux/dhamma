@@ -5,12 +5,31 @@ supersedes the campaign-specific docs it points to. Internal doc; em-dashes allo
 deliverable prose. Update IN PLACE (snapshot, not append-log).*
 
 ## 1. Where things stand (one screen)
-Live at **https://dhamma.fly.dev/** (admin-gated Research tab). HEAD = `36d1477`, working tree clean,
-origin in sync. The 2026-06-23 adversarial review of the whole research program, its full correction
-queue, a writing-standard hardening pass, and a brand-new 6th study all landed this session and are
-deployed. **There are now six Research studies** (awakening, individual-guidance, heart-base-and-insight,
-uttarakuru, naga, **come-and-see**) plus two public Explorations (wheel-turning-monarch, vegetarianism).
-All theses survive; the quantitative apparatus was corrected program-wide. Nothing is mid-flight.
+Live at **https://dhamma.fly.dev/** (admin-gated Research tab). HEAD = `7590195`, working tree clean,
+origin in sync. **There are now SEVEN Research studies** (awakening, individual-guidance,
+heart-base-and-insight, uttarakuru, naga, come-and-see, **the-commentarial-register**) plus two public
+Explorations. The 2026-06-23 adversarial review + corrections shipped earlier; the 2026-06-25 EXPANSION
+CAMPAIGN (below) added the 7th study + two program-wide method corrections.
+
+## 1b. Expansion campaign (2026-06-25) — read `EXPANSION-SLATE-2026-06-24.md` + `EXPANSION-BUILD-STATUS.md`
+A 72-agent sweep produced a ranked slate of corpus-tractable open problems; 9 were probed end-to-end
+(protocols -> serial enumeration -> blind multi-coder + adversarial analysis). Honest outcome (medium
+ceiling, as predicted): the elaborate GRADIENT hypotheses nulled, but the campaign yielded **one shipped
+flagship study** and **two methodological corrections** that improve the whole program:
+- **Shipped: "The Commentarial Register"** (slug `commentarial-register`, served json + new data-driven
+  `CommentarialRegisterStudy`/`SpecTable` renderer in ResearchView.jsx). Deduped per-character density of
+  nine doctrinal terms: HOUSE sabhāva ~55x (strongest in the program), paramattha/mātikā/iddhi/pāṭihāriya;
+  COUNTER the sabbe-dhammā-anattā maxim (canon-denser) + predicative dominance ~60:1; abhiññā near-even;
+  sati null; theravāda disclosed as an edition artifact.
+- **Correction 1 (PROGRAM-WIDE):** the canon is double-ingested (SC+CST); the prior `mūla 53.5M`
+  denominator is un-deduped and inflates HOUSE ratios ~1.3-2x (sabhāva 98x->55x). Fix = is_primary on the
+  canon side. Strengthens come-and-see's counter (dedup raises canon density). **Follow-on: recompute the
+  five house studies' magnitudes deduped.** Corrected table `EXPANSION-CORRECTED-DENSITY-2026-06-25.json`.
+- **Correction 2:** the co-occurrence-ratio GRADIENT method is unsound (the definitional register lifts
+  every term -> every negative control moves). Use gross per-character density, not gradients.
+- Parked: formulaic-budget (all-pairs embedding wedges the DB; needs an offline chunked pipeline);
+  foreign-text ingest (the high-tier unlock, GPU). New pipeline tooling: `generic_enumerate.py`,
+  `materialize_analysis.py`, `_corrected_density.py`, per-study `_protocol.json`/`_raw.json`/`_analysis.json`.
 
 ## 2. What landed this session (newest first; all deployed + pushed)
 - `a0f7c37` mark the all-tiers autonomous goal MET (the ledger).
