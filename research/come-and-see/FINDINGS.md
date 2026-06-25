@@ -87,8 +87,11 @@ commentary actually does, against a codebook fixed in the pre-registration. The 
   is the falsifier the pre-registration named, and it does not fire. The boundary is explicit:
   *correlate* maps the formula's members onto another phrase; *amplify* would be an enumerated typology,
   tier, or doctrine predicated on a quality itself. The full row text for all 18 rows is stored in the
-  dataset so the call is independently checkable; a formal second-coder κ was descoped because the
-  distinction turns on the single mechanical question of whether a standing scheme is present.
+  dataset so the call is independently checkable, and a blind second coder recoded all 18 rows from the
+  same text against the pre-registered codebook: agreement was total (Cohen κ = 1.00 on the five-way
+  descriptive code), and the second coder independently returned amplify = 0. Once amplify returns zero
+  the amplify-vs-not call is a binary with no variance, so a κ on it is undefined; that verdict is
+  therefore reported as an exact replication rather than a κ, and the κ figure is the descriptive code.
 
 ## IV. What about akālika
 
@@ -128,5 +131,7 @@ Every canonical and commentarial row resolves to a real corpus id, listed in the
 (`public/research/come-and-see.json`) and opening in the live reader. The corpus-level counts re-derive
 from `_enumerate.py` (committed query-to-result); the canon density numerator excludes *pli-vism*. The
 treatment coding is per-row in the dataset, with the full row-text window stored so the amplify-zero
-verdict is independently checkable; the codebook is in `PREREGISTRATION.md` §3. Per-layer character
-totals (the density denominators): mūla 53.5M, aṭṭhakathā 29.5M, ṭīkā 28.4M.
+verdict is independently checkable; the codebook is in `PREREGISTRATION.md` §3. A blind second coder
+recoded all 18 rows against that codebook (Cohen κ = 1.00 on the five-way code; amplify = 0 independently
+replicated); both codings are committed in `build_dataset.py` and per-row in the served dataset. Per-layer
+character totals (the density denominators): mūla 53.5M, aṭṭhakathā 29.5M, ṭīkā 28.4M.

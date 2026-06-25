@@ -108,7 +108,14 @@
    "recollection-gloss": 3
   },
   "amplify_count": 0,
-  "iaa_note": "The treatment codebook (PREREGISTRATION §3) turns on one mechanical question: does the row build an enumerated scheme, tier, or doctrine on the quality (amplify), or only define/correlate/quote it. A formal second-coder κ was descoped; instead the full row text window is stored for all 18 rows so the amplify=0 call is independently checkable from the dataset."
+  "iaa": {
+   "kappa": 1.0,
+   "observed_agreement": 1.0,
+   "expected_agreement": 0.2654,
+   "n": 18,
+   "amplify_second_coder": 0,
+   "method": "A blind second coder re-coded all 18 commentarial rows from the same stored snippets against the PREREGISTRATION §3 codebook, without seeing the first coding. Cohen κ is on the five-way descriptive code (word-gloss / correlate / grammatical / quotation / recollection-gloss). The load-bearing amplify-vs-not call is reported as exact replication: both coders found amplify=0, so a κ on that binary is undefined for lack of variance. Full row text is stored for every row so the call is also checkable by hand."
+  }
  },
  "canon_formula": [
   {
@@ -831,7 +838,8 @@
    "chars": 615,
    "snippet": "54. Tatiye sammodanīyanti sammodajananiṃ. Sāraṇīyanti saritabbayuttakaṃ. Vītisāretvāti pariyosāpetvā. Kittāvatāti kittakena. Sandiṭṭhiko dhammo hotīti sāmaṃ passitabbo hoti. Akālikoti na kālantare phaladāyako. Ehipassikoti ‘‘ehi passā’’ti evaṃ dassetuṃ sakkāti āgamanīyapaṭipadaṃ pucchati. Opaneyyikoti attano cittaṃ upanetabbo. Paccattaṃ veditabboti sāmaṃyeva jānitabbo. Viññūhīti paṇḍitehi. Pariyādinnacittoti ādinnagahitaparāmaṭṭhacitto hutvā. Cetetīti cinteti. Sesamettha uttānameva. Imasmiṃ pana sutte brāhmaṇena lokuttaramaggo pucchito, satthārāpi soyeva kathito. So hi sāmaṃ passitabbattā sandiṭṭhiko nāmāti.",
    "akalika_gloss": "o hoti. Akālikoti na kālantare phaladāyako. Ehipassikoti ‘‘ehi passā’’ti evaṃ ",
-   "treatment": "word-gloss"
+   "treatment": "word-gloss",
+   "second_coder": "word-gloss"
   },
   {
    "id": "cst-s0402a.att-an3_2_3_p010",
@@ -841,7 +849,8 @@
    "chars": 1226,
    "snippet": "āyūhitakammaṃ. Phussa phussa byantī karotīti phusitvā phusitvā vigatantaṃ karoti, vipākaphassaṃ phusitvā phusitvā taṃ kammaṃ khepetīti attho. Sandiṭṭhikāti sāmaṃ passitabbā. Akālikāti na kālantare kiccakārikā. Ehipassikāti ‘‘ehi passā’’ti evaṃ dassetuṃ yuttā. Opaneyyikāti upanaye yuttā allīyitabbayuttā. Paccattaṃ veditabbā viññūhīti paṇḍitehi attano attano santāneyeva jānitabbā, bālehi pana dujjānā. Iti sīlavasena dve maggā, dve ca phalāni kathitāni. Sotāpannasakadāgāmino hi sīlesu paripūrakārinoti. Vivicceva kāmehītiādikāya pana samādhisampadāya tayo maggā, tīṇi ca phalāni kathitāni. Anāgāmī ariyasāvako hi samādhimhi paripūrakārīti",
    "akalika_gloss": "itabbā. Akālikāti na kālantare kiccakārikā. Ehipassikāti ‘‘ehi passā’’ti evaṃ ",
-   "treatment": "word-gloss"
+   "treatment": "word-gloss",
+   "second_coder": "word-gloss"
   },
   {
    "id": "cst-s0401t.tik-an1_p062",
@@ -851,7 +860,8 @@
    "chars": 1559,
    "snippet": "tiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi, ‘‘sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi. ‘‘Gatamala’’nti iminā saṃkilesābhāvadīpanena dhammassa parisuddhataṃ dasseti, ‘‘anuttara’’nti etena aññassa visiṭṭhassa abhāvadīpanena vipulaparipuṇṇataṃ. Paṭhamena vā pahānasampadaṃ dhammassa dasseti, dutiyena pabhavasampadaṃ. Bhāvetabbatāya vā dhammassa gatamalabhāvo yojetabbo. Bhāvanāguṇena hi so dosānaṃ samugghātako hotīti. Sacc",
    "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa",
-   "treatment": "correlate"
+   "treatment": "correlate",
+   "second_coder": "correlate"
   },
   {
    "id": "cst-s0101t.tik-dn1_0_p035",
@@ -861,7 +871,8 @@
    "chars": 900,
    "snippet": "tiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi, ‘‘sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi.",
    "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa",
-   "treatment": "correlate"
+   "treatment": "correlate",
+   "second_coder": "correlate"
   },
   {
    "id": "cst-s0104t.nrf-2_p050",
@@ -871,7 +882,8 @@
    "chars": 1106,
    "snippet": "utiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi, ‘‘sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā paṭhamena akālikatāya, dutiyena ehipassikatāya. Paṭhamena vā opaneyyikatāya, dutiyena paccattaṃveditabbatāya. Paṭhamena vā saha pubbabhāgasīlādīhi sekkhehi sīlasamādhipaññākkhandhehi, dutiyena saha asaṅkhatadhātuyā asekkhehi dhammaṃ thometi.",
    "akalika_gloss": "ṭhamena akālikatāya, dutiyena ehipassikatāya. Paṭhamena vā opaneyyikatāya, dut",
-   "treatment": "correlate"
+   "treatment": "correlate",
+   "second_coder": "correlate"
   },
   {
    "id": "cst-s0105t.nrf-75_p003",
@@ -881,7 +893,8 @@
    "chars": 1001,
    "snippet": "‘‘Ehi bhadanto’’ti vutte upagamanasaṅkhāto vidhi ehibhaddanto, taṃ caratīti ehibhaddantiko, ruḷhisaddena cettha taddhitasiddhi yathā ‘‘ehipassiko’’ti, (ma. ni. 1.74) tappaṭikkhepena naehibhaddantiko, tadevatthaṃ dasseti ‘‘bhikkhāgahaṇattha’’ntiādinā. Na etīti na āgacchati. Evaṃ natiṭṭhabhaddantikoti etthāpi. Samaṇena nāma sayaṃvacanakareneva bhavitabbaṃ, na paravacanakarenāti adhippāyena tadubhayampi…pe… na karoti. Puretaranti taṃ ṭhānaṃ attanā upagamanato paṭhamataraṃ, taṃ kira so ‘‘bhikkhunā nāma yādicchakī eva bhikkhā gahetabbā’’ti adhippāyena na gaṇhāti. ",
    "akalika_gloss": null,
-   "treatment": "grammatical"
+   "treatment": "grammatical",
+   "second_coder": "grammatical"
   },
   {
    "id": "cst-s0511a.att-30_p078",
@@ -891,7 +904,8 @@
    "chars": 87,
    "snippet": "‘‘Eso hi sammāsambuddho, appameyyo durāsado; Eso hi dhammaratano, svākkhāto ehipassiko.",
    "akalika_gloss": null,
-   "treatment": "quotation"
+   "treatment": "quotation",
+   "second_coder": "quotation"
   },
   {
    "id": "cst-s0516a.att-19_p026",
@@ -901,7 +915,8 @@
    "chars": 653,
    "snippet": "alaṃdānaṃ sandhāya nāssa kāloti akālo, akāloyeva akāliko. Yo ettha ariyamaggadhammo, so attano samanantarameva phalaṃ detīti attho, taṃ akālikaṃ. Ehi passa imaṃ dhammanti evaṃ pavattaṃ ehipassavidhiṃ arahatīti ehipassiko, taṃ ehipassikaṃ. Ādittaṃ celaṃ vā sīsaṃ vā ajjhupekkhitvāpi attano citte upanayaṃ arahatīti opaneyyiko, taṃ opaneyyikaṃ. Sabbehipi ugghaṭitaññūādīhi ‘‘bhāvito me maggo, adhigataṃ phalaṃ, sacchikato nirodho’’ti attani attani veditabbanti paccattaṃ veditabbaṃ viññūhi.",
    "akalika_gloss": "āloyeva akāliko. Yo ettha ariyamaggadhammo, so attano samanantarameva phalaṃ d",
-   "treatment": "word-gloss"
+   "treatment": "word-gloss",
+   "second_coder": "word-gloss"
   },
   {
    "id": "cst-s0519t.tik-1_p033",
@@ -911,7 +926,8 @@
    "chars": 1006,
    "snippet": "atibhāvena, dutiyena amatabhāvena dhammaṃ thometi. Atha vā paṭhamena niyyānikabhāvadassanato svākkhātatāya dhammaṃ thometi, dutiyena sacchikātabbabhāvato sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi.",
    "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa",
-   "treatment": "correlate"
+   "treatment": "correlate",
+   "second_coder": "correlate"
   },
   {
    "id": "cst-s0201t.tik-mn1_0_p036",
@@ -921,7 +937,8 @@
    "chars": 1559,
    "snippet": "tiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi. ‘‘Sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi. ‘‘Gatamala’’nti iminā saṃkilesābhāvadīpanena dhammassa parisuddhataṃ dasseti, ‘‘anuttara’’nti etena aññassa visiṭṭhassa abhāvadīpanena vipulaparipuṇṇataṃ. Paṭhamena vā pahānasampadaṃ dhammassa dasseti, dutiyena sabhāvasampadaṃ. Bhāvetabbatāya vā dhammassa gatamalabhāvo yojetabbo. Bhāvanāguṇena hi so dosānaṃ samugghātako hotīti. Sacc",
    "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa",
-   "treatment": "correlate"
+   "treatment": "correlate",
+   "second_coder": "correlate"
   },
   {
    "id": "cst-s0301a.att-sn1_1_p163",
@@ -931,7 +948,8 @@
    "chars": 1098,
    "snippet": "o phaladānaṃ sandhāya nāssa kāloti akālo, akāloyeva akāliko. Yo ettha ariyamaggadhammo, so attano pavattisamanantarameva phalaṃ detīti attho. ‘‘Ehi passa imaṃ dhamma’’nti evaṃ pavattaṃ ehipassavidhiṃ arahatīti ehipassiko. Ādittaṃ celaṃ vā sīsaṃ vā ajjhupekkhitvāpi bhāvanāvasena attano citte upanayaṃ arahatīti opaneyyiko. Sabbehi ugghaṭitaññūādīhi viññūhi ‘‘bhāvito me maggo, adhigataṃ phalaṃ, sacchikato nirodho’’ti attani attani veditabboti paccattaṃ veditabbo viññūhīti. Ayamettha saṅkhepo, vitthāro pana visuddhimagge (visuddhi. 1.146 ādayo) dhammānussativaṇṇanāyaṃ vutto.",
    "akalika_gloss": "āloyeva akāliko. Yo ettha ariyamaggadhammo, so attano pavattisamanantarameva p",
-   "treatment": "word-gloss"
+   "treatment": "word-gloss",
+   "second_coder": "word-gloss"
   },
   {
    "id": "cst-s0301t.tik-sn1_0_p032",
@@ -941,7 +959,8 @@
    "chars": 1558,
    "snippet": "tiyena amatabhāvena dhammaṃ thometi. Atha vā ‘‘yaṃ dhammaṃ bhāvetvā buddhabhāvaṃ upagato’’ti etena svākkhātatāya dhammaṃ thometi, ‘‘sacchikatvā’’ti etena sandiṭṭhikatāya. Tathā purimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pacchimena paccattaṃ veditabbatāya dhammaṃ thometi. ‘‘Gatamala’’nti iminā saṃkilesābhāvadīpanena dhammassa parisuddhataṃ dasseti. ‘‘Anuttara’’nti etena aññassa visiṭṭhassa abhāvadīpanena vipulaparipuṇṇataṃ. Paṭhamena vā pahānasampadaṃ dhammassa dasseti, dutiyena sabhāvasampadaṃ. Bhāvetabbatāya vā dhammassa gatamalabhāvo yojetabbo. Bhāvanābalena hi so dosānaṃ samugghātako hotīti. Sacc",
    "akalika_gloss": "urimena akālikatāya, pacchimena ehipassikatāya. Purimena vā opaneyyikatāya, pa",
-   "treatment": "correlate"
+   "treatment": "correlate",
+   "second_coder": "correlate"
   },
   {
    "id": "cst-vin01a.att-31_p026",
@@ -951,7 +970,8 @@
    "chars": 749,
    "snippet": "Dhammaṃ paccakkhāmīti na vevacanena paccakkhānaṃ, yathārutameva. ‘‘Svākkhātaṃ dhammaṃ paccakkhāmi, sandiṭṭhikaṃ, akālikaṃ, ehipassikaṃ, opaneyyikaṃ, paccattaṃ veditabbaṃ viññūhi dhammaṃ paccakkhāmi. Asaṅkhataṃ dhammaṃ paccakkhāmi; virāgaṃ, nirodhaṃ, amataṃ dhammaṃ paccakkhāmi, dīghanikāyaṃ paccakkhāmi, brahmajālaṃ majjhimanikāyaṃ, mūlapariyāyaṃ, saṃyuttanikāyaṃ, oghataraṇaṃ, aṅguttaranikāyaṃ, cittapariyādānaṃ, khuddakanikāyaṃ, jātakaṃ, abhidhammaṃ, kusalaṃ dhammaṃ, akusalaṃ dhammaṃ, abyākataṃ dhammaṃ, satipaṭṭhānaṃ, sammappadhānaṃ, iddhipādaṃ, ind",
    "akalika_gloss": "ṭhikaṃ, akālikaṃ, ehipassikaṃ, opaneyyikaṃ, paccattaṃ veditabbaṃ viññūhi dhamm",
-   "treatment": "quotation"
+   "treatment": "quotation",
+   "second_coder": "quotation"
   },
   {
    "id": "cst-vin01t2.tik-10_p041",
@@ -961,7 +981,8 @@
    "chars": 716,
    "snippet": "‘‘Ehi passa imaṃ dhamma’’nti evaṃ pavattaṃ ehipassavidhiṃ arahatīti ehipassiko. Kasmā panesa taṃ vidhiṃ arahatīti? Paramatthato vijjamānattā parisuddhattā ca. Rittamuṭṭhiyañhi hiraññaṃ vā suvaṇṇaṃ vā atthīti vatvāpi ‘‘ehi passa ima’’nti na sakkā vattuṃ. Kasmā? Avijjamānattā. Vijjamānampi ca gūthaṃ vā muttaṃ vā manuññabhāvappakāsanena cittasampahaṃsanatthaṃ ‘‘ehi passa ima’’nti na sakkā vattuṃ, apica kho naṃ tiṇehi vā paṇṇehi vā paṭicchādetabbameva hoti. Kasmā? Aparisuddhattā. Ayaṃ pana navavid",
    "akalika_gloss": null,
-   "treatment": "word-gloss"
+   "treatment": "word-gloss",
+   "second_coder": "word-gloss"
   },
   {
    "id": "cst-e0101n.mul-74_p002",
@@ -971,7 +992,8 @@
    "chars": 261,
    "snippet": "146. Dhammānussatiṃ bhāvetukāmenāpi rahogatena paṭisallīnena ‘‘svākkhāto bhagavatā dhammo sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’ti (a. ni. 6.10) evaṃ pariyattidhammassa ceva navavidhassa ca lokuttaradhammassa guṇā anussaritabbā.",
    "akalika_gloss": "iṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’’ti (a. ni. ",
-   "treatment": "recollection-gloss"
+   "treatment": "recollection-gloss",
+   "second_coder": "recollection-gloss"
   },
   {
    "id": "cst-e0101n.mul-74_p013",
@@ -981,7 +1003,8 @@
    "chars": 706,
    "snippet": "150. ‘‘Ehi passa imaṃ dhamma’’nti evaṃ pavattaṃ ehipassavidhiṃ arahatīti ehipassiko. Kasmā panesa taṃ vidhiṃ arahatīti? Vijjamānattā parisuddhattā ca. Rittamuṭṭhiyaṃ hi hiraññaṃ vā suvaṇṇaṃ vā atthīti vatvāpi ‘‘ehi passa ima’’nti na sakkā vattuṃ. Kasmā? Avijjamānattā. Vijjamānampi ca gūthaṃ vā muttaṃ vā manuññabhāvappakāsanena cittasampahaṃsanatthaṃ ‘‘ehi passa ima’’nti na sakkā vattuṃ. Apica kho pana tiṇehi vā paṇṇehi vā paṭicchādetabbameva hoti. Kasmā? Aparisuddhattā. Ayaṃ pana navavidhopi lokutt",
    "akalika_gloss": null,
-   "treatment": "recollection-gloss"
+   "treatment": "recollection-gloss",
+   "second_coder": "recollection-gloss"
   },
   {
    "id": "cst-e0101n.mul-74_p017",
@@ -991,7 +1014,8 @@
    "chars": 145,
    "snippet": "Apica svākkhāto ayaṃ dhammo. Kasmā? Sandiṭṭhikattā. Sandiṭṭhiko, akālikattā. Akāliko, ehipassikattā. Yo ca ehipassiko, so nāma opaneyyiko hotīti.",
    "akalika_gloss": "ṭṭhiko, akālikattā. Akāliko, ehipassikattā. Yo ca ehipassiko, so nāma opaneyyi",
-   "treatment": "recollection-gloss"
+   "treatment": "recollection-gloss",
+   "second_coder": "recollection-gloss"
   },
   {
    "id": "cst-e0103n.att-76_p003",
@@ -1001,7 +1025,8 @@
    "chars": 1577,
    "snippet": "; a. ni. 8.53), ‘‘dhammāpi vo, bhikkhave, pahātabbā, pageva adhammā’’ti (ma. ni. 1.240) ca evamādīhi suttapadehi vibhāvetabbo. Akālikādhigamupāyatāya akāliko. Vijjamānatāparisuddhatāhi ehipassavidhiṃ arahatīti ehipassiko. Tato eva vaṭṭadukkhanittharaṇatthikehi attano citte upanayanaṃ, cittassa vā tattha upanayanaṃ arahatīti opaneyyiko. Vimuttāyatanasīse ṭhatvā paricayena sammadeva atthavedaṃ, dhammavedañca labhantehi paccattaṃ veditabbo viññūhīti. Evaṃ sandiṭṭhikādipadesu pariyattidhammampi pakkhipitvā manasikāro yujjateva.",
    "akalika_gloss": "etabbo. Akālikādhigamupāyatāya akāliko. Vijjamānatāparisuddhatāhi ehipassavidh",
-   "treatment": "word-gloss"
+   "treatment": "word-gloss",
+   "second_coder": "word-gloss"
   }
  ]
 }

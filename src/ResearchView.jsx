@@ -2937,7 +2937,9 @@ function ComeAndSeeStudy({ entry, onBack, backLabel = 'Research' }) {
                   <strong>Amplify ({agg.amplify_count} rows).</strong> Nowhere does the commentary build a
                   standing scheme on the invitational quality: no enumerated types of <em>ehipassika</em>, no
                   tiered classification, no doctrine of the come-and-see. This is the falsifier the
-                  pre-registration named, and it does not fire.
+                  pre-registration named, and it does not fire. A second reader coded the {agg.iaa?.n} rows
+                  independently from the same row text against the pre-registered codebook, agreed on every one
+                  (Cohen <em>κ</em> = {fmtRate(agg.iaa?.kappa)}), and likewise found amplify = 0.
                 </li>
               </ul>
 
