@@ -390,13 +390,13 @@
    }
   ],
   "gradient_caveat": {
-   "note": "One caution on the rising bhavaṅga ramp across the layers. The commentary was ingested at paragraph granularity and the canon at whole-sutta granularity, so a raw hit-count ramp partly tracks text bulk: the aṭṭhakathā and ṭīkā together hold roughly 58 million characters against the canon's 53.5 million, and the commentary's hits are spread over far more, far smaller rows. Normalizing to a per-million-character rate keeps the direction but cuts the magnitude.",
+   "note": "One caution on the rising bhavaṅga ramp across the layers. The commentary was ingested at paragraph granularity and the canon at whole-sutta granularity, so a raw hit-count ramp partly tracks text bulk. Measured per million characters on the deduplicated corpus (each canonical passage counted once, since the canon is double-ingested: the aṭṭhakathā and ṭīkā hold about 59 million characters against the canon's 25.7 million), the ramp keeps its direction but loses much of its magnitude.",
    "bhavanga_per_million_chars": {
-    "canon": 0.7,
-    "atthakatha": 8.0,
-    "tika": 20.0
+    "canon": 1.24,
+    "atthakatha": 9.22,
+    "tika": 20.07
    },
-   "genuine_signal": "The ramp is not a pure bulk artifact. The aṭṭhakathā carries more rows than the ṭīkā (about 92,000 against 82,000) yet fewer raw bhavaṅga hits (235 against 569), so density still climbs from aṭṭhakathā to ṭīkā independently of row count. The zero-based claims carry the finding (bhavaṅga absent in the four Nikāyas, the heart-base name absent in the seven Abhidhamma books), and the granularity confound does not touch those."
+   "genuine_signal": "The ramp is not a pure bulk artifact. The aṭṭhakathā carries more rows than the ṭīkā (about 95,000 against 82,000) yet fewer raw bhavaṅga hits (283 against 569), so density still climbs from aṭṭhakathā to ṭīkā independently of row count. The zero-based claims carry the finding (bhavaṅga absent in the four Nikāyas, the heart-base name absent in the seven Abhidhamma books), and the granularity confound does not touch those."
   },
   "epistemic": {
    "verdict": "posited, never verified",

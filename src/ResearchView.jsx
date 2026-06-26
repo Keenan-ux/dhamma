@@ -991,10 +991,12 @@ function AwakeningStudy({ entry, onBack, backLabel = 'Research' }) {
                 commentary also leans on stock markers the canon does not use (the closing formula
                 desanāpariyosāne, "at the conclusion of the talk", returns 0 mūla rows against 206 in the
                 aṭṭhakathā). A raw row count therefore reads as an upper bound on the commentarial lead.
-                Measured per million characters, which is robust to how finely each layer was cut, the
-                tilt is gentler but real: the commentary carries roughly 5.1 awakening events per million
-                characters against the canon, the aṭṭhakathā alone about 10.7 times the canonical density.
-                The direction holds; the raw magnitude rides the subdivision.
+                Measured per million characters on the deduplicated corpus, which is robust both to how
+                finely each layer was cut and to the canon's double ingest (each canonical passage counted
+                once, so the 299 canonical events reduce to 179 distinct ones), the tilt is gentler but real:
+                the commentary runs about 4.2
+                times the canon's density of awakening events, the aṭṭhakathā alone about 7.5 times.
+                The direction holds; the raw magnitude rides the subdivision and the double ingest.
               </p>
 
               {/* A third lens: who attains, not what occasions it. Built from
@@ -4341,15 +4343,16 @@ function HeartBaseStudy({ entry, onBack, backLabel = 'Research' }) {
                             One caution on reading the rising bhavaṅga presence across the layers as a pure
                             measure of interest. The commentary was ingested at paragraph granularity and the
                             canon at whole-sutta granularity, so a raw hit-count ramp partly tracks text bulk:
-                            the aṭṭhakathā and ṭīkā together hold roughly 58 million characters against the
-                            canon's 53.5 million, spread over far more, far smaller rows. Normalized to a rate
+                            the aṭṭhakathā and ṭīkā together hold roughly 59 million characters against the
+                            canon's 25.7 million once the double-ingested canon is deduplicated, spread over far
+                            more, far smaller rows. Normalized to a rate
                             per million characters the ramp keeps its direction but loses much of its
                             magnitude: bhavaṅga runs at about{' '}
                             {v.gradient_caveat.bhavanga_per_million_chars.canon} per million characters in the
                             canon, {v.gradient_caveat.bhavanga_per_million_chars.atthakatha} in the
                             aṭṭhakathā, and {v.gradient_caveat.bhavanga_per_million_chars.tika} in the ṭīkā.
                             The signal is genuine, not an artifact: the aṭṭhakathā holds more rows than the
-                            ṭīkā yet fewer raw bhavaṅga hits (235 against 569), so the density still climbs
+                            ṭīkā yet fewer raw bhavaṅga hits (283 against 569), so the density still climbs
                             from one to the next independently of row count. The zero-based claims, bhavaṅga
                             absent in the four Nikāyas and the heart-base name absent in the seven Abhidhamma
                             books, do not ride this confound at all.
@@ -5498,7 +5501,8 @@ function NagaStudy({ entry, onBack, backLabel = 'Research' }) {
                 {' '}{mulaS['classical-commentary']} of the canonical-tagged serpent rows are in fact classical
                 commentary. Across the full enumeration the commentary carries the great bulk of every facet by
                 raw count, since it holds {serpByLayer.attha} serpent rows to the canon's {serpByLayer.mula}; per
-                character of corpus it discusses the serpent-nāga roughly 5.5 times as densely. Once the counts
+                character of corpus it discusses the serpent-nāga roughly 3.9 times as densely, once the canon's
+                159 serpent rows are deduplicated to the 114 distinct ones the double ingest conceals. Once the counts
                 are normalized per serpent row, though, the picture is more even, and on several facets the canon
                 is the denser of the two: per thousand serpent rows the canon outweighs the commentary on powers
                 ({ratePer1000('power', 'mula')} to {ratePer1000('power', 'attha')}), on class and plane
