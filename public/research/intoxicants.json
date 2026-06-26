@@ -61,6 +61,7 @@
    "stain_vocab_present_rows": 3462,
    "impurity_of_drink_cooccurrence": 31,
    "impurity_of_drink_canon": 18,
+   "stain_of_drink_cooccurrence": 57,
    "predicate_impurity_of_the_drink": 0,
    "contrast_classes": [
     "snp2.2 Āmagandha (taint=conduct)",

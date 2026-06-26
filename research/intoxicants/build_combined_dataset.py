@@ -107,6 +107,7 @@ doc = {
             "stain_vocab_present_rows": tot("stain-vocab-present").get("all"),
             "impurity_of_drink_cooccurrence": tot("impurity-of-drink").get("all"),
             "impurity_of_drink_canon": tot("impurity-of-drink").get("canon"),
+            "stain_of_drink_cooccurrence": tot("stain-of-drink").get("all"),
             "predicate_impurity_of_the_drink": 0,
             "contrast_classes": ["snp2.2 Āmagandha (taint=conduct)", "an10.176 soceyya scheme (drink excluded)", "telapāka + majje effect-gating"],
         },

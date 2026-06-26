@@ -74,6 +74,12 @@ const RESEARCH_ENTRIES = [
     subtitle: 'A per-stratum, per-character study of the jhāna meditation-manual vocabulary: access concentration, absorption, and the re-gloss of vitakka are commentarial, while the pliant mind they organise is canonical.',
     data: '/research/vitakka.json',
   },
+  {
+    slug: 'intoxicants',
+    title: 'The Buddha on Intoxicants',
+    subtitle: 'An effect-based category, an instrumental precept, and the question of psychedelics.',
+    data: '/research/intoxicants.json',
+  },
 ];
 
 // Public worked examples — the same renderer, ungated, served from /explorations/*.json
@@ -326,6 +332,7 @@ export default function ResearchView({ collection = 'research' }) {
       : entry.slug === 'commentarial-register' ? CommentarialRegisterStudy
       : entry.slug === 'sankhara' ? SankharaStudy
       : entry.slug === 'vitakka' ? VitakkaStudy
+      : entry.slug === 'intoxicants' ? IntoxicantsStudy
       : AwakeningStudy;
     return (
       <>
@@ -1280,6 +1287,10 @@ function Cite({ id, children }) {
     </a>
   );
 }
+
+// Evidence-register flag used by the intoxicants study ([corpus] / [science] / [interpretive]).
+const regTag = { fontSize: 11.5, letterSpacing: '0.02em', color: 'var(--bc-text-tertiary)', fontWeight: 600, whiteSpace: 'nowrap' };
+function Tag({ children }) { return <span style={regTag}>{children}</span>; }
 
 // A composite source cell has no single corpus row (e.g. "Vism cross-ref via
 // Mp-a 18 §87; Sv-a 11 §2 (uddesa variant); Nett-a §11.26 (paccayākāra variant)").
@@ -2788,6 +2799,412 @@ const CAS_WORK_LABEL = {
   'pli-ne': 'Nettippakaraṇa (para-canonical)',
 };
 const CAS_WORK_ORDER = ['pli-dn', 'pli-mn', 'pli-sn', 'pli-an', 'pli-kn', 'pli-nd', 'pli-ne'];
+
+function IntoxicantsStudy({ entry, onBack, backLabel = 'Research' }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  const cat = data?.category || {};
+  const ins = data?.instrumental || {};
+  const reg = ins.register_split || {};
+  const pd = ins.pamadatthana || {};
+  const sa = ins.structured_absence || {};
+  const path = data?.path_distinction || {};
+  const sci = data?.science || {};
+  const preds = ins.predictions || [];
+  const loci = data?.loci || [];
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to {backLabel}</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Abstract.</span> The Pāli canon’s category for what the fifth
+                precept forbids is not “alcohol” but <em>majja</em>, an open class defined by effect rather than
+                by a named substance list: whatever intoxicates unto heedlessness. That finding, established
+                under a look-alike-controlled recall ladder, is the study’s instrument. Applied to the precept
+                itself, it shows the precept to be instrumentally grounded. The canon’s own taxonomy places the
+                fifth precept in a different register from the other four. The others are courses of action and
+                defilements of deed (<em>kammapatha</em>, <em>kammakilesā</em>), the content of bodily and
+                verbal purity; drink is an occasion of heedlessness (<em>pamādaṭṭhāna</em>) and a drain on
+                wealth. The wrong is routed through heedlessness, not through any impurity of the liquid. The
+                explicit claim that intoxication therefore breaks the other four precepts is the commentary
+                drawing an architecture out of a canonical verse-seed. The canon permits even liquor in medicine
+                at the point where it can no longer intoxicate. An instrumentally-grounded precept condemns a
+                substance only insofar as the heedlessness-cascade obtains. Applied to classic psychedelics,
+                with the actual scientific record, the alcohol-style cascade that grounds the precept does not
+                transfer, while the precept’s effect-test still bites high-dose recreational use and the
+                path-distinction (a reversible state is not the irreversible cutting that liberation is) holds
+                regardless.
+              </p>
+
+              <p style={methodNote}>
+                A gated, interpretive study. Three evidence registers are marked throughout and never blurred:
+                <strong> [corpus]</strong> is verified verbatim in the live corpus (mūla = canon,
+                aṭṭhakathā and ṭīkā = commentary); <strong>[science]</strong> is external empirical work,
+                attributed, with its contest noted; <strong>[interpretive]</strong> is reasoned synthesis,
+                flagged as such, never a canonical ruling. Counts are deduplicated per-character measures
+                against the canon and commentary denominators; every count a claim rests on was read at the
+                source before being used, with the look-alike masks applied (<em>majja</em> and <em>surā</em>
+                are traps). The study is descriptive on the corpus side and explicitly interpretive where it
+                weighs the science; it does not pronounce on what any individual should do.
+              </p>
+
+              <h2 style={h2}>1. The category is effect-based: <em>majja</em> <Tag>[corpus]</Tag></h2>
+              <p>
+                The fifth training-rule names three things and then frames the whole as the occasion of
+                heedlessness: <em>surāmerayamajja-pamādaṭṭhānā veramaṇī</em>, “refraining from the occasion of
+                heedlessness that is <em>surā</em> (grain liquor), <em>meraya</em> (fermented fruit or floral
+                wine), and <em>majja</em> (the generic intoxicant)” (<Cite id="kp2">KP 2</Cite>,{' '}
+                <Cite id="sn14.25">SN 14.25</Cite>, <Cite id="an5.179">AN 5.179</Cite>,{' '}
+                <Cite id="an8.39">AN 8.39</Cite>, <Cite id="dn31">DN 31</Cite>,{' '}
+                <Cite id="snp2.14">Snp 2.14</Cite>). The formula is early-canonical and recurs across the
+                Dīgha, Saṃyutta, and Aṅguttara Nikāyas and the Khuddaka collections.
+              </p>
+              <p>
+                Reading the cluster requires care, because two of its three words are spelling look-alikes. The
+                bare substring <em>majja</em> returns {cat.majja_substring} rows, of which only {cat.majja_net}{' '}
+                carry the intoxicant sense; the other {cat.majja_purged} are unrelated words
+                (<em>majjha</em>, middle; <em>majjana</em>, polishing; <em>miñja</em>, marrow; the name
+                Majjaka). The liquor word <em>surā</em> collides with <em>sura</em> (a god) and leaks mid-word
+                into <em>asura</em>, reducing to {cat.sura_net} genuine liquor rows. Only <em>meraya</em> is
+                clean ({cat.meraya_net} rows). The purged, deduplicated cluster is {cat.cluster_net} rows. The
+                number the finding rests on was never the substring count; it is {cat.majja_net} intoxicant{' '}
+                <em>majja</em> rows.
+              </p>
+              <p>
+                What makes the category open is a definition, and the definition is commentarial. The monastic
+                rule defines <em>surā</em> and <em>meraya</em> by closed lists, then runs its offence-permutations
+                on the general term <em>majje</em>, an offence whether one perceives it as an intoxicant or not
+                (<Cite id="pli-tv-bu-vb-pc51">Bhk Pāc 51</Cite>). The category already does the work; the named
+                substances are its instances. The commentary first defines the category by effect, “intoxicant
+                means, in the sense of being intoxicating, <em>surā</em> and <em>meraya</em>”
+                (<Cite id="cst-s0506a.att-18_p049">Kp-a</Cite>), and then opens it: the named substances are
+                mere examples (<em>nidassanamatta</em>), and <em>majja</em> is “whatever else there is that is
+                intoxicating, by drinking which one becomes intoxicated and heedless.” That open generalisation
+                appears in exactly {cat.open_list_rows} rows, both commentarial
+                (<Cite id="cst-s0305a.att-sn5_12_p079">Spk-a</Cite>, quoted by{' '}
+                <Cite id="cst-s0105t.nrf-60_p030">Sv-pṭ</Cite>), and in zero canonical rows. The effect-concept
+                it states is itself canonical: <em>madanīye majjati</em> at <Cite id="an5.81">AN 5.81</Cite>{' '}
+                takes the five sense-pleasures as its object, and the three existential <em>madā</em> of youth,
+                health, and life (<Cite id="an3.39">AN 3.39</Cite>) share the root. The canon operates the
+                principle; the commentary fixes it as a definition.
+              </p>
+
+              <h2 style={h2}>2. The register is heedlessness, not impurity <Tag>[corpus]</Tag></h2>
+              <p>
+                The condemnation is consequential and psychological, never a purity-taboo on the liquid. The
+                Sigālovāda (<Cite id="dn31">DN 31</Cite>) gives the six drawbacks of drinking in one list:
+                present loss of wealth (<em>dhanajāni</em>), quarrels, a basis of disease, disrepute, indecent
+                exposure, and the weakening of wisdom (<em>paññāya dubbalikaraṇī</em>) as the sixth and
+                culminating item. The same discourse lists drink first among the six <em>apāyamukha</em>, the
+                drains on wealth. The verse rebuke of <Cite id="snp2.14">Snp 2.14</Cite> says a householder
+                should not drink, “knowing it ends in madness” (<em>ummādana</em>), and calls drink a field of
+                demerit. <Cite id="an5.179">AN 5.179</Cite> names the drinks as those that “confuse the mind”
+                (<em>cittamohanī</em>). The named harm is to the cognitive faculty and to concrete welfare, not
+                to ritual status. The canon’s gravest “drunkenness” is not chemical at all: the three{' '}
+                <em>madā</em> of <Cite id="an3.39">AN 3.39</Cite>, the heedless absorption in being young, well,
+                and alive. Drink is one occasion of a general condition, and the precept condemns it as such.
+              </p>
+
+              <h2 style={h2}>3. The precept is instrumental: the canon’s two registers, and the circularity{' '}
+                <Tag>[corpus → interpretive]</Tag></h2>
+              <p>
+                The sharpest result is that the canon itself categorizes the fifth precept differently from the
+                other four. In the Sigālovāda the four others are the <em>kammakilesā</em>, the defilements of
+                action (killing, stealing, sexual misconduct, lying), while drink is a drain on wealth: distinct
+                headings in the same discourse (<Cite id="dn31">DN 31</Cite>). In the Cunda discourse
+                (<Cite id="an10.176">AN 10.176</Cite>) the Buddha rejects ritual washing and reframes purity
+                (<em>soceyya</em>) as the tenfold course of action (<em>dasakammapatha</em>), the same conduct-list
+                the failure-of-action discourse <Cite id="an3.119">AN 3.119</Cite> enumerates. The content of
+                the other four precepts is present in that purity scheme; drink is absent from it. A corpus check
+                confirms the structure: <em>kammapatha</em> occurs in {reg.kammapatha_total} rows, only{' '}
+                {reg.kammapatha_with_drink} co-occur with the drink cluster, and in none is drink a member of the
+                list. The fifth precept lives in the heedlessness-and-training register; the other four in the
+                intrinsic-action register.
+              </p>
+              <p>
+                The grammar carries the same fact. <em>pamādaṭṭhāna</em> is not a dedicated drink-word; it is a
+                productive idiom, “occasion of heedlessness,” applied to gambling (<Cite id="dn1">DN 1</Cite>,{' '}
+                <Cite id="dn2">DN 2</Cite>), a fine lodging, and kingship. The commentary spells out the form,
+                “heedlessness stands here, hence occasion-of-heedlessness”
+                (<Cite id="cst-s0101a.att-dn1_1_p251">Sv-a</Cite>), and gives the rationale for avoiding trade
+                in drink in the ablative, “because it is an occasion of heedlessness”
+                (<Cite id="cst-s0403t.tik-an5_p313">Mp-ṭ</Cite>). Of the deduplicated <em>pamādaṭṭhāna</em>{' '}
+                rows, {pd.without_drink} carry no drink reference at all.
+              </p>
+              <p>
+                The explicit claim that intoxication therefore breaks the other four precepts is the commentary
+                drawing an architecture out of a canonical seed. The seed is canonical: the verse{' '}
+                <em>madā hi pāpāni karonti</em>, “for the intoxicated do evil deeds,” sits in the early-canonical
+                Dhammikasutta (<Cite id="snp2.14">Snp 2.14</Cite>). The architecture is commentarial: glossing
+                the fifth precept, the Khuddakapāṭha-aṭṭhakathā states that drinking intoxicants is “precisely
+                what defiles and breaks the preceding precepts too” (<em>saṃkilesakarañca bhedakarañca</em>),
+                and reads “do evil deeds” as “they do killing and all the unwholesome”
+                (<Cite id="cst-s0505a.att-31_p031">Kp-a</Cite>). The narrative exemplum is the Kumbha Jātaka
+                (<Cite id="ja512">Ja 512</Cite>). The drink-and-the-other-precepts co-occurrences in the canon
+                are dense (the five-vice lists, <Cite id="an9.63">AN 9.63</Cite> and kin), but reading them shows
+                they are list-enumeration, not a causal chain; the explicit “having become heedless, one then
+                acts” construction near the drink cluster does not occur in the canon.
+              </p>
+              <p>
+                Two further facts complete the register. The precept’s value is framed as other-directed safety:
+                abstaining from each precept, drink included, is one of five great gifts (<em>mahādāna</em>)
+                that give to immeasurable beings freedom from fear, enmity, and affliction
+                (<Cite id="an8.39">AN 8.39</Cite>). And the precept is not framed as the drinker’s own
+                purification: across {ins.self_purification?.co_occurrence_rows} rows where a purification word
+                sits beside the drink cluster, every one is incidental (the purified divine eye, the meditative
+                mind, recitation), and none makes abstaining-from-drink a self-purity.
+              </p>
+              <p>
+                The structured absence is measured, not assumed. The impurity vocabulary is present in the corpus
+                (<em>asuci</em> and kin in {sa.impurity_vocab_present_rows} rows; the stain words in{' '}
+                {sa.stain_vocab_present_rows}), so its absence from the drink-category is a patterned boundary.
+                Where an impurity word does sit beside a drink token ({sa.impurity_of_drink_cooccurrence} rows;
+                {' '}{sa.stain_of_drink_cooccurrence} for the stain words), reading every canonical row shows
+                that none predicates impurity of the drink: they are the impurity of the body, the corpse, and
+                the cesspit (<Cite id="dn30">DN 30</Cite>, <Cite id="dn23">DN 23</Cite>,{' '}
+                <Cite id="mn129">MN 129</Cite>), plus the <em>surā</em>/<em>asura</em> look-alike. Where{' '}
+                <em>pāpa</em> sits near drink, it is predicated of the person or the conduct
+                (<Cite id="dhp235-255">Dhp 247</Cite>), never of the liquid. And the canon adjudicates the
+                substance-versus-conduct question directly: in the Āmagandhasutta
+                (<Cite id="snp2.2">Snp 2.2</Cite>) the Buddha lists killing, theft, lying, and adultery and
+                concludes “this is taint, not the eating of meat.” Taint is conduct, not substance.
+              </p>
+              <p>
+                <strong>The circularity <Tag>[interpretive]</Tag>.</strong> The fifth precept is instrumental:
+                it guards the other four by guarding against the heedlessness that breaks them, and the canon
+                grounds it consequentially. An instrumental precept is contingent on its effect obtaining. To
+                classify a substance as <em>majja</em> is, by the canon’s own definition, to claim that it
+                intoxicates unto heedlessness, and the wrong it names is the heedlessness-cascade, not the
+                substance. To condemn a thing “as an intoxicant” while the consequential harms that define an
+                intoxicant do not obtain is therefore to assume the conclusion in the premise. The category
+                cannot be applied by naming; it can only be applied by what a thing does.
+              </p>
+              <ul style={casBullets}>
+                {preds.map((p) => (
+                  <li key={p.id} style={casLi}>
+                    <strong>{p.id}.</strong> {p.claim} — <em>{p.verdict}</em>
+                  </li>
+                ))}
+              </ul>
+
+              <h2 style={h2}>4. The effect-test as the operative criterion <Tag>[corpus]</Tag></h2>
+              <p>
+                The clearest proof that the prohibition tracks effect, not substance, is that the canon permits
+                even liquor at the point where it can no longer intoxicate. In the Bhesajjakkhandhaka
+                (<Cite id="cst-vin02m2.mul-vin3_6">Vin Mv VI</Cite>), oil into which liquor has been put may be
+                drunk only “where the colour, smell, and taste of the liquor are not detectable”; over-strength
+                batches are forbidden and re-designated for external rubbing. Permission is keyed to the effect
+                vanishing. The rule carries the same logic: the offence falls on <em>majje</em>, the intoxicant,
+                while there is no offence in drinking something that “is not an intoxicant but has the colour,
+                smell, and taste of one” (<Cite id="pli-tv-bu-vb-pc51">Bhk Pāc 51</Cite>). The sub-commentary
+                permits the non-intoxicating sour brew <em>loṇasovīraka</em> by the same mark
+                (<Cite id="cst-s0105t.nrf-75_p005">Sv-pṭ</Cite>). The rule’s origin is consequential: the monk
+                Sāgata, a master of the five higher knowledges, drinks and is left lying senseless, and the
+                verdict is that “for one of the five higher knowledges, drinking intoxicants is unsuitable”
+                (<Cite id="cst-vin02a1.att-56_p002">Sp</Cite>), not that the liquid is impure.
+              </p>
+
+              <h2 style={h2}>5. Psychedelics <Tag>[corpus + science + interpretive]</Tag></h2>
+              <p>
+                <strong>The canon has no entheogen category <Tag>[corpus]</Tag>.</strong> There is no Pāli word
+                for a vision-inducing plant, and no discourse on one. The only mushroom material is culinary;
+                the Buddha’s last meal, <em>sūkaramaddava</em> (<Cite id="dn16">DN 16</Cite>), is debated by the
+                commentaries as a dish, never as a vision. <strong>The principled extension{' '}
+                <Tag>[interpretive]</Tag>.</strong> Because <em>majja</em> is gated by effect, a substance the
+                canon never names is not thereby outside the principle; whether it falls under the precept
+                depends on whether it does what <em>majja</em> is defined by doing. This is an inference from the
+                effect-test, not a canonical ruling, and it is the inference the science must inform.
+              </p>
+              <p style={{ marginBottom: 4 }}>
+                <strong>What the science shows <Tag>[science]</Tag>.</strong> A targeted, adversarially-verified
+                review returns four findings, each of which came back contested rather than one-sided.
+              </p>
+              <ul style={casBullets}>
+                {(sci.verdicts || []).map((v, i) => (
+                  <li key={i} style={casLi}>
+                    <em>{v.claim}</em> <span style={tinyNote}>[{v.verdict}]</span> {v.note}
+                  </li>
+                ))}
+              </ul>
+              <p>
+                {sci.anthropology} {sci.stoned_ape}
+              </p>
+              <p>
+                <strong>The effect-test applied to psychedelics <Tag>[interpretive]</Tag>.</strong> The
+                effect-test does not return a single verdict; it returns a dose- and context-sensitive one. For
+                the property that defines <em>majja</em>, intoxication unto heedlessness with a cascade into
+                broken conduct, the alcohol case obtains and the classic-psychedelic case largely does not: no
+                dependence, no disinhibition-violence, an acute state that reverses, and at low doses no global
+                clouding. By the precept’s own logic that pulls against automatic inclusion. The test still bites
+                where the effect is present: a high recreational dose demonstrably impairs the faculty, and the
+                reduction in cognitive control is the restraint the precept guards. None of this makes the
+                substances “harmless,” nor licenses them as aids to practice. A high dose impairs the faculty; a
+                microdose does not produce the global clouding the precept names. The category was never about
+                the substance.
+              </p>
+
+              <h2 style={h2}>6. Soma <Tag>[corpus + science]</Tag></h2>
+              <p>
+                In the Pāli canon, Vedic soma as a substance is essentially absent. “Soma” in the corpus is
+                overwhelmingly a homograph: the nun Somā (<Cite id="sn5.2">SN 5.2</Cite>,{' '}
+                <Cite id="thig3.8">Thig 3.8</Cite>), Queen Somā (<Cite id="mn90">MN 90</Cite>), the moon. The
+                single footprint of the soma ritual is the sacrifice-name <em>vājapeyya</em>
+                (<Cite id="sn3.9">SN 3.9</Cite>, <Cite id="an4.39">AN 4.39</Cite>), which a modern translator
+                renders “the royal soma drinking”; the Pāli word never appears there. The Buddha engages the
+                ritual world through his critique of bloody sacrifice (<Cite id="sn3.9">SN 3.9</Cite>,{' '}
+                <Cite id="dn5">DN 5</Cite>), not soma. What soma was has no scholarly consensus
+                <Tag>[science]</Tag>: Ephedra leads (Falk 1989; Houben 2003), with the fly-agaric and
+                Syrian-rue readings contested and a strong strand holding the original plant lost.
+              </p>
+
+              <h2 style={h2}>7. Ego-death and not-self, and the path-distinction{' '}
+                <Tag>[corpus + science + interpretive]</Tag></h2>
+              <p>
+                Not-self is an analytic insight, not a felt state. In the Anattalakkhaṇasutta
+                (<Cite id="sn22.59">SN 22.59</Cite>) each aggregate is declared not-self on impersonal grounds
+                and seen with right understanding, not felt as the ego dissolving. The decisive residue is the
+                “I am” conceit (<em>asmimāna</em>): in the Khemaka Sutta (<Cite id="sn22.89">SN 22.89</Cite>) a
+                disciple who has discarded self-view still has a residual “I am” that is an underlying tendency,
+                uprooted only by sustained contemplation. Any profound produced state is itself conditioned
+                (<Cite id="mn52">MN 52</Cite>), and the Buddha attained the highest formless bases of his
+                teachers and set them aside (<Cite id="mn26">MN 26</Cite>).
+              </p>
+              <p>
+                The earlier reading of this study argued that a drug-state is precluded because it is transient
+                rather than a trait. That fails, because the path-moment is itself momentary. The right axis is
+                the mode of abandonment, and the commentary’s threefold taxonomy supplies it: suppression
+                (<em>vikkhambhana</em>, reversible), substitution (<em>tadaṅga</em>), and cutting-off
+                (<em>samuccheda</em>, irreversible). That taxonomy is commentarial, built on canonical
+                irreversibility seeds.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <colgroup><col style={{ width: '46%' }} /><col /><col /><col /></colgroup>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Mode of abandonment</th>
+                      <th style={thNum}>early</th>
+                      <th style={thNum}>aṭṭhakathā</th>
+                      <th style={thNum}>ṭīkā</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={tr}>
+                      <td style={tdLeft}>suppression (<em>vikkhambhana</em>)</td>
+                      <td style={tdNum}>{path.vikkhambhana?.early}</td>
+                      <td style={tdNum}>{path.vikkhambhana?.atthakatha}</td>
+                      <td style={tdNum}>{path.vikkhambhana?.tika}</td>
+                    </tr>
+                    <tr style={tr}>
+                      <td style={tdLeft}>substitution (<em>tadaṅga</em>)</td>
+                      <td style={tdNum}>{path.tadanga?.early}</td>
+                      <td style={tdNum}>{path.tadanga?.atthakatha}</td>
+                      <td style={tdNum}>{path.tadanga?.tika}</td>
+                    </tr>
+                    <tr style={tr}>
+                      <td style={tdLeft}>cutting-off (<em>samuccheda</em>)</td>
+                      <td style={tdNum}>{path.samuccheda?.early}</td>
+                      <td style={tdNum}>{path.samuccheda?.atthakatha}</td>
+                      <td style={tdNum}>{path.samuccheda?.tika}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                The suppression-term is absent from the early canon and dense in the commentary; the cutting-term
+                has a small canonical toehold. But the irreversibility it rests on is robustly early: the
+                stream-enterer who “cannot fall” (<em>avinipāta</em>) in {path.avinipata_early} early rows, the
+                one “bound for awakening” (<em>sambodhiparāyana</em>) in {path.sambodhiparayana_early}, the
+                extirpation of the latent tendency (<em>anusaya</em> with <em>samugghāta</em>) in{' '}
+                {path.anusaya_samugghata_early}. The path’s object, <em>nibbāna</em>
+                (<em>nibbānārammaṇa</em>), is a commentarial formulation ({path.nibbanarammana?.early} early,
+                {' '}{path.nibbanarammana?.atthakatha} aṭṭhakathā).
+              </p>
+              <p>
+                <strong>The synthesis <Tag>[interpretive]</Tag>.</strong> A drug-occasioned dissolution, even a
+                genuine one, is at best a suppression: the self-model relaxes and then returns, which is
+                <em> vikkhambhana</em>, and the science confirms the acute state reverses within hours. The
+                path-moment, though momentary, is <em>samuccheda</em>, a cutting that does not return. The
+                difference is not duration; it is whether anything is cut. This is why the recurring verdict is
+                “a glimpse, not a path.” The science cuts both ways here. Letheby’s case means the glimpse need
+                not be dismissed as “merely resembling” not-self; it can be congruent insight, and the canon has
+                a word for a jolting confrontation that spurs practice (<em>saṃvega</em>). But seeing is not
+                cutting: a reversible relaxation of the self-model, however vivid, is not the irreversible
+                extirpation of the conceit and the craving that liberation is, and it arises in a faculty whose
+                top-down control is measurably reduced.
+              </p>
+
+              <h2 style={h2}>8. Synthesis <Tag>[interpretive]</Tag></h2>
+              <p>
+                The canon places the fifth precept in the heedlessness register, not the intrinsic-action
+                register; it routes the wrong through <em>pamāda</em>; it never treats drink as an impurity; and
+                it permits even liquor at the point where it stops intoxicating. The explicit architecture by
+                which intoxication breaks the other precepts is the commentary drawing out a canonical seed. From
+                this the circularity follows: an instrumental precept condemns a substance only insofar as the
+                heedlessness-cascade obtains, so to condemn a substance “as an intoxicant” when that cascade does
+                not obtain is to assume the conclusion. For alcohol the cascade obtains: dependence,
+                disinhibition, the documented train of quarrel, disease, and loss, and the weakening of wisdom
+                the canon names. For classic psychedelics that cascade does not transfer; the test still bites
+                high-dose use, and it does not pronounce the substances harmless. On the deeper question, a
+                reversible suppression of the self-model, even an insight-congruent one, is not the irreversible
+                cutting that liberation is. The corpus draws the line by effect; the application of that line is
+                neither a blanket prohibition by name nor an endorsement, but a verdict that turns, as the
+                category always did, on effect rather than name.
+              </p>
+
+              <h2 style={h2}>Principal warrant rows</h2>
+              <p style={{ fontSize: 13, color: 'var(--bc-text-secondary)' }}>
+                Every row opens in the reader.
+              </p>
+              <ul style={idList}>
+                {loci.map((l) => (
+                  <li key={l.id} style={drillLi}>
+                    <Cite id={l.id}>{l.citation || l.id}</Cite>{' '}
+                    <span style={drillMeta}>{l.role}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  );
+}
 
 function ComeAndSeeStudy({ entry, onBack, backLabel = 'Research' }) {
   const [data, setData] = useState(null);
