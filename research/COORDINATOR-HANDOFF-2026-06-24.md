@@ -7,8 +7,8 @@ deliverable prose. Update IN PLACE (snapshot, not append-log).*
 ## 1. Where things stand (one screen)
 Live at **https://dhamma.fly.dev/** (admin-gated Research tab). HEAD = latest on `origin/master`
 (run `git log --oneline -20`; this handoff is the newest commit). Working tree clean EXCEPT `sn2259.json`
-(another live chat's empty placeholder — leave it, do NOT `git clean`). Origin in sync. **There are now EIGHT Research studies** (awakening, individual-guidance,
-heart-base-and-insight, uttarakuru, naga, come-and-see, the-commentarial-register, **sankhara**) plus two public
+(another live chat's empty placeholder — leave it, do NOT `git clean`). Origin in sync. **There are now NINE Research studies** (awakening, individual-guidance,
+heart-base-and-insight, uttarakuru, naga, come-and-see, the-commentarial-register, **sankhara**, **vitakka**) plus two public
 Explorations. The 2026-06-23 adversarial review + corrections shipped earlier; the 2026-06-25 EXPANSION
 CAMPAIGN (below) added the 7th study + two program-wide method corrections.
 
@@ -19,6 +19,14 @@ CAMPAIGN (below) added the 7th study + two program-wide method corrections.
 PASS / P4 REPORTED. Deduped counts reproduce DR-4 exactly (Sujato 513/choices 317; Thanissaro
 155/fabrications 142). Memory `sankhara-study`. Queue item 1 is now DONE; its only open follow-on is the
 [DATA] Bodhi+Horner full SN/MN ingest (Horner currently 0 own-text saṅkhāra rows).
+
+Also shipped this session: the 9th study, **"The Apparatus of Absorption"** (slug `vitakka`,
+`VitakkaStudy`, `b99dc3d`) = §9 queue **item 2**. By chronological stratum, per-character (deduped): the
+jhāna meditation-manual apparatus (upacāra access-concentration, appanā absorption, the abhiniropana
+re-gloss of vitakka) is post-Nikāya, with a single early anchor (the MN 117 definition string); the
+phenomenon it organises (vinīvaraṇa/kallacitta) is canon-denser. Blind k=3 sense IAA κ=1.0; P1-P5 PASS.
+Scope limit (DR-1 e): settles apparatus PROVENANCE, not what vitakka MEANS in the suttas. Memory
+`vitakka-study`. Queue item 2 DONE.
 
 ## 1b. Expansion campaign (2026-06-25) — read `EXPANSION-SLATE-2026-06-24.md` + `EXPANSION-BUILD-STATUS.md`
 A 72-agent sweep produced a ranked slate of corpus-tractable open problems; 9 were probed end-to-end
@@ -78,7 +86,7 @@ IAA-scope, negative-control, span-aware coding), `COHERENCE-CHECKLIST.md` two ga
 - live frontend asset hash == local `npm run build` hash (currently `index-BGQEl_SR.js`) confirms the
   deploy shipped the working tree.
 - `git status` clean, HEAD `a0f7c37` == `origin/master`.
-- Eight study components: `grep -nE "^function (Awakening|IndividualGuidance|HeartBase|Uttarakuru|Naga|ComeAndSee|CommentarialRegister|Sankhara)Study" src/ResearchView.jsx` (line anchors SHIFT, re-grep).
+- Nine study components: `grep -nE "^function (Awakening|IndividualGuidance|HeartBase|Uttarakuru|Naga|ComeAndSee|CommentarialRegister|Sankhara|Vitakka)Study" src/ResearchView.jsx` (line anchors SHIFT, re-grep).
 - DB work is SERIAL ONLY (dhamma-pg wedges under concurrent load): proxy `flyctl proxy 15432:5432 --app
   dhamma-pg`, then `research/naga/sql.py` or a one-connection script. NEVER fan agents at the DB.
 
@@ -169,8 +177,12 @@ no-op, the placeholder is left untouched.
    follow-on (now the next [DATA] item):** ingest Bodhi's + Horner's full SN/MN to add the documented
    context-splitter (Horner, currently 0 own-text saṅkhāra rows) + fixed-word advocate (Bodhi, 2) to the
    panel. The Sujato/Thanissaro headline does NOT need it (already saturated); it broadens the typology.
-2. [BUILD] vitakka apparatus-provenance study (access/absorption apparatus measurably commentarial;
-   no prior computational study). Scope fixed in DR-1 (e).
+2. ~~[BUILD] vitakka apparatus-provenance study~~ **DONE 2026-06-25** (`b99dc3d`, deployed, 9th study
+   `vitakka`; memory `vitakka-study`). By chronological stratum, per-character (deduped), sense-audited
+   (blind k=3 κ=1.0): the apparatus (upacāra/appanā/abhiniropana) is post-Nikāya with a single MN 117
+   anchor; phenomenon (vinīvaraṇa/kallacitta) canon-denser; P1-P5 PASS. Scope limit (DR-1 e) honoured:
+   settles apparatus PROVENANCE, not vitakka's intra-sutta meaning. No open follow-on (a future
+   collocation study could pin the samādhi-sense by co-occurrence, but the early access-sense is already 0).
 3. [CORRECT] sabhāva prereg + the shipped "Commentarial Register" Ronkin attribution: aṭṭhakathā → ṭīkā
    (DR-5 + our own ṭīkā-peak data agree). Pull Ronkin *Early Buddhist Metaphysics* p.112 to confirm wording.
 4. [CORPUS-DOABLE NOW] PED "abhiññā narrowed to the six nine-times-in-ten" per-stratum census; Hamilton
