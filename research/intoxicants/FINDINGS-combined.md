@@ -309,6 +309,39 @@ the latent tendency (`anusaya` with `samugghāta`) in 11. The magga's object, `n
 (`nibbānārammaṇa`), is a commentarial formulation (zero early, 90 aṭṭhakathā, 116 ṭīkā), built on the canonical
 fact that the path issues in the unconditioned.
 
+**The object, not only the mode [corpus → interpretive].** The mode-of-abandonment axis answers what follows the
+seeing. A finer question is whether the two seeings, the drug-occasioned apprehension of not-self and the
+path-moment, are the same cognitive act. The commentary locates the difference one step earlier, in the object
+of consciousness (`ārammaṇa`), and the answer is clean: insight (`vipassanā`) takes the conditioned as object,
+seeing not-self in formations rising and falling, while the path-moment takes the unconditioned as object. The
+`magga`-citta is the one class of consciousness whose object is `nibbāna`. The whole moment-by-moment apparatus
+that draws this is post-sutta, and it is built on a canonical seed. The insight that takes formations as object,
+`saṅkhārupekkhā`, appears in 0 early-canonical rows and 176 commentarial; the conformity-knowledge `anuloma` in
+0 early and 68 commentarial; the path-object compound `nibbānārammaṇa` in 0 early and 206 commentarial; the
+pivot-consciousness `gotrabhū` is an Abhidhamma and commentarial term (174 and 339), its 3 early rows a
+type-of-person in the offerings lists (`an9.10`, `an10.16`, `mn142`), not the cognitive pivot. The canonical
+seed is the plain statement `sabbe dhammā anattā`, all phenomena are not-self (6 early rows), together with the
+canonical fact that any produced state is conditioned (`mn52`). The canon locates not-self-seeing on conditioned
+phenomena and marks the unconditioned as the path's issue; it does not build the object-switch. The commentary
+does.
+
+The hinge is `gotrabhū`, change-of-lineage, the single moment at which the object switches. A Saṃyutta
+sub-commentary states it outright: `gotrabhū`, by being included in the conformity-process, may be reckoned as
+belonging to insight, or, by having `nibbāna` as its object, as belonging to the path
+(`cst-s0303t.tik-sn3_1_p145`); it adds that insight is the near-immediate antecedent of the path
+(`vipassanā maggassa āsannānantaraṃ`). So the tradition's own answer to whether the two seeings coexist is that
+they are not simultaneous states but adjacent moments in one cognitive process, with `gotrabhū` the bridge that
+is insight-like by position and path-like by object. The path contains not-self-seeing of the conditioned as
+its approach, and adds the object-switch the approach alone does not make.
+
+This sharpens the precluded-as-a-state reading [interpretive]. A drug-occasioned apprehension of not-self, if
+genuine, maps at best onto the conditioned-object side, a `saṅkhārupekkhā`-flavored equanimity toward dissolving
+phenomena. It is real, and it is not the path: it has no developed conformity-process to ripen into, no
+`gotrabhū`, and no way to take the unconditioned as object, and it arises in a faculty whose top-down control is
+measurably reduced, which is the opposite of the concentrated, faculty-balanced consciousness the path-process
+requires. The precept's concern with the weakening of wisdom and this object-point are the same point from two
+sides: the clarity that would let the seeing mature into the cutting is the clarity the intoxicant relaxes.
+
 **The synthesis on this point [interpretive].** A drug-occasioned dissolution, even a genuine one, is at best a
 suppression: the self-model relaxes and then returns, which is `vikkhambhana`, reversible by construction, and
 the science confirms the acute state reverses within hours. The path-moment, though momentary, is `samuccheda`,

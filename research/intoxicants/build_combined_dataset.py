@@ -15,6 +15,7 @@ OUT = os.path.join(ROOT, "public", "research", "intoxicants.json")
 
 ev = json.load(open(os.path.join(HERE, "_instrumental_evidence.json"), encoding="utf-8"))
 cen = json.load(open(os.path.join(HERE, "_census_v2.json"), encoding="utf-8"))
+obj = json.load(open(os.path.join(HERE, "_object_evidence.json"), encoding="utf-8"))
 Q = {q["label"]: q for q in ev["queries"]}
 LOC = {l["id"]: l for l in ev["loci"] if l.get("found")}
 
@@ -137,6 +138,16 @@ doc = {
         "sambodhiparayana_early": 36,
         "anusaya_samugghata_early": 11,
         "nibbanarammana": {"early": 0, "atthakatha": 90, "tika": 116},
+    },
+
+    # §7 — the object-asymmetry (the technical difference between insight-seeing and the path-moment)
+    "object_asymmetry": {
+        "_source": "research/intoxicants/_run_object.py -> _object_evidence.json (deduped is_primary; count-lock read)",
+        "thesis": "The technical difference between insight-seeing and the path-moment is the OBJECT: insight (vipassanā) takes the conditioned (saṅkhārā), the magga takes the unconditioned (nibbāna). The moment-by-moment apparatus is post-sutta; gotrabhū is the hinge where the object switches.",
+        "census": obj["census"],
+        "canonical_seed": "sabbe dhammā anattā (6 early-canonical rows); + mn52 (any produced state is saṅkhata)",
+        "gotrabhu_early_sense": "the 3 early gotrabhū rows are a PERSON-TYPE (an9.10, an10.16 offerings lists; mn142 Dakkhiṇāvibhaṅga), NOT the citta-pivot; the cognitive-pivot sense emerges in the Abhidhamma and is fully articulated in the commentary (sense-read).",
+        "hinge": obj["hinge"],
     },
 
     # §5/§7 — the science (adversarially verified; all four verdicts mixed-contested)

@@ -1,0 +1,62 @@
+{
+ "census": {
+  "sankharupekkha": {
+   "early": 0,
+   "late": 3,
+   "abh": 0,
+   "para": 0,
+   "comm": 176,
+   "atthakatha": 83,
+   "tika": 93,
+   "all": 182
+  },
+  "anuloma_nana": {
+   "early": 0,
+   "late": 0,
+   "abh": 0,
+   "para": 0,
+   "comm": 68,
+   "atthakatha": 26,
+   "tika": 42,
+   "all": 69
+  },
+  "gotrabhu": {
+   "early": 3,
+   "late": 3,
+   "abh": 174,
+   "para": 0,
+   "comm": 339,
+   "atthakatha": 143,
+   "tika": 196,
+   "all": 553
+  },
+  "nibbanarammana": {
+   "early": 0,
+   "late": 3,
+   "abh": 0,
+   "para": 0,
+   "comm": 206,
+   "atthakatha": 90,
+   "tika": 116,
+   "all": 217
+  },
+  "sabbe_dhamma_anatta": {
+   "early": 6,
+   "late": 13,
+   "abh": 2,
+   "para": 3,
+   "comm": 35,
+   "atthakatha": 21,
+   "tika": 14,
+   "all": 59
+  }
+ },
+ "hinge": {
+  "id": "cst-s0303t.tik-sn3_1_p145",
+  "work_role": "tika",
+  "stratum": "6tika",
+  "citation": "Spk-pṭ 1 §145",
+  "quote": " anantarā, anantarā vipassanā maggassa. Gotrabhū pana anulomavīthipariyāpannattā vipassanāgatikaṃ vā siyā, nibbānārammaṇattā maggagatikaṃ vāti na tena maggo antariko nāma hoti. Tenāha ‘‘vipassanā maggassa āsannānantaraṃ nāmā’’ti. Phalaṃ pana nibbānārammaṇattā kilesānaṃ pajahanavasena pavattanato lokuttarabhāvato ca kammamaggagatikameva, kusalavipākabhāvena pana nesaṃ attho pabhedoti vipassanāya ph"
+ },
+ "_doc": "object-asymmetry apparatus per stratum (deduped is_primary). The difference between insight-seeing (object=saṅkhārā) and the path-moment (object=nibbāna) is the object; the apparatus is post-sutta; gotrabhū is the hinge. gotrabhū early rows are a person-type (an9.10/an10.16), NOT the citta-pivot (sense-read)."
+}
