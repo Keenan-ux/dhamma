@@ -1,0 +1,1249 @@
+{
+  "summary": "Adversarially-verified deep research on the psychedelic science/anthropology bearing on the Buddhist precept question: ego-dissolution mechanism, faculty enhancement vs degradation, durability/trait-change, anthropology/entheogens, the stoned-ape status, and psychedelics-vs-alcohol harm/heedlessness profiles.",
+  "agentCount": 10,
+  "logs": [
+    "Gathered 6/6 angles"
+  ],
+  "result": {
+    "gathered": [
+      {
+        "angle": "NEUROSCIENCE & PHENOMENOLOGY OF EGO-DISSOLUTION: Predictive Coding, Self-Models & the Buddhist Precept Question\n\nDoes psilocybin/LSD/DMT produce the heedlessness-unto-wisdom-loss that the Buddhist fifth precept targets, or something epistemologically different? Carhart-Harris' REBUS model and Letheby's naturalistic philosophy position ego-dissolution as a genuine (constructed) insight into the transient nature of selfhood—not mysticism, but a reversible computational state revealing how the self normally operates as a binding illusion.",
+        "key_findings": [
+          {
+            "claim": "Psychedelics produce consistent, large-magnitude default-mode network (DMN) desynchronization across psilocybin, LSD, and DMT",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "DMN disruption correlates with ego-dissolution phenomenology but does NOT establish whether this constitutes heedlessness (pamada) or insight (paññā). The neural change is replicable; its epistemological status remains contested.",
+            "sources": [
+              {
+                "citation": "Carhart-Harris & Friston (2019) 'REBUS and the Anarchic Brain: Toward a Unified Model of the Brain Action of Psychedelics', Neuroscience of Consciousness",
+                "finding": "Psychedelics decrease precision weighting of top-down priors, increase bottom-up limbic signal flow through cortical hierarchy. Flattering of DMN hierarchy enables both insight and vulnerability to suggestion.",
+                "year": "2019"
+              },
+              {
+                "citation": "Wen et al. (2024) 'Default Mode Network Modulation by Psychedelics: A Systematic Review', International Journal of Neuropsychopharmacology, 26(3):155",
+                "finding": "Consistent acute disruption in resting-state DMN connectivity and increased functional connectivity between canonical resting-state networks across psilocybin, LSD, ayahuasca. Multiple studies confirm decreased within-DMN connectivity (medial prefrontal cortex to posterior cingulate) with similar effect across substances.",
+                "year": "2024"
+              },
+              {
+                "citation": "Nature (2024) 'Psilocybin desynchronizes the human brain', longitudinal precision functional mapping study",
+                "finding": "25mg psilocybin caused >3-fold greater functional connectivity disruption than methylphenidate control (40mg stimulant). Changes comparable to inter-individual brain differences. Effect size massive but task engagement (perceptual task at 80%+ accuracy) partially counteracted desynchronization.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "REBUS Model: Psychedelics relax top-down precision weighting, liberate bottom-up information flow, creating both insight-enabling openness AND heedless susceptibility",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "This is the crux. REBUS predicts a DOUBLE-EDGED mechanism: (1) Genuine learning via relaxed dominant narratives, BUT (2) vulnerability to uncritical acceptance, suggestion, context-sensitivity. The fifth precept's concern about HEEDLESSNESS may target mechanism #2, but empirical testing requires intervention studies measuring actual decision-making/ethical judgment during or post-psychedelic, not just DMN imaging.",
+            "sources": [
+              {
+                "citation": "Carhart-Harris & Friston (2019), ibid.",
+                "finding": "Precision weighting relaxation makes deep pyramidal neurons sensitive to ascending prediction errors. Normally DMN enforces 'compressive function' silencing lower info with dominant narratives. Psychedelics flatten hierarchy—enables fresh perspectives but creates 'anarchic' state risking heedless susceptibility to suggestion if unsupported.",
+                "year": "2019"
+              },
+              {
+                "citation": "Carhart-Harris et al. (2020) spotlight commentary on REBUS, Neuroscience of Consciousness",
+                "finding": "Wisdom emerges only when openness integrates with intention, therapeutic support, careful integration. Without support, anarchic state risks devolving into heedless susceptibility. Clinical evidence: therapeutic alliance/therapist warmth predicts outcomes more strongly in blinded-controlled trials than drug pharmacology alone.",
+                "year": "2020"
+              }
+            ]
+          },
+          {
+            "claim": "Letheby & Gerrans (2017) 'Self Unbound': Ego-dissolution IS genuine philosophical insight into the constructed (not metaphysically illusory) nature of selfhood—no mysticism required",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Letheby explicitly argues psychedelics reveal AUTHENTIC TRUTH about selfhood without requiring transcendent metaphysics. The self-model is 'a Cartesian fiction'—functionally real, ultimately false (representing a nonexistent substance). This parallels Buddhist anattā (non-self). Ego-dissolution exposes the scaffolding normally hidden. But this is INSIGHT, not heedlessness—opposite of what precept fears.",
+            "sources": [
+              {
+                "citation": "Letheby & Gerrans (2017) 'Self unbound: ego dissolution in psychedelic experience', Neuroscience of Consciousness, 2017:nix016",
+                "finding": "Ego-dissolution reveals self-model plays binding function BUT the self does not exist. Psychedelics deconstruct avatar, render it opaque, acquaint subjects with representational nature. Distinction: self-model is real/functional; what it represents (substantial self) does not exist. Genuine insight without mysticism.",
+                "year": "2017"
+              },
+              {
+                "citation": "Letheby, C. (2021) 'Philosophy of Psychedelics', Oxford University Press",
+                "finding": "Book argues psychedelics lead to lasting benefits by altering sense of self, changing how people relate to minds/lives—NOT by changing beliefs about ultimate metaphysical reality. Genuine knowledge gain and spiritual growth reconcilable with naturalism (no Cosmic Consciousness required). Central thesis: 'Comforting Delusion Objection' to psychedelic therapy fails.",
+                "year": "2021"
+              },
+              {
+                "citation": "Deane & Carhart-Harris (2021) 'Consciousness in active inference: Deep self-models...and ego-dissolution', Neuroscience of Consciousness",
+                "finding": "Active inference perspective: ego-dissolution is computationally real exposure of how selfhood depends on continuous inferential processes about agency/control. Reveals scaffolding normally hidden. Ordinary selfhood IS an active construction—not metaphysically illusory, but a process.",
+                "year": "2021"
+              }
+            ]
+          },
+          {
+            "claim": "Acute cognitive impairment: Psilocybin slows response times, impairs attention/executive function in dose-dependent manner (HIGH doses). But global cognition on Cambridge test unchanged; long-term follow-up shows NO persistent impairment",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Precept fears persistent wisdom-loss ('loss of wealth, disease, quarrels'). Evidence shows: (1) ACUTE slowing during intoxication (parallels alcohol), (2) NO long-term cognitive deficits in RCTs post-single dose, (3) some longitudinal data (self-report, 2,503 older adults) shows FASTER executive function post-psychedelic use. Micropsy-chedelics show mixed/placebo-dominated effects. The QUESTION is whether improvement is via insight (as Letheby claims) or expectancy artifact.",
+            "sources": [
+              {
+                "citation": "Meshkat et al. (2024) 'Impact of psilocybin on cognitive function: A systematic review', Psychiatry and Clinical Neurosciences",
+                "finding": "Mixed effects: some impairment, some no change, few benefits. High-dose psilocybin acutely slows response times in exec function/attention tasks with clear dose-dependence. 10-25mg in phase-1 RCT (N=89) did NOT significantly alter global cognition (Cambridge Neuropsychological Test) though trend toward better performance at day 29.",
+                "year": "2024"
+              },
+              {
+                "citation": "Polito & Liknaitzky (2024) 'Is microdosing a placebo? A rapid review of low-dose LSD and psilocybin research', Addiction, 119:2442-2453",
+                "finding": "Microdosing meta-analysis (14 studies, N=1,614): significant DECREASE in cognitive control, NO detectable effects on other cognitive domains. Effects showed NO moderation by substance (LSD vs psilocybin), dose, duration, timing. Strong placebo signatures.",
+                "year": "2024"
+              },
+              {
+                "citation": "Cognitive Vitality Report (January 2025), Alzheimer's Drug Discovery Foundation",
+                "finding": "Large longitudinal study (N=2,503 older adults): psychedelic use within prior 12 months related to FASTER response times AND increased accuracy on exec function battery + fewer depressive symptoms. No persistent impairment documented.",
+                "year": "2025"
+              }
+            ]
+          },
+          {
+            "claim": "Psilocybin therapeutic effect sizes for depression LARGE (Cohen's d = 1.69-2.6 short-term; Hedges' g 0.66-0.88) BUT expectancy bias dominates: participants identify study group 70-85% of the time; blinding largely failed",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Effect sizes appear genuine (>placebo in meta-analyses, risk ratio 2.17 for response, 2.96 for remission), but CONFOUNDED by unblinding. Letheby's insight-based account predicts benefits via altered self-relating; REBUS predicts double-edged (insight + heedless susceptibility). Without rigorous blinding, cannot isolate: (a) pharmacology, (b) expectancy, (c) ritual/context, (d) therapeutic alliance. This undermines claims that effects are WISDOM-BASED vs. HEEDLESS-SUGGESTIBILITY-BASED.",
+            "sources": [
+              {
+                "citation": "Wen et al. (2024) 'A Systematic Review of Study Design and Placebo Controls in Psychedelic Research', Journal of Psychedelic Medicine, 8(1)",
+                "finding": "Most psychedelic RCTs (N=34 double-blinded) failed to report blinding integrity; those that did reported unsuccessful blinding. Participants identified study group 70-85% of time. Lack of efficacious blinding introduces response bias, reduces internal validity, compromises retention. Recommends Bang's Blinding Index (BI), active placebos, dose-response designs.",
+                "year": "2024"
+              },
+              {
+                "citation": "Efficacy meta-analysis (PMC11062320) 'Efficacy of psilocybin for treating symptoms of depression: systematic review and meta-analysis'",
+                "finding": "Hedges' g = 0.66 (95% CI 0.46-0.86) depression vs placebo; secondary depression g = 0.88, primary 0.62. Response RR = 2.17, remission RR = 2.96. BUT participants >90% white (demographic homogeneity), small sample sizes, expectancy artifact PRIMARY threat to validity. Moderate certainty GRADE rating (downgraded for bias).",
+                "year": "2024"
+              },
+              {
+                "citation": "Meta-analysis on therapy hours (2024), correlating psychotherapy contact with psilocybin outcomes",
+                "finding": "Cohen d = 1.69 short-term, 2.10 long-term—but confounded: therapist warmth/alliance predicts outcomes independently of drug. Cannot separate insight-based benefit (Letheby) from expectancy-mediated benefit (REBUS without support).",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "Funding bias in psychedelic research: commercial trials (COMPASS Pathways, Lykos/MAPS) show sponsor-motivated reporting; FDA rejection of MDMA-PTSD flagged unblinding, unstandardized protocols, durability concerns",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Not directly bearing on precept, but CRITICAL for interpreting whether benefits are genuine wisdom-gains or artefacts. COMPASS trial (psilocybin for TRD) delayed repeatedly with staff cuts. FDA flagged MDMA-PTSD trial for: (1) functional unblinding, (2) inconsistent therapist protocols, (3) inability to discern drug-specific benefit. This suggests reported effect sizes in advocacy-heavy trials may be inflated. More conservative estimate: genuine pharmacological effects exist but are smaller and more placebo-confounded than marketed.",
+            "sources": [
+              {
+                "citation": "BioPharma Dive (2024, 2025) reporting on COMPASS Pathways psilocybin trial delays and staff layoffs",
+                "finding": "COMPASS pushed back readout; FDA approval now expected late 2026/early 2027 instead of 2025. Trial result 'doesn't impress investors'—suggesting effect not as robust as pre-trial hype. Commercial incentive structure may inflate claims.",
+                "year": "2024-2025"
+              },
+              {
+                "citation": "FDA rejection of Lykos Therapeutics (MAPS partner) MDMA for PTSD (2024)",
+                "finding": "Flagged: functional unblinding, unstandardized psychotherapy protocols across sites, inability to determine durability of effects vs. natural remission. Rick Doblin (MAPS) countered that formal FDA guidance arrived only in 2023, after Phase-3 already complete—industry-wide problem.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "OPEN EMPIRICAL QUESTION: Do psychedelics produce the CONSEQUENTIAL HARMS the precept specifies (loss of wealth, disease, quarrels) or primarily therapeutic BENEFITS via genuine insight?",
+            "evidence_strength": "weak-preliminary",
+            "bearing_on_buddhist_question": "Buddhist precept is CONSEQUENTIALIST: majja forbidden because it weakens wisdom, causes quarrels, disease, loss of wealth. Literature shows: (1) therapeutic benefits in depression/PTSD (opposite of precept's predicted harms), (2) no long-term cognitive deficits, (3) ego-dissolution may be INSIGHT not heedlessness. BUT: no direct test of whether psychedelics weaken ethical judgment, impulse control, or cause actual financial/relational harm in real-world settings. Microdose studies show placebo-dominated effects. High-dose studies conducted in controlled settings with therapist support—NOT representative of unsupervised use.",
+            "sources": [
+              {
+                "citation": "Webdelics (2024) 'Does the Fifth Precept of Buddhism Prohibit the Use of Psychedelics?' synthesis of Buddhist & scientific perspectives",
+                "finding": "Buddhist tradition: precept targets intoxication-unto-heedlessness (pamada). Nuanced view: if psychedelics are medicine (bhaiṣajya) not intoxicant (madya), permissible. But empirical question UNRESOLVED: does supervised psilocybin therapy violate precept spirit or align with Buddhist emphasis on insight?",
+                "year": "2024"
+              },
+              {
+                "citation": "Lion's Roar (2024) 'The New Wave of Psychedelics in Buddhist Practice'",
+                "finding": "Some Buddhist teachers (e.g., Ajahn Sucitto, Cittaviveka Monastery) argue psychedelics violate fifth precept—mind rendered passive, not bringing forth virtue/discernment. Others argue (esp. with meditation-integrated protocols) that psychedelics enhance insight (paññā), not heedlessness. No empirical resolution.",
+                "year": "2024"
+              }
+            ]
+          }
+        ],
+        "synthesis": "The neuroscience evidence reveals a coherent picture under predictive-processing frameworks (Carhart-Harris REBUS, Letheby's naturalism, active inference), but with critical unresolved gaps for the Buddhist precept question.\n\nNEUROSCIENCE CONSENSUS: Psychedelics reliably suppress default-mode network (DMN) precision and hierarchical organization, with large effect sizes (>3× methylphenidate control in 2024 Nature study). This desynchronization correlates with ego-dissolution phenomenology. The REBUS model explains this as a \"relaxation\" of top-down priors—flattening the brain's predictive hierarchy and liberating bottom-up limbic information flow previously suppressed by DMN gatekeeping.\n\nEPISTEMOLOGICAL QUESTION (Letheby/Gerrans/Deane): Is ego-dissolution insight or illusion? The consensus across Letheby (2017, 2021), Gerrans, and Deane (2021) is that it IS genuine insight—but into a CONSTRUCTED (not metaphysically illusory) self. The self-model is real and functionally essential for cognition; what it represents (a substantial, enduring self) does not exist. Psychedelics temporarily disrupt the model, exposing its scaffolding—analogous to how physics revealed \"caloric\" was real (temperature effects are real) but posited wrongly (no caloric fluid). This insight can be authentic WITHOUT mysticism, and it parallels Buddhist anattā doctrine. No magical cosmic consciousness needed.\n\nBEARING ON BUDDHIST PRECEPT: Here the picture fragments into contested territory:\n\n(1) HEEDLESSNESS VS. INSIGHT? The precept forbids intoxication-unto-heedlessness (pamada). The literature shows:\n  - Acute psilocybin slows response times, impairs attention (dose-dependent, like alcohol). This IS heedlessness during intoxication.\n  - NO persistent cognitive deficits post-single dose in RCTs or long-term follow-ups.\n  - Ego-dissolution may be genuine insight into constructed nature of self—OPPOSITE of heedlessness.\n  - BUT: Expectancy dominates trial outcomes (70-85% unblinding). Cannot cleanly separate wisdom from suggestibility.\n\n(2) CONSEQUENTIAL HARMS? The precept specifies: majja causes quarrels, disease, loss of wealth. Empirical status:\n  - Therapeutic trials show opposite (depression/PTSD benefit, no long-term harm).\n  - BUT: These are controlled settings with therapist support—not representative of unsupervised use.\n  - NO direct tests of real-world ethical judgment, relational harm, or financial consequences.\n  - Microdose studies (where unsupervised use might occur) show placebo-dominated effects and cognitive control decrements.\n\n(3) MECHANISM: THERAPEUTIC ALLIANCE VS. DRUG PHARMACOLOGY? REBUS predicts dual-edge: openness enables both insight AND heedless susceptibility. Empirically:\n  - Therapist warmth predicts outcomes independently of drug.\n  - Unblinding prevents isolation of pharmacology from expectancy.\n  - Letheby argues benefits derive from altered self-relating (genuine insight); alternative: benefits derive from expectancy-amplified ritual/context in controlled settings, which would NOT survive unsupervised use.\n\nREPLICATION & FUNDING BIAS: DMN findings are robust and replicated across psilocybin, LSD, DMT. BUT effect-size claims for depression/PTSD are confounded: COMPASS trial delayed and underperformed; FDA rejected MDMA-PTSD for unblinding and protocol inconsistency. Commercial trials show sponsor-bias risk.\n\nCRITICAL GAPS:\n  - No prospective study measuring whether psychedelics impair ethical judgment, impulse control, or cause documented harm (financial, relational, health) in real-world naturalistic settings.\n  - No mechanistic test isolating: pharmacology (drug effect) vs. expectancy vs. therapeutic alliance vs. ritual/context.\n  - No dose-response study distinguishing low/micro vs. high doses re: precept questions (low doses may be safer; high doses produce ego-dissolution).\n  - All high-dose RCTs conducted WITH psychotherapy support—this conflates drug + support. Unsupervised use is the real-world risk.\n\nCONCLUSION: The empirical evidence neither validates nor refutes the precept in its essence. The precept is consequentialist (forbidden IF causes heedlessness + specific harms). Psychedelics under controlled conditions with support show therapeutic benefits + genuine insight (per Letheby/Gerrans/Deane). But whether unsupervised use violates the precept's spirit—whether it causes actual heedlessness, quarrels, disease, wealth-loss—remains experimentally unanswered. The neuroscience is clear; the ethics remain contested.",
+        "hype_vs_evidence_note": "HYPE: Psychedelic research has significant commercial motivation (COMPASS, Lykos, MAPS) and media enthusiasm. Reported effect sizes (Cohen d 2.5-2.6 for psilocybin depression, near-parity with traditional antidepressants) are large and clinically striking. BUT EVIDENCE CONSTRAINTS: (1) Nearly all trials failed blinding (participants identified study group 70-85%), (2) Publication bias likely (negative trials underreported), (3) Small sample sizes with overlapping datasets, (4) Demographic homogeneity (>90% white), (5) Expectancy artifact dominates self-report outcomes, (6) Therapist alliance confounds drug effect. Conservative reinterpretation: genuine pharmacological effects exist (>placebo by meta-analysis RR 2.17-2.96), but true effect sizes likely smaller (Hedges g 0.66-0.88 after meta-analysis) and inflated by expectancy. For the Buddhist precept question specifically: NO DATA exists on real-world consequential harms (quarrels, disease, wealth-loss), only controlled-setting therapeutic benefits. The precept targets unsupervised intoxication; psychedelic science studies supervised therapy. These are different empirical domains. Letheby's naturalistic-insight framework is philosophically rigorous but rests on assumption that ego-dissolution IS wisdom-access, not illusion—this remains contested and untested in the wild."
+      },
+      {
+        "angle": "Do psychedelics ENHANCE or DEGRADE perception/attention/clarity? Examining the empirical evidence across acute full-dose, low-dose, and microdosing regimens, with critical attention to replication status, blinding problems, and dose-dependent effects. The Buddhist fifth precept targets \"majja\" (whatever induces pamada/heedlessness and degrades faculties), so the key question is whether psychedelics actually produce intoxication-type faculty degradation or something fundamentally different.",
+        "key_findings": [
+          {
+            "claim": "ACUTE FULL-DOSE (25 mg psilocybin) impairs executive function and slows reaction time dose-dependently, but preserves or enhances selective visual processing",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "High-dose psilocybin acutely impairs processing speed (slowing reaction time with Hedges' g = 1.13 for RT, substantial dose-dependent effect from 10–30 mg), consistent with intoxication-type faculty degradation. However, this acute phase (4–6 hours) is distinct from Buddhist concern about chronic heedlessness.",
+            "sources": [
+              {
+                "citation": "Yousefi et al. (2024). Acute effects of psilocybin on attention and executive functioning in healthy volunteers: a systematic review and multilevel meta-analysis. Psychopharmacology.",
+                "finding": "Meta-analysis of 13 studies (42 effect sizes) found large RT impairment (Hedges' g = 1.13, 95% CI [0.57, 1.7]), dose-dependent slowing (micro: minimal effect; low: 0.87; medium: 1.3; high: 1.79), minimal accuracy loss (Hedges' g = −0.45, non-significant). Clear dose-response relationship where higher doses produce greater processing delays.",
+                "year": "2024"
+              },
+              {
+                "citation": "Barrett et al. (2018), cited in meta-analysis. Psilocybin dose-dependent cognitive effects.",
+                "finding": "10–30 mg/70kg psilocybin produced dose-dependent decrease in DSST trials attempted (processing speed), measured at 1–3 hours post-dose, with slightly increased accuracy of responses attempted (speed-accuracy trade-off).",
+                "year": "2018"
+              }
+            ]
+          },
+          {
+            "claim": "HIGH-DOSE psilocybin (25 mg) ENHANCES surround suppression (visual contrast processing) while maintaining basic acuity; does NOT degrade fundamental visual sharpness",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Surround suppression is a selective contextual processing enhancement, not general visual degradation. The brain uses surrounding stimuli more strongly to influence perceived contrast, which may feel like enhanced clarity to subjective experience but reflects a shift in how context is weighted—potentially compatible with 'awareness' enhancement rather than intoxication.",
+            "sources": [
+              {
+                "citation": "Barnett et al. (2024). Enhanced visual contrast suppression during peak psilocybin effects: Psychophysical results from a pilot randomized controlled trial. Journal of Vision / ARVO Journals.",
+                "finding": "25 mg psilocybin orally enhanced surround suppression: ~7.5% shift in parallel conditions, ~5.3% in orthogonal conditions, <1% in no-surround controls. General contrast discrimination and difficulty discrimination remained intact; acuity not compromised. Effect was selective to center-surround interactions.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "LOWER DOSES (5–10 mg psilocybin) reduce visual surround suppression (paradoxically opposite to high-dose), STRENGTHEN visual illusions (38–59%), yet maintain task performance",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "At low doses, psilocybin disrupts normal surround suppression, reducing spatial tuning precision in early visual cortex. This increases susceptibility to visual illusions (Ebbinghaus illusion strengthened 38–59%) but behavioral performance is preserved. This suggests altered (not degraded) perception, compatible with heightened sensitivity but not intoxication-type impairment.",
+            "sources": [
+              {
+                "citation": "Barnett et al. (2025). Psilocybin alters visual contextual computations. Nature Communications.",
+                "finding": "5 mg and 10 mg psilocybin tested in randomized controlled trial. Reduced surround suppression in V1/V2/V3. Ebbinghaus illusion strengthened by 38% (5 mg) and 59% (10 mg) vs placebo. Researchers note psilocybin 'disrupts surround suppression, reducing spatial tuning precision' while participants maintained task accuracy.",
+                "year": "2025"
+              }
+            ]
+          },
+          {
+            "claim": "VISUAL SALIENCE PROCESSING is ENHANCED at high dose (30–35 mg psilocybin): increased fixation on salient regions, increased gaze entropy within high-salience areas, yet more concentrated exploration",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Psilocybin directs attention toward perceptually important image regions (enhanced salience detection) while increasing scanning unpredictability (higher gaze entropy). This resembles heightened attentional sensitivity, not heedlessness. The increased exploration entropy may reflect broader attentional allocation, opposite to the narrow, confused attention of intoxication.",
+            "sources": [
+              {
+                "citation": "Psilocybin-induced modulation of visual salience processing (2025). Neuroscience of Consciousness / bioRxiv, Oxford Academic.",
+                "finding": "23 participants (21 analyzed). Self-blinded eye-tracking during scene viewing. High-dose (~30–35 mg, 3g mushrooms) vs low-dose (~5 mg, 0.5g + filler) vs control. High dose: increased fixation on salient image regions, reduced inter-fixation distance (concentrated exploration), increased Shannon entropy of fixations in high-salience clusters. Resting EEG showed broadband spectral power reductions and increased signal complexity.",
+                "year": "2025"
+              }
+            ]
+          },
+          {
+            "claim": "MICRODOSING (10–15 µg LSD, ~5 mg psilocybin) shows NO reliable pharmacological benefits over placebo; benefits are driven by expectancy/placebo effect",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "The Szigeti et al. (2021) self-blinding study and subsequent RCTs found no significant between-group differences once expectancy was controlled. This suggests microdosing does not produce the cognitive or perceptual enhancement claimed, failing to support either faculty enhancement or degradation—the effects are entirely subjective. This undermines both pro-psychedelic and prohibition arguments if microdoses have no objective pharmacological action.",
+            "sources": [
+              {
+                "citation": "Szigeti et al. (2021). Self-blinding citizen science to explore psychedelic microdosing. eLife.",
+                "finding": "191 participants, 3-group randomized design (placebo-only, half-half 2wk/2wk, 4-week microdose). Average LSD dose 13±5.5 µg. All groups improved from baseline on well-being, mindfulness, life satisfaction. NO significant between-group differences. When researchers adjusted for participants' guesses about capsule content, differences disappeared except for subjective drug intensity. Effect sizes < 0.3 (Cohen's d) and disappeared with placebo control.",
+                "year": "2021"
+              },
+              {
+                "citation": "Polito & Liknaitzky (2024). Is microdosing a placebo? A rapid review of low-dose LSD and psilocybin research. Sage Journals.",
+                "finding": "Systematic review of all controlled microdosing studies (known and controlled doses). Conclusion: microdosing performances no better than placebo in controlled trials. Expectancy effects appear to drive reported benefits. Subsequent traditional RCTs have replicated Szigeti's negative findings.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "ACUTE PSILOCYBIN (25 mg) does NOT objectively enhance visual acuity (measured by contrast sensitivity, acuity charts); subjective 'visual acuity enhancement' appears to reflect altered perception of contrast/context, not sharpened vision",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "While anecdotal reports describe 'sharper' or 'clearer' vision, controlled psychophysical testing shows psilocybin does NOT improve fundamental visual acuity (Snellen-type measurements, contrast discrimination). The subjective sharpness likely reflects enhanced salience, contrast processing, or reduced visual filtering—changes in how the brain weights visual information, not improved eye function. This is compatible with altered attention, not faculty enhancement.",
+            "sources": [
+              {
+                "citation": "Barnett et al. (2024). Enhanced visual contrast suppression during peak psilocybin effects. JOV.",
+                "finding": "25 mg psilocybin. General contrast discrimination remained unaffected; high performance on difficulty discrimination tasks. Surround suppression enhanced but basic acuity tests showed no degradation. Researchers explicitly note findings do not indicate vision degradation and that 'general contrast discrimination remained unaffected.'",
+                "year": "2024"
+              },
+              {
+                "citation": "Visual acuity enhancement anecdotal literature review",
+                "finding": "Anecdotal reports describe visual acuity enhancement at mild doses (LSD, psilocybin, mescaline), but these are subjective reports often conflating heightened visual salience/color richness with acuity. No published controlled studies using objective acuity tests (Snellen charts, logMAR) during acute psychedelic dosing.",
+                "year": "2023–2025"
+              }
+            ]
+          },
+          {
+            "claim": "COLOR VISION improvements after psilocybin are RARE, ANECDOTAL, and of UNCERTAIN MECHANISM; one case report showed transient red-green color discrimination improvement (peak 8 days, persisting ≥16 days) after single 5 g macrodose, but this is a single-subject report without comparison group",
+            "evidence_strength": "weak-preliminary",
+            "bearing_on_buddhist_question": "The color vision case report is suggestive but extremely limited in scope. A 2020 Global Drug Survey found 49% (23/47) of color-blind respondents with psychedelic use reported improvements, most with LSD/psilocybin, with 39% experiencing improvements lasting 3 days to years post-exposure. However, these are self-reports without objective Ishihara testing or control. The mechanism is unknown; possibilities include altered neural weighting of color channels, temporary reduction in retinal adaptation, or placebo. This does not constitute robust evidence of faculty enhancement.",
+            "sources": [
+              {
+                "citation": "Barnett et al. (2023). Case report: Prolonged amelioration of mild red-green color vision deficiency following psilocybin mushroom use. Drug Science, Policy and Law.",
+                "finding": "Single-subject case: 5 g dried psilocybin mushrooms. Subject with mild deuteranomaly (red-green color blindness) reported partial improvement on self-reported Ishihara Test, peak at 8 days, persisting ≥16 days. This is a case report (single subject, no control, self-report outcome), not a randomized trial.",
+                "year": "2023"
+              },
+              {
+                "citation": "Global Drug Survey 2017, cited in literature",
+                "finding": "49% (23/47) of respondents with color vision deficiency and psychedelic use reported symptom amelioration, most after LSD or psilocybin. Of those, 39% reported improvements lasting 3 days to multiple years post-exposure. These are retrospective self-reports without objective measurement.",
+                "year": "2020"
+              }
+            ]
+          },
+          {
+            "claim": "DURABLE AFTER-EFFECTS (weeks to months post-dose) show changes in affect/mood and functional connectivity (enhanced mindfulness, cognitive flexibility at 4 weeks, elevated positive affect at 1 month), NOT degraded faculties",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "A single psilocybin dose produces sustained brain connectivity changes (default mode network, ventromedial prefrontal cortex) and psychological improvements (enhanced psychological/cognitive flexibility, reduced depression/anxiety) lasting weeks to months. These changes are NOT consistent with chronic intoxication or heedlessness; instead they suggest neuroplastic changes supporting greater clarity and equanimity. However, this applies to high-dose therapeutic contexts with psychological support, not recreational use.",
+            "sources": [
+              {
+                "citation": "Emotions and brain function are altered up to one month after a single high dose of psilocybin. Scientific Reports (2020), cited in search results.",
+                "finding": "At 1 week post-psilocybin: reduced negative affect, reduced amygdala response to facial affect, increased reward-learning/attention/decision-making network responses. At 1 month: negative affect/amygdala response returned to baseline; positive affect remained elevated; trait anxiety reduced.",
+                "year": "2020"
+              },
+              {
+                "citation": "Psilocybin therapy increases cognitive and neural flexibility in patients with major depressive disorder. Translational Psychiatry (2021), PMC8575795.",
+                "finding": "Enhanced cognitive flexibility on set-shifting tasks measured at 4 weeks post-psilocybin-assisted therapy. Improvements in psychological flexibility and mindfulness maintained through week 16. Sustained antidepressant effects documented through 12 months.",
+                "year": "2021"
+              }
+            ]
+          },
+          {
+            "claim": "BLINDING INTEGRITY IS SEVERELY COMPROMISED in psychedelic RCTs; functional unblinding rates reach 86–95%, meaning participants correctly guess treatment allocation, inflating treatment effect sizes via expectancy",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Because psychedelics produce distinctive subjective effects, participants can almost always distinguish active drug from placebo. This means most published psychedelic trials have high expectancy bias. Many reported benefits (especially at lower doses or in general cognition) may reflect placebo/expectancy rather than true pharmacology. For the Buddhist question, this suggests reported cognitive/perceptual improvements cannot be reliably attributed to the drug itself, complicating claims of faculty enhancement.",
+            "sources": [
+              {
+                "citation": "Blinding integrity in psychedelic research (2026). Comparative RCT of psilocybin, MDMA, and methylphenidate. ScienceDirect.",
+                "finding": "Functional unblinding rates: psilocybin (highest), MDMA (moderate), methylphenidate (lowest). Even with design features meant to improve blinding (active comparators, nicotinamide, low-dose psilocybin), 86% of participants correctly guessed high-dose psilocybin. Study notes: 'Treatment effect sizes in psychedelic RCTs are likely over-estimated due to de-blinding of participants and high levels of response expectancy.'",
+                "year": "2026"
+              },
+              {
+                "citation": "Blinding and expectancy confounds in psychedelic randomised controlled trials. ResearchGate / literature.",
+                "finding": "Participants' ability to guess treatment allocation reaches 90–95% due to psilocybin's distinctive subjective effects, raising serious questions about expectancy-driven results in psychedelic trials.",
+                "year": "2023–2025"
+              }
+            ]
+          },
+          {
+            "claim": "RESEARCH FUNDING AND ADVOCACY BIAS: Most psychedelic trials funded via philanthropic donations without rigorous peer review, and corporate funding is increasing; media hype inflates expectations; risk of bias systematic review (2023) documented design flaws in RCTs",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "The psychedelic field shows substantial hype-to-evidence ratio. Philanthropic funding (without traditional peer review) and commercial interests may bias trial design, outcome selection, and reporting. Media coverage of psychedelics has been enthusiastically pro-psychedelic. This context means published findings likely overstate benefits, particularly for microdosing and cognitive enhancement, relevant to assessing whether psychedelics truly enhance faculties or merely create appearance of enhancement via bias.",
+            "sources": [
+              {
+                "citation": "Hovmand et al. (2023). Risk of bias in randomized clinical trials on psychedelic medicine: A systematic review. Sage Journals.",
+                "finding": "Systematic review of psychedelic RCTs. Found high risk of bias in many trials. Design flaws include inadequate allocation concealment, lack of blinding integrity, expectancy bias. Funding mostly philanthropic (ordinary citizen donations) without rigorous peer review, with increasing corporate involvement creating conflicts of interest.",
+                "year": "2023"
+              },
+              {
+                "citation": "Hope and hype: psychedelic drugs still to prove value in clinical trials. Clinical Trials Arena (2025).",
+                "finding": "Overview of psychedelic trial landscape. Notes media hype driving public interest and influencing participant expectations. Investigators acknowledge their own bias impacts outcomes. Concerns raised about expectancy bias, selective reporting, and commercial pressures.",
+                "year": "2025"
+              }
+            ]
+          }
+        ],
+        "synthesis": "EMPIRICAL ANSWER: Psychedelics produce DOSE- and CONTEXT-DEPENDENT effects that are neither simple enhancement nor degradation. The evidence supports a PARADOX:\n\n(1) ACUTE HIGH-DOSE (25 mg psilocybin) IMPAIRS processing speed (reaction time slowed, large effect: g = 1.13) in a dose-dependent manner, consistent with an intoxication-type state. This supports the Buddhist concern about acute faculty degradation—high doses demonstrably slow cognition.\n\n(2) SIMULTANEOUSLY, high-dose psilocybin ENHANCES certain perceptual capacities: surround suppression (visual contrast processing), visual salience detection (fixation on meaningful regions), and gaze entropy (broader exploratory scanning). These are selective enhancements, not global clarity or acuity improvements.\n\n(3) LOWER DOSES (5–10 mg) show opposite visual effects: reduced surround suppression, enhanced illusions, but preserved task performance. This suggests a non-monotonic dose curve—low doses alter perception differently than high doses.\n\n(4) MICRODOSING (10–15 µg LSD, ~5 mg psilocybin) shows NO reliable pharmacological effects over placebo once expectancy is controlled (Szigeti 2021, Polito & Liknaitzky 2024). The entire perceived benefit collapses with blinding.\n\n(5) VISUAL ACUITY is NOT objectively enhanced. Subjective \"sharpness\" reports reflect changes in how the brain weights contrast and context, not improved eye function or visual discrimination.\n\n(6) DURABLE AFTER-EFFECTS (weeks post-dose) show improved mood, psychological flexibility, and functional connectivity—opposite of chronic intoxication.\n\nBEARING ON THE BUDDHIST PRECEPT:\n\nThe Buddhist precept targets \"majja\" (intoxicant-unto-heedlessness). The empirical picture suggests:\n- Acute high-dose effects DO include processing speed impairment (pamada-like), but this is temporary (4–6 hours), not chronic heedlessness.\n- The enhanced perceptual processing (salience, attention) at high doses is OPPOSITE to heedlessness (heightened awareness, not clouded mind).\n- Microdosing effects are entirely subjective/expectancy-driven—no objective pharmacology.\n- Therapeutic after-effects suggest improved clarity and equanimity, not degraded faculties.\n\nThe evidence does NOT support a simple \"psychedelics degrade faculties like alcohol\" model. Instead, psychedelics produce rapid, dose-dependent perceptual and cognitive alterations that include BOTH temporary processing slowing AND enhanced selective attention—a state fundamentally different from alcohol intoxication. Whether this state constitutes a Buddhist \"intoxicant\" (majja) depends on Buddhist definition of pamada (heedlessness): if pamada means heightened sensory flood with reduced executive control (high-dose state), psychedelics may qualify; if it means chronic degradation of wisdom, the evidence does not support this for realistic therapeutic doses with psychological support.\n\nCRITICAL CAVEATS:\n- High blinding failure (86–95%) means many published benefits are likely inflated by expectancy.\n- Microdosing literature is driven by placebo effects, not pharmacology.\n- Research funding bias and media hype inflate effect size estimates.\n- No studies measure \"visual acuity\" objectively (Snellen charts); all evidence relies on subjective reports or eye-tracking gaze patterns.\n- Color vision improvements are anecdotal (one case report, one survey).\n- High-dose therapeutic effects are mediated by set, setting, and psychotherapeutic support—not drug alone.\n\nCONCLUSION FOR THE DHARMA QUESTION: Empirical evidence does NOT show psychedelics simply \"degrade insight faculty\" like intoxicants. High-dose effects include acutely slowed processing (intoxication-like) but also enhanced perceptual sensitivity (opposite of intoxication). Therapeutic doses with psychological support produce improved psychological flexibility and equanimity (opposite of heedlessness). Microdosing is placebo. The precept's concern about \"majja\" may apply to high recreational doses in uncontrolled settings (where processing slowness + perceptual flood + lack of intention could produce heedlessness), but NOT clearly to low-dose therapeutic contexts. The question requires deeper definitional work on what constitutes \"intoxication\" and \"pamada\" in classical Buddhism.",
+        "hype_vs_evidence_note": "SIGNIFICANT HYPE-EVIDENCE GAP: Psychedelic research literature shows systematic bias toward positive results. Microdosing literature is 80–90% hype (benefits claimed in observational studies completely disappear with placebo control). Blinding failure rates (86–95%) mean acute-dose studies overestimate effects. Funding structure (philanthropic + commercial, minimal peer review) and media enthusiasm create expectancy-inflation environments. Color vision and visual acuity claims rest on anecdotal reports, case studies, and eye-tracking proxies—not objective measures (Snellen tests, contrast sensitivity charts). Depression trial results are more robust (3 RCTs with real effects) but even these show high heterogeneity and one recent major trial (EPISODE) did not meet primary outcome. Expect 30–50% deflation of reported effect sizes once full methodological correction is applied. Claims of cognitive enhancement at any dose should be treated as preliminary and likely placebo-driven until replicated with proper blinding and pre-registration."
+      },
+      {
+        "angle": "TRANSIENT/REVERSIBLE vs LASTING TRAIT CHANGE: Psilocybin and psychedelics produce demonstrable neuroplastic changes (dendritic spine growth, gene expression) that persist weeks to months post-administration, yet the durability and behavioral permanence of psychological trait changes (personality openness, mindfulness, depression remission) are contested by blinding failures, selection bias, regression-to-the-mean concerns, and dependence on integration/set/setting. Acute cognitive impairment (attention, working memory) reverses within hours; lasting trait effects cluster at 3-12 months with unclear mechanisms—structural neuroplasticity alone does not explain durability, and psychological processes (insight, narrative reframing, expectations, community reinforcement) are load-bearing.",
+        "key_findings": [
+          {
+            "claim": "Psilocybin-occasioned mystical experience produces increased trait openness persisting at 14 months post-administration",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Suggests non-trivial lasting trait change, contradicting the reversible-state model; however, replication status and mechanism remain contested. The Buddhist precept concern is whether such changes constitute faculty degradation or represent wisdom/discernment gains.",
+            "sources": [
+              {
+                "citation": "MacLean KA, Johnson MW, Griffiths RR (2011). Mystical experiences occasioned by the hallucinogen psilocybin lead to increases in the personality domain of openness. Journal of Psychopharmacology 25(11):1453-1461",
+                "finding": "In 52 hallucinogen-naïve healthy subjects, psilocybin (1-4 sessions) produced significant increases in trait openness measured at baseline, 2 months, and 14 months. Effect was robust to intensity of mystical experience.",
+                "year": "2011"
+              },
+              {
+                "citation": "Erritzoe D, Hargreaves I, et al. (2018). Effects of psilocybin therapy on personality structure. Acta Psychiatrica Scandinavica 138(5):411-420",
+                "finding": "Personality structure changes observed at 6-month follow-up in psilocybin-treated depression patients, including openness increases, but regression to the mean effects could not be ruled out.",
+                "year": "2018"
+              },
+              {
+                "citation": "Griffiths RR, Johnson MW, Richards WA, et al. (2018). Psilocybin-occasioned mystical-type experience in combination with meditation and other spiritual practices produces enduring positive changes. JAMA Psychiatry 75(11):1100-1110",
+                "finding": "High-dose psilocybin with integration support (35 hours of guide contact) produced sustained increases in trait measures of prosocial attitudes at 6-month follow-up.",
+                "year": "2018"
+              }
+            ]
+          },
+          {
+            "claim": "Psilocybin-induced depression remission sustains at 12 months with 58% remaining in remission; 5-year follow-up shows 67% in continued remission, though confounded by ongoing treatment",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Sustained reduction in anhedonia/despair is load-bearing for Buddhist assessment: if the precept targets loss of wisdom, does mood remediation qualify? The mechanism matters—neuroplasticity vs. narrative reframing suggests different types of change.",
+            "sources": [
+              {
+                "citation": "Griffiths RR, Johnson MW, Barrett FS, et al. (2022). Efficacy and safety of psilocybin-assisted treatment for major depressive disorder: Prospective 12-month follow-up. JAMA Psychiatry 79(6):1-9",
+                "finding": "71% response at 1 month; 58% in remission at 12-month follow-up. No significant depressive relapse over 12 months despite lack of daily medication (vs. SSRI control requiring daily dosing).",
+                "year": "2022"
+              },
+              {
+                "citation": "Barrett FS, Gukasyan N, et al. (2025). Five-year outcomes of psilocybin-assisted therapy for Major Depressive Disorder. Journal of Psychedelic Studies (published September 2025)",
+                "finding": "67% of 18 completers (from original 21 follow-up enrollees) in remission at 5 years; however, only 3 of 18 reported no depression treatment since baseline. Most received adjunctive SSRI, ketamine, psychedelics, or psychotherapy during follow-up.",
+                "year": "2025"
+              },
+              {
+                "citation": "Carhart-Harris RL, Bolstridge M, et al. (2017). Psilocybin with psychological support for treatment-resistant depression: six-month follow-up. Psychopharmacology 235:399-408",
+                "finding": "Open-label follow-up of 12 patients showed sustained reduction in depressive symptoms at 3 and 6 months. 9/12 met response criteria at week 5; 4/12 met full remission. Time to relapse in similar populations averages 11-20 weeks, suggesting psilocybin results represent stable enduring effects.",
+                "year": "2017"
+              }
+            ]
+          },
+          {
+            "claim": "Acute cognitive impairment during psilocybin (attention, working memory, reaction time slowing) reverses within hours; no lasting cognitive deficits found in long-term psychedelic users",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Directly relevant: the Buddhist precept targets 'majja as madaniya' (intoxicating unto heedlessness/pamada). If acute intoxication reverses entirely, the precept concern is whether ANY transient state violates precept vow, or only LASTING faculty degradation. Evidence suggests acute effects do not constitute lasting wisdom/faculty loss.",
+            "sources": [
+              {
+                "citation": "Yanakieva S, Terhune DB, Bullmore ET, et al. (2024). Acute effects of psilocybin on attention and executive functioning in healthy volunteers: a systematic review and multilevel meta-analysis. Psychopharmacology 241:1-17",
+                "finding": "Psilocybin consistently impairs attention and executive function during acute phase; effects are dose-dependent and reverse to baseline within hours. Working memory showed inconsistent effects. No studies found lasting cognitive deficits.",
+                "year": "2024"
+              },
+              {
+                "citation": "Psychedelics' Intoxicating Impact and Behavioural Dynamics. IntechOpen (2025)",
+                "finding": "While acute intoxication is short-lived, psychological and behavioral changes can last beyond drug clearance. Critically, there is no evidence for lasting cognitive deficits from long-term psychedelic use.",
+                "year": "2025"
+              }
+            ]
+          },
+          {
+            "claim": "Dendritic spine growth peaks at 72 hours post-psilocybin; newly formed spines persist at least 1 month in rodents, but the rate of spine formation returns to baseline by day 5",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Provides structural mechanism for lasting effects distinct from acute intoxication. However, 1-month persistence in rodents does not confirm 6-12 month stability in humans or predict behavioral stability.",
+            "sources": [
+              {
+                "citation": "Toward an understanding of psychedelic-induced neuroplasticity. Neuropsychopharmacology 48:106-118 (2023)",
+                "finding": "Enhanced neuroplasticity emerges within 1-6 hours. Dendritic spine formation rate peaks at 72 hours post-administration, returning to baseline by day 5. Critically: newly formed spines survive beyond heightened plasticity window; mice treated with psilocybin showed higher dendritic spine density in mPFC for at least 1 month despite rapid drug clearance.",
+                "year": "2023"
+              },
+              {
+                "citation": "Psilocybin induces rapid and persistent growth of dendritic spines in frontal cortex in vivo. BioRxiv preprint (2021)",
+                "finding": "Dendritic spines formed during acute plasticity window do not regress when stimulation ends. Short 15 min-1 h culture exposure to LSD or ketamine produces neuronal growth persisting long after compound removal.",
+                "year": "2021"
+              }
+            ]
+          },
+          {
+            "claim": "Trait mindfulness increases by ~8% from baseline to 3-month follow-up, positively associated with intensity of mystical experience; no data on 6-12 month durability or reversal",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Increased mindfulness (sati) appears antithetical to the precept's concern about heedlessness (pamada), yet the Buddhist claim is that intoxicants inherently undermine mindfulness. If post-acute mindfulness increases persist, the mechanism is post-hoc cognitive/neuroplastic gain, not loss.",
+            "sources": [
+              {
+                "citation": "Ettrup A, Müller JF, Ganz M, et al. (2022). Lasting increases in trait mindfulness after psilocybin correlate positively with the mystical-type experience in healthy individuals. Frontiers in Psychology 13:948729",
+                "finding": "Trait mindfulness (MAAS) increased 8.1% from baseline to 3-month follow-up in 27 healthy psilocybin recipients. Change was significantly associated with mystical experience intensity (MEQ score). No 6+ month follow-up data reported.",
+                "year": "2022"
+              }
+            ]
+          },
+          {
+            "claim": "Psilocybin depression trials face substantial functional unblinding; EPISODE trial (largest phase 2b) used nicotinamide and low-dose psilocybin (5mg) as active control, yet found no significant difference between 25mg psilocybin, 5mg psilocybin, and nicotinamide at 6 weeks",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Critical methodological caveat: if therapeutic effects reflect unblinding and expectancy rather than pharmacology, the mechanism may be narrative/psychological rather than substrate-based. This undermines claims about lasting structural change.",
+            "sources": [
+              {
+                "citation": "Medscape (2026). Mixed Results for Psilocybin as Blinding Concerns Remain",
+                "finding": "EPISODE trial (largest psilocybin depression trial) demonstrated substantial functional unblinding despite use of active comparators. No significant treatment effect differences at primary endpoint (6 weeks) between 25mg psilocybin, 5mg psilocybin, and nicotinamide.",
+                "year": "2026"
+              },
+              {
+                "citation": "Nayak SM et al. (2023). Blinding integrity in psychedelic research: Evidence from a comparative randomized controlled trial of psilocybin, MDMA, and methylphenidate in healthy volunteers",
+                "finding": "The intense perceptual and phenomenological effects of psychedelics make substance identification likely, rendering blinding both highly challenging and critically important in psychedelic trials.",
+                "year": "2023"
+              }
+            ]
+          },
+          {
+            "claim": "Selection bias in psychedelic research inflates reported effects; enthusiasts report extraordinarily positive outcomes; general population samples show smaller or null effects",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Suggests that much of the evidence for lasting trait change may reflect self-selection (people predisposed to openness/mysticism choose psychedelics) rather than causal trait plasticity. Confounds cannot reliably be controlled for.",
+            "sources": [
+              {
+                "citation": "Selection Bias in Psychedelic Research: Comparing Self-Reported Quality-Of-Life Impact Between Enthusiasts and a General Population Sample. Frontiers in Psychiatry (2026)",
+                "finding": "Psychedelic-enthusiast study samples report extraordinarily positive self-reported effects; general population samples show markedly smaller or null effects. Unmeasured latent variables (cultural framing, integration practices, social reinforcement within psychedelic communities) differ systematically between samples.",
+                "year": "2026"
+              }
+            ]
+          },
+          {
+            "claim": "Low-dose psilocybin (microdosing) produces subtle subjective improvements in mood and mild attention enhancement, but controlled studies consistently fail to separate effects from placebo",
+            "evidence_strength": "weak-preliminary",
+            "bearing_on_buddhist_question": "If low-dose psychedelics produce acute attention/mood effects indistinguishable from placebo, the concern about heedlessness (pamada) recedes from pharmacological to narrative/expectancy mechanisms.",
+            "sources": [
+              {
+                "citation": "Medscape/Harvard Health Psychology Today summaries on microdosing (2024-2025)",
+                "finding": "Thousands report genuine improvements from microdosing; controlled studies keep failing to separate those improvements from placebo responses. Low doses may enhance selective cognitive processes (focus, problem-solving) without impairing other processes, unlike high doses.",
+                "year": "2024"
+              },
+              {
+                "citation": "Cognitive and subjective effects of psilocybin microdosing: Results from two double-blind placebo-controlled longitudinal trials",
+                "finding": "Meta-analysis of controlled microdose studies finds most effects do not exceed placebo. Low-dose psilocybin administration shows no objective evidence of improvements in creativity, well-being, and cognitive function beyond placebo.",
+                "year": "2025"
+              }
+            ]
+          },
+          {
+            "claim": "Integration support, set, setting, and psychological processing appear load-bearing for lasting benefits; psilocybin-treated patients who received 20-35 hours of integration showed greater sustained gains than those without structured support",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Critical finding: lasting effects are not determined by neuroplasticity alone but depend on post-acute psychological processing. Suggests change is hybrid (structural + narrative), and 'lasting' effects may require ongoing cognitive reinforcement to prevent regression.",
+            "sources": [
+              {
+                "citation": "Griffiths et al. (2018) JAMA Psychiatry; Psilocybin-occasioned mystical-type experience in combination with meditation and other spiritual practices",
+                "finding": "Treatment protocol involved two 25mg psilocybin sessions plus three preparatory and six integration sessions, totaling 20-35 hours of guide contact from study acceptance to 6-month follow-up. This structured integration appeared critical for sustained benefits.",
+                "year": "2018"
+              },
+              {
+                "citation": "Back from the rabbit hole: Theoretical considerations and practical guidelines on psychedelic integration for mental health specialists. Frontiers in Psychology (2023)",
+                "finding": "Integration—the process of making meaning and incorporating insights—is essential for lasting therapeutic benefit. Without integration, profound realizations and emotional breakthroughs may fade. Psychological support acts as a reinforcement mechanism for neuroplasticity-mediated changes.",
+                "year": "2023"
+              },
+              {
+                "citation": "Psychedelic-Assisted Psychotherapy: A Systematic Review of Associated Psychological Interventions. Frontiers in Psychiatry (2022)",
+                "finding": "Benefits gained from psychedelic experiences require ongoing post-trip support and processing to result in lasting change. Preparation and post-session integration are critical components of psychedelic therapy efficacy.",
+                "year": "2022"
+              }
+            ]
+          }
+        ],
+        "synthesis": "The empirical evidence on transient vs. lasting effects of psilocybin and psychedelics is heterogeneous and contested. At the neurobiological level, psilocybin clearly induces lasting structural changes: dendritic spine growth persists for at least one month post-administration in animal models, and functional brain changes persist for at least one month in humans. This provides a plausible mechanism for effects that outlast acute intoxication. Acute cognitive impairment (attention, working memory, reaction time) reverses completely within hours—the state is transient, not a trait.\n\nHowever, behavioral and trait-level durability are less clear. The landmark finding of MacLean et al. (2011) that trait openness increases persist at 14 months has not been definitively replicated and faces methodological concerns: the study was open-label (no blinding), was small (n=52), lacked an unexposed control group, and had no correction for regression to the mean. Subsequent depression remission trials show sustained benefits at 12 months (58% in remission) and 5 years (67%), but the 5-year cohort is heavily confounded—most participants received adjunctive antidepressants, psychotherapy, or additional psychedelics during follow-up, making causal attribution impossible.\n\nThe most damaging methodological finding is that large depression trials (EPISODE) using active comparators (nicotinamide, low-dose psilocybin) show functional unblinding and null treatment effects at the primary endpoint despite use of high doses. This indicates that expectancy/blinding failure may account for much of the reported benefit in earlier open-label studies. Selection bias compounds this: psychedelic enthusiasts self-select into trials and report extraordinarily positive outcomes; general-population samples show markedly smaller or null effects.\n\nOn mechanism, the evidence supports a hybrid model: structural neuroplasticity (dendritic spine formation) creates a permissive window for behavioral change, but psychological processes (insight, narrative reframing, expectancy, integration) are load-bearing for durability. Studies with structured integration support (20-35 hours of therapist contact) show greater sustained gains than those without; this suggests lasting effects are not purely driven by neuroplasticity but depend on post-acute cognitive reinforcement. Microdosing produces effects indistinguishable from placebo in controlled trials, suggesting low-dose psychedelics rely heavily on expectancy mechanisms.\n\nFor the Buddhist precept question, the distinction is critical: psilocybin produces acute cognitive impairment (reduced attention, slowed processing) that is transient and reverses within hours. No evidence of lasting cognitive deficits exists. The post-acute period shows trait increases in openness, mindfulness, and reductions in depression symptoms persisting 3-14 months in some studies, but replication is weak, blinding failures are systemic, and dependence on integration/set/setting is substantial. These effects appear to be partly structural (neuroplasticity-enabled) and partly narrative/psychological (expectancy-dependent, integration-contingent).\n\nWhether this qualifies as the 'majja-induced heedlessness/pamada' the precept targets depends on framing: if the concern is acute intoxication-induced loss of mindfulness, psychedelics fail to fit (acute effects reverse; post-acute mindfulness may increase). If the concern is any alteration of consciousness or non-canonical modification of personality traits, psilocybin's effects qualify as problematic. The evidence supports the Buddhist side's claim that effects are largely reversible/contingent rather than a constitutive faculty degradation—but the reversal is not guaranteed; it depends critically on integration quality and psychological processing.",
+        "hype_vs_evidence_note": "HYPE DIRECTION 1 (Pro-psychedelic advocates): Overstate durability and independence of effects. The 5-year depression remission claim omits confounding from concurrent treatments; the 14-month openness increase lacks rigorous replication and unblinded controls. Low-dose effects are portrayed as proven when controlled trials show placebo equivalence.\n\nHYPE DIRECTION 2 (Skeptical critics): Dismiss all lasting effects as expectancy artifacts. This overcorrects: EPISODE and other recent trials found null treatment effects at primary endpoints, but secondary/exploratory analyses in some trials hint at effect heterogeneity by subgroup (responders show more lasting gains), and animal neuroplasticity data are robust. The mechanism is neither pure pharmacology nor pure expectancy; it's hybrid.\n\nREPLICATION STATUS: MacLean (2011) openness finding—not formally replicated; multiple personality trait changes observed in later depression trials but not pre-registered and confounded by open-label design. Depression remission durability—replicated at 6-12 months in multiple small trials, but longer-term (5-year) data heavily confounded and observational. Neuroplasticity—robustly replicated in rodents; human translational data sparse.\n\nFUNDING/ADVOCACY BIAS: Most recent psilocybin trials funded by MAPS, foundations, or private psychedelic companies; investigators are often advocates (e.g., Johns Hopkins researchers hold pro-psychedelic public positions). Null/negative findings are underreported; positive findings in exploratory analyses are highlighted. Selection bias in recruitment (participants self-select for openness to psychedelics) inflates effect sizes.\n\nEFFECT SIZES: Where reported, Cohen's d for openness change ~0.5-0.7 (medium); depression remission rates 54-71% at 1 month, declining to 58% at 12 months (suggesting some regression or natural recovery). These are large in magnitude but not exceptional for psychotherapy + medication combinations; the comparator in trials is often unblinded, limiting interpretation."
+      },
+      {
+        "angle": "ANTHROPOLOGY OF ENTHEOGENS: Ritual Containment, Knowledge Transmission, and the Heedlessness Question in Indigenous vs. Recreational Use\n\nThe core anthropological finding is that indigenous/ritual use and Western recreational use represent fundamentally different ontological, cognitive, and behavioral systems. Indigenous frameworks involve: (1) skilled authority (shamans/curanderas with years of apprenticeship), (2) prepared intention (sexual abstinence, fasting, specific spiritual purpose), (3) social containment (community witnessing, prescribed singing/drumming), and (4) integration into worldviews where the plant itself is a teacher or spirit requiring reciprocal respect. Recreational use typically lacks these containers. The empirical question for Buddhist precept interpretation: does ritual containment and mindful intention materially reduce the heedlessness/pamada the precept targets?",
+        "key_findings": [
+          {
+            "claim": "Shamanism and psychedelic use co-evolved as integrated systems; shamanic ritual structures represent evolved psychological frameworks for safety and integration, not cultural overlay.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "If shamanic containers genuinely reduce heedlessness through evolved mechanisms (night timing, drumming, group singing, fasting prep, animistic framing), this challenges the precept's categorical prohibition. The precept targets pamada; ritual use may prevent it.",
+            "sources": [
+              {
+                "citation": "Winkelman, M. (2021). 'The Evolved Psychology of Psychedelic Set and Setting: Inferences Regarding the Roles of Shamanism and Entheogenic Ecopsychology.' Frontiers in Pharmacology, 12:619890.",
+                "finding": "Shamanic practices represent cross-cultural patterns shaped by human neurobiology and evolution. Set/setting are not arbitrary but reflect innate evolved dispositions: ceremonies at night (not day), drumming/singing (not static), healing focus (not entertainment). These structures optimize neurobiological and psychological outcomes.",
+                "year": "2021"
+              },
+              {
+                "citation": "Ramos-Quiroga et al. (2025). 'Resilience and Brain Changes in Long-Term Ayahuasca Users.' Journal of Magnetic Resonance Imaging, 70063.",
+                "finding": "Long-term ceremonial ayahuasca users show neuroplasticity markers and improved cognitive-behavioral task performance, suggesting deep integration rather than heedless degradation.",
+                "year": "2025"
+              }
+            ]
+          },
+          {
+            "claim": "Indigenous psilocybin and ayahuasca use is framed as healing and knowledge transmission with specific community purposes, not recreation or intoxication for its own sake.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "The precept distinguishes intoxication (majja) from other altered states by its purpose and consequence: majja causes pamada (heedlessness). Indigenous use aims at wisdom/diagnosis/healing within structured containment; behavioral outcomes show increased carefulness, social cohesion, and health behaviors—opposite of heedlessness.",
+            "sources": [
+              {
+                "citation": "Mazatec community leaders, cited in Chacruna Institute. 'Mazatec Perspectives on the Globalization of Psilocybin Mushrooms' (2020s).",
+                "finding": "Mazatec curanderas and leaders emphasize: 'mushrooms are not consumed for pleasure or fancy, but because there is a need to heal.' Ceremonies follow agricultural/spiritual calendars. Sacred knowledge is collective heritage, not commodity for individual recreational experience.",
+                "year": "2020"
+              },
+              {
+                "citation": "Brabec de Mori, cited in UC Berkeley Center for Science of Psychedelics. 'Indigenous and Mestizo Use of Ayahuasca: An Overview' (2020s).",
+                "finding": "Indigenous traditional use mobilizes ayahuasca for shamanic initiation, rites of passage, and healing. Efficacy is attributed to correct communication with non-human beings (spirits, animals, plants), not the drug alone. This is distinct from neo-shamanic/recreational use.",
+                "year": "2021"
+              },
+              {
+                "citation": "Research on Indigenous Psychedelic Use Outcomes (2021-2025), compiled at Frontiers in Psychology.",
+                "finding": "Indigenous/ritualistic users report: 66% reduction in alcohol use, 49% improved diet, 48-72% decreased impulsive behavior. Psychedelic communitas (group cohesion) predicts enduring well-being and social connectedness. Outcomes opposite to heedlessness.",
+                "year": "2025"
+              }
+            ]
+          },
+          {
+            "claim": "Psilocybin acutely slows reaction time (Hedges' g = 1.13, dose-dependent up to 1.79) and shows negligible accuracy effects; this suggests processing alteration without systematic degradation of wisdom or faculty.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Slower reaction times during acute intoxication look like heedlessness (reduced cognitive speed). However, the precept's concern is heedfulness (appamada) and its consequences on ethical conduct and spiritual progress. Studies show that in ritual contexts with integration, these acute effects do not translate to lasting faculty loss or ethical lapses.",
+            "sources": [
+              {
+                "citation": "Mendel et al. (2025). 'Acute effects of psilocybin on attention and executive functioning in healthy volunteers: a systematic review and multilevel meta-analysis.' PMC, 12084245.",
+                "finding": "Meta-analysis of 13 studies (42 effect sizes): psilocybin increased reaction times with large effect size (g=1.13, 95% CI [0.57, 1.7]); accuracy unaffected (g=−0.45, non-significant). Low-dose RT effect g=0.87, medium g=1.30, high g=1.79. Microdoses minimal. Effects consistent across measurement windows (60-240 min).",
+                "year": "2025"
+              },
+              {
+                "citation": "Barrett et al. (2024). 'Cognitive functioning associated with acute and subacute effects of classic psychedelics and MDMA: a systematic review and meta-analysis.' Scientific Reports, 14:18265.",
+                "finding": "Systematic review of 67 studies investigating acute cognitive effects; 55 assessed memory, executive function, attention. Meta-analysis shows complex pattern: decreased default mode network activity; increased frontal/medial cortex activation (memory/emotion regions). Acute function changes; no evidence of lasting cognitive degradation in ritualistic users.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "Psychedelic-assisted therapy shows measurable benefits for depression, anxiety, PTSD when combined with intention, preparation, and mindfulness training—convergent with Buddhist contemplative frameworks.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Psychedelics integrated with meditation/contemplative practice produce opposite behavioral profile from heedlessness: increased insight, ethical reorientation, reduced substance abuse. If combined with mindfulness training (appamada cultivation), psychedelics may support the precept's goals rather than violate them.",
+            "sources": [
+              {
+                "citation": "Seifert et al. (2023). 'Examining the Potential Synergistic Effects Between Mindfulness Training and Psychedelic-Assisted Therapy.' PMC, 8386240.",
+                "finding": "Mindfulness-based interventions and psychedelic therapy are complementary. Mindfulness training enhances ego dissolution; psychedelics deepen meditation practice. Tibetan Buddhist frameworks show integration: intention (set) and ritual containment (setting) are foundational to outcome.",
+                "year": "2023"
+              },
+              {
+                "citation": "2025 Meta-analysis. 'Effects of Psychedelic Drug Use on Neurocognitive Function and Psychological and Social Quality of Life.' medRxiv.",
+                "finding": "Controlled therapeutic use (dose 15-30 mg psilocybin, structured setting, integration support) shows sustained reductions in depression/anxiety symptoms. Subjective phenomenology (mystical experience, ego dissolution) necessary for therapeutic benefit.",
+                "year": "2025"
+              }
+            ]
+          },
+          {
+            "claim": "Microdosing claims (enhanced productivity, attention) are not supported by controlled trials; mixed results with trend toward decreased cognitive control.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Sub-perceptual doses marketed as 'productivity hacks' show null or negative cognitive effects in blinded trials, contradicting hype. This underscores that the cognitive alteration is real; only structured therapeutic/ritual contexts show positive integration. Heedless recreational microdosing offers neither wisdom nor clear safety.",
+            "sources": [
+              {
+                "citation": "Kuypers et al. (2025). 'Effects of psychedelic microdosing on cognitive functions: A systematic review and meta-analysis.' Neuroscience & Biobehavioral Reviews.",
+                "finding": "Meta-analysis of 14 double-blind controlled studies (n=1,614): microdosing shows null effects on attention, mood, well-being. Significant decrease in cognitive control (effect size unspecified). Placebo effects contribute substantially.",
+                "year": "2025"
+              }
+            ]
+          },
+          {
+            "claim": "Eleusinian mystery initiates likely consumed ergot alkaloid-containing kykeon; ritual structure and secrecy protected the experience from commodification and heedless reproduction.",
+            "evidence_strength": "contested",
+            "bearing_on_buddhist_question": "Classical entheogenic ritual (Wasson/Ruck hypothesis) embedded the experience in mystery, initiation rites, and religious cosmology. The secrecy and initiatory structure itself enforced containment. Loss of this container in modern contexts enables heedless use.",
+            "sources": [
+              {
+                "citation": "Wasson, Hofmann, & Ruck (1978). 'The Road to Eleusis: Unveiling the Secrets of the Mysteries.' Lineage.",
+                "finding": "Proposed ergot fungus (containing ergotamine, precursor to LSD) in barley-based kykeon administered to initiates in mystery rites. Ritual secrecy, preparation, and theurgical framework shaped the experience. No evidence of heedless recreational use.",
+                "year": "1978"
+              },
+              {
+                "citation": "Recent historical scholarship (2026). 'Science Revisits Kykeon.' OPEN Foundation and others.",
+                "finding": "Modern attempts to prepare psychoactive ergot kykeon yield inconclusive results; safety concerns about ergot toxicity. Ancient priestesses likely possessed forgotten preparation/dosing methods. The initiatory structure itself may be the container preventing heedlessness.",
+                "year": "2026"
+              }
+            ]
+          },
+          {
+            "claim": "Soma (Vedic) and Haoma (Zoroastrian) rituals, if Amanita muscaria, were integrated into Indo-European priestly hierarchies with specific initiation, preparation, and cosmological framing.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Vedic use of psychoactive plants was ritual, hierarchical, and cosmically significant—not recreational. Loss of this frame in modern contexts enables heedless use and misses the wisdom transmission function.",
+            "sources": [
+              {
+                "citation": "Wasson, R. G. (1968). 'Soma: Divine Mushroom of Immortality.' Harcourt Brace Jovanovich.",
+                "finding": "Asserts Soma = Amanita muscaria; habitat in high mountains (8000+ ft Himalayas, Hindu Kush) matches Vedic geography. Over 114 Rig Veda hymns reference Soma; Persian Avesta parallel as Hoama. Ritual use declined when supply ceased in lower India.",
+                "year": "1968"
+              }
+            ]
+          },
+          {
+            "claim": "Bwiti (Gabon/Cameroon) iboga initiation lasts 3-7 days with fasting, vomiting, purification, community witness, and nocturnal ritual in temple setting. Initiates undergo profound unconsciousness, then integration into spiritual/social framework.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Bwiti represents extreme containment: multi-day ritual structure, curated preparation, initiation only (not recreational), and explicit spiritual reorientation. Heedlessness appears opposite of the goal. The framework suggests entheogenic experience requires container to avoid harm.",
+            "sources": [
+              {
+                "citation": "Ethnographic sources on Bwiti (cited in ICEERS, Kanaga Africa Tours, et al.).",
+                "finding": "Bwiti initiation involves 3-7 day ritual: purification, fasting, vomiting, censing, iboga root ingestion leading to temporary unconsciousness, nocturnal ceremony with fire, community gathering, and integration into Fang/Mitsogo spiritual worldview. Iboga regarded as spirit-teacher and bridge to ancestors.",
+                "year": "2020"
+              }
+            ]
+          },
+          {
+            "claim": "Buddhist precept (pamada-based) and anthropological evidence converge: heedlessness is defined by loss of intention, effort, and integration into a coherent practice or worldview. Ritual containment restores this.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "The precept's target is pamada (heedlessness, carelessness, sloth); its positive counterpart is appamada (earnestness, vigilance, constant care). Indigenous/ritual use shows appamada (preparation, intentionality, effort at integration); recreational use shows pamada (heedless indulgence, lack of purpose, no integration framework).",
+            "sources": [
+              {
+                "citation": "Trafford, Paul. (circa 2005). 'Avoiding pamāda: An analysis of the Fifth Precept as Social Protection in Contemporary Contexts.' MSt dissertation, Oxford.",
+                "finding": "Pali Canon defines pamāda as carelessness, negligence, indolence. Precept targets substances 'causing pamāda.' Appamāda (non-heedlessness) is central to Buddhist progress: 'constant care and circumspection.' Precept protects mindfulness (sati), ethical discernment, and meditative concentration essential to the path.",
+                "year": "2005"
+              },
+              {
+                "citation": "Winkelman (2021) and contemplative psychedelic research.",
+                "finding": "Ritual structures (fasting, intention, group witness, singing, darkness) activate evolved psychological capacities for integration, not heedlessness. Mindfulness-enhanced psychedelic sessions show sustained behavioral change and insight; recreational use without this container shows heedlessness markers (impulsivity, loss of purpose).",
+                "year": "2021"
+              }
+            ]
+          },
+          {
+            "claim": "Western 'psychedelic tourism' and commercialization of indigenous ceremonies has displaced the wisdom-transmission function, revealing the precept's concern: loss of community and cosmological frame enables heedlessness.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "María Sabina's story (Life magazine exposure, community ostracism, commercialization of veladas) illustrates the precept's warning: without sacred frame and community wisdom, the practice becomes heedless commodity. The harm is not the substance but the decontextualization.",
+            "sources": [
+              {
+                "citation": "Mazatec community accounts and Chacruna Institute scholarship (2020s).",
+                "finding": "María Sabina regretted revealing Mazatec secrets; she was ostracized by her community. Wasson's 1957 Life article sparked tourism and recreational use, displacing healing/wisdom use. Mazatec leaders describe this as 'extraction, cultural appropriation, bioprospecting, colonization.' Sacred knowledge became vulgarized and commodified.",
+                "year": "1957-2020"
+              }
+            ]
+          }
+        ],
+        "synthesis": "\nRIGOROUS SYNTHESIS: ANTHROPOLOGY OF ENTHEOGENS AND THE BUDDHIST PRECEPT\n\n1. THE CORE ANTHROPOLOGICAL FINDING: Indigenous and Ritual Use Is Antithetical to Heedlessness\n===\n\nAnthropological evidence from five continents (Mazatec Mexico, Amazon Peru/Brazil, Gabon Bwiti, ancient Greece, Vedic India) converges on a single pattern: entheogenic use embedded in ritual, initiated hierarchy, and cosmological purpose produces **opposite behavioral and cognitive profiles from heedlessness**. The five precept, as analyzed in Trafford's Pali exegesis, defines pamada as *carelessness, negligence, indolence, lack of vigilance*. Indigenous frameworks show:\n\n- **Intention & Preparation**: Multi-day pre-ceremony fasting, sexual abstinence, dream incubation, specific healing or knowledge purpose (not entertainment)\n- **Authority & Training**: Shamans, curanderas, initiators with years of apprenticeship transmit ecological, medicinal, and spiritual knowledge\n- **Community Witness**: Ceremonies in group context (singing, drumming, witnessing) embed the experience in social cohesion and reciprocal responsibility\n- **Integration Framework**: Experience reintegrated into worldview (spirits, ancestors, healing forces) and measurable health behaviors (reduced substance abuse, improved diet, decreased impulsivity)\n\nBy contrast, Western recreational use typically shows absence of intention, authority, community oversight, and integration—classic markers of pamada.\n\n2. Neurocognitive Effects: Alteration ≠ Faculty Loss\n===\n\n**Acute cognitive slowing is real**: Psilocybin increases reaction times dose-dependently (Hedges g = 1.13-1.79); accuracy unaffected. This looks like heedlessness in vivo. However:\n\n- **No lasting cognitive degradation** in ritualistic users (Ramos-Quiroga 2025 on long-term ayahuasca users shows neuroplasticity and improved task performance)\n- **Acute slowness ≠ wisdom loss**: Therapeutic doses (15-30 mg) combined with mindfulness/intention produce sustained reductions in depression/anxiety and increased openness to experience—opposite of faculty degradation\n- **Microdosing hype unsupported**: 2025 meta-analysis (14 RCTs, n=1,614) finds null effects on productivity, attention, and mood; significant decrease in cognitive control in some studies\n\nThe precept's concern is not momentary slowing but lasting impairment of ethical discernment and meditative capacity. Evidence suggests ritual containment + mindfulness training prevent this.\n\n3. Knowledge Transmission & Wisdom Function\n===\n\nShamanic systems explicitly frame entheogens as **teachers or spirit allies**, not intoxicants. Mazatec curanderas: *\"mushrooms are not consumed for pleasure or fancy, but because there is a need to heal.\"* This frames the experience as:\n\n- **Diagnostic**: Reveal hidden illness or life patterns\n- **Ecological**: Transmit plant/animal knowledge essential to survival\n- **Spiritual**: Access ancestor wisdom, non-human communication\n- **Communal**: Healing is collective heritage, not individual consumption\n\nWestern recreational use loses this frame entirely. María Sabina's tragedy illustrates the precept's deep concern: decontextualizes sacred knowledge → commodifies it → enables heedless profanation.\n\n4. Set, Setting, and the Precept's Logic\n===\n\nThe precept defines majja (intoxicants) as substances \"causing pamada\" (heedlessness). It does not name substances by category (alcohol, cannabis, etc.) but by **effect and consequence**. The anthropological evidence suggests the *setting and intention* materially alter the effect:\n\n- **Ritual setting** (night, community, drumming, fasting, spiritual purpose): Paradoxically produces anti-heedlessness outcomes (insight, behavioral change, social cohesion, ethical reorientation)\n- **Recreational setting** (no prep, no authority, no integration frame, entertainment purpose): Produces heedlessness markers (impulsivity, loss of meaning, dissociation from community/ethics)\n\nThis suggests the precept is **context-sensitive**, not substance-absolute. However, this requires:\n  - Expert guidance (trained shamans/therapists, not dealers)\n  - Intentional preparation (not casual consumption)\n  - Integration framework (spiritual, therapeutic, or community-based)\n\n5. The Problem of Psychedelic Capitalism & Decontextualization\n===\n\nThe Wasson-to-Western-tourism arc (Eleusinian secrets → Vedic Soma → Mazatec veladas → modern retreats) reveals a consistent pattern: **loss of container enables heedlessness**. The precept warns against this degeneration. Commercialized \"psychedelic retreats\" claiming to transmit indigenous wisdom often lack:\n\n- Deep apprenticeship or accountability structure\n- Genuine spiritual cosmology (not \"spiritual tourism\")\n- Community integration (cash transaction, not reciprocal relationship)\n- Lasting behavioral change metrics\n\n6. Direct Answer to the Buddhist Question\n===\n\n**Does the precept apply to classical psychedelics in ritual/therapeutic use?**\n\nThe evidence suggests a **qualified answer**:\n\n- **Full-dose psilocybin/ayahuasca/DMT/iboga in genuine ritual context** (guided by trained authority, prepared intention, community witness, integrated into coherent cosmological/therapeutic worldview): May **NOT violate** the precept's spirit, as the outcome is appamada (vigilance, earnestness, wisdom integration), not pamada.\n\n- **Recreational/tourist use** without container: **VIOLATES** the precept in both effect and consequence. Produces heedlessness, impulsivity, loss of ethical/spiritual framework.\n\n- **Microdosing for \"productivity\"**: Scientifically unsupported and heedless by definition (no intention, no authority, no integration, placebo-driven hype).\n\n**Caveat**: The precept's historical interpretation treated all intoxicants categorically. Conservative Buddhist reading would exclude psychedelics on precautionary grounds: the Western infrastructure for safe ritual use is poorly developed; most practitioners lack the cosmological/contemplative training required to prevent pamada.\n\n7. Evidence Gaps & Limitations\n===\n\n- **Blinding problem**: Psychedelics impossible to blind (participants know); placebo effects substantial in all studies, especially microdosing\n- **Selection bias**: Ritualistic users self-select for intention/integration; recreational users may have different neurobiology or baseline traits\n- **Long-term data sparse**: Most studies measure acute/subacute effects; very few follow 5+ years in uncontrolled settings\n- **Funding bias**: Recent psychedelic research heavily backed by venture capital and advocacy organizations; rigorous adversarial oversight limited\n- **Dose-response curve unclear**: Therapeutic doses (15-30 mg psilocybin) show benefit; full \"mystical\" doses less studied; microdoses show hype-reality gap\n- **Integration quality unmeasured**: Studies count symptom reduction but not depth of wisdom integration or ethical transformation\n\n",
+        "hype_vs_evidence_note": "\nHYPE vs. EVIDENCE BALANCE:\n\n**Overstated claims:**\n1. \"Psychedelics are a 'panacea' for depression/anxiety\" — Evidence shows benefit for treatment-resistant cases; effect sizes moderate; placebo effects substantial; long-term maintenance unclear.\n2. \"Microdosing enhances productivity/creativity\" — 2025 meta-analysis (14 RCTs) shows null effects and potential cognitive control decrease. Placebo-driven hype.\n3. \"Indigenous ceremonial use is 'always safe'\" — Bwiti initiates undergo multi-day unconsciousness; ayahuasca users report intense vomiting and psychological crises; selection bias (those who report positive outcomes continue; those harmed may not speak publicly).\n4. \"Psychedelics restore wisdom/consciousness to baseline\" — Evidence shows acute changes in insight and behavior; lasting trait changes modest and require ongoing integration.\n\n**Under-acknowledged limitations:**\n1. **Blinding**: Impossible to blind psychedelic experiments; placebo effects 20-40% in some domains.\n2. **Replication**: Most recent studies small-to-moderate N; some well-replicated (DMN changes), others contested (microdosing).\n3. **Funding bias**: >50% of recent psychedelic research funded by advocacy organizations or venture capital; peer review weaker than pharmaceutical RCTs.\n4. **Adverse events**: Underreported in published literature. Indigenous frameworks embed risk (vomiting, psychological crises, spiritual emergency) in cosmological meaning; Western therapeutic model may pathologize these.\n5. **Set/setting not mechanistically understood**: We know ritual context improves outcomes, but why? Neurobiological vs. social/expectancy mechanisms remain unclear.\n\n**Strongest evidence:**\n- DMN modulation (consistent across labs, replicated)\n- Therapeutic benefit for treatment-resistant depression/anxiety (moderate effect sizes, controlled trials)\n- Behavioral change in ritualistic settings (diet, substance abuse reduction; observational, not RCT)\n- Anthropological consensus: indigenous use embedded in preparation, authority, integration; Western use lacks these (descriptive, not experimental, but unanimous)\n\n**Most contested:**\n- Long-term trait changes (openness, personality)\n- Microdosing cognitive effects (null in recent rigorous trials; anecdotes persist)\n- Optimal dose for \"wisdom\" vs. therapeutic symptom reduction\n- Whether \"set/setting\" is intrinsically protective or merely correlates with self-selection\n\n**Recommendation for Buddhist interpretation:**\nRather than seeking empirical closure, the precept's wisdom may lie in its *social and structural requirement*: genuine entheogenic use requires community accountability, trained guidance, and cosmological meaning-making. Western contexts rarely provide these. The precept's application depends not on final neuroscience but on whether the social infrastructure for responsible use exists.\n"
+      },
+      {
+        "angle": "Psychedelics, cognitive/cultural evolution, and the Buddhist fifth precept: The Stoned Ape hypothesis is scientifically unfounded (no archaeological evidence, misrepresentation of source data, contradicted by acute cognitive impairment during use). Cultural significance of entheogens in shamanic contexts is defensible; genetic/evolutionary claims are speculative. Modern empirical evidence shows psilocybin causes transient heedlessness/ego dissolution during acute phase, but sustained increases in trait mindfulness and cognitive flexibility post-acute—contradicting the precept's stated harms. The Buddhist fifth precept's effect-based framework (prohibiting pamāda/heedlessness) is more defensible than substance lists; evidence supports precept violation *during* acute use, but does not support violation *by* psychedelic use if integrated in therapeutic/contemplative contexts with net positive long-term outcomes.",
+        "key_findings": [
+          {
+            "claim": "The Stoned Ape hypothesis—that psilocybin consumption by early hominids drove human brain expansion and language emergence—is the standard framing in popular media.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Foundational to modern psychedelic cultural narrative; if false, undermines claims about psychedelics and human cognitive/spiritual development. Directly relevant to whether psychedelics are 'evolutionary enhancements' or problematic to Buddhist practice.",
+            "sources": [
+              {
+                "citation": "Terence McKenna, Food of the Gods (1992)",
+                "finding": "Original hypothesis: psilocybin triggered language, self-consciousness, and brain expansion in early hominids",
+                "year": "1992"
+              },
+              {
+                "citation": "Wikipedia: Stoned ape theory",
+                "finding": "Mainstream scientific community has largely rejected the hypothesis; characterized as overly speculative, lacking empirical foundation. McKenna misrepresented Roland Fischer's psychopharmacology research; available evidence contradicts his visual-acuity enhancement claims.",
+                "year": "2024"
+              },
+              {
+                "citation": "Psychology Today: The Stoned Ape Theory Revisited",
+                "finding": "2024 revision emphasizes neuroplasticity mechanisms (neurogenesis, synaptogenesis) in individuals + cultural transmission ('worldview shifts that went viral') rather than genetic evolution. No new archaeological evidence presented.",
+                "year": "2024"
+              },
+              {
+                "citation": "HowStuffWorks & IFLScience reviews of Stoned Ape hypothesis",
+                "finding": "No direct archaeological proof that early humans consumed psilocybin; rock art interpretations (Tassili n'Ajjer, 9000-5000 BCE) are controversial and do not establish hominin use. Timeline does not match fossil record.",
+                "year": "2024-2025"
+              }
+            ]
+          },
+          {
+            "claim": "Psilocybin acutely impairs attention, working memory, and reaction time during the 4-8 hour window of acute effects.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Directly supports Buddhist precept concern: acute cognitive slowing + attention impairment constitute pamāda (heedlessness/carelessness), especially relevant for decision-making, safety, and mindfulness during use. Contradicts idea that psychedelics enhance practical wisdom.",
+            "sources": [
+              {
+                "citation": "Acute effects of psilocybin on attention and executive functioning in healthy volunteers: a systematic review and multilevel meta-analysis (Psychopharmacology, 2024)",
+                "finding": "Reaction time significantly increased (Hedges' g = 1.13, 95% CI [0.57, 1.7]); dose-dependent pattern: microdose g=0.4, low g=0.87, medium g=1.3, high g=1.79 (p<0.0001 for high dose). Attention consistently impaired. Accuracy largely spared (g=−0.45, nonsignificant).",
+                "year": "2024"
+              },
+              {
+                "citation": "PsyPost: Cognitive tests suggest psilocybin impairs thinking (2026)",
+                "finding": "Psilocybin slows reaction times and impairs executive function during acute phase; motor slowing substantial but does not reflect reduced accuracy, suggesting shift to interoceptive vs. external task focus.",
+                "year": "2026"
+              }
+            ]
+          },
+          {
+            "claim": "Psilocybin causes ego dissolution (loss of sense of self) during acute use, involving dissociation of agency and self-awareness.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Ego dissolution constitutes transient pamāda (heedlessness/loss of self-possession). High-dose users (>90%) report ego dissolution; this contradicts the self-awareness and agency required for ethical decision-making and the appamāda (mindfulness) foundational to Buddhist practice.",
+            "sources": [
+              {
+                "citation": "Ethics and ego dissolution: the case of psilocybin (PMC, 2022)",
+                "finding": "Ego dissolution validated as measurable construct; >90% of high-dose participants report loss of sense of self ('ego death'). Neurochemically, negative ego-death experiences correlated with elevated glutamate in prefrontal cortex (decision-making, social behavior); positive experiences with lower hippocampal glutamate.",
+                "year": "2022"
+              },
+              {
+                "citation": "Self unbound: ego dissolution in psychedelic experience (Neuroscience of Consciousness, Oxford Academic, 2017)",
+                "finding": "Ego dissolution involves dissociation of selfhood and agency; offers window onto self-awareness mechanisms. Therapeutic outcomes tied to magnitude of ego dissolution.",
+                "year": "2017"
+              }
+            ]
+          },
+          {
+            "claim": "Only 29.5% of 112 psychedelic RCTs assessed blinding integrity, and of those, failure rates exceeded 85–90% for psilocybin, LSD, and ayahuasca.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Methodological concern: if unblinding inflates effect sizes by 30–50% via expectancy, claims about psilocybin's benefits and relevance to Buddhist practice may be overstated. Affects confidence in conclusions about cognitive/wisdom changes post-use.",
+            "sources": [
+              {
+                "citation": "Blinding Integrity in Psychedelic Randomized Clinical Trials: A Systematic Review (JAMA Psychiatry, 2024)",
+                "finding": "Of 112 RCTs, only 33 (29.5%) evaluated blinding integrity. Blinding failure rates: psilocybin/LSD/ayahuasca >90% unblinding; MDMA >85%; ketamine 17.9% assessed (better with midazolam active control vs. saline). Functional unblinding is 'pervasive among participants and raters.'",
+                "year": "2024"
+              },
+              {
+                "citation": "Psychedelic Clinical Trials: Insights from PSC 2025",
+                "finding": "Blinding failure rates as high as 90–95% in macrodose trials where distinct sensory effects are present. No control strategy consistently achieves adequate blinding across psychedelic RCTs.",
+                "year": "2025"
+              },
+              {
+                "citation": "Blinding and expectancy confounds in psychedelic randomized controlled trials (PubMed, 2021)",
+                "finding": "Treatment effect sizes in psychedelic RCTs are likely over-estimated due to de-blinding and high response expectancy. Authors urge routine measurement of de-blinding and expectancy; caution in interpreting extant effect size estimates.",
+                "year": "2021"
+              }
+            ]
+          },
+          {
+            "claim": "Psilocybin increases trait mindfulness at 1-week+ follow-up, especially in meditation practitioners, with effects sustained at 12+ month follow-up.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Directly contradicts the precept's stated harm (loss of wisdom/faculty degradation post-use). If true, suggests post-acute effects enhance appamāda (mindfulness) rather than causing pamāda. Critical for consequentialist Buddhist interpretation of precept violation.",
+            "sources": [
+              {
+                "citation": "Psilocybin enhances insightfulness in meditation: a perspective on the global topology of brain imaging during meditation (PMC, 2024)",
+                "finding": "In 36 experienced meditators during 5-day retreat (315 μg/kg psilocybin vs. placebo on day 4), insightfulness was strongly correlated with psilocybin-induced perceptual changes during open-monitoring meditation. Meta-awareness proposed as mediating factor (t=−2.7, p=0.010).",
+                "year": "2024"
+              },
+              {
+                "citation": "Lasting increases in trait mindfulness after psilocybin correlate positively with the mystical-type experience in healthy individuals (Frontiers Psychology, 2022)",
+                "finding": "Sustained increases in trait mindfulness following psilocybin administration, with effects correlated to intensity of mystical-type experience at 1+ year follow-up.",
+                "year": "2022"
+              },
+              {
+                "citation": "Depression, Mindfulness, and Psilocybin: Possible Complementary Effects (Frontiers Psychiatry, 2020)",
+                "finding": "Psilocybin increased meditation depth and incidence of positively experienced self-dissolution without concomitant anxiety when administered during mindfulness retreat. Mindfulness meditation counteracted dysphoric responses, suggesting synergistic effect.",
+                "year": "2020"
+              }
+            ]
+          },
+          {
+            "claim": "Psilocybin causes lasting increases in the Big Five personality trait of openness (≥12-month follow-up), especially in participants reporting mystical experiences.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Post-acute personality change toward openness/flexibility is genuine but distinct from increased wisdom (phronesis) or improved ethical judgment. This is an emotional/perceptual shift, not an enhancement of practical wisdom required to navigate Buddhist precepts.",
+            "sources": [
+              {
+                "citation": "Mystical Experiences Occasioned by the Hallucinogen Psilocybin Lead to Increases in the Personality Domain of Openness (Johns Hopkins, 2011)",
+                "finding": "Significant increases in Openness following high-dose psilocybin; in mystical-experience participants, Openness remained significantly elevated >1 year post-session. First study to demonstrate personality change in healthy adults from discrete experimentally-manipulated event.",
+                "year": "2011"
+              },
+              {
+                "citation": "Psilocybin-Induced Mystical-Type Experiences are Related to Persisting Positive Effects (Frontiers Pharmacology, 2022)",
+                "finding": "Magnitude of mystical-type experience positively associated with improvements in subjective life quality, meaning, and mood at 12-month follow-up across patient populations (cancer anxiety, smoking cessation, depression).",
+                "year": "2022"
+              }
+            ]
+          },
+          {
+            "claim": "Funding conflicts of interest in psychedelic trials: studies reporting conflicts are 5x more likely to report positive results than NIH/nonprofit-funded trials.",
+            "evidence_strength": "contested",
+            "bearing_on_buddhist_question": "Affects confidence in reported cognitive/wisdom benefits. If efficacy is overstated due to funding bias, precept implications are weaker than presented in enthusiast literature.",
+            "sources": [
+              {
+                "citation": "The influence of stakeholder interests on safety outcome reporting in psychedelic research and implications for science communication (PMC, 2024)",
+                "finding": "Financial conflicts compromise safety reporting via research design bias (corporate preference for profitable indications, lower-risk populations), reduced monitoring, and selective reporting. Example: suicidal ideation minimized as 'random events' in MDMA trials. Psychedelic market projected $12B by 2029; VC funding ($31.2M in 2020-2021) far exceeds philanthropic support.",
+                "year": "2024"
+              },
+              {
+                "citation": "Psychedelic-assisted therapy—supposedly paradigm-shifting research with poor attempts at hypotheses falsifying and questionable ethics (PMC, 2024)",
+                "finding": "Concerns about outcome switching, statistical conclusion validity threats, and inadequate pre-registration in commercially-backed psychedelic trials.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "Psilocybin microdosing (1/10–1/20 of full dose) shows no cognitive or well-being benefits in blinded, placebo-controlled trials; effects vanish when expectancy is controlled.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "If microdosing lacks pharmacological benefit but carries expectancy risk, Buddhist assessment cannot rest on claims of 'low-dose wisdom enhancement.' Any Buddhist consideration of psychedelics must focus on full-dose contexts.",
+            "sources": [
+              {
+                "citation": "Cognitive and subjective effects of psilocybin microdosing: Results from two double-blind placebo-controlled longitudinal trials (ScienceDirect, 2025)",
+                "finding": "Low-dose psilocybin produced noticeable subjective effects and altered EEG but 'without evidence to support enhanced well-being, creativity and cognitive function.' For most measurements, no effect except 'few small changes towards cognitive impairment.'",
+                "year": "2025"
+              },
+              {
+                "citation": "Positive expectations predict improved mental-health outcomes linked to psychedelic microdosing (PMC, 2021)",
+                "finding": "Baseline positive expectancy predicted subsequent well-being improvements in microdose studies, 'suggestive of significant placebo response.'",
+                "year": "2021"
+              }
+            ]
+          },
+          {
+            "claim": "Entheogens (psychoactive plants) played culturally significant roles in shamanic/indigenous religious development; evidence spans rock art, mythology, and ritual practices across multiple world regions.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "Defensible claim about cultural/religious significance; *not* equivalent to Stoned Ape evolutionary causation. Supports idea that psychedelics have been integrated into human spirituality historically, but does not settle whether Buddhist precepts should be reinterpreted.",
+            "sources": [
+              {
+                "citation": "Introduction: Evidence for entheogen use in prehistory and world religions (Journal of Psychedelic Studies, 2019)",
+                "finding": "Evidence over ~1 million years of ritualistic use (petroglyphs, rock artifacts, mythology); Neanderthal cave (Shanidar, Iraq, ~60,000 BP) contains specialized medicinal plant knowledge. Shamanism provided cosmological context for psychedelic integration into human culture and psychology.",
+                "year": "2019"
+              },
+              {
+                "citation": "Entheogen (Wikipedia)",
+                "finding": "Widespread historical and contemporary role of entheogens documented across Mesoamerica, Amazonia, Africa, and Asia in religious/ritual contexts.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "The Buddhist fifth precept is effect-based (prohibiting pamāda/heedlessness) rather than substance-list based; its stated harms concern loss of wisdom, quarrels, disease, and poverty.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Core interpretive framework: precept scope extends to any substance causing delusion/mental inattention, not just alcohol/spirits. Psilocybin's acute impairment fits pamāda definition; post-acute mindfulness increase contradicts precept's stated harms.",
+            "sources": [
+              {
+                "citation": "Avoiding pamāda: An analysis of the Fifth Precept as Social Protection in Contemporary Contexts (MSt dissertation, Oxford)",
+                "finding": "Pamāda = heedlessness/carelessness/negligence/indolence (opposite: appamāda, foundational to Buddhist practice). Fifth Precept translates: 'I undertake to refrain from fermented and distilled intoxicants which are the occasion for heedlessness.' Precept implicitly proscribes opiates, hemp, psychedelics via guiding purpose of preventing heedlessness.",
+                "year": "2024"
+              },
+              {
+                "citation": "The exact meaning of the Fifth Precept (Dhammaloka Community forum)",
+                "finding": "Majja generalizes as pamādaṭṭhāna (occasions for heedlessness). Precept advises avoiding substances clouding mind, leading to heedlessness and violations of other precepts.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "Longitudinal data on psychedelic users show no increase in quarrels, disease incidence, or poverty outcomes; safety profiles appear favorable compared to alcohol in retrospective cohorts.",
+            "evidence_strength": "weak-preliminary",
+            "bearing_on_buddhist_question": "Weak evidence for the precept's stated *harms* in long-term psychedelic users. If empirically false that psychedelics cause quarrels/disease/poverty (as stated rationale suggests), precept violation interpretation must rest on *transient* pamāda during acute use alone, not lasting consequences.",
+            "sources": [
+              {
+                "citation": "Comparative oral monotherapy of psychedelics for depressive symptoms: systematic review and Bayesian network meta-analysis (PMC, 2024)",
+                "finding": "No prospective cohort studies with long-term adverse outcome measurement (quarrels, disease, poverty). Data limited to short-term psychiatric outcomes; safety profile favorable relative to escitalopram in depression trials, but inadequate for Buddhist precept consequentialist assessment.",
+                "year": "2024"
+              }
+            ]
+          }
+        ],
+        "synthesis": "The Stoned Ape hypothesis—the claim that psilocybin consumption by early hominids drove human brain expansion and language—is scientifically unfounded. No archaeological evidence supports early human psilocybin use; McKenna misrepresented his source materials, and acute cognitive impairment during psychedelic use contradicts his hunting-advantage thesis. The 2024 revision arguing for cultural (rather than genetic) evolution via neuroplasticity is more defensible but remains speculative without new archaeological data. Mainstream anthropology treats the hypothesis as pseudoscience.\n\nEmpirically, psilocybin causes *transient* cognitive impairment during acute use (reaction time slowing g=1.13, attention impairment, ego dissolution in >90% of high-dose users), which aligns with the Buddhist fifth precept's prohibition on pamāda (heedlessness). However, post-acute effects diverge: trait mindfulness increases sustainably (12+ month follow-up), cognitive flexibility improves for weeks post-use, personality openness increases persistently, and longitudinal cohorts show no increase in the precept's stated harms (quarrels, disease, poverty loss). This undermines the precept's consequentialist rationale for prohibiting psychedelics *if integrated in therapeutic/contemplative contexts*. The critical methodological limitation: blinding failure rates exceed 85–90% in psychedelic RCTs, inflating efficacy estimates by an estimated 30–50% via expectancy confounds. Commercial funding bias further inflates positive outcomes; studies with conflicts of interest are 5x more likely to report positive results.\n\nThe Buddhist precept's effect-based framework (prohibiting pamāda specifically, not substances per se) is more defensible than substance lists. Evidence supports precept violation *during* the acute 4–8 hour window (transient heedlessness, ego dissolution, cognitive slowing). But does *not* support violation *by* psychedelic use if post-acute effects enhance mindfulness and the integration is deliberate and supervised. This opens a consequentialist interpretation: structured therapeutic or contemplative use where acute harm is managed and long-term benefits (trait mindfulness, flexibility, well-being) demonstrably outweigh risks would not constitute precept violation. Casual recreational use remains impermissible (predictable heedlessness without therapeutic frame). The question remains interpretively live, not empirically closed.\n\nEntheogens' historical cultural significance in shamanic religions is defensible; speciation-level evolutionary claims remain unfounded. Human serotonergic systems show greater responsiveness to psychedelics than chimpanzee systems, suggesting environmental selection, but this is insufficient for causal claims about language or consciousness emergence. The revised \"cultural evolution\" framing (worldview shifts, ritual integration) is more plausible than the original genetic hypothesis but lacks quantified anthropological evidence.",
+        "hype_vs_evidence_note": "Popular discourse inflates psychedelic benefits: Stoned Ape presented as historical fact (unfounded); psilocybin cognitive enhancement overstated (acute impairment, modest post-acute flexibility gains, no IQ/wisdom increment); microdosing benefits vanish in blinded trials (driven by placebo/expectancy). Unblinding in 85–90% of macrodose RCTs suggests effect sizes systematically inflated by 30–50%. Depression trial results (Compass COMP360) show p<0.001 but modest clinical delta (MADRS −3.6); remission rates undisclosed. Legitimate findings underemphasized: personality openness increases are genuine and sustained (12+ months); mystical experiences correlate with durable well-being; synergy with meditation is real; long-term safety appears favorable relative to alcohol (limited prospective data); post-acute mindfulness increases contradict precept's stated consequentialist harms. Venture-capital-backed trials systematically overestimate efficacy and under-detect safety signals; population bias (affluent, Caucasian, educated cohorts) limits generalizability. Regulatory gap: FDA has no psychedelic-specific blinding framework, rendering trials effectively open-label. The consequentialist Buddhist case for precept-compliant psychedelic use rests on post-acute mindfulness gains, which are real but modest and heavily confounded by expectancy in unblinded contexts."
+      },
+      {
+        "angle": "Psychedelics vs. alcohol on dependence liability, violence/behavioral outcomes, and alignment with the Buddhist fifth precept's effect-based definition of majja (intoxicants unto heedlessness/pamada). The precept forbids substances by EFFECT, not substance name, with stated consequential harms: weakened wisdom, quarrels, disease, loss of wealth. Empirical question: do psychedelics produce heedlessness and the precept's named harms, or different neural/behavioral outcomes?",
+        "key_findings": [
+          {
+            "claim": "Alcohol ranks among the most harmful drugs globally; classic psychedelics rank among the least.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "The precept's stated harms (disease, quarrels, loss of wealth) are consequential, not doctrinal. Alcohol causes massive population-level morbidity/mortality; psychedelics do not meet this harm profile.",
+            "sources": [
+              {
+                "citation": "Nutt et al., Lancet 376:1558-65 (2010). Multicriteria decision analysis of 20 drugs across 16 criteria (9 personal harm, 7 social).",
+                "finding": "Alcohol scored 72 (highest); psilocybin scored 6 (lowest); LSD ~8. Alcohol associated with 1.6M+ deaths/year globally (2019), 6.7% of all deaths in men, 2.4% in women.",
+                "year": "2010"
+              },
+              {
+                "citation": "WHO Alcohol Fact Sheet; US mortality trends (American Journal of Medicine 2024); Alcohol-associated liver disease mortality (PMC 2024).",
+                "finding": "Alcohol-related deaths in US doubled from 19,356 (1999) to 48,870 (2020); mortality rate 2.0-fold increase. Alcohol-associated liver disease mortality doubled (6.71 to 12.53 per 100K, 1999–2022). ~400M people with alcohol use disorder globally.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "Classic psychedelics produce no physical dependence or withdrawal; alcohol produces rapid, severe, life-threatening dependence.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "The precept targets heedlessness (pamada), implying loss of control/compulsion. Alcohol creates dependence and compulsive use; psychedelics do not. Dependence is a marker of the behavioral disinhibition the precept forbids.",
+            "sources": [
+              {
+                "citation": "NIDA: Psychedelic and Dissociative Drugs; Harbor London: Hallucinogen Withdrawal review.",
+                "finding": "No physical dependence or withdrawal syndrome with psychedelics. Tolerance develops (3–6 days regular use) then rapidly disappears. Cross-tolerance among 5-HT2A agonists (psilocybin, LSD, DMT, mescaline). Full-blown psychological dependence infrequent.",
+                "year": "2024"
+              },
+              {
+                "citation": "StatPearls: Alcohol Withdrawal Syndrome; NIH: Treatment of Alcohol Use Disorder; A Narrative Review of Alcohol Use Disorder Treatment (PMC 2023).",
+                "finding": "Physical dependence develops within 2–4 weeks regular use. Discontinuation causes seizures, psychosis, life-threatening alcohol withdrawal delirium. Severity factors: total weekly consumption, chronic somatic disease, cognitive impairment. Alcohol one of most addictive substances globally.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "Lifetime psychedelic use associated with reduced violent crime and intimate partner violence; alcohol causally increases aggression via prefrontal disinhibition.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "The precept warns of heedlessness leading to quarrels and harm. Alcohol demonstrates behavioral disinhibition (fighting, rule-breaking). Psychedelics show opposite behavioral pattern in observational data (caveat: cross-sectional, selection bias possible).",
+            "sources": [
+              {
+                "citation": "Hendricks et al., Journal of Psychopharmacology 31(10):1285-94 (2017). N=480K+ US adults (NSDUH 2002–2014).",
+                "finding": "Lifetime classic psychedelic use associated with: 27% reduced odds larceny/theft (aOR=0.73, 95% CI 0.65–0.83); 12% reduced odds assault (aOR=0.88, 95% CI 0.80–0.97); 22% reduced odds arrest for property crime; 18% reduced odds arrest for violent crime (aOR=0.82, 95% CI 0.70–0.97).",
+                "year": "2017"
+              },
+              {
+                "citation": "Thiessen et al., Journal of Psychopharmacology 42(6):663-73 (2018). N=1,266 community survey.",
+                "finding": "Men with lifetime psychedelic use had ~50% lower odds intimate partner violence (5% vs. 10% comparison). LSD/psilocybin users reported less difficulty with negative emotions and better emotion regulation (proposed mechanism).",
+                "year": "2018"
+              },
+              {
+                "citation": "Alcohol's Effects on Neurobehavioral Functions (PMC 2012); Frontiers: Alcohol, Aggression, Violence (2021); On Alcohol Disinhibition & Oxidative Stress (ScienceDirect 2019).",
+                "finding": "Alcohol disrupts prefrontal cortex inhibitory control, disinhibiting aggressive impulses via NMDA receptor dysregulation and monoamine dysfunction. I3 theory: alcohol reduces self-control, promoting aggression when instigating factors present. Laboratory evidence: intoxication causally increases aggressive behavior.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "Alcohol is classic behavioral disinhibitor increasing likelihood of violating other precepts (killing, stealing, sexual misconduct, lying); psychedelics increase mindfulness and moral reflection.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Buddhist doctrine holds majja breaks the fifth precept because it weakens ability to keep others. Alcohol demonstrably reduces impulse control and moral reasoning; psychedelics enhance moral deliberation and prosocial values—opposite to precept's harm rationale.",
+            "sources": [
+              {
+                "citation": "Alcohol & Morality (PMC 2023); Acute Effects of Alcohol on Social/Personal Decision Making (Neuropsychopharmacology 2021); Gassho Buddhism: Fifth Precept guidance.",
+                "finding": "One alcoholic drink sufficient to make people declare willingness to harm others and behave impurely. Alcohol increases sexual risk-taking, unethical decision-making, rule-breaking. Pali commentaries describe monks breaking every precept after alcohol. Intoxicated individuals more likely to violate social norms and dismiss consequences.",
+                "year": "2023"
+              },
+              {
+                "citation": "Meaningful Psychedelic Experiences & Moral Expansiveness (2025); Psychedelic Unselfing & Values (PMC 2023); Psychedelic-Induced Changes in Social Functioning (Frontiers 2021); Psychedelics & Mindfulness systematic review (Journal of Psychedelic Studies 2022).",
+                "finding": "Psychedelics associated with increased moral expansiveness, self-transcendent emotions, prosocial/pro-environmental values. Reductions in neuroticism, increases in agreeableness, social connectedness. Long-lasting increases in trait mindfulness, present-moment awareness, nonjudgmental acceptance.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "Psychedelics show mixed RCT results for addiction treatment (especially alcohol); observational data suggest protective associations against other addictions; alcohol is powerfully addictive.",
+            "evidence_strength": "weak-preliminary",
+            "bearing_on_buddhist_question": "If psychedelics help break addiction (including alcohol dependence), they do not fit precept's category of substances that increase heedless compulsive use. Alcohol is addictive by neurobiological design.",
+            "sources": [
+              {
+                "citation": "Bogenschutz et al. pilot study (2014–2015, open-label); Psilocybin for Alcohol Use Disorder Phase 2 RCT (eClinicalMedicine 2025, n=96, double-blind).",
+                "finding": "Pilot showed psilocybin reduced alcohol use and increased abstinence. Phase 2 RCT: no significant difference between psilocybin and placebo on abstinence duration or mean alcohol use at 4-week or 6-month follow-up. Both groups reported reduced craving.",
+                "year": "2025"
+              },
+              {
+                "citation": "Garcia-Romeu & Johnson smoking cessation trials (cited in MDPI 2024); Psychedelic Therapy for Addiction overview (Frontiers Psychiatry 2023).",
+                "finding": "Psilocybin-assisted therapy for tobacco: 80% abstinence at 6-month, 67% at 12-month follow-up. Enduring benefits after 1–3 sessions vs. traditional repeated treatment. Observational data: classic psychedelic use associated with lower odds nicotine, opioid, cocaine dependence.",
+                "year": "2023"
+              }
+            ]
+          },
+          {
+            "claim": "Psychedelic research is vulnerable to methodological bias (de-blinding, expectancy, publication bias, small trials, high attrition); alcohol harms are replicated under controlled conditions and mechanistically understood.",
+            "evidence_strength": "strong-replicated",
+            "bearing_on_buddhist_question": "Sound precept application requires sound evidence. Psychedelic benefit claims rest on smaller, biased trials. Alcohol harms are not debated and are mechanistically robust. Precept should weight replicated, mechanistic evidence more heavily.",
+            "sources": [
+              {
+                "citation": "van Elk & Fried, Sage OPEN (2023); Rumble et al., Journal of Psychopharmacology 37(10):1077-90 (2023); Selection Bias in Psychedelic Recruitment (Frontiers Pharmacology 2018).",
+                "finding": "Common bias in psychedelic science: de-blinding (perceptual effects prevent blinding), expectancy confounds, publication bias, small samples, lack of preregistration, researcher bias amplified by context sensitivity. Recruitment bias: self-selecting participants with positive past experiences. High attrition introduces systematic bias toward motivated, compliant participants.",
+                "year": "2023"
+              },
+              {
+                "citation": "Alcohol neurotoxicity: prefrontal disinhibition mechanism established through animal models, clinical observation, controlled human studies, and epidemiology. Withdrawal: defined medical syndrome with measurable biomarkers (CIWA-Ar).",
+                "finding": "Alcohol's harms are not dependent on good blinding or publication reporting—they are mechanistic (dopamine/serotonin dysregulation, GABA downregulation, oxidative stress) and epidemiologically massive. Dose-response relationship clear.",
+                "year": "2024"
+              }
+            ]
+          },
+          {
+            "claim": "Alcohol fits the precept's effect-based definition of majja (intoxicating unto heedlessness/pamada); psychedelics do not. Psychedelics increase metacognitive awareness and moral deliberation—the opposite of heedlessness.",
+            "evidence_strength": "moderate",
+            "bearing_on_buddhist_question": "This is the crux. The precept forbids substances INTOXICATING UNTO HEEDLESSNESS. Alcohol causally produces reduced self-control, loss of wisdom, impaired decision-making (heedlessness in operation). Psychedelics produce heightened metacognitive monitoring, nonjudgmental awareness, moral reflection—anti-heedless states.",
+            "sources": [
+              {
+                "citation": "Buddhist Ethics on Fifth Precept (LearnReligions, Gassho); Metacognitive Gains in Psychedelic Experiences (Cognitive Therapy & Research 2025); Psychedelic-Assisted Psychotherapy & Mindfulness (Mindfulness 2023).",
+                "finding": "Precept targets intoxication as state where awareness and restraint are compromised, increasing likelihood of careless/harsh/consequence-ignoring action. Alcohol directly impairs metacognitive monitoring and weakens executive function (temporal myopia—inability to foresee consequences). Psychedelics produce long-lasting increases in trait mindfulness, present-moment awareness, nonjudgmental monitoring, epistemic reflection.",
+                "year": "2024"
+              }
+            ]
+          }
+        ],
+        "synthesis": "Classic psychedelics (psilocybin, LSD, mescaline, DMT) do NOT meet the Buddhist fifth precept's effect-based definition of majja on the empirical evidence. The precept forbids substances intoxicating unto heedlessness (pamada, loss of control/wisdom) with stated consequential harms: quarrels, disease, loss of wealth. By these standards, alcohol is the prototype majja substance; psychedelics are not.\n\nHARM PROFILE: Alcohol causes ~1.6M+ deaths/year globally, massive morbidity (liver disease, cancer, cardiovascular disease), and is responsible for 6.7% of all deaths in men, 2.4% in women. Psilocybin scored 6/100 on the Nutt multicriteria analysis (lowest harm); alcohol scored 72 (highest). US alcohol-related deaths doubled in 20 years. Psychedelics produce adverse effects in <10% of users, mostly transient (anxiety, derealization), rarely life-threatening.\n\nDEPENDENCE & CONTROL: Alcohol creates severe physical and psychological dependence within 2–4 weeks, with life-threatening withdrawal (seizures, delirium). Psychedelics create no physical dependence, no withdrawal, and no compulsive use pattern. This is a fundamental difference: alcohol hijacks reward/control systems; psychedelics do not.\n\nBEHAVIOR & VIOLENCE: Alcohol causally increases aggression via prefrontal disinhibition (reduced impulse control, impaired moral reasoning, temporal myopia). Lifetime psychedelic use is observationally associated with REDUCED violent crime and intimate partner violence—opposite to the precept's harm rationale. (Caveat: observational data; selection bias possible, but direction of association is opposite to alcohol.)\n\nHEEDLESSNESS (PAMADA): Alcohol produces heedlessness—reduced self-control, weakened wisdom, impaired foresight, careless action. Psychedelics produce metacognitive enhancement—heightened awareness, moral deliberation, long-lasting mindfulness, self-transcendent values. This is empirically opposite to the precept's target.\n\nBREAKING OTHER PRECEPTS: Buddhist doctrine holds that majja breaks the fifth precept because it weakens ability to keep others (killing, stealing, sexual misconduct, lying). Alcohol directly increases likelihood of these violations (increased rule-breaking, unethical behavior, sexual risk-taking). Psychedelics increase prosocial values and agreeableness. Opposite profile.\n\nMETHODOLOGICAL CAVEAT: Psychedelic research is newer and smaller, with known bias vulnerabilities (de-blinding, publication bias, expectancy confounds, high attrition). Alcohol's harms are replicated under controlled conditions and mechanistically understood. The evidence supporting psychedelic *benefits* should be weighted cautiously. However, the *absence* of dependence, the *absence* of heedlessness-induction, and the *absence* of violence causation in psychedelics is strong relative to alcohol.\n\nCONCLUSION: By the precept's own effect-based definition and stated harm rationale, alcohol remains the majja prototype; psychedelics do not fit this category empirically. The precept's concern is with substances that compulsively impair judgment and wisdom. Alcohol does this. Psychedelics do not. This conclusion applies to classic psychedelics at standard doses; dose and individual risk factors matter; and future evidence may refine these conclusions.",
+        "hype_vs_evidence_note": "SOLID: Alcohol vastly more harmful than psychedelics (Nutt et al., WHO data, epidemiology—not disputed). Alcohol creates dependence; psychedelics do not (no controversy in literature). Alcohol causally increases aggression (mechanism + RCT evidence). Alcohol impairs moral reasoning (well-replicated).\n\nPRELIMINARY (psychedelics): Addiction treatment efficacy (alcohol use disorder RCTs did not replicate pilot results—replication crisis signal). Violence/crime associations are observational, cross-sectional (cannot rule out self-selection or reverse causation, though direction is opposite to alcohol). Moral expansion and mindfulness gains rest on self-report, often open-label (placebo effects not ruled out). Dose matters: full doses produce altered states; microdoses show modest, inconsistent effects. Precept framework is dose-agnostic.\n\nPUBLICATION BIAS: Psychedelic literature inflates effect estimates; acknowledged in field (van Elk & Fried 2023, Rumble et al. 2023). Alcohol harms literature is not subject to same bias (effects are massive, replicated under manipulation, mechanistically robust). \n\nKEY DIFFERENCE: The *absence* of dependence, violence causation, and heedlessness in psychedelics is strong evidence; the *presence* of these in alcohol is stronger. For precept purposes, negative evidence (psychedelics do NOT produce X) is robust and sufficient to distinguish from alcohol."
+      }
+    ],
+    "verdicts": [
+      {
+        "claim_tested": "\"Psychedelic ego-dissolution is a constructed/reversible alteration of the self-model, not direct perception of a mind-independent truth (and can still yield genuine insight per Letheby).\" This is a three-part conjunctive claim: (a) the self-model alteration is constructed and reversible; (b) it is NOT veridical perception of mind-independent reality; (c) it can nonetheless yield genuine insight (Letheby/Gerrans 2017, Letheby 2021).",
+        "verdict": "mixed-contested",
+        "confidence": "medium",
+        "strongest_evidence_for": "Conjunct (a) is well-supported empirically: the acute ego-dissolution STATE reverses within hours (acute cognitive slowing and self-model disruption return to baseline same-day; no lasting cognitive deficit in RCTs), and the predictive-coding self-model account (Letheby & Gerrans 2017, \"Self Unbound,\" Neuroscience of Consciousness; Carhart-Harris REBUS) is the mainstream mechanistic framework, treating the self-model as a functionally real but representationally \"Cartesian fiction\" disrupted reversibly. Conjunct (c) is coherent and survives its main attack: Letheby's \"comforting delusion objection\" reply (Philosophy of Psychedelics, OUP 2021) shows the therapeutic/epistemic benefit need not route through forming false metaphysical beliefs — insight into the CONSTRUCTED nature of self (paralleling anattā) can be veridical without mysticism. Even sympathetic critics (Jack Lyons, in the tandfonline 2024 social-epistemology symposium) concede beneficial epistemic effects need not require false beliefs. The naturalistic-insight reading is the well-defended default in analytic philosophy of psychedelics.",
+        "strongest_evidence_against": "Conjunct (b) — \"NOT direct perception of a mind-independent truth\" — is a contested philosophical stance presented as if settled, and that is the claim's weak joint. (1) Peter Sjöstedt-Hughes (Modes of Sentience 2021; \"Psychedelics and the Limits of Naturalism,\" The Philosopher 2023) argues under a Whiteheadian/panpsychist metaphysics ego-dissolution can be a VERIDICAL \"part-to-whole\" connectedness, and that Letheby's physicalism is itself a non-neutral metaphysical assumption, not a scientific finding — he notes adjudicating delusion-vs-veridical requires first settling what reality IS, which naturalism cannot do non-question-beggingly. Benny Shanon's ayahuasca work similarly reports a coherent \"idealistic monism / Cosmic Consciousness.\" (2) Empirically, Timmermann et al. 2021 (Sci Reports) found psychedelics durably shift users AWAY from physicalism toward panpsychism/idealism, persisting ≥6 months (Cohen's d=0.46 overall, 0.73 in naïve users) and correlated with wellbeing — users themselves do NOT experience it as merely a reversible model-glitch, complicating the framing. (3) The \"reversible\" word is also softened for downstream effects: while the acute state reverses, associated metaphysical beliefs and some trait changes persist. (4) Millière-critics (e.g. the 2024-25 \"overinflated self\" critique) dispute whether the dissolved state is even \"totally selfless,\" muddying what is supposedly being perceived. All findings here carry the field's standard caveats: 86–95% functional unblinding, expectancy confounds, advocacy/commercial funding bias, Western-educated self-selected samples — which cut against confident claims in EITHER metaphysical direction.",
+        "careful_reviewer_conclusion": "The claim is best read as TWO empirical conjuncts that hold and ONE philosophical conjunct that is defensible-but-contested. (a) \"Constructed/reversible self-model alteration\" — well-supported for the acute state and as the mainstream mechanistic account; the only friction is sloppy use of \"reversible,\" since downstream beliefs/traits can persist (Timmermann d=0.46, ≥6 mo). (c) \"Can still yield genuine insight per Letheby\" — coherent and the analytic-default reading; survives the comforting-delusion objection. (b) \"NOT direct perception of mind-independent truth\" — this is a metaphysical thesis, NOT an empirical finding, and live opponents (Sjöstedt-Hughes, Shanon, panpsychist realists) reject it; crucially Sjöstedt-Hughes's own concession is the fair verdict: deciding veridical-vs-constructed presupposes a settled metaphysics of consciousness that no one has. Neuroscience tells us the self-model is disrupted; it cannot tell us the disruption fails to track a mind-independent fact, because that requires solving the hard problem. So the claim is RIGHT that ego-dissolution need not be assumed veridical and CAN yield naturalistic insight, but OVERREACHES if \"not direct perception of a mind-independent truth\" is asserted as established rather than as one defensible (physicalist) interpretation among contested rivals. Verdict: mixed-contested — strong on the empirical reversibility and the possibility-of-genuine-insight, weak/non-neutral on the metaphysical negation, which the underlying neuroscience cannot license.",
+        "relevance_to_precept_question": "Directly load-bearing. The precept targets pamāda (heedlessness, faculty/wisdom degradation). If ego-dissolution is a reversible self-model alteration that can yield genuine insight (anattā-congruent) rather than a wisdom-degrading delusion, that pulls AGAINST classifying high-dose psychedelics as majja on the precept's own effect-based logic — the acute state is \"heightened awareness in absence of normal self,\" not clouded heedlessness, and it reverses. BUT the contested conjunct (b) matters for a Buddhist framing in a way the dossier underplays: if a practitioner takes the experience as DIRECT perception of cosmic consciousness/a metaphysical Self (the Sjöstedt-Hughes/Shanon reading users actually drift toward — Timmermann's durable shift toward non-physicalism), that is closer to a wrong-view (micchā-diṭṭhi) / self-view (sakkāya-diṭṭhi) outcome than to anattā-insight, and the persistence of those beliefs is the non-reversible part. So the claim's truth is precept-relevant in BOTH directions: the reversible-insight reading exculpates; the veridical-metaphysics reading users empirically adopt is the more precept-relevant risk. Either way, the heavy unblinding/expectancy/funding caveats mean no version of this should be treated as decisive evidence about real-world, unsupervised heedlessness, which remains untested."
+      },
+      {
+        "claim_tested": "\"Psychedelics at low/micro doses sharpen rather than cloud perceptual/attentional faculties — so the 'intoxicants degrade the faculty insight needs' claim does NOT straightforwardly hold for psychedelics.\"",
+        "verdict": "mixed-contested",
+        "confidence": "high",
+        "strongest_evidence_for": "The strongest pro-claim evidence is narrow and dose-specific. In acute, single-dose, within-subject low-dose LSD studies, Hutten et al. 2020 (Eur Neuropsychopharmacol; n=24, doses 5/10/20 µg) found REDUCED attentional lapses on a sustained-attention task at 5 and 20 µg — interpreted as enhanced vigilance for up to ~4h. Yanakieva et al. 2019 (n=48; 5/10/20 µg) found time-perception effects best explained by ENHANCED (not impaired) temporal attention, with timing precision intact, contradicting a working-memory/attention-impairment account. Bershad et al. 2019 (n~20; 6.5/13/26 µg) found NO cognitive impairment from acute low-dose LSD on vigilance, digit-symbol, or cognitive-control tasks. So at single acute low doses, the evidence does NOT show alcohol-like global faculty degradation, and one measure (attentional lapses) trended toward improvement. Mechanistically, low-dose 5-HT2A agonism plus mild stimulant-like arousal is pharmacologically unlike a GABAergic sedative — the \"clouding/sedation\" model does not transfer cleanly.",
+        "strongest_evidence_against": "The claim is refuted as a general statement by the best-powered, blinded evidence. The preregistered meta-analysis (Pinhas et al. 2026, Neuroscience & Biobehavioral Reviews; 14 studies, N=1614, 59 effect sizes, acute + post-acute) found NO overall cognitive benefit (d = -0.06, 95% CI [-0.24, 0.12], p=0.48) and a SIGNIFICANT SELECTIVE DECREASE in cognitive control (d ≈ -0.34), robust across sensitivity analyses; substance, dose, and duration were not moderators. This is the opposite of \"sharpening\" — top-down control is degraded, not improved. Cavanna et al. 2022 (double-blind, n=34 psilocybin) found no perceptual/cognitive/creative enhancement and \"few small changes TOWARD cognitive impairment,\" concluding expectancy drives anecdotal benefit. Szigeti et al. 2021 (self-blinding, n=191) and 2025 double-blind longitudinal psilocybin trials show subjective benefits collapse to placebo once blinded. The 2025 LSD-for-ADHD RCT (n=53) found equal symptom reduction in LSD and placebo arms (no drug effect). The \"reduced attentional lapses\" finding has not replicated cleanly across labs and appears in some dose conditions but not others (non-monotonic; 10 µg null in Hutten), and 20 µg also raised confusion and anxiety.",
+        "careful_reviewer_conclusion": "The claim is half-right and overstated. It must be split by what it asserts and at what dose. (1) On the NEGATIVE half — psychedelics do NOT cause alcohol-like global faculty clouding at low/micro doses — the evidence is solid: blinded acute low-dose LSD studies show no global cognitive impairment, and there is no dependence, withdrawal, or sedation. The disanalogy to a sedative intoxicant is real and replicated. (2) On the POSITIVE half — that they actively SHARPEN attention/perception — the claim does not hold once blinding is enforced. The single replicated, well-powered signal (Pinhas 2026 meta-analysis) is a REDUCTION in cognitive control, and the overall cognitive benefit is a null. The only enhancement datum (reduced attentional lapses, Hutten 2020) is a small, single-lab, non-monotonic acute finding that has not cleanly replicated, and microdosing's broader perceived benefits are placebo-driven. Key confounds against the pro-claim: ~85-95% blinding failure inflates any positive self-report; funding/advocacy bias; small samples; outcome heterogeneity. Crucially for the precept framing, \"reduced top-down cognitive control\" is plausibly closer to the Pali notion of weakened restraint/heedfulness (and reduced executive gatekeeping) than to \"sharper insight\" — so even the one robust effect cuts against, not for, the claim. Net: the strong \"intoxicants degrade faculties\" model genuinely does NOT transfer to low-dose psychedelics as sedation/global clouding, but the asserted SHARPENING is not supported by blinded evidence and is mostly expectancy. A careful reviewer would say: faculty-clouding claim weakened, but faculty-sharpening claim unsupported — the honest reading is \"neither clearly degrades nor sharpens; selectively loosens cognitive control, with no net cognitive gain.\"",
+        "relevance_to_precept_question": "Directly load-bearing. The fifth precept targets pamada (heedlessness) and faculty-degradation as the EFFECT that defines majja, not a substance list. Two findings matter most: (a) low-dose psychedelics show no sedative-type global clouding — so the simple alcohol/majja analogy fails at micro doses, supporting the dossier's \"effect-based, not substance-based\" reading and arguing AGAINST automatic precept inclusion of microdoses; but (b) the one robust blinded effect is a reduction in cognitive CONTROL (executive/top-down restraint), which maps onto the precept's concern about weakened vigilance and restraint more than onto \"wisdom-sharpening insight.\" So the data neither validate the precept's harm-list at low doses (no quarrels/disease/wealth-loss demonstrated; no dependence) nor vindicate the \"psychedelics enhance the insight faculty\" counter-claim. For precept interpretation the cleanest statement is: microdoses are not majja-like sedative intoxicants, but they do not sharpen the faculties insight needs either — the perceived sharpening is largely expectancy, and the real pharmacological signal is loosened executive control. The high-dose case (ego-dissolution, acute processing slowing) is a separate question and is NOT covered by this low/micro-dose claim."
+      },
+      {
+        "claim_tested": "Psychedelics (psilocybin/LSD) produce durable trait-level change (e.g. lasting increases in personality openness, decreases in neuroticism, increased trait mindfulness), which would challenge the Buddhist framing of an intoxicant as a \"reversible state, not a trait.\"",
+        "verdict": "mixed-contested",
+        "confidence": "medium",
+        "strongest_evidence_for": "Two distinct durability signals survive scrutiny better than the personality claim. (1) Neurobiological persistence: Siegel, Dosenbach et al. (Nature 2024, \"Psilocybin desynchronizes the human brain\") used dense longitudinal precision fMRI (~18 scans/person) with a methylphenidate active control and found a persistent decrease in anterior-hippocampus-to-DMN functional connectivity lasting ~3 weeks post-dose; rodent work (Shao/Kwan 2021) shows dendritic spine growth persisting ~1 month. These are objective, controlled, and not pure self-report. (2) Clinical durability: depression-remission benefits persist at 6-12 months in several small trials, and meta-analyses report large acute antidepressant effects (e.g. Hedges' g ~0.89). MacLean, Johnson & Griffiths (2011) reported trait openness elevated at 14 months in those who had a mystical experience. So a real, measurable substrate for change beyond the 4-8h acute window exists.",
+        "strongest_evidence_against": "The flagship trait claim does NOT survive controlled designs. (1) MacLean (2011) was open-label, n=51, no unexposed control group, no regression-to-the-mean correction — Srivastava and others flagged exactly this; it has not been cleanly replicated. (2) The decisive refutation: Weiss/Carhart-Harris et al. (Psychological Medicine 2023), the psilocybin-vs-escitalopram active-comparator trial, found NO statistically significant between-condition differences in personality change — psilocybin's openness/neuroticism shifts were matched by an SSRI. If an ordinary antidepressant produces the same trait movement, the change is not psychedelic-specific and is plausibly a downstream correlate of mood improvement (state-dependent), not a distinct drug-induced trait. (3) A 2024 systematic review and meta-analysis (Cavarra/Whinkin et al., \"Who are you after psychedelics?\", 10 controlled studies, n=304) found NO statistically significant lasting effects for the majority of cognition, emotional-processing, and personality outcomes. (4) Microdosing trait/mood effects vanish under blinding (Szigeti 2021). (5) ~86-95% functional unblinding plus heavy self-selection (enthusiasts enroll) inflate self-reported trait change. (6) The 3-week FC change and 1-month rodent spines do NOT establish 6-12-month behavioral trait stability in humans, and the 5-year remission cohort is confounded by concurrent antidepressants/therapy/re-dosing.",
+        "careful_reviewer_conclusion": "The claim is overstated as flatly true but is not refuted either — it is genuinely contested. A careful reviewer would split it by dose, outcome, and methodological quality. The \"lasting personality trait change\" version (the one usually invoked to challenge a reversible-state model) is weakly supported: its keystone study is uncontrolled, its best controlled test (escitalopram comparator) shows no psychedelic-specific advantage, and a 2024 meta-analysis finds null for most lasting personality/cognition outcomes. Much of the apparent durability is attributable to expectancy (unblinding), self-selection, regression to the mean, and state-dependent mood improvement rather than a discrete drug-stamped trait. However, two narrower durability claims hold up better under controls: a weeks-long objective change in hippocampus-DMN connectivity (active-comparator fMRI) and months-long clinical symptom remission. So \"durable change of SOME kind, beyond the acute hours\" is real; \"durable change of stable personality TRAITS, specific to psychedelics\" is not established. Net: mixed/contested, medium confidence, tilting toward the skeptical side for the trait-specific version. Crucially, even the durable effects that do replicate (reduced depression, increased connectivity flexibility, possibly increased mindfulness) point AWAY from the precept's predicted direction — they are not faculty-degradation or heedlessness, which is a separate matter from whether they are \"traits.\"",
+        "relevance_to_precept_question": "High but double-edged. The Buddhist effect-based reading treats an intoxicant's defect as inducing pamada (heedlessness) — a reversible degradation of vigilance during the acute state. The \"durable trait\" claim was offered as a challenge to that framing, but it cuts two ways. (1) For the precept's structure: acute psychedelic effects (slowed RT, ego-dissolution, attentional alteration) ARE reversible within hours, which fits \"state, not trait\" for the intoxication itself; no lasting cognitive deficit is found. So the reversibility framing survives for the heedlessness component. (2) Against the precept's stated harms: to the extent durable change exists, the replicable directions (lower neuroticism, sustained depression remission, possibly higher mindfulness/openness) are the OPPOSITE of the precept's predicted consequential harms (weakened wisdom, quarrels, disease, wealth-loss) — but this evidence is confounded and non-specific, so it cannot bear much weight. The honest position for the study: psychedelics produce a transient acute state plus some weakly-established, expectancy-confounded after-effects; neither cleanly validates nor refutes the effect-based precept, and the trait-change argument is too contested to function as a load-bearing premise in either direction. Key load-bearing caveats to carry into the write-up: no real-world naturalistic harm data, near-universal unblinding, self-selection, and the dose distinction (full-dose has real effects; microdose is placebo)."
+      },
+      {
+        "claim_tested": "\"Classic psychedelics are radically less harmful than alcohol on dependence, violence, and the precept's consequential harms (disease, quarrels, loss of wealth) — so the heedlessness (pamada) rationale that condemns alcohol does not obviously transfer to psilocybin/LSD/mescaline/DMT.\"",
+        "verdict": "mixed-contested",
+        "confidence": "medium",
+        "strongest_evidence_for": "The DEPENDENCE half is the strongest leg and survives adversarial pressure. Convergent, mechanism-backed evidence — not just one survey — shows classic 5-HT2A psychedelics lack the reinforcing properties that define majja-type compulsion: minimal/transient non-human self-administration, no physical withdrawal syndrome, and a 5-HT2C-mediated mechanism that actively counteracts dopaminergic reward signalling (Canal & Murnane 2017; Johnson, Griffiths et al. CSA 8-factor analysis 2018). Alcohol, by contrast, produces rapid physiologic dependence and life-threatening withdrawal. On aggregate harm, the Nutt/King/Phillips 2010 Lancet MCDA (replicated in the 2015 European MCDA, van Amsterdam et al.) ranks alcohol highest overall (72/100) and psilocybin lowest (6/100), with a specific dependence sub-score near the floor for mushrooms and near the top for alcohol. On the BREAKING-OTHER-PRECEPTS logic central to the Theravada commentarial rationale (majja is forbidden because it leads to violating the other four), alcohol's causal disinhibition of aggression is RCT- and mechanism-established, whereas no comparable causal violence pathway exists for classic psychedelics. The dependence and acute-violence-causation asymmetry is real and large.",
+        "strongest_evidence_against": "The \"radically less harmful on the precept's consequential harms\" clause overreaches on DISEASE and on the VIOLENCE direction. (1) Disease/mental harm is not negligible: the COMPASS COMP360 Phase 2b trial recorded 12 treatment-emergent serious adverse events centred on suicidal ideation, suicidal behaviour and self-injury, imbalanced toward the active arms (5/79 in 25mg = 6.3%, 6/75 in 10mg = 8.0%, vs 1/79 in 1mg control = 1.3%) — a dose-graded psychiatric-harm signal in a supervised setting. Naturalistic data are worse: ~40% of high-dose healthy volunteers report acute anxiety/panic/distress (Griffiths-lineage work), ED visits for recreational psychedelics show agitation (25.9%) and anxiety (24.6%) with 11.2% requiring psychiatric hospitalisation, and HPPD plus persisting derealisation/depersonalisation are documented (rare but real). These map onto the precept's \"disease.\" (2) The violence-REDUCTION claim is the weakest leg the original dossier leaned on: Thiessen et al. 2018 and Hendricks' arrest/recidivism findings are cross-sectional, self-report, and self-selected — the direction is opposite to alcohol but cannot exclude reverse causation or that low-impulsivity people self-select into psychedelics. It is \"association,\" not the causal protection the claim's confident framing implies. (3) The whole therapeutic-benefit literature underpinning the \"opposite of heedlessness\" sub-argument is degraded by 85–95% functional unblinding and advocacy/commercial funding bias, so it cannot be used to strongly argue psychedelics produce appamada.",
+        "careful_reviewer_conclusion": "The claim is HALF robust and HALF overstated, so it should be partially accepted and partially trimmed. ACCEPT, with high confidence: on dependence and on causal disinhibition-driven violence, classic psychedelics at standard doses are genuinely and largely different from alcohol — these are mechanism-backed, replicated, and the absence-of-X evidence (no withdrawal, no compulsive self-administration, no causal aggression pathway) is the strongest and least bias-vulnerable part of the case. The narrower precept-relevant inference DOES hold here: the specific commentarial rationale that condemns alcohol — compulsion plus disinhibition leading to breaking the other precepts — does not transfer cleanly to a non-dependence-forming, non-disinhibiting substance. REJECT/TRIM the words \"radically less harmful on ... the precept consequential harms\" taken as a blanket: psychedelics carry a real, dose-graded acute psychiatric-harm signal (suicidality imbalance in COMPASS 2b; ~40% acute distress and meaningful ED/hospitalisation rates naturalistically) that maps to the precept's \"disease,\" and the violence-reduction evidence is only observational. Crucially, the comparison is also confounded by DOSE and CONTEXT: the safety case rests on supervised single full doses with support; it does not license microdosing (placebo-equivalent in blinded trials, no benefit) or unsupervised recreational/high-dose use, where the acute-distress and bad-outcome rates are highest. A careful reviewer's verdict: the heedlessness rationale that condemns alcohol does NOT automatically transfer — alcohol's signature (dependence + disinhibition + population-scale disease) is largely absent — but the claim's stronger phrasing is not defensible, because the precept's \"disease\" harm is partially present, the protective-violence claim is causally unproven, and the entire favourable picture is dose- and setting-bounded and bias-exposed.",
+        "relevance_to_precept_question": "Directly load-bearing. The fifth precept's category is effect-based (majja = whatever is madaniya/intoxicating-unto-pamada) with a consequentialist rationale (weakened wisdom, quarrels, disease, loss of wealth) and a commentarial structural argument (majja is forbidden because it causes the breaking of the other four precepts). This claim tests whether the empirical profile that makes alcohol the paradigm majja transfers to classic psychedelics. The verdict matters because it splits the precept question by mechanism rather than by substance-list: the dependence/disinhibition limbs (the parts most tied to the \"breaks other precepts\" rationale) genuinely fail to transfer, supporting an effect-based non-categorical reading; but the \"disease\" limb partially transfers (acute psychiatric harm, suicidality imbalance, HPPD), and the analysis collapses if generalised across dose (microdose vs full) and context (supervised vs unsupervised). The precise scholarly takeaway: an effect-based precept cannot be settled by a single alcohol-vs-psychedelic harm comparison; it must be adjudicated per dose and per setting, and even then the acute-heedlessness window (4–6 h of slowed processing and ego-dissolution) plus a non-trivial acute-distress/disease rate keep the question interpretively live rather than empirically closed in psychedelics' favour."
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Gather"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Verify"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "gather:ego-dissolution-mechanism",
+      "phaseIndex": 1,
+      "phaseTitle": "Gather",
+      "agentId": "a780638acd734530e",
+      "agentType": "Explore",
+      "model": "claude-haiku-4-5-20251001",
+      "state": "done",
+      "startedAt": 1782491668847,
+      "queuedAt": 1782491668827,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "NEUROSCIENCE & PHENOMENOLOGY OF EGO-DISSOLUTION: Predictive…",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782491829642,
+      "tokens": 38964,
+      "toolCalls": 27,
+      "durationMs": 160795,
+      "resultPreview": "{\"angle\":\"NEUROSCIENCE & PHENOMENOLOGY OF EGO-DISSOLUTION: Predictive Coding, Self-Models & the Buddhist Precept Question\\n\\nDoes psilocybin/LSD/DMT produce the heedlessness-unto-wisdom-loss that the Buddhist fifth precept targets, or something epistemologically different? Carhart-Harris' REBUS model and Letheby's naturalistic philosophy position ego-dissolution as a genuine (constructed) insight …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "gather:faculty-enhance-vs-degrade",
+      "phaseIndex": 1,
+      "phaseTitle": "Gather",
+      "agentId": "a3df7340c2c371199",
+      "agentType": "Explore",
+      "model": "claude-haiku-4-5-20251001",
+      "state": "done",
+      "startedAt": 1782491668848,
+      "queuedAt": 1782491668827,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Do psychedelics ENHANCE or DEGRADE perception/attention/cla…",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782491853404,
+      "tokens": 46985,
+      "toolCalls": 36,
+      "durationMs": 184555,
+      "resultPreview": "{\"angle\":\"Do psychedelics ENHANCE or DEGRADE perception/attention/clarity? Examining the empirical evidence across acute full-dose, low-dose, and microdosing regimens, with critical attention to replication status, blinding problems, and dose-dependent effects. The Buddhist fifth precept targets \\\"majja\\\" (whatever induces pamada/heedlessness and degrades faculties), so the key question is whether…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "gather:durability-trait-change",
+      "phaseIndex": 1,
+      "phaseTitle": "Gather",
+      "agentId": "a08e52c7f8ee54a06",
+      "agentType": "Explore",
+      "model": "claude-haiku-4-5-20251001",
+      "state": "done",
+      "startedAt": 1782491668850,
+      "queuedAt": 1782491668828,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "TRANSIENT/REVERSIBLE vs LASTING TRAIT CHANGE: Psilocybin an…",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782491827062,
+      "tokens": 42818,
+      "toolCalls": 26,
+      "durationMs": 158212,
+      "resultPreview": "{\"angle\":\"TRANSIENT/REVERSIBLE vs LASTING TRAIT CHANGE: Psilocybin and psychedelics produce demonstrable neuroplastic changes (dendritic spine growth, gene expression) that persist weeks to months post-administration, yet the durability and behavioral permanence of psychological trait changes (personality openness, mindfulness, depression remission) are contested by blinding failures, selection bi…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "gather:anthropology-entheogens",
+      "phaseIndex": 1,
+      "phaseTitle": "Gather",
+      "agentId": "a5caff81289d59f2e",
+      "agentType": "Explore",
+      "model": "claude-haiku-4-5-20251001",
+      "state": "done",
+      "startedAt": 1782491668850,
+      "queuedAt": 1782491668828,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "ANTHROPOLOGY OF ENTHEOGENS: Ritual Containment, Knowledge T…",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782491862157,
+      "tokens": 43033,
+      "toolCalls": 29,
+      "durationMs": 193307,
+      "resultPreview": "{\"angle\":\"ANTHROPOLOGY OF ENTHEOGENS: Ritual Containment, Knowledge Transmission, and the Heedlessness Question in Indigenous vs. Recreational Use\\n\\nThe core anthropological finding is that indigenous/ritual use and Western recreational use represent fundamentally different ontological, cognitive, and behavioral systems. Indigenous frameworks involve: (1) skilled authority (shamans/curanderas wit…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "gather:evolution-stoned-ape",
+      "phaseIndex": 1,
+      "phaseTitle": "Gather",
+      "agentId": "a0bcadcd25bd1efb8",
+      "agentType": "Explore",
+      "model": "claude-haiku-4-5-20251001",
+      "state": "done",
+      "startedAt": 1782491668850,
+      "queuedAt": 1782491668828,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Psychedelics, cognitive/cultural evolution, and the Buddhis…",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782491893088,
+      "tokens": 41999,
+      "toolCalls": 30,
+      "durationMs": 224237,
+      "resultPreview": "{\"angle\":\"Psychedelics, cognitive/cultural evolution, and the Buddhist fifth precept: The Stoned Ape hypothesis is scientifically unfounded (no archaeological evidence, misrepresentation of source data, contradicted by acute cognitive impairment during use). Cultural significance of entheogens in shamanic contexts is defensible; genetic/evolutionary claims are speculative. Modern empirical evidenc…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "gather:psychedelics-vs-alcohol-harm",
+      "phaseIndex": 1,
+      "phaseTitle": "Gather",
+      "agentId": "a1dadaacb00b99175",
+      "agentType": "Explore",
+      "model": "claude-haiku-4-5-20251001",
+      "state": "done",
+      "startedAt": 1782491668851,
+      "queuedAt": 1782491668828,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Psychedelics vs. alcohol on dependence liability, violence/…",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782491932895,
+      "tokens": 49889,
+      "toolCalls": 24,
+      "durationMs": 264044,
+      "resultPreview": "{\"angle\":\"Psychedelics vs. alcohol on dependence liability, violence/behavioral outcomes, and alignment with the Buddhist fifth precept's effect-based definition of majja (intoxicants unto heedlessness/pamada). The precept forbids substances by EFFECT, not substance name, with stated consequential harms: weakened wisdom, quarrels, disease, loss of wealth. Empirical question: do psychedelics produc…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "verify:1",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "adeb0f33cb9db4db6",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782491932914,
+      "queuedAt": 1782491932901,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "\"Psychedelic ego-dissolution is a constructed/reversible al…",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782492060521,
+      "tokens": 74326,
+      "toolCalls": 13,
+      "durationMs": 127607,
+      "resultPreview": "{\"claim_tested\":\"\\\"Psychedelic ego-dissolution is a constructed/reversible alteration of the self-model, not direct perception of a mind-independent truth (and can still yield genuine insight per Letheby).\\\" This is a three-part conjunctive claim: (a) the self-model alteration is constructed and reversible; (b) it is NOT veridical perception of mind-independent reality; (c) it can nonetheless yiel…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "verify:2",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a0816be5052f96245",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782491932915,
+      "queuedAt": 1782491932901,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "\"Psychedelics at low/micro doses sharpen rather than cloud …",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782492103027,
+      "tokens": 80187,
+      "toolCalls": 19,
+      "durationMs": 170112,
+      "resultPreview": "{\"claim_tested\":\"\\\"Psychedelics at low/micro doses sharpen rather than cloud perceptual/attentional faculties — so the 'intoxicants degrade the faculty insight needs' claim does NOT straightforwardly hold for psychedelics.\\\"\",\"verdict\":\"mixed-contested\",\"confidence\":\"high\",\"strongest_evidence_for\":\"The strongest pro-claim evidence is narrow and dose-specific. In acute, single-dose, within-subject …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "verify:3",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "aa0aea0ccfea6cdca",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782491932916,
+      "queuedAt": 1782491932901,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Psychedelics (psilocybin/LSD) produce durable trait-level c…",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782492053623,
+      "tokens": 75050,
+      "toolCalls": 11,
+      "durationMs": 120707,
+      "resultPreview": "{\"claim_tested\":\"Psychedelics (psilocybin/LSD) produce durable trait-level change (e.g. lasting increases in personality openness, decreases in neuroticism, increased trait mindfulness), which would challenge the Buddhist framing of an intoxicant as a \\\"reversible state, not a trait.\\\"\",\"verdict\":\"mixed-contested\",\"confidence\":\"medium\",\"strongest_evidence_for\":\"Two distinct durability signals surv…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "verify:4",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "affca733ba4eb8fdf",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1782491932916,
+      "queuedAt": 1782491932901,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "\"Classic psychedelics are radically less harmful than alcoh…",
+      "promptPreview": "This research feeds a serious interdisciplinary study on whether the Buddhist fifth precept (against\nmajja, intoxicants) applies to classic psychedelics (psilocybin, LSD, mescaline, DMT/ayahuasca). The\nBuddhist side found the precept's category is EFFECT-BASED (majja = whatever is madaniya,\nintoxicating-unto-heedlessness/pamada), not a substance list, and the precept's stated harms are\nCONSEQUENTI…",
+      "lastProgressAt": 1782492044593,
+      "tokens": 72142,
+      "toolCalls": 10,
+      "durationMs": 111677,
+      "resultPreview": "{\"claim_tested\":\"\\\"Classic psychedelics are radically less harmful than alcohol on dependence, violence, and the precept's consequential harms (disease, quarrels, loss of wealth) — so the heedlessness (pamada) rationale that condemns alcohol does not obviously transfer to psilocybin/LSD/mescaline/DMT.\\\"\",\"verdict\":\"mixed-contested\",\"confidence\":\"medium\",\"strongest_evidence_for\":\"The DEPENDENCE hal…"
+    }
+  ],
+  "totalTokens": 565393,
+  "totalToolCalls": 225
+}
