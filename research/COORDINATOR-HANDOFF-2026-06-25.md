@@ -86,13 +86,32 @@ Items 1-3 DONE (sankhara, vitakka, Ronkin correction). Remaining:
    gate (de-AI + coherence pass; scope-skeptic must-fixes applied). Full verification archived at
    `research/deep-research/ronkin-sabhava-localization.md`. **Next up: item 4.**
 4. **[CORPUS-DOABLE NOW] ← NEXT.** PED "abhiññā narrowed to the fixed six nine-times-in-ten" per-stratum
-   chaḷabhiññā/abhiññā census; Hamilton khandha×āyatana×dhātu cross-classification per-stratum census. Both
+   chaḷabhiññā/abhiññā census; khandha×āyatana×dhātu cross-classification per-stratum census. Both
    directly testable on dhamma-pg (serial). Could each be a small dhamma-explore or a section.
-5. **[FOLLOW-ON]** recompute the five HOUSE studies' per-character magnitudes DEDUPED (SKILL rule 8; the
-   un-deduped 53.5M denominator inflated them ~1.3-2x; deduped denominators below). come-and-see's counter is
-   only strengthened.
-6. **[VERIFY]** Brahmāli on cetanā (his DO series / Authenticity of the EBT); Hamilton "most important/
-   difficult khandha" superlative + loci; Bucknell (1993)/Shankman (2008) verbatim quotes (image-only scans).
+   **CORRECTION from item 6 (fold in):** the "correlations not explicit in the Nikāyas, only in the
+   Abhidhamma, which classifies the sense bases under rūpa" claim is **Bhikkhu Bodhi** (commenting on SN 35.1,
+   Connected Discourses), NOT Hamilton. Hamilton's own move is the OPPOSITE (she challenges putting the five
+   sense faculties under rūpakkhandha). Attribute the census to Bodhi; expect no Hamilton superlative.
+5. **[FOLLOW-ON — PREMISE CORRECTED 2026-06-25, needs a proper pass].** Recompute the five HOUSE studies'
+   per-character magnitudes deduped. **The original premise ("just swap the inflated 53.5M denominator and
+   house ratios halve") is WRONG:** `is_primary` is absent from the awakening/naga/heart-base/IG build
+   scripts, so those studies never deduped their NUMERATORS either. For a sutta-resident term both sides are
+   double-counted and largely self-correct; only an Abhidhamma/commentary-resident term (e.g. *bhavaṅga*,
+   suttas=0) is genuinely understated and moves. The correct fix is a proper `is_primary` recompute on BOTH
+   sides using each study's OWN pattern. Affected magnitudes (all in caveat/explanatory passages, directions
+   unchanged): heart-base *bhavaṅga* gradient (canon 0.7→~1.5; "53.5M"→"25.74M"); naga "~5.5× as densely";
+   awakening caveat (5.1×, 10.7×); IG G1 *sabhāva* (reconcile to the register study's numbers).
+   **Also found:** committed counts diverge from live (register *sabhāva* mūla 45/1632/3981 vs live deduped
+   50/1865/4034; heart-base *bhavaṅga* aṭṭha 235 vs live 283) because each study used its own stricter
+   pattern — so the recompute MUST use each study's exact query, not a generic regex. Confirmed deduped
+   denominators (Mchar): canon 25.737, aṭṭhakathā 30.691, ṭīkā 28.358, commentary 59.049.
+6. ✅ **DONE 2026-06-25 (verified + archived; no live edit needed).** Brahmāli/cetanā CONFIRMED (his own voice,
+   SC forum post #22; "choices" is Sujato's word, not his). Hamilton superlative REFUTED (she says
+   saṅkhāra "unique among the khandhas", not "most important/difficult"; those are Piya Tan + Bodhi). Bucknell
+   1993 CONFIRMED (cite p.397 own-voice, not p.376). Shankman 2008 MIXED ("two distinct jhanas" genuine, but
+   "p.104" wrong ~pp.139-144, and he does NOT say the suttas reject absorption). None is asserted in a live
+   study, so the verbatims are on file for future citation. Full archive:
+   `research/deep-research/item6-source-verifications.md`. The Hamilton→Bodhi correction is folded into item 4.
 7. ~~[REGEN] research/sankhara/probe.py~~ SUPERSEDED by `research/sankhara/_enumerate.py`.
 8. **[STANDING]** When DR-2 sati / DR-3 anattā land: pull reports into `research/deep-research/`, fold
    follow-ups into this queue. (As of 2026-06-25: not landed; `sn2259.json` 0 bytes.)
