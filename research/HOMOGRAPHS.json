@@ -86,9 +86,10 @@
     {
       "term": "majja_sura",
       "intended": "majja = effect-based intoxicant category; sura = a specific fermented drink",
-      "trap": "FTS/vector search has mis-handled this cluster; majja is a category not a substance, and the alias cluster is incomplete",
-      "method": "Route load-bearing intoxicant counts through SQL regex, not /api/search; majja is effect-based.",
-      "source_study": "intoxicants (research/intoxicants)"
+      "trap": "FTS/vector search has mis-handled this cluster; majja is a category not a substance, and the alias cluster is incomplete. majja substring is 84% false-positive (majjha/majjana/miñja); surā collides with sura (deva) AND leaks MID-WORD into asura/asurinda/bhāsurā/devāsura/accharā. meraya is the only clean anchor.",
+      "false_friends_no_morpheme": ["majjha (middle)", "majjana/majjati (polish/wipe)", "miñja (marrow)", "asura/asurinda (the -surā- mid-word leak; bit the §2a P5 impurity-of-drink co-occurrence)"],
+      "method": "Route load-bearing intoxicant counts through SQL regex on original (FULL diacritics, ~* POSIX), not /api/search; for a drink-context co-occurrence tie use intoxicant-specific tokens (meraya|surā|majja[ṃṁ]|majjap|majje|madirā|pānānuyog|surāpān|telapāk) which avoid the majja false-friends, and STILL sense-read the sample (surā/asura leak survives the tie). Niggahita splits by id scheme: SuttaCentral ids store ṁ, CST ids store ṃ -> use class [ṁṃ]. majja is effect-based.",
+      "source_study": "intoxicants (research/intoxicants; §2a instrumental-precept)"
     }
   ]
 }
