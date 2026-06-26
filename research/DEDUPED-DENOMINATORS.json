@@ -1,0 +1,38 @@
+{
+  "_doc": "Authoritative deduped per-character denominators for the Dhamma research program. SINGLE SOURCE OF TRUTH for any density claim. Every per-character magnitude in any study MUST divide a deduped (is_primary) numerator by the matching deduped Mchar below. The un-deduped mula totals (52.3M / 53.5M) are RETIRED. See SKILL rule 8 + the density-claim gate.",
+  "snapshot": {
+    "corpus_passages": 194710,
+    "measured": "2026-06-26",
+    "basis": "is_primary = true (the canon is double-ingested SuttaCentral + Chattha-Sangayana; is_primary marks one edition per passage as canonical). Verified against live dhamma-pg.",
+    "verified_against_handoff": true
+  },
+  "per_stratum_mchar": {
+    "1early": 13.096,
+    "2late": 3.852,
+    "3abh": 7.577,
+    "4para": 1.213,
+    "5comm": 30.691,
+    "6tika": 28.358,
+    "7other": 9.881
+  },
+  "per_layer_mchar": {
+    "canon_mula": 25.738,
+    "atthakatha": 30.691,
+    "tika": 28.358,
+    "commentary": 59.049,
+    "extra_canonical": 9.881
+  },
+  "layer_definition_sql": "CASE WHEN work_role='mula' AND work_slug<>'pli-vism' THEN 'canon_mula' WHEN work_slug LIKE '%-attha' OR work_slug='pli-vism' THEN 'atthakatha' WHEN work_slug LIKE '%-tika' THEN 'tika' ELSE 'extra_canonical' END",
+  "stratum_function": "stratum(work_slug) -> 1early|2late|3abh|4para|5comm|6tika|7other. canon_mula = 1early+2late+3abh+4para (sums to 25.738). commentary = 5comm+6tika = atthakatha+tika (59.049).",
+  "rules": [
+    "density(L, S) = (count of is_primary passages in S whose original matches L's pattern, after the homograph/false-friend exclusion mask) / Mchar(S).",
+    "is_primary on BOTH numerator and denominator. A deduped numerator over an un-deduped denominator (or vice versa) is the item-5 error class: it silently inflates or deflates the ratio by up to ~2x.",
+    "pli-vism (Visuddhimagga) is shelved as work_role='mula' but is COMMENTARY; it is counted as atthakatha here, never as canon.",
+    "Never a raw row-ratio headline (commentary was subdivided to ~330-char rows vs the canon's ~2,975-char rows, so a row count mostly measures segmentation). Per-character only.",
+    "Where a study used its own stricter regex/sense-coded numerator, recompute with THAT exact pattern + is_primary, not a generic stem, or the count will not reconcile."
+  ],
+  "retired": {
+    "un_deduped_mula_53_5M": "The pre-2026-06-25 convention. It double-counted the suttas, understating canon density and overstating house (commentary-denser) ratios. Do not use.",
+    "note": "House studies built before 2026-06-25 (awakening, individual-guidance, heart-base-and-insight, uttarakuru, naga) did NOT use is_primary; their per-character caveats need a proper both-sides recompute (queue item 5)."
+  }
+}

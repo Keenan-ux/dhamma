@@ -1,0 +1,94 @@
+{
+  "_doc": "Registry of Pali homographs, heteronyms, and substring false-friends that have bitten counts in this program. A bare stem/substring search over any of these OVERSTATES the intended sense, often by an order of magnitude. Before locking any count on these terms, apply the exclusion_regex (to drop morphological false-friends) AND blind sense-code a sample for the remaining heteronyms (a count whose sense you have not read is not yet a count). Patterns are PostgreSQL ~* (case-insensitive POSIX). Add an entry whenever a new study discovers a trap.",
+  "version": "1.0",
+  "updated": "2026-06-26",
+  "entries": [
+    {
+      "term": "naga",
+      "intended": "naga = serpent-being",
+      "trap": "the substring nag/naga is a heteronym AND a false-friend magnet",
+      "false_friends_no_morpheme": ["samannagata (sam-anv-agata)", "anagami (an-agamin)", "anagata (a-n-agata)"],
+      "heteronyms_real_morpheme": ["bull-elephant", "Nagasena (monk)", "nagara (citizen/city)", "naga tree (ironwood)", "honorific 'naga' for a great being"],
+      "finding": "Of 10,174 canon rows with substring naga, only 159 of 935 genuine-token rows (17%) are the serpent-being; 59% of the raw nag-substring count are morphological false friends.",
+      "method": "Classify by referent (CODEBOOK-referent.md); do NOT count the bare substring.",
+      "source_study": "naga"
+    },
+    {
+      "term": "sabhava",
+      "intended": "sabhava = own-nature (the realist/ontological sense)",
+      "trap": "stem sabh[aā]v catches bhava-compounds that are not sabhava; the own-nature vs adverbial-naturally sense is also unresolved (blind sense-coding FAILED, kappa=-0.08)",
+      "exclusion_regex": "purisabh[aā]v|ekaṃsabh[aā]vit|ekaṃ\\s*sabh[aā]vit|tidasabh[aā]vana",
+      "false_friends_no_morpheme": ["purisabhava (purisa+bhava = maleness)", "ekaṃsabhavita (ekaṃsa+bhavita)", "tidasabhavana (tidasa+bhavana, Tavatimsa realm)"],
+      "note": "Even after the mask, the remaining hits are stem density, NOT sense-resolved (own-nature vs 'naturally'); report as stem density and disclose the kappa failure.",
+      "source_study": "commentarial-register, sabhava-realist-drift-seam, individual-guidance"
+    },
+    {
+      "term": "appana",
+      "intended": "appana = absorption concentration (the meditative tier)",
+      "trap": "stem appan catches -kappana compounds that are unrelated",
+      "exclusion_regex": "saṅkappan|vikappan|kappan(?!a-?samadhi)",
+      "false_friends_no_morpheme": ["saṅkappana (saṅkappa)", "vikappana (vikappa)"],
+      "source_study": "vitakka, individual-guidance"
+    },
+    {
+      "term": "upacara",
+      "intended": "upacara-samadhi = access concentration (commentarial meditative sense)",
+      "trap": "upacara is canonical in the ordinary sense 'vicinity / approach / boundary / proper conduct' (esp. Vinaya); the access-concentration sense is post-canonical",
+      "heteronyms_real_morpheme": ["vicinity / neighbourhood (Vinaya boundary)", "approach / way of dealing", "polite conduct", "access concentration (commentarial)"],
+      "finding": "All 14 early upacara hits are the vicinity/boundary sense; 0 are access-concentration after blind audit (kappa=1.0).",
+      "method": "Sense-code; the meditative sense requires the -samadhi collocation or commentarial context.",
+      "source_study": "vitakka, individual-guidance"
+    },
+    {
+      "term": "paramattha",
+      "intended": "paramattha = ultimate/highest-sense reality",
+      "trap": "do NOT fold in paramaṭṭha (grasped, from paramasati, long first a) which is a DIFFERENT word",
+      "exclusion_regex": "par[aā]maṭṭh(?!a-?sacc)",
+      "note": "paramattha pattern: paramatth|paramaṭṭh|parama-?atth; paraamaṭṭha (parA-) is the grasping word, exclude.",
+      "source_study": "sabhava-realist-drift-seam, commentarial-register"
+    },
+    {
+      "term": "rasa",
+      "intended": "rasa = function (as a member of the lakkhana-rasa-paccupatthana definitional tetrad)",
+      "trap": "severely polysemous: taste, juice, flavour, mercury, aesthetic rasa, essence",
+      "method": "Use \\mrasa word-boundary; count ONLY when co-occurring with lakkhana AND paccupatthana in the same passage (the catukka frame). Never a standalone realist marker.",
+      "source_study": "sabhava-realist-drift-seam"
+    },
+    {
+      "term": "kammatthana",
+      "intended": "kammatthana = meditation subject (the closed-40 commentarial sense)",
+      "trap": "canonical kammatthana means an occupation / place of work (ordinary sense)",
+      "heteronyms_real_morpheme": ["occupation / place of work (canonical)", "meditation subject (commentarial)"],
+      "finding": "134 of 148 mula rows carrying kammatthana are Visuddhimagga; the 14 in AN/MN/DN are the ordinary 'work' sense.",
+      "source_study": "individual-guidance"
+    },
+    {
+      "term": "abhinna",
+      "intended": "the narrow fixed-six (chalabhinna) vs the broad 'higher knowledge' sense",
+      "trap": "blind wide-vs-narrow sense split FAILED (kappa=-0.14); the string is near-even canon vs commentary, but whether the commentary narrowed it to the six is UNTESTED by stem count",
+      "method": "Test narrowing via the discrete compound chalabhinna vs bare abhinna per stratum (queue item 4), NOT via a wide/narrow sense audit of the bare stem.",
+      "source_study": "commentarial-register (open: item 4)"
+    },
+    {
+      "term": "theravada",
+      "intended": "theravada = the school's in-text self-designation",
+      "trap": "the apparent canon-tilt is dominated by an EDITORIAL section-title 'Theravada Vinaya' prepended to Vinaya rows (ids of the pli-tv-bi-vb-* form), not in-text usage",
+      "method": "Exclude editorial section-titles; the thera-alone elder-register control runs the opposite (commentary-denser) way.",
+      "source_study": "commentarial-register"
+    },
+    {
+      "term": "sato",
+      "intended": "sato = mindful (genitive/nominative of sata, 'mindful')",
+      "trap": "homograph with the genitive of sant ('existing/being') and other forms; needs sentence context to disambiguate",
+      "method": "Sentence-context sense-coding required; flagged as the residual gloss-disambiguation tail.",
+      "source_study": "interlinear gloss / vitakka"
+    },
+    {
+      "term": "majja_sura",
+      "intended": "majja = effect-based intoxicant category; sura = a specific fermented drink",
+      "trap": "FTS/vector search has mis-handled this cluster; majja is a category not a substance, and the alias cluster is incomplete",
+      "method": "Route load-bearing intoxicant counts through SQL regex, not /api/search; majja is effect-based.",
+      "source_study": "intoxicants (research/intoxicants)"
+    }
+  ]
+}

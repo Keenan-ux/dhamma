@@ -134,6 +134,13 @@ the spine rules above do.
    `mūla 53.5M` convention was the un-deduped total and is retired. A counter-result (canon-denser) is only
    *strengthened* by the correction; a house-result magnitude shrinks. Re-derive any pre-2026-06-25
    per-character ratio deduped before re-citing it.
+   **Single source of truth: `@research/DEDUPED-DENOMINATORS.json`** (canon 25.738, aṭṭha 30.691, ṭīkā 28.358,
+   commentary 59.049 Mchar; per-stratum 1early 13.096 / 2late 3.852 / 3abh 7.577 / 4para 1.213). Every density
+   divides a deduped numerator by the matching denominator there; never hardcode a denominator a study could
+   drift from. **The non-uniform trap (cost the program four house studies, item 5):** is_primary deduping the
+   denominator but NOT the numerator (or a numerator counted with a different/stricter pattern than you assume)
+   gives a wrong ratio. Recompute BOTH sides with the study's OWN pattern; reconcile the result against live
+   before believing it (a committed count that no longer matches live means the pattern or snapshot drifted).
 9. **IAA scope — scope every κ to its unit, in the sentence that prints it.** A published kappa is only
    meaningful for the exact unit it was computed on. Print the scope inline: "κ=0.82 *on the 41 contested
    stratum rows*", "κ=1.0 *on the attribution recode*", not a free-floating "κ=0.82". And **state where no
@@ -201,6 +208,16 @@ the spine rules above do.
    count is believed — a high count of an abstract term is a doctrinal-list / homograph lexeme until proven
    otherwise (`%carita%` = 224 canon rows, all conduct, 0 temperament; `anusaya` / `cetopariya` are mostly
    fixed lists, not person-typing). A count whose sense you have not read is not yet a count.
+   **COUNT-LOCK GATE (enforced, not just advised — encodes the rule the operator flagged: search is not
+   followed through by reading the source).** Before any count exits enumeration and enters a paper, it must
+   carry, in `_raw.json` or the dataset: (a) the exact query/pattern; (b) the full `original` (+`translation`)
+   text of a sample of matched rows actually read, not just ids — minimum 20 rows, or ALL rows if fewer, or
+   ≥30 for a load-bearing early-canonical cell; (c) for any term in `@research/HOMOGRAPHS.json`, the exclusion
+   mask applied AND the blind sense-coding result with its κ. A count on a homograph/false-friend term
+   (naga, sabhava, appana, upacara, kammatthana, theravada, abhinna, sato, rasa, paramattha, majja…) without
+   the mask + a read sample is a defect, even if the direction looks right. Pull the evidence with
+   `research/fetch_evidence.py` so the sense-read is a re-read from file, not a re-query. Add new traps to
+   HOMOGRAPHS.json as they surface.
    **Scale to an enumeration fleet for contested points — the headline question AND any sub-question or
    clarification that earns it** (a list to audit, a phrase to chase, a "how much is enough" debate).
    Fan out ~12–20 reasoning lenses that *only enumerate* (hundreds to thousands of stems + loci + an
