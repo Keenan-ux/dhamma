@@ -1,0 +1,457 @@
+{
+ "n_coders": 3,
+ "fleiss": {
+  "N": 17,
+  "raters": 3,
+  "kappa": 1,
+  "Pbar": 1,
+  "Pe": 0.7924
+ },
+ "majority": {
+  "0": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "1": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "2": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "3": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "4": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "5": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "6": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "7": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "8": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "9": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "10": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "11": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "12": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "13": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "14": {
+   "codes": [
+    "technical",
+    "technical",
+    "technical"
+   ],
+   "majority": "technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "15": {
+   "codes": [
+    "non-technical",
+    "non-technical",
+    "non-technical"
+   ],
+   "majority": "non-technical",
+   "agreement": 3,
+   "unanimous": true
+  },
+  "16": {
+   "codes": [
+    "technical",
+    "technical",
+    "technical"
+   ],
+   "majority": "technical",
+   "agreement": 3,
+   "unanimous": true
+  }
+ },
+ "technical_rows": [
+  {
+   "i": 14,
+   "citation": "MN 117",
+   "term": "appana"
+  },
+  {
+   "i": 16,
+   "citation": "MN 117",
+   "term": "abhiniropana"
+  }
+ ],
+ "raw": [
+  [
+   {
+    "i": 0,
+    "code": "non-technical",
+    "reason": "upacāra refers to a spatial boundary/precinct in open space, not meditation concentration"
+   },
+   {
+    "i": 1,
+    "code": "non-technical",
+    "reason": "upacāra denotes the precinct boundary around an unguarded lodging"
+   },
+   {
+    "i": 2,
+    "code": "non-technical",
+    "reason": "upacāra refers to the precinct boundary of a monastery"
+   },
+   {
+    "i": 3,
+    "code": "non-technical",
+    "reason": "upacāra denotes the village precinct/boundary"
+   },
+   {
+    "i": 4,
+    "code": "non-technical",
+    "reason": "upacāra refers to the spatial boundary of a village"
+   },
+   {
+    "i": 5,
+    "code": "non-technical",
+    "reason": "upacāra denotes the monastery precinct/boundary"
+   },
+   {
+    "i": 6,
+    "code": "non-technical",
+    "reason": "upacāre refers to spatial vicinity/precinct near a dwelling"
+   },
+   {
+    "i": 7,
+    "code": "non-technical",
+    "reason": "upacārā refers to spatial precincts around a dwelling"
+   },
+   {
+    "i": 8,
+    "code": "non-technical",
+    "reason": "upacāro is a technical monastic term for unguarded territory (spatial, not meditative)"
+   },
+   {
+    "i": 9,
+    "code": "non-technical",
+    "reason": "upacāra denotes the village precinct boundary"
+   },
+   {
+    "i": 10,
+    "code": "non-technical",
+    "reason": "upacāro refers to monastery boundary/precinct classification"
+   },
+   {
+    "i": 11,
+    "code": "non-technical",
+    "reason": "upacāro refers to spatial precinct violation, not meditation"
+   },
+   {
+    "i": 12,
+    "code": "non-technical",
+    "reason": "upacāro denotes spatial precinct, not meditation"
+   },
+   {
+    "i": 13,
+    "code": "non-technical",
+    "reason": "upacārakā means attendants/servants, not spatial or meditative"
+   },
+   {
+    "i": 14,
+    "code": "technical",
+    "reason": "appanā appears in the formal list of mental factors (appanā byappanā cetaso abhiniropanā) defining meditative consciousness"
+   },
+   {
+    "i": 15,
+    "code": "non-technical",
+    "reason": "appaṇāmento means 'not dismissing' from paṇāmeti, unrelated to meditation"
+   },
+   {
+    "i": 16,
+    "code": "technical",
+    "reason": "abhiniropanā is a technical gloss for the application/placing of mind on its object as a factor of mind"
+   }
+  ],
+  [
+   {
+    "i": 0,
+    "code": "non-technical",
+    "reason": "Spatial boundary/precinct sense: crossing the vicinity of an outdoor area per monastic rule"
+   },
+   {
+    "i": 1,
+    "code": "non-technical",
+    "reason": "Spatial vicinity of an unguarded hostel; disciplinary rule about trespassing boundaries"
+   },
+   {
+    "i": 2,
+    "code": "non-technical",
+    "reason": "Spatial precinct/vicinity of an unguarded monastery; boundary crossing"
+   },
+   {
+    "i": 3,
+    "code": "non-technical",
+    "reason": "Spatial vicinity/precincts of an unguarded village; disciplinary context"
+   },
+   {
+    "i": 4,
+    "code": "non-technical",
+    "reason": "Spatial boundary of village precincts; disciplinary transgression rule"
+   },
+   {
+    "i": 5,
+    "code": "non-technical",
+    "reason": "Spatial vicinity of monastery; boundary crossing in monastic discipline"
+   },
+   {
+    "i": 6,
+    "code": "non-technical",
+    "reason": "Spatial location (vicinity/precincts) where beds are spread; physical zone"
+   },
+   {
+    "i": 7,
+    "code": "non-technical",
+    "reason": "Enumeration of spatial zones (vicinity of dwelling, assembly hall, etc.); architectural/spatial sense"
+   },
+   {
+    "i": 8,
+    "code": "non-technical",
+    "reason": "Defining upacāro as the outer zone around a monastery; spatial/zonal classification"
+   },
+   {
+    "i": 9,
+    "code": "non-technical",
+    "reason": "Spatial vicinity/precincts of village; disciplinary boundary rule"
+   },
+   {
+    "i": 10,
+    "code": "non-technical",
+    "reason": "Upacāro defined as outer zone; spatial zoning terminology"
+   },
+   {
+    "i": 11,
+    "code": "non-technical",
+    "reason": "Spatial boundary/precinct sense: no upacāra (boundary) violation when fire-place is in center"
+   },
+   {
+    "i": 12,
+    "code": "non-technical",
+    "reason": "Spatial boundary/precinct sense: no upacāra violation when chamber is in center of small dwelling"
+   },
+   {
+    "i": 13,
+    "code": "non-technical",
+    "reason": "Upacārakā = attendants/servants in palace; personal attendant sense, not spatial"
+   },
+   {
+    "i": 14,
+    "code": "technical",
+    "reason": "Appanā in a technical factor-of-mind list (takko vitakko saṅkappo appanā byappanā... abhiniropanā); defines sammāsaṅkappo on the path"
+   },
+   {
+    "i": 15,
+    "code": "non-technical",
+    "reason": "Appaṇāmento = 'not dismissing' from paṇāmeti; everyday non-technical usage unrelated to meditation"
+   },
+   {
+    "i": 16,
+    "code": "technical",
+    "reason": "Abhiniropanā in technical factor-of-mind list defining sammāsaṅkappo (right intention); mental application as a path factor"
+   }
+  ],
+  [
+   {
+    "i": 0,
+    "code": "non-technical",
+    "reason": "Spatial boundary: 'crossing the vicinity' in open space rules"
+   },
+   {
+    "i": 1,
+    "code": "non-technical",
+    "reason": "Spatial boundary: 'crossing the vicinity' of an unprotected dwelling"
+   },
+   {
+    "i": 2,
+    "code": "non-technical",
+    "reason": "Spatial boundary: 'entering the vicinity' of an unprotected monastery"
+   },
+   {
+    "i": 3,
+    "code": "non-technical",
+    "reason": "Spatial boundary: 'entering the vicinity' of an unprotected village"
+   },
+   {
+    "i": 4,
+    "code": "non-technical",
+    "reason": "Spatial boundary: 'crossing the first step of the vicinity' of village"
+   },
+   {
+    "i": 5,
+    "code": "non-technical",
+    "reason": "Spatial boundary: 'crossing the vicinity' of an unprotected monastery"
+   },
+   {
+    "i": 6,
+    "code": "non-technical",
+    "reason": "Spatial area: 'in the vicinity' of a dwelling while entering/leaving"
+   },
+   {
+    "i": 7,
+    "code": "non-technical",
+    "reason": "Spatial locations: list of areas (dwelling vicinity, pavilion, tree root, open space)"
+   },
+   {
+    "i": 8,
+    "code": "non-technical",
+    "reason": "Explicit definition: upacāra = boundary territory of unprotected monastery"
+   },
+   {
+    "i": 9,
+    "code": "non-technical",
+    "reason": "Spatial boundary: 'entering the vicinity' of an unprotected village"
+   },
+   {
+    "i": 10,
+    "code": "non-technical",
+    "reason": "Explicit definition: upacāra = boundary territory of unprotected monastery"
+   },
+   {
+    "i": 11,
+    "code": "non-technical",
+    "reason": "Spatial rule: vicinity does not apply in small jantāghare"
+   },
+   {
+    "i": 12,
+    "code": "non-technical",
+    "reason": "Spatial rule: vicinity does not apply in small dwelling"
+   },
+   {
+    "i": 13,
+    "code": "non-technical",
+    "reason": "upacārakā = attendants/servants (official attendants in palace)"
+   },
+   {
+    "i": 14,
+    "code": "technical",
+    "reason": "appanā in technical mental-factor list (takko vitakko saṅkappo appanā byappanā cetaso abhiniropanā) defining factors of mind in Noble Path"
+   },
+   {
+    "i": 15,
+    "code": "non-technical",
+    "reason": "appaṇāmento = not dismissing/not bowing (negated form of paṇāmeti)"
+   },
+   {
+    "i": 16,
+    "code": "technical",
+    "reason": "abhiniropanā = placing/application of mind in technical mental-factor list defining Noble Path"
+   }
+  ]
+ ]
+}

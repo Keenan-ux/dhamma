@@ -68,6 +68,12 @@ const RESEARCH_ENTRIES = [
     subtitle: 'On identical canonical text, the two highest-coverage modern translators render saṅkhāra at opposite poles: one lexicalises the active-passive split by collocation field, the other holds to a single word.',
     data: '/research/sankhara.json',
   },
+  {
+    slug: 'vitakka',
+    title: 'The Apparatus of Absorption',
+    subtitle: 'A per-stratum, per-character study of the jhāna meditation-manual vocabulary: access concentration, absorption, and the re-gloss of vitakka are commentarial, while the pliant mind they organise is canonical.',
+    data: '/research/vitakka.json',
+  },
 ];
 
 // Public worked examples — the same renderer, ungated, served from /explorations/*.json
@@ -319,6 +325,7 @@ export default function ResearchView({ collection = 'research' }) {
       : entry.slug === 'come-and-see' ? ComeAndSeeStudy
       : entry.slug === 'commentarial-register' ? CommentarialRegisterStudy
       : entry.slug === 'sankhara' ? SankharaStudy
+      : entry.slug === 'vitakka' ? VitakkaStudy
       : AwakeningStudy;
     return (
       <>
@@ -3468,6 +3475,316 @@ function SankharaStudy({ entry, onBack, backLabel = 'Research' }) {
                 coding by blind k={iaa.raters} coders (Fleiss κ = {fmtRate(iaa.kappa)}). The disclosed seed is the
                 deep-research report <code style={casCode}>research/deep-research/sankhara.md</code>. Every corpus
                 citation resolves to a passage in the reader.
+              </p>
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  );
+}
+
+// Vitakka apparatus-provenance study. Data document at /research/vitakka.json.
+const VK_STRATA = [
+  { key: '1early', label: 'Early canon' },
+  { key: '2late', label: 'Late canon' },
+  { key: '3abh', label: 'Abhidhamma' },
+  { key: '4para', label: 'Para-canon' },
+  { key: '5comm', label: 'Commentary' },
+  { key: '6tika', label: 'Sub-comm.' },
+];
+const VK_APPARATUS = [
+  { key: 'upacara', pali: 'upacāra', gloss: 'access concentration' },
+  { key: 'appana', pali: 'appanā', gloss: 'absorption' },
+  { key: 'abhiniropana', pali: 'abhiniropana', gloss: 'placing of the mind (the vitakka re-gloss)' },
+  { key: 'parikamma', pali: 'parikamma', gloss: 'preliminary work' },
+  { key: 'khanika', pali: 'khaṇika', gloss: 'momentary (concentration)' },
+];
+const VK_PHENOM = [
+  { key: 'vinivarana', pali: 'vinīvaraṇa(citta)', gloss: 'hindrance-free mind' },
+  { key: 'kallacitta', pali: 'kallacitta', gloss: 'a ready, receptive mind' },
+  { key: 'mudu_kammanna', pali: 'mudu / kammañña', gloss: 'malleable, workable' },
+];
+
+function VitakkaStudy({ entry, onBack, backLabel = 'Research' }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [openAudit, setOpenAudit] = useState(false);
+
+  useEffect(() => {
+    setData(null); setError(null);
+    const ac = new AbortController();
+    fetch(entry.data, { signal: ac.signal })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(setData)
+      .catch((e) => { if (e.name !== 'AbortError') setError(e); });
+    return () => ac.abort();
+  }, [entry.data]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onBack?.(); }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
+  const m = data?.meta || {};
+  const dens = data?.density || {};
+  const phen = data?.phenomenon || {};
+  const iaa = data?.iaa || {};
+  const audit = data?.early_audit || [];
+  const anchor = data?.mn117_anchor || {};
+  const upDen = dens.upacara || {};
+  const apDen = dens.appana || {};
+  const abDen = dens.abhiniropana || {};
+  const vin = phen.vinivarana || {};
+  const kal = phen.kallacitta || {};
+
+  return (
+    <div data-scroll-root="" style={scrollWrap}>
+      <article style={articleReadWrap}>
+        <button onClick={onBack} style={backBtn} aria-label={`Back to ${backLabel} (Esc)`}>
+          <span aria-hidden="true" style={{ fontSize: 16 }}>←</span>
+          <span>Back to {backLabel}</span>
+          <span style={backBtnHint}>Esc</span>
+        </button>
+
+        {!data && !error && <p style={hint}>Loading…</p>}
+        {error && <p style={errorHint}>Failed to load: {error.message}</p>}
+
+        {data && (
+          <>
+            <header style={articleHeader}>
+              <h1 style={articleHeaderTitle}>{entry.title}</h1>
+              <p style={articleHeaderAuthor}>{entry.subtitle}</p>
+            </header>
+
+            <div style={articleBody}>
+              <p style={abstractLead}>
+                <span style={abstractTag}>Abstract.</span> The commentaries organise jhāna with a technical
+                apparatus the meditation manuals treat as standard: a graded scale of concentration with
+                access concentration (<em>upacāra-samādhi</em>) below full absorption (<em>appanā-samādhi</em>),
+                and a re-gloss of the first jhāna factor <em>vitakka</em> not as "thinking" but as
+                <em> abhiniropana</em>, "the placing of the mind on its object". This study asks whether that
+                apparatus is canonical vocabulary or a later construction, reading each term by chronological
+                stratum on the per-character measure. The apparatus is a post-Nikāya construction. In the
+                meditative sense <em>upacāra</em> is absent from the early canon: all{' '}
+                {(dens.upacara?.counts?.['1early']) || 0} early-canonical occurrences carry the Vinaya
+                "vicinity, precinct, boundary" sense, and blind coders found none in the access-concentration
+                sense; per character the term runs about {Math.round(1 / (upDen.early_comm_ratio || 1))} times
+                denser in the commentary. Absorption (<em>appanā</em>) and the <em>abhiniropana</em> re-gloss
+                of <em>vitakka</em> have a single early-canonical anchor between them, the <em>Mahācattārīsaka</em>{' '}
+                (MN 117) definition string; <em>abhiniropana</em> then appears in the Paṭisambhidāmagga, the
+                Abhidhamma, and the commentary. The state the apparatus organises is, by contrast, canonical:
+                the hindrance-free, ready mind the early canon names <em>vinīvaraṇacitta</em> and{' '}
+                <em>kallacitta</em> runs about {fmtRatio(vin.early_comm_ratio)} times denser in the canon than
+                in the commentary. The later tradition did not invent the settled pre-absorption mind. It built
+                a graded scheme and a re-glossed <em>vitakka</em> on canonical material that named neither. This
+                settles the provenance of the apparatus vocabulary, not the meaning of <em>vitakka</em> inside
+                the discourses.
+              </p>
+
+              <p style={methodNote}>
+                A note on method. The unit is the chronological stratum, not the structural layer: counts run
+                over <code style={casCode}>stratum(work_slug)</code> (early canon, late canon, Abhidhamma,
+                para-canon, commentary, sub-commentary), because the structural "mūla" role lumps the
+                Visuddhimagga, the Vinaya, the late Khuddaka, and the Abhidhamma together. Every figure is a
+                rate per million characters on the deduped corpus (early canon{' '}
+                {fmtMc(m.char_mass_Mc?.['1early'])}, commentary {fmtMc(m.char_mass_Mc?.['5comm'])},
+                sub-commentary {fmtMc(m.char_mass_Mc?.['6tika'])} million characters), never a raw row count.
+                Each apparatus term was searched on a tightened pattern (so <em>appanā</em> does not catch{' '}
+                <em>saṅkappanā</em> or <em>vikappanā</em>), and every early-canonical hit was read and coded
+                for sense by three coders blind to the thesis (Fleiss <em>κ</em> = {fmtRate(iaa.kappa)} on{' '}
+                {iaa.n_rows} rows). The study is pre-registered
+                (<code style={casCode}>{m.prereg}</code>, frozen before the sense-audited enumeration), with
+                the enumeration committed query-to-result (<code style={casCode}>{m.enumeration}</code>).
+              </p>
+
+              <h2 style={h2}>The apparatus, and the question</h2>
+              <p>
+                A meditator trained on a modern manual meets a graded scale of concentration: the mind first
+                settles to <em>upacāra-samādhi</em>, "access concentration", a hindrance-free threshold, and
+                then, if it deepens, drops into <em>appanā-samādhi</em>, full "absorption", the jhāna proper.
+                On the same scheme the first factor of the first jhāna, <em>vitakka</em>, is read not in its
+                everyday sense of "thinking" but technically, as <em>abhiniropana</em>, the act of placing or
+                applying the mind on its object. This vocabulary is the working language of the Visuddhimagga
+                and the later commentaries. The question is where it comes from: did the commentary inherit it
+                from the discourses, or build it? The question is one of provenance, and it is asked of the
+                terms, by stratum and per character. It is not a question about what <em>vitakka</em> means
+                inside the jhāna formula, a separate and contested matter the per-character measure cannot
+                settle.
+              </p>
+
+              <h2 style={h2}>Where the apparatus lives</h2>
+              <p style={tableCaption}>
+                Each apparatus term as a rate per million characters, by chronological stratum, on the deduped
+                corpus. The last column is the early-canon rate over the combined commentary-and-sub-commentary
+                rate: a value well below 1 means the term is commentarial. <em>vitakka</em> itself is the
+                canonical baseline; the apparatus terms below it are six to a hundred times denser in the
+                commentary than in the early canon.
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Term</th>
+                      {VK_STRATA.map((s) => <th key={s.key} style={thNum} title={`${s.label} rate per million characters`}>{s.label}</th>)}
+                      <th style={thNum} title="early-canon rate / commentary rate">early : comm</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={tr}>
+                      <td style={tdLeftSm}><em>vitakka</em> <span style={casGloss}>baseline</span></td>
+                      {VK_STRATA.map((s) => <td key={s.key} style={tdNum}>{fmtRate(dens.vitakka?.per_Mc?.[s.key])}</td>)}
+                      <td style={tdNum}>{fmtRate(dens.vitakka?.early_comm_ratio)}</td>
+                    </tr>
+                    {VK_APPARATUS.map((t) => {
+                      const d = dens[t.key] || {};
+                      return (
+                        <tr key={t.key} style={tr}>
+                          <td style={tdLeftSm}><em>{t.pali}</em> <span style={casGloss}>{t.gloss}</span></td>
+                          {VK_STRATA.map((s) => <td key={s.key} style={tdNum}>{fmtRate(d.per_Mc?.[s.key])}</td>)}
+                          <td style={tdNum}>{fmtRate(d.early_comm_ratio)}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                The pattern is uniform. Access concentration (<em>upacāra</em>) is near nothing in the early
+                canon and dense in the sub-commentary; absorption (<em>appanā</em>) is near nothing early and
+                dense in the commentary; the <em>vitakka</em> re-gloss (<em>abhiniropana</em>) is almost
+                entirely commentarial. <em>vitakka</em> itself, by contrast, is solidly canonical (the baseline
+                row), denser still in the Abhidhamma only because the Abhidhamma is an enumerative matrix that
+                lists it mechanically. That last point marks the limit of the measure: it locates the apparatus
+                vocabulary, it does not read the word's sense.
+              </p>
+
+              <h2 style={h2}>The single early anchor</h2>
+              <p>
+                The apparatus has exactly one foothold in the early canon, and it is a definition rather than a
+                practice. In the <em>Mahācattārīsaka</em> (<Cite id={anchor.id}>{anchor.citation}</Cite>), right
+                intention is defined with a string of near-synonyms for directed thought:
+              </p>
+              <p style={evPali}>{anchor.gloss}</p>
+              <p>
+                This single sentence carries both <em>appanā</em> ("appanā byappanā") and <em>abhiniropana</em>{' '}
+                ("cetaso abhiniropanā"). It is the lone early-canonical occurrence of each in the technical
+                sense. After this the gloss is taken up in the Paṭisambhidāmagga and the Niddesa, then the
+                Abhidhamma, then the commentary; the Digital Pāli Dictionary dates the technical sense of the
+                gloss to the Paṭisambhidāmagga. Every early-canonical occurrence of the three apparatus terms
+                was read and coded by three coders blind to the thesis, who agreed completely (Fleiss <em>κ</em>{' '}
+                = {fmtRate(iaa.kappa)}): of {iaa.n_rows} early occurrences, {iaa.technical_count} are the
+                technical sense, both of them this one MN 117 sentence. The other{' '}
+                {(iaa.n_rows || 0) - (iaa.technical_count || 0)} are the everyday senses, almost all of them
+                the Vinaya's spatial <em>upacāra</em> ("crossing the boundary of an unenclosed village") and
+                one <em>appaṇāmento</em>, "not dismissing", which only looks like <em>appanā</em>.
+              </p>
+              <button style={evToggle} onClick={() => setOpenAudit((o) => !o)} aria-expanded={openAudit}>
+                {openAudit ? '▾ hide' : '▸ show'} the {audit.filter((e) => ['upacara', 'appana', 'abhiniropana'].includes(e.term)).length} early-canonical apparatus hits (blind-coded)
+              </button>
+              {openAudit && (
+                <div style={tableWrap}>
+                  <table style={table}>
+                    <thead>
+                      <tr><th style={thLeft}>Passage</th><th style={thLeft}>Term</th><th style={thLeft}>Blind sense</th></tr>
+                    </thead>
+                    <tbody>
+                      {audit.filter((e) => ['upacara', 'appana', 'abhiniropana'].includes(e.term)).map((e, i) => (
+                        <tr key={i} style={tr}>
+                          <td style={tdLeftSm}><Cite id={e.id}>{e.citation}</Cite></td>
+                          <td style={tdLeftSm}><em>{e.term}</em></td>
+                          <td style={tdLeftSm}>{e.blind_sense === 'technical'
+                            ? <span style={{ color: 'var(--bc-accent)', fontWeight: 600 }}>technical</span>
+                            : <span style={tinyNote}>non-technical</span>}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              <h2 style={h2}>The phenomenon is canonical; the label is late</h2>
+              <p>
+                A term being late does not mean the experience it names is late. The phenomenon the
+                access-concentration scheme organises, a mind cleared of the hindrances and made pliant and ready,
+                is named and described in the early canon, though without the graded-scale framework. Before the
+                Buddha teaches the gradual talk to a receptive listener,
+                the texts say his mind has become <em>kallacitta</em>, <em>muducitta</em>, <em>vinīvaraṇacitta</em>:
+                ready, malleable, free of the hindrances (<Cite id="an8.12">AN 8.12</Cite>,{' '}
+                <Cite id="an8.21">AN 8.21</Cite>). These phenomenon words run denser in the canon than in the
+                commentary, the reverse of the apparatus terms:
+              </p>
+              <div style={tableWrap}>
+                <table style={table}>
+                  <thead>
+                    <tr>
+                      <th style={thLeft}>Term</th>
+                      <th style={thNum}>Early canon /Mc</th>
+                      <th style={thNum}>Commentary /Mc</th>
+                      <th style={thNum}>early : comm</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {VK_PHENOM.map((t) => {
+                      const d = phen[t.key] || {};
+                      return (
+                        <tr key={t.key} style={tr}>
+                          <td style={tdLeftSm}><em>{t.pali}</em> <span style={casGloss}>{t.gloss}</span></td>
+                          <td style={tdNum}>{fmtRate(d.per_Mc?.['1early'])}</td>
+                          <td style={tdNum}>{fmtRate(d.comm_per_Mc)}</td>
+                          <td style={tdNum}>{fmtRate(d.early_comm_ratio)}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                The hindrance-free mind (<em>vinīvaraṇa</em>) and the ready mind (<em>kallacitta</em>) are about
+                twice as dense in the canon. The one phenomenon word that runs the other way is the generic pair
+                <em> mudu</em> / <em>kammañña</em>, "malleable, workable", which the commentary uses freely across
+                many contexts and which names no specific pre-absorption state; it is recorded here, not leaned
+                on. So the honest reading is the narrow one: the early canon has the settled, pliant mind without
+                the graded labels, and the commentary supplied the labels and the scale.
+              </p>
+
+              <h2 style={h2}>What this settles, and what it does not</h2>
+              <p>
+                This is a study of where the apparatus vocabulary lives, and it settles that: access concentration,
+                absorption, and the <em>abhiniropana</em> re-gloss of <em>vitakka</em> are post-Nikāya, with a
+                single early definitional anchor in MN 117, while the pliant pre-absorption mind they organise is
+                early-canonical. It does not settle what <em>vitakka</em> means inside the jhāna formula. Whether
+                the <em>vitakka</em> of the first jhāna is ordinary discursive thinking or already a narrowed
+                "application of mind" is a live scholarly dispute, and a per-character term count cannot decide it:
+                the sense of a word in a passage is not visible to a frequency. Two limits reinforce this. The
+                Abhidhamma's high <em>vitakka</em> density is a feature of its list-making genre, not evidence of
+                meaning. And the search matches surface strings, not stems, so every count is a measured floor, a
+                term phrased another way would be missed. What the measure shows is provenance, and on provenance
+                the result is clear and one-directional.
+              </p>
+
+              <h2 style={h2}>The pre-registered predictions</h2>
+              <p style={tableCaption}>
+                The five predictions frozen before the sense-audited enumeration, scored verbatim. Each apparatus
+                leg carried a pre-committed disconfirming count; none fired.
+              </p>
+              <div style={{ margin: '6px 0 10px' }}>
+                {(data.predictions || []).map((p) => (
+                  <div key={p.id} style={{ marginBottom: 10, lineHeight: 1.6 }}>
+                    <span style={{ fontWeight: 600 }}>{p.id}.</span>{' '}
+                    <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.06em', color: p.result === 'PASS' ? 'var(--bc-accent)' : 'var(--bc-loss-text)', border: `1px solid ${p.result === 'PASS' ? 'rgba(var(--bc-accent-rgb), 0.4)' : 'rgba(var(--bc-loss-text-rgb), 0.5)'}`, borderRadius: 3, padding: '0 6px', marginRight: 6 }}>{p.result}</span>
+                    {p.claim}
+                    <div style={{ ...tinyNote, marginTop: 2 }}>{p.detail}</div>
+                  </div>
+                ))}
+              </div>
+
+              <p style={footNote}>
+                Apparatus-provenance study, version {m.version}, snapshot {m.corpus_snapshot}. Sense-audit by
+                blind k={iaa.raters} coders (Fleiss κ = {fmtRate(iaa.kappa)}). The disclosed seed is the
+                deep-research report on jhāna and vitakka. Every corpus citation resolves to a passage in the
+                reader.
               </p>
             </div>
           </>

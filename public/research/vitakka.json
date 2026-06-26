@@ -1,0 +1,827 @@
+{
+ "meta": {
+  "title": "The Apparatus of Absorption",
+  "subtitle": "A per-stratum, per-character study of the jhāna meditation-manual vocabulary: access concentration, absorption, and the re-gloss of vitakka are commentarial, while the pliant mind they organise is canonical.",
+  "generated": "2026-06-25",
+  "corpus_snapshot": "194710 passages",
+  "version": "1.0",
+  "version_note": "v1.0 (2026-06-25): first build. Apparatus-PROVENANCE study (by chronological stratum, not work_role; per-character deduped, SKILL rule 8). Scope limit (DR-1 e): settles where the apparatus VOCABULARY lives, NOT what vitakka MEANS inside the suttas. Tightened patterns + blind k=3 sense-audit (Fleiss κ=1.0) on the early-canonical hits.",
+  "prereg": "research/vitakka/RESEARCH-DESIGN.md (frozen before the sense-audited enumeration)",
+  "enumeration": "research/vitakka/_enumerate.py (committed query->result)",
+  "iaa_artifact": "research/vitakka/_iaa_sense.json (blind k=3 early-hit sense codings)",
+  "note": "A PROVENANCE study of the apparatus VOCABULARY, not a study of vitakka’s meaning. Density settles where the technical terms live; it cannot adjudicate the discursive-vs-non-discursive debate over vitakka in the jhāna formula (genre confound: the Abhidhamma is an enumerative matrix, so vitakka-as-factor is mechanically dense there; FTS does not stem Pāli, so counts are measured floors).",
+  "char_mass_Mc": {
+   "1early": 13.0957,
+   "2late": 3.8519,
+   "3abh": 7.5768,
+   "4para": 1.2128,
+   "5comm": 30.6912,
+   "6tika": 28.3577,
+   "7other": 9.8805
+  }
+ },
+ "verdict": {
+  "hypothesis": "H1",
+  "reading": "H1 holds. The jhāna meditation-manual apparatus is a post-Nikāya construction. The access-concentration label upacāra-samādhi is absent from the early canon in the meditative sense: all 14 early-canonical upacāra rows carry the Vinaya \"vicinity / precinct / boundary\" sense (or \"attendant\"), and blind coders (κ=1.0) found 0 in the access-concentration sense; per character the term runs about 23 times denser in the commentary. Absorption (appanā) and the technical re-gloss of vitakka as abhiniropana (\"the placing of the mind on its object\") have a single early-canonical anchor between them, the Mahācattārīsaka (MN 117) definition string \"takko vitakko saṅkappo appanā byappanā cetaso abhiniropanā\"; the term abhiniropana then appears in the Paṭisambhidāmagga, the Abhidhamma, and saturates the commentary, where the DPD also dates its technical sense. The underlying state the apparatus organises is, by contrast, canonical: the hindrance-free, pliant, ready mind named in the early canon as vinīvaraṇacitta and kallacitta runs about twice as dense in the canon as in the commentary. So the commentary did not invent the experience of a settled pre-absorption mind; it built a graded technical scheme and a re-glossed vitakka on top of canonical material that named neither. This settles the provenance of the apparatus vocabulary, not the meaning of vitakka inside the suttas."
+ },
+ "predictions": [
+  {
+   "id": "P1",
+   "claim": "After sense-audit, early-canonical upacāra in the access-concentration sense is 0 (the early hits are the Vinaya vicinity/boundary sense).",
+   "result": "PASS",
+   "detail": "14 early-canonical upacāra rows; blind k=3 coders (κ=1.0) coded 0 as access-concentration. Disconfirming threshold: >=1."
+  },
+  {
+   "id": "P2",
+   "claim": "Early-canonical appanā in the absorption/gloss sense is <= 2.",
+   "result": "PASS",
+   "detail": "Tightened pattern gives 2 early appanā rows; blind coders found 1 technical (MN 117 gloss); the other is appaṇāmento (\"not dismissing\"). Disconfirming threshold: >=3 beyond MN 117."
+  },
+  {
+   "id": "P3",
+   "claim": "Early-canonical abhiniropana (the vitakka re-gloss) occurs exactly once, the MN 117 definition string.",
+   "result": "PASS",
+   "detail": "1 early-canonical abhiniropana row (MN 117), blind-coded technical; then established in the Paṭisambhidāmagga + Abhidhamma. Disconfirming threshold: >=2 distinct early suttas."
+  },
+  {
+   "id": "P4",
+   "claim": "The non-technical vocabulary for the hindrance-free pliant mind (vinīvaraṇa, kallacitta) is canon-denser than the commentary per character.",
+   "result": "PASS",
+   "detail": "vinīvaraṇa early:comm = 2.141, kallacitta = 1.911 (both >1, canon-denser). mudu-kammañña = 0.384 (generic term, commentary-denser; reported, not load-bearing)."
+  },
+  {
+   "id": "P5",
+   "claim": "Each apparatus term runs several times denser per character in the commentary than in the early canon.",
+   "result": "PASS",
+   "detail": "early:comm ratios per character: upacara 0.043, appana 0.01, abhiniropana 0.052, parikamma 0.157, khanika 0.032 (all <0.5; commentary 6-100x denser)."
+  }
+ ],
+ "iaa": {
+  "kappa": 1,
+  "raters": 3,
+  "n_rows": 17,
+  "scope": "Fleiss κ on the 17 early-canonical apparatus hits (upacāra / appanā / abhiniropana), k=3 blind coders, binary technical-meditation vs non-technical sense; coders saw the snippet and a sense codebook, blind to the thesis.",
+  "technical_count": 2,
+  "technical_rows": [
+   {
+    "i": 14,
+    "citation": "MN 117",
+    "term": "appana"
+   },
+   {
+    "i": 16,
+    "citation": "MN 117",
+    "term": "abhiniropana"
+   }
+  ],
+  "method": "Three independent coders classified each early-canonical apparatus hit as technical-meditation or non-technical from the row’s own snippet, blind to the thesis. Agreement was perfect (κ=1.0): 15 of 17 non-technical, 2 technical (both the MN 117 gloss string)."
+ },
+ "density": {
+  "vitakka": {
+   "counts": {
+    "1early": 285,
+    "2late": 43,
+    "3abh": 332,
+    "4para": 34,
+    "5comm": 1367,
+    "6tika": 1079,
+    "7other": 107
+   },
+   "per_Mc": {
+    "1early": 21.76,
+    "2late": 11.16,
+    "3abh": 43.82,
+    "4para": 28.03,
+    "5comm": 44.54,
+    "6tika": 38.05,
+    "7other": 10.83
+   },
+   "comm_per_Mc": 41.42,
+   "early_comm_ratio": 0.525
+  },
+  "upacara": {
+   "counts": {
+    "1early": 14,
+    "2late": 3,
+    "3abh": 0,
+    "4para": 2,
+    "5comm": 442,
+    "6tika": 1020,
+    "7other": 63
+   },
+   "per_Mc": {
+    "1early": 1.07,
+    "2late": 0.78,
+    "3abh": 0.0,
+    "4para": 1.65,
+    "5comm": 14.4,
+    "6tika": 35.97,
+    "7other": 6.38
+   },
+   "comm_per_Mc": 24.76,
+   "early_comm_ratio": 0.043
+  },
+  "appana": {
+   "counts": {
+    "1early": 2,
+    "2late": 13,
+    "3abh": 20,
+    "4para": 4,
+    "5comm": 406,
+    "6tika": 511,
+    "7other": 33
+   },
+   "per_Mc": {
+    "1early": 0.15,
+    "2late": 3.37,
+    "3abh": 2.64,
+    "4para": 3.3,
+    "5comm": 13.23,
+    "6tika": 18.02,
+    "7other": 3.34
+   },
+   "comm_per_Mc": 15.53,
+   "early_comm_ratio": 0.01
+  },
+  "abhiniropana": {
+   "counts": {
+    "1early": 1,
+    "2late": 11,
+    "3abh": 10,
+    "4para": 0,
+    "5comm": 52,
+    "6tika": 39,
+    "7other": 1
+   },
+   "per_Mc": {
+    "1early": 0.08,
+    "2late": 2.86,
+    "3abh": 1.32,
+    "4para": 0.0,
+    "5comm": 1.69,
+    "6tika": 1.38,
+    "7other": 0.1
+   },
+   "comm_per_Mc": 1.54,
+   "early_comm_ratio": 0.052
+  },
+  "parikamma": {
+   "counts": {
+    "1early": 35,
+    "2late": 3,
+    "3abh": 24,
+    "4para": 5,
+    "5comm": 467,
+    "6tika": 539,
+    "7other": 32
+   },
+   "per_Mc": {
+    "1early": 2.67,
+    "2late": 0.78,
+    "3abh": 3.17,
+    "4para": 4.12,
+    "5comm": 15.22,
+    "6tika": 19.01,
+    "7other": 3.24
+   },
+   "comm_per_Mc": 17.04,
+   "early_comm_ratio": 0.157
+  },
+  "khanika": {
+   "counts": {
+    "1early": 3,
+    "2late": 3,
+    "3abh": 68,
+    "4para": 0,
+    "5comm": 145,
+    "6tika": 283,
+    "7other": 46
+   },
+   "per_Mc": {
+    "1early": 0.23,
+    "2late": 0.78,
+    "3abh": 8.97,
+    "4para": 0.0,
+    "5comm": 4.72,
+    "6tika": 9.98,
+    "7other": 4.66
+   },
+   "comm_per_Mc": 7.25,
+   "early_comm_ratio": 0.032
+  }
+ },
+ "phenomenon": {
+  "vinivarana": {
+   "counts": {
+    "1early": 18,
+    "2late": 1,
+    "3abh": 0,
+    "4para": 2,
+    "5comm": 15,
+    "6tika": 23,
+    "7other": 2
+   },
+   "per_Mc": {
+    "1early": 1.37,
+    "2late": 0.26,
+    "3abh": 0.0,
+    "4para": 1.65,
+    "5comm": 0.49,
+    "6tika": 0.81,
+    "7other": 0.2
+   },
+   "comm_per_Mc": 0.64,
+   "early_comm_ratio": 2.141
+  },
+  "kallacitta": {
+   "counts": {
+    "1early": 14,
+    "2late": 1,
+    "3abh": 0,
+    "4para": 0,
+    "5comm": 21,
+    "6tika": 12,
+    "7other": 0
+   },
+   "per_Mc": {
+    "1early": 1.07,
+    "2late": 0.26,
+    "3abh": 0.0,
+    "4para": 0.0,
+    "5comm": 0.68,
+    "6tika": 0.42,
+    "7other": 0.0
+   },
+   "comm_per_Mc": 0.56,
+   "early_comm_ratio": 1.911
+  },
+  "mudu_kammanna": {
+   "counts": {
+    "1early": 20,
+    "2late": 5,
+    "3abh": 16,
+    "4para": 7,
+    "5comm": 92,
+    "6tika": 143,
+    "7other": 19
+   },
+   "per_Mc": {
+    "1early": 1.53,
+    "2late": 1.3,
+    "3abh": 2.11,
+    "4para": 5.77,
+    "5comm": 3.0,
+    "6tika": 5.04,
+    "7other": 1.92
+   },
+   "comm_per_Mc": 3.98,
+   "early_comm_ratio": 0.384
+  }
+ },
+ "early_audit": [
+  {
+   "term": "upacara",
+   "id": "pli-tv-bi-vb-pc15",
+   "citation": "Bhi. Pc. 15",
+   "work_slug": "pli-vinaya",
+   "snippet": "ovassakaṁ atikkāmentiyā āpatti pācittiyassa. Ajjhokāse upacāraṁ atikkāmentiyā āpatti pācittiyassa. Anāpucchite anāpucchitasaññā pakkamati, āpatti pāci",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bi-vb-pc48",
+   "citation": "Bhi. Pc. 48",
+   "work_slug": "pli-vinaya",
+   "snippet": "ntiyā āpatti pācittiyassa. Aparikkhittassa āvasathassa upacāraṁ atikkāmentiyā āpatti pācittiyassa. Anissajjite anissajjitasaññā pakkamati, āpatti pāci",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bi-vb-pc51",
+   "citation": "Bhi. Pc. 51",
+   "work_slug": "pli-vinaya",
+   "snippet": "āmentiyā āpatti pācittiyassa. Aparikkhittassa ārāmassa upacāraṁ okkamantiyā āpatti pācittiyassa. Sabhikkhuke sabhikkhukasaññā santaṁ bhikkhuṁ anāpucch",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bi-vb-pc96",
+   "citation": "Bhi. Pc. 96",
+   "work_slug": "pli-vinaya",
+   "snippet": "kāmentiyā āpatti pācittiyassa. Aparikkhittassa gāmassa upacāraṁ okkamantiyā āpatti pācittiyassa. Anāpatti— acchinnacīvarikāya, naṭṭhacīvarikāya, gilān",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bi-vb-ss3",
+   "citation": "Bhi. Ss. 3",
+   "work_slug": "pli-vinaya",
+   "snippet": "entiyā āpatti saṅghādisesassa. Aparikkhittassa gāmassa upacāraṁ paṭhamaṁ pādaṁ atikkāmentiyā āpatti thullaccayassa. Dutiyaṁ pādaṁ atikkāmentiyā āpatti",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bu-vb-pc15",
+   "citation": "Bhu. Pc. 15",
+   "work_slug": "pli-vinaya",
+   "snippet": "mantassa āpatti pācittiyassa. Aparikkhittassa ārāmassa upacāraṁ atikkamantassa āpatti pācittiyassa. Saṅghike saṅghikasaññī seyyaṁ santharitvā vā santh",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bu-vb-pc16",
+   "citation": "Bhu. Pc. 16",
+   "work_slug": "pli-vinaya",
+   "snippet": "cassa vā pīṭhassa vā pavisantassa vā nikkhamantassa vā upacāre seyyaṁ santharati vā santharāpeti vā, āpatti dukkaṭassa. Abhinisīdati vā abhinipajjati",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bu-vb-pc17",
+   "citation": "Bhu. Pc. 17",
+   "work_slug": "pli-vinaya",
+   "snippet": "hati vā nikkaḍḍhāpeti vā, āpatti dukkaṭassa. Vihārassa upacārā vā upaṭṭhānasālāya vā maṇḍapā vā rukkhamūlā vā ajjhokāsā vā nikkaḍḍhati vā nikkaḍḍhāpet",
+   "heuristic_sense": "other",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bu-vb-pc84",
+   "citation": "Bhu. Pc. 84",
+   "work_slug": "pli-vinaya",
+   "snippet": "ma parikkhittassa ārāmassa anto ārāmo, aparikkhittassa upacāro. Ajjhāvasatho nāma parikkhittassa āvasathassa anto āvasatho, aparikkhittassa upacāro. U",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bu-vb-pc85",
+   "citation": "Bhu. Pc. 85",
+   "work_slug": "pli-vinaya",
+   "snippet": "amantassa āpatti pācittiyassa. Aparikkhittassa gāmassa upacāraṁ okkamantassa āpatti pācittiyassa. Aññatra tathārūpā accāyikā karaṇīyāti ṭhapetvā tathā",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-bu-vb-pd4",
+   "citation": "Bhu. Pd. 4",
+   "work_slug": "pli-vinaya",
+   "snippet": "āma parikkhittassa ārāmassa antoārāmo. Aparikkhittassa upacāro. Agilāno nāma sakkoti piṇḍāya carituṁ. Gilāno nāma na sakkoti piṇḍāya carituṁ. Appaṭisa",
+   "heuristic_sense": "vicinity-boundary",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-kd15",
+   "citation": "Vin. Kd. 15",
+   "work_slug": "pli-vinaya",
+   "snippet": "hikkhū khuddake jantāghare majjhe aggiṭṭhānaṁ karonti. Upacāro na hoti. Bhagavato etamatthaṁ ārocesuṁ. “Anujānāmi, bhikkhave, khuddake jantāghare ekam",
+   "heuristic_sense": "other",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-kd16",
+   "citation": "Vin. Kd. 16",
+   "work_slug": "pli-vinaya",
+   "snippet": "mayena bhikkhū khuddake vihāre majjhe gabbhaṁ karonti. Upacāro na hoti. Bhagavato etamatthaṁ ārocesuṁ. “Anujānāmi, bhikkhave, khuddake vihāre ekamanta",
+   "heuristic_sense": "other",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "upacara",
+   "id": "pli-tv-kd17",
+   "citation": "Vin. Kd. 17",
+   "work_slug": "pli-vinaya",
+   "snippet": "trasto sahasā antepuraṁ pāvisi. Addasāsuṁ kho antepure upacārakā mahāmattā ajātasattuṁ kumāraṁ divā divassa bhītaṁ ubbiggaṁ ussaṅkiṁ utrastaṁ sahasā a",
+   "heuristic_sense": "other",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "appana",
+   "id": "mn117",
+   "citation": "MN 117",
+   "work_slug": "pli-mn",
+   "snippet": "samaṅgino ariyamaggaṁ bhāvayato takko vitakko saṅkappo appanā byappanā cetaso abhiniropanā vacīsaṅkhāro— ayaṁ, bhikkhave, sammāsaṅkappo ariyo anāsavo",
+   "heuristic_sense": "gloss-string",
+   "blind_sense": "technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "appana",
+   "id": "pli-tv-kd1",
+   "citation": "Vin. Kd. 1",
+   "work_slug": "pli-vinaya",
+   "snippet": "añcahi, bhikkhave, aṅgehi samannāgataṁ saddhivihārikaṁ appaṇāmento upajjhāyo sātisāro hoti, paṇāmento anatisāro hoti. Upajjhāyamhi nādhimattaṁ pemaṁ h",
+   "heuristic_sense": "other",
+   "blind_sense": "non-technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "abhiniropana",
+   "id": "mn117",
+   "citation": "MN 117",
+   "work_slug": "pli-mn",
+   "snippet": "hāvayato takko vitakko saṅkappo appanā byappanā cetaso abhiniropanā vacīsaṅkhāro— ayaṁ, bhikkhave, sammāsaṅkappo ariyo anāsavo lokuttaro maggaṅgo. So",
+   "heuristic_sense": "vitakka-gloss",
+   "blind_sense": "technical",
+   "blind_agreement": 3
+  },
+  {
+   "term": "parikamma",
+   "id": "an3.34",
+   "citation": "AN 3.34",
+   "work_slug": "pli-an",
+   "snippet": "tīni avātātapahatāni sārādāni sukhasayitāni sukhette suparikammakatāya bhūmiyā nikkhittāni. Devo ca sammādhāraṁ anuppaveccheyya. Evassu tāni, bhikkhav",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "an3.63",
+   "citation": "AN 3.63",
+   "work_slug": "pli-an",
+   "snippet": "pi, bho gotama, nekkhaṁ jambonadaṁ dakkhakammāraputtasuparikammakataṁ ukkāmukhe sukusalasampahaṭṭhaṁ paṇḍukambale nikkhittaṁ bhāsate ca tapate ca viro",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "an4.196",
+   "citation": "AN 4.196",
+   "work_slug": "pli-an",
+   "snippet": "aṁ kissa hetu”? “Asu hi, bhante, sālalaṭṭhi bahiddhā suparikammakatā anto avisuddhā. Tassetaṁ pāṭikaṅkhaṁ—sālalaṭṭhi saṁsīdissati, puriso anayabyasana",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "an4.198",
+   "citation": "AN 4.198",
+   "work_slug": "pli-an",
+   "snippet": "i vā tepi daṇḍatajjitā bhayatajjitā assumukhā rudamānā parikammāni karonti. Evaṁ kho, bhikkhave, puggalo attantapo ca hoti attaparitāpanānuyogamanuyut",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "an6.62",
+   "citation": "AN 6.62",
+   "work_slug": "pli-an",
+   "snippet": "tīni avātātapahatāni sāradāni sukhasayitāni sukhette suparikammakatāya bhūmiyā nikkhittāni. Jāneyyāsi tvaṁ, ānanda, imāni bījāni vuddhiṁ virūḷhiṁ vepu",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "dn1",
+   "citation": "DN 1",
+   "work_slug": "pli-dn",
+   "snippet": "bhūrikammaṁ vassakammaṁ vossakammaṁ vatthukammaṁ vatthuparikammaṁ ācamanaṁ nhāpanaṁ juhanaṁ vamanaṁ virecanaṁ uddhaṁvirecanaṁ adhovirecanaṁ sīsavireca",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "dn10",
+   "citation": "DN 10",
+   "work_slug": "pli-dn",
+   "snippet": "bhūrikammaṁ vassakammaṁ vossakammaṁ vatthukammaṁ vatthuparikammaṁ ācamanaṁ nhāpanaṁ juhanaṁ vamanaṁ virecanaṁ uddhaṁvirecanaṁ adhovirecanaṁ sīsavireca",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "dn14",
+   "citation": "DN 14",
+   "work_slug": "pli-dn",
+   "snippet": "hāpi, bhikkhave, maṇi veḷuriyo subho jātimā aṭṭhaṁso suparikammakato accho vippasanno anāvilo sabbākārasampanno. Tatrāssa suttaṁ āvutaṁ nīlaṁ vā pītaṁ",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "dn17",
+   "citation": "DN 17",
+   "work_slug": "pli-dn",
+   "snippet": "rahosi. So ahosi maṇi veḷuriyo subho jātimā aṭṭhaṁso suparikammakato accho vippasanno anāvilo sabbākārasampanno. Tassa kho panānanda, maṇiratanassa āb",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "dn2",
+   "citation": "DN 2",
+   "work_slug": "pli-dn",
+   "snippet": "bhūrikammaṁ vassakammaṁ vossakammaṁ vatthukammaṁ vatthuparikammaṁ ācamanaṁ nhāpanaṁ juhanaṁ vamanaṁ virecanaṁ uddhaṁvirecanaṁ adhovirecanaṁ sīsavireca",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "dn5",
+   "citation": "DN 5",
+   "work_slug": "pli-dn",
+   "snippet": "na daṇḍatajjitā na bhayatajjitā na assumukhā rudamānā parikammāni akaṁsu. Atha kho ye icchiṁsu, te akaṁsu, ye na icchiṁsu, na te akaṁsu; yaṁ icchiṁsu",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn120",
+   "citation": "MN 120",
+   "work_slug": "pli-mn",
+   "snippet": "hāpi, bhikkhave, maṇi veḷuriyo subho jātimā aṭṭhaṁso suparikammakato paṇḍukambale nikkhitto bhāsate ca tapate ca virocati ca; evameva kho, bhikkhave,",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn123",
+   "citation": "MN 123",
+   "work_slug": "pli-mn",
+   "snippet": "yathāpi, ānanda, maṇi veḷuriyo subho jātimā aṭṭhaṁso suparikammakato. Tatrāssa suttaṁ āvutaṁ nīlaṁ vā pītaṁ vā lohitaṁ vā odātaṁ vā paṇḍusuttaṁ vā. Ta",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn124",
+   "citation": "MN 124",
+   "work_slug": "pli-mn",
+   "snippet": "ijānāmi cuṇṇena nhāyitā … nābhijānāmi sabrahmacārīgattaparikamme vicāritā … nābhijānāmi ābādhaṁ uppannapubbaṁ, antamaso gaddūhanamattampi … nābhijānām",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn129",
+   "citation": "MN 129",
+   "work_slug": "pli-mn",
+   "snippet": "bhavati. So hoti maṇi veḷuriyo subho jātimā aṭṭhaṁso suparikammakato. Tassa kho pana, bhikkhave, maṇiratanassa ābhā samantā yojanaṁ phuṭā hoti. Bhūtap",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn51",
+   "citation": "MN 51",
+   "work_slug": "pli-mn",
+   "snippet": "i vā tepi daṇḍatajjitā bhayatajjitā assumukhā rudamānā parikammāni karonti. Ayaṁ vuccati, bhikkhave, puggalo attantapo ca attaparitāpanānuyogamanuyutt",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn60",
+   "citation": "MN 60",
+   "work_slug": "pli-mn",
+   "snippet": "…pe… tepi daṇḍatajjitā bhayatajjitā assumukhā rudamānā parikammāni karonti. Ayaṁ vuccati, gahapatayo, puggalo attantapo ca attaparitāpanānuyogamanuyut",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn77",
+   "citation": "MN 77",
+   "work_slug": "pli-mn",
+   "snippet": "yyathāpi, udāyi, maṇi veḷuriyo subho jātimā aṭṭhaṁso suparikammakato accho vippasanno sabbākārasampanno; tatridaṁ suttaṁ āvutaṁ nīlaṁ vā pītaṁ vā lohi",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn79",
+   "citation": "MN 79",
+   "work_slug": "pli-mn",
+   "snippet": "yathāpi, bhante, maṇi veḷuriyo subho jātimā aṭṭhaṁso suparikammakato paṇḍukambale nikkhitto bhāsate ca tapate ca virocati ca, evaṁ vaṇṇo attā hoti aro",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn80",
+   "citation": "MN 80",
+   "work_slug": "pli-mn",
+   "snippet": "āpi, bho gotama, maṇi veḷuriyo subho jātimā aṭṭhaṁso suparikammakato paṇḍukambale nikkhitto bhāsate ca tapate ca virocati ca, evaṁ vaṇṇo attā hoti aro",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "mn94",
+   "citation": "MN 94",
+   "work_slug": "pli-mn",
+   "snippet": "i vā tepi daṇḍatajjitā bhayatajjitā assumukhā rudamānā parikammāni karonti. Ayaṁ vuccati, brāhmaṇa, puggalo attantapo ca attaparitāpanānuyogamanuyutto",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "sn2.29",
+   "citation": "SN 2.29",
+   "work_slug": "pli-sn",
+   "snippet": "Seyyathāpi nāma maṇi veḷuriyo subho jātimā aṭṭhaṁso suparikammakato paṇḍukambale nikkhitto bhāsate ca tapate ca virocati ca; evamevaṁ susimassa devap",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "sn3.9",
+   "citation": "SN 3.9",
+   "work_slug": "pli-sn",
+   "snippet": "vā, tepi daṇḍatajjitā bhayatajjitā assumukhā rudamānā parikammāni karonti. Atha kho sambahulā bhikkhū pubbaṇhasamayaṁ nivāsetvā pattacīvaramādāya sāv",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "thig14.1",
+   "citation": "THIG 14.1",
+   "work_slug": "pli-thig",
+   "snippet": "arissasi, Sukhitā ehi agāramāvasa; Pāsādanivātavāsinī, Parikammaṁ te karontu nāriyo. Kāsikasukhumāni dhāraya, Abhiropehi ca mālavaṇṇakaṁ; Kañcanamaṇim",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "thig15.1",
+   "citation": "THIG 15.1",
+   "work_slug": "pli-thig",
+   "snippet": "upemi. Kocchaṁ pasādaṁ añjaniñca, Ādāsakañca gaṇhitvā; Parikammakārikā viya, Sayameva patiṁ vibhūsemi. Sayameva odanaṁ sādhayāmi, Sayameva bhājanaṁ dh",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-bu-vb-np20",
+   "citation": "Bhu. Np. 20",
+   "work_slug": "pli-vinaya",
+   "snippet": "kātuṁ. So paṭapilotikānaṁ saṅghāṭiṁ karitvā surattaṁ suparikammakataṁ katvā pārupi. Atha kho aññataro paribbājako mahagghaṁ paṭaṁ pārupitvā yenāyasmā",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-bu-vb-pc19",
+   "citation": "Bhu. Pc. 19",
+   "work_slug": "pli-vinaya",
+   "snippet": "ārayamānena yāva dvārakosā aggaḷaṭṭhapanāya ālokasandhiparikammāya dvatticchadanassa pariyāyaṁ appaharite ṭhitena adhiṭṭhātabbaṁ. Tato ce uttari appah",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-bu-vb-pc26",
+   "citation": "Bhu. Pc. 26",
+   "work_slug": "pli-vinaya",
+   "snippet": "mā udāyī tassā bhikkhuniyā cīvaraṁ sibbitvā surattaṁ suparikammakataṁ katvā majjhe paṭibhānacittaṁ vuṭṭhāpetvā saṁharitvā nikkhipi. Atha kho sā bhikkh",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-bu-vb-ss1",
+   "citation": "Bhu. Ss. 1",
+   "work_slug": "pli-vinaya",
+   "snippet": "na aññatarassa bhikkhuno jantāghare upajjhāyassa piṭṭhiparikammaṁ karontassa asuci mucci. Tassa kukkuccaṁ ahosi …pe… “anāpatti, bhikkhu, namocanādhipp",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-kd1",
+   "citation": "Vin. Kd. 1",
+   "work_slug": "pli-vinaya",
+   "snippet": "bhikkhū āsanena paṭibāhitabbā. Jantāghare upajjhāyassa parikammaṁ kātabbaṁ. Jantāgharā nikkhamantena jantāgharapīṭhaṁ ādāya purato ca pacchato ca paṭi",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-kd11",
+   "citation": "Vin. Kd. 11",
+   "work_slug": "pli-vinaya",
+   "snippet": "pādakathalikaṁ, pattacīvarappaṭiggahaṇaṁ, nahāne piṭṭhiparikammaṁ sāditabbaṁ. Na pakatatto bhikkhu sīlavipattiyā anuddhaṁsetabbo, na ācāravipattiyā an",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-kd12",
+   "citation": "Vin. Kd. 12",
+   "work_slug": "pli-vinaya",
+   "snippet": "pādakathalikaṁ, pattacīvarappaṭiggahaṇaṁ, nahāne piṭṭhiparikammaṁ. Ye te bhikkhū appicchā …pe… te ujjhāyanti khiyyanti vipācenti— “kathañhi nāma pāriv",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-kd15",
+   "citation": "Vin. Kd. 15",
+   "work_slug": "pli-vinaya",
+   "snippet": "i. Tena kho pana samayena chabbaggiyā bhikkhū viggayha parikammaṁ kārāpenti. Manussā ujjhāyanti khiyyanti vipācenti …pe… seyyathāpi gihī kāmabhogino”t",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-kd16",
+   "citation": "Vin. Kd. 16",
+   "work_slug": "pli-vinaya",
+   "snippet": "aṁ seyyāyo setavaṇṇā honti, kāḷavaṇṇakatā bhūmi, gerukaparikammakatā bhitti. Bahū manussā seyyāpekkhakā gacchanti. Bhagavato etamatthaṁ ārocesuṁ. “Anu",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "parikamma",
+   "id": "pli-tv-kd18",
+   "citation": "Vin. Kd. 18",
+   "work_slug": "pli-vinaya",
+   "snippet": "tabbaṁ, ālokasandhikaṇṇabhāgā pamajjitabbā. Sace gerukaparikammakatā bhitti kaṇṇakitā hoti, coḷakaṁ temetvā pīḷetvā pamajjitabbā. Sace kāḷavaṇṇakatā b",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "khanika",
+   "id": "sn19.14",
+   "citation": "SN 19.14",
+   "work_slug": "pli-sn",
+   "snippet": "roti …pe… esā, bhikkhave, itthī imasmiṁyeva rājagahe ikkhaṇikā ahosi …pe…. Catutthaṁ.",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "khanika",
+   "id": "pli-tv-bu-vb-pj4",
+   "citation": "Bhu. Pj. 4",
+   "work_slug": "pli-vinaya",
+   "snippet": "roti …pe… esā, bhikkhave, itthī imasmiṁyeva rājagahe ikkhaṇikā ahosi …pe…. “Idhāhaṁ, āvuso, gijjhakūṭā pabbatā orohanto addasaṁ itthiṁ uppakkaṁ okilin",
+   "heuristic_sense": "other"
+  },
+  {
+   "term": "khanika",
+   "id": "pli-tv-bu-vb-ss5",
+   "citation": "Bhu. Ss. 5",
+   "work_slug": "pli-vinaya",
+   "snippet": "hāyati khiyyati vipāceti— “kathañhi nāma ayyo udāyī taṅkhaṇikaṁ sañcarittaṁ samāpajjissatī”ti. Assosuṁ kho bhikkhū tassa upāsakassa ujjhāyantassa khiy",
+   "heuristic_sense": "other"
+  }
+ ],
+ "mn117_anchor": {
+  "id": "mn117",
+  "citation": "MN 117",
+  "gloss": "takko vitakko saṅkappo appanā byappanā cetaso abhiniropanā vacīsaṅkhāro— ayaṁ, bhikkhave, sammāsaṅkappo ariyo anāsavo lokuttaro maggaṅgo. So micchāsaṅ"
+ },
+ "stratum_firsts": {
+  "appana": {
+   "1early": [
+    "MN 117",
+    "Vin. Kd. 1"
+   ],
+   "2late": [
+    "CND 23",
+    "CND 5",
+    "CND 8",
+    "CND 9",
+    "JA 284",
+    "JA 546",
+    "MND 1",
+    "MND 10"
+   ],
+   "3abh": [
+    "Abh §16",
+    "Abh §17",
+    "Abh §42",
+    "Abh §49",
+    "Abh §51",
+    "Abh §52",
+    "Abh §53",
+    "Abh §98"
+   ],
+   "4para": [
+    "MIL 3.3.13",
+    "MIL 6.4.2",
+    "PE 6",
+    "PE 8"
+   ]
+  },
+  "abhiniropana": {
+   "1early": [
+    "MN 117"
+   ],
+   "2late": [
+    "CND 23",
+    "PS 1.1",
+    "PS 1.10",
+    "PS 1.3",
+    "PS 1.4",
+    "PS 1.9",
+    "PS 2.1",
+    "PS 2.3"
+   ],
+   "3abh": [
+    "Abh §16",
+    "Abh §17",
+    "Abh §42",
+    "Abh §49",
+    "Abh §51",
+    "Abh §52",
+    "Abh §53",
+    "Abh §21"
+   ],
+   "4para": []
+  }
+ },
+ "apparatus_early_technical": {
+  "upacara_access": 0,
+  "appana_absorption": 1,
+  "abhiniropana_gloss": 1
+ }
+}
