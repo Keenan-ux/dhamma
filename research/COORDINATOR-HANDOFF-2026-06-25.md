@@ -85,13 +85,18 @@ Items 1-3 DONE (sankhara, vitakka, Ronkin correction). Remaining:
    h1 left intact) + FINDINGS.md. The 6tīkā peak now reads as CONFIRMATION of Ronkin, not a null. Editorial
    gate (de-AI + coherence pass; scope-skeptic must-fixes applied). Full verification archived at
    `research/deep-research/ronkin-sabhava-localization.md`. **Next up: item 4.**
-4. **[CORPUS-DOABLE NOW] ← NEXT.** PED "abhiññā narrowed to the fixed six nine-times-in-ten" per-stratum
-   chaḷabhiññā/abhiññā census; khandha×āyatana×dhātu cross-classification per-stratum census. Both
-   directly testable on dhamma-pg (serial). Could each be a small dhamma-explore or a section.
-   **CORRECTION from item 6 (fold in):** the "correlations not explicit in the Nikāyas, only in the
-   Abhidhamma, which classifies the sense bases under rūpa" claim is **Bhikkhu Bodhi** (commenting on SN 35.1,
-   Connected Discourses), NOT Hamilton. Hamilton's own move is the OPPOSITE (she challenges putting the five
-   sense faculties under rūpakkhandha). Attribute the census to Bodhi; expect no Hamilton superlative.
+4. **[IN PROGRESS.]** Two corpus-doable censuses.
+   - **4a chaḷabhiññā/abhiññā ✅ EMPIRICAL CORE DONE 2026-06-26 (commit `1a53f5e`), write-up pending.**
+     Finding (sense-audited, dataset `research/abhinna-six/`): the fixed-six compound chaḷabhiññā is
+     CANONICAL (densest in the late canon, 2late 27/Mc, but 96/104 are Apadāna-formulaic), NOT a commentarial
+     narrowing (aṭṭha only 7.6/Mc); present from the early canon. PED "narrowed in commentary 9-in-10" NOT
+     supported as a distribution claim; the proportion claim needs a noun-vs-verb sense split (bare stem
+     verb-contaminated) that stays open. NEXT: write up as a public Exploration (format chosen: lighter,
+     fits claim-verification; ungated) or a section. Counts re-derive via `fetch_evidence.py`.
+   - **4b khandha×āyatana×dhātu cross-classification — NOT STARTED.** Per-stratum census of the
+     cross-classification "only in the Abhidhamma." **Attribute to Bhikkhu Bodhi** (commenting on SN 35.1,
+     Connected Discourses), NOT Hamilton (item-6 correction; Hamilton's own move is the OPPOSITE — she
+     challenges putting the five sense faculties under rūpakkhandha). Expect no Hamilton superlative.
 5. ✅ **DONE 2026-06-26 (commit `4271406`, deployed).** Three house caveats recomputed deduped using each
    study's own classified set (the DB confirmed the canon double-counts ~30-38%): heart-base *bhavaṅga* ramp
    canon 0.7→1.24 / aṭṭha 8.0→9.22 / ṭīkā 20.0→20.07 per Mc (Abhidhamma-resident, so genuinely understated,
