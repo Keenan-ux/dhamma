@@ -22,6 +22,8 @@ Highest-value cross-links to the corpus program:
 - **saṅkhāra** is a proven-viable dhamma-research study (Sujato lexicalises the active/passive split,
   Thanissaro collapses it; the chat's corpus probe computed the translator×field matrix that the expansion
   pipeline's one-shot SQL did not — this flips the campaign's "saṅkhāra NOT ESTABLISHED" verdict).
-- **DR-5 vindicates the sabhāva ṭīkā-peak** found by the shipped "Commentarial Register" study, and supplies
-  a Ronkin aṭṭhakathā→ṭīkā correction to fold into the sabhāva prereg before re-citing Ronkin.
+- **DR-5 vindicates the sabhāva ṭīkā-peak** found by the shipped "Commentarial Register" study, and supplied
+  a Ronkin aṭṭhakathā→ṭīkā correction. **RESOLVED 2026-06-25** against Ronkin's primary text (EBM ch. 3
+  p. 118): `ronkin-sabhava-localization.md`. Correction landed (queue item 3, commit 2900899, deployed) in
+  the live study + the sabhāva prereg + FINDINGS.
 - The denominator dedup correction (SKILL rule 8) applies to any density these reports cite.

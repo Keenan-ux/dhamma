@@ -12,7 +12,7 @@ row) + a process-free, de-AI'd, peer-reviewed write-up rendered as an admin-gate
 at **https://dhamma.fly.dev/**. The deliverable is the LIVE page; `FINDINGS*.md` are secondary.
 
 ## 1b. Where things stand (one screen)
-HEAD = `aaaf461` == `origin/master` (run `git log --oneline -12`). Working tree clean EXCEPT `sn2259.json`
+HEAD = `2900899` == `origin/master` (run `git log --oneline -12`). Working tree clean EXCEPT `sn2259.json`
 (another live chat's empty placeholder for DR-3 anattā = SN 22.59; **leave it, do NOT `git clean`** — a
 clean already deleted one chat's probe scripts). **There are NINE Research studies** (awakening,
 individual-guidance, heart-base-and-insight, uttarakuru, naga, come-and-see, the-commentarial-register,
@@ -74,13 +74,18 @@ their final reports into `research/deep-research/` as `sati.md`/`anatta.md` and 
 - Spot-check a new study resolves: `curl -s -o /dev/null -w "%{http_code}" https://dhamma.fly.dev/api/passage/mn117` -> `200`.
 
 ## 5. Open queue (priority order) — from `DEEP-RESEARCH-FOLLOWUPS-2026-06-25.md` §"Open queue"
-Items 1-2 DONE this session (sankhara, vitakka). Remaining:
-3. **[CORRECT] sabhāva / Commentarial-Register Ronkin attribution: aṭṭhakathā -> ṭīkā.** DR-5 + our own
-   ṭīkā-peak data agree Ronkin localises the realist crystallization in the *ṭīkā*, not the *aṭṭhakathā*.
-   Pull Ronkin *Early Buddhist Metaphysics* p.112 (WebFetch) to confirm wording, then fix the Ronkin
-   attribution in the `commentarial-register` study + the sabhāva prereg. A correction to an existing study,
-   not a new build. **Next up.**
-4. **[CORPUS-DOABLE NOW]** PED "abhiññā narrowed to the fixed six nine-times-in-ten" per-stratum
+Items 1-3 DONE (sankhara, vitakka, Ronkin correction). Remaining:
+3. ✅ **DONE 2026-06-25 (commit `2900899`, deployed).** sabhāva / Commentarial-Register Ronkin attribution
+   corrected aṭṭhakathā -> ṭīkā. Verified against Ronkin's PRIMARY text by a 6-agent adversarial pass (EBM
+   ch. 3 **p. 118**, not the p.112 the handoff guessed; thesis sentence p.111). Decisive line: Buddhaghosa's
+   aṭṭhakathā has *sabhāva* as own-nature "which does not necessarily have an ontological significance",
+   while "the Mahāṭīkā invests this equation with ontology" (staged gradient, not a binary; one incipient
+   reading already in a 6th-c. aṭṭhakathā, Mahānāma). Landed in the live `commentarial-register.json` (v1.1,
+   Ronkin paragraph in the sabhāva headline section) + the sabhāva prereg (`correction_2026-06-25`, frozen
+   h1 left intact) + FINDINGS.md. The 6tīkā peak now reads as CONFIRMATION of Ronkin, not a null. Editorial
+   gate (de-AI + coherence pass; scope-skeptic must-fixes applied). Full verification archived at
+   `research/deep-research/ronkin-sabhava-localization.md`. **Next up: item 4.**
+4. **[CORPUS-DOABLE NOW] ← NEXT.** PED "abhiññā narrowed to the fixed six nine-times-in-ten" per-stratum
    chaḷabhiññā/abhiññā census; Hamilton khandha×āyatana×dhātu cross-classification per-stratum census. Both
    directly testable on dhamma-pg (serial). Could each be a small dhamma-explore or a section.
 5. **[FOLLOW-ON]** recompute the five HOUSE studies' per-character magnitudes DEDUPED (SKILL rule 8; the
@@ -131,9 +136,10 @@ second territory, safe to edit in parallel. Parallel deep-research chats share t
 Max safe parallel = number of file-disjoint territories, not number of tasks.
 
 ## 8. Per-pending-item: what to check when it lands
-- **Item 3 (sabhāva/Ronkin):** the `commentarial-register` study's Ronkin sentence now says ṭīkā (not
-  aṭṭhakathā); the sabhāva prereg matches; the change cites Ronkin EBM p.112 verbatim; `<Cite>` count
-  preserved; redeploy + smoke; coherence pass re-run.
+- **Item 3 (sabhāva/Ronkin): ✅ SATISFIED 2026-06-25.** The `commentarial-register` study's Ronkin sentence
+  says ṭīkā (not aṭṭhakathā); the sabhāva prereg `correction_2026-06-25` matches; the change cites Ronkin
+  EBM ch. 3 **p. 118** verbatim (p.112 was a secondary-source error; thesis sentence p.111); corpus `<Cite>`
+  count preserved (MN2, MN102); redeployed + smoked; de-AI + coherence passes re-run.
 - **Item 4 (censuses):** each count is per-stratum, per-character deduped, sense-audited; every cited id
   resolves; consistency gate green.
 - **Item 5 (dedup recompute):** the five house studies' magnitudes use the deduped denominators above;
