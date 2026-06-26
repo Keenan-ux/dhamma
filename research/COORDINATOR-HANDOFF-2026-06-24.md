@@ -1,5 +1,9 @@
 # Coordinator handoff — Dhamma research program (2026-06-24)
 
+> **SUPERSEDED 2026-06-25 by `COORDINATOR-HANDOFF-2026-06-25.md`** — read that for current state and the
+> open queue (items 1-2 shipped: sankhara, vitakka). This doc is retained for its §9 deep-research chat
+> ledger + the two recovery prompts, which the new doc references rather than duplicates.
+
 *Fresh handoff for a successor chat. Read this in full, run §4 verification, then pick up §5. This
 supersedes the campaign-specific docs it points to. Internal doc; em-dashes allowed here, NOT in the
 deliverable prose. Update IN PLACE (snapshot, not append-log).*
