@@ -74,12 +74,18 @@ harms do not obtain IS circular.
   entheogen use is antithetical to *pamāda*. Stoned-ape: scientifically unfounded — cite as the fringe line.
 
 **What is NEXT for the study (the build):**
-- (a) **CORPUS — instrumental-precept analysis (serial DB, not yet run).** Confirm the precept is grounded
-  INSTRUMENTALLY (consequential, protecting the other four) not intrinsically: the *pamāda*->harm chain,
-  whether the canon ever treats drink as impurity vs proximate cause, the "weakening of wisdom" as the
-  operative faculty-claim, and any canonical/commentarial text linking intoxication to breaking the other
-  precepts. This is the textual anchor for the circularity argument. Use `fetch_evidence.py` + the count-lock
-  gate.
+- (a) **CORPUS — instrumental-precept analysis. DONE 2026-06-26 (commit `7b8a6c0`, pushed).** Pre-registered
+  P1-P5 (`research/intoxicants/PREREG-instrumental.md`, frozen+scored), enumeration-design fleet (no DB) +
+  critic, serial count-lock-gated run (`_run_instrumental{,2}.py` -> `_instrumental_evidence.json`; ledger +
+  sense-reads in `INSTRUMENTAL.md`). **All five PASS.** Sharp finding: the canon's OWN taxonomy puts the
+  fifth precept in a different register from the other four — the others are *kammakilesā/dasakammapatha/
+  soceyya* (intrinsic defiled action / the purity scheme), drink is *pamādaṭṭhāna/apāyamukha* (an occasion of
+  heedlessness / a drain on wealth). It is structurally instrumental in the canon itself. The explicit
+  "intoxication therefore breaks the other four -> all akusala" is the COMMENTARY (cst-s0505a.att-31) drawing
+  the architecture out of a canonical verse-seed (*madā hi pāpāni karonti*, snp2.14). P5: 0 canon rows
+  predicate impurity OF the drink; contrast classes present (Āmagandhasutta taint=conduct; soceyya scheme
+  excludes drink; telapāka + *majje* effect-gating). This is the textual anchor for the circularity argument.
+  NEW homograph trap logged (surā->asura mid-word). Diacritic/niggahita conventions locked (see INSTRUMENTAL.md).
 - (b) **COMBINE v1 + v2** into one document: the rigorous *majja* effect-category core (v2) + the
   applications re-grounded (the *pamāda* register, the three *madā*, the *telapāka* medicine effect-test) +
   the rebuilt §6.

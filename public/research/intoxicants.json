@@ -1,0 +1,295 @@
+{
+ "meta": {
+  "title": "The Buddha on Intoxicants",
+  "subtitle": "An effect-based category, an instrumental precept, and the question of psychedelics.",
+  "study_type": "gated, interpretive (descriptive corpus + adversarially-verified science + flagged interpretation)",
+  "corpus_passages": 194710,
+  "snapshot": "2026-06",
+  "prereg": "research/intoxicants/PREREG-instrumental.md (frozen before §2a enumeration; all five predictions PASS)",
+  "denominators_Mc": {
+   "canon_mula": 25.738,
+   "atthakatha": 30.691,
+   "tika": 28.358,
+   "commentary": 59.049,
+   "1early": 13.096,
+   "2late": 3.852,
+   "3abh": 7.577,
+   "4para": 1.213
+  },
+  "scope_note": "Descriptive corpus claims are verified verbatim; the application of the effect-test to specific substances is interpretive, weighed against the science, and is not a normative ruling."
+ },
+ "category": {
+  "majja_substring": 1455,
+  "majja_net": 227,
+  "majja_purged": 1228,
+  "sura_net": 648,
+  "meraya_net": 279,
+  "cluster_net": 840,
+  "open_list_rows": 2,
+  "open_list_all_commentarial": true
+ },
+ "instrumental": {
+  "register_split": {
+   "kammapatha_total": 585,
+   "kammapatha_with_drink": 25,
+   "drink_a_member_of_kammapatha": 0,
+   "note": "the other four precepts' content is in the dasakammapatha purity scheme; drink is not. drink = apāyamukha/pamādaṭṭhāna (dn31), the others = kammakilesā."
+  },
+  "pamadatthana": {
+   "total_is_primary": 150,
+   "without_drink": 33,
+   "with_drink": 117,
+   "note": "a productive idiom (gambling, lodging, kingship), not a drink-word; commentary: 'pamādo ettha tiṭṭhatīti pamādaṭṭhānaṃ'."
+  },
+  "capstone": {
+   "canonical_seed": "snp2.14",
+   "verse": "madā hi pāpāni karonti",
+   "commentary": "cst-s0505a.att-31_p031",
+   "gloss": "majjapānameva saṃkilesakarañca bhedakarañca … pāṇātipātādīni sabbākusalāni karonti",
+   "narrative_exemplum": "ja512 (Kumbha Jātaka)"
+  },
+  "gift": {
+   "locus": "an8.39",
+   "frame": "mahādāna: abhayaṁ deti, averaṁ deti, abyābajjhaṁ deti"
+  },
+  "self_purification": {
+   "co_occurrence_rows": 70,
+   "frame_the_precept_as_self_purity": 0
+  },
+  "structured_absence": {
+   "impurity_vocab_present_rows": 545,
+   "stain_vocab_present_rows": 3462,
+   "impurity_of_drink_cooccurrence": 31,
+   "impurity_of_drink_canon": 18,
+   "predicate_impurity_of_the_drink": 0,
+   "contrast_classes": [
+    "snp2.2 Āmagandha (taint=conduct)",
+    "an10.176 soceyya scheme (drink excluded)",
+    "telapāka + majje effect-gating"
+   ]
+  },
+  "predictions": [
+   {
+    "id": "P1",
+    "claim": "consequential/instrumental rationale dominant",
+    "verdict": "PASS (strong)"
+   },
+   {
+    "id": "P2",
+    "claim": "faculty/wisdom-weakening the operative harm, canonical",
+    "verdict": "PASS"
+   },
+   {
+    "id": "P3",
+    "claim": "instrumental mechanism exists; explicit 'guards the four' is commentarial",
+    "verdict": "PASS (both legs)"
+   },
+   {
+    "id": "P4",
+    "claim": "other-protection/gift framing, early-canonical",
+    "verdict": "PASS"
+   },
+   {
+    "id": "P5",
+    "claim": "no intrinsic impurity (structured absence)",
+    "verdict": "PASS (strong)"
+   }
+  ]
+ },
+ "effect_test": {
+  "undetectability_rows": 2,
+  "lonasovira_rows": 34,
+  "majje_permutation": "offence on majje regardless of perception; no offence for amajja with majja-vaṇṇa/gandha/rasa"
+ },
+ "path_distinction": {
+  "_source": "research/intoxicants/_verify_path.py (deduped is_primary, per stratum)",
+  "vikkhambhana": {
+   "early": 0,
+   "atthakatha": 250,
+   "tika": 363
+  },
+  "samuccheda": {
+   "early": 4,
+   "atthakatha": 280,
+   "tika": 283
+  },
+  "tadanga": {
+   "early": 3,
+   "atthakatha": 163,
+   "tika": 157
+  },
+  "avinipata_early": 70,
+  "sambodhiparayana_early": 36,
+  "anusaya_samugghata_early": 11,
+  "nibbanarammana": {
+   "early": 0,
+   "atthakatha": 90,
+   "tika": 116
+  }
+ },
+ "science": {
+  "_source": "research/intoxicants/_psychedelics_evidence.json (6 gather angles + 4 adversarial verdicts)",
+  "verdicts": [
+   {
+    "claim": "Ego-dissolution is a constructed/reversible self-model alteration that can yield genuine not-self-congruent insight (Letheby), not direct perception of a mind-independent truth.",
+    "verdict": "mixed-contested",
+    "note": "Conjuncts (a) reversible self-model alteration and (c) can-yield-insight hold; (b) 'not veridical' is a contested metaphysical thesis, not an empirical finding."
+   },
+   {
+    "claim": "Psychedelics sharpen rather than cloud the faculty, so the alcohol/majja faculty-degradation analogy fails.",
+    "verdict": "mixed-contested",
+    "note": "No global clouding at low dose (alcohol analogy fails there); but the robust blinded effect is reduced cognitive control (Pinhas 2026, N=1614), and high dose impairs processing speed (g≈1.13). 'Sharpening' does not survive blinding."
+   },
+   {
+    "claim": "Psychedelics produce durable trait-level change (raised openness), challenging the reversible-state model.",
+    "verdict": "mixed-contested",
+    "note": "The trait-openness claim fails controlled designs (escitalopram comparator). Neuroplastic (~weeks) and clinical (~months) durability survive, but neither is samuccheda fetter-cutting; the acute intoxication reverses within hours."
+   },
+   {
+    "claim": "Classic psychedelics are radically less harmful than alcohol on dependence, violence, and the precept's consequential harms.",
+    "verdict": "mixed-contested",
+    "note": "ACCEPT for dependence + disinhibition-violence (no withdrawal, no compulsion, no causal aggression; Nutt 2010): the cascade behind 'breaks the other precepts' does not transfer. TRIM 'harmless': COMPASS suicidality SAEs (dose-graded), acute panic, HPPD. 'Less harmful', not 'safe'."
+   }
+  ],
+  "anthropology": "Ritual entheogen use across five continents is structured against heedlessness, the opposite of pamāda.",
+  "stoned_ape": "Unsupported; treated as pseudoscience. Included only as the fringe line."
+ },
+ "loci": [
+  {
+   "id": "kp2",
+   "citation": "KP 2",
+   "title": "Dasasikkhāpada",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "the undertaking-formula (5th item)"
+  },
+  {
+   "id": "sn14.25",
+   "citation": "SN 14.25",
+   "title": "Pañcasikkhāpadasutta",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "the five-precept list"
+  },
+  {
+   "id": "an5.179",
+   "citation": "AN 5.179",
+   "title": "Gihisutta",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "cittamohanī (confuses the mind)"
+  },
+  {
+   "id": "an8.39",
+   "citation": "AN 8.39",
+   "title": "Abhisandasutta",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "abstaining as a great gift (mahādāna)"
+  },
+  {
+   "id": "dn31",
+   "citation": "DN 31",
+   "title": "Siṅgālasutta",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "the six ādīnava + drink first among the apāyamukha"
+  },
+  {
+   "id": "snp2.14",
+   "citation": "SNP 2.14",
+   "title": "Dhammikasutta",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "ummādana; apuññāyatana; the seed 'madā hi pāpāni karonti'"
+  },
+  {
+   "id": "an3.39",
+   "citation": "AN 3.39",
+   "title": "Sukhumālasutta",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "the three madā (existential intoxication)"
+  },
+  {
+   "id": "an5.81",
+   "citation": "AN 5.81",
+   "title": "Rajanīyasutta",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "madanīye majjati, object = the five kāma"
+  },
+  {
+   "id": "pli-tv-bu-vb-pc51",
+   "citation": "Bhu. Pc. 51",
+   "title": "51. Surāpānasikkhāpada",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "the rule: Sāgata nidāna; the majje permutations"
+  },
+  {
+   "id": "cst-vin02m2.mul-vin3_6",
+   "citation": "Vin 6",
+   "title": "6. Bhesajjakkhandhako",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "the telapāka medicine ruling (undetectability)"
+  },
+  {
+   "id": "cst-abh03m2.mul-014",
+   "citation": "Abh §14",
+   "title": "4. Catukkapuggalapaññatti",
+   "work_role": "mula",
+   "stratum": "3abh",
+   "role": "the asappurisa five-vice list"
+  },
+  {
+   "id": "cst-s0305a.att-sn5_12_p079",
+   "citation": "Spk-a 12 §79",
+   "title": "4. Surāmerayasuttavaṇṇanā",
+   "work_role": "attha",
+   "stratum": "5comm",
+   "role": "the open-list definition (source aṭṭhakathā)"
+  },
+  {
+   "id": "cst-s0105t.nrf-60_p030",
+   "citation": "Sv-pṭ §60.30",
+   "title": "Niccadānaanukulayaññavaṇṇanā",
+   "work_role": "tika",
+   "stratum": "6tika",
+   "role": "the open-list definition (sub-commentary)"
+  },
+  {
+   "id": "cst-s0105t.nrf-75_p005",
+   "citation": "Sv-pṭ §75.5",
+   "title": "Tapopakkamakathāvaṇṇanā",
+   "work_role": "tika",
+   "stratum": "6tika",
+   "role": "the effect-mark line; loṇasovīraka permitted"
+  },
+  {
+   "id": "cst-vin02a1.att-56_p002",
+   "citation": "Sp §56.2",
+   "title": "1. Surāpānasikkhāpadavaṇṇanā",
+   "work_role": "attha",
+   "stratum": "5comm",
+   "role": "Sp on Pc 51: unsuitable for one of the five higher knowledges"
+  },
+  {
+   "id": "snp2.2",
+   "citation": "SNP 2.2",
+   "title": "Āmagandhasutta",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "Āmagandhasutta: taint is conduct, not substance"
+  },
+  {
+   "id": "an10.176",
+   "citation": "AN 10.176",
+   "title": "Cundasutta",
+   "work_role": "mula",
+   "stratum": "1early",
+   "role": "the soceyya purity scheme (drink absent; the other four present)"
+  }
+ ]
+}
