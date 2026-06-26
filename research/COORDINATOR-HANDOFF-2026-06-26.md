@@ -14,12 +14,21 @@ row) + a de-AI'd, peer-reviewed write-up. Most studies render as admin-gated pag
 ## 1b. Where things stand (one screen)
 HEAD == `origin/master` (run `git log --oneline -15`; this session added the commits in §8). Working tree
 clean EXCEPT `sn2259.json` (another chat's empty DR-3 anattā placeholder; **leave it, do NOT `git clean`**).
-**Nine deployed Research studies** + two public Explorations, corpus 194,710 passages. This session
-(2026-06-25/26) cleared the entire correction/hardening backlog (items 3, 5, 6 + a pipeline-hardening pass)
-and both item-4 empirical cores, then opened a NEW major thread — the **intoxicants/psychedelics study** —
-which is now the active build and the successor's main job (§2).
+**TEN deployed Research studies** (the intoxicants study shipped 2026-06-26, asset `index-tPIgyL9k.js`) + two
+public Explorations, corpus 194,710 passages. This session (2026-06-25/26) cleared the entire
+correction/hardening backlog (items 3, 5, 6 + a pipeline-hardening pass) and both item-4 empirical cores, then
+built and shipped the **intoxicants/psychedelics study** end to end (§2a empirical core + §2b-e combine/rebuild/
+synthesize/page). The §2 thread is now DONE; the open queue is §5.
 
-## 2. THE ACTIVE THREAD — the intoxicants/psychedelics study (successor's main job)
+## 2. THE INTOXICANTS / PSYCHEDELICS STUDY — DONE + DEPLOYED 2026-06-26
+**STATUS: complete.** Built end to end this session: the §2a instrumental-precept empirical core (`7b8a6c0`),
+the combined study + data JSON (`a1a9061`), and the gated ResearchView page shipped + smoked (`b62e133`,
+deployed). Live at https://dhamma.fly.dev/ (admin-gated, slug `intoxicants`). The narrative below is kept as
+the build record. Commits in §8. Deliverable files: `research/intoxicants/FINDINGS-combined.md` (the study),
+`PREREG-instrumental.md` + `INSTRUMENTAL.md` (§2a, all five predictions PASS), `_instrumental_evidence.json`,
+`public/research/intoxicants.json` (served, data-bound), `IntoxicantsStudy` in `src/ResearchView.jsx`.
+
+### (historical build record below)
 **What it is.** `research/intoxicants/` holds a finished-but-undeployed study in two versions: `FINDINGS.md`
 (v1, "The Buddha on Drugs and Alcohol" — broad: moral register, medicine, **psychedelics, soma, ego-death vs
 anattā**) and `FINDINGS-v2.md` (v2, "The Intoxicant Cluster Under the Provenance Signature" — the rigorous
@@ -169,8 +178,15 @@ Single working tree on master. All study components share `src/ResearchView.jsx`
 share the tree -> never `git clean`. The serial DB is the coordinator's alone; agents never touch it.
 
 ## 8. This session's landed work (2026-06-25/26)
-All committed + pushed; items 3 and 5 also deployed + smoked. Commits (newest first): the §2 §6-rebuild +
-science deep-research (in-progress, not yet a commit — content lives in `research/intoxicants/`); `1a53f5e`
+All committed + pushed; items 3 and 5 also deployed + smoked. Commits (newest first): **the intoxicants study,
+built end to end and DEPLOYED** — `b62e133` (the gated `IntoxicantsStudy` page + registration + served JSON,
+deployed + smoked green: dbcheck 194710, `/research/intoxicants.json` 401, ready 200, asset
+`index-tPIgyL9k.js`), `a1a9061` (the combined study `FINDINGS-combined.md` + data-bound JSON, after the
+five-lens editorial/adversarial review), `7b8a6c0` (the §2a instrumental-precept empirical core: pre-registered
+P1-P5 all PASS, count-lock-gated serial run, the canon's two-register split + the commentarial
+breaks-the-other-four architecture on the `madā hi pāpāni karonti` seed). Render verified locally (isAdmin
+temp-forced then reverted; all 8 sections + path table + 66 reader-links + every count bound, 0 errors). Then:
+`1a53f5e`
 + `52be0f8` item-4 empirical cores (abhiññā, khandha); `4271406` item-5 deduped recompute (3 house studies,
 deployed); `4e3adcf` pipeline hardening; `3a5e239` item-6 verifications archived; `c1093f6` + `2900899` item-3
 Ronkin correction (deployed). Plus handoff/doc commits. Two deploys this session, both smoked green (assets
