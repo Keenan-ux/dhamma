@@ -92,7 +92,14 @@ Items 1-3 DONE (sankhara, vitakka, Ronkin correction). Remaining:
    Abhidhamma, which classifies the sense bases under rūpa" claim is **Bhikkhu Bodhi** (commenting on SN 35.1,
    Connected Discourses), NOT Hamilton. Hamilton's own move is the OPPOSITE (she challenges putting the five
    sense faculties under rūpakkhandha). Attribute the census to Bodhi; expect no Hamilton superlative.
-5. **[FOLLOW-ON — PREMISE CORRECTED 2026-06-25, needs a proper pass].** Recompute the five HOUSE studies'
+5. ✅ **DONE 2026-06-26 (commit `4271406`, deployed).** Three house caveats recomputed deduped using each
+   study's own classified set (the DB confirmed the canon double-counts ~30-38%): heart-base *bhavaṅga* ramp
+   canon 0.7→1.24 / aṭṭha 8.0→9.22 / ṭīkā 20.0→20.07 per Mc (Abhidhamma-resident, so genuinely understated,
+   roughly doubles); awakening lead 5.1×→~4.2× / aṭṭha 10.7×→~7.5× (299 canon events → 179 distinct); naga
+   serpent ~5.5×→~3.9× (159→114 distinct). Directions unchanged. IG G1 needed no change (canon nil by sense,
+   commentary single-edition). Minor follow-up logged: the register study used pattern `sabhāv` (long-ā only,
+   slightly under) vs the fuller `sabh[aā]v`; conclusion (55×) unchanged. Original (now-historical) note:
+5h. **[SUPERSEDED by item 5 above — premise note kept for the record].** Recompute the five HOUSE studies'
    per-character magnitudes deduped. **The original premise ("just swap the inflated 53.5M denominator and
    house ratios halve") is WRONG:** `is_primary` is absent from the awakening/naga/heart-base/IG build
    scripts, so those studies never deduped their NUMERATORS either. For a sutta-resident term both sides are
@@ -115,6 +122,20 @@ Items 1-3 DONE (sankhara, vitakka, Ronkin correction). Remaining:
 7. ~~[REGEN] research/sankhara/probe.py~~ SUPERSEDED by `research/sankhara/_enumerate.py`.
 8. **[STANDING]** When DR-2 sati / DR-3 anattā land: pull reports into `research/deep-research/`, fold
    follow-ups into this queue. (As of 2026-06-25: not landed; `sn2259.json` 0 bytes.)
+**Pipeline hardening (2026-06-26 hindrance audit — 35-item register; the rules audited as load-bearing, the
+friction is tooling/data/one method gate).** ✅ LANDED (commit `4e3adcf`): the COUNT-LOCK GATE in SKILL.md
+(read a sample + apply the homograph mask + sense-code with κ BEFORE a count enters a paper — encodes the
+operator's "search not followed through by reading the source" concern); `research/DEDUPED-DENOMINATORS.json`
+(single source of truth, is_primary both sides, prevents the item-5 error class); `research/HOMOGRAPHS.json`
+(the false-friend/heteronym registry: naga, sabhava, appana, upacara, kammatthana, theravada, abhinna, sato,
+rasa, paramattha, majja); `research/fetch_evidence.py` (count + live density + full-text sample in one serial
+pass, validated). **DEFERRED (owner:operator, touch live infra — do NOT deploy autonomously):** (B) wire the
+already-ingested DPD inflections into Stem-mode `/api/search` so counts stop being recall floors (the single
+biggest recall win; touches live search relevance, needs operator eyes); (C) replace the dhamma-pg pool with
+a strictly-serialized connection queue so DB research can fan out without wedging (touches the live server).
+**DATA INGESTS (scoped, not run — heavy live-DB writes, operator-gated):** Bodhi/Horner full SN/MN (unblocks
+the translator studies), cross-tradition full text (unblocks every "is this Pali-specific" claim).
+
 **Operator-gated (do NOT fire autonomously):** outreach drafts (`OUTREACH-EMAIL-DRAFT.md`,
 `BPS_EMAIL_DRAFT.md`, `SUTTACENTRAL_EMAIL_DRAFT.md` — operator sends); CPD dictionary ingest (unblocked,
 an ingest task); AI-assisted translations (`TRANSLATIONS-AI.md`, go/no-go).
